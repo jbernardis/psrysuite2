@@ -1,0 +1,144 @@
+{
+  "address": 20,
+  "description": "Cornell Jct",
+  "obytes": [
+    [
+      {
+        "label": "Y4L(0)",
+        "used": true
+      },
+      {
+        "label": "Y4L(1)",
+        "used": true
+      },
+      {
+        "label": "Y4L(2)",
+        "used": true
+      },
+      {
+        "label": "Y2L",
+        "used": true
+      },
+      {
+        "label": "Y2R(0)",
+        "used": true
+      },
+      {
+        "label": "Y2R(1)",
+        "used": true
+      },
+      {
+        "label": "Y2R(2)",
+        "used": true
+      },
+      {
+        "label": "Y4RA{0)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "Y4RA(1)",
+        "used": true
+      },
+      {
+        "label": "Y4RA(2)",
+        "used": true
+      },
+      {
+        "label": "Y4RB",
+        "used": true
+      },
+      {
+        "label": "Y21.srel",
+        "used": true
+      },
+      {
+        "label": "L10.srel",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ],
+  "ibytes": [
+    [
+      {
+        "label": "YSw1.N",
+        "used": true
+      },
+      {
+        "label": "YSw1.R",
+        "used": true
+      },
+      {
+        "label": "YSw3.N",
+        "used": true
+      },
+      {
+        "label": "YSw3.R",
+        "used": true
+      },
+      {
+        "label": "Y21.W",
+        "used": true
+      },
+      {
+        "label": "Y21",
+        "used": true
+      },
+      {
+        "label": "Y21.E",
+        "used": true
+      },
+      {
+        "label": "YOSCJW",
+        "used": true
+      }
+   ],
+   [
+      {
+        "label": "YOSCJE",
+        "used": true
+      },
+      {
+        "label": "L10.W",
+        "used": true
+      },
+      {
+        "label": "L10",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ]
+}

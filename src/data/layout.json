@@ -1,0 +1,8292 @@
+{
+  "blocks": {
+    "Y10": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "Y11": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": "Y11.W"
+    },
+    "Y20": {
+      "east": 1,
+      "sbeast": "Y20.E",
+      "sbwest": null
+    },
+    "Y21": {
+      "east": 1,
+      "sbeast": "Y21.E",
+      "sbwest": "Y21.W"
+    },
+    "Y30": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "Y50": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "Y51": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "Y52": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "Y53": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "Y60": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "Y70": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "Y81": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "Y82": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "Y83": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "Y84": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "Y87": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "YOSEJW": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "YOSEJE": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "YOSCJE": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "YOSCJW": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "YOSKL2": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "YOSKL3": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "YOSKL1": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "YOSKL4": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "YOSWYW": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "YOSWYE": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "L10": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": "L10.W"
+    },
+    "L20": {
+      "east": 1,
+      "sbeast": "L20.E",
+      "sbwest": null
+    },
+    "L11": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": "L11.W"
+    },
+    "L21": {
+      "east": 1,
+      "sbeast": "L21.E",
+      "sbwest": "L21.W"
+    },
+    "L31": {
+      "east": 1,
+      "sbeast": "L31.E",
+      "sbwest": null
+    },
+    "LOSLAW": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "LOSLAM": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "LOSLAE": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "LOSCAW": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "LOSCAM": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "LOSCAE": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "D10": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": "D10.W"
+    },
+    "D20": {
+      "east": 1,
+      "sbeast": "D20.E",
+      "sbwest": null
+    },
+    "D11": {
+      "east": 0,
+      "sbeast": "D11.E",
+      "sbwest": "D11.W"
+    },
+    "D21": {
+      "east": 1,
+      "sbeast": "D21.E",
+      "sbwest": "D21.W"
+    },
+    "DOSVJW": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "DOSVJE": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "DOSFOE": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "DOSFOW": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "S10": {
+      "east": 0,
+      "sbeast": "S10.E",
+      "sbwest": "S10.W"
+    },
+    "S11": {
+      "east": 0,
+      "sbeast": "S11.E",
+      "sbwest": "S11.W"
+    },
+    "S20": {
+      "east": 1,
+      "sbeast": "S20.E",
+      "sbwest": "S20.W"
+    },
+    "S21": {
+      "east": 1,
+      "sbeast": "S21.E",
+      "sbwest": "S21.W"
+    },
+    "SOSW": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "SOSE": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "F10": {
+      "east": 1,
+      "sbeast": "F10.E",
+      "sbwest": null
+    },
+    "F11": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": "F11.W"
+    },
+    "SOSHF": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "SOSHJW": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "SOSHJM": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "SOSHJE": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "N10": {
+      "east": 0,
+      "sbeast": "N10.E",
+      "sbwest": "N10.W"
+    },
+    "N25": {
+      "east": 0,
+      "sbeast": "N25.E",
+      "sbwest": "N25.W"
+    },
+    "N20": {
+      "east": 1,
+      "sbeast": "N20.E",
+      "sbwest": "N20.W"
+    },
+    "N11": {
+      "east": 0,
+      "sbeast": "N11.E",
+      "sbwest": "N11.W"
+    },
+    "K10": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "KOSW": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "KOSM": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "KOSE": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "KOSN10S11": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "KOSN20S21": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "N21": {
+      "east": 1,
+      "sbeast": "N21.E",
+      "sbwest": "N21.W"
+    },
+    "N32": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "N31": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "N12": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "N22": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "N41": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "N42": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "W20": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "R10": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": "R10.W"
+    },
+    "B10": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": "B10.W"
+    },
+    "W10": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "W11": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "T12": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "N60": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "NWOSTY": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "NWOSCY": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "NWOSW": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "NWOSE": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "NEOSRH": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "NEOSW": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "NEOSE": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "B20": {
+      "east": 1,
+      "sbeast": "B20.E",
+      "sbwest": null
+    },
+    "B11": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": "B11.W"
+    },
+    "B21": {
+      "east": 1,
+      "sbeast": "B21.E",
+      "sbwest": "B21.W"
+    },
+    "BOSWW": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "BOSWE": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "BOSE": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "C13": {
+      "east": 0,
+      "sbeast": "C13.E",
+      "sbwest": "C13.W"
+    },
+    "C23": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": "C23.W"
+    },
+    "C12": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": "C12.W"
+    },
+    "C22": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "C11": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "COSCLW": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "COSCLEW": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "COSCLEE": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "G21": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "C10": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "C30": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "C31": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "COSGMW": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "G12": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "G10": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "C20": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "COSGME": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "C44": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "C43": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "C42": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "C41": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "C40": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "C21": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "C50": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "C51": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "C52": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "C53": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "C54": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "COSSHE": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "COSSHW": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "H11": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": "H11.W"
+    },
+    "H12": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "H30": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": "H30.W"
+    },
+    "H31": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "H32": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "H33": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "H34": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "HOSWW": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "HOSWW2": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "H21": {
+      "east": 1,
+      "sbeast": "H21.E",
+      "sbwest": null
+    },
+    "H22": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "H43": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "H42": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "H41": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "H40": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "HOSWE": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "H13": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": "H13.W"
+    },
+    "HOSEW": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "H23": {
+      "east": 1,
+      "sbeast": "H23.E",
+      "sbwest": null
+    },
+    "HOSEE": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "H10": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": "H10.W"
+    },
+    "H20": {
+      "east": 1,
+      "sbeast": "H20.E",
+      "sbwest": null
+    },
+    "V10": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "V11": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "P1": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "P2": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "P3": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "P4": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "P5": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "P6": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "P7": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "P10": {
+      "east": 0,
+      "sbeast": "P10.E",
+      "sbwest": null
+    },
+    "P11": {
+      "east": 0,
+      "sbeast": "P11.E",
+      "sbwest": "P11.W"
+    },
+    "P20": {
+      "east": 1,
+      "sbeast": "P20.E",
+      "sbwest": null
+    },
+    "P21": {
+      "east": 1,
+      "sbeast": "P21.E",
+      "sbwest": null
+    },
+    "P30": {
+      "east": 0,
+      "sbeast": "P30.E",
+      "sbwest": "P30.W"
+    },
+    "P31": {
+      "east": 0,
+      "sbeast": "P31.E",
+      "sbwest": "P31.W"
+    },
+    "P32": {
+      "east": 0,
+      "sbeast": "P32.E",
+      "sbwest": "P32.W"
+    },
+    "P33": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "P40": {
+      "east": 0,
+      "sbeast": "P40.E",
+      "sbwest": null
+    },
+    "P41": {
+      "east": 1,
+      "sbeast": "P41.E",
+      "sbwest": "P41.W"
+    },
+    "P42": {
+      "east": 1,
+      "sbeast": "P42.E",
+      "sbwest": "P42.W"
+    },
+    "P50": {
+      "east": 0,
+      "sbeast": "P50.E",
+      "sbwest": "P50.W"
+    },
+    "P60": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "P61": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "P62": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "P63": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "P64": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "POSCJ1": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "POSCJ2": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "POSSJ1": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "POSSJ2": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "POSPJ1": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "POSPJ2": {
+      "east": 0,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "POSSP1": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "POSSP2": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "POSSP3": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "POSSP4": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    },
+    "POSSP5": {
+      "east": 1,
+      "sbeast": null,
+      "sbwest": null
+    }
+  },
+  "routes": {
+    "YRtY11L10": {
+      "os": "YOSCJW",
+      "ends": [
+        "L10",
+        "Y11"
+      ],
+      "signals": [
+        "Y2R",
+        "Y2L"
+      ],
+      "turnouts": [
+        [
+          "YSw3",
+          "N"
+        ]
+      ]
+    },
+    "YRtY11L20": {
+      "os": "YOSCJW",
+      "ends": [
+        "L20",
+        "Y11"
+      ],
+      "signals": [
+        "Y4RB",
+        "Y2L"
+      ],
+      "turnouts": [
+        [
+          "YSw1",
+          "N"
+        ],
+        [
+          "YSw3",
+          "R"
+        ]
+      ]
+    },
+    "YRtY11P50": {
+      "os": "YOSCJW",
+      "ends": [
+        "P50",
+        "Y11"
+      ],
+      "signals": [
+        "Y4RA",
+        "Y2L"
+      ],
+      "turnouts": [
+        [
+          "YSw1",
+          "R"
+        ],
+        [
+          "YSw3",
+          "R"
+        ]
+      ]
+    },
+    "YRtY21L20": {
+      "os": "YOSCJE",
+      "ends": [
+        "Y21",
+        "L20"
+      ],
+      "signals": [
+        "Y4L",
+        "Y4RB"
+      ],
+      "turnouts": [
+        [
+          "YSw1",
+          "N"
+        ],
+        [
+          "YSw3",
+          "N"
+        ]
+      ]
+    },
+    "YRtY21P50": {
+      "os": "YOSCJE",
+      "ends": [
+        "Y21",
+        "P50"
+      ],
+      "signals": [
+        "Y4L",
+        "Y4RA"
+      ],
+      "turnouts": [
+        [
+          "YSw1",
+          "R"
+        ],
+        [
+          "YSw3",
+          "N"
+        ]
+      ]
+    },
+    "YRtY10Y11": {
+      "os": "YOSEJW",
+      "ends": [
+        "Y11",
+        "Y10"
+      ],
+      "signals": [
+        "Y8R",
+        "Y8LA"
+      ],
+      "turnouts": [
+        [
+          "YSw7",
+          "N"
+        ],
+        [
+          "YSw9",
+          "N"
+        ]
+      ]
+    },
+    "YRtY30Y11": {
+      "os": "YOSEJW",
+      "ends": [
+        "Y11",
+        "Y30"
+      ],
+      "signals": [
+        "Y8R",
+        "Y8LC"
+      ],
+      "turnouts": [
+        [
+          "YSw7",
+          "N"
+        ],
+        [
+          "YSw9",
+          "R"
+        ],
+        [
+          "YSw11",
+          "R"
+        ]
+      ]
+    },
+    "YRtY87Y11": {
+      "os": "YOSEJW",
+      "ends": [
+        "Y11",
+        "Y87"
+      ],
+      "signals": [
+        "Y8R",
+        "Y8LB"
+      ],
+      "turnouts": [
+        [
+          "YSw7",
+          "N"
+        ],
+        [
+          "YSw9",
+          "R"
+        ],
+        [
+          "YSw11",
+          "N"
+        ]
+      ]
+    },
+    "YRtY20Y21": {
+      "os": "YOSEJE",
+      "ends": [
+        "Y20",
+        "Y21"
+      ],
+      "signals": [
+        "Y10L",
+        "Y10R"
+      ],
+      "turnouts": [
+        [
+          "YSw7",
+          "N"
+        ]
+      ]
+    },
+    "YRtY30Y21": {
+      "os": "YOSEJE",
+      "ends": [
+        "Y30",
+        "Y21"
+      ],
+      "signals": [
+        "Y8LC",
+        "Y10R"
+      ],
+      "turnouts": [
+        [
+          "YSw7",
+          "R"
+        ],
+        [
+          "YSw9",
+          "R"
+        ],
+        [
+          "YSw11",
+          "R"
+        ]
+      ]
+    },
+    "YRtY87Y21": {
+      "os": "YOSEJE",
+      "ends": [
+        "Y87",
+        "Y21"
+      ],
+      "signals": [
+        "Y8LB",
+        "Y10R"
+      ],
+      "turnouts": [
+        [
+          "YSw7",
+          "R"
+        ],
+        [
+          "YSw9",
+          "R"
+        ],
+        [
+          "YSw11",
+          "N"
+        ]
+      ]
+    },
+    "YRtY10Y21": {
+      "os": "YOSEJE",
+      "ends": [
+        "Y10",
+        "Y21"
+      ],
+      "signals": [
+        "Y8LA",
+        "Y10R"
+      ],
+      "turnouts": [
+        [
+          "YSw7",
+          "R"
+        ],
+        [
+          "YSw9",
+          "N"
+        ]
+      ]
+    },
+    "YRtY20Y51": {
+      "os": "YOSKL1",
+      "ends": [
+        "Y51",
+        "Y20"
+      ],
+      "signals": [
+        "Y26LB",
+        "Y26R"
+      ],
+      "turnouts": [
+        [
+          "YSw17",
+          "N"
+        ],
+        [
+          "YSw21",
+          "N"
+        ],
+        [
+          "YSw23",
+          "N"
+        ],
+        [
+          "YSw25",
+          "N"
+        ],
+        [
+          "YSw27",
+          "N"
+        ]
+      ]
+    },
+    "YRtY20Y50": {
+      "os": "YOSKL1",
+      "ends": [
+        "Y50",
+        "Y20"
+      ],
+      "signals": [
+        "Y26LA",
+        "Y26R"
+      ],
+      "turnouts": [
+        [
+          "YSw17",
+          "N"
+        ],
+        [
+          "YSw21",
+          "N"
+        ],
+        [
+          "YSw23",
+          "N"
+        ],
+        [
+          "YSw25",
+          "R"
+        ]
+      ]
+    },
+    "YRtY20Y70": {
+      "os": "YOSKL1",
+      "ends": [
+        "Y70",
+        "Y20"
+      ],
+      "signals": [
+        "Y26LC",
+        "Y26R"
+      ],
+      "turnouts": [
+        [
+          "YSw17",
+          "N"
+        ],
+        [
+          "YSw21",
+          "N"
+        ],
+        [
+          "YSw23",
+          "N"
+        ],
+        [
+          "YSw25",
+          "N"
+        ],
+        [
+          "YSw27",
+          "R"
+        ]
+      ]
+    },
+    "YRtY20Y52": {
+      "os": "YOSKL1",
+      "ends": [
+        "Y52",
+        "Y20"
+      ],
+      "signals": [
+        "Y24LA",
+        "Y26R"
+      ],
+      "turnouts": [
+        [
+          "YSw17",
+          "N"
+        ],
+        [
+          "YSw21",
+          "N"
+        ],
+        [
+          "YSw23",
+          "R"
+        ],
+        [
+          "YSw29",
+          "N"
+        ]
+      ]
+    },
+    "YRtY20Y53": {
+      "os": "YOSKL1",
+      "ends": [
+        "Y53",
+        "Y20"
+      ],
+      "signals": [
+        "Y24LB",
+        "Y26R"
+      ],
+      "turnouts": [
+        [
+          "YSw17",
+          "N"
+        ],
+        [
+          "YSw21",
+          "N"
+        ],
+        [
+          "YSw23",
+          "R"
+        ],
+        [
+          "YSw29",
+          "R"
+        ]
+      ]
+    },
+    "YRtY20Y60": {
+      "os": "YOSKL3",
+      "ends": [
+        "Y20",
+        "Y60"
+      ],
+      "signals": [
+        "Y26R",
+        "Y22L"
+      ],
+      "turnouts": [
+        [
+          "YSw17",
+          "R"
+        ],
+        [
+          "YSw19",
+          "R"
+        ],
+        [
+          "YSw21",
+          "N"
+        ]
+      ]
+    },
+    "YRtY10Y52": {
+      "os": "YOSKL2",
+      "ends": [
+        "Y10",
+        "Y52"
+      ],
+      "signals": [
+        "Y22R",
+        "Y24LA"
+      ],
+      "turnouts": [
+        [
+          "YSw17",
+          "N"
+        ],
+        [
+          "YSw19",
+          "N"
+        ],
+        [
+          "YSw21",
+          "N"
+        ],
+        [
+          "YSw23",
+          "N"
+        ],
+        [
+          "YSw29",
+          "N"
+        ]
+      ]
+    },
+    "YRtY10Y50": {
+      "os": "YOSKL2",
+      "ends": [
+        "Y10",
+        "Y50"
+      ],
+      "signals": [
+        "Y22R",
+        "Y26LA"
+      ],
+      "turnouts": [
+        [
+          "YSw17",
+          "N"
+        ],
+        [
+          "YSw21",
+          "R"
+        ],
+        [
+          "YSw23",
+          "N"
+        ],
+        [
+          "YSw25",
+          "R"
+        ]
+      ]
+    },
+    "YRtY10Y51": {
+      "os": "YOSKL2",
+      "ends": [
+        "Y10",
+        "Y51"
+      ],
+      "signals": [
+        "Y22R",
+        "Y26LB"
+      ],
+      "turnouts": [
+        [
+          "YSw17",
+          "N"
+        ],
+        [
+          "YSw21",
+          "R"
+        ],
+        [
+          "YSw23",
+          "N"
+        ],
+        [
+          "YSw25",
+          "N"
+        ],
+        [
+          "YSw27",
+          "N"
+        ]
+      ]
+    },
+    "YRtY10Y70": {
+      "os": "YOSKL2",
+      "ends": [
+        "Y10",
+        "Y70"
+      ],
+      "signals": [
+        "Y22R",
+        "Y26LC"
+      ],
+      "turnouts": [
+        [
+          "YSw17",
+          "N"
+        ],
+        [
+          "YSw21",
+          "R"
+        ],
+        [
+          "YSw23",
+          "N"
+        ],
+        [
+          "YSw25",
+          "N"
+        ],
+        [
+          "YSw27",
+          "R"
+        ]
+      ]
+    },
+    "YRtY10Y53": {
+      "os": "YOSKL2",
+      "ends": [
+        "Y10",
+        "Y53"
+      ],
+      "signals": [
+        "Y22R",
+        "Y24LB"
+      ],
+      "turnouts": [
+        [
+          "YSw17",
+          "N"
+        ],
+        [
+          "YSw19",
+          "N"
+        ],
+        [
+          "YSw21",
+          "N"
+        ],
+        [
+          "YSw23",
+          "N"
+        ],
+        [
+          "YSw29",
+          "R"
+        ]
+      ]
+    },
+    "YRtY10Y60": {
+      "os": "YOSKL3",
+      "ends": [
+        "Y10",
+        "Y60"
+      ],
+      "signals": [
+        "Y22R",
+        "Y22L"
+      ],
+      "turnouts": [
+        [
+          "YSw17",
+          "N"
+        ],
+        [
+          "YSw19",
+          "R"
+        ],
+        [
+          "YSw21",
+          "N"
+        ]
+      ]
+    },
+    "YRtY30Y51": {
+      "os": "YOSKL4",
+      "ends": [
+        "Y30",
+        "Y51"
+      ],
+      "signals": [
+        "Y34L",
+        "Y34RB"
+      ],
+      "turnouts": [
+        [
+          "YSw33",
+          "N"
+        ]
+      ]
+    },
+    "YRtY30Y50": {
+      "os": "YOSKL4",
+      "ends": [
+        "Y30",
+        "Y50"
+      ],
+      "signals": [
+        "Y34L",
+        "Y34RA"
+      ],
+      "turnouts": [
+        [
+          "YSw33",
+          "R"
+        ]
+      ]
+    },
+    "YRtY70Y81": {
+      "os": "YOSWYE",
+      "ends": [
+        "Y81",
+        "Y70"
+      ],
+      "signals": [
+        "Y40L",
+        "Y40RA"
+      ],
+      "turnouts": [
+        [
+          "YSw113",
+          "N"
+        ],
+        [
+          "YSw115",
+          "N"
+        ]
+      ]
+    },
+    "YRtY70Y82": {
+      "os": "YOSWYE",
+      "ends": [
+        "Y82",
+        "Y70"
+      ],
+      "signals": [
+        "Y40L",
+        "Y40RB"
+      ],
+      "turnouts": [
+        [
+          "YSw113",
+          "N"
+        ],
+        [
+          "YSw115",
+          "R"
+        ],
+        [
+          "YSw116",
+          "R"
+        ]
+      ]
+    },
+    "YRtY70Y83": {
+      "os": "YOSWYE",
+      "ends": [
+        "Y83",
+        "Y70"
+      ],
+      "signals": [
+        "Y40L",
+        "Y40RC"
+      ],
+      "turnouts": [
+        [
+          "YSw113",
+          "N"
+        ],
+        [
+          "YSw115",
+          "R"
+        ],
+        [
+          "YSw116",
+          "N"
+        ]
+      ]
+    },
+    "YRtY70Y84": {
+      "os": "YOSWYE",
+      "ends": [
+        "Y84",
+        "Y70"
+      ],
+      "signals": [
+        "Y40L",
+        "Y40RD"
+      ],
+      "turnouts": [
+        [
+          "YSw113",
+          "R"
+        ]
+      ]
+    },
+    "YRtY87Y81": {
+      "os": "YOSWYW",
+      "ends": [
+        "Y87",
+        "Y81"
+      ],
+      "signals": [
+        "Y42LA",
+        "Y42R"
+      ],
+      "turnouts": [
+        [
+          "YSw134",
+          "N"
+        ],
+        [
+          "YSw132",
+          "N"
+        ]
+      ]
+    },
+    "YRtY87Y82": {
+      "os": "YOSWYW",
+      "ends": [
+        "Y87",
+        "Y82"
+      ],
+      "signals": [
+        "Y42LB",
+        "Y42R"
+      ],
+      "turnouts": [
+        [
+          "YSw134",
+          "N"
+        ],
+        [
+          "YSw132",
+          "R"
+        ],
+        [
+          "YSw131",
+          "R"
+        ]
+      ]
+    },
+    "YRtY87Y83": {
+      "os": "YOSWYW",
+      "ends": [
+        "Y87",
+        "Y83"
+      ],
+      "signals": [
+        "Y42LC",
+        "Y42R"
+      ],
+      "turnouts": [
+        [
+          "YSw134",
+          "N"
+        ],
+        [
+          "YSw132",
+          "R"
+        ],
+        [
+          "YSw131",
+          "N"
+        ]
+      ]
+    },
+    "YRtY87Y84": {
+      "os": "YOSWYW",
+      "ends": [
+        "Y87",
+        "Y84"
+      ],
+      "signals": [
+        "Y42LD",
+        "Y42R"
+      ],
+      "turnouts": [
+        [
+          "YSw134",
+          "R"
+        ]
+      ]
+    },
+    "LRtL10L11": {
+      "os": "LOSLAW",
+      "ends": [
+        "L11",
+        "L10"
+      ],
+      "signals": [
+        "L8L",
+        "L8R"
+      ],
+      "turnouts": [
+        [
+          "LSw5",
+          "N"
+        ],
+        [
+          "LSw7",
+          "N"
+        ]
+      ]
+    },
+    "LRtL10L21": {
+      "os": "LOSLAW",
+      "ends": [
+        "L21",
+        "L10"
+      ],
+      "signals": [
+        "L6L",
+        "L8R"
+      ],
+      "turnouts": [
+        [
+          "LSw5",
+          "R"
+        ],
+        [
+          "LSw7",
+          "N"
+        ],
+        [
+          "LSw9",
+          "N"
+        ]
+      ]
+    },
+    "LRtL10L31": {
+      "os": "LOSLAW",
+      "ends": [
+        "L31",
+        "L10"
+      ],
+      "signals": [
+        "L4L",
+        "L8R"
+      ],
+      "turnouts": [
+        [
+          "LSw5",
+          "R"
+        ],
+        [
+          "LSw7",
+          "N"
+        ],
+        [
+          "LSw9",
+          "R"
+        ]
+      ]
+    },
+    "LRtL20L11": {
+      "os": "LOSLAM",
+      "ends": [
+        "L20",
+        "L11"
+      ],
+      "signals": [
+        "L6RA",
+        "L8L"
+      ],
+      "turnouts": [
+        [
+          "LSw1",
+          "N"
+        ],
+        [
+          "LSw3",
+          "N"
+        ],
+        [
+          "LSw5",
+          "N"
+        ],
+        [
+          "LSw7",
+          "R"
+        ]
+      ]
+    },
+    "LRtP11L11": {
+      "os": "LOSLAM",
+      "ends": [
+        "P11",
+        "L11"
+      ],
+      "signals": [
+        "L6RB",
+        "L8L"
+      ],
+      "turnouts": [
+        [
+          "LSw1",
+          "R"
+        ],
+        [
+          "LSw3",
+          "N"
+        ],
+        [
+          "LSw5",
+          "N"
+        ],
+        [
+          "LSw7",
+          "R"
+        ]
+      ]
+    },
+    "LRtL20L21": {
+      "os": "LOSLAM",
+      "ends": [
+        "L20",
+        "L21"
+      ],
+      "signals": [
+        "L6RA",
+        "L6L"
+      ],
+      "turnouts": [
+        [
+          "LSw1",
+          "N"
+        ],
+        [
+          "LSw3",
+          "N"
+        ],
+        [
+          "LSw5",
+          "N"
+        ],
+        [
+          "LSw7",
+          "N"
+        ],
+        [
+          "LSw9",
+          "N"
+        ]
+      ]
+    },
+    "LRtP11L21": {
+      "os": "LOSLAM",
+      "ends": [
+        "P11",
+        "L21"
+      ],
+      "signals": [
+        "L6RB",
+        "L6L"
+      ],
+      "turnouts": [
+        [
+          "LSw1",
+          "R"
+        ],
+        [
+          "LSw3",
+          "N"
+        ],
+        [
+          "LSw5",
+          "N"
+        ],
+        [
+          "LSw7",
+          "N"
+        ],
+        [
+          "LSw9",
+          "N"
+        ]
+      ]
+    },
+    "LRtL20L31": {
+      "os": "LOSLAM",
+      "ends": [
+        "L20",
+        "L31"
+      ],
+      "signals": [
+        "L6RA",
+        "L4L"
+      ],
+      "turnouts": [
+        [
+          "LSw1",
+          "N"
+        ],
+        [
+          "LSw3",
+          "N"
+        ],
+        [
+          "LSw5",
+          "N"
+        ],
+        [
+          "LSw7",
+          "N"
+        ],
+        [
+          "LSw9",
+          "R"
+        ]
+      ]
+    },
+    "LRtP11L31": {
+      "os": "LOSLAM",
+      "ends": [
+        "P11",
+        "L31"
+      ],
+      "signals": [
+        "L6RB",
+        "L4L"
+      ],
+      "turnouts": [
+        [
+          "LSw1",
+          "R"
+        ],
+        [
+          "LSw3",
+          "N"
+        ],
+        [
+          "LSw5",
+          "N"
+        ],
+        [
+          "LSw7",
+          "N"
+        ],
+        [
+          "LSw9",
+          "R"
+        ]
+      ]
+    },
+    "LRtP21L11": {
+      "os": "LOSLAE",
+      "ends": [
+        "P21",
+        "L11"
+      ],
+      "signals": [
+        "L4R",
+        "L8L"
+      ],
+      "turnouts": [
+        [
+          "LSw3",
+          "R"
+        ],
+        [
+          "LSw5",
+          "N"
+        ],
+        [
+          "LSw7",
+          "R"
+        ]
+      ]
+    },
+    "LRtP21L21": {
+      "os": "LOSLAE",
+      "ends": [
+        "P21",
+        "L21"
+      ],
+      "signals": [
+        "L4R",
+        "L6L"
+      ],
+      "turnouts": [
+        [
+          "LSw3",
+          "R"
+        ],
+        [
+          "LSw5",
+          "N"
+        ],
+        [
+          "LSw7",
+          "N"
+        ],
+        [
+          "LSw9",
+          "N"
+        ]
+      ]
+    },
+    "LRtP21L31": {
+      "os": "LOSLAE",
+      "ends": [
+        "P21",
+        "L31"
+      ],
+      "signals": [
+        "L4R",
+        "L4L"
+      ],
+      "turnouts": [
+        [
+          "LSw3",
+          "N"
+        ],
+        [
+          "LSw9",
+          "N"
+        ]
+      ]
+    },
+    "LRtL11D10": {
+      "os": "LOSCAW",
+      "ends": [
+        "D10",
+        "L11"
+      ],
+      "signals": [
+        "L18L",
+        "L18R"
+      ],
+      "turnouts": [
+        [
+          "LSw15",
+          "N"
+        ]
+      ]
+    },
+    "LRtL21D10": {
+      "os": "LOSCAM",
+      "ends": [
+        "L21",
+        "D10"
+      ],
+      "signals": [
+        "L16R",
+        "L18L"
+      ],
+      "turnouts": [
+        [
+          "LSw15",
+          "R"
+        ]
+      ]
+    },
+    "LRtL21D20": {
+      "os": "LOSCAM",
+      "ends": [
+        "L21",
+        "D20"
+      ],
+      "signals": [
+        "L16R",
+        "L14L"
+      ],
+      "turnouts": [
+        [
+          "LSw15",
+          "N"
+        ],
+        [
+          "LSw17",
+          "N"
+        ]
+      ]
+    },
+    "LRtL31D20": {
+      "os": "LOSCAE",
+      "ends": [
+        "L31",
+        "D20"
+      ],
+      "signals": [
+        "L14R",
+        "L14L"
+      ],
+      "turnouts": [
+        [
+          "LSw17",
+          "R"
+        ]
+      ]
+    },
+    "DRtH13D21": {
+      "os": "DOSVJE",
+      "ends": [
+        "H13",
+        "D21"
+      ],
+      "signals": [
+        "D6RA",
+        "D4L"
+      ],
+      "turnouts": [
+        [
+          "DSw1",
+          "R"
+        ],
+        [
+          "DSw5",
+          "N"
+        ],
+        [
+          "DSw7",
+          "R"
+        ]
+      ]
+    },
+    "DRtD10D21": {
+      "os": "DOSVJE",
+      "ends": [
+        "D10",
+        "D21"
+      ],
+      "signals": [
+        "D6RB",
+        "D4L"
+      ],
+      "turnouts": [
+        [
+          "DSw1",
+          "N"
+        ],
+        [
+          "DSw5",
+          "N"
+        ],
+        [
+          "DSw7",
+          "R"
+        ]
+      ]
+    },
+    "DRtD20D21": {
+      "os": "DOSVJE",
+      "ends": [
+        "D20",
+        "D21"
+      ],
+      "signals": [
+        "D4RA",
+        "D4L"
+      ],
+      "turnouts": [
+        [
+          "DSw3",
+          "N"
+        ],
+        [
+          "DSw5",
+          "N"
+        ],
+        [
+          "DSw7",
+          "N"
+        ]
+      ]
+    },
+    "DRtH23D21": {
+      "os": "DOSVJE",
+      "ends": [
+        "H23",
+        "D21"
+      ],
+      "signals": [
+        "D4RB",
+        "D4L"
+      ],
+      "turnouts": [
+        [
+          "DSw3",
+          "R"
+        ],
+        [
+          "DSw5",
+          "N"
+        ],
+        [
+          "DSw7",
+          "N"
+        ]
+      ]
+    },
+    "DRtH13D11": {
+      "os": "DOSVJW",
+      "ends": [
+        "D11",
+        "H13"
+      ],
+      "signals": [
+        "D6L",
+        "D6RA"
+      ],
+      "turnouts": [
+        [
+          "DSw1",
+          "R"
+        ],
+        [
+          "DSw5",
+          "N"
+        ],
+        [
+          "DSw7",
+          "N"
+        ]
+      ]
+    },
+    "DRtD10D11": {
+      "os": "DOSVJW",
+      "ends": [
+        "D11",
+        "D10"
+      ],
+      "signals": [
+        "D6L",
+        "D6RB"
+      ],
+      "turnouts": [
+        [
+          "DSw1",
+          "N"
+        ],
+        [
+          "DSw5",
+          "N"
+        ],
+        [
+          "DSw7",
+          "N"
+        ]
+      ]
+    },
+    "DRtD20D11": {
+      "os": "DOSVJW",
+      "ends": [
+        "D11",
+        "D20"
+      ],
+      "signals": [
+        "D6L",
+        "D4RA"
+      ],
+      "turnouts": [
+        [
+          "DSw3",
+          "N"
+        ],
+        [
+          "DSw5",
+          "R"
+        ],
+        [
+          "DSw7",
+          "N"
+        ]
+      ]
+    },
+    "DRtH23D11": {
+      "os": "DOSVJW",
+      "ends": [
+        "D11",
+        "H23"
+      ],
+      "signals": [
+        "D6L",
+        "D4RB"
+      ],
+      "turnouts": [
+        [
+          "DSw3",
+          "R"
+        ],
+        [
+          "DSw5",
+          "R"
+        ],
+        [
+          "DSw7",
+          "N"
+        ]
+      ]
+    },
+    "DRtD21S20": {
+      "os": "DOSFOE",
+      "ends": [
+        "D21",
+        "S20"
+      ],
+      "signals": [
+        "D10R",
+        "D10L"
+      ],
+      "turnouts": [
+        [
+          "DSw11",
+          "N"
+        ]
+      ]
+    },
+    "DRtD11S10": {
+      "os": "DOSFOW",
+      "ends": [
+        "S10",
+        "D11"
+      ],
+      "signals": [
+        "D12L",
+        "D12R"
+      ],
+      "turnouts": [
+        [
+          "DSw11",
+          "N"
+        ]
+      ]
+    },
+    "DRtD21S10": {
+      "os": "DOSFOW",
+      "ends": [
+        "S10",
+        "D21"
+      ],
+      "signals": [
+        "D12L",
+        "D10R"
+      ],
+      "turnouts": [
+        [
+          "DSw11",
+          "R"
+        ]
+      ]
+    },
+    "SRtS10S11": {
+      "os": "SOSW",
+      "ends": [
+        "S11",
+        "S10"
+      ],
+      "signals": [
+        "S12LA",
+        "S12R"
+      ],
+      "turnouts": [
+        [
+          "SSw3",
+          "N"
+        ],
+        [
+          "SSw5",
+          "N"
+        ],
+        [
+          "SSw11",
+          "N"
+        ]
+      ]
+    },
+    "SRtS10H30": {
+      "os": "SOSW",
+      "ends": [
+        "H30",
+        "S10"
+      ],
+      "signals": [
+        "S12LB",
+        "S12R"
+      ],
+      "turnouts": [
+        [
+          "SSw3",
+          "N"
+        ],
+        [
+          "SSw5",
+          "N"
+        ],
+        [
+          "SSw11",
+          "R"
+        ],
+        [
+          "SSw13",
+          "R"
+        ]
+      ]
+    },
+    "SRtS10H10": {
+      "os": "SOSW",
+      "ends": [
+        "H10",
+        "S10"
+      ],
+      "signals": [
+        "S12LC",
+        "S12R"
+      ],
+      "turnouts": [
+        [
+          "SSw3",
+          "N"
+        ],
+        [
+          "SSw5",
+          "N"
+        ],
+        [
+          "SSw11",
+          "R"
+        ],
+        [
+          "SSw13",
+          "N"
+        ]
+      ]
+    },
+    "SRtS10H20": {
+      "os": "SOSW",
+      "ends": [
+        "H20",
+        "S10"
+      ],
+      "signals": [
+        "S4LA",
+        "S12R"
+      ],
+      "turnouts": [
+        [
+          "SSw3",
+          "R"
+        ],
+        [
+          "SSw5",
+          "N"
+        ],
+        [
+          "SSw7",
+          "N"
+        ],
+        [
+          "SSw9",
+          "R"
+        ]
+      ]
+    },
+    "SRtS10S21": {
+      "os": "SOSW",
+      "ends": [
+        "S21",
+        "S10"
+      ],
+      "signals": [
+        "S4LB",
+        "S12R"
+      ],
+      "turnouts": [
+        [
+          "SSw3",
+          "R"
+        ],
+        [
+          "SSw5",
+          "N"
+        ],
+        [
+          "SSw7",
+          "N"
+        ],
+        [
+          "SSw9",
+          "N"
+        ]
+      ]
+    },
+    "SRtS10P32": {
+      "os": "SOSW",
+      "ends": [
+        "P32",
+        "S10"
+      ],
+      "signals": [
+        "S4LC",
+        "S12R"
+      ],
+      "turnouts": [
+        [
+          "SSw3",
+          "R"
+        ],
+        [
+          "SSw5",
+          "N"
+        ],
+        [
+          "SSw7",
+          "R"
+        ]
+      ]
+    },
+    "SRtS20S21": {
+      "os": "SOSE",
+      "ends": [
+        "S20",
+        "S21"
+      ],
+      "signals": [
+        "S4R",
+        "S4LB"
+      ],
+      "turnouts": [
+        [
+          "SSw3",
+          "N"
+        ],
+        [
+          "SSw5",
+          "N"
+        ],
+        [
+          "SSw7",
+          "N"
+        ],
+        [
+          "SSw9",
+          "N"
+        ]
+      ]
+    },
+    "SRtS20S11": {
+      "os": "SOSE",
+      "ends": [
+        "S20",
+        "S11"
+      ],
+      "signals": [
+        "S4R",
+        "S12LA"
+      ],
+      "turnouts": [
+        [
+          "SSw3",
+          "N"
+        ],
+        [
+          "SSw5",
+          "R"
+        ],
+        [
+          "SSw11",
+          "N"
+        ]
+      ]
+    },
+    "SRtS20H30": {
+      "os": "SOSE",
+      "ends": [
+        "S20",
+        "H30"
+      ],
+      "signals": [
+        "S4R",
+        "S12LB"
+      ],
+      "turnouts": [
+        [
+          "SSw3",
+          "N"
+        ],
+        [
+          "SSw5",
+          "R"
+        ],
+        [
+          "SSw11",
+          "R"
+        ],
+        [
+          "SSw13",
+          "R"
+        ]
+      ]
+    },
+    "SRtS20H10": {
+      "os": "SOSE",
+      "ends": [
+        "S20",
+        "H10"
+      ],
+      "signals": [
+        "S4R",
+        "S12LC"
+      ],
+      "turnouts": [
+        [
+          "SSw3",
+          "N"
+        ],
+        [
+          "SSw5",
+          "R"
+        ],
+        [
+          "SSw11",
+          "R"
+        ],
+        [
+          "SSw13",
+          "N"
+        ]
+      ]
+    },
+    "SRtS20H20": {
+      "os": "SOSE",
+      "ends": [
+        "S20",
+        "H20"
+      ],
+      "signals": [
+        "S4R",
+        "S4LA"
+      ],
+      "turnouts": [
+        [
+          "SSw3",
+          "N"
+        ],
+        [
+          "SSw5",
+          "N"
+        ],
+        [
+          "SSw7",
+          "N"
+        ],
+        [
+          "SSw9",
+          "R"
+        ]
+      ]
+    },
+    "SRtS20P32": {
+      "os": "SOSE",
+      "ends": [
+        "S20",
+        "P32"
+      ],
+      "signals": [
+        "S4R",
+        "S4LC"
+      ],
+      "turnouts": [
+        [
+          "SSw3",
+          "N"
+        ],
+        [
+          "SSw5",
+          "N"
+        ],
+        [
+          "SSw7",
+          "R"
+        ]
+      ]
+    },
+    "SRtF10F11": {
+      "os": "SOSHF",
+      "ends": [
+        "F10",
+        "F11"
+      ],
+      "signals": [
+        "S8R",
+        "S8L"
+      ],
+      "turnouts": []
+    },
+    "SRtH10H11": {
+      "os": "SOSHJW",
+      "ends": [
+        "H11",
+        "H10"
+      ],
+      "signals": [
+        "S20L",
+        "S20R"
+      ],
+      "turnouts": [
+        [
+          "SSw19",
+          "N"
+        ]
+      ]
+    },
+    "SRtH20H11": {
+      "os": "SOSHJM",
+      "ends": [
+        "H20",
+        "H11"
+      ],
+      "signals": [
+        "S18R",
+        "S20L"
+      ],
+      "turnouts": [
+        [
+          "SSw15",
+          "N"
+        ],
+        [
+          "SSw17",
+          "N"
+        ],
+        [
+          "SSw19",
+          "R"
+        ]
+      ]
+    },
+    "SRtH20H21": {
+      "os": "SOSHJM",
+      "ends": [
+        "H20",
+        "H21"
+      ],
+      "signals": [
+        "S18R",
+        "S18LA"
+      ],
+      "turnouts": [
+        [
+          "SSw15",
+          "N"
+        ],
+        [
+          "SSw17",
+          "N"
+        ],
+        [
+          "SSw19",
+          "N"
+        ]
+      ]
+    },
+    "SRtH20H40": {
+      "os": "SOSHJM",
+      "ends": [
+        "H20",
+        "H40"
+      ],
+      "signals": [
+        "S18R",
+        "S18LB"
+      ],
+      "turnouts": [
+        [
+          "SSw15",
+          "N"
+        ],
+        [
+          "SSw17",
+          "R"
+        ]
+      ]
+    },
+    "SRtP42H11": {
+      "os": "SOSHJE",
+      "ends": [
+        "P42",
+        "H11"
+      ],
+      "signals": [
+        "S16R",
+        "S20L"
+      ],
+      "turnouts": [
+        [
+          "SSw15",
+          "R"
+        ],
+        [
+          "SSw17",
+          "N"
+        ],
+        [
+          "SSw19",
+          "R"
+        ]
+      ]
+    },
+    "SRtP42H21": {
+      "os": "SOSHJE",
+      "ends": [
+        "P42",
+        "H21"
+      ],
+      "signals": [
+        "S16R",
+        "S18LA"
+      ],
+      "turnouts": [
+        [
+          "SSw15",
+          "R"
+        ],
+        [
+          "SSw17",
+          "N"
+        ],
+        [
+          "SSw19",
+          "N"
+        ]
+      ]
+    },
+    "SRtP42H40": {
+      "os": "SOSHJE",
+      "ends": [
+        "P42",
+        "H40"
+      ],
+      "signals": [
+        "S16R",
+        "S18LB"
+      ],
+      "turnouts": [
+        [
+          "SSw15",
+          "R"
+        ],
+        [
+          "SSw17",
+          "R"
+        ]
+      ]
+    },
+    "SRtP42N25": {
+      "os": "SOSHJE",
+      "ends": [
+        "P42",
+        "N25"
+      ],
+      "signals": [
+        "S16R",
+        "S16L"
+      ],
+      "turnouts": [
+        [
+          "SSw15",
+          "N"
+        ]
+      ]
+    },
+    "KRtN10K10": {
+      "os": "KOSW",
+      "ends": [
+        "K10",
+        "N10"
+      ],
+      "signals": [
+        "K8LA",
+        "K8R"
+      ],
+      "turnouts": [
+        [
+          "KSw3",
+          "N"
+        ],
+        [
+          "KSw5",
+          "N"
+        ],
+        [
+          "KSw7",
+          "R"
+        ]
+      ]
+    },
+    "KRtN10N11": {
+      "os": "KOSW",
+      "ends": [
+        "N11",
+        "N10"
+      ],
+      "signals": [
+        "K8LB",
+        "K8R"
+      ],
+      "turnouts": [
+        [
+          "KSw3",
+          "N"
+        ],
+        [
+          "KSw5",
+          "N"
+        ],
+        [
+          "KSw7",
+          "N"
+        ]
+      ]
+    },
+    "KRtN10N21": {
+      "os": "KOSW",
+      "ends": [
+        "N21",
+        "N10"
+      ],
+      "signals": [
+        "K2L",
+        "K8R"
+      ],
+      "turnouts": [
+        [
+          "KSw3",
+          "N"
+        ],
+        [
+          "KSw5",
+          "R"
+        ]
+      ]
+    },
+    "KRtN25K10": {
+      "os": "KOSM",
+      "ends": [
+        "K10",
+        "N25"
+      ],
+      "signals": [
+        "K8LA",
+        "K4R"
+      ],
+      "turnouts": [
+        [
+          "KSw3",
+          "R"
+        ],
+        [
+          "KSw5",
+          "N"
+        ],
+        [
+          "KSw7",
+          "R"
+        ]
+      ]
+    },
+    "KRtN25N11": {
+      "os": "KOSM",
+      "ends": [
+        "N11",
+        "N25"
+      ],
+      "signals": [
+        "K8LB",
+        "K4R"
+      ],
+      "turnouts": [
+        [
+          "KSw3",
+          "R"
+        ],
+        [
+          "KSw5",
+          "N"
+        ],
+        [
+          "KSw7",
+          "N"
+        ]
+      ]
+    },
+    "KRtN25N21": {
+      "os": "KOSM",
+      "ends": [
+        "N21",
+        "N25"
+      ],
+      "signals": [
+        "K2L",
+        "K4R"
+      ],
+      "turnouts": [
+        [
+          "KSw1",
+          "R"
+        ],
+        [
+          "KSw3",
+          "N"
+        ],
+        [
+          "KSw5",
+          "N"
+        ]
+      ]
+    },
+    "KRtN20N21": {
+      "os": "KOSE",
+      "ends": [
+        "N20",
+        "N21"
+      ],
+      "signals": [
+        "K2R",
+        "K2L"
+      ],
+      "turnouts": [
+        [
+          "KSw1",
+          "N"
+        ],
+        [
+          "KSw5",
+          "N"
+        ]
+      ]
+    },
+    "KRtN10S11": {
+      "os": "KOSN10S11",
+      "ends": [
+        "N10",
+        "S11"
+      ],
+      "signals": [
+        "N10W",
+        "S11E"
+      ],
+      "turnouts": []
+    },
+    "KRtN20S21": {
+      "os": "KOSN20S21",
+      "ends": [
+        "S21",
+        "N20"
+      ],
+      "signals": [
+        "S21E",
+        "N20W"
+      ],
+      "turnouts": []
+    },
+    "NRtT12W10": {
+      "os": "NWOSTY",
+      "ends": [
+        "W10",
+        "T12"
+      ],
+      "signals": [
+        "N20R",
+        "N20L"
+      ],
+      "turnouts": [
+        [
+          "NSw25",
+          "N"
+        ]
+      ]
+    },
+    "NRtN60N31": {
+      "os": "NWOSCY",
+      "ends": [
+        "N31",
+        "N60"
+      ],
+      "signals": [
+        "N18LB",
+        "N18R"
+      ],
+      "turnouts": [
+        [
+          "NSw21",
+          "N"
+        ],
+        [
+          "NSw23",
+          "N"
+        ],
+        [
+          "NSw27",
+          "N"
+        ]
+      ]
+    },
+    "NRtN60N32": {
+      "os": "NWOSCY",
+      "ends": [
+        "N32",
+        "N60"
+      ],
+      "signals": [
+        "N18LA",
+        "N18R"
+      ],
+      "turnouts": [
+        [
+          "NSw21",
+          "N"
+        ],
+        [
+          "NSw23",
+          "R"
+        ],
+        [
+          "NSw25",
+          "N"
+        ],
+        [
+          "NSw27",
+          "N"
+        ]
+      ]
+    },
+    "NRtN60W10": {
+      "os": "NWOSCY",
+      "ends": [
+        "W10",
+        "N60"
+      ],
+      "signals": [
+        "N20L",
+        "N18R"
+      ],
+      "turnouts": [
+        [
+          "NSw21",
+          "N"
+        ],
+        [
+          "NSw23",
+          "R"
+        ],
+        [
+          "NSw25",
+          "R"
+        ],
+        [
+          "NSw27",
+          "N"
+        ]
+      ]
+    },
+    "NRtN60N12": {
+      "os": "NWOSCY",
+      "ends": [
+        "N12",
+        "N60"
+      ],
+      "signals": [
+        "N16L",
+        "N18R"
+      ],
+      "turnouts": [
+        [
+          "NSw21",
+          "N"
+        ],
+        [
+          "NSw27",
+          "R"
+        ],
+        [
+          "NSw29",
+          "N"
+        ]
+      ]
+    },
+    "NRtN60N22": {
+      "os": "NWOSCY",
+      "ends": [
+        "N22",
+        "N60"
+      ],
+      "signals": [
+        "N14LA",
+        "N18R"
+      ],
+      "turnouts": [
+        [
+          "NSw27",
+          "R"
+        ],
+        [
+          "NSw29",
+          "R"
+        ],
+        [
+          "NSw31",
+          "N"
+        ]
+      ]
+    },
+    "NRtN60N41": {
+      "os": "NWOSCY",
+      "ends": [
+        "N41",
+        "N60"
+      ],
+      "signals": [
+        "N14LB",
+        "N18R"
+      ],
+      "turnouts": [
+        [
+          "NSw27",
+          "R"
+        ],
+        [
+          "NSw29",
+          "R"
+        ],
+        [
+          "NSw31",
+          "R"
+        ],
+        [
+          "NSw33",
+          "R"
+        ]
+      ]
+    },
+    "NRtN60N42": {
+      "os": "NWOSCY",
+      "ends": [
+        "N42",
+        "N60"
+      ],
+      "signals": [
+        "N14LC",
+        "N18R"
+      ],
+      "turnouts": [
+        [
+          "NSw27",
+          "R"
+        ],
+        [
+          "NSw29",
+          "R"
+        ],
+        [
+          "NSw31",
+          "R"
+        ],
+        [
+          "NSw33",
+          "N"
+        ],
+        [
+          "NSw35",
+          "R"
+        ]
+      ]
+    },
+    "NRtN60W20": {
+      "os": "NWOSCY",
+      "ends": [
+        "W20",
+        "N60"
+      ],
+      "signals": [
+        "N14LD",
+        "N18R"
+      ],
+      "turnouts": [
+        [
+          "NSw27",
+          "R"
+        ],
+        [
+          "NSw29",
+          "R"
+        ],
+        [
+          "NSw31",
+          "R"
+        ],
+        [
+          "NSw33",
+          "N"
+        ],
+        [
+          "NSw35",
+          "N"
+        ]
+      ]
+    },
+    "NRtN11N31": {
+      "os": "NWOSW",
+      "ends": [
+        "N31",
+        "N11"
+      ],
+      "signals": [
+        "N18LB",
+        "N16R"
+      ],
+      "turnouts": [
+        [
+          "NSw19",
+          "N"
+        ],
+        [
+          "NSw21",
+          "R"
+        ],
+        [
+          "NSw23",
+          "N"
+        ],
+        [
+          "NSw27",
+          "N"
+        ],
+        [
+          "NSw29",
+          "N"
+        ]
+      ]
+    },
+    "NRtN11N32": {
+      "os": "NWOSW",
+      "ends": [
+        "N32",
+        "N11"
+      ],
+      "signals": [
+        "N18LA",
+        "N16R"
+      ],
+      "turnouts": [
+        [
+          "NSw19",
+          "N"
+        ],
+        [
+          "NSw21",
+          "R"
+        ],
+        [
+          "NSw23",
+          "R"
+        ],
+        [
+          "NSw25",
+          "N"
+        ],
+        [
+          "NSw27",
+          "N"
+        ],
+        [
+          "NSw29",
+          "N"
+        ]
+      ]
+    },
+    "NRtN11W10": {
+      "os": "NWOSW",
+      "ends": [
+        "W10",
+        "N11"
+      ],
+      "signals": [
+        "N20L",
+        "N16R"
+      ],
+      "turnouts": [
+        [
+          "NSw19",
+          "N"
+        ],
+        [
+          "NSw21",
+          "R"
+        ],
+        [
+          "NSw23",
+          "R"
+        ],
+        [
+          "NSw25",
+          "R"
+        ],
+        [
+          "NSw27",
+          "N"
+        ],
+        [
+          "NSw29",
+          "N"
+        ]
+      ]
+    },
+    "NRtN11N12": {
+      "os": "NWOSW",
+      "ends": [
+        "N12",
+        "N11"
+      ],
+      "signals": [
+        "N16L",
+        "N16R"
+      ],
+      "turnouts": [
+        [
+          "NSw19",
+          "N"
+        ],
+        [
+          "NSw21",
+          "N"
+        ],
+        [
+          "NSw27",
+          "N"
+        ],
+        [
+          "NSw29",
+          "N"
+        ]
+      ]
+    },
+    "NRtN11N22": {
+      "os": "NWOSW",
+      "ends": [
+        "N22",
+        "N11"
+      ],
+      "signals": [
+        "N14LA",
+        "N16R"
+      ],
+      "turnouts": [
+        [
+          "NSw19",
+          "N"
+        ],
+        [
+          "NSw27",
+          "N"
+        ],
+        [
+          "NSw29",
+          "R"
+        ],
+        [
+          "NSw31",
+          "N"
+        ]
+      ]
+    },
+    "NRtN11N41": {
+      "os": "NWOSW",
+      "ends": [
+        "N41",
+        "N11"
+      ],
+      "signals": [
+        "N14LB",
+        "N16R"
+      ],
+      "turnouts": [
+        [
+          "NSw19",
+          "N"
+        ],
+        [
+          "NSw27",
+          "N"
+        ],
+        [
+          "NSw29",
+          "R"
+        ],
+        [
+          "NSw31",
+          "R"
+        ],
+        [
+          "NSw33",
+          "R"
+        ]
+      ]
+    },
+    "NRtN11N42": {
+      "os": "NWOSW",
+      "ends": [
+        "N42",
+        "N11"
+      ],
+      "signals": [
+        "N14LC",
+        "N16R"
+      ],
+      "turnouts": [
+        [
+          "NSw19",
+          "N"
+        ],
+        [
+          "NSw27",
+          "N"
+        ],
+        [
+          "NSw29",
+          "R"
+        ],
+        [
+          "NSw31",
+          "R"
+        ],
+        [
+          "NSw33",
+          "N"
+        ],
+        [
+          "NSw35",
+          "R"
+        ]
+      ]
+    },
+    "NRtN11W20": {
+      "os": "NWOSW",
+      "ends": [
+        "W20",
+        "N11"
+      ],
+      "signals": [
+        "N14LD",
+        "N16R"
+      ],
+      "turnouts": [
+        [
+          "NSw19",
+          "N"
+        ],
+        [
+          "NSw27",
+          "N"
+        ],
+        [
+          "NSw29",
+          "R"
+        ],
+        [
+          "NSw31",
+          "R"
+        ],
+        [
+          "NSw33",
+          "N"
+        ],
+        [
+          "NSw35",
+          "N"
+        ]
+      ]
+    },
+    "NRtN21N31": {
+      "os": "NWOSE",
+      "ends": [
+        "N21",
+        "N31"
+      ],
+      "signals": [
+        "N14R",
+        "N18LB"
+      ],
+      "turnouts": [
+        [
+          "NSw19",
+          "R"
+        ],
+        [
+          "NSw21",
+          "R"
+        ],
+        [
+          "NSw23",
+          "N"
+        ],
+        [
+          "NSw27",
+          "N"
+        ],
+        [
+          "NSw29",
+          "N"
+        ]
+      ]
+    },
+    "NRtN21N32": {
+      "os": "NWOSE",
+      "ends": [
+        "N21",
+        "N32"
+      ],
+      "signals": [
+        "N14R",
+        "N18LA"
+      ],
+      "turnouts": [
+        [
+          "NSw19",
+          "R"
+        ],
+        [
+          "NSw21",
+          "R"
+        ],
+        [
+          "NSw23",
+          "R"
+        ],
+        [
+          "NSw25",
+          "N"
+        ],
+        [
+          "NSw27",
+          "N"
+        ],
+        [
+          "NSw29",
+          "N"
+        ]
+      ]
+    },
+    "NRtN21W10": {
+      "os": "NWOSE",
+      "ends": [
+        "N21",
+        "W10"
+      ],
+      "signals": [
+        "N14R",
+        "N20L"
+      ],
+      "turnouts": [
+        [
+          "NSw19",
+          "R"
+        ],
+        [
+          "NSw21",
+          "R"
+        ],
+        [
+          "NSw23",
+          "R"
+        ],
+        [
+          "NSw25",
+          "R"
+        ],
+        [
+          "NSw27",
+          "N"
+        ],
+        [
+          "NSw29",
+          "N"
+        ]
+      ]
+    },
+    "NRtN21N12": {
+      "os": "NWOSE",
+      "ends": [
+        "N21",
+        "N12"
+      ],
+      "signals": [
+        "N14R",
+        "N16L"
+      ],
+      "turnouts": [
+        [
+          "NSw19",
+          "R"
+        ],
+        [
+          "NSw21",
+          "N"
+        ],
+        [
+          "NSw27",
+          "N"
+        ],
+        [
+          "NSw29",
+          "N"
+        ]
+      ]
+    },
+    "NRtN21N22": {
+      "os": "NWOSE",
+      "ends": [
+        "N21",
+        "N22"
+      ],
+      "signals": [
+        "N14R",
+        "N14LA"
+      ],
+      "turnouts": [
+        [
+          "NSw19",
+          "N"
+        ],
+        [
+          "NSw29",
+          "N"
+        ],
+        [
+          "NSw31",
+          "N"
+        ]
+      ]
+    },
+    "NRtN21N41": {
+      "os": "NWOSE",
+      "ends": [
+        "N21",
+        "N41"
+      ],
+      "signals": [
+        "N14R",
+        "N14LB"
+      ],
+      "turnouts": [
+        [
+          "NSw19",
+          "N"
+        ],
+        [
+          "NSw29",
+          "N"
+        ],
+        [
+          "NSw31",
+          "R"
+        ],
+        [
+          "NSw33",
+          "R"
+        ]
+      ]
+    },
+    "NRtN21N42": {
+      "os": "NWOSE",
+      "ends": [
+        "N21",
+        "N42"
+      ],
+      "signals": [
+        "N14R",
+        "N14LC"
+      ],
+      "turnouts": [
+        [
+          "NSw19",
+          "N"
+        ],
+        [
+          "NSw29",
+          "N"
+        ],
+        [
+          "NSw31",
+          "R"
+        ],
+        [
+          "NSw33",
+          "N"
+        ],
+        [
+          "NSw35",
+          "R"
+        ]
+      ]
+    },
+    "NRtN21W20": {
+      "os": "NWOSE",
+      "ends": [
+        "N21",
+        "W20"
+      ],
+      "signals": [
+        "N14R",
+        "N14LD"
+      ],
+      "turnouts": [
+        [
+          "NSw19",
+          "N"
+        ],
+        [
+          "NSw29",
+          "N"
+        ],
+        [
+          "NSw31",
+          "R"
+        ],
+        [
+          "NSw33",
+          "N"
+        ],
+        [
+          "NSw35",
+          "N"
+        ]
+      ]
+    },
+    "NRtN60A": {
+      "os": "N60",
+      "ends": [
+        "-",
+        "NWOSCY"
+      ],
+      "signals": [],
+      "turnouts": []
+    },
+    "NRtN60B": {
+      "os": "N60",
+      "ends": [
+        "-",
+        "NWOSCY"
+      ],
+      "signals": [],
+      "turnouts": []
+    },
+    "NRtN60C": {
+      "os": "N60",
+      "ends": [
+        "-",
+        "NWOSCY"
+      ],
+      "signals": [],
+      "turnouts": []
+    },
+    "NRtN60D": {
+      "os": "N60",
+      "ends": [
+        "-",
+        "NWOSCY"
+      ],
+      "signals": [],
+      "turnouts": []
+    },
+    "NRtR10W11": {
+      "os": "NEOSRH",
+      "ends": [
+        "R10",
+        "W11"
+      ],
+      "signals": [
+        "N28L",
+        "N28R"
+      ],
+      "turnouts": [
+        [
+          "NSw47",
+          "N"
+        ],
+        [
+          "NSw55",
+          "N"
+        ]
+      ]
+    },
+    "NRtR10N32": {
+      "os": "NEOSRH",
+      "ends": [
+        "R10",
+        "N32"
+      ],
+      "signals": [
+        "N28L",
+        "N26RA"
+      ],
+      "turnouts": [
+        [
+          "NSw45",
+          "N"
+        ],
+        [
+          "NSw47",
+          "R"
+        ],
+        [
+          "NSw51",
+          "N"
+        ],
+        [
+          "NSw53",
+          "R"
+        ],
+        [
+          "NSw55",
+          "N"
+        ]
+      ]
+    },
+    "NRtR10N31": {
+      "os": "NEOSRH",
+      "ends": [
+        "R10",
+        "N31"
+      ],
+      "signals": [
+        "N28L",
+        "N26RB"
+      ],
+      "turnouts": [
+        [
+          "NSw45",
+          "N"
+        ],
+        [
+          "NSw47",
+          "R"
+        ],
+        [
+          "NSw51",
+          "R"
+        ],
+        [
+          "NSw53",
+          "R"
+        ],
+        [
+          "NSw55",
+          "N"
+        ]
+      ]
+    },
+    "NRtR10N12": {
+      "os": "NEOSRH",
+      "ends": [
+        "R10",
+        "N12"
+      ],
+      "signals": [
+        "N28L",
+        "N26RC"
+      ],
+      "turnouts": [
+        [
+          "NSw45",
+          "N"
+        ],
+        [
+          "NSw47",
+          "R"
+        ],
+        [
+          "NSw53",
+          "N"
+        ],
+        [
+          "NSw55",
+          "N"
+        ]
+      ]
+    },
+    "NRtR10N22": {
+      "os": "NEOSRH",
+      "ends": [
+        "R10",
+        "N22"
+      ],
+      "signals": [
+        "N28L",
+        "N24RA"
+      ],
+      "turnouts": [
+        [
+          "NSw43",
+          "N"
+        ],
+        [
+          "NSw45",
+          "R"
+        ],
+        [
+          "NSw47",
+          "R"
+        ]
+      ]
+    },
+    "NRtR10N41": {
+      "os": "NEOSRH",
+      "ends": [
+        "R10",
+        "N41"
+      ],
+      "signals": [
+        "N28L",
+        "N24RB"
+      ],
+      "turnouts": [
+        [
+          "NSw41",
+          "R"
+        ],
+        [
+          "NSw43",
+          "R"
+        ],
+        [
+          "NSw45",
+          "R"
+        ],
+        [
+          "NSw47",
+          "R"
+        ]
+      ]
+    },
+    "NRtR10N42": {
+      "os": "NEOSRH",
+      "ends": [
+        "R10",
+        "N42"
+      ],
+      "signals": [
+        "N28L",
+        "N24RC"
+      ],
+      "turnouts": [
+        [
+          "NSw39",
+          "R"
+        ],
+        [
+          "NSw41",
+          "N"
+        ],
+        [
+          "NSw43",
+          "R"
+        ],
+        [
+          "NSw45",
+          "R"
+        ],
+        [
+          "NSw47",
+          "R"
+        ]
+      ]
+    },
+    "NRtR10W20": {
+      "os": "NEOSRH",
+      "ends": [
+        "R10",
+        "W20"
+      ],
+      "signals": [
+        "N28L",
+        "N24RD"
+      ],
+      "turnouts": [
+        [
+          "NSw39",
+          "N"
+        ],
+        [
+          "NSw41",
+          "N"
+        ],
+        [
+          "NSw43",
+          "R"
+        ],
+        [
+          "NSw45",
+          "R"
+        ],
+        [
+          "NSw47",
+          "R"
+        ]
+      ]
+    },
+    "NRtB10W11": {
+      "os": "NEOSW",
+      "ends": [
+        "B10",
+        "W11"
+      ],
+      "signals": [
+        "N26L",
+        "N28R"
+      ],
+      "turnouts": [
+        [
+          "NSw45",
+          "N"
+        ],
+        [
+          "NSw47",
+          "N"
+        ],
+        [
+          "NSw55",
+          "R"
+        ],
+        [
+          "NSw57",
+          "N"
+        ]
+      ]
+    },
+    "NRtB10N32": {
+      "os": "NEOSW",
+      "ends": [
+        "B10",
+        "N32"
+      ],
+      "signals": [
+        "N26L",
+        "N26RA"
+      ],
+      "turnouts": [
+        [
+          "NSw45",
+          "N"
+        ],
+        [
+          "NSw47",
+          "N"
+        ],
+        [
+          "NSw51",
+          "N"
+        ],
+        [
+          "NSw53",
+          "R"
+        ],
+        [
+          "NSw55",
+          "N"
+        ],
+        [
+          "NSw57",
+          "N"
+        ]
+      ]
+    },
+    "NRtB10N31": {
+      "os": "NEOSW",
+      "ends": [
+        "B10",
+        "N31"
+      ],
+      "signals": [
+        "N26L",
+        "N26RB"
+      ],
+      "turnouts": [
+        [
+          "NSw45",
+          "N"
+        ],
+        [
+          "NSw47",
+          "N"
+        ],
+        [
+          "NSw51",
+          "R"
+        ],
+        [
+          "NSw53",
+          "R"
+        ],
+        [
+          "NSw55",
+          "N"
+        ],
+        [
+          "NSw57",
+          "N"
+        ]
+      ]
+    },
+    "NRtB10N12": {
+      "os": "NEOSW",
+      "ends": [
+        "B10",
+        "N12"
+      ],
+      "signals": [
+        "N26L",
+        "N26RC"
+      ],
+      "turnouts": [
+        [
+          "NSw45",
+          "N"
+        ],
+        [
+          "NSw47",
+          "N"
+        ],
+        [
+          "NSw53",
+          "N"
+        ],
+        [
+          "NSw55",
+          "N"
+        ],
+        [
+          "NSw57",
+          "N"
+        ]
+      ]
+    },
+    "NRtB10N22": {
+      "os": "NEOSW",
+      "ends": [
+        "B10",
+        "N22"
+      ],
+      "signals": [
+        "N26L",
+        "N24RA"
+      ],
+      "turnouts": [
+        [
+          "NSw43",
+          "N"
+        ],
+        [
+          "NSw45",
+          "R"
+        ],
+        [
+          "NSw47",
+          "N"
+        ],
+        [
+          "NSw57",
+          "N"
+        ]
+      ]
+    },
+    "NRtB10N41": {
+      "os": "NEOSW",
+      "ends": [
+        "B10",
+        "N41"
+      ],
+      "signals": [
+        "N26L",
+        "N24RB"
+      ],
+      "turnouts": [
+        [
+          "NSw41",
+          "R"
+        ],
+        [
+          "NSw43",
+          "R"
+        ],
+        [
+          "NSw45",
+          "R"
+        ],
+        [
+          "NSw47",
+          "N"
+        ],
+        [
+          "NSw57",
+          "N"
+        ]
+      ]
+    },
+    "NRtB10N42": {
+      "os": "NEOSW",
+      "ends": [
+        "B10",
+        "N42"
+      ],
+      "signals": [
+        "N26L",
+        "N24RC"
+      ],
+      "turnouts": [
+        [
+          "NSw39",
+          "R"
+        ],
+        [
+          "NSw41",
+          "N"
+        ],
+        [
+          "NSw43",
+          "R"
+        ],
+        [
+          "NSw45",
+          "R"
+        ],
+        [
+          "NSw47",
+          "N"
+        ],
+        [
+          "NSw57",
+          "N"
+        ]
+      ]
+    },
+    "NRtB10W20": {
+      "os": "NEOSW",
+      "ends": [
+        "B10",
+        "W20"
+      ],
+      "signals": [
+        "N26L",
+        "N24RD"
+      ],
+      "turnouts": [
+        [
+          "NSw39",
+          "N"
+        ],
+        [
+          "NSw41",
+          "N"
+        ],
+        [
+          "NSw43",
+          "R"
+        ],
+        [
+          "NSw45",
+          "R"
+        ],
+        [
+          "NSw47",
+          "N"
+        ],
+        [
+          "NSw57",
+          "N"
+        ]
+      ]
+    },
+    "NRtB20W11": {
+      "os": "NEOSE",
+      "ends": [
+        "W11",
+        "B20"
+      ],
+      "signals": [
+        "N28R",
+        "N24L"
+      ],
+      "turnouts": [
+        [
+          "NSw45",
+          "N"
+        ],
+        [
+          "NSw47",
+          "N"
+        ],
+        [
+          "NSw55",
+          "R"
+        ],
+        [
+          "NSw57",
+          "R"
+        ]
+      ]
+    },
+    "NRtB20N32": {
+      "os": "NEOSE",
+      "ends": [
+        "N32",
+        "B20"
+      ],
+      "signals": [
+        "N26RA",
+        "N24L"
+      ],
+      "turnouts": [
+        [
+          "NSw45",
+          "N"
+        ],
+        [
+          "NSw47",
+          "N"
+        ],
+        [
+          "NSw51",
+          "N"
+        ],
+        [
+          "NSw53",
+          "R"
+        ],
+        [
+          "NSw55",
+          "N"
+        ],
+        [
+          "NSw57",
+          "R"
+        ]
+      ]
+    },
+    "NRtB20N31": {
+      "os": "NEOSE",
+      "ends": [
+        "N31",
+        "B20"
+      ],
+      "signals": [
+        "N26RB",
+        "N24L"
+      ],
+      "turnouts": [
+        [
+          "NSw45",
+          "N"
+        ],
+        [
+          "NSw47",
+          "N"
+        ],
+        [
+          "NSw51",
+          "R"
+        ],
+        [
+          "NSw53",
+          "R"
+        ],
+        [
+          "NSw55",
+          "N"
+        ],
+        [
+          "NSw57",
+          "R"
+        ]
+      ]
+    },
+    "NRtB20N12": {
+      "os": "NEOSE",
+      "ends": [
+        "N12",
+        "B20"
+      ],
+      "signals": [
+        "N26RC",
+        "N24L"
+      ],
+      "turnouts": [
+        [
+          "NSw45",
+          "N"
+        ],
+        [
+          "NSw47",
+          "N"
+        ],
+        [
+          "NSw53",
+          "N"
+        ],
+        [
+          "NSw55",
+          "N"
+        ],
+        [
+          "NSw57",
+          "R"
+        ]
+      ]
+    },
+    "NRtB20N22": {
+      "os": "NEOSE",
+      "ends": [
+        "N22",
+        "B20"
+      ],
+      "signals": [
+        "N24RA",
+        "N24L"
+      ],
+      "turnouts": [
+        [
+          "NSw43",
+          "N"
+        ],
+        [
+          "NSw45",
+          "N"
+        ],
+        [
+          "NSw57",
+          "N"
+        ]
+      ]
+    },
+    "NRtB20N41": {
+      "os": "NEOSE",
+      "ends": [
+        "N41",
+        "B20"
+      ],
+      "signals": [
+        "N24RB",
+        "N24L"
+      ],
+      "turnouts": [
+        [
+          "NSw41",
+          "R"
+        ],
+        [
+          "NSw43",
+          "R"
+        ],
+        [
+          "NSw45",
+          "N"
+        ],
+        [
+          "NSw57",
+          "N"
+        ]
+      ]
+    },
+    "NRtB20N42": {
+      "os": "NEOSE",
+      "ends": [
+        "N42",
+        "B20"
+      ],
+      "signals": [
+        "N24RC",
+        "N24L"
+      ],
+      "turnouts": [
+        [
+          "NSw39",
+          "R"
+        ],
+        [
+          "NSw41",
+          "N"
+        ],
+        [
+          "NSw43",
+          "R"
+        ],
+        [
+          "NSw45",
+          "N"
+        ],
+        [
+          "NSw57",
+          "N"
+        ]
+      ]
+    },
+    "NRtB20W20": {
+      "os": "NEOSE",
+      "ends": [
+        "W20",
+        "B20"
+      ],
+      "signals": [
+        "N24RD",
+        "N24L"
+      ],
+      "turnouts": [
+        [
+          "NSw39",
+          "N"
+        ],
+        [
+          "NSw41",
+          "N"
+        ],
+        [
+          "NSw43",
+          "R"
+        ],
+        [
+          "NSw45",
+          "N"
+        ],
+        [
+          "NSw57",
+          "N"
+        ]
+      ]
+    },
+    "BRtB10B11": {
+      "os": "BOSWW",
+      "ends": [
+        "B11",
+        "B10"
+      ],
+      "signals": [
+        "C22R",
+        "C22L"
+      ],
+      "turnouts": [
+        [
+          "CSw23",
+          "N"
+        ]
+      ]
+    },
+    "BRtB10B21": {
+      "os": "BOSWW",
+      "ends": [
+        "B21",
+        "B10"
+      ],
+      "signals": [
+        "C24R",
+        "C22L"
+      ],
+      "turnouts": [
+        [
+          "CSw23",
+          "R"
+        ]
+      ]
+    },
+    "BRtB20B21": {
+      "os": "BOSWE",
+      "ends": [
+        "B21",
+        "B20"
+      ],
+      "signals": [
+        "C24R",
+        "C24L"
+      ],
+      "turnouts": [
+        [
+          "CSw23",
+          "N"
+        ]
+      ]
+    },
+    "BRtB11C13": {
+      "os": "BOSE",
+      "ends": [
+        "B11",
+        "C13"
+      ],
+      "signals": [
+        "C18LA",
+        "C18R"
+      ],
+      "turnouts": [
+        [
+          "CSw17",
+          "R"
+        ]
+      ]
+    },
+    "BRtB21C13": {
+      "os": "BOSE",
+      "ends": [
+        "B21",
+        "C13"
+      ],
+      "signals": [
+        "C18LB",
+        "C18R"
+      ],
+      "turnouts": [
+        [
+          "CSw17",
+          "N"
+        ]
+      ]
+    },
+    "CRtC13C23": {
+      "os": "COSCLW",
+      "ends": [
+        "C23",
+        "C13"
+      ],
+      "signals": [
+        "C14RB",
+        "C14L"
+      ],
+      "turnouts": [
+        [
+          "CSw13",
+          "N"
+        ]
+      ]
+    },
+    "CRtC13C12": {
+      "os": "COSCLW",
+      "ends": [
+        "C12",
+        "C13"
+      ],
+      "signals": [
+        "C14RA",
+        "C14L"
+      ],
+      "turnouts": [
+        [
+          "CSw13",
+          "R"
+        ]
+      ]
+    },
+    "CRtC23C22": {
+      "os": "COSCLEW",
+      "ends": [
+        "C22",
+        "C23"
+      ],
+      "signals": [
+        "C10R",
+        "C10L"
+      ],
+      "turnouts": [
+        [
+          "CSw9",
+          "N"
+        ]
+      ]
+    },
+    "CRtC12C11": {
+      "os": "COSCLEE",
+      "ends": [
+        "C12",
+        "C11"
+      ],
+      "signals": [
+        "C12L",
+        "C12R"
+      ],
+      "turnouts": [
+        [
+          "CSw9",
+          "N"
+        ]
+      ]
+    },
+    "CRtC23C11": {
+      "os": "COSCLEE",
+      "ends": [
+        "C23",
+        "C11"
+      ],
+      "signals": [
+        "C10L",
+        "C12R"
+      ],
+      "turnouts": [
+        [
+          "CSw9",
+          "R"
+        ]
+      ]
+    },
+    "CRtC11G21": {
+      "os": "COSGMW",
+      "ends": [
+        "C11",
+        "G21"
+      ],
+      "signals": [
+        "C4L",
+        "C4RD"
+      ],
+      "turnouts": [
+        [
+          "CSw41",
+          "R"
+        ]
+      ]
+    },
+    "CRtC11C10": {
+      "os": "COSGMW",
+      "ends": [
+        "C11",
+        "C10"
+      ],
+      "signals": [
+        "C4L",
+        "C4RC"
+      ],
+      "turnouts": [
+        [
+          "CSw39",
+          "N"
+        ],
+        [
+          "CSw41",
+          "N"
+        ]
+      ]
+    },
+    "CRtC11C30": {
+      "os": "COSGMW",
+      "ends": [
+        "C11",
+        "C30"
+      ],
+      "signals": [
+        "C4L",
+        "C4RB"
+      ],
+      "turnouts": [
+        [
+          "CSw37",
+          "R"
+        ],
+        [
+          "CSw39",
+          "R"
+        ],
+        [
+          "CSw41",
+          "N"
+        ]
+      ]
+    },
+    "CRtC11C31": {
+      "os": "COSGMW",
+      "ends": [
+        "C11",
+        "C31"
+      ],
+      "signals": [
+        "C4L",
+        "C4RA"
+      ],
+      "turnouts": [
+        [
+          "CSw37",
+          "N"
+        ],
+        [
+          "CSw39",
+          "R"
+        ],
+        [
+          "CSw41",
+          "N"
+        ]
+      ]
+    },
+    "CRtG12C20": {
+      "os": "COSGME",
+      "ends": [
+        "G12",
+        "C20"
+      ],
+      "signals": [
+        "C2LD",
+        "C2R"
+      ],
+      "turnouts": [
+        [
+          "CSw31",
+          "R"
+        ],
+        [
+          "CSw35",
+          "N"
+        ]
+      ]
+    },
+    "CRtG10C20": {
+      "os": "COSGME",
+      "ends": [
+        "G10",
+        "C20"
+      ],
+      "signals": [
+        "C2LC",
+        "C2R"
+      ],
+      "turnouts": [
+        [
+          "CSw31",
+          "R"
+        ],
+        [
+          "CSw35",
+          "R"
+        ]
+      ]
+    },
+    "CRtC10C20": {
+      "os": "COSGME",
+      "ends": [
+        "C10",
+        "C20"
+      ],
+      "signals": [
+        "C2LB",
+        "C2R"
+      ],
+      "turnouts": [
+        [
+          "CSw31",
+          "N"
+        ],
+        [
+          "CSw33",
+          "N"
+        ]
+      ]
+    },
+    "CRtC30C20": {
+      "os": "COSGME",
+      "ends": [
+        "C30",
+        "C20"
+      ],
+      "signals": [
+        "C2LA",
+        "C2R"
+      ],
+      "turnouts": [
+        [
+          "CSw31",
+          "N"
+        ],
+        [
+          "CSw33",
+          "R"
+        ]
+      ]
+    },
+    "CRtC20C44": {
+      "os": "COSSHE",
+      "ends": [
+        "C20",
+        "C44"
+      ],
+      "signals": [
+        "C6R",
+        "C6LF"
+      ],
+      "turnouts": [
+        [
+          "CSw43",
+          "N"
+        ],
+        [
+          "CSw49",
+          "N"
+        ]
+      ]
+    },
+    "CRtC20C43": {
+      "os": "COSSHE",
+      "ends": [
+        "C20",
+        "C43"
+      ],
+      "signals": [
+        "C6R",
+        "C6LE"
+      ],
+      "turnouts": [
+        [
+          "CSw43",
+          "N"
+        ],
+        [
+          "CSw49",
+          "R"
+        ]
+      ]
+    },
+    "CRtC20C42": {
+      "os": "COSSHE",
+      "ends": [
+        "C20",
+        "C42"
+      ],
+      "signals": [
+        "C6R",
+        "C6LD"
+      ],
+      "turnouts": [
+        [
+          "CSw43",
+          "R"
+        ],
+        [
+          "CSw45",
+          "N"
+        ],
+        [
+          "CSw51",
+          "N"
+        ],
+        [
+          "CSw47",
+          "N"
+        ]
+      ]
+    },
+    "CRtC20C41": {
+      "os": "COSSHE",
+      "ends": [
+        "C20",
+        "C41"
+      ],
+      "signals": [
+        "C6R",
+        "C6LC"
+      ],
+      "turnouts": [
+        [
+          "CSw43",
+          "R"
+        ],
+        [
+          "CSw45",
+          "N"
+        ],
+        [
+          "CSw51",
+          "R"
+        ],
+        [
+          "CSw47",
+          "R"
+        ]
+      ]
+    },
+    "CRtC20C40": {
+      "os": "COSSHE",
+      "ends": [
+        "C20",
+        "C40"
+      ],
+      "signals": [
+        "C6R",
+        "C6LB"
+      ],
+      "turnouts": [
+        [
+          "CSw43",
+          "R"
+        ],
+        [
+          "CSw45",
+          "R"
+        ],
+        [
+          "CSw47",
+          "N"
+        ],
+        [
+          "CSw51",
+          "N"
+        ]
+      ]
+    },
+    "CRtC20C21": {
+      "os": "COSSHE",
+      "ends": [
+        "C20",
+        "C21"
+      ],
+      "signals": [
+        "C6R",
+        "C6LA"
+      ],
+      "turnouts": [
+        [
+          "CSw43",
+          "R"
+        ],
+        [
+          "CSw45",
+          "R"
+        ],
+        [
+          "CSw47",
+          "R"
+        ],
+        [
+          "CSw51",
+          "R"
+        ],
+        [
+          "CSw63",
+          "R"
+        ]
+      ]
+    },
+    "CRtC20C50": {
+      "os": "COSSHE",
+      "ends": [
+        "C20",
+        "C50"
+      ],
+      "signals": [
+        "C6R",
+        "C6LG"
+      ],
+      "turnouts": [
+        [
+          "CSw43",
+          "R"
+        ],
+        [
+          "CSw45",
+          "R"
+        ],
+        [
+          "CSw47",
+          "R"
+        ],
+        [
+          "CSw51",
+          "R"
+        ],
+        [
+          "CSw63",
+          "N"
+        ],
+        [
+          "CSw65",
+          "R"
+        ]
+      ]
+    },
+    "CRtC20C51": {
+      "os": "COSSHE",
+      "ends": [
+        "C20",
+        "C51"
+      ],
+      "signals": [
+        "C6R",
+        "C6LH"
+      ],
+      "turnouts": [
+        [
+          "CSw43",
+          "R"
+        ],
+        [
+          "CSw45",
+          "R"
+        ],
+        [
+          "CSw47",
+          "R"
+        ],
+        [
+          "CSw51",
+          "R"
+        ],
+        [
+          "CSw63",
+          "N"
+        ],
+        [
+          "CSw65",
+          "N"
+        ],
+        [
+          "CSw67",
+          "R"
+        ],
+        [
+          "CSw69",
+          "N"
+        ]
+      ]
+    },
+    "CRtC20C52": {
+      "os": "COSSHE",
+      "ends": [
+        "C20",
+        "C52"
+      ],
+      "signals": [
+        "C6R",
+        "C6LJ"
+      ],
+      "turnouts": [
+        [
+          "CSw43",
+          "R"
+        ],
+        [
+          "CSw45",
+          "R"
+        ],
+        [
+          "CSw47",
+          "R"
+        ],
+        [
+          "CSw51",
+          "R"
+        ],
+        [
+          "CSw63",
+          "N"
+        ],
+        [
+          "CSw65",
+          "N"
+        ],
+        [
+          "CSw67",
+          "R"
+        ],
+        [
+          "CSw69",
+          "R"
+        ]
+      ]
+    },
+    "CRtC20C53": {
+      "os": "COSSHE",
+      "ends": [
+        "C20",
+        "C53"
+      ],
+      "signals": [
+        "C6R",
+        "C6LK"
+      ],
+      "turnouts": [
+        [
+          "CSw43",
+          "R"
+        ],
+        [
+          "CSw45",
+          "R"
+        ],
+        [
+          "CSw47",
+          "R"
+        ],
+        [
+          "CSw51",
+          "R"
+        ],
+        [
+          "CSw63",
+          "N"
+        ],
+        [
+          "CSw65",
+          "N"
+        ],
+        [
+          "CSw67",
+          "N"
+        ],
+        [
+          "CSw71",
+          "R"
+        ]
+      ]
+    },
+    "CRtC20C54": {
+      "os": "COSSHE",
+      "ends": [
+        "C20",
+        "C54"
+      ],
+      "signals": [
+        "C6R",
+        "C6LL"
+      ],
+      "turnouts": [
+        [
+          "CSw43",
+          "R"
+        ],
+        [
+          "CSw45",
+          "R"
+        ],
+        [
+          "CSw47",
+          "R"
+        ],
+        [
+          "CSw51",
+          "R"
+        ],
+        [
+          "CSw63",
+          "N"
+        ],
+        [
+          "CSw65",
+          "N"
+        ],
+        [
+          "CSw67",
+          "N"
+        ],
+        [
+          "CSw71",
+          "N"
+        ]
+      ]
+    },
+    "CRtC44C22": {
+      "os": "COSSHW",
+      "ends": [
+        "C44",
+        "C22"
+      ],
+      "signals": [
+        "C8RF",
+        "C8L"
+      ],
+      "turnouts": [
+        [
+          "CSw57",
+          "N"
+        ],
+        [
+          "CSw59",
+          "N"
+        ],
+        [
+          "CSw61",
+          "R"
+        ]
+      ]
+    },
+    "CRtC43C22": {
+      "os": "COSSHW",
+      "ends": [
+        "C43",
+        "C22"
+      ],
+      "signals": [
+        "C8RE",
+        "C8L"
+      ],
+      "turnouts": [
+        [
+          "CSw57",
+          "R"
+        ],
+        [
+          "CSw59",
+          "N"
+        ],
+        [
+          "CSw61",
+          "R"
+        ]
+      ]
+    },
+    "CRtC42C22": {
+      "os": "COSSHW",
+      "ends": [
+        "C42",
+        "C22"
+      ],
+      "signals": [
+        "C8RD",
+        "C8L"
+      ],
+      "turnouts": [
+        [
+          "CSw53",
+          "R"
+        ],
+        [
+          "CSw59",
+          "R"
+        ],
+        [
+          "CSw61",
+          "R"
+        ]
+      ]
+    },
+    "CRtC41C22": {
+      "os": "COSSHW",
+      "ends": [
+        "C41",
+        "C22"
+      ],
+      "signals": [
+        "C8RC",
+        "C8L"
+      ],
+      "turnouts": [
+        [
+          "CSw53",
+          "N"
+        ],
+        [
+          "CSw59",
+          "R"
+        ],
+        [
+          "CSw61",
+          "R"
+        ]
+      ]
+    },
+    "CRtC40C22": {
+      "os": "COSSHW",
+      "ends": [
+        "C40",
+        "C22"
+      ],
+      "signals": [
+        "C8RB",
+        "C8L"
+      ],
+      "turnouts": [
+        [
+          "CSw55",
+          "R"
+        ],
+        [
+          "CSw61",
+          "N"
+        ]
+      ]
+    },
+    "CRtC21C22": {
+      "os": "COSSHW",
+      "ends": [
+        "C21",
+        "C22"
+      ],
+      "signals": [
+        "C8RA",
+        "C8L"
+      ],
+      "turnouts": [
+        [
+          "CSw55",
+          "N"
+        ],
+        [
+          "CSw61",
+          "N"
+        ],
+        [
+          "CSw73",
+          "N"
+        ]
+      ]
+    },
+    "CRtC50C22": {
+      "os": "COSSHW",
+      "ends": [
+        "C50",
+        "C22"
+      ],
+      "signals": [
+        "C8RG",
+        "C8L"
+      ],
+      "turnouts": [
+        [
+          "CSw55",
+          "N"
+        ],
+        [
+          "CSw61",
+          "N"
+        ],
+        [
+          "CSw73",
+          "R"
+        ],
+        [
+          "CSw75",
+          "R"
+        ]
+      ]
+    },
+    "CRtC51C22": {
+      "os": "COSSHW",
+      "ends": [
+        "C51",
+        "C22"
+      ],
+      "signals": [
+        "C8RH",
+        "C8L"
+      ],
+      "turnouts": [
+        [
+          "CSw55",
+          "N"
+        ],
+        [
+          "CSw61",
+          "N"
+        ],
+        [
+          "CSw73",
+          "R"
+        ],
+        [
+          "CSw75",
+          "N"
+        ],
+        [
+          "CSw77",
+          "R"
+        ],
+        [
+          "CSw79",
+          "N"
+        ]
+      ]
+    },
+    "CRtC52C22": {
+      "os": "COSSHW",
+      "ends": [
+        "C52",
+        "C22"
+      ],
+      "signals": [
+        "C8RJ",
+        "C8L"
+      ],
+      "turnouts": [
+        [
+          "CSw55",
+          "N"
+        ],
+        [
+          "CSw61",
+          "N"
+        ],
+        [
+          "CSw73",
+          "R"
+        ],
+        [
+          "CSw75",
+          "N"
+        ],
+        [
+          "CSw77",
+          "R"
+        ],
+        [
+          "CSw79",
+          "R"
+        ]
+      ]
+    },
+    "CRtC53C22": {
+      "os": "COSSHW",
+      "ends": [
+        "C53",
+        "C22"
+      ],
+      "signals": [
+        "C8RK",
+        "C8L"
+      ],
+      "turnouts": [
+        [
+          "CSw55",
+          "N"
+        ],
+        [
+          "CSw61",
+          "N"
+        ],
+        [
+          "CSw73",
+          "R"
+        ],
+        [
+          "CSw75",
+          "N"
+        ],
+        [
+          "CSw77",
+          "N"
+        ],
+        [
+          "CSw81",
+          "R"
+        ]
+      ]
+    },
+    "CRtC54C22": {
+      "os": "COSSHW",
+      "ends": [
+        "C54",
+        "C22"
+      ],
+      "signals": [
+        "C8RL",
+        "C8L"
+      ],
+      "turnouts": [
+        [
+          "CSw55",
+          "N"
+        ],
+        [
+          "CSw61",
+          "N"
+        ],
+        [
+          "CSw73",
+          "R"
+        ],
+        [
+          "CSw75",
+          "N"
+        ],
+        [
+          "CSw77",
+          "N"
+        ],
+        [
+          "CSw81",
+          "N"
+        ]
+      ]
+    },
+    "HRtH11H12": {
+      "os": "HOSWW",
+      "ends": [
+        "H12",
+        "H11"
+      ],
+      "signals": [
+        "H6LD",
+        "H6R"
+      ],
+      "turnouts": [
+        [
+          "HSw1",
+          "N"
+        ],
+        [
+          "HSw3",
+          "N"
+        ]
+      ]
+    },
+    "HRtH11H31": {
+      "os": "HOSWW",
+      "ends": [
+        "H31",
+        "H11"
+      ],
+      "signals": [
+        "H8L",
+        "H6R"
+      ],
+      "turnouts": [
+        [
+          "HSw1",
+          "R"
+        ],
+        [
+          "HSw3",
+          "R"
+        ],
+        [
+          "HSw7",
+          "R"
+        ]
+      ]
+    },
+    "HRtH11H32": {
+      "os": "HOSWW",
+      "ends": [
+        "H32",
+        "H11"
+      ],
+      "signals": [
+        "H6LA",
+        "H6R"
+      ],
+      "turnouts": [
+        [
+          "HSw1",
+          "R"
+        ],
+        [
+          "HSw3",
+          "R"
+        ],
+        [
+          "HSw7",
+          "N"
+        ]
+      ]
+    },
+    "HRtH11H33": {
+      "os": "HOSWW",
+      "ends": [
+        "H33",
+        "H11"
+      ],
+      "signals": [
+        "H6LB",
+        "H6R"
+      ],
+      "turnouts": [
+        [
+          "HSw1",
+          "R"
+        ],
+        [
+          "HSw3",
+          "N"
+        ]
+      ]
+    },
+    "HRtH11H34": {
+      "os": "HOSWW",
+      "ends": [
+        "H34",
+        "H11"
+      ],
+      "signals": [
+        "H6LC",
+        "H6R"
+      ],
+      "turnouts": [
+        [
+          "HSw1",
+          "N"
+        ],
+        [
+          "HSw3",
+          "R"
+        ]
+      ]
+    },
+    "HRtH30H31": {
+      "os": "HOSWW2",
+      "ends": [
+        "H31",
+        "H30"
+      ],
+      "signals": [
+        "H8L",
+        "H8R"
+      ],
+      "turnouts": [
+        [
+          "HSw7",
+          "N"
+        ]
+      ]
+    },
+    "HRtH21H22": {
+      "os": "HOSWE",
+      "ends": [
+        "H21",
+        "H22"
+      ],
+      "signals": [
+        "H4R",
+        "H4LA"
+      ],
+      "turnouts": [
+        [
+          "HSw9",
+          "N"
+        ],
+        [
+          "HSw11",
+          "N"
+        ]
+      ]
+    },
+    "HRtH21H41": {
+      "os": "HOSWE",
+      "ends": [
+        "H21",
+        "H41"
+      ],
+      "signals": [
+        "H4R",
+        "H4LD"
+      ],
+      "turnouts": [
+        [
+          "HSw9",
+          "R"
+        ],
+        [
+          "HSw11",
+          "R"
+        ]
+      ]
+    },
+    "HRtH21H42": {
+      "os": "HOSWE",
+      "ends": [
+        "H21",
+        "H42"
+      ],
+      "signals": [
+        "H4R",
+        "H4LC"
+      ],
+      "turnouts": [
+        [
+          "HSw9",
+          "R"
+        ],
+        [
+          "HSw11",
+          "N"
+        ]
+      ]
+    },
+    "HRtH21H43": {
+      "os": "HOSWE",
+      "ends": [
+        "H21",
+        "H43"
+      ],
+      "signals": [
+        "H4R",
+        "H4LB"
+      ],
+      "turnouts": [
+        [
+          "HSw9",
+          "N"
+        ],
+        [
+          "HSw11",
+          "R"
+        ]
+      ]
+    },
+    "HRtH13H31": {
+      "os": "HOSEW",
+      "ends": [
+        "H13",
+        "H31"
+      ],
+      "signals": [
+        "H12L",
+        "H12RA"
+      ],
+      "turnouts": [
+        [
+          "HSw21",
+          "R"
+        ]
+      ]
+    },
+    "HRtH13H32": {
+      "os": "HOSEW",
+      "ends": [
+        "H13",
+        "H32"
+      ],
+      "signals": [
+        "H12L",
+        "H12RB"
+      ],
+      "turnouts": [
+        [
+          "HSw21",
+          "N"
+        ],
+        [
+          "HSw19",
+          "R"
+        ]
+      ]
+    },
+    "HRtH13H33": {
+      "os": "HOSEW",
+      "ends": [
+        "H13",
+        "H33"
+      ],
+      "signals": [
+        "H12L",
+        "H12RC"
+      ],
+      "turnouts": [
+        [
+          "HSw21",
+          "N"
+        ],
+        [
+          "HSw19",
+          "N"
+        ],
+        [
+          "HSw17",
+          "R"
+        ]
+      ]
+    },
+    "HRtH13H34": {
+      "os": "HOSEW",
+      "ends": [
+        "H13",
+        "H34"
+      ],
+      "signals": [
+        "H12L",
+        "H12RD"
+      ],
+      "turnouts": [
+        [
+          "HSw21",
+          "N"
+        ],
+        [
+          "HSw19",
+          "N"
+        ],
+        [
+          "HSw17",
+          "N"
+        ],
+        [
+          "HSw15",
+          "R"
+        ]
+      ]
+    },
+    "HRtH12H13": {
+      "os": "HOSEW",
+      "ends": [
+        "H13",
+        "H12"
+      ],
+      "signals": [
+        "H12L",
+        "H12RE"
+      ],
+      "turnouts": [
+        [
+          "HSw21",
+          "N"
+        ],
+        [
+          "HSw19",
+          "N"
+        ],
+        [
+          "HSw17",
+          "N"
+        ],
+        [
+          "HSw15",
+          "N"
+        ]
+      ]
+    },
+    "HRtH22H23": {
+      "os": "HOSEE",
+      "ends": [
+        "H22",
+        "H23"
+      ],
+      "signals": [
+        "H10RA",
+        "H10L"
+      ],
+      "turnouts": [
+        [
+          "HSw27",
+          "N"
+        ],
+        [
+          "HSw29",
+          "N"
+        ]
+      ]
+    },
+    "HRtH23H40": {
+      "os": "HOSEE",
+      "ends": [
+        "H40",
+        "H23"
+      ],
+      "signals": [
+        "H10RE",
+        "H10L"
+      ],
+      "turnouts": [
+        [
+          "HSw29",
+          "R"
+        ]
+      ]
+    },
+    "HRtH23H43": {
+      "os": "HOSEE",
+      "ends": [
+        "H43",
+        "H23"
+      ],
+      "signals": [
+        "H10RB",
+        "H10L"
+      ],
+      "turnouts": [
+        [
+          "HSw25",
+          "R"
+        ],
+        [
+          "HSw27",
+          "R"
+        ],
+        [
+          "HSw29",
+          "N"
+        ]
+      ]
+    },
+    "HRtH23H42": {
+      "os": "HOSEE",
+      "ends": [
+        "H42",
+        "H23"
+      ],
+      "signals": [
+        "H10RC",
+        "H10L"
+      ],
+      "turnouts": [
+        [
+          "HSw23",
+          "R"
+        ],
+        [
+          "HSw25",
+          "N"
+        ],
+        [
+          "HSw27",
+          "R"
+        ],
+        [
+          "HSw29",
+          "N"
+        ]
+      ]
+    },
+    "HRtH23H41": {
+      "os": "HOSEE",
+      "ends": [
+        "H41",
+        "H23"
+      ],
+      "signals": [
+        "H10RD",
+        "H10L"
+      ],
+      "turnouts": [
+        [
+          "HSw23",
+          "N"
+        ],
+        [
+          "HSw25",
+          "N"
+        ],
+        [
+          "HSw27",
+          "R"
+        ],
+        [
+          "HSw29",
+          "N"
+        ]
+      ]
+    },
+    "PRtP31P32": {
+      "os": "POSCJ1",
+      "ends": [
+        "P32",
+        "P31"
+      ],
+      "signals": [
+        "PB14L",
+        "PB14R"
+      ],
+      "turnouts": [
+        [
+          "PBSw11",
+          "N"
+        ],
+        [
+          "PBSw13",
+          "N"
+        ]
+      ]
+    },
+    "PRtP31P42": {
+      "os": "POSCJ1",
+      "ends": [
+        "P42",
+        "P31"
+      ],
+      "signals": [
+        "PB14L",
+        "PB12R"
+      ],
+      "turnouts": [
+        [
+          "PBSw11",
+          "R"
+        ],
+        [
+          "PBSw13",
+          "N"
+        ]
+      ]
+    },
+    "PRtP41P32": {
+      "os": "POSCJ2",
+      "ends": [
+        "P32",
+        "P41"
+      ],
+      "signals": [
+        "PB12L",
+        "PB14R"
+      ],
+      "turnouts": [
+        [
+          "PBSw11",
+          "N"
+        ],
+        [
+          "PBSw13",
+          "R"
+        ]
+      ]
+    },
+    "PRtP41P42": {
+      "os": "POSCJ2",
+      "ends": [
+        "P42",
+        "P41"
+      ],
+      "signals": [
+        "PB12L",
+        "PB12R"
+      ],
+      "turnouts": [
+        [
+          "PBSw11",
+          "N"
+        ],
+        [
+          "PBSw13",
+          "N"
+        ]
+      ]
+    },
+    "PRtP30P31": {
+      "os": "POSSJ1",
+      "ends": [
+        "P31",
+        "P30"
+      ],
+      "signals": [
+        "PB4L",
+        "PB4R"
+      ],
+      "turnouts": [
+        [
+          "PBSw1",
+          "N"
+        ],
+        [
+          "PBSw3",
+          "N"
+        ]
+      ]
+    },
+    "PRtP30P41": {
+      "os": "POSSJ1",
+      "ends": [
+        "P41",
+        "P30"
+      ],
+      "signals": [
+        "PB4L",
+        "PB2R"
+      ],
+      "turnouts": [
+        [
+          "PBSw1",
+          "N"
+        ],
+        [
+          "PBSw3",
+          "R"
+        ]
+      ]
+    },
+    "PRtP40P31": {
+      "os": "POSSJ2",
+      "ends": [
+        "P31",
+        "P40"
+      ],
+      "signals": [
+        "PB2L",
+        "PB4R"
+      ],
+      "turnouts": [
+        [
+          "PBSw1",
+          "R"
+        ],
+        [
+          "PBSw3",
+          "N"
+        ]
+      ]
+    },
+    "PRtP40P41": {
+      "os": "POSSJ2",
+      "ends": [
+        "P41",
+        "P40"
+      ],
+      "signals": [
+        "PB2L",
+        "PB2R"
+      ],
+      "turnouts": [
+        [
+          "PBSw1",
+          "N"
+        ],
+        [
+          "PBSw3",
+          "N"
+        ]
+      ]
+    },
+    "PRtV11P50": {
+      "os": "POSPJ1",
+      "ends": [
+        "P50",
+        "V11"
+      ],
+      "signals": [
+        "PA34LA",
+        "PA34RA"
+      ],
+      "turnouts": [
+        [
+          "PASw27",
+          "N"
+        ],
+        [
+          "PASw29",
+          "N"
+        ],
+        [
+          "PASw31",
+          "R"
+        ],
+        [
+          "PASw35",
+          "N"
+        ],
+        [
+          "PASw37",
+          "R"
+        ]
+      ]
+    },
+    "PRtP60P50": {
+      "os": "POSPJ1",
+      "ends": [
+        "P50",
+        "P60"
+      ],
+      "signals": [
+        "PA34LA",
+        "PA34RB"
+      ],
+      "turnouts": [
+        [
+          "PASw27",
+          "R"
+        ],
+        [
+          "PASw29",
+          "N"
+        ],
+        [
+          "PASw31",
+          "R"
+        ],
+        [
+          "PASw35",
+          "N"
+        ],
+        [
+          "PASw37",
+          "R"
+        ]
+      ]
+    },
+    "PRtP61P50": {
+      "os": "POSPJ1",
+      "ends": [
+        "P50",
+        "P61"
+      ],
+      "signals": [
+        "PA34LA",
+        "PA34RC"
+      ],
+      "turnouts": [
+        [
+          "PASw29",
+          "R"
+        ],
+        [
+          "PASw31",
+          "R"
+        ],
+        [
+          "PASw35",
+          "N"
+        ],
+        [
+          "PASw37",
+          "R"
+        ]
+      ]
+    },
+    "PRtP10P50": {
+      "os": "POSPJ1",
+      "ends": [
+        "P50",
+        "P10"
+      ],
+      "signals": [
+        "PA34LA",
+        "PA34RD"
+      ],
+      "turnouts": [
+        [
+          "PASw31",
+          "N"
+        ],
+        [
+          "PASw35",
+          "N"
+        ],
+        [
+          "PASw37",
+          "R"
+        ]
+      ]
+    },
+    "PRtV11P11": {
+      "os": "POSPJ1",
+      "ends": [
+        "P11",
+        "V11"
+      ],
+      "signals": [
+        "PA34LB",
+        "PA34RA"
+      ],
+      "turnouts": [
+        [
+          "PASw27",
+          "N"
+        ],
+        [
+          "PASw29",
+          "N"
+        ],
+        [
+          "PASw31",
+          "R"
+        ],
+        [
+          "PASw35",
+          "N"
+        ],
+        [
+          "PASw37",
+          "N"
+        ]
+      ]
+    },
+    "PRtP60P11": {
+      "os": "POSPJ1",
+      "ends": [
+        "P11",
+        "P60"
+      ],
+      "signals": [
+        "PA34LB",
+        "PA34RB"
+      ],
+      "turnouts": [
+        [
+          "PASw27",
+          "R"
+        ],
+        [
+          "PASw29",
+          "N"
+        ],
+        [
+          "PASw31",
+          "R"
+        ],
+        [
+          "PASw35",
+          "N"
+        ],
+        [
+          "PASw37",
+          "N"
+        ]
+      ]
+    },
+    "PRtP61P11": {
+      "os": "POSPJ1",
+      "ends": [
+        "P11",
+        "P61"
+      ],
+      "signals": [
+        "PA34LB",
+        "PA34RC"
+      ],
+      "turnouts": [
+        [
+          "PASw29",
+          "R"
+        ],
+        [
+          "PASw31",
+          "R"
+        ],
+        [
+          "PASw35",
+          "N"
+        ],
+        [
+          "PASw37",
+          "N"
+        ]
+      ]
+    },
+    "PRtP10P11": {
+      "os": "POSPJ1",
+      "ends": [
+        "P11",
+        "P10"
+      ],
+      "signals": [
+        "PA34LB",
+        "PA34RD"
+      ],
+      "turnouts": [
+        [
+          "PASw31",
+          "N"
+        ],
+        [
+          "PASw35",
+          "N"
+        ],
+        [
+          "PASw37",
+          "N"
+        ]
+      ]
+    },
+    "PRtP20P50": {
+      "os": "POSPJ2",
+      "ends": [
+        "P50",
+        "P20"
+      ],
+      "signals": [
+        "PA32RA",
+        "PA34LA"
+      ],
+      "turnouts": [
+        [
+          "PASw33",
+          "N"
+        ],
+        [
+          "PASw35",
+          "R"
+        ],
+        [
+          "PASw37",
+          "R"
+        ]
+      ]
+    },
+    "PRtP30P50": {
+      "os": "POSPJ2",
+      "ends": [
+        "P50",
+        "P30"
+      ],
+      "signals": [
+        "PA34LA",
+        "PA32RB"
+      ],
+      "turnouts": [
+        [
+          "PASw33",
+          "R"
+        ],
+        [
+          "PASw35",
+          "R"
+        ],
+        [
+          "PASw37",
+          "R"
+        ]
+      ]
+    },
+    "PRtP20P11": {
+      "os": "POSPJ2",
+      "ends": [
+        "P11",
+        "P20"
+      ],
+      "signals": [
+        "PA32RA",
+        "PA34LB"
+      ],
+      "turnouts": [
+        [
+          "PASw33",
+          "N"
+        ],
+        [
+          "PASw35",
+          "R"
+        ],
+        [
+          "PASw37",
+          "N"
+        ]
+      ]
+    },
+    "PRtP30P11": {
+      "os": "POSPJ2",
+      "ends": [
+        "P11",
+        "P30"
+      ],
+      "signals": [
+        "PA32RB",
+        "PA34LB"
+      ],
+      "turnouts": [
+        [
+          "PASw33",
+          "R"
+        ],
+        [
+          "PASw35",
+          "R"
+        ],
+        [
+          "PASw37",
+          "N"
+        ]
+      ]
+    },
+    "PRtP20P21": {
+      "os": "POSPJ2",
+      "ends": [
+        "P21",
+        "P20"
+      ],
+      "signals": [
+        "PA32L",
+        "PA32RA"
+      ],
+      "turnouts": [
+        [
+          "PASw33",
+          "N"
+        ],
+        [
+          "PASw35",
+          "N"
+        ]
+      ]
+    },
+    "PRtP30P21": {
+      "os": "POSPJ2",
+      "ends": [
+        "P21",
+        "P30"
+      ],
+      "signals": [
+        "PA32RB",
+        "PA32L"
+      ],
+      "turnouts": [
+        [
+          "PASw33",
+          "R"
+        ],
+        [
+          "PASw35",
+          "N"
+        ]
+      ]
+    },
+    "PRtP7V10": {
+      "os": "POSSP1",
+      "ends": [
+        "P7",
+        "V10"
+      ],
+      "signals": [
+        "PA12R",
+        "PA12LA"
+      ],
+      "turnouts": [
+        [
+          "PASw15",
+          "R"
+        ],
+        [
+          "PASw17",
+          "N"
+        ]
+      ]
+    },
+    "PRtP7P60": {
+      "os": "POSSP1",
+      "ends": [
+        "P7",
+        "P60"
+      ],
+      "signals": [
+        "PA12R",
+        "PA12LB"
+      ],
+      "turnouts": [
+        [
+          "PASw15",
+          "R"
+        ],
+        [
+          "PASw17",
+          "R"
+        ]
+      ]
+    },
+    "PRtP7P61": {
+      "os": "POSSP1",
+      "ends": [
+        "P7",
+        "P61"
+      ],
+      "signals": [
+        "PA12R",
+        "PA12LC"
+      ],
+      "turnouts": [
+        [
+          "PASw15",
+          "N"
+        ],
+        [
+          "PASw19",
+          "N"
+        ]
+      ]
+    },
+    "PRtP7P10": {
+      "os": "POSSP2",
+      "ends": [
+        "P7",
+        "P10"
+      ],
+      "signals": [
+        "PA12R",
+        "PA10L"
+      ],
+      "turnouts": [
+        [
+          "PASw7",
+          "N"
+        ],
+        [
+          "PASw15",
+          "N"
+        ],
+        [
+          "PASw19",
+          "R"
+        ],
+        [
+          "PASw21",
+          "R"
+        ],
+        [
+          "PASw23",
+          "N"
+        ]
+      ]
+    },
+    "PRtP6P10": {
+      "os": "POSSP2",
+      "ends": [
+        "P6",
+        "P10"
+      ],
+      "signals": [
+        "PA10RA",
+        "PA10L"
+      ],
+      "turnouts": [
+        [
+          "PASw7",
+          "N"
+        ],
+        [
+          "PASw19",
+          "N"
+        ],
+        [
+          "PASw21",
+          "R"
+        ],
+        [
+          "PASw23",
+          "N"
+        ]
+      ]
+    },
+    "PRtP5P10": {
+      "os": "POSSP2",
+      "ends": [
+        "P5",
+        "P10"
+      ],
+      "signals": [
+        "PA10RB",
+        "PA10L"
+      ],
+      "turnouts": [
+        [
+          "PASw7",
+          "N"
+        ],
+        [
+          "PASw21",
+          "N"
+        ],
+        [
+          "PASw23",
+          "N"
+        ]
+      ]
+    },
+    "PRtP4P10": {
+      "os": "POSSP2",
+      "ends": [
+        "P4",
+        "P10"
+      ],
+      "signals": [
+        "PA8R",
+        "PA10L"
+      ],
+      "turnouts": [
+        [
+          "PASw5",
+          "N"
+        ],
+        [
+          "PASw7",
+          "R"
+        ],
+        [
+          "PASw23",
+          "N"
+        ]
+      ]
+    },
+    "PRtP3P10": {
+      "os": "POSSP2",
+      "ends": [
+        "P3",
+        "P10"
+      ],
+      "signals": [
+        "PA6R",
+        "PA10L"
+      ],
+      "turnouts": [
+        [
+          "PASw3",
+          "N"
+        ],
+        [
+          "PASw5",
+          "R"
+        ],
+        [
+          "PASw7",
+          "R"
+        ],
+        [
+          "PASw9",
+          "N"
+        ]
+      ]
+    },
+    "PRtP2P10": {
+      "os": "POSSP2",
+      "ends": [
+        "P2",
+        "P10"
+      ],
+      "signals": [
+        "PA4RA",
+        "PA10L"
+      ],
+      "turnouts": [
+        [
+          "PASw1",
+          "N"
+        ],
+        [
+          "PASw3",
+          "R"
+        ],
+        [
+          "PASw5",
+          "R"
+        ],
+        [
+          "PASw7",
+          "R"
+        ],
+        [
+          "PASw9",
+          "N"
+        ]
+      ]
+    },
+    "PRtP1P10": {
+      "os": "POSSP2",
+      "ends": [
+        "P1",
+        "P10"
+      ],
+      "signals": [
+        "PA4RB",
+        "PA10L"
+      ],
+      "turnouts": [
+        [
+          "PASw1",
+          "R"
+        ],
+        [
+          "PASw3",
+          "R"
+        ],
+        [
+          "PASw5",
+          "R"
+        ],
+        [
+          "PASw7",
+          "R"
+        ],
+        [
+          "PASw9",
+          "N"
+        ]
+      ]
+    },
+    "PRtP7P20": {
+      "os": "POSSP3",
+      "ends": [
+        "P7",
+        "P20"
+      ],
+      "signals": [
+        "PA12R",
+        "PA8L"
+      ],
+      "turnouts": [
+        [
+          "PASw5",
+          "N"
+        ],
+        [
+          "PASw7",
+          "N"
+        ],
+        [
+          "PASw15",
+          "N"
+        ],
+        [
+          "PASw19",
+          "R"
+        ],
+        [
+          "PASw21",
+          "R"
+        ],
+        [
+          "PASw23",
+          "R"
+        ]
+      ]
+    },
+    "PRtP6P20": {
+      "os": "POSSP3",
+      "ends": [
+        "P6",
+        "P20"
+      ],
+      "signals": [
+        "PA10RA",
+        "PA8L"
+      ],
+      "turnouts": [
+        [
+          "PASw5",
+          "N"
+        ],
+        [
+          "PASw7",
+          "N"
+        ],
+        [
+          "PASw19",
+          "N"
+        ],
+        [
+          "PASw21",
+          "R"
+        ],
+        [
+          "PASw23",
+          "R"
+        ]
+      ]
+    },
+    "PRtP5P20": {
+      "os": "POSSP3",
+      "ends": [
+        "P5",
+        "P20"
+      ],
+      "signals": [
+        "PA10RB",
+        "PA8L"
+      ],
+      "turnouts": [
+        [
+          "PASw5",
+          "N"
+        ],
+        [
+          "PASw7",
+          "N"
+        ],
+        [
+          "PASw21",
+          "N"
+        ],
+        [
+          "PASw23",
+          "R"
+        ]
+      ]
+    },
+    "PRtP4P20": {
+      "os": "POSSP3",
+      "ends": [
+        "P4",
+        "P20"
+      ],
+      "signals": [
+        "PA8R",
+        "PA8L"
+      ],
+      "turnouts": [
+        [
+          "PASw5",
+          "N"
+        ],
+        [
+          "PASw7",
+          "N"
+        ],
+        [
+          "PASw23",
+          "N"
+        ]
+      ]
+    },
+    "PRtP3P20": {
+      "os": "POSSP3",
+      "ends": [
+        "P3",
+        "P20"
+      ],
+      "signals": [
+        "PA6R",
+        "PA8L"
+      ],
+      "turnouts": [
+        [
+          "PASw3",
+          "N"
+        ],
+        [
+          "PASw5",
+          "R"
+        ],
+        [
+          "PASw7",
+          "N"
+        ],
+        [
+          "PASw9",
+          "N"
+        ]
+      ]
+    },
+    "PRtP2P20": {
+      "os": "POSSP3",
+      "ends": [
+        "P2",
+        "P20"
+      ],
+      "signals": [
+        "PA4RA",
+        "PA8L"
+      ],
+      "turnouts": [
+        [
+          "PASw1",
+          "N"
+        ],
+        [
+          "PASw3",
+          "R"
+        ],
+        [
+          "PASw5",
+          "R"
+        ],
+        [
+          "PASw7",
+          "N"
+        ],
+        [
+          "PASw9",
+          "N"
+        ]
+      ]
+    },
+    "PRtP1P20": {
+      "os": "POSSP3",
+      "ends": [
+        "P1",
+        "P20"
+      ],
+      "signals": [
+        "PA4RB",
+        "PA8L"
+      ],
+      "turnouts": [
+        [
+          "PASw1",
+          "R"
+        ],
+        [
+          "PASw3",
+          "R"
+        ],
+        [
+          "PASw5",
+          "R"
+        ],
+        [
+          "PASw7",
+          "N"
+        ],
+        [
+          "PASw9",
+          "N"
+        ]
+      ]
+    },
+    "PRtP3P62": {
+      "os": "POSSP4",
+      "ends": [
+        "P3",
+        "P62"
+      ],
+      "signals": [
+        "PA6R",
+        "PA6LA"
+      ],
+      "turnouts": [
+        [
+          "PASw3",
+          "N"
+        ],
+        [
+          "PASw5",
+          "N"
+        ],
+        [
+          "PASw9",
+          "N"
+        ],
+        [
+          "PASw11",
+          "N"
+        ]
+      ]
+    },
+    "PRtP3P63": {
+      "os": "POSSP4",
+      "ends": [
+        "P3",
+        "P63"
+      ],
+      "signals": [
+        "PA6R",
+        "PA6LB"
+      ],
+      "turnouts": [
+        [
+          "PASw3",
+          "N"
+        ],
+        [
+          "PASw5",
+          "N"
+        ],
+        [
+          "PASw9",
+          "N"
+        ],
+        [
+          "PASw11",
+          "R"
+        ],
+        [
+          "PASw13",
+          "R"
+        ]
+      ]
+    },
+    "PRtP3P64": {
+      "os": "POSSP4",
+      "ends": [
+        "P3",
+        "P64"
+      ],
+      "signals": [
+        "PA6R",
+        "PA6LC"
+      ],
+      "turnouts": [
+        [
+          "PASw3",
+          "N"
+        ],
+        [
+          "PASw5",
+          "N"
+        ],
+        [
+          "PASw9",
+          "N"
+        ],
+        [
+          "PASw11",
+          "R"
+        ],
+        [
+          "PASw13",
+          "N"
+        ]
+      ]
+    },
+    "PRtP2P62": {
+      "os": "POSSP4",
+      "ends": [
+        "P2",
+        "P62"
+      ],
+      "signals": [
+        "PA4RA",
+        "PA6LA"
+      ],
+      "turnouts": [
+        [
+          "PASw1",
+          "N"
+        ],
+        [
+          "PASw3",
+          "R"
+        ],
+        [
+          "PASw5",
+          "N"
+        ],
+        [
+          "PASw9",
+          "N"
+        ],
+        [
+          "PASw11",
+          "N"
+        ]
+      ]
+    },
+    "PRtP2P63": {
+      "os": "POSSP4",
+      "ends": [
+        "P2",
+        "P63"
+      ],
+      "signals": [
+        "PA4RA",
+        "PA6LB"
+      ],
+      "turnouts": [
+        [
+          "PASw1",
+          "N"
+        ],
+        [
+          "PASw3",
+          "R"
+        ],
+        [
+          "PASw5",
+          "N"
+        ],
+        [
+          "PASw9",
+          "N"
+        ],
+        [
+          "PASw11",
+          "R"
+        ],
+        [
+          "PASw13",
+          "R"
+        ]
+      ]
+    },
+    "PRtP2P64": {
+      "os": "POSSP4",
+      "ends": [
+        "P2",
+        "P64"
+      ],
+      "signals": [
+        "PA4RA",
+        "PA6LC"
+      ],
+      "turnouts": [
+        [
+          "PASw1",
+          "N"
+        ],
+        [
+          "PASw3",
+          "R"
+        ],
+        [
+          "PASw5",
+          "N"
+        ],
+        [
+          "PASw9",
+          "N"
+        ],
+        [
+          "PASw11",
+          "R"
+        ],
+        [
+          "PASw13",
+          "N"
+        ]
+      ]
+    },
+    "PRtP1P62": {
+      "os": "POSSP4",
+      "ends": [
+        "P1",
+        "P62"
+      ],
+      "signals": [
+        "PA4RB",
+        "PA6LA"
+      ],
+      "turnouts": [
+        [
+          "PASw1",
+          "R"
+        ],
+        [
+          "PASw3",
+          "R"
+        ],
+        [
+          "PASw5",
+          "N"
+        ],
+        [
+          "PASw9",
+          "N"
+        ],
+        [
+          "PASw11",
+          "N"
+        ]
+      ]
+    },
+    "PRtP1P63": {
+      "os": "POSSP4",
+      "ends": [
+        "P1",
+        "P63"
+      ],
+      "signals": [
+        "PA4RB",
+        "PA6LB"
+      ],
+      "turnouts": [
+        [
+          "PASw1",
+          "R"
+        ],
+        [
+          "PASw3",
+          "R"
+        ],
+        [
+          "PASw5",
+          "N"
+        ],
+        [
+          "PASw9",
+          "N"
+        ],
+        [
+          "PASw11",
+          "R"
+        ],
+        [
+          "PASw13",
+          "R"
+        ]
+      ]
+    },
+    "PRtP1P64": {
+      "os": "POSSP4",
+      "ends": [
+        "P1",
+        "P64"
+      ],
+      "signals": [
+        "PA4RB",
+        "PA6LC"
+      ],
+      "turnouts": [
+        [
+          "PASw1",
+          "R"
+        ],
+        [
+          "PASw3",
+          "R"
+        ],
+        [
+          "PASw5",
+          "N"
+        ],
+        [
+          "PASw9",
+          "N"
+        ],
+        [
+          "PASw11",
+          "R"
+        ],
+        [
+          "PASw13",
+          "N"
+        ]
+      ]
+    },
+    "PRtP3P40": {
+      "os": "POSSP5",
+      "ends": [
+        "P3",
+        "P40"
+      ],
+      "signals": [
+        "PA6R",
+        "PA4L"
+      ],
+      "turnouts": [
+        [
+          "PASw3",
+          "N"
+        ],
+        [
+          "PASw9",
+          "R"
+        ]
+      ]
+    },
+    "PRtP2P40": {
+      "os": "POSSP5",
+      "ends": [
+        "P2",
+        "P40"
+      ],
+      "signals": [
+        "PA4RA",
+        "PA4L"
+      ],
+      "turnouts": [
+        [
+          "PASw1",
+          "N"
+        ],
+        [
+          "PASw3",
+          "N"
+        ],
+        [
+          "PASw9",
+          "N"
+        ]
+      ]
+    },
+    "PRtP1P40": {
+      "os": "POSSP5",
+      "ends": [
+        "P1",
+        "P40"
+      ],
+      "signals": [
+        "PA4RB",
+        "PA4L"
+      ],
+      "turnouts": [
+        [
+          "PASw1",
+          "R"
+        ],
+        [
+          "PASw3",
+          "N"
+        ],
+        [
+          "PASw9",
+          "N"
+        ]
+      ]
+    }
+  },
+  "signals": {
+    "Y2L": {
+      "aspecttype": 50
+    },
+    "Y2R": {
+      "aspecttype": 50
+    },
+    "Y4L": {
+      "aspecttype": 50
+    },
+    "Y4RA": {
+      "aspecttype": 50
+    },
+    "Y4RB": {
+      "aspecttype": 50
+    },
+    "Y8LA": {
+      "aspecttype": 50
+    },
+    "Y8LB": {
+      "aspecttype": 50
+    },
+    "Y8LC": {
+      "aspecttype": 50
+    },
+    "Y8R": {
+      "aspecttype": 50
+    },
+    "Y10L": {
+      "aspecttype": 52
+    },
+    "Y10R": {
+      "aspecttype": 50
+    },
+    "Y22L": {
+      "aspecttype": 50
+    },
+    "Y22R": {
+      "aspecttype": 53
+    },
+    "Y24LA": {
+      "aspecttype": 50
+    },
+    "Y24LB": {
+      "aspecttype": 50
+    },
+    "Y26LA": {
+      "aspecttype": 50
+    },
+    "Y26LB": {
+      "aspecttype": 50
+    },
+    "Y26LC": {
+      "aspecttype": 50
+    },
+    "Y26R": {
+      "aspecttype": 50
+    },
+    "Y34L": {
+      "aspecttype": 50
+    },
+    "Y34RA": {
+      "aspecttype": 50
+    },
+    "Y34RB": {
+      "aspecttype": 50
+    },
+    "Y40RA": {
+      "aspecttype": 50
+    },
+    "Y40RB": {
+      "aspecttype": 50
+    },
+    "Y40RC": {
+      "aspecttype": 50
+    },
+    "Y40RD": {
+      "aspecttype": 50
+    },
+    "Y40L": {
+      "aspecttype": 50
+    },
+    "Y42R": {
+      "aspecttype": 50
+    },
+    "Y42LA": {
+      "aspecttype": 50
+    },
+    "Y42LB": {
+      "aspecttype": 50
+    },
+    "Y42LC": {
+      "aspecttype": 50
+    },
+    "Y42LD": {
+      "aspecttype": 50
+    },
+    "L8R": {
+      "aspecttype": 50
+    },
+    "L6RA": {
+      "aspecttype": 50
+    },
+    "L6RB": {
+      "aspecttype": 50
+    },
+    "L4R": {
+      "aspecttype": 50
+    },
+    "L8L": {
+      "aspecttype": 50
+    },
+    "L6L": {
+      "aspecttype": 50
+    },
+    "L4L": {
+      "aspecttype": 50
+    },
+    "L18R": {
+      "aspecttype": 50
+    },
+    "L16R": {
+      "aspecttype": 50
+    },
+    "L14R": {
+      "aspecttype": 50
+    },
+    "L18L": {
+      "aspecttype": 52
+    },
+    "L14L": {
+      "aspecttype": 50
+    },
+    "D6RA": {
+      "aspecttype": 50
+    },
+    "D6RB": {
+      "aspecttype": 50
+    },
+    "D4RA": {
+      "aspecttype": 50
+    },
+    "D4RB": {
+      "aspecttype": 50
+    },
+    "D6L": {
+      "aspecttype": 50
+    },
+    "D4L": {
+      "aspecttype": 50
+    },
+    "D12R": {
+      "aspecttype": 50
+    },
+    "D10R": {
+      "aspecttype": 50
+    },
+    "D12L": {
+      "aspecttype": 50
+    },
+    "D10L": {
+      "aspecttype": 50
+    },
+    "S12R": {
+      "aspecttype": 50
+    },
+    "S4R": {
+      "aspecttype": 50
+    },
+    "S12LA": {
+      "aspecttype": 50
+    },
+    "S12LB": {
+      "aspecttype": 50
+    },
+    "S12LC": {
+      "aspecttype": 50
+    },
+    "S4LA": {
+      "aspecttype": 50
+    },
+    "S4LB": {
+      "aspecttype": 50
+    },
+    "S4LC": {
+      "aspecttype": 50
+    },
+    "S8R": {
+      "aspecttype": 50
+    },
+    "S8L": {
+      "aspecttype": 50
+    },
+    "S16R": {
+      "aspecttype": 50
+    },
+    "S16L": {
+      "aspecttype": 50
+    },
+    "S18R": {
+      "aspecttype": 50
+    },
+    "S18LA": {
+      "aspecttype": 50
+    },
+    "S18LB": {
+      "aspecttype": 50
+    },
+    "S20R": {
+      "aspecttype": 50
+    },
+    "S20L": {
+      "aspecttype": 50
+    },
+    "K8R": {
+      "aspecttype": 50
+    },
+    "K4R": {
+      "aspecttype": 50
+    },
+    "K2R": {
+      "aspecttype": 50
+    },
+    "K8LA": {
+      "aspecttype": 50
+    },
+    "K8LB": {
+      "aspecttype": 50
+    },
+    "K2L": {
+      "aspecttype": 50
+    },
+    "N20W": {
+      "aspecttype": 50
+    },
+    "S21E": {
+      "aspecttype": 50
+    },
+    "N10W": {
+      "aspecttype": 50
+    },
+    "S11E": {
+      "aspecttype": 50
+    },
+    "N20R": {
+      "aspecttype": 53
+    },
+    "N18R": {
+      "aspecttype": 53
+    },
+    "N16R": {
+      "aspecttype": 53
+    },
+    "N14R": {
+      "aspecttype": 53
+    },
+    "N20L": {
+      "aspecttype": 53
+    },
+    "N18LA": {
+      "aspecttype": 53
+    },
+    "N18LB": {
+      "aspecttype": 53
+    },
+    "N16L": {
+      "aspecttype": 53
+    },
+    "N14LA": {
+      "aspecttype": 53
+    },
+    "N14LB": {
+      "aspecttype": 53
+    },
+    "N14LC": {
+      "aspecttype": 53
+    },
+    "N14LD": {
+      "aspecttype": 53
+    },
+    "N11W": {
+      "aspecttype": 50
+    },
+    "N21W": {
+      "aspecttype": 50
+    },
+    "N28R": {
+      "aspecttype": 53
+    },
+    "N26RA": {
+      "aspecttype": 53
+    },
+    "N26RB": {
+      "aspecttype": 53
+    },
+    "N26RC": {
+      "aspecttype": 53
+    },
+    "N24RA": {
+      "aspecttype": 53
+    },
+    "N24RB": {
+      "aspecttype": 53
+    },
+    "N24RC": {
+      "aspecttype": 53
+    },
+    "N24RD": {
+      "aspecttype": 53
+    },
+    "N28L": {
+      "aspecttype": 53
+    },
+    "N26L": {
+      "aspecttype": 53
+    },
+    "N24L": {
+      "aspecttype": 53
+    },
+    "B20E": {
+      "aspecttype": 52
+    },
+    "R10W": {
+      "aspecttype": 53
+    },
+    "C18LA": {
+      "aspecttype": 50
+    },
+    "C18LB": {
+      "aspecttype": 50
+    },
+    "C18R": {
+      "aspecttype": 50
+    },
+    "C22L": {
+      "aspecttype": 50
+    },
+    "C22R": {
+      "aspecttype": 50
+    },
+    "C24L": {
+      "aspecttype": 50
+    },
+    "C24R": {
+      "aspecttype": 50
+    },
+    "C14L": {
+      "aspecttype": 50
+    },
+    "C14RB": {
+      "aspecttype": 50
+    },
+    "C14RA": {
+      "aspecttype": 50
+    },
+    "C12L": {
+      "aspecttype": 50
+    },
+    "C12R": {
+      "aspecttype": 50
+    },
+    "C10L": {
+      "aspecttype": 50
+    },
+    "C10R": {
+      "aspecttype": 50
+    },
+    "C2LD": {
+      "aspecttype": 50
+    },
+    "C2LC": {
+      "aspecttype": 50
+    },
+    "C2LB": {
+      "aspecttype": 50
+    },
+    "C2LA": {
+      "aspecttype": 53
+    },
+    "C2R": {
+      "aspecttype": 51
+    },
+    "C4L": {
+      "aspecttype": 51
+    },
+    "C4RD": {
+      "aspecttype": 50
+    },
+    "C4RC": {
+      "aspecttype": 50
+    },
+    "C4RB": {
+      "aspecttype": 53
+    },
+    "C4RA": {
+      "aspecttype": 53
+    },
+    "C6LF": {
+      "aspecttype": 50
+    },
+    "C6LE": {
+      "aspecttype": 50
+    },
+    "C6LD": {
+      "aspecttype": 50
+    },
+    "C6LC": {
+      "aspecttype": 50
+    },
+    "C6LB": {
+      "aspecttype": 50
+    },
+    "C6LA": {
+      "aspecttype": 50
+    },
+    "C6LG": {
+      "aspecttype": 50
+    },
+    "C6LH": {
+      "aspecttype": 50
+    },
+    "C6LJ": {
+      "aspecttype": 50
+    },
+    "C6LK": {
+      "aspecttype": 50
+    },
+    "C6LL": {
+      "aspecttype": 50
+    },
+    "C6R": {
+      "aspecttype": 50
+    },
+    "C8L": {
+      "aspecttype": 50
+    },
+    "C8RF": {
+      "aspecttype": 50
+    },
+    "C8RE": {
+      "aspecttype": 50
+    },
+    "C8RD": {
+      "aspecttype": 50
+    },
+    "C8RC": {
+      "aspecttype": 50
+    },
+    "C8RB": {
+      "aspecttype": 50
+    },
+    "C8RA": {
+      "aspecttype": 50
+    },
+    "C8RG": {
+      "aspecttype": 50
+    },
+    "C8RH": {
+      "aspecttype": 50
+    },
+    "C8RJ": {
+      "aspecttype": 50
+    },
+    "C8RK": {
+      "aspecttype": 50
+    },
+    "C8RL": {
+      "aspecttype": 50
+    },
+    "H4LA": {
+      "aspecttype": 50
+    },
+    "H4LB": {
+      "aspecttype": 50
+    },
+    "H4LC": {
+      "aspecttype": 50
+    },
+    "H4LD": {
+      "aspecttype": 50
+    },
+    "H4R": {
+      "aspecttype": 50
+    },
+    "H6LA": {
+      "aspecttype": 50
+    },
+    "H6LB": {
+      "aspecttype": 50
+    },
+    "H6LC": {
+      "aspecttype": 50
+    },
+    "H6LD": {
+      "aspecttype": 50
+    },
+    "H6R": {
+      "aspecttype": 50
+    },
+    "H8L": {
+      "aspecttype": 50
+    },
+    "H8R": {
+      "aspecttype": 50
+    },
+    "H10L": {
+      "aspecttype": 50
+    },
+    "H10RA": {
+      "aspecttype": 50
+    },
+    "H10RB": {
+      "aspecttype": 50
+    },
+    "H10RC": {
+      "aspecttype": 50
+    },
+    "H10RD": {
+      "aspecttype": 50
+    },
+    "H10RE": {
+      "aspecttype": 50
+    },
+    "H12RA": {
+      "aspecttype": 50
+    },
+    "H12RB": {
+      "aspecttype": 50
+    },
+    "H12RC": {
+      "aspecttype": 50
+    },
+    "H12RD": {
+      "aspecttype": 50
+    },
+    "H12RE": {
+      "aspecttype": 50
+    },
+    "H12L": {
+      "aspecttype": 50
+    },
+    "PA12R": {
+      "aspecttype": 50
+    },
+    "PA12LA": {
+      "aspecttype": 50
+    },
+    "PA12LB": {
+      "aspecttype": 50
+    },
+    "PA12LC": {
+      "aspecttype": 50
+    },
+    "PA10RA": {
+      "aspecttype": 50
+    },
+    "PA10RB": {
+      "aspecttype": 50
+    },
+    "PA10L": {
+      "aspecttype": 50
+    },
+    "PA8R": {
+      "aspecttype": 50
+    },
+    "PA8L": {
+      "aspecttype": 50
+    },
+    "PA6R": {
+      "aspecttype": 50
+    },
+    "PA6LA": {
+      "aspecttype": 50
+    },
+    "PA6LB": {
+      "aspecttype": 50
+    },
+    "PA6LC": {
+      "aspecttype": 50
+    },
+    "PA4RA": {
+      "aspecttype": 50
+    },
+    "PA4RB": {
+      "aspecttype": 50
+    },
+    "PA4L": {
+      "aspecttype": 50
+    },
+    "PA32RA": {
+      "aspecttype": 50
+    },
+    "PA32RB": {
+      "aspecttype": 50
+    },
+    "PA32L": {
+      "aspecttype": 50
+    },
+    "PA34RA": {
+      "aspecttype": 50
+    },
+    "PA34RB": {
+      "aspecttype": 50
+    },
+    "PA34RC": {
+      "aspecttype": 50
+    },
+    "PA34RD": {
+      "aspecttype": 50
+    },
+    "PA34LA": {
+      "aspecttype": 50
+    },
+    "PA34LB": {
+      "aspecttype": 50
+    },
+    "PB2L": {
+      "aspecttype": 50
+    },
+    "PB2R": {
+      "aspecttype": 50
+    },
+    "PB4L": {
+      "aspecttype": 50
+    },
+    "PB4R": {
+      "aspecttype": 50
+    },
+    "PB14L": {
+      "aspecttype": 50
+    },
+    "PB14R": {
+      "aspecttype": 50
+    },
+    "PB12L": {
+      "aspecttype": 50
+    },
+    "PB12R": {
+      "aspecttype": 50
+    }
+  },
+  "crossover": [
+    [
+      "COSSHE",
+      "C20"
+    ],
+    [
+      "YOSCJE",
+      "P50"
+    ],
+    [
+      "YOSCJW",
+      "P50"
+    ],
+    [
+      "POSSJ1",
+      "P30"
+    ],
+    [
+      "SOSE",
+      "P32"
+    ],
+    [
+      "SOSW",
+      "P32"
+    ],
+    [
+      "YOSKL4",
+      "Y30"
+    ],
+    [
+      "YOSWYW",
+      "Y87"
+    ]
+  ]
+}

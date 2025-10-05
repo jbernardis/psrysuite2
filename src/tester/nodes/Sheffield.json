@@ -1,0 +1,212 @@
+{
+  "address": 149,
+  "description": "Sheffield",
+  "obytes": [
+    [
+      {
+        "label": "CC54E route",
+        "used": true
+      },
+      {
+        "label": "CC53E",
+        "used": true
+      },
+      {
+        "label": "CC52E",
+        "used": true
+      },
+      {
+        "label": "CC51E",
+        "used": true
+      },
+      {
+        "label": "CC50E",
+        "used": true
+      },
+      {
+        "label": "CC21E",
+        "used": true
+      },
+      {
+        "label": "CC40E",
+        "used": true
+      },
+      {
+        "label": "CC41E",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "CC42E route",
+        "used": true
+      },
+      {
+        "label": "CC43E",
+        "used": true
+      },
+      {
+        "label": "CC44E",
+        "used": true
+      },
+      {
+        "label": "CC54W",
+        "used": true
+      },
+      {
+        "label": "CC53W",
+        "used": true
+      },
+      {
+        "label": "CC52W",
+        "used": true
+      },
+      {
+        "label": "CC51W",
+        "used": true
+      },
+      {
+        "label": "CC50W",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "CC21W route",
+        "used": true
+      },
+      {
+        "label": "CC40W",
+        "used": true
+      },
+      {
+        "label": "CC41W",
+        "used": true
+      },
+      {
+        "label": "CC42W",
+        "used": true
+      },
+      {
+        "label": "CC43W",
+        "used": true
+      },
+      {
+        "label": "CC44W",
+        "used": true
+      },
+      {
+        "label": "CC30E",
+        "used": true
+      },
+      {
+        "label": "CC10E",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "CG10E route",
+        "used": true
+      },
+      {
+        "label": "CG12E",
+        "used": true
+      },
+      {
+        "label": "CC30W",
+        "used": true
+      },
+      {
+        "label": "CC31W",
+        "used": true
+      },
+      {
+        "label": "CC10W",
+        "used": true
+      },
+      {
+        "label": "CG21W",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ],
+  "ibytes": [
+    [
+      {
+        "label": "CC50E route",
+        "used": true
+      },
+      {
+        "label": "CC51E",
+        "used": true
+      },
+      {
+        "label": "CC52E",
+        "used": true
+      },
+      {
+        "label": "CC53E",
+        "used": true
+      },
+      {
+        "label": "CC54E",
+        "used": true
+      },
+      {
+        "label": "CC50W",
+        "used": true
+      },
+      {
+        "label": "CC51W",
+        "used": true
+      },
+      {
+        "label": "CC52W",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "CC53W route",
+        "used": true
+      },
+      {
+        "label": "CC54W",
+        "used": true
+      },
+      {
+        "label": "C50",
+        "used": true
+      },
+      {
+        "label": "C51",
+        "used": true
+      },
+      {
+        "label": "C52",
+        "used": true
+      },
+      {
+        "label": "C53",
+        "used": true
+      },
+      {
+        "label": "C54",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ]
+}

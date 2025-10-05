@@ -1,0 +1,246 @@
+{
+  "address": 65,
+  "description": "Dell",
+  "obytes": [
+    [
+      {
+        "label": "D4RA(0)",
+        "used": true
+      },
+      {
+        "label": "D4RA(1)",
+        "used": true
+      },
+      {
+        "label": "D4RA(2)",
+        "used": true
+      },
+      {
+        "label": "D4RB(0)",
+        "used": true
+      },
+      {
+        "label": "D4RB(1)",
+        "used": true
+      },
+      {
+        "label": "D4RB(2)",
+        "used": true
+      },
+      {
+        "label": "D6RA",
+        "used": true
+      },
+      {
+        "label": "D6RB",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "D4L(0)",
+        "used": true
+      },
+      {
+        "label": "D4L(1)",
+        "used": true
+      },
+      {
+        "label": "D4L(2)",
+        "used": true
+      },
+      {
+        "label": "D6L(0)",
+        "used": true
+      },
+      {
+        "label": "D6L(1)",
+        "used": true
+      },
+      {
+        "label": "D6L(2)",
+        "used": true
+      },
+      {
+        "label": "LAPX",
+        "used": true
+      },
+      {
+        "label": "H13.ind",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "D10.ind",
+        "used": true
+      },
+      {
+        "label": "S20.ind",
+        "used": true
+      },
+      {
+        "label": "DSw9.hslck",
+        "used": true
+      },
+      {
+        "label": "DSw1.N",
+        "used": true
+      },
+      {
+        "label": "DSw1.R",
+        "used": true
+      },
+      {
+        "label": "DSw3.N",
+        "used": true
+      },
+      {
+        "label": "DSw3.R",
+        "used": true
+      },
+      {
+        "label": "DSw5.N",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "DSw5.R",
+        "used": true
+      },
+      {
+        "label": "DSw7.N",
+        "used": true
+      },
+      {
+        "label": "DSw7.R",
+        "used": true
+      },
+      {
+        "label": "DSw11.N",
+        "used": true
+      },
+      {
+        "label": "DSw11.R",
+        "used": true
+      },
+      {
+        "label": "D20.srel",
+        "used": true
+      },
+      {
+        "label": "H23.srel",
+        "used": true
+      },
+      {
+        "label": "D11.srel",
+        "used": true
+      }
+    ]
+  ],
+  "ibytes": [
+    [
+      {
+        "label": "DSw1.N",
+        "used": true
+      },
+      {
+        "label": "DSw1.R",
+        "used": true
+      },
+      {
+        "label": "DSw3.N",
+        "used": true
+      },
+      {
+        "label": "DSw3.R",
+        "used": true
+      },
+      {
+        "label": "DSw5.N",
+        "used": true
+      },
+      {
+        "label": "DSw5.R",
+        "used": true
+      },
+      {
+        "label": "DSw7.N",
+        "used": true
+      },
+      {
+        "label": "DSw7.R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "DSw9.N",
+        "used": true
+      },
+      {
+        "label": "DSw9.R",
+        "used": true
+      },
+      {
+        "label": "DSw11.N",
+        "used": true
+      },
+      {
+        "label": "DSw11.R",
+        "used": true
+      },
+      {
+        "label": "D20",
+        "used": true
+      },
+      {
+        "label": "D20.E",
+        "used": true
+      },
+      {
+        "label": "H23",
+        "used": true
+      },
+      {
+        "label": "H23.E",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "DOSVJW",
+        "used": true
+      },
+      {
+        "label": "DOSVJE",
+        "used": true
+      },
+      {
+        "label": "D11.W",
+        "used": true
+      },
+      {
+        "label": "D11A",
+        "used": true
+      },
+      {
+        "label": "D11B",
+        "used": true
+      },
+      {
+        "label": "D11.E",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ]
+}

@@ -1,0 +1,144 @@
+{
+  "address": 19,
+  "description": "East End Jct",
+  "obytes": [
+    [
+      {
+        "label": "Y10L(0)",
+        "used": true
+      },
+      {
+        "label": "Y10L(1)",
+        "used": true
+      },
+      {
+        "label": "Y10L(2)",
+        "used": true
+      },
+      {
+        "label": "Y8LA",
+        "used": true
+      },
+      {
+        "label": "Y8LB",
+        "used": true
+      },
+      {
+        "label": "Y8LC",
+        "used": true
+      },
+      {
+        "label": "Y8R(0)",
+        "used": true
+      },
+      {
+        "label": "Y8R{1)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "Y8R(2)",
+        "used": true
+      },
+      {
+        "label": "Y10R",
+        "used": true
+      },
+      {
+        "label": "Y20.srel",
+        "used": true
+      },
+      {
+        "label": "Y11.srel",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ],
+  "ibytes": [
+    [
+      {
+        "label": "YSw7.N",
+        "used": true
+      },
+      {
+        "label": "YSw7.R",
+        "used": true
+      },
+      {
+        "label": "YSw9.N",
+        "used": true
+      },
+      {
+        "label": "YSw9.R",
+        "used": true
+      },
+      {
+        "label": "YSw11.N",
+        "used": true
+      },
+      {
+        "label": "YSw11.R",
+        "used": true
+      },
+      {
+        "label": "Y20",
+        "used": true
+      },
+      {
+        "label": "Y20.E",
+        "used": true
+      }
+   ],
+   [
+      {
+        "label": "YOSEJW",
+        "used": true
+      },
+      {
+        "label": "YOSEJE",
+        "used": true
+      },
+      {
+        "label": "Y11.W",
+        "used": true
+      },
+      {
+        "label": "Y11",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ]
+}

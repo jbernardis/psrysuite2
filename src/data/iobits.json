@@ -1,0 +1,9272 @@
+{
+  "blocks": {
+    "Y21.W": {
+      "occupancy": [
+        [
+          [
+            0,
+            4
+          ]
+        ],
+        20
+      ],
+      "indicators": []
+    },
+    "Y21": {
+      "occupancy": [
+        [
+          [
+            0,
+            5
+          ]
+        ],
+        20
+      ],
+      "indicators": []
+    },
+    "Y21.E": {
+      "occupancy": [
+        [
+          [
+            0,
+            6
+          ]
+        ],
+        20
+      ],
+      "indicators": []
+    },
+    "YOSCJW": {
+      "occupancy": [
+        [
+          [
+            0,
+            7
+          ]
+        ],
+        20
+      ],
+      "indicators": []
+    },
+    "YOSCJE": {
+      "occupancy": [
+        [
+          [
+            1,
+            0
+          ]
+        ],
+        20
+      ],
+      "indicators": []
+    },
+    "L10.W": {
+      "occupancy": [
+        [
+          [
+            1,
+            1
+          ]
+        ],
+        20
+      ],
+      "indicators": []
+    },
+    "L10": {
+      "occupancy": [
+        [
+          [
+            1,
+            2
+          ]
+        ],
+        20
+      ],
+      "indicators": [
+        [
+          [
+            [
+              3,
+              3
+            ]
+          ],
+          49
+        ]
+      ]
+    },
+    "Y20": {
+      "occupancy": [
+        [
+          [
+            0,
+            6
+          ]
+        ],
+        19
+      ],
+      "indicators": []
+    },
+    "Y20.E": {
+      "occupancy": [
+        [
+          [
+            0,
+            7
+          ]
+        ],
+        19
+      ],
+      "indicators": []
+    },
+    "YOSEJW": {
+      "occupancy": [
+        [
+          [
+            1,
+            0
+          ]
+        ],
+        19
+      ],
+      "indicators": []
+    },
+    "YOSEJE": {
+      "occupancy": [
+        [
+          [
+            1,
+            1
+          ]
+        ],
+        19
+      ],
+      "indicators": []
+    },
+    "Y11.W": {
+      "occupancy": [
+        [
+          [
+            1,
+            2
+          ]
+        ],
+        19
+      ],
+      "indicators": []
+    },
+    "Y11": {
+      "occupancy": [
+        [
+          [
+            1,
+            3
+          ]
+        ],
+        19
+      ],
+      "indicators": []
+    },
+    "Y30": {
+      "occupancy": [
+        [
+          [
+            1,
+            6
+          ]
+        ],
+        18
+      ],
+      "indicators": []
+    },
+    "YOSKL4": {
+      "occupancy": [
+        [
+          [
+            1,
+            7
+          ]
+        ],
+        18
+      ],
+      "indicators": []
+    },
+    "Y53": {
+      "occupancy": [
+        [
+          [
+            2,
+            0
+          ]
+        ],
+        18
+      ],
+      "indicators": []
+    },
+    "Y52": {
+      "occupancy": [
+        [
+          [
+            2,
+            1
+          ]
+        ],
+        18
+      ],
+      "indicators": []
+    },
+    "Y51": {
+      "occupancy": [
+        [
+          [
+            2,
+            2
+          ]
+        ],
+        18
+      ],
+      "indicators": []
+    },
+    "Y50": {
+      "occupancy": [
+        [
+          [
+            2,
+            3
+          ]
+        ],
+        18
+      ],
+      "indicators": []
+    },
+    "YOSKL2": {
+      "occupancy": [
+        [
+          [
+            2,
+            4
+          ]
+        ],
+        18
+      ],
+      "indicators": []
+    },
+    "YOSKL1": {
+      "occupancy": [
+        [
+          [
+            2,
+            5
+          ]
+        ],
+        18
+      ],
+      "indicators": []
+    },
+    "YOSKL3": {
+      "occupancy": [
+        [
+          [
+            2,
+            6
+          ]
+        ],
+        18
+      ],
+      "indicators": []
+    },
+    "Y10": {
+      "occupancy": [
+        [
+          [
+            2,
+            7
+          ]
+        ],
+        18
+      ],
+      "indicators": []
+    },
+    "L20": {
+      "occupancy": [
+        [
+          [
+            1,
+            2
+          ]
+        ],
+        49
+      ],
+      "indicators": [
+        [
+          [
+            [
+              4,
+              1
+            ]
+          ],
+          17
+        ]
+      ]
+    },
+    "P50": {
+      "occupancy": [
+        [
+          [
+            2,
+            4
+          ]
+        ],
+        33
+      ],
+      "indicators": [
+        [
+          [
+            [
+              4,
+              2
+            ]
+          ],
+          17
+        ]
+      ]
+    },
+    "Y70": {
+      "occupancy": [
+        [
+          [
+            4,
+            3
+          ]
+        ],
+        17
+      ],
+      "indicators": []
+    },
+    "YOSWYE": {
+      "occupancy": [
+        [
+          [
+            4,
+            4
+          ]
+        ],
+        17
+      ],
+      "indicators": []
+    },
+    "Y82": {
+      "occupancy": [
+        [
+          [
+            4,
+            6
+          ]
+        ],
+        17
+      ],
+      "indicators": []
+    },
+    "Y83": {
+      "occupancy": [
+        [
+          [
+            4,
+            7
+          ]
+        ],
+        17
+      ],
+      "indicators": []
+    },
+    "Y84": {
+      "occupancy": [
+        [
+          [
+            5,
+            0
+          ]
+        ],
+        17
+      ],
+      "indicators": []
+    },
+    "YOSWYW": {
+      "occupancy": [
+        [
+          [
+            5,
+            1
+          ]
+        ],
+        17
+      ],
+      "indicators": []
+    },
+    "Y87": {
+      "occupancy": [
+        [
+          [
+            5,
+            2
+          ]
+        ],
+        17
+      ],
+      "indicators": []
+    },
+    "Y81": {
+      "occupancy": [
+        [
+          [
+            5,
+            3
+          ]
+        ],
+        17
+      ],
+      "indicators": []
+    },
+    "Y60": {
+      "occupancy": [
+        [],
+        17
+      ],
+      "indicators": []
+    },
+    "L31": {
+      "occupancy": [
+        [
+          [
+            1,
+            0
+          ]
+        ],
+        50
+      ],
+      "indicators": [
+        [
+          [
+            [
+              3,
+              4
+            ]
+          ],
+          49
+        ]
+      ]
+    },
+    "P11": {
+      "occupancy": [
+        [
+          [
+            2,
+            7
+          ]
+        ],
+        33
+      ],
+      "indicators": [
+        [
+          [
+            [
+              3,
+              5
+            ]
+          ],
+          49
+        ]
+      ]
+    },
+    "L20.E": {
+      "occupancy": [
+        [
+          [
+            1,
+            3
+          ]
+        ],
+        49
+      ],
+      "indicators": []
+    },
+    "P21": {
+      "occupancy": [
+        [
+          [
+            1,
+            4
+          ]
+        ],
+        49
+      ],
+      "indicators": [
+        [
+          [
+            [
+              5,
+              4
+            ]
+          ],
+          34
+        ]
+      ]
+    },
+    "P21.E": {
+      "occupancy": [
+        [
+          [
+            1,
+            5
+          ]
+        ],
+        49
+      ],
+      "indicators": []
+    },
+    "LOSLAW": {
+      "occupancy": [
+        [
+          [
+            1,
+            6
+          ]
+        ],
+        49
+      ],
+      "indicators": []
+    },
+    "LOSLAM": {
+      "occupancy": [
+        [
+          [
+            1,
+            7
+          ]
+        ],
+        49
+      ],
+      "indicators": []
+    },
+    "LOSLAE": {
+      "occupancy": [
+        [
+          [
+            2,
+            0
+          ]
+        ],
+        49
+      ],
+      "indicators": []
+    },
+    "L11.W": {
+      "occupancy": [
+        [
+          [
+            2,
+            1
+          ]
+        ],
+        49
+      ],
+      "indicators": []
+    },
+    "L11": {
+      "occupancy": [
+        [
+          [
+            2,
+            2
+          ]
+        ],
+        49
+      ],
+      "indicators": []
+    },
+    "L21.W": {
+      "occupancy": [
+        [
+          [
+            2,
+            3
+          ]
+        ],
+        49
+      ],
+      "indicators": []
+    },
+    "L21": {
+      "occupancy": [
+        [
+          [
+            2,
+            4
+          ]
+        ],
+        49
+      ],
+      "indicators": []
+    },
+    "L21.E": {
+      "occupancy": [
+        [
+          [
+            2,
+            5
+          ]
+        ],
+        49
+      ],
+      "indicators": []
+    },
+    "L31.E": {
+      "occupancy": [
+        [
+          [
+            1,
+            1
+          ]
+        ],
+        50
+      ],
+      "indicators": []
+    },
+    "LOSCAW": {
+      "occupancy": [
+        [
+          [
+            1,
+            2
+          ]
+        ],
+        50
+      ],
+      "indicators": []
+    },
+    "LOSCAM": {
+      "occupancy": [
+        [
+          [
+            1,
+            3
+          ]
+        ],
+        50
+      ],
+      "indicators": []
+    },
+    "LOSCAE": {
+      "occupancy": [
+        [
+          [
+            1,
+            4
+          ]
+        ],
+        50
+      ],
+      "indicators": []
+    },
+    "D10.W": {
+      "occupancy": [
+        [
+          [
+            1,
+            5
+          ]
+        ],
+        50
+      ],
+      "indicators": []
+    },
+    "D10": {
+      "occupancy": [
+        [
+          [
+            1,
+            6
+          ]
+        ],
+        50
+      ],
+      "indicators": [
+        [
+          [
+            [
+              2,
+              0
+            ]
+          ],
+          65
+        ]
+      ]
+    },
+    "S21.W": {
+      "occupancy": [
+        [
+          [
+            2,
+            0
+          ]
+        ],
+        50
+      ],
+      "indicators": []
+    },
+    "S21": {
+      "occupancy": [
+        [
+          [
+            2,
+            1
+          ]
+        ],
+        50
+      ],
+      "indicators": [
+        [
+          [
+            [
+              3,
+              4
+            ]
+          ],
+          97
+        ]
+      ]
+    },
+    "S21.E": {
+      "occupancy": [
+        [
+          [
+            2,
+            2
+          ]
+        ],
+        50
+      ],
+      "indicators": []
+    },
+    "N25.W": {
+      "occupancy": [
+        [
+          [
+            2,
+            3
+          ]
+        ],
+        50
+      ],
+      "indicators": []
+    },
+    "N25": {
+      "occupancy": [
+        [
+          [
+            2,
+            4
+          ]
+        ],
+        50
+      ],
+      "indicators": []
+    },
+    "N25.E": {
+      "occupancy": [
+        [
+          [
+            2,
+            5
+          ]
+        ],
+        50
+      ],
+      "indicators": []
+    },
+    "H13": {
+      "occupancy": [
+        [
+          [
+            4,
+            6
+          ]
+        ],
+        82
+      ],
+      "indicators": [
+        [
+          [
+            [
+              1,
+              7
+            ]
+          ],
+          65
+        ]
+      ]
+    },
+    "S20": {
+      "occupancy": [
+        [],
+        97
+      ],
+      "indicators": [
+        [
+          [
+            [
+              2,
+              1
+            ]
+          ],
+          65
+        ]
+      ]
+    },
+    "D20": {
+      "occupancy": [
+        [
+          [
+            1,
+            4
+          ]
+        ],
+        65
+      ],
+      "indicators": []
+    },
+    "D20.E": {
+      "occupancy": [
+        [
+          [
+            1,
+            5
+          ]
+        ],
+        65
+      ],
+      "indicators": []
+    },
+    "H23": {
+      "occupancy": [
+        [
+          [
+            1,
+            6
+          ]
+        ],
+        65
+      ],
+      "indicators": [
+        [
+          [
+            [
+              3,
+              4
+            ]
+          ],
+          82
+        ]
+      ]
+    },
+    "H23.E": {
+      "occupancy": [
+        [
+          [
+            1,
+            7
+          ]
+        ],
+        65
+      ],
+      "indicators": []
+    },
+    "DOSVJW": {
+      "occupancy": [
+        [
+          [
+            2,
+            0
+          ]
+        ],
+        65
+      ],
+      "indicators": []
+    },
+    "DOSVJE": {
+      "occupancy": [
+        [
+          [
+            2,
+            1
+          ]
+        ],
+        65
+      ],
+      "indicators": []
+    },
+    "D11.W": {
+      "occupancy": [
+        [
+          [
+            2,
+            2
+          ]
+        ],
+        65
+      ],
+      "indicators": []
+    },
+    "D11A": {
+      "occupancy": [
+        [
+          [
+            2,
+            3
+          ]
+        ],
+        65
+      ],
+      "indicators": []
+    },
+    "D11B": {
+      "occupancy": [
+        [
+          [
+            2,
+            4
+          ]
+        ],
+        65
+      ],
+      "indicators": []
+    },
+    "D11": {
+      "occupancy": [
+        [],
+        65
+      ],
+      "indicators": []
+    },
+    "D11.E": {
+      "occupancy": [
+        [
+          [
+            2,
+            5
+          ]
+        ],
+        65
+      ],
+      "indicators": []
+    },
+    "D21.W": {
+      "occupancy": [
+        [
+          [
+            0,
+            0
+          ]
+        ],
+        66
+      ],
+      "indicators": []
+    },
+    "D21A": {
+      "occupancy": [
+        [
+          [
+            0,
+            1
+          ]
+        ],
+        66
+      ],
+      "indicators": []
+    },
+    "D21B": {
+      "occupancy": [
+        [
+          [
+            0,
+            2
+          ]
+        ],
+        66
+      ],
+      "indicators": []
+    },
+    "D21": {
+      "occupancy": [
+        [],
+        66
+      ],
+      "indicators": []
+    },
+    "D21.E": {
+      "occupancy": [
+        [
+          [
+            0,
+            3
+          ]
+        ],
+        66
+      ],
+      "indicators": []
+    },
+    "DOSFOW": {
+      "occupancy": [
+        [
+          [
+            0,
+            4
+          ]
+        ],
+        66
+      ],
+      "indicators": []
+    },
+    "DOSFOE": {
+      "occupancy": [
+        [
+          [
+            0,
+            5
+          ]
+        ],
+        66
+      ],
+      "indicators": []
+    },
+    "S10.W": {
+      "occupancy": [
+        [
+          [
+            0,
+            6
+          ]
+        ],
+        66
+      ],
+      "indicators": []
+    },
+    "S10A": {
+      "occupancy": [
+        [
+          [
+            0,
+            7
+          ]
+        ],
+        66
+      ],
+      "indicators": []
+    },
+    "S10B": {
+      "occupancy": [
+        [
+          [
+            1,
+            0
+          ]
+        ],
+        66
+      ],
+      "indicators": []
+    },
+    "S10C": {
+      "occupancy": [
+        [
+          [
+            1,
+            1
+          ]
+        ],
+        66
+      ],
+      "indicators": []
+    },
+    "S10.E": {
+      "occupancy": [
+        [
+          [
+            1,
+            2
+          ]
+        ],
+        66
+      ],
+      "indicators": []
+    },
+    "S10": {
+      "occupancy": [
+        [],
+        66
+      ],
+      "indicators": [
+        [
+          [
+            [
+              3,
+              2
+            ]
+          ],
+          97
+        ]
+      ]
+    },
+    "R10.W": {
+      "occupancy": [
+        [
+          [
+            1,
+            3
+          ]
+        ],
+        66
+      ],
+      "indicators": []
+    },
+    "R10A": {
+      "occupancy": [
+        [
+          [
+            1,
+            4
+          ]
+        ],
+        66
+      ],
+      "indicators": []
+    },
+    "R10B": {
+      "occupancy": [
+        [
+          [
+            1,
+            5
+          ]
+        ],
+        66
+      ],
+      "indicators": []
+    },
+    "R10C": {
+      "occupancy": [
+        [
+          [
+            1,
+            6
+          ]
+        ],
+        66
+      ],
+      "indicators": []
+    },
+    "R10": {
+      "occupancy": [
+        [],
+        66
+      ],
+      "indicators": [
+        [
+          [
+            [
+              3,
+              0
+            ]
+          ],
+          114
+        ]
+      ]
+    },
+    "R11": {
+      "occupancy": [
+        [
+          [
+            1,
+            7
+          ]
+        ],
+        66
+      ],
+      "indicators": []
+    },
+    "R12": {
+      "occupancy": [
+        [
+          [
+            2,
+            0
+          ]
+        ],
+        66
+      ],
+      "indicators": []
+    },
+    "H20": {
+      "occupancy": [
+        [
+          [
+            0,
+            6
+          ]
+        ],
+        81
+      ],
+      "indicators": [
+        [
+          [
+            [
+              3,
+              3
+            ]
+          ],
+          97
+        ]
+      ]
+    },
+    "P32": {
+      "occupancy": [
+        [
+          [
+            2,
+            6
+          ]
+        ],
+        35
+      ],
+      "indicators": [
+        [
+          [
+            [
+              3,
+              5
+            ]
+          ],
+          97
+        ]
+      ]
+    },
+    "S20.W": {
+      "occupancy": [
+        [
+          [
+            1,
+            6
+          ]
+        ],
+        97
+      ],
+      "indicators": []
+    },
+    "S20A": {
+      "occupancy": [
+        [
+          [
+            1,
+            7
+          ]
+        ],
+        97
+      ],
+      "indicators": []
+    },
+    "S20C": {
+      "occupancy": [
+        [
+          [
+            2,
+            0
+          ]
+        ],
+        97
+      ],
+      "indicators": []
+    },
+    "S20B": {
+      "occupancy": [
+        [
+          [
+            2,
+            1
+          ]
+        ],
+        97
+      ],
+      "indicators": []
+    },
+    "S20.E": {
+      "occupancy": [
+        [
+          [
+            2,
+            2
+          ]
+        ],
+        97
+      ],
+      "indicators": []
+    },
+    "SOSW": {
+      "occupancy": [
+        [
+          [
+            2,
+            3
+          ]
+        ],
+        97
+      ],
+      "indicators": []
+    },
+    "SOSE": {
+      "occupancy": [
+        [
+          [
+            2,
+            4
+          ]
+        ],
+        97
+      ],
+      "indicators": []
+    },
+    "S11.W": {
+      "occupancy": [
+        [
+          [
+            2,
+            5
+          ]
+        ],
+        97
+      ],
+      "indicators": []
+    },
+    "S11A": {
+      "occupancy": [
+        [
+          [
+            4,
+            4
+          ]
+        ],
+        97
+      ],
+      "indicators": []
+    },
+    "S11B": {
+      "occupancy": [
+        [
+          [
+            2,
+            6
+          ]
+        ],
+        97
+      ],
+      "indicators": []
+    },
+    "S11.E": {
+      "occupancy": [
+        [
+          [
+            2,
+            7
+          ]
+        ],
+        97
+      ],
+      "indicators": []
+    },
+    "S11": {
+      "occupancy": [
+        [],
+        97
+      ],
+      "indicators": []
+    },
+    "H30.W": {
+      "occupancy": [
+        [
+          [
+            3,
+            0
+          ]
+        ],
+        97
+      ],
+      "indicators": []
+    },
+    "H30A": {
+      "occupancy": [
+        [
+          [
+            4,
+            5
+          ]
+        ],
+        97
+      ],
+      "indicators": []
+    },
+    "H30B": {
+      "occupancy": [
+        [
+          [
+            3,
+            1
+          ]
+        ],
+        97
+      ],
+      "indicators": []
+    },
+    "H30": {
+      "occupancy": [
+        [],
+        97
+      ],
+      "indicators": [
+        [
+          [
+            [
+              3,
+              2
+            ]
+          ],
+          82
+        ]
+      ]
+    },
+    "H10.W": {
+      "occupancy": [
+        [
+          [
+            3,
+            2
+          ]
+        ],
+        97
+      ],
+      "indicators": []
+    },
+    "H10A": {
+      "occupancy": [
+        [
+          [
+            4,
+            6
+          ]
+        ],
+        97
+      ],
+      "indicators": []
+    },
+    "H10B": {
+      "occupancy": [
+        [
+          [
+            3,
+            3
+          ]
+        ],
+        97
+      ],
+      "indicators": []
+    },
+    "H10": {
+      "occupancy": [
+        [],
+        97
+      ],
+      "indicators": [
+        [
+          [
+            [
+              3,
+              3
+            ]
+          ],
+          82
+        ]
+      ]
+    },
+    "F10": {
+      "occupancy": [
+        [
+          [
+            3,
+            4
+          ]
+        ],
+        97
+      ],
+      "indicators": []
+    },
+    "F10.E": {
+      "occupancy": [
+        [
+          [
+            3,
+            5
+          ]
+        ],
+        97
+      ],
+      "indicators": []
+    },
+    "SOSHF": {
+      "occupancy": [
+        [
+          [
+            3,
+            6
+          ]
+        ],
+        97
+      ],
+      "indicators": []
+    },
+    "F11.W": {
+      "occupancy": [
+        [
+          [
+            3,
+            7
+          ]
+        ],
+        97
+      ],
+      "indicators": []
+    },
+    "F11": {
+      "occupancy": [
+        [
+          [
+            4,
+            0
+          ]
+        ],
+        97
+      ],
+      "indicators": []
+    },
+    "H20.E": {
+      "occupancy": [
+        [
+          [
+            0,
+            7
+          ]
+        ],
+        81
+      ],
+      "indicators": []
+    },
+    "P42.W": {
+      "occupancy": [
+        [
+          [
+            1,
+            0
+          ]
+        ],
+        81
+      ],
+      "indicators": []
+    },
+    "P42": {
+      "occupancy": [
+        [
+          [
+            1,
+            1
+          ]
+        ],
+        81
+      ],
+      "indicators": [
+        [
+          [
+            [
+              5,
+              1
+            ]
+          ],
+          35
+        ]
+      ]
+    },
+    "P42.E": {
+      "occupancy": [
+        [
+          [
+            1,
+            2
+          ]
+        ],
+        81
+      ],
+      "indicators": []
+    },
+    "SOSHJW": {
+      "occupancy": [
+        [
+          [
+            1,
+            3
+          ]
+        ],
+        81
+      ],
+      "indicators": []
+    },
+    "SOSHJM": {
+      "occupancy": [
+        [
+          [
+            1,
+            4
+          ]
+        ],
+        81
+      ],
+      "indicators": []
+    },
+    "SOSHJE": {
+      "occupancy": [
+        [
+          [
+            1,
+            5
+          ]
+        ],
+        81
+      ],
+      "indicators": []
+    },
+    "H11.W": {
+      "occupancy": [
+        [
+          [
+            1,
+            6
+          ]
+        ],
+        81
+      ],
+      "indicators": []
+    },
+    "H11": {
+      "occupancy": [
+        [
+          [
+            1,
+            7
+          ]
+        ],
+        81
+      ],
+      "indicators": []
+    },
+    "N10.W": {
+      "occupancy": [
+        [
+          [
+            1,
+            2
+          ]
+        ],
+        113
+      ],
+      "indicators": []
+    },
+    "N10": {
+      "occupancy": [
+        [
+          [
+            1,
+            3
+          ]
+        ],
+        113
+      ],
+      "indicators": []
+    },
+    "N10.E": {
+      "occupancy": [
+        [
+          [
+            1,
+            4
+          ]
+        ],
+        113
+      ],
+      "indicators": []
+    },
+    "N20.W": {
+      "occupancy": [
+        [
+          [
+            1,
+            5
+          ]
+        ],
+        113
+      ],
+      "indicators": []
+    },
+    "N20": {
+      "occupancy": [
+        [
+          [
+            1,
+            6
+          ]
+        ],
+        113
+      ],
+      "indicators": []
+    },
+    "N20.E": {
+      "occupancy": [
+        [
+          [
+            1,
+            7
+          ]
+        ],
+        113
+      ],
+      "indicators": []
+    },
+    "KOSW": {
+      "occupancy": [
+        [
+          [
+            2,
+            0
+          ]
+        ],
+        113
+      ],
+      "indicators": []
+    },
+    "KOSM": {
+      "occupancy": [
+        [
+          [
+            2,
+            1
+          ]
+        ],
+        113
+      ],
+      "indicators": []
+    },
+    "KOSE": {
+      "occupancy": [
+        [
+          [
+            2,
+            2
+          ]
+        ],
+        113
+      ],
+      "indicators": []
+    },
+    "N11.W": {
+      "occupancy": [
+        [
+          [
+            2,
+            3
+          ]
+        ],
+        113
+      ],
+      "indicators": []
+    },
+    "N11": {
+      "occupancy": [
+        [
+          [
+            2,
+            4
+          ]
+        ],
+        113
+      ],
+      "indicators": []
+    },
+    "N11.E": {
+      "occupancy": [
+        [
+          [
+            2,
+            5
+          ]
+        ],
+        113
+      ],
+      "indicators": []
+    },
+    "B20": {
+      "occupancy": [
+        [
+          [
+            1,
+            2
+          ]
+        ],
+        129
+      ],
+      "indicators": [
+        [
+          [
+            [
+              3,
+              1
+            ]
+          ],
+          114
+        ]
+      ]
+    },
+    "N21.W": {
+      "occupancy": [
+        [
+          [
+            2,
+            0
+          ]
+        ],
+        114
+      ],
+      "indicators": []
+    },
+    "N21": {
+      "occupancy": [
+        [
+          [
+            2,
+            1
+          ]
+        ],
+        114
+      ],
+      "indicators": []
+    },
+    "N21.E": {
+      "occupancy": [
+        [
+          [
+            2,
+            2
+          ]
+        ],
+        114
+      ],
+      "indicators": []
+    },
+    "NWOSTY": {
+      "occupancy": [
+        [
+          [
+            2,
+            3
+          ]
+        ],
+        114
+      ],
+      "indicators": []
+    },
+    "NWOSCY": {
+      "occupancy": [
+        [
+          [
+            2,
+            4
+          ]
+        ],
+        114
+      ],
+      "indicators": []
+    },
+    "NWOSW": {
+      "occupancy": [
+        [
+          [
+            2,
+            5
+          ]
+        ],
+        114
+      ],
+      "indicators": []
+    },
+    "NWOSE": {
+      "occupancy": [
+        [
+          [
+            2,
+            6
+          ]
+        ],
+        114
+      ],
+      "indicators": []
+    },
+    "N32": {
+      "occupancy": [
+        [
+          [
+            2,
+            7
+          ]
+        ],
+        114
+      ],
+      "indicators": []
+    },
+    "N31": {
+      "occupancy": [
+        [
+          [
+            3,
+            0
+          ]
+        ],
+        114
+      ],
+      "indicators": []
+    },
+    "N12": {
+      "occupancy": [
+        [
+          [
+            3,
+            1
+          ]
+        ],
+        114
+      ],
+      "indicators": []
+    },
+    "T12": {
+      "occupancy": [
+        [],
+        114
+      ],
+      "indicators": []
+    },
+    "W10": {
+      "occupancy": [
+        [],
+        114
+      ],
+      "indicators": []
+    },
+    "W11": {
+      "occupancy": [
+        [],
+        114
+      ],
+      "indicators": []
+    },
+    "W20": {
+      "occupancy": [
+        [],
+        114
+      ],
+      "indicators": []
+    },
+    "N60": {
+      "occupancy": [
+        [],
+        114
+      ],
+      "indicators": []
+    },
+    "N22": {
+      "occupancy": [
+        [
+          [
+            2,
+            0
+          ]
+        ],
+        115
+      ],
+      "indicators": []
+    },
+    "N41": {
+      "occupancy": [
+        [
+          [
+            2,
+            1
+          ]
+        ],
+        115
+      ],
+      "indicators": []
+    },
+    "N42": {
+      "occupancy": [
+        [
+          [
+            2,
+            2
+          ]
+        ],
+        115
+      ],
+      "indicators": []
+    },
+    "NEOSRH": {
+      "occupancy": [
+        [
+          [
+            2,
+            3
+          ]
+        ],
+        115
+      ],
+      "indicators": []
+    },
+    "NEOSW": {
+      "occupancy": [
+        [
+          [
+            2,
+            4
+          ]
+        ],
+        115
+      ],
+      "indicators": []
+    },
+    "NEOSE": {
+      "occupancy": [
+        [
+          [
+            2,
+            5
+          ]
+        ],
+        115
+      ],
+      "indicators": []
+    },
+    "B10.W": {
+      "occupancy": [
+        [
+          [
+            2,
+            6
+          ]
+        ],
+        115
+      ],
+      "indicators": []
+    },
+    "B10": {
+      "occupancy": [
+        [
+          [
+            2,
+            7
+          ]
+        ],
+        115
+      ],
+      "indicators": [
+        [
+          [
+            [
+              2,
+              1
+            ]
+          ],
+          129
+        ],
+        [
+          [
+            [
+              5,
+              2
+            ]
+          ],
+          147
+        ]
+      ]
+    },
+    "C13": {
+      "occupancy": [
+        [
+          [
+            1,
+            1
+          ]
+        ],
+        145
+      ],
+      "indicators": [
+        [
+          [
+            [
+              2,
+              2
+            ]
+          ],
+          129
+        ]
+      ]
+    },
+    "B20.E": {
+      "occupancy": [
+        [
+          [
+            1,
+            3
+          ]
+        ],
+        129
+      ],
+      "indicators": []
+    },
+    "BOSWW": {
+      "occupancy": [
+        [
+          [
+            1,
+            4
+          ]
+        ],
+        129
+      ],
+      "indicators": []
+    },
+    "BOSWE": {
+      "occupancy": [
+        [
+          [
+            1,
+            5
+          ]
+        ],
+        129
+      ],
+      "indicators": []
+    },
+    "B11.W": {
+      "occupancy": [
+        [
+          [
+            1,
+            6
+          ]
+        ],
+        129
+      ],
+      "indicators": []
+    },
+    "B11": {
+      "occupancy": [
+        [
+          [
+            1,
+            7
+          ]
+        ],
+        129
+      ],
+      "indicators": []
+    },
+    "B21.W": {
+      "occupancy": [
+        [
+          [
+            2,
+            0
+          ]
+        ],
+        129
+      ],
+      "indicators": []
+    },
+    "B21": {
+      "occupancy": [
+        [
+          [
+            2,
+            1
+          ]
+        ],
+        129
+      ],
+      "indicators": []
+    },
+    "B21.E": {
+      "occupancy": [
+        [
+          [
+            2,
+            2
+          ]
+        ],
+        129
+      ],
+      "indicators": []
+    },
+    "BOSE": {
+      "occupancy": [
+        [
+          [
+            2,
+            3
+          ]
+        ],
+        129
+      ],
+      "indicators": []
+    },
+    "C13.W": {
+      "occupancy": [
+        [
+          [
+            1,
+            0
+          ]
+        ],
+        145
+      ],
+      "indicators": []
+    },
+    "C13.E": {
+      "occupancy": [
+        [
+          [
+            1,
+            2
+          ]
+        ],
+        145
+      ],
+      "indicators": []
+    },
+    "COSCLW": {
+      "occupancy": [
+        [
+          [
+            1,
+            3
+          ]
+        ],
+        145
+      ],
+      "indicators": []
+    },
+    "C12.W": {
+      "occupancy": [
+        [
+          [
+            1,
+            4
+          ]
+        ],
+        145
+      ],
+      "indicators": []
+    },
+    "C12": {
+      "occupancy": [
+        [
+          [
+            1,
+            5
+          ]
+        ],
+        145
+      ],
+      "indicators": []
+    },
+    "C23.W": {
+      "occupancy": [
+        [
+          [
+            1,
+            6
+          ]
+        ],
+        145
+      ],
+      "indicators": []
+    },
+    "C23": {
+      "occupancy": [
+        [
+          [
+            1,
+            7
+          ]
+        ],
+        145
+      ],
+      "indicators": []
+    },
+    "COSCLEW": {
+      "occupancy": [
+        [
+          [
+            2,
+            0
+          ]
+        ],
+        145
+      ],
+      "indicators": []
+    },
+    "COSCLEE": {
+      "occupancy": [
+        [
+          [
+            2,
+            1
+          ]
+        ],
+        145
+      ],
+      "indicators": []
+    },
+    "C22": {
+      "occupancy": [
+        [
+          [
+            2,
+            2
+          ]
+        ],
+        145
+      ],
+      "indicators": []
+    },
+    "C11": {
+      "occupancy": [
+        [
+          [
+            1,
+            2
+          ]
+        ],
+        146
+      ],
+      "indicators": []
+    },
+    "COSGMW": {
+      "occupancy": [
+        [
+          [
+            1,
+            3
+          ]
+        ],
+        146
+      ],
+      "indicators": []
+    },
+    "C10": {
+      "occupancy": [
+        [
+          [
+            1,
+            4
+          ]
+        ],
+        146
+      ],
+      "indicators": []
+    },
+    "C30": {
+      "occupancy": [
+        [
+          [
+            1,
+            5
+          ]
+        ],
+        146
+      ],
+      "indicators": []
+    },
+    "C31": {
+      "occupancy": [
+        [
+          [
+            1,
+            6
+          ]
+        ],
+        146
+      ],
+      "indicators": []
+    },
+    "COSGME": {
+      "occupancy": [
+        [
+          [
+            1,
+            7
+          ]
+        ],
+        146
+      ],
+      "indicators": []
+    },
+    "C20": {
+      "occupancy": [
+        [
+          [
+            2,
+            0
+          ]
+        ],
+        146
+      ],
+      "indicators": []
+    },
+    "G10": {
+      "occupancy": [
+        [],
+        146
+      ],
+      "indicators": []
+    },
+    "G12": {
+      "occupancy": [
+        [],
+        146
+      ],
+      "indicators": []
+    },
+    "G21": {
+      "occupancy": [
+        [],
+        146
+      ],
+      "indicators": []
+    },
+    "COSSHE": {
+      "occupancy": [
+        [
+          [
+            1,
+            4
+          ]
+        ],
+        147
+      ],
+      "indicators": []
+    },
+    "C21": {
+      "occupancy": [
+        [
+          [
+            1,
+            5
+          ]
+        ],
+        147
+      ],
+      "indicators": []
+    },
+    "C40": {
+      "occupancy": [
+        [
+          [
+            1,
+            6
+          ]
+        ],
+        147
+      ],
+      "indicators": []
+    },
+    "C41": {
+      "occupancy": [
+        [
+          [
+            1,
+            7
+          ]
+        ],
+        147
+      ],
+      "indicators": []
+    },
+    "C42": {
+      "occupancy": [
+        [
+          [
+            2,
+            0
+          ]
+        ],
+        147
+      ],
+      "indicators": []
+    },
+    "C43": {
+      "occupancy": [
+        [
+          [
+            2,
+            1
+          ]
+        ],
+        147
+      ],
+      "indicators": []
+    },
+    "C44": {
+      "occupancy": [
+        [
+          [
+            2,
+            2
+          ]
+        ],
+        147
+      ],
+      "indicators": []
+    },
+    "COSSHW": {
+      "occupancy": [
+        [
+          [
+            2,
+            3
+          ]
+        ],
+        147
+      ],
+      "indicators": []
+    },
+    "C50": {
+      "occupancy": [
+        [
+          [
+            1,
+            2
+          ]
+        ],
+        149
+      ],
+      "indicators": []
+    },
+    "C51": {
+      "occupancy": [
+        [
+          [
+            1,
+            3
+          ]
+        ],
+        149
+      ],
+      "indicators": []
+    },
+    "C52": {
+      "occupancy": [
+        [
+          [
+            1,
+            4
+          ]
+        ],
+        149
+      ],
+      "indicators": []
+    },
+    "C53": {
+      "occupancy": [
+        [
+          [
+            1,
+            5
+          ]
+        ],
+        149
+      ],
+      "indicators": []
+    },
+    "C54": {
+      "occupancy": [
+        [
+          [
+            1,
+            6
+          ]
+        ],
+        149
+      ],
+      "indicators": []
+    },
+    "N25occ": {
+      "occupancy": [
+        [],
+        null
+      ],
+      "indicators": [
+        [
+          [
+            [
+              3,
+              5
+            ]
+          ],
+          82
+        ]
+      ]
+    },
+    "H21": {
+      "occupancy": [
+        [
+          [
+            2,
+            4
+          ]
+        ],
+        82
+      ],
+      "indicators": []
+    },
+    "H21.E": {
+      "occupancy": [
+        [
+          [
+            2,
+            5
+          ]
+        ],
+        82
+      ],
+      "indicators": []
+    },
+    "HOSWW2": {
+      "occupancy": [
+        [
+          [
+            2,
+            6
+          ]
+        ],
+        82
+      ],
+      "indicators": []
+    },
+    "HOSWW": {
+      "occupancy": [
+        [
+          [
+            2,
+            7
+          ]
+        ],
+        82
+      ],
+      "indicators": []
+    },
+    "HOSWE": {
+      "occupancy": [
+        [
+          [
+            3,
+            0
+          ]
+        ],
+        82
+      ],
+      "indicators": []
+    },
+    "H31": {
+      "occupancy": [
+        [
+          [
+            3,
+            1
+          ]
+        ],
+        82
+      ],
+      "indicators": []
+    },
+    "H32": {
+      "occupancy": [
+        [
+          [
+            3,
+            2
+          ]
+        ],
+        82
+      ],
+      "indicators": []
+    },
+    "H33": {
+      "occupancy": [
+        [
+          [
+            3,
+            3
+          ]
+        ],
+        82
+      ],
+      "indicators": []
+    },
+    "H34": {
+      "occupancy": [
+        [
+          [
+            3,
+            4
+          ]
+        ],
+        82
+      ],
+      "indicators": []
+    },
+    "H12": {
+      "occupancy": [
+        [
+          [
+            3,
+            5
+          ]
+        ],
+        82
+      ],
+      "indicators": []
+    },
+    "H22": {
+      "occupancy": [
+        [
+          [
+            3,
+            6
+          ]
+        ],
+        82
+      ],
+      "indicators": []
+    },
+    "H43": {
+      "occupancy": [
+        [
+          [
+            3,
+            7
+          ]
+        ],
+        82
+      ],
+      "indicators": []
+    },
+    "H42": {
+      "occupancy": [
+        [
+          [
+            4,
+            0
+          ]
+        ],
+        82
+      ],
+      "indicators": []
+    },
+    "H41": {
+      "occupancy": [
+        [
+          [
+            4,
+            1
+          ]
+        ],
+        82
+      ],
+      "indicators": []
+    },
+    "H40": {
+      "occupancy": [
+        [
+          [
+            4,
+            2
+          ]
+        ],
+        82
+      ],
+      "indicators": []
+    },
+    "HOSEW": {
+      "occupancy": [
+        [
+          [
+            4,
+            3
+          ]
+        ],
+        82
+      ],
+      "indicators": []
+    },
+    "HOSEE": {
+      "occupancy": [
+        [
+          [
+            4,
+            4
+          ]
+        ],
+        82
+      ],
+      "indicators": []
+    },
+    "H13.W": {
+      "occupancy": [
+        [
+          [
+            4,
+            5
+          ]
+        ],
+        82
+      ],
+      "indicators": []
+    },
+    "P40": {
+      "occupancy": [
+        [
+          [
+            1,
+            6
+          ]
+        ],
+        35
+      ],
+      "indicators": [
+        [
+          [
+            [
+              5,
+              5
+            ]
+          ],
+          34
+        ]
+      ]
+    },
+    "P1": {
+      "occupancy": [
+        [
+          [
+            3,
+            0
+          ]
+        ],
+        34
+      ],
+      "indicators": []
+    },
+    "P2": {
+      "occupancy": [
+        [
+          [
+            3,
+            1
+          ]
+        ],
+        34
+      ],
+      "indicators": []
+    },
+    "P3": {
+      "occupancy": [
+        [
+          [
+            3,
+            2
+          ]
+        ],
+        34
+      ],
+      "indicators": []
+    },
+    "P4": {
+      "occupancy": [
+        [
+          [
+            3,
+            3
+          ]
+        ],
+        34
+      ],
+      "indicators": []
+    },
+    "P5": {
+      "occupancy": [
+        [
+          [
+            3,
+            4
+          ]
+        ],
+        34
+      ],
+      "indicators": []
+    },
+    "P6": {
+      "occupancy": [
+        [
+          [
+            3,
+            5
+          ]
+        ],
+        34
+      ],
+      "indicators": []
+    },
+    "P7": {
+      "occupancy": [
+        [
+          [
+            3,
+            6
+          ]
+        ],
+        34
+      ],
+      "indicators": []
+    },
+    "POSSP1": {
+      "occupancy": [
+        [
+          [
+            3,
+            7
+          ]
+        ],
+        34
+      ],
+      "indicators": []
+    },
+    "POSSP2": {
+      "occupancy": [
+        [
+          [
+            4,
+            0
+          ]
+        ],
+        34
+      ],
+      "indicators": []
+    },
+    "POSSP3": {
+      "occupancy": [
+        [
+          [
+            4,
+            1
+          ]
+        ],
+        34
+      ],
+      "indicators": []
+    },
+    "POSSP4": {
+      "occupancy": [
+        [
+          [
+            4,
+            2
+          ]
+        ],
+        34
+      ],
+      "indicators": []
+    },
+    "POSSP5": {
+      "occupancy": [
+        [
+          [
+            4,
+            3
+          ]
+        ],
+        34
+      ],
+      "indicators": []
+    },
+    "P10": {
+      "occupancy": [
+        [
+          [
+            4,
+            4
+          ]
+        ],
+        34
+      ],
+      "indicators": []
+    },
+    "P10.E": {
+      "occupancy": [
+        [
+          [
+            4,
+            5
+          ]
+        ],
+        34
+      ],
+      "indicators": []
+    },
+    "P60": {
+      "occupancy": [
+        [],
+        34
+      ],
+      "indicators": []
+    },
+    "P61": {
+      "occupancy": [
+        [],
+        34
+      ],
+      "indicators": []
+    },
+    "P62": {
+      "occupancy": [
+        [],
+        34
+      ],
+      "indicators": []
+    },
+    "P63": {
+      "occupancy": [
+        [],
+        34
+      ],
+      "indicators": []
+    },
+    "P64": {
+      "occupancy": [
+        [],
+        34
+      ],
+      "indicators": []
+    },
+    "V10": {
+      "occupancy": [
+        [],
+        34
+      ],
+      "indicators": []
+    },
+    "V11": {
+      "occupancy": [
+        [],
+        34
+      ],
+      "indicators": []
+    },
+    "P20": {
+      "occupancy": [
+        [
+          [
+            1,
+            4
+          ]
+        ],
+        33
+      ],
+      "indicators": []
+    },
+    "P20.E": {
+      "occupancy": [
+        [
+          [
+            1,
+            5
+          ]
+        ],
+        33
+      ],
+      "indicators": []
+    },
+    "P30.W": {
+      "occupancy": [
+        [
+          [
+            1,
+            6
+          ]
+        ],
+        33
+      ],
+      "indicators": []
+    },
+    "P30": {
+      "occupancy": [
+        [
+          [
+            1,
+            7
+          ]
+        ],
+        33
+      ],
+      "indicators": [
+        [
+          [
+            [
+              5,
+              0
+            ]
+          ],
+          35
+        ]
+      ]
+    },
+    "P30.E": {
+      "occupancy": [
+        [
+          [
+            2,
+            0
+          ]
+        ],
+        33
+      ],
+      "indicators": []
+    },
+    "POSPJ1": {
+      "occupancy": [
+        [
+          [
+            2,
+            1
+          ]
+        ],
+        33
+      ],
+      "indicators": []
+    },
+    "POSPJ2": {
+      "occupancy": [
+        [
+          [
+            2,
+            2
+          ]
+        ],
+        33
+      ],
+      "indicators": []
+    },
+    "P50.W": {
+      "occupancy": [
+        [
+          [
+            2,
+            5
+          ]
+        ],
+        33
+      ],
+      "indicators": []
+    },
+    "P50.E": {
+      "occupancy": [
+        [
+          [
+            2,
+            3
+          ]
+        ],
+        33
+      ],
+      "indicators": []
+    },
+    "P11.W": {
+      "occupancy": [
+        [
+          [
+            2,
+            6
+          ]
+        ],
+        33
+      ],
+      "indicators": []
+    },
+    "P11.E": {
+      "occupancy": [
+        [
+          [
+            3,
+            0
+          ]
+        ],
+        33
+      ],
+      "indicators": []
+    },
+    "P40.E": {
+      "occupancy": [
+        [
+          [
+            1,
+            7
+          ]
+        ],
+        35
+      ],
+      "indicators": []
+    },
+    "POSSJ2": {
+      "occupancy": [
+        [
+          [
+            2,
+            0
+          ]
+        ],
+        35
+      ],
+      "indicators": []
+    },
+    "POSSJ1": {
+      "occupancy": [
+        [
+          [
+            2,
+            1
+          ]
+        ],
+        35
+      ],
+      "indicators": []
+    },
+    "P31.E": {
+      "occupancy": [
+        [
+          [
+            2,
+            2
+          ]
+        ],
+        35
+      ],
+      "indicators": []
+    },
+    "P31": {
+      "occupancy": [
+        [
+          [
+            2,
+            3
+          ]
+        ],
+        35
+      ],
+      "indicators": []
+    },
+    "P31.W": {
+      "occupancy": [
+        [
+          [
+            2,
+            4
+          ]
+        ],
+        35
+      ],
+      "indicators": []
+    },
+    "P32.W": {
+      "occupancy": [
+        [
+          [
+            2,
+            5
+          ]
+        ],
+        35
+      ],
+      "indicators": []
+    },
+    "P32.E": {
+      "occupancy": [
+        [
+          [
+            2,
+            7
+          ]
+        ],
+        35
+      ],
+      "indicators": []
+    },
+    "POSCJ2": {
+      "occupancy": [
+        [
+          [
+            3,
+            0
+          ]
+        ],
+        35
+      ],
+      "indicators": []
+    },
+    "POSCJ1": {
+      "occupancy": [
+        [
+          [
+            3,
+            1
+          ]
+        ],
+        35
+      ],
+      "indicators": []
+    },
+    "P41.E": {
+      "occupancy": [
+        [
+          [
+            3,
+            2
+          ]
+        ],
+        35
+      ],
+      "indicators": []
+    },
+    "P41": {
+      "occupancy": [
+        [
+          [
+            3,
+            3
+          ]
+        ],
+        35
+      ],
+      "indicators": []
+    },
+    "P41.W": {
+      "occupancy": [
+        [
+          [
+            3,
+            4
+          ]
+        ],
+        35
+      ],
+      "indicators": []
+    },
+    "P33": {
+      "occupancy": [
+        [
+          [
+            5,
+            6
+          ]
+        ],
+        35
+      ],
+      "indicators": []
+    }
+  },
+  "turnouts": {
+    "YSw1": {
+      "control": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        21
+      ],
+      "position": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        20
+      ],
+      "lock": [
+        [
+          [
+            4,
+            3
+          ]
+        ],
+        17
+      ],
+      "lever": null,
+      "led": null
+    },
+    "YSw3": {
+      "control": [
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        21
+      ],
+      "position": [
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        20
+      ],
+      "lock": [
+        [
+          [
+            4,
+            4
+          ]
+        ],
+        17
+      ],
+      "lever": null,
+      "led": null
+    },
+    "YSw7": {
+      "control": [
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        21
+      ],
+      "position": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        19
+      ],
+      "lock": [
+        [
+          [
+            4,
+            5
+          ]
+        ],
+        17
+      ],
+      "lever": null,
+      "led": null
+    },
+    "YSw9": {
+      "control": [
+        [
+          [
+            0,
+            6
+          ],
+          [
+            0,
+            7
+          ]
+        ],
+        21
+      ],
+      "position": [
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        19
+      ],
+      "lock": [
+        [
+          [
+            4,
+            6
+          ]
+        ],
+        17
+      ],
+      "lever": null,
+      "led": null
+    },
+    "YSw11": {
+      "control": [
+        [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        21
+      ],
+      "position": [
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        19
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "YSw17": {
+      "control": [
+        [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        21
+      ],
+      "position": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        18
+      ],
+      "lock": [
+        [
+          [
+            4,
+            7
+          ]
+        ],
+        17
+      ],
+      "lever": null,
+      "led": null
+    },
+    "YSw19": {
+      "control": [
+        [
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            5
+          ]
+        ],
+        21
+      ],
+      "position": [
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        18
+      ],
+      "lock": [
+        [
+          [
+            5,
+            0
+          ]
+        ],
+        17
+      ],
+      "lever": null,
+      "led": null
+    },
+    "YSw21": {
+      "control": [
+        [
+          [
+            1,
+            6
+          ],
+          [
+            1,
+            7
+          ]
+        ],
+        21
+      ],
+      "position": [
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        18
+      ],
+      "lock": [
+        [
+          [
+            5,
+            1
+          ]
+        ],
+        17
+      ],
+      "lever": null,
+      "led": null
+    },
+    "YSw23": {
+      "control": [
+        [
+          [
+            2,
+            0
+          ],
+          [
+            2,
+            1
+          ]
+        ],
+        21
+      ],
+      "position": [
+        [
+          [
+            0,
+            6
+          ],
+          [
+            0,
+            7
+          ]
+        ],
+        18
+      ],
+      "lock": [
+        [
+          [
+            5,
+            2
+          ]
+        ],
+        17
+      ],
+      "lever": null,
+      "led": null
+    },
+    "YSw25": {
+      "control": [
+        [
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        21
+      ],
+      "position": [
+        [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        18
+      ],
+      "lock": [
+        [
+          [
+            5,
+            3
+          ]
+        ],
+        17
+      ],
+      "lever": null,
+      "led": null
+    },
+    "YSw27": {
+      "control": [
+        [
+          [
+            2,
+            4
+          ],
+          [
+            2,
+            5
+          ]
+        ],
+        21
+      ],
+      "position": [
+        [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        18
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "YSw29": {
+      "control": [
+        [
+          [
+            2,
+            6
+          ],
+          [
+            2,
+            7
+          ]
+        ],
+        21
+      ],
+      "position": [
+        [
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            5
+          ]
+        ],
+        18
+      ],
+      "lock": [
+        [
+          [
+            5,
+            4
+          ]
+        ],
+        17
+      ],
+      "lever": null,
+      "led": null
+    },
+    "YSw33": {
+      "control": [
+        [
+          [
+            3,
+            0
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        21
+      ],
+      "position": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        17
+      ],
+      "lock": [
+        [
+          [
+            5,
+            5
+          ]
+        ],
+        17
+      ],
+      "lever": null,
+      "led": null
+    },
+    "YSw113": {
+      "control": [
+        [],
+        null
+      ],
+      "position": [
+        [],
+        21
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "YSw115": {
+      "control": [
+        [],
+        null
+      ],
+      "position": [
+        [],
+        21
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "YSw116": {
+      "control": [
+        [],
+        null
+      ],
+      "position": [
+        [],
+        21
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "YSw131": {
+      "control": [
+        [],
+        null
+      ],
+      "position": [
+        [],
+        21
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "YSw132": {
+      "control": [
+        [],
+        null
+      ],
+      "position": [
+        [],
+        21
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "YSw134": {
+      "control": [
+        [],
+        null
+      ],
+      "position": [
+        [],
+        21
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "LSw1": {
+      "control": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        49
+      ],
+      "position": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        49
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "LSw3": {
+      "control": [
+        [
+          [
+            2,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        49
+      ],
+      "position": [
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        49
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "LSw5": {
+      "control": [
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        49
+      ],
+      "position": [
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        49
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "LSw7": {
+      "control": [
+        [
+          [
+            0,
+            7
+          ],
+          [
+            0,
+            6
+          ]
+        ],
+        49
+      ],
+      "position": [
+        [
+          [
+            0,
+            6
+          ],
+          [
+            0,
+            7
+          ]
+        ],
+        49
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "LSw9": {
+      "control": [
+        [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        49
+      ],
+      "position": [
+        [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        49
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "LSw15": {
+      "control": [
+        [
+          [
+            1,
+            5
+          ],
+          [
+            1,
+            6
+          ]
+        ],
+        50
+      ],
+      "position": [
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        50
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "LSw17": {
+      "control": [
+        [
+          [
+            1,
+            7
+          ],
+          [
+            2,
+            0
+          ]
+        ],
+        50
+      ],
+      "position": [
+        [
+          [
+            0,
+            6
+          ],
+          [
+            0,
+            7
+          ]
+        ],
+        50
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "DSw1": {
+      "control": [
+        [
+          [
+            2,
+            3
+          ],
+          [
+            2,
+            4
+          ]
+        ],
+        65
+      ],
+      "position": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        65
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "DSw3": {
+      "control": [
+        [
+          [
+            2,
+            5
+          ],
+          [
+            2,
+            6
+          ]
+        ],
+        65
+      ],
+      "position": [
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        65
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "DSw5": {
+      "control": [
+        [
+          [
+            2,
+            7
+          ],
+          [
+            3,
+            0
+          ]
+        ],
+        65
+      ],
+      "position": [
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        65
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "DSw7": {
+      "control": [
+        [
+          [
+            3,
+            1
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        65
+      ],
+      "position": [
+        [
+          [
+            0,
+            6
+          ],
+          [
+            0,
+            7
+          ]
+        ],
+        65
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "DSw11": {
+      "control": [
+        [
+          [
+            3,
+            3
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        65
+      ],
+      "position": [
+        [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        65
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "RSw1": {
+      "control": [
+        [],
+        null
+      ],
+      "position": [
+        [
+          [
+            2,
+            1
+          ],
+          [
+            2,
+            2
+          ]
+        ],
+        66
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "SSw3": {
+      "control": [
+        [
+          [
+            4,
+            1
+          ],
+          [
+            4,
+            2
+          ]
+        ],
+        97
+      ],
+      "position": [
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        97
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "SSw5": {
+      "control": [
+        [
+          [
+            4,
+            3
+          ],
+          [
+            4,
+            4
+          ]
+        ],
+        97
+      ],
+      "position": [
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        97
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "SSw7": {
+      "control": [
+        [
+          [
+            4,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ],
+        97
+      ],
+      "position": [
+        [
+          [
+            0,
+            6
+          ],
+          [
+            0,
+            7
+          ]
+        ],
+        97
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "SSw9": {
+      "control": [
+        [
+          [
+            4,
+            7
+          ],
+          [
+            5,
+            0
+          ]
+        ],
+        97
+      ],
+      "position": [
+        [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        97
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "SSw11": {
+      "control": [
+        [
+          [
+            5,
+            1
+          ],
+          [
+            5,
+            2
+          ]
+        ],
+        97
+      ],
+      "position": [
+        [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        97
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "SSw13": {
+      "control": [
+        [
+          [
+            5,
+            3
+          ],
+          [
+            5,
+            4
+          ]
+        ],
+        97
+      ],
+      "position": [
+        [
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            5
+          ]
+        ],
+        97
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "SSw15": {
+      "control": [
+        [
+          [
+            1,
+            7
+          ],
+          [
+            2,
+            0
+          ]
+        ],
+        81
+      ],
+      "position": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        81
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "SSw17": {
+      "control": [
+        [
+          [
+            2,
+            1
+          ],
+          [
+            2,
+            2
+          ]
+        ],
+        81
+      ],
+      "position": [
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        81
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "SSw19": {
+      "control": [
+        [
+          [
+            2,
+            3
+          ],
+          [
+            2,
+            4
+          ]
+        ],
+        81
+      ],
+      "position": [
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        81
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "KSw1": {
+      "control": [
+        [
+          [
+            5,
+            0
+          ],
+          [
+            5,
+            1
+          ]
+        ],
+        114
+      ],
+      "position": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        113
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "KSw3": {
+      "control": [
+        [
+          [
+            5,
+            2
+          ],
+          [
+            5,
+            3
+          ]
+        ],
+        114
+      ],
+      "position": [
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        113
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "KSw5": {
+      "control": [
+        [
+          [
+            5,
+            4
+          ],
+          [
+            5,
+            5
+          ]
+        ],
+        114
+      ],
+      "position": [
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        113
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "KSw7": {
+      "control": [
+        [
+          [
+            5,
+            6
+          ],
+          [
+            5,
+            7
+          ]
+        ],
+        114
+      ],
+      "position": [
+        [
+          [
+            0,
+            6
+          ],
+          [
+            0,
+            7
+          ]
+        ],
+        113
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "NSw19": {
+      "control": [
+        [],
+        114
+      ],
+      "position": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        114
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "NSw21": {
+      "control": [
+        [],
+        114
+      ],
+      "position": [
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        114
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "NSw23": {
+      "control": [
+        [],
+        114
+      ],
+      "position": [
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        114
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "NSw25": {
+      "control": [
+        [],
+        114
+      ],
+      "position": [
+        [
+          [
+            0,
+            6
+          ],
+          [
+            0,
+            7
+          ]
+        ],
+        114
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "NSw27": {
+      "control": [
+        [],
+        114
+      ],
+      "position": [
+        [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        114
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "NSw29": {
+      "control": [
+        [],
+        114
+      ],
+      "position": [
+        [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        114
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "NSw31": {
+      "control": [
+        [],
+        114
+      ],
+      "position": [
+        [
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            5
+          ]
+        ],
+        114
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "NSw33": {
+      "control": [
+        [],
+        114
+      ],
+      "position": [
+        [
+          [
+            1,
+            6
+          ],
+          [
+            1,
+            7
+          ]
+        ],
+        114
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "NSw35": {
+      "control": [
+        [],
+        114
+      ],
+      "position": [
+        [
+          [
+            7,
+            5
+          ],
+          [
+            7,
+            6
+          ]
+        ],
+        114
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "NSw39": {
+      "control": [
+        [],
+        114
+      ],
+      "position": [
+        [
+          [
+            3,
+            0
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        115
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "NSw41": {
+      "control": [
+        [],
+        115
+      ],
+      "position": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        115
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "NSw43": {
+      "control": [
+        [],
+        115
+      ],
+      "position": [
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        115
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "NSw45": {
+      "control": [
+        [],
+        115
+      ],
+      "position": [
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        115
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "NSw47": {
+      "control": [
+        [],
+        115
+      ],
+      "position": [
+        [
+          [
+            0,
+            6
+          ],
+          [
+            0,
+            7
+          ]
+        ],
+        115
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "NSw51": {
+      "control": [
+        [],
+        115
+      ],
+      "position": [
+        [
+          [
+            3,
+            3
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        115
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "NSw53": {
+      "control": [
+        [],
+        115
+      ],
+      "position": [
+        [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        115
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "NSw55": {
+      "control": [
+        [],
+        115
+      ],
+      "position": [
+        [
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            5
+          ]
+        ],
+        115
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "NSw57": {
+      "control": [
+        [],
+        115
+      ],
+      "position": [
+        [
+          [
+            1,
+            6
+          ],
+          [
+            1,
+            7
+          ]
+        ],
+        115
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "CSw23": {
+      "control": [
+        [
+          [
+            2,
+            5
+          ],
+          [
+            2,
+            6
+          ]
+        ],
+        129
+      ],
+      "position": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        129
+      ],
+      "lock": [
+        [
+          [
+            6,
+            7
+          ]
+        ],
+        147
+      ],
+      "lever": null,
+      "led": null
+    },
+    "CSw17": {
+      "control": [
+        [
+          [
+            2,
+            7
+          ],
+          [
+            3,
+            0
+          ]
+        ],
+        129
+      ],
+      "position": [
+        [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        129
+      ],
+      "lock": [
+        [
+          [
+            6,
+            6
+          ]
+        ],
+        147
+      ],
+      "lever": null,
+      "led": null
+    },
+    "CSw13": {
+      "control": [
+        [
+          [
+            2,
+            7
+          ],
+          [
+            3,
+            0
+          ]
+        ],
+        145
+      ],
+      "position": [
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        145
+      ],
+      "lock": [
+        [
+          [
+            6,
+            5
+          ]
+        ],
+        147
+      ],
+      "lever": null,
+      "led": null
+    },
+    "CSw9": {
+      "control": [
+        [
+          [
+            3,
+            1
+          ],
+          [
+            3,
+            6
+          ]
+        ],
+        145
+      ],
+      "position": [
+        [
+          [
+            0,
+            6
+          ],
+          [
+            0,
+            7
+          ]
+        ],
+        145
+      ],
+      "lock": [
+        [
+          [
+            6,
+            4
+          ]
+        ],
+        147
+      ],
+      "lever": null,
+      "led": null
+    },
+    "CSw31": {
+      "control": [
+        [],
+        146
+      ],
+      "position": null,
+      "lock": [
+        [
+          [
+            6,
+            0
+          ]
+        ],
+        147
+      ],
+      "lever": null,
+      "led": null
+    },
+    "CSw33": {
+      "control": [
+        [],
+        146
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "CSw35": {
+      "control": [
+        [],
+        146
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "CSw37": {
+      "control": [
+        [],
+        146
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "CSw39": {
+      "control": [
+        [],
+        146
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "CSw41": {
+      "control": [
+        [],
+        146
+      ],
+      "position": null,
+      "lock": [
+        [
+          [
+            6,
+            1
+          ]
+        ],
+        147
+      ],
+      "lever": null,
+      "led": null
+    },
+    "CSw43": {
+      "control": [
+        [],
+        149
+      ],
+      "position": null,
+      "lock": [
+        [
+          [
+            6,
+            2
+          ]
+        ],
+        147
+      ],
+      "lever": null,
+      "led": null
+    },
+    "CSw61": {
+      "control": [
+        [],
+        149
+      ],
+      "position": null,
+      "lock": [
+        [
+          [
+            6,
+            3
+          ]
+        ],
+        147
+      ],
+      "lever": null,
+      "led": null
+    },
+    "CSw45": {
+      "control": [
+        [],
+        149
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "CSw47": {
+      "control": [
+        [],
+        149
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "CSw49": {
+      "control": [
+        [],
+        149
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "CSw51": {
+      "control": [
+        [],
+        149
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "CSw53": {
+      "control": [
+        [],
+        149
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "CSw55": {
+      "control": [
+        [],
+        149
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "CSw57": {
+      "control": [
+        [],
+        149
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "CSw59": {
+      "control": [
+        [],
+        149
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "CSw63": {
+      "control": [
+        [],
+        149
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "CSw65": {
+      "control": [
+        [],
+        149
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "CSw67": {
+      "control": [
+        [],
+        149
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "CSw69": {
+      "control": [
+        [],
+        149
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "CSw71": {
+      "control": [
+        [],
+        149
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "CSw73": {
+      "control": [
+        [],
+        149
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "CSw75": {
+      "control": [
+        [],
+        149
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "CSw77": {
+      "control": [
+        [],
+        149
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "CSw79": {
+      "control": [
+        [],
+        149
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "CSw81": {
+      "control": [
+        [],
+        149
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "HSw1": {
+      "control": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        82
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "HSw3": {
+      "control": [
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        82
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "HSw7": {
+      "control": [
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        82
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "HSw9": {
+      "control": [
+        [
+          [
+            0,
+            6
+          ],
+          [
+            0,
+            7
+          ]
+        ],
+        82
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "HSw11": {
+      "control": [
+        [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        82
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "HSw23": {
+      "control": [
+        [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        82
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "HSw25": {
+      "control": [
+        [
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            5
+          ]
+        ],
+        82
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "HSw27": {
+      "control": [
+        [
+          [
+            1,
+            6
+          ],
+          [
+            1,
+            7
+          ]
+        ],
+        82
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "HSw29": {
+      "control": [
+        [
+          [
+            2,
+            0
+          ],
+          [
+            2,
+            1
+          ]
+        ],
+        82
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "HSw15": {
+      "control": [
+        [
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        82
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "HSw17": {
+      "control": [
+        [
+          [
+            2,
+            4
+          ],
+          [
+            2,
+            5
+          ]
+        ],
+        82
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "HSw19": {
+      "control": [
+        [
+          [
+            2,
+            6
+          ],
+          [
+            2,
+            7
+          ]
+        ],
+        82
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "HSw21": {
+      "control": [
+        [
+          [
+            3,
+            0
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        82
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "HSw5": {
+      "control": [
+        [],
+        82
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "HSw13": {
+      "control": [
+        [],
+        82
+      ],
+      "position": null,
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "PASw1": {
+      "control": [
+        [],
+        34
+      ],
+      "position": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        34
+      ],
+      "lock": [
+        [
+          [
+            6,
+            4
+          ]
+        ],
+        34
+      ],
+      "lever": null,
+      "led": null
+    },
+    "PASw3": {
+      "control": [
+        [],
+        34
+      ],
+      "position": [
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        34
+      ],
+      "lock": [
+        [
+          [
+            6,
+            5
+          ]
+        ],
+        34
+      ],
+      "lever": null,
+      "led": null
+    },
+    "PASw5": {
+      "control": [
+        [],
+        34
+      ],
+      "position": [
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        34
+      ],
+      "lock": [
+        [
+          [
+            6,
+            6
+          ]
+        ],
+        34
+      ],
+      "lever": null,
+      "led": null
+    },
+    "PASw7": {
+      "control": [
+        [],
+        34
+      ],
+      "position": [
+        [
+          [
+            0,
+            6
+          ],
+          [
+            0,
+            7
+          ]
+        ],
+        34
+      ],
+      "lock": [
+        [
+          [
+            6,
+            7
+          ]
+        ],
+        34
+      ],
+      "lever": null,
+      "led": null
+    },
+    "PASw9": {
+      "control": [
+        [],
+        34
+      ],
+      "position": [
+        [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        34
+      ],
+      "lock": [
+        [
+          [
+            7,
+            0
+          ]
+        ],
+        34
+      ],
+      "lever": null,
+      "led": null
+    },
+    "PASw11": {
+      "control": [
+        [],
+        34
+      ],
+      "position": [
+        [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        34
+      ],
+      "lock": [
+        [
+          [
+            7,
+            1
+          ]
+        ],
+        34
+      ],
+      "lever": null,
+      "led": null
+    },
+    "PASw13": {
+      "control": [
+        [],
+        34
+      ],
+      "position": [
+        [
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            5
+          ]
+        ],
+        34
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "PASw15": {
+      "control": [
+        [],
+        34
+      ],
+      "position": [
+        [
+          [
+            1,
+            6
+          ],
+          [
+            1,
+            7
+          ]
+        ],
+        34
+      ],
+      "lock": [
+        [
+          [
+            7,
+            2
+          ]
+        ],
+        34
+      ],
+      "lever": null,
+      "led": null
+    },
+    "PASw17": {
+      "control": [
+        [],
+        34
+      ],
+      "position": [
+        [
+          [
+            2,
+            0
+          ],
+          [
+            2,
+            1
+          ]
+        ],
+        34
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "PASw19": {
+      "control": [
+        [],
+        34
+      ],
+      "position": [
+        [
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        34
+      ],
+      "lock": [
+        [
+          [
+            7,
+            3
+          ]
+        ],
+        34
+      ],
+      "lever": null,
+      "led": null
+    },
+    "PASw21": {
+      "control": [
+        [],
+        34
+      ],
+      "position": [
+        [
+          [
+            2,
+            4
+          ],
+          [
+            2,
+            5
+          ]
+        ],
+        34
+      ],
+      "lock": [
+        [
+          [
+            7,
+            4
+          ]
+        ],
+        34
+      ],
+      "lever": null,
+      "led": null
+    },
+    "PASw23": {
+      "control": [
+        [],
+        34
+      ],
+      "position": [
+        [
+          [
+            2,
+            6
+          ],
+          [
+            2,
+            7
+          ]
+        ],
+        34
+      ],
+      "lock": [
+        [
+          [
+            7,
+            5
+          ]
+        ],
+        34
+      ],
+      "lever": null,
+      "led": null
+    },
+    "PASw31": {
+      "control": [
+        [],
+        33
+      ],
+      "position": [
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        33
+      ],
+      "lock": [
+        [
+          [
+            7,
+            6
+          ]
+        ],
+        34
+      ],
+      "lever": null,
+      "led": null
+    },
+    "PASw33": {
+      "control": [
+        [],
+        33
+      ],
+      "position": [
+        [
+          [
+            0,
+            6
+          ],
+          [
+            0,
+            7
+          ]
+        ],
+        33
+      ],
+      "lock": [
+        [
+          [
+            7,
+            7
+          ]
+        ],
+        34
+      ],
+      "lever": null,
+      "led": null
+    },
+    "PASw35": {
+      "control": [
+        [],
+        33
+      ],
+      "position": [
+        [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        33
+      ],
+      "lock": [
+        [
+          [
+            8,
+            0
+          ]
+        ],
+        34
+      ],
+      "lever": null,
+      "led": null
+    },
+    "PASw37": {
+      "control": [
+        [],
+        33
+      ],
+      "position": [
+        [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        33
+      ],
+      "lock": [
+        [
+          [
+            8,
+            1
+          ]
+        ],
+        34
+      ],
+      "lever": null,
+      "led": null
+    },
+    "PASw27": {
+      "control": [
+        [],
+        33
+      ],
+      "position": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        33
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "PASw29": {
+      "control": [
+        [],
+        33
+      ],
+      "position": [
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        33
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    },
+    "PBSw1": {
+      "control": [
+        [],
+        35
+      ],
+      "position": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        35
+      ],
+      "lock": [
+        [
+          [
+            5,
+            6
+          ]
+        ],
+        35
+      ],
+      "lever": null,
+      "led": null
+    },
+    "PBSw3": {
+      "control": [
+        [],
+        35
+      ],
+      "position": [
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        35
+      ],
+      "lock": [
+        [
+          [
+            5,
+            7
+          ]
+        ],
+        35
+      ],
+      "lever": null,
+      "led": null
+    },
+    "PBSw11": {
+      "control": [
+        [],
+        35
+      ],
+      "position": [
+        [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        35
+      ],
+      "lock": [
+        [
+          [
+            6,
+            1
+          ]
+        ],
+        35
+      ],
+      "lever": null,
+      "led": null
+    },
+    "PBSw13": {
+      "control": [
+        [],
+        35
+      ],
+      "position": [
+        [
+          [
+            0,
+            6
+          ],
+          [
+            0,
+            7
+          ]
+        ],
+        35
+      ],
+      "lock": [
+        [
+          [
+            6,
+            2
+          ]
+        ],
+        35
+      ],
+      "lever": null,
+      "led": null
+    },
+    "PBSw17": {
+      "control": [
+        [],
+        null
+      ],
+      "position": [
+        [
+          [
+            5,
+            4
+          ],
+          [
+            5,
+            5
+          ]
+        ],
+        35
+      ],
+      "lock": null,
+      "lever": null,
+      "led": null
+    }
+  },
+  "breakers": {
+    "CBKale": {
+      "status": [
+        [
+          [
+            2,
+            5
+          ]
+        ],
+        129
+      ],
+      "indicators": [
+        [
+          [
+            [
+              3,
+              4
+            ]
+          ],
+          17
+        ]
+      ]
+    },
+    "CBEastEndJct": {
+      "status": [
+        [
+          [
+            3,
+            0
+          ]
+        ],
+        129
+      ],
+      "indicators": [
+        [
+          [
+            [
+              3,
+              5
+            ]
+          ],
+          17
+        ]
+      ]
+    },
+    "CBCornellJct": {
+      "status": [
+        [
+          [
+            3,
+            0
+          ]
+        ],
+        49
+      ],
+      "indicators": [
+        [
+          [
+            [
+              3,
+              6
+            ]
+          ],
+          17
+        ]
+      ]
+    },
+    "CBEngineYard": {
+      "status": [
+        [
+          [
+            2,
+            7
+          ]
+        ],
+        129
+      ],
+      "indicators": [
+        [
+          [
+            [
+              3,
+              7
+            ]
+          ],
+          17
+        ]
+      ]
+    },
+    "CBWaterman": {
+      "status": [
+        [
+          [
+            2,
+            6
+          ]
+        ],
+        129
+      ],
+      "indicators": [
+        [
+          [
+            [
+              4,
+              0
+            ]
+          ],
+          17
+        ]
+      ]
+    },
+    "CBCliveden": {
+      "status": [
+        [
+          [
+            2,
+            6
+          ]
+        ],
+        49
+      ],
+      "indicators": [
+        [
+          [
+            [
+              5,
+              5
+            ]
+          ],
+          147
+        ]
+      ]
+    },
+    "CBLatham": {
+      "status": [
+        [
+          [
+            2,
+            7
+          ]
+        ],
+        49
+      ],
+      "indicators": []
+    },
+    "CBParsonsJct": {
+      "status": [
+        [
+          [
+            3,
+            1
+          ]
+        ],
+        49
+      ],
+      "indicators": [
+        [
+          [
+            [
+              6,
+              1
+            ]
+          ],
+          34
+        ]
+      ]
+    },
+    "CBSouthJct": {
+      "status": [
+        [
+          [
+            3,
+            2
+          ]
+        ],
+        49
+      ],
+      "indicators": [
+        [
+          [
+            [
+              5,
+              4
+            ]
+          ],
+          35
+        ]
+      ]
+    },
+    "CBCircusJct": {
+      "status": [
+        [
+          [
+            3,
+            3
+          ]
+        ],
+        49
+      ],
+      "indicators": [
+        [
+          [
+            [
+              5,
+              5
+            ]
+          ],
+          35
+        ]
+      ]
+    },
+    "CBSouthport": {
+      "status": [
+        [
+          [
+            3,
+            4
+          ]
+        ],
+        49
+      ],
+      "indicators": [
+        [
+          [
+            [
+              6,
+              2
+            ]
+          ],
+          34
+        ]
+      ]
+    },
+    "CBLavinYard": {
+      "status": [
+        [
+          [
+            3,
+            5
+          ]
+        ],
+        49
+      ],
+      "indicators": [
+        [
+          [
+            [
+              6,
+              3
+            ]
+          ],
+          34
+        ]
+      ]
+    },
+    "CBReverserP31": {
+      "status": [
+        [
+          [
+            3,
+            6
+          ]
+        ],
+        49
+      ],
+      "indicators": []
+    },
+    "CBReverserP41": {
+      "status": [
+        [
+          [
+            3,
+            7
+          ]
+        ],
+        49
+      ],
+      "indicators": []
+    },
+    "CBReverserP50": {
+      "status": [
+        [
+          [
+            4,
+            0
+          ]
+        ],
+        49
+      ],
+      "indicators": []
+    },
+    "CBReverserC22C23": {
+      "status": [
+        [
+          [
+            4,
+            1
+          ]
+        ],
+        49
+      ],
+      "indicators": [
+        [
+          [
+            [
+              5,
+              6
+            ]
+          ],
+          147
+        ]
+      ]
+    },
+    "CBShore": {
+      "status": [
+        [
+          [
+            3,
+            1
+          ]
+        ],
+        129
+      ],
+      "indicators": [
+        [
+          [
+            [
+              3,
+              6
+            ]
+          ],
+          97
+        ]
+      ]
+    },
+    "CBHarpersFerry": {
+      "status": [
+        [
+          [
+            3,
+            3
+          ]
+        ],
+        129
+      ],
+      "indicators": [
+        [
+          [
+            [
+              3,
+              7
+            ]
+          ],
+          97
+        ]
+      ]
+    },
+    "CBKrulishYd": {
+      "status": [
+        [
+          [
+            6,
+            1
+          ]
+        ],
+        114
+      ],
+      "indicators": [
+        [
+          [
+            [
+              2,
+              4
+            ]
+          ],
+          113
+        ]
+      ]
+    },
+    "CBKrulish": {
+      "status": [
+        [
+          [
+            6,
+            4
+          ]
+        ],
+        114
+      ],
+      "indicators": [
+        [
+          [
+            [
+              6,
+              0
+            ]
+          ],
+          114
+        ]
+      ]
+    },
+    "CBNassauW": {
+      "status": [
+        [
+          [
+            6,
+            5
+          ]
+        ],
+        114
+      ],
+      "indicators": [
+        [
+          [
+            [
+              6,
+              1
+            ]
+          ],
+          114
+        ]
+      ]
+    },
+    "CBNassauE": {
+      "status": [
+        [
+          [
+            6,
+            6
+          ]
+        ],
+        114
+      ],
+      "indicators": [
+        [
+          [
+            [
+              6,
+              2
+            ]
+          ],
+          114
+        ]
+      ]
+    },
+    "CBSouthportJct": {
+      "status": [
+        [
+          [
+            3,
+            2
+          ]
+        ],
+        145
+      ],
+      "indicators": [
+        [
+          [
+            [
+              6,
+              3
+            ]
+          ],
+          114
+        ]
+      ]
+    },
+    "CBWilson": {
+      "status": [
+        [
+          [
+            6,
+            3
+          ]
+        ],
+        114
+      ],
+      "indicators": [
+        [
+          [
+            [
+              6,
+              4
+            ]
+          ],
+          114
+        ]
+      ]
+    },
+    "CBThomas": {
+      "status": [
+        [
+          [
+            6,
+            2
+          ]
+        ],
+        114
+      ],
+      "indicators": [
+        [
+          [
+            [
+              6,
+              5
+            ]
+          ],
+          114
+        ]
+      ]
+    },
+    "CBFoss": {
+      "status": [
+        [
+          [
+            6,
+            7
+          ]
+        ],
+        114
+      ],
+      "indicators": []
+    },
+    "CBDell": {
+      "status": [
+        [
+          [
+            7,
+            0
+          ]
+        ],
+        114
+      ],
+      "indicators": []
+    },
+    "CBBank": {
+      "status": [
+        [
+          [
+            2,
+            4
+          ]
+        ],
+        129
+      ],
+      "indicators": [
+        [
+          [
+            [
+              3,
+              4
+            ]
+          ],
+          129
+        ],
+        [
+          [
+            [
+              5,
+              7
+            ]
+          ],
+          147
+        ]
+      ]
+    },
+    "CBRockyHill": {
+      "status": [
+        [
+          [
+            3,
+            2
+          ]
+        ],
+        129
+      ],
+      "indicators": []
+    },
+    "CBBlockY30": {
+      "status": [
+        [
+          [
+            3,
+            4
+          ]
+        ],
+        129
+      ],
+      "indicators": []
+    },
+    "CBBlockY81": {
+      "status": [
+        [
+          [
+            3,
+            5
+          ]
+        ],
+        129
+      ],
+      "indicators": []
+    },
+    "CBGreenMtnStn": {
+      "status": [
+        [
+          [
+            2,
+            4
+          ]
+        ],
+        145
+      ],
+      "indicators": []
+    },
+    "CBSheffieldA": {
+      "status": [
+        [
+          [
+            2,
+            5
+          ]
+        ],
+        145
+      ],
+      "indicators": []
+    },
+    "CBGreenMtnYd": {
+      "status": [
+        [
+          [
+            2,
+            6
+          ]
+        ],
+        145
+      ],
+      "indicators": []
+    },
+    "CBHydeJct": {
+      "status": [
+        [
+          [
+            2,
+            7
+          ]
+        ],
+        145
+      ],
+      "indicators": [
+        [
+          [
+            [
+              4,
+              0
+            ]
+          ],
+          82
+        ]
+      ]
+    },
+    "CBHydeWest": {
+      "status": [
+        [
+          [
+            3,
+            0
+          ]
+        ],
+        145
+      ],
+      "indicators": [
+        [
+          [
+            [
+              4,
+              1
+            ]
+          ],
+          82
+        ]
+      ]
+    },
+    "CBHydeEast": {
+      "status": [
+        [
+          [
+            3,
+            1
+          ]
+        ],
+        145
+      ],
+      "indicators": [
+        [
+          [
+            [
+              4,
+              2
+            ]
+          ],
+          82
+        ]
+      ]
+    },
+    "CBCarlton": {
+      "status": [
+        [
+          [
+            3,
+            3
+          ]
+        ],
+        145
+      ],
+      "indicators": []
+    },
+    "CBSheffieldB": {
+      "status": [
+        [
+          [
+            3,
+            4
+          ]
+        ],
+        145
+      ],
+      "indicators": []
+    },
+    "CBSheffield": {
+      "status": [
+        [],
+        145
+      ],
+      "indicators": [
+        [
+          [
+            [
+              5,
+              4
+            ]
+          ],
+          147
+        ]
+      ]
+    },
+    "CBGreenMtn": {
+      "status": [
+        [],
+        145
+      ],
+      "indicators": [
+        [
+          [
+            [
+              5,
+              3
+            ]
+          ],
+          147
+        ]
+      ]
+    }
+  },
+  "routesin": {
+    "Y81W": {
+      "status": [
+        [
+          [
+            3,
+            3
+          ]
+        ],
+        17
+      ]
+    },
+    "Y82W": {
+      "status": [
+        [
+          [
+            3,
+            4
+          ]
+        ],
+        17
+      ]
+    },
+    "Y83W": {
+      "status": [
+        [
+          [
+            3,
+            5
+          ]
+        ],
+        17
+      ]
+    },
+    "Y84W": {
+      "status": [
+        [
+          [
+            3,
+            6
+          ]
+        ],
+        17
+      ]
+    },
+    "Y81E": {
+      "status": [
+        [
+          [
+            3,
+            7
+          ]
+        ],
+        17
+      ]
+    },
+    "Y82E": {
+      "status": [
+        [
+          [
+            4,
+            0
+          ]
+        ],
+        17
+      ]
+    },
+    "Y83E": {
+      "status": [
+        [
+          [
+            4,
+            1
+          ]
+        ],
+        17
+      ]
+    },
+    "Y84E": {
+      "status": [
+        [
+          [
+            4,
+            2
+          ]
+        ],
+        17
+      ]
+    },
+    "NSw60A": {
+      "status": [
+        [
+          [
+            7,
+            1
+          ]
+        ],
+        114
+      ]
+    },
+    "NSw60B": {
+      "status": [
+        [
+          [
+            7,
+            2
+          ]
+        ],
+        114
+      ]
+    },
+    "NSw60C": {
+      "status": [
+        [
+          [
+            7,
+            3
+          ]
+        ],
+        114
+      ]
+    },
+    "NSw60D": {
+      "status": [
+        [
+          [
+            7,
+            4
+          ]
+        ],
+        114
+      ]
+    },
+    "CC30E": {
+      "status": [
+        [
+          [
+            0,
+            0
+          ]
+        ],
+        146
+      ]
+    },
+    "CC10E": {
+      "status": [
+        [
+          [
+            0,
+            1
+          ]
+        ],
+        146
+      ]
+    },
+    "CG10E": {
+      "status": [
+        [
+          [
+            0,
+            2
+          ]
+        ],
+        146
+      ]
+    },
+    "CG12E": {
+      "status": [
+        [
+          [
+            0,
+            3
+          ]
+        ],
+        146
+      ]
+    },
+    "CC31W": {
+      "status": [
+        [
+          [
+            0,
+            4
+          ]
+        ],
+        146
+      ]
+    },
+    "CC30W": {
+      "status": [
+        [
+          [
+            0,
+            5
+          ]
+        ],
+        146
+      ]
+    },
+    "CC10W": {
+      "status": [
+        [
+          [
+            0,
+            6
+          ]
+        ],
+        146
+      ]
+    },
+    "CG21W": {
+      "status": [
+        [
+          [
+            0,
+            7
+          ]
+        ],
+        146
+      ]
+    },
+    "CC21E": {
+      "status": [
+        [
+          [
+            0,
+            0
+          ]
+        ],
+        147
+      ]
+    },
+    "CC40E": {
+      "status": [
+        [
+          [
+            0,
+            1
+          ]
+        ],
+        147
+      ]
+    },
+    "CC44E": {
+      "status": [
+        [
+          [
+            0,
+            2
+          ]
+        ],
+        147
+      ]
+    },
+    "CC43E": {
+      "status": [
+        [
+          [
+            0,
+            3
+          ]
+        ],
+        147
+      ]
+    },
+    "CC42E": {
+      "status": [
+        [
+          [
+            0,
+            4
+          ]
+        ],
+        147
+      ]
+    },
+    "CC41E": {
+      "status": [
+        [
+          [
+            0,
+            5
+          ]
+        ],
+        147
+      ]
+    },
+    "CC41W": {
+      "status": [
+        [
+          [
+            0,
+            6
+          ]
+        ],
+        147
+      ]
+    },
+    "CC42W": {
+      "status": [
+        [
+          [
+            0,
+            7
+          ]
+        ],
+        147
+      ]
+    },
+    "CC21W": {
+      "status": [
+        [
+          [
+            1,
+            0
+          ]
+        ],
+        147
+      ]
+    },
+    "CC40W": {
+      "status": [
+        [
+          [
+            1,
+            1
+          ]
+        ],
+        147
+      ]
+    },
+    "CC44W": {
+      "status": [
+        [
+          [
+            1,
+            2
+          ]
+        ],
+        147
+      ]
+    },
+    "CC43W": {
+      "status": [
+        [
+          [
+            1,
+            3
+          ]
+        ],
+        147
+      ]
+    },
+    "CC50E": {
+      "status": [
+        [
+          [
+            0,
+            0
+          ]
+        ],
+        149
+      ]
+    },
+    "CC51E": {
+      "status": [
+        [
+          [
+            0,
+            1
+          ]
+        ],
+        149
+      ]
+    },
+    "CC52E": {
+      "status": [
+        [
+          [
+            0,
+            2
+          ]
+        ],
+        149
+      ]
+    },
+    "CC53E": {
+      "status": [
+        [
+          [
+            0,
+            3
+          ]
+        ],
+        149
+      ]
+    },
+    "CC54E": {
+      "status": [
+        [
+          [
+            0,
+            4
+          ]
+        ],
+        149
+      ]
+    },
+    "CC50W": {
+      "status": [
+        [
+          [
+            0,
+            5
+          ]
+        ],
+        149
+      ]
+    },
+    "CC51W": {
+      "status": [
+        [
+          [
+            0,
+            6
+          ]
+        ],
+        149
+      ]
+    },
+    "CC52W": {
+      "status": [
+        [
+          [
+            0,
+            7
+          ]
+        ],
+        149
+      ]
+    },
+    "CC53W": {
+      "status": [
+        [
+          [
+            1,
+            0
+          ]
+        ],
+        149
+      ]
+    },
+    "CC54W": {
+      "status": [
+        [
+          [
+            1,
+            1
+          ]
+        ],
+        149
+      ]
+    },
+    "H12W": {
+      "status": [
+        [
+          [
+            0,
+            0
+          ]
+        ],
+        82
+      ]
+    },
+    "H34W": {
+      "status": [
+        [
+          [
+            0,
+            1
+          ]
+        ],
+        82
+      ]
+    },
+    "H33W": {
+      "status": [
+        [
+          [
+            0,
+            2
+          ]
+        ],
+        82
+      ]
+    },
+    "H30E": {
+      "status": [
+        [
+          [
+            0,
+            3
+          ]
+        ],
+        82
+      ]
+    },
+    "H31W": {
+      "status": [
+        [
+          [
+            0,
+            4
+          ]
+        ],
+        82
+      ]
+    },
+    "H32W": {
+      "status": [
+        [
+          [
+            0,
+            5
+          ]
+        ],
+        82
+      ]
+    },
+    "H22W": {
+      "status": [
+        [
+          [
+            0,
+            6
+          ]
+        ],
+        82
+      ]
+    },
+    "H43W": {
+      "status": [
+        [
+          [
+            0,
+            7
+          ]
+        ],
+        82
+      ]
+    },
+    "H42W": {
+      "status": [
+        [
+          [
+            1,
+            0
+          ]
+        ],
+        82
+      ]
+    },
+    "H41W": {
+      "status": [
+        [
+          [
+            1,
+            1
+          ]
+        ],
+        82
+      ]
+    },
+    "H41E": {
+      "status": [
+        [
+          [
+            1,
+            2
+          ]
+        ],
+        82
+      ]
+    },
+    "H42E": {
+      "status": [
+        [
+          [
+            1,
+            3
+          ]
+        ],
+        82
+      ]
+    },
+    "H43E": {
+      "status": [
+        [
+          [
+            1,
+            4
+          ]
+        ],
+        82
+      ]
+    },
+    "H22E": {
+      "status": [
+        [
+          [
+            1,
+            5
+          ]
+        ],
+        82
+      ]
+    },
+    "H40E": {
+      "status": [
+        [
+          [
+            1,
+            6
+          ]
+        ],
+        82
+      ]
+    },
+    "H12E": {
+      "status": [
+        [
+          [
+            1,
+            7
+          ]
+        ],
+        82
+      ]
+    },
+    "H34E": {
+      "status": [
+        [
+          [
+            2,
+            0
+          ]
+        ],
+        82
+      ]
+    },
+    "H33E": {
+      "status": [
+        [
+          [
+            2,
+            1
+          ]
+        ],
+        82
+      ]
+    },
+    "H32E": {
+      "status": [
+        [
+          [
+            2,
+            2
+          ]
+        ],
+        82
+      ]
+    },
+    "H31E": {
+      "status": [
+        [
+          [
+            2,
+            3
+          ]
+        ],
+        82
+      ]
+    }
+  },
+  "siglevers": {
+    "Y2": {
+      "position": [
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ]
+        ],
+        17
+      ],
+      "led": [
+        [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        17
+      ]
+    },
+    "Y4": {
+      "position": [
+        [
+          [
+            0,
+            5
+          ],
+          [
+            0,
+            6
+          ],
+          [
+            0,
+            7
+          ]
+        ],
+        17
+      ],
+      "led": [
+        [
+          [
+            0,
+            5
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        17
+      ]
+    },
+    "Y8": {
+      "position": [
+        [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        17
+      ],
+      "led": [
+        [
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            0,
+            6
+          ]
+        ],
+        17
+      ]
+    },
+    "Y10": {
+      "position": [
+        [
+          [
+            1,
+            3
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            5
+          ]
+        ],
+        17
+      ],
+      "led": [
+        [
+          [
+            1,
+            3
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        17
+      ]
+    },
+    "Y22": {
+      "position": [
+        [
+          [
+            1,
+            6
+          ],
+          [
+            1,
+            7
+          ],
+          [
+            2,
+            0
+          ]
+        ],
+        17
+      ],
+      "led": [
+        [
+          [
+            1,
+            6
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            1,
+            4
+          ]
+        ],
+        17
+      ]
+    },
+    "Y24": {
+      "position": [
+        [
+          null,
+          [
+            2,
+            1
+          ],
+          [
+            2,
+            2
+          ]
+        ],
+        17
+      ],
+      "led": [
+        [
+          null,
+          [
+            2,
+            0
+          ],
+          [
+            1,
+            7
+          ]
+        ],
+        17
+      ]
+    },
+    "Y26": {
+      "position": [
+        [
+          [
+            2,
+            3
+          ],
+          [
+            2,
+            4
+          ],
+          [
+            2,
+            5
+          ]
+        ],
+        17
+      ],
+      "led": [
+        [
+          [
+            2,
+            3
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            1
+          ]
+        ],
+        17
+      ]
+    },
+    "Y34": {
+      "position": [
+        [
+          [
+            2,
+            6
+          ],
+          [
+            2,
+            7
+          ],
+          [
+            3,
+            0
+          ]
+        ],
+        17
+      ],
+      "led": [
+        [
+          [
+            2,
+            6
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            2,
+            4
+          ]
+        ],
+        17
+      ]
+    },
+    "N14": {
+      "position": [
+        [
+          [
+            3,
+            4
+          ],
+          [
+            3,
+            5
+          ],
+          [
+            3,
+            6
+          ]
+        ],
+        114
+      ],
+      "led": [
+        [
+          [
+            3,
+            6
+          ],
+          [
+            3,
+            5
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        114
+      ]
+    },
+    "N16": {
+      "position": [
+        [
+          [
+            3,
+            7
+          ],
+          [
+            4,
+            0
+          ],
+          [
+            4,
+            1
+          ]
+        ],
+        114
+      ],
+      "led": [
+        [
+          [
+            4,
+            1
+          ],
+          [
+            4,
+            0
+          ],
+          [
+            3,
+            7
+          ]
+        ],
+        114
+      ]
+    },
+    "N18": {
+      "position": [
+        [
+          [
+            4,
+            2
+          ],
+          [
+            4,
+            3
+          ],
+          [
+            4,
+            4
+          ]
+        ],
+        114
+      ],
+      "led": [
+        [
+          [
+            4,
+            4
+          ],
+          [
+            4,
+            3
+          ],
+          [
+            4,
+            2
+          ]
+        ],
+        114
+      ]
+    },
+    "N20": {
+      "position": [
+        [
+          [
+            4,
+            5
+          ],
+          [
+            4,
+            6
+          ],
+          [
+            4,
+            7
+          ]
+        ],
+        114
+      ],
+      "led": [
+        [
+          [
+            4,
+            7
+          ],
+          [
+            4,
+            6
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        114
+      ]
+    },
+    "N24": {
+      "position": [
+        [
+          [
+            5,
+            0
+          ],
+          [
+            5,
+            1
+          ],
+          [
+            5,
+            2
+          ]
+        ],
+        114
+      ],
+      "led": [
+        [
+          [
+            3,
+            1
+          ],
+          [
+            3,
+            0
+          ],
+          [
+            2,
+            7
+          ]
+        ],
+        115
+      ]
+    },
+    "N26": {
+      "position": [
+        [
+          [
+            5,
+            3
+          ],
+          [
+            5,
+            4
+          ],
+          [
+            5,
+            5
+          ]
+        ],
+        114
+      ],
+      "led": [
+        [
+          [
+            3,
+            4
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        115
+      ]
+    },
+    "N28": {
+      "position": [
+        [
+          [
+            5,
+            6
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            6,
+            0
+          ]
+        ],
+        114
+      ],
+      "led": [
+        [
+          [
+            3,
+            7
+          ],
+          [
+            3,
+            6
+          ],
+          [
+            3,
+            5
+          ]
+        ],
+        115
+      ]
+    },
+    "C2": {
+      "position": [
+        [
+          [
+            2,
+            4
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            2,
+            6
+          ]
+        ],
+        147
+      ],
+      "led": [
+        [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        147
+      ]
+    },
+    "C4": {
+      "position": [
+        [
+          [
+            2,
+            7
+          ],
+          [
+            3,
+            0
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        147
+      ],
+      "led": [
+        [
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ],
+        147
+      ]
+    },
+    "C6": {
+      "position": [
+        [
+          [
+            3,
+            2
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        147
+      ],
+      "led": [
+        [
+          [
+            0,
+            6
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        147
+      ]
+    },
+    "C8": {
+      "position": [
+        [
+          [
+            3,
+            5
+          ],
+          [
+            3,
+            6
+          ],
+          [
+            3,
+            7
+          ]
+        ],
+        147
+      ],
+      "led": [
+        [
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        147
+      ]
+    },
+    "C10": {
+      "position": [
+        [
+          [
+            4,
+            0
+          ],
+          [
+            4,
+            1
+          ],
+          [
+            4,
+            2
+          ]
+        ],
+        147
+      ],
+      "led": [
+        [
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            1,
+            6
+          ]
+        ],
+        147
+      ]
+    },
+    "C12": {
+      "position": [
+        [
+          [
+            4,
+            3
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        147
+      ],
+      "led": [
+        [
+          [
+            1,
+            7
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            2,
+            1
+          ]
+        ],
+        147
+      ]
+    },
+    "C14": {
+      "position": [
+        [
+          [
+            4,
+            6
+          ],
+          [
+            4,
+            7
+          ],
+          [
+            7,
+            1
+          ]
+        ],
+        147
+      ],
+      "led": [
+        [
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            2,
+            4
+          ]
+        ],
+        147
+      ]
+    },
+    "C18": {
+      "position": [
+        [
+          [
+            5,
+            2
+          ],
+          [
+            5,
+            3
+          ],
+          [
+            5,
+            4
+          ]
+        ],
+        147
+      ],
+      "led": [
+        [
+          [
+            2,
+            7
+          ],
+          [
+            3,
+            0
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        147
+      ]
+    },
+    "C22": {
+      "position": [
+        [
+          [
+            5,
+            5
+          ],
+          [
+            5,
+            6
+          ],
+          [
+            5,
+            7
+          ]
+        ],
+        147
+      ],
+      "led": [
+        [
+          [
+            3,
+            2
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        147
+      ]
+    },
+    "C24": {
+      "position": [
+        [
+          [
+            6,
+            0
+          ],
+          [
+            6,
+            1
+          ],
+          [
+            6,
+            2
+          ]
+        ],
+        147
+      ],
+      "led": [
+        [
+          [
+            3,
+            5
+          ],
+          [
+            3,
+            6
+          ],
+          [
+            3,
+            7
+          ]
+        ],
+        147
+      ]
+    },
+    "PA4": {
+      "position": [
+        [
+          [
+            4,
+            6
+          ],
+          [
+            4,
+            7
+          ],
+          [
+            5,
+            0
+          ]
+        ],
+        34
+      ],
+      "led": [
+        [
+          [
+            3,
+            1
+          ],
+          [
+            3,
+            0
+          ],
+          [
+            2,
+            7
+          ]
+        ],
+        34
+      ]
+    },
+    "PA6": {
+      "position": [
+        [
+          [
+            5,
+            1
+          ],
+          [
+            5,
+            2
+          ],
+          [
+            5,
+            3
+          ]
+        ],
+        34
+      ],
+      "led": [
+        [
+          [
+            3,
+            4
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        34
+      ]
+    },
+    "PA8": {
+      "position": [
+        [
+          [
+            5,
+            4
+          ],
+          [
+            5,
+            5
+          ],
+          [
+            5,
+            6
+          ]
+        ],
+        34
+      ],
+      "led": [
+        [
+          [
+            3,
+            7
+          ],
+          [
+            3,
+            6
+          ],
+          [
+            3,
+            5
+          ]
+        ],
+        34
+      ]
+    },
+    "PA10": {
+      "position": [
+        [
+          [
+            5,
+            7
+          ],
+          [
+            6,
+            0
+          ],
+          [
+            6,
+            1
+          ]
+        ],
+        34
+      ],
+      "led": [
+        [
+          [
+            4,
+            2
+          ],
+          [
+            4,
+            1
+          ],
+          [
+            4,
+            0
+          ]
+        ],
+        34
+      ]
+    },
+    "PA12": {
+      "position": [
+        [
+          [
+            6,
+            2
+          ],
+          [
+            6,
+            3
+          ],
+          [
+            6,
+            4
+          ]
+        ],
+        34
+      ],
+      "led": [
+        [
+          [
+            4,
+            5
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            4,
+            3
+          ]
+        ],
+        34
+      ]
+    },
+    "PA32": {
+      "position": [
+        [
+          [
+            6,
+            5
+          ],
+          [
+            6,
+            6
+          ],
+          [
+            6,
+            7
+          ]
+        ],
+        34
+      ],
+      "led": [
+        [
+          [
+            5,
+            0
+          ],
+          [
+            4,
+            7
+          ],
+          [
+            4,
+            6
+          ]
+        ],
+        34
+      ]
+    },
+    "PA34": {
+      "position": [
+        [
+          [
+            7,
+            0
+          ],
+          [
+            7,
+            1
+          ],
+          [
+            7,
+            2
+          ]
+        ],
+        34
+      ],
+      "led": [
+        [
+          [
+            5,
+            3
+          ],
+          [
+            5,
+            2
+          ],
+          [
+            5,
+            1
+          ]
+        ],
+        34
+      ]
+    },
+    "PB2": {
+      "position": [
+        [
+          [
+            3,
+            7
+          ],
+          [
+            3,
+            6
+          ],
+          [
+            3,
+            5
+          ]
+        ],
+        35
+      ],
+      "led": [
+        [
+          [
+            3,
+            0
+          ],
+          [
+            3,
+            1
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        35
+      ]
+    },
+    "PB4": {
+      "position": [
+        [
+          [
+            4,
+            2
+          ],
+          [
+            4,
+            1
+          ],
+          [
+            4,
+            0
+          ]
+        ],
+        35
+      ],
+      "led": [
+        [
+          [
+            3,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            3,
+            5
+          ]
+        ],
+        35
+      ]
+    },
+    "PB12": {
+      "position": [
+        [
+          [
+            4,
+            6
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            4,
+            4
+          ]
+        ],
+        35
+      ],
+      "led": [
+        [
+          [
+            4,
+            0
+          ],
+          [
+            4,
+            1
+          ],
+          [
+            4,
+            2
+          ]
+        ],
+        35
+      ]
+    },
+    "PB14": {
+      "position": [
+        [
+          [
+            5,
+            1
+          ],
+          [
+            5,
+            0
+          ],
+          [
+            4,
+            7
+          ]
+        ],
+        35
+      ],
+      "led": [
+        [
+          [
+            4,
+            3
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        35
+      ]
+    }
+  }
+}

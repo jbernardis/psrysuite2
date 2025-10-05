@@ -1,0 +1,280 @@
+{
+  "address": 115,
+  "description": "Nassau East",
+  "obytes": [
+    [
+      {
+        "label": "N24RB(0)",
+        "used": true
+      },
+      {
+        "label": "N24RB(1)",
+        "used": true
+      },
+      {
+        "label": "N24RC(0)",
+        "used": true
+      },
+      {
+        "label": "N24RC(1)",
+        "used": true
+      },
+      {
+        "label": "N26RC(0)",
+        "used": true
+      },
+      {
+        "label": "N26RC(1)",
+        "used": true
+      },
+      {
+        "label": "N24RA(0)",
+        "used": true
+      },
+      {
+        "label": "N24RA(1)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "N26RA",
+        "used": true
+      },
+      {
+        "label": "N26RB",
+        "used": true
+      },
+      {
+        "label": "N28R",
+        "used": true
+      },
+      {
+        "label": "B20E(0) Block",
+        "used": true
+      },
+      {
+        "label": "B20E(1)",
+        "used": true
+      },
+      {
+        "label": "B20E(2)",
+        "used": true
+      },
+      {
+        "label": "N24L",
+        "used": true
+      },
+      {
+        "label": "N26L(0)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "N26L(1)",
+        "used": true
+      },
+      {
+        "label": "N28L(0)",
+        "used": true
+      },
+      {
+        "label": "N28L(1)",
+        "used": true
+      },
+      {
+        "label": "NESL(0) lock",
+        "used": true
+      },
+      {
+        "label": "NESL(1)",
+        "used": true
+      },
+      {
+        "label": "NESL(2)",
+        "used": true
+      },
+      {
+        "label": "B10.srel",
+        "used": true
+      },
+      {
+        "label": "N24:L",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "N24:N",
+        "used": true
+      },
+      {
+        "label": "N24:R",
+        "used": true
+      },
+      {
+        "label": "N26:L",
+        "used": true
+      },
+      {
+        "label": "N26:N",
+        "used": true
+      },
+      {
+        "label": "N26:R",
+        "used": true
+      },
+      {
+        "label": "N28:L",
+        "used": true
+      },
+      {
+        "label": "N28:N",
+        "used": true
+      },
+      {
+        "label": "N28:R",
+        "used": true
+      }
+    ]
+  ],
+  "ibytes": [
+    [
+      {
+        "label": "NSw41.N",
+        "used": true
+      },
+      {
+        "label": "(bad bit - see bit 3:2)",
+        "used": false
+      },
+      {
+        "label": "NSw43.N",
+        "used": true
+      },
+      {
+        "label": "NSw43.R",
+        "used": true
+      },
+      {
+        "label": "NSw45.N",
+        "used": true
+      },
+      {
+        "label": "NSw45.R",
+        "used": true
+      },
+      {
+        "label": "NSw47.N",
+        "used": true
+      },
+      {
+        "label": "NSw47.R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "(bad bit - see bit 3:3)",
+        "used": false
+      },
+      {
+        "label": "NSw51.R",
+        "used": true
+      },
+      {
+        "label": "NSw53.N",
+        "used": true
+      },
+      {
+        "label": "NSw53.R",
+        "used": true
+      },
+      {
+        "label": "NSw55.N",
+        "used": true
+      },
+      {
+        "label": "NSw55.R",
+        "used": true
+      },
+      {
+        "label": "NSw57.N",
+        "used": true
+      },
+      {
+        "label": "NSw57.R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "N22",
+        "used": true
+      },
+      {
+        "label": "N41",
+        "used": true
+      },
+      {
+        "label": "N42",
+        "used": true
+      },
+      {
+        "label": "NEOSRH",
+        "used": true
+      },
+      {
+        "label": "NEOSW",
+        "used": true
+      },
+      {
+        "label": "NEOSE",
+        "used": true
+      },
+      {
+        "label": "B10.W",
+        "used": true
+      },
+      {
+        "label": "B10",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "NSw39.N",
+        "used": true
+      },
+      {
+        "label": "NSw39.R",
+        "used": true
+      },
+      {
+        "label": "NSw41.R - see bit 0:1",
+        "used": true
+      },
+      {
+        "label": "NSw51.N - see bit 1:0",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ]
+}

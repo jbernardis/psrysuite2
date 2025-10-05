@@ -1,0 +1,475 @@
+{
+  "Y11": [
+    ["YOSEJW"],
+    ["YOSCJW"]
+  ],
+  "L10": [
+    ["YOSCJW"],
+    ["LOSLAW"]
+  ],
+  "L20": [
+    ["YOSCJW", "YOSCJE"],
+    ["LOSLAM"]
+  ],
+  "P50": [
+    ["POSPJ1", "POSPJ2"],
+    ["YOSCJW", "YOSCJE"]
+  ],
+  "Y21": [
+    ["YOSEJE"],
+    ["YOSCJE"]
+  ],
+  "Y10": [
+    ["YOSKL2", "YOSKL3"],
+    ["YOSEJW", "YOSEJE"]
+  ],
+  "Y87": [
+    ["YOSWYW"],
+    ["YOSEJW", "YOSEJE"]
+  ],
+  "Y30": [
+    ["YOSKL4"],
+    ["YOSEJW", "YOSEJE"]
+  ],
+  "Y20": [
+    ["YOSKL1", "YOSKL3"],
+    ["YOSEJE"]
+  ],
+  "Y70": [
+    ["YOSKL2", "YOSKL1"],
+    ["YOSWYE"]
+  ],
+  "Y53": [
+    [],
+    ["YOSKL2", "YOSKL1"]
+  ],
+  "Y52": [
+    [],
+    ["YOSKL2", "YOSKL1"]
+  ],
+  "Y51": [
+    "YOSKL2",
+    "YOSKL1",
+    "YOSKL4"
+  ],
+  "Y50": [
+    ["YOSKL4"],
+    ["YOSKL2", "YOSKL1"]
+   ],
+  "Y60": [
+    [],
+    ["YOSKL3"]
+  ],
+  "Y81": [
+    ["YOSWYE"],
+    ["YOSWYW"]
+  ],
+  "Y82": [
+    ["YOSWYE"],
+    ["YOSWYW"]
+  ],
+  "Y83": [
+    ["YOSWYE"],
+    ["YOSWYW"]
+  ],
+  "Y84": [
+    ["YOSWYE"],
+    ["YOSWYW"]
+  ],
+  "L11": [
+    ["LOSLAW", "LOSLAM", "LOSLAE"],
+    ["LOSCAW"]
+  ],
+  "L21": [
+    ["LOSLAW", "LOSLAM", "LOSLAE"],
+    ["LOSCAM"]
+  ],
+  "L31": [
+    ["LOSLAW", "LOSLAM", "LOSLAE"],
+    ["LOSCAE"]
+  ],
+  "P11": [
+    ["POSPJ1", "POSPJ2"],
+    ["LOSLAM"]
+  ],
+  "P21": [
+    ["POSPJ2"],
+    ["LOSLAE"]
+  ],
+  "D10": [
+    ["LOSCAW", "LOSCAM"],
+    ["DOSVJE", "DOSVJW"]
+  ],
+  "D20": [
+    ["LOSCAE", "LOSCAM"],
+    ["DOSVJE", "DOSVJW"]
+  ],
+  "H13": [
+    ["HOSEW"],
+    ["DOSVJE", "DOSVJW"]
+  ],
+  "H23": [
+    ["HOSEE"],
+    ["DOSVJE", "DOSVJW"]
+  ],
+  "D21": [
+    ["DOSVJE"],
+    ["DOSFOE", "DOSFOW"]
+  ],
+  "D11": [
+    ["DOSVJW"],
+    ["DOSFOW"]
+  ],
+  "S10": [
+    ["DOSFOE", "DOSFOW"],
+    ["SOSW"]
+  ],
+  "S20": [
+    ["DOSFOE"],
+    ["SOSE"]
+  ],
+  "S11": [
+    ["SOSW", "SOSE"],
+    ["KOSN10S11"]
+  ],
+  "H30": [
+    ["SOSW", "SOSE"],
+    ["HOSWW2"]
+  ],
+  "H10": [
+    ["SOSW", "SOSE"],
+    ["SOSHJW"]
+  ],
+  "H20": [
+    ["SOSW", "SOSE"],
+    ["SOSHJM"]
+  ],
+  "S21": [
+    ["SOSW", "SOSE"],
+    ["KOSN20S21"]
+  ],
+  "P32": [
+    ["POSCJ1", "POSCJ2"],
+    ["SOSW", "SOSE"]
+  ],
+  "F10": [
+    [],
+    ["SOSHF"]
+  ],
+  "F11": [
+    ["SOSHF"],
+    []
+  ],
+  "H11": [
+    ["SOSHJW", "SOSHJM", "SOSHJE"],
+    ["HOSWW"]
+  ],
+  "H21": [
+    ["SOSHJM", "SOSHJE"],
+    ["HOSWE"]
+  ],
+  "H40": [
+    ["SOSHJM", "SOSHJE"],
+    ["HOSEE"]
+  ],
+  "P42": [
+    ["POSCJ1", "POSCJ2"],
+    ["SOSHJE"]
+   ],
+  "N25": [
+    ["SOSHJE"],
+    ["KOSW", "KOSM", "KOSE"]
+  ],
+  "N10": [
+    ["KOSN10S11"],
+    ["KOSW", "KOSE"]
+  ],
+  "N11": [
+    ["KOSW", "KOSM", "KOSE"],
+    ["NWOSW"]
+  ],
+  "N21": [
+    ["KOSW", "KOSM", "KOSE"],
+    ["NWOSE"]
+  ],
+  "K10": [
+    ["KOSW", "KOSM"],
+    []
+  ],
+  "N20": [
+    ["KOSN20S21"],
+    ["KOSE"]
+   ],
+  "T12": [
+    [],
+    ["NWOSTY"]
+  ],
+  "W10": [
+    ["NWOSTY", "NWOSCY", "NWOSW", "NWOSE"],
+    []
+  ],
+  "N60": [
+    [],
+    ["NWOSCY"]
+  ],
+  "N32": [
+    ["NWOSCY", "NWOSW", "NWOSE"],
+    ["NEOSRH", "NEOSW", "NEOSE"]
+  ],
+  "N31": [
+    ["NWOSCY", "NWOSW", "NWOSE"],
+    ["NEOSRH", "NEOSW", "NEOSE"]
+  ],
+  "N12": [
+    ["NWOSCY", "NWOSW", "NWOSE"],
+    ["NEOSRH", "NEOSW", "NEOSE"]
+  ],
+  "N22": [
+    ["NWOSCY", "NWOSW", "NWOSE"],
+    ["NEOSRH", "NEOSW", "NEOSE"]
+  ],
+  "N41": [
+    ["NWOSCY", "NWOSW", "NWOSE"],
+    ["NEOSRH", "NEOSW", "NEOSE"]
+  ],
+  "N42": [
+    ["NWOSCY", "NWOSW", "NWOSE"],
+    ["NEOSRH", "NEOSW", "NEOSE"]
+  ],
+  "W20": [
+    ["NWOSCY", "NWOSW", "NWOSE"],
+    ["NEOSRH", "NEOSW", "NEOSE"]
+  ],
+  "W11": [
+    [],
+    ["NEOSRH", "NEOSW", "NEOSE"]
+  ],
+  "R10": [
+    ["NEOSRH"],
+    []
+  ],
+  "B10": [
+    ["NEOSW"],
+    ["BOSWW", "BOSWE"]
+  ],
+  "B20": [
+    ["NEOSE"],
+    ["BOSWE"]
+  ],
+  "B11": [
+    ["BOSWW"],
+    ["BOSE"]
+  ],
+  "B21": [
+    ["BOSWW", "BOSWE"],
+    ["BOSE"]
+  ],
+  "C13": [
+    ["BOSE"],
+    ["COSCLW"]
+  ],
+  "C23": [
+    ["COSCLW"],
+    ["COSCLEW", "COSCLEE"]
+  ],
+  "C12": [
+    ["COSCLW"],
+    ["COSCLEE"]
+  ],
+  "C22": [
+    ["COSCLEW"],
+    ["COSSHW"]
+  ],
+  "C11": [
+    ["COSCLEE"],
+    ["COSGMW"]
+  ],
+  "G21": [
+    ["COSGMW"],
+    []
+  ],
+  "C10": [
+    ["COSGMW"],
+    ["COSGME"]
+  ],
+  "C30": [
+    ["COSGMW"],
+    ["COSGME"]
+  ],
+  "C31": [
+    ["COSGMW"],
+    []
+  ],
+  "G12": [
+    [],
+    ["COSGME"]
+  ],
+  "G10": [
+    [],
+    ["COSGME"]
+  ],
+  "C20": [
+    ["COSGME"],
+    ["COSSHE"]
+  ],
+  "C44": [
+    ["COSSHW"],
+    ["COSSHE"]
+  ],
+  "C43": [
+    ["COSSHW"],
+    ["COSSHE"]
+  ],
+  "C42": [
+    ["COSSHW"],
+    ["COSSHE"]
+  ],
+  "C41": [
+    ["COSSHW"],
+    ["COSSHE"]
+  ],
+  "C40": [
+    ["COSSHW"],
+    ["COSSHE"]
+  ],
+  "C21": [
+    ["COSSHW"],
+    ["COSSHE"]
+  ],
+  "C50": [
+    ["COSSHW"],
+    ["COSSHE"]
+  ],
+  "C51": [
+    ["COSSHW"],
+    ["COSSHE"]
+  ],
+  "C52": [
+    ["COSSHW"],
+    ["COSSHE"]
+  ],
+  "C53": [
+    ["COSSHW"],
+    ["COSSHE"]
+  ],
+  "C54": [
+    ["COSSHW"],
+    ["COSSHE"]
+  ],
+  "H12": [
+    ["HOSWW"],
+    ["HOSEW"]
+  ],
+  "H31": [
+    ["HOSWW", "HOSWW2"],
+    ["HOSEW"]
+  ],
+  "H32": [
+    ["HOSWW"],
+    ["HOSEW"]
+  ],
+  "H33": [
+    ["HOSWW"],
+    ["HOSEW"]
+  ],
+  "H34": [
+    ["HOSWW"],
+    ["HOSEW"]
+  ],
+  "H22": [
+    ["HOSWE"],
+    ["HOSEE"]
+  ],
+  "H41": [
+    ["HOSWE"],
+    ["HOSEE"]
+  ],
+  "H42": [
+    ["HOSWE"],
+    ["HOSEE"]
+  ],
+  "H43": [
+    ["HOSWE"],
+    ["HOSEE"]
+  ],
+  "P31": [
+    ["POSSJ1", "POSSJ2"],
+    ["POSCJ1"]
+  ],
+  "P41": [
+    ["POSSJ1", "POSSJ2"],
+    ["POSCJ2"]
+  ],
+  "P30": [
+    ["POSSJ1"],
+    ["POSPJ2"]
+  ],
+  "P40": [
+    ["POSSP5"],
+    ["POSSJ2"]
+  ],
+  "V11": [
+    [],
+    ["POSPJ1"]
+  ],
+  "P60": [
+    ["POSSP1"],
+    ["POSPJ1"]
+  ],
+  "P61": [
+    ["POSSP1"],
+    ["POSPJ1"]
+  ],
+  "P10": [
+    ["POSSP2"],
+    ["POSPJ1"]
+  ],
+  "P20": [
+    ["POSSP3"],
+    ["POSPJ1"]
+  ],
+  "P7": [
+    [],
+    ["POSSP1", "POSSP2", "POSSP3"]
+  ],
+  "V10": [
+    ["POSSP1"],
+    []
+  ],
+  "P1": [
+    [],
+    ["POSSP2", "POSSP3", "POSSP4", "POSSP5"]
+  ],
+  "P2": [
+    [],
+    ["POSSP2", "POSSP3", "POSSP4", "POSSP5"]
+  ],
+  "P3": [
+    [],
+    ["POSSP2", "POSSP3", "POSSP4", "POSSP5"]
+  ],
+  "P4": [
+    [],
+    ["POSSP2", "POSSP3"]
+  ],
+  "P5": [
+    [],
+    ["POSSP2", "POSSP3"]
+  ],
+  "P6": [
+    [],
+    ["POSSP2", "POSSP3"]
+  ],
+  "P62": [
+    ["POSSP4"],
+    []
+  ],
+  "P63": [
+    ["POSSP4"],
+    []
+  ],
+  "P64": [
+    ["POSSP4"],
+    []
+  ]
+}

@@ -1,0 +1,4 @@
+requests == 2.28.2
+pyserial == 3.5
+wxPython == 4.2.0
+winshell == 0.6

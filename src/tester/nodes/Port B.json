@@ -1,0 +1,450 @@
+{
+  "address": 35,
+  "description": "Port B",
+  "obytes": [
+    [
+      {
+        "label": "PB2R(0)",
+        "used": true
+      },
+      {
+        "label": "PB2R(1)",
+        "used": true
+      },
+      {
+        "label": "PB2R(2)",
+        "used": true
+      },
+      {
+        "label": "PB4R(0)",
+        "used": true
+      },
+      {
+        "label": "PB4R(1)",
+        "used": true
+      },
+      {
+        "label": "PB4R(2)",
+        "used": true
+      },
+      {
+        "label": "PB2L(0)",
+        "used": true
+      },
+      {
+        "label": "PB2L(1)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "PB2L(2)",
+        "used": true
+      },
+      {
+        "label": "PB4L(0)",
+        "used": true
+      },
+      {
+        "label": "PB4L(1)",
+        "used": true
+      },
+      {
+        "label": "PB4L(2)",
+        "used": true
+      },
+      {
+        "label": "PB12L(0)",
+        "used": true
+      },
+      {
+        "label": "PB12L(1)",
+        "used": true
+      },
+      {
+        "label": "PB12L(2)",
+        "used": true
+      },
+      {
+        "label": "PB14L(0)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "PB14L(1)",
+        "used": true
+      },
+      {
+        "label": "PB14L(2)",
+        "used": true
+      },
+      {
+        "label": "PB12R(0)",
+        "used": true
+      },
+      {
+        "label": "PB12R(1)",
+        "used": true
+      },
+      {
+        "label": "PB12R(2)",
+        "used": true
+      },
+      {
+        "label": "PB14R(0)",
+        "used": true
+      },
+      {
+        "label": "PB14R(1)",
+        "used": true
+      },
+      {
+        "label": "PB14R(2)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "PB2:L",
+        "used": true
+      },
+      {
+        "label": "PB2:N",
+        "used": true
+      },
+      {
+        "label": "PB2:R",
+        "used": true
+      },
+      {
+        "label": "PB4:L",
+        "used": true
+      },
+      {
+        "label": "PB4:N",
+        "used": true
+      },
+      {
+        "label": "PB4:R",
+        "used": true
+      },
+      {
+        "label": "PBSw5.hsind",
+        "used": true
+      },
+      {
+        "label": "PBSw5.!hsind",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "PB12:L",
+        "used": true
+      },
+      {
+        "label": "PB12:N",
+        "used": true
+      },
+      {
+        "label": "PB12:R",
+        "used": true
+      },
+      {
+        "label": "PB14:L",
+        "used": true
+      },
+      {
+        "label": "PB14:N",
+        "used": true
+      },
+      {
+        "label": "PB14:R",
+        "used": true
+      },
+      {
+        "label": "PBSw15.hsind",
+        "used": true
+      },
+      {
+        "label": "PBSw15.hsind",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "P30.blk",
+        "used": true
+      },
+      {
+        "label": "P42.blk",
+        "used": true
+      },
+      {
+        "label": "Shore sig",
+        "used": true
+      },
+      {
+        "label": "Hyde Jct sig",
+        "used": true
+      },
+      {
+        "label": "CBSouthJct.ind",
+        "used": true
+      },
+      {
+        "label": "CBCircusJct.ind",
+        "used": true
+      },
+      {
+        "label": "PBSw1.lck",
+        "used": true
+      },
+      {
+        "label": "PBSw3.lck",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "PBSw5.hslck",
+        "used": true
+      },
+      {
+        "label": "PBSw11.lck",
+        "used": true
+      },
+      {
+        "label": "PBSw13.lck",
+        "used": true
+      },
+      {
+        "label": "PBSw15.hslck",
+        "used": true
+      },
+      {
+        "label": "P32.srel",
+        "used": true
+      },
+      {
+        "label": "P41.srel",
+        "used": true
+      },
+      {
+        "label": "PBX0",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ],
+  "ibytes": [
+    [
+      {
+        "label": "PBSw1.N",
+        "used": true
+      },
+      {
+        "label": "PBSw1.R",
+        "used": true
+      },
+      {
+        "label": "PBSw3.N",
+        "used": true
+      },
+      {
+        "label": "PBSw3.R",
+        "used": true
+      },
+      {
+        "label": "PBSw11.N",
+        "used": true
+      },
+      {
+        "label": "PBSw11.R",
+        "used": true
+      },
+      {
+        "label": "PBSw13.N",
+        "used": true
+      },
+      {
+        "label": "PBSw13.R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "PBSw5.N",
+        "used": true
+      },
+      {
+        "label": "PBSw5.R",
+        "used": true
+      },
+      {
+        "label": "PBSw15A.N",
+        "used": true
+      },
+      {
+        "label": "PBSw15A.R",
+        "used": true
+      },
+      {
+        "label": "PBSw15B.N",
+        "used": true
+      },
+      {
+        "label": "PBSw15B.R",
+        "used": true
+      },
+      {
+        "label": "P40",
+        "used": true
+      },
+      {
+        "label": "P40.E",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "POSSJ2",
+        "used": true
+      },
+      {
+        "label": "POSSJ1",
+        "used": true
+      },
+      {
+        "label": "P31.W",
+        "used": true
+      },
+      {
+        "label": "P31",
+        "used": true
+      },
+      {
+        "label": "P31.E",
+        "used": true
+      },
+      {
+        "label": "P32.W",
+        "used": true
+      },
+      {
+        "label": "P32",
+        "used": true
+      },
+      {
+        "label": "P32.E",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "POSCJ2",
+        "used": true
+      },
+      {
+        "label": "POSCJ1",
+        "used": true
+      },
+      {
+        "label": "P41.W",
+        "used": true
+      },
+      {
+        "label": "P41",
+        "used": true
+      },
+      {
+        "label": "P41.E",
+        "used": true
+      },
+      {
+        "label": "PB2.Llvr",
+        "used": true
+      },
+      {
+        "label": "PB2.Clvr",
+        "used": true
+      },
+      {
+        "label": "PB2.Rlvr",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "PB4.Llvr",
+        "used": true
+      },
+      {
+        "label": "PB4.Clvr",
+        "used": true
+      },
+      {
+        "label": "PB4.Rlvr",
+        "used": true
+      },
+      {
+        "label": "PBSw5.hand",
+        "used": true
+      },
+      {
+        "label": "PB12.Llvr",
+        "used": true
+      },
+      {
+        "label": "PB12.Clvr",
+        "used": true
+      },
+      {
+        "label": "PB12.Rlvr",
+        "used": true
+      },
+      {
+        "label": "PB14.Llvr",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "PB14.Clvr",
+        "used": true
+      },
+      {
+        "label": "PB14.Rlvr",
+        "used": true
+      },
+      {
+        "label": "PBSw15.hand",
+        "used": true
+      },
+      {
+        "label": "PBRelease",
+        "used": true
+      },
+      {
+        "label": "PBSw17.N",
+        "used": true
+      },
+      {
+        "label": "PBSw17.R",
+        "used": true
+      },
+      {
+        "label": "P33",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ]
+}

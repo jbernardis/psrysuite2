@@ -1,0 +1,348 @@
+{
+  "address": 49,
+  "description": "Latham",
+  "obytes": [
+    [
+      {
+        "label": "LSw1.N",
+        "used": true
+      },
+      {
+        "label": "LSw1.R",
+        "used": true
+      },
+      {
+        "label": "(bad - see bit 2:2)",
+        "used": false
+      },
+      {
+        "label": "LSw3.R",
+        "used": true
+      },
+      {
+        "label": "LSw5.N",
+        "used": true
+      },
+      {
+        "label": "LSw5.R",
+        "used": true
+      },
+      {
+        "label": "LSw7.R",
+        "used": true
+      },
+      {
+        "label": "LSw7.N",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "LSw9.N",
+        "used": true
+      },
+      {
+        "label": "LSw9.R",
+        "used": true
+      },
+      {
+        "label": "L4R(0)",
+        "used": true
+      },
+      {
+        "label": "L4R(1)",
+        "used": true
+      },
+      {
+        "label": "L4R(2)",
+        "used": true
+      },
+      {
+        "label": "L6RB",
+        "used": true
+      },
+      {
+        "label": "L6RA(0)",
+        "used": true
+      },
+      {
+        "label": "L6RA(1)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "L6RA(2)",
+        "used": true
+      },
+      {
+        "label": "L8R",
+        "used": true
+      },
+      {
+        "label": "LSw3.N (see bit 0:2)",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "L4L",
+        "used": true
+      },
+      {
+        "label": "L6L(0)",
+        "used": true
+      },
+      {
+        "label": "L6L(1)",
+        "used": true
+      },
+      {
+        "label": "L6L(2)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "L8L(0)",
+        "used": true
+      },
+      {
+        "label": "L8L(1)",
+        "used": true
+      },
+      {
+        "label": "L8L(2)",
+        "used": true
+      },
+      {
+        "label": "L10",
+        "used": true
+      },
+      {
+        "label": "L31",
+        "used": true
+      },
+      {
+        "label": "P11",
+        "used": true
+      },
+      {
+        "label": "L20.srel",
+        "used": true
+      },
+      {
+        "label": "P21.srel",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "L11.srel",
+        "used": true
+      },
+      {
+        "label": "L21.srel",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ],
+  "ibytes": [
+    [
+      {
+        "label": "LSw1.N",
+        "used": true
+      },
+      {
+        "label": "LSw1.R",
+        "used": true
+      },
+      {
+        "label": "LSw3.N",
+        "used": true
+      },
+      {
+        "label": "LSw3.R",
+        "used": true
+      },
+      {
+        "label": "LSw5.N",
+        "used": true
+      },
+      {
+        "label": "LSw5.R",
+        "used": true
+      },
+      {
+        "label": "LSw7.N",
+        "used": true
+      },
+      {
+        "label": "LSw7.R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "LSw9.N",
+        "used": true
+      },
+      {
+        "label": "LSw9.R",
+        "used": true
+      },
+      {
+        "label": "L20",
+        "used": true
+      },
+      {
+        "label": "L20.E",
+        "used": true
+      },
+      {
+        "label": "P21",
+        "used": true
+      },
+      {
+        "label": "P21.E",
+        "used": true
+      },
+      {
+        "label": "LOSLAW",
+        "used": true
+      },
+      {
+        "label": "LOSLAM",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "LOSLAE",
+        "used": true
+      },
+      {
+        "label": "L11.W",
+        "used": true
+      },
+      {
+        "label": "L11",
+        "used": true
+      },
+      {
+        "label": "L21.W",
+        "used": true
+      },
+      {
+        "label": "L21",
+        "used": true
+      },
+      {
+        "label": "L21.E",
+        "used": true
+      },
+      {
+        "label": "CBCliveden",
+        "used": true
+      },
+      {
+        "label": "CBLatham",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "CBCornellJct",
+        "used": true
+      },
+      {
+        "label": "CBParsonsJct",
+        "used": true
+      },
+      {
+        "label": "CBSouthJct",
+        "used": true
+      },
+      {
+        "label": "CBCircusJct",
+        "used": true
+      },
+      {
+        "label": "CBSouthport",
+        "used": true
+      },
+      {
+        "label": "CBLavinYard",
+        "used": true
+      },
+      {
+        "label": "CBReverserP31",
+        "used": true
+      },
+      {
+        "label": "CBReverserP41",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "CBReverserP50",
+        "used": true
+      },
+      {
+        "label": "CBReverserC22C23",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ]
+}

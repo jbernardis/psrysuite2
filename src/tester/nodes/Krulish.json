@@ -1,0 +1,212 @@
+{
+  "address": 113,
+  "description": "Krulish",
+  "obytes": [
+    [
+      {
+        "label": "K8R(0)",
+        "used": true
+      },
+      {
+        "label": "K8R(1)",
+        "used": true
+      },
+      {
+        "label": "K8R(2)",
+        "used": true
+      },
+      {
+        "label": "K4R(0)",
+        "used": true
+      },
+      {
+        "label": "K4R(1)",
+        "used": true
+      },
+      {
+        "label": "K4R(2)",
+        "used": true
+      },
+      {
+        "label": "K2R(0)",
+        "used": true
+      },
+      {
+        "label": "K2R(1)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "K2R(2)",
+        "used": true
+      },
+      {
+        "label": "K2L(0)",
+        "used": true
+      },
+      {
+        "label": "K2L(1)",
+        "used": true
+      },
+      {
+        "label": "K2L(2)",
+        "used": true
+      },
+      {
+        "label": "K8LA",
+        "used": true
+      },
+      {
+        "label": "K8LB(0)",
+        "used": true
+      },
+      {
+        "label": "K8LB(1)",
+        "used": true
+      },
+      {
+        "label": "K8LB(2)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "CBKrulishYd.ind",
+        "used": true
+      },
+      {
+        "label": "N10.srel",
+        "used": true
+      },
+      {
+        "label": "N20.srel",
+        "used": true
+      },
+      {
+        "label": "N11.srel",
+        "used": true
+      }
+    ]
+  ],
+  "ibytes": [
+    [
+      {
+        "label": "KSw1.N",
+        "used": true
+      },
+      {
+        "label": "KSw1.R",
+        "used": true
+      },
+      {
+        "label": "KSw3.N",
+        "used": true
+      },
+      {
+        "label": "KSw3.R",
+        "used": true
+      },
+      {
+        "label": "KSw5.N",
+        "used": true
+      },
+      {
+        "label": "KSw5.R",
+        "used": true
+      },
+      {
+        "label": "KSw7.N",
+        "used": true
+      },
+      {
+        "label": "KSw7.R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "N10.W",
+        "used": true
+      },
+      {
+        "label": "N10",
+        "used": true
+      },
+      {
+        "label": "N10.E",
+        "used": true
+      },
+      {
+        "label": "N20.W",
+        "used": true
+      },
+      {
+        "label": "N20",
+        "used": true
+      },
+      {
+        "label": "N20.E",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "KOSW",
+        "used": true
+      },
+      {
+        "label": "KOSM",
+        "used": true
+      },
+      {
+        "label": "KOSE",
+        "used": true
+      },
+      {
+        "label": "N11.W",
+        "used": true
+      },
+      {
+        "label": "N11",
+        "used": true
+      },
+      {
+        "label": "N11.E",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ]
+}

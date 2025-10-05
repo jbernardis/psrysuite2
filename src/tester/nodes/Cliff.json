@@ -1,0 +1,552 @@
+{
+  "address": 147,
+  "description": "Cliff",
+  "obytes": [
+    [
+      {
+        "label": "C2:R",
+        "used": true
+      },
+      {
+        "label": "C2:N",
+        "used": true
+      },
+      {
+        "label": "C2:L",
+        "used": true
+      },
+      {
+        "label": "C4:R",
+        "used": true
+      },
+      {
+        "label": "C4:N",
+        "used": true
+      },
+      {
+        "label": "C4:L",
+        "used": true
+      },
+      {
+        "label": "C6:R",
+        "used": true
+      },
+      {
+        "label": "C6:N",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "C6:L",
+        "used": true
+      },
+      {
+        "label": "C8:R",
+        "used": true
+      },
+      {
+        "label": "C8:N",
+        "used": true
+      },
+      {
+        "label": "C8:L",
+        "used": true
+      },
+      {
+        "label": "C10:R",
+        "used": true
+      },
+      {
+        "label": "C10:N",
+        "used": true
+      },
+      {
+        "label": "C10:L",
+        "used": true
+      },
+      {
+        "label": "C12:R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "C12:N",
+        "used": true
+      },
+      {
+        "label": "C12:L",
+        "used": true
+      },
+      {
+        "label": "C14:R",
+        "used": true
+      },
+      {
+        "label": "C14:N",
+        "used": true
+      },
+      {
+        "label": "C14:L",
+        "used": true
+      },
+      {
+        "label": "CFleet",
+        "used": true
+      },
+      {
+        "label": "!CFleet",
+        "used": true
+      },
+      {
+        "label": "C18:R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "C18:N",
+        "used": true
+      },
+      {
+        "label": "C18:L",
+        "used": true
+      },
+      {
+        "label": "C22:R",
+        "used": true
+      },
+      {
+        "label": "C22:N",
+        "used": true
+      },
+      {
+        "label": "C22:L",
+        "used": true
+      },
+      {
+        "label": "C24:R",
+        "used": true
+      },
+      {
+        "label": "C24:N",
+        "used": true
+      },
+      {
+        "label": "C24:L",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "CSw3.hslck",
+        "used": true
+      },
+      {
+        "label": "!CSw3.hslck",
+        "used": true
+      },
+      {
+        "label": "CSw11.hslck",
+        "used": true
+      },
+      {
+        "label": "!CSw11.hslck",
+        "used": true
+      },
+      {
+        "label": "CSw15.hslck",
+        "used": true
+      },
+      {
+        "label": "!CSw15.hslck",
+        "used": true
+      },
+      {
+        "label": "CSw19.hslck",
+        "used": true
+      },
+      {
+        "label": "!CSw19.hslck",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "CSw21ab.hslck",
+        "used": true
+      },
+      {
+        "label": "!CSw21ab.hslck",
+        "used": true
+      },
+      {
+        "label": "B10.ind",
+        "used": true
+      },
+      {
+        "label": "CBGreenMtn.ind",
+        "used": true
+      },
+      {
+        "label": "CBSheffield.ind",
+        "used": true
+      },
+      {
+        "label": "CBCliveden",
+        "used": true
+      },
+      {
+        "label": "CBReverserC22C23",
+        "used": true
+      },
+      {
+        "label": "CBBank",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "CSw31.lck",
+        "used": true
+      },
+      {
+        "label": "CSw41.lck",
+        "used": true
+      },
+      {
+        "label": "CSw43.lck",
+        "used": true
+      },
+      {
+        "label": "CSw61.lck",
+        "used": true
+      },
+      {
+        "label": "CSw9.lck",
+        "used": true
+      },
+      {
+        "label": "CSw13.lck",
+        "used": true
+      },
+      {
+        "label": "CSw17.lck",
+        "used": true
+      },
+      {
+        "label": "CSw23.lck",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "CSw21a.hsind",
+        "used": true
+      },
+      {
+        "label": "CSw21b.hsind",
+        "used": true
+      },
+      {
+        "label": "CSw19,hsind",
+        "used": true
+      },
+      {
+        "label": "CSw15.hsind",
+        "used": true
+      },
+      {
+        "label": "CSw11.hsind",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ],
+  "ibytes": [
+    [
+      {
+        "label": "CC21E route",
+        "used": true
+      },
+      {
+        "label": "CC40E",
+        "used": true
+      },
+      {
+        "label": "CC44E",
+        "used": true
+      },
+      {
+        "label": "CC43E",
+        "used": true
+      },
+      {
+        "label": "CC42E",
+        "used": true
+      },
+      {
+        "label": "CC41E",
+        "used": true
+      },
+      {
+        "label": "CC41W",
+        "used": true
+      },
+      {
+        "label": "CC42W",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "CC21W",
+        "used": true
+      },
+      {
+        "label": "CC40W",
+        "used": true
+      },
+      {
+        "label": "CC44W",
+        "used": true
+      },
+      {
+        "label": "CC43W",
+        "used": true
+      },
+      {
+        "label": "COSSHE",
+        "used": true
+      },
+      {
+        "label": "C21",
+        "used": true
+      },
+      {
+        "label": "C40",
+        "used": true
+      },
+      {
+        "label": "C41",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "C42",
+        "used": true
+      },
+      {
+        "label": "C43",
+        "used": true
+      },
+      {
+        "label": "C44",
+        "used": true
+      },
+      {
+        "label": "COSSHW",
+        "used": true
+      },
+      {
+        "label": "C2.Rlvr",
+        "used": true
+      },
+      {
+        "label": "C2.Clvr",
+        "used": true
+      },
+      {
+        "label": "C2.Llvr",
+        "used": true
+      },
+      {
+        "label": "C4.Rlvr",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "C4.Clvr",
+        "used": true
+      },
+      {
+        "label": "C4.Llvr",
+        "used": true
+      },
+      {
+        "label": "C6.Rlvr",
+        "used": true
+      },
+      {
+        "label": "C6.Clvr",
+        "used": true
+      },
+      {
+        "label": "C6.Llvr",
+        "used": true
+      },
+      {
+        "label": "C8.Rlvr",
+        "used": true
+      },
+      {
+        "label": "C8.Clvr",
+        "used": true
+      },
+      {
+        "label": "C8.Llvr",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "C10.Rlvr",
+        "used": true
+      },
+      {
+        "label": "C10.Clvr",
+        "used": true
+      },
+      {
+        "label": "C10.Llvr",
+        "used": true
+      },
+      {
+        "label": "C12.Rlvr",
+        "used": true
+      },
+      {
+        "label": "C12.Clvr",
+        "used": true
+      },
+      {
+        "label": "C12.Llvr",
+        "used": true
+      },
+      {
+        "label": "C14.Rlvr",
+        "used": true
+      },
+      {
+        "label": "C14.Clvr",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "(bad bit - see bit 7:1)",
+        "used": false
+      },
+      {
+        "label": "CFleet",
+        "used": true
+      },
+      {
+        "label": "C18.Rlvr",
+        "used": true
+      },
+      {
+        "label": "C18.Clvr",
+        "used": true
+      },
+      {
+        "label": "C18.Llvr",
+        "used": true
+      },
+      {
+        "label": "C22.Rlvr",
+        "used": true
+      },
+      {
+        "label": "C22.Clvr",
+        "used": true
+      },
+      {
+        "label": "C22.Llvr",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "C24.Rlvr",
+        "used": true
+      },
+      {
+        "label": "C24.Clvr",
+        "used": true
+      },
+      {
+        "label": "C24.Llvr",
+        "used": true
+      },
+      {
+        "label": "CRelease",
+        "used": true
+      },
+      {
+        "label": "CSw3.hand",
+        "used": true
+      },
+      {
+        "label": "CSw11.hand",
+        "used": true
+      },
+      {
+        "label": "CSw15.hand",
+        "used": true
+      },
+      {
+        "label": "CSw19.hand",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "CSw21ab.hand",
+        "used": true
+      },
+      {
+        "label": "C14.Llvr",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ]
+}

@@ -1,0 +1,178 @@
+{
+  "address": 81,
+  "description": "Hyde Jct",
+  "obytes": [
+    [
+      {
+        "label": "S16R(0)",
+        "used": true
+      },
+      {
+        "label": "S16R(1)",
+        "used": true
+      },
+      {
+        "label": "S16R(2)",
+        "used": true
+      },
+      {
+        "label": "S18R(0)",
+        "used": true
+      },
+      {
+        "label": "S18R(1)",
+        "used": true
+      },
+      {
+        "label": "S18R(2)",
+        "used": true
+      },
+      {
+        "label": "S20R",
+        "used": true
+      },
+      {
+        "label": "S16L(0)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "S16L(1)",
+        "used": true
+      },
+      {
+        "label": "S16L(2)",
+        "used": true
+      },
+      {
+        "label": "S18LB",
+        "used": true
+      },
+      {
+        "label": "S18LA",
+        "used": true
+      },
+      {
+        "label": "S20L(0)",
+        "used": true
+      },
+      {
+        "label": "S20L(1)",
+        "used": true
+      },
+      {
+        "label": "S20L(2)",
+        "used": true
+      },
+      {
+        "label": "SSw15.N",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "SSw15.R",
+        "used": true
+      },
+      {
+        "label": "SSw17.N",
+        "used": true
+      },
+      {
+        "label": "SSw17.R",
+        "used": true
+      },
+      {
+        "label": "SSw19.N",
+        "used": true
+      },
+      {
+        "label": "SSw19.R",
+        "used": true
+      },
+      {
+        "label": "H20.srel",
+        "used": true
+      },
+      {
+        "label": "P42.srel",
+        "used": true
+      },
+      {
+        "label": "H11.srel",
+        "used": true
+      }
+    ]
+  ],
+  "ibytes": [
+    [
+      {
+        "label": "SSw15.N",
+        "used": true
+      },
+      {
+        "label": "SSw15.R",
+        "used": true
+      },
+      {
+        "label": "SSw17.N",
+        "used": true
+      },
+      {
+        "label": "SSw17.R",
+        "used": true
+      },
+      {
+        "label": "SSw19.N",
+        "used": true
+      },
+      {
+        "label": "SSw19.R",
+        "used": true
+      },
+      {
+        "label": "H20",
+        "used": true
+      },
+      {
+        "label": "H20.E",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "P42.W",
+        "used": true
+      },
+      {
+        "label": "P42",
+        "used": true
+      },
+      {
+        "label": "P42.E",
+        "used": true
+      },
+      {
+        "label": "SOSHJW",
+        "used": true
+      },
+      {
+        "label": "SOSHJM",
+        "used": true
+      },
+      {
+        "label": "SOSHJE",
+        "used": true
+      },
+      {
+        "label": "H11.W",
+        "used": true
+      },
+      {
+        "label": "H11",
+        "used": true
+      }
+    ]
+  ]
+}

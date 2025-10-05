@@ -1,0 +1,280 @@
+{
+  "address": 33,
+  "description": "Parsons Jct",
+  "obytes": [
+    [
+      {
+        "label": "PA34LB(0)",
+        "used": true
+      },
+      {
+        "label": "PA34LB(1)",
+        "used": true
+      },
+      {
+        "label": "PA34LB(2)",
+        "used": true
+      },
+      {
+        "label": "PA32L",
+        "used": true
+      },
+      {
+        "label": "PA34LA(0)",
+        "used": true
+      },
+      {
+        "label": "PA34LA(1)",
+        "used": true
+      },
+      {
+        "label": "PA34LA(2)",
+        "used": true
+      },
+      {
+        "label": "PA34RD(0)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "PA34RD(1)",
+        "used": true
+      },
+      {
+        "label": "PA34RD(2)",
+        "used": true
+      },
+      {
+        "label": "PA34RC",
+        "used": true
+      },
+      {
+        "label": "PA32RA(0)",
+        "used": true
+      },
+      {
+        "label": "PA32RA(1)",
+        "used": true
+      },
+      {
+        "label": "PA32RA(2)",
+        "used": true
+      },
+      {
+        "label": "PA34RB",
+        "used": true
+      },
+      {
+        "label": "P32RB(0)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "PA32RB(1)",
+        "used": true
+      },
+      {
+        "label": "PA32RB(2)",
+        "used": true
+      },
+      {
+        "label": "PA34RA",
+        "used": true
+      },
+      {
+        "label": "P20.srel",
+        "used": true
+      },
+      {
+        "label": "P30.srel",
+        "used": true
+      },
+      {
+        "label": "P50.srel",
+        "used": true
+      },
+      {
+        "label": "P11.srel",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ],
+    [
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ],
+  "ibytes": [
+    [
+      {
+        "label": "PASw27.N",
+        "used": true
+      },
+      {
+        "label": "PASw27.R",
+        "used": true
+      },
+      {
+        "label": "PASw29.N",
+        "used": true
+      },
+      {
+        "label": "PASw29.R",
+        "used": true
+      },
+      {
+        "label": "PASw31.N",
+        "used": true
+      },
+      {
+        "label": "PASw31.R",
+        "used": true
+      },
+      {
+        "label": "PASw33.N",
+        "used": true
+      },
+      {
+        "label": "PASw33.R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "PASw35.N",
+        "used": true
+      },
+      {
+        "label": "PASw35.R",
+        "used": true
+      },
+      {
+        "label": "PASw37.N",
+        "used": true
+      },
+      {
+        "label": "PASw37.R",
+        "used": true
+      },
+      {
+        "label": "P20",
+        "used": true
+      },
+      {
+        "label": "P20.E",
+        "used": true
+      },
+      {
+        "label": "P30.W",
+        "used": true
+      },
+      {
+        "label": "P30",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "P30.E",
+        "used": true
+      },
+      {
+        "label": "POSPJ1",
+        "used": true
+      },
+      {
+        "label": "POSPJ2",
+        "used": true
+      },
+      {
+        "label": "P50.W",
+        "used": true
+      },
+      {
+        "label": "P50",
+        "used": true
+      },
+      {
+        "label": "P50.E",
+        "used": true
+      },
+      {
+        "label": "P11.W",
+        "used": true
+      },
+      {
+        "label": "P11",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "P11.E",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ]
+}

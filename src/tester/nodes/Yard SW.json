@@ -1,0 +1,178 @@
+{
+  "address": 21,
+  "description": "Yard Switch Control",
+  "obytes": [
+    [
+      {
+        "label": "YSw1.N",
+        "used": true
+      },
+      {
+        "label": "YSw1.R",
+        "used": true
+      },
+      {
+        "label": "YSw3.N",
+        "used": true
+      },
+      {
+        "label": "YSw3.R",
+        "used": true
+      },
+      {
+        "label": "YSw7.N",
+        "used": true
+      },
+      {
+        "label": "YSw7.R",
+        "used": true
+      },
+      {
+        "label": "YSw9.N",
+        "used": true
+      },
+      {
+        "label": "YSw9.R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "YSw11.N",
+        "used": true
+      },
+      {
+        "label": "YSw11.R",
+        "used": true
+      },
+      {
+        "label": "YSw17.N",
+        "used": true
+      },
+      {
+        "label": "YSw17.R",
+        "used": true
+      },
+      {
+        "label": "YSw19.N",
+        "used": true
+      },
+      {
+        "label": "YSw19.R",
+        "used": true
+      },
+      {
+        "label": "YSw21.N",
+        "used": true
+      },
+      {
+        "label": "YSw21.R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "YSw23.N",
+        "used": true
+      },
+      {
+        "label": "YSw23.R",
+        "used": true
+      },
+      {
+        "label": "YSw25.N",
+        "used": true
+      },
+      {
+        "label": "YSw25.R",
+        "used": true
+      },
+      {
+        "label": "YSw27.N",
+        "used": true
+      },
+      {
+        "label": "YSw27.R",
+        "used": true
+      },
+      {
+        "label": "YSw29.N",
+        "used": true
+      },
+      {
+        "label": "YSw29.R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "YSw33.N",
+        "used": true
+      },
+      {
+        "label": "YSw33.R",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ],
+    [
+      {
+        "label": "YWWB1.nxb",
+        "used": true
+      },
+      {
+        "label": "YWWB2.nxb",
+        "used": true
+      },
+      {
+        "label": "YWWB3.nxb",
+        "used": true
+      },
+      {
+        "label": "YWWB4.nxb",
+        "used": true
+      },
+      {
+        "label": "YWEB1.nxb",
+        "used": true
+      },
+      {
+        "label": "YWEB2.nxb",
+        "used": true
+      },
+      {
+        "label": "YWEB3.nxb",
+        "used": true
+      },
+      {
+        "label": "YWEB4.nxb",
+        "used": true
+      }
+    ]
+  ],
+  "ibytes": [
+  ]
+}

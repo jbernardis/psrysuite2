@@ -1,0 +1,586 @@
+{
+  "address": 34,
+  "description": "Port A",
+  "obytes": [
+    [
+      {
+        "label": "PA12R(0)",
+        "used": true
+      },
+      {
+        "label": "PA12R(1)",
+        "used": true
+      },
+      {
+        "label": "PA10RA(0)",
+        "used": true
+      },
+      {
+        "label": "PA10RA(1)",
+        "used": true
+      },
+      {
+        "label": "PA12LA",
+        "used": true
+      },
+      {
+        "label": "PA10RB(0)",
+        "used": true
+      },
+      {
+        "label": "PA10RB(1)",
+        "used": true
+      },
+      {
+        "label": "PA8R(0)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "PA8R(1)",
+        "used": true
+      },
+      {
+        "label": "PA12LB",
+        "used": true
+      },
+      {
+        "label": "PA6R(0)",
+        "used": true
+      },
+      {
+        "label": "PA6R(1)",
+        "used": true
+      },
+      {
+        "label": "PA4RA(0)",
+        "used": true
+      },
+      {
+        "label": "PA4RA(1)",
+        "used": true
+      },
+      {
+        "label": "PA12LC",
+        "used": true
+      },
+      {
+        "label": "PA4RB(0)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "PA4RB(1)",
+        "used": true
+      },
+      {
+        "label": "PA8L",
+        "used": true
+      },
+      {
+        "label": "PA6LA",
+        "used": true
+      },
+      {
+        "label": "PA6LB",
+        "used": true
+      },
+      {
+        "label": "PA6LC",
+        "used": true
+      },
+      {
+        "label": "P10.sem(0)",
+        "used": true
+      },
+      {
+        "label": "P10.sem(1)",
+        "used": true
+      },
+      {
+        "label": "PA4:L",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "PA4:N",
+        "used": true
+      },
+      {
+        "label": "PA4:R",
+        "used": true
+      },
+      {
+        "label": "PA6:L",
+        "used": true
+      },
+      {
+        "label": "PA6:N",
+        "used": true
+      },
+      {
+        "label": "PA6:R",
+        "used": true
+      },
+      {
+        "label": "PA8:L",
+        "used": true
+      },
+      {
+        "label": "PA8:N",
+        "used": true
+      },
+      {
+        "label": "PA8:R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "PA10:L",
+        "used": true
+      },
+      {
+        "label": "PA10:N",
+        "used": true
+      },
+      {
+        "label": "PA10:R",
+        "used": true
+      },
+      {
+        "label": "PA12:L",
+        "used": true
+      },
+      {
+        "label": "PA12:N",
+        "used": true
+      },
+      {
+        "label": "PA12:R",
+        "used": true
+      },
+      {
+        "label": "PA32:L",
+        "used": true
+      },
+      {
+        "label": "PA32:N",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "PA32.R",
+        "used": true
+      },
+      {
+        "label": "PA34:L",
+        "used": true
+      },
+      {
+        "label": "PA34:N",
+        "used": true
+      },
+      {
+        "label": "PA34:R",
+        "used": true
+      },
+      {
+        "label": "P21.blkind",
+        "used": true
+      },
+      {
+        "label": "P40.blkind",
+        "used": true
+      },
+      {
+        "label": "P50.yard",
+        "used": true
+      },
+      {
+        "label": "P11.latham",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "P21.latham",
+        "used": true
+      },
+      {
+        "label": "CBParsonsJct.ind",
+        "used": true
+      },
+      {
+        "label": "CBSouthport.ind",
+        "used": true
+      },
+      {
+        "label": "CBLavinYard.ind",
+        "used": true
+      },
+      {
+        "label": "PASw1.lck",
+        "used": true
+      },
+      {
+        "label": "PASw3.lck",
+        "used": true
+      },
+      {
+        "label": "PASw5.lck",
+        "used": true
+      },
+      {
+        "label": "PASw7.lck",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "PASw9.lck",
+        "used": true
+      },
+      {
+        "label": "PASw11.lck",
+        "used": true
+      },
+      {
+        "label": "PASw15.lck",
+        "used": true
+      },
+      {
+        "label": "PASw19.lck",
+        "used": true
+      },
+      {
+        "label": "PASw21.lck",
+        "used": true
+      },
+      {
+        "label": "PASw23.lck",
+        "used": true
+      },
+      {
+        "label": "PASw31.lck",
+        "used": true
+      },
+      {
+        "label": "PASw33.lck",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "PASw35.lck",
+        "used": true
+      },
+      {
+        "label": "PASw37.lck",
+        "used": true
+      },
+      {
+        "label": "P10.srel",
+        "used": true
+      },
+      {
+        "label": "P40.srel",
+        "used": true
+      },
+      {
+        "label": "P31.srel",
+        "used": true
+      },
+      {
+        "label": "P40.sem(0)",
+        "used": true
+      },
+      {
+        "label": "P40.sem(1)",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ],
+  "ibytes": [
+    [
+      {
+        "label": "PASw1.N",
+        "used": true
+      },
+      {
+        "label": "PASw1.R",
+        "used": true
+      },
+      {
+        "label": "PASw3.N",
+        "used": true
+      },
+      {
+        "label": "PASw3.R",
+        "used": true
+      },
+      {
+        "label": "PASw5.N",
+        "used": true
+      },
+      {
+        "label": "PASw5.R",
+        "used": true
+      },
+      {
+        "label": "PASw7.N",
+        "used": true
+      },
+      {
+        "label": "PASw7.R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "PASw9.N",
+        "used": true
+      },
+      {
+        "label": "PASw9.R",
+        "used": true
+      },
+      {
+        "label": "PASw11.N",
+        "used": true
+      },
+      {
+        "label": "PASw11.R",
+        "used": true
+      },
+      {
+        "label": "PASw13.N",
+        "used": true
+      },
+      {
+        "label": "PASw13.R",
+        "used": true
+      },
+      {
+        "label": "PASw15.N",
+        "used": true
+      },
+      {
+        "label": "PASw15.R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "PASw17.N",
+        "used": true
+      },
+      {
+        "label": "PASw17.R",
+        "used": true
+      },
+      {
+        "label": "PASw19.N",
+        "used": true
+      },
+      {
+        "label": "PASw19.R",
+        "used": true
+      },
+      {
+        "label": "PASw21.N",
+        "used": true
+      },
+      {
+        "label": "PASw21.R",
+        "used": true
+      },
+      {
+        "label": "PASw23.N",
+        "used": true
+      },
+      {
+        "label": "PASw23.R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "P1",
+        "used": true
+      },
+      {
+        "label": "P2",
+        "used": true
+      },
+      {
+        "label": "P3",
+        "used": true
+      },
+      {
+        "label": "P4",
+        "used": true
+      },
+      {
+        "label": "P5",
+        "used": true
+      },
+      {
+        "label": "P6",
+        "used": true
+      },
+      {
+        "label": "P7",
+        "used": true
+      },
+      {
+        "label": "POSSP1",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "POSSP2",
+        "used": true
+      },
+      {
+        "label": "POSSP3",
+        "used": true
+      },
+      {
+        "label": "POSSP4",
+        "used": true
+      },
+      {
+        "label": "POSSP5",
+        "used": true
+      },
+      {
+        "label": "P10",
+        "used": true
+      },
+      {
+        "label": "P10.E",
+        "used": true
+      },
+      {
+        "label": "PA4.Rlvr",
+        "used": true
+      },
+      {
+        "label": "PA4.Clvr",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "PA4.Llvr",
+        "used": true
+      },
+      {
+        "label": "PA6.Rlvr",
+        "used": true
+      },
+      {
+        "label": "PA6.Clvr",
+        "used": true
+      },
+      {
+        "label": "PA6.Llvr",
+        "used": true
+      },
+      {
+        "label": "PA8.Rlvr",
+        "used": true
+      },
+      {
+        "label": "PA8.Clvr",
+        "used": true
+      },
+      {
+        "label": "PA8.Llvr",
+        "used": true
+      },
+      {
+        "label": "PA10.Rlvr",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "PA10.Clvr",
+        "used": true
+      },
+      {
+        "label": "PA10.Llvr",
+        "used": true
+      },
+      {
+        "label": "PA12.Rlvr",
+        "used": true
+      },
+      {
+        "label": "PA12.Clvr",
+        "used": true
+      },
+      {
+        "label": "PA12.Llvr",
+        "used": true
+      },
+      {
+        "label": "PA32.Rlvr",
+        "used": true
+      },
+      {
+        "label": "PA32.Clvr",
+        "used": true
+      },
+      {
+        "label": "PA32.Llvr",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "PA34.Rlvr",
+        "used": true
+      },
+      {
+        "label": "PA34.Clvr",
+        "used": true
+      },
+      {
+        "label": "PA34.Llvr",
+        "used": true
+      },
+      {
+        "label": "PARelease",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ]
+}

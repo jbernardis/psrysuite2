@@ -1,0 +1,1693 @@
+{
+  "2": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 115,
+      "medium": 99,
+      "slow": 65,
+      "start": 55
+    },
+    "limit": 0
+  },
+  "9": {
+    "desc": "Shea Steam 4-4-4 / Lumber",
+    "prof": {
+      "acc ": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "21": {
+    "desc": null,
+    "prof": {
+      "acc": 2,
+      "dec": 3,
+      "fast": 90,
+      "medium": 71,
+      "slow": 30,
+      "start": 20
+    },
+    "limit": 0
+  },
+  "040": {
+    "desc": "RDC Northern Pacific (3 units)",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "40": {
+    "desc": "RDC NP (3 units)",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "047": {
+    "desc": "CSX / Container Train",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 64,
+      "slow": 35,
+      "start": 20
+    },
+    "limit": 0
+  },
+  "47": {
+    "desc": "CSX / Container",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 64,
+      "slow": 30,
+      "start": 20
+    },
+    "limit": 0
+  },
+  "50": {
+    "desc": "PSRY 4-8-4 / Santa Fe 40s Pass ",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 70,
+      "medium": 55,
+      "slow": 40,
+      "start": 25
+    },
+    "limit": 0
+  },
+  "064": {
+    "desc": "PSRY PA / Exectrix",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 85,
+      "medium": 60,
+      "slow": 25,
+      "start": 10
+    },
+    "limit": 0
+  },
+  "64": {
+    "desc": "PSRY PA / Exectrix",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "68": {
+    "desc": "PSRY F8 / Exectrix",
+    "prof": {
+      "acc": 2,
+      "dec": 1,
+      "fast": 60,
+      "medium": 45,
+      "slow": 30,
+      "start": 20
+    },
+    "limit": 0
+  },
+  "69": {
+    "desc": "Milwaukee / Long Pass",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 60,
+      "medium": 44,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "80": {
+    "desc": "Santa Fe Ef8 / ",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 90,
+      "medium": 71,
+      "slow": 30,
+      "start": 20
+    },
+    "limit": 0
+  },
+  "83": {
+    "desc": "Santa Fe / passenger 50s",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 60,
+      "slow": 40,
+      "start": 30
+    },
+    "limit": 0
+  },
+  "086": {
+    "desc": "B&O F7s / Long Passenger",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 90,
+      "medium": 60,
+      "slow": 20,
+      "start": 10
+    },
+    "limit": 0
+  },
+  "91": {
+    "desc": "ATSF4-4-0 / PS Bus Car",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 60,
+      "slow": 20,
+      "start": 10
+    },
+    "limit": 0
+  },
+  "140": {
+    "desc": "RDC Western Maryland",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "185": {
+    "desc": "Western Maryland (4) / Empty Coal",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "191": {
+    "desc": "RDC / Boston & Main",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "198": {
+    "desc": "Western Maryland / Short Pass",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "203": {
+    "desc": "Amtrak / Long Passenger",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 85,
+      "medium": 71,
+      "slow": 40,
+      "start": 25
+    },
+    "limit": 0
+  },
+  "209": {
+    "desc": "Reading",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 90,
+      "medium": 74,
+      "slow": 40,
+      "start": 30
+    },
+    "limit": 0
+  },
+  "226": {
+    "desc": "Amtrak / Short Passenger",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "252": {
+    "desc": "Susquehanna / Mixed Freight",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "262": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 35,
+      "medium": 33,
+      "slow": 30,
+      "start": 20
+    },
+    "limit": 0
+  },
+  "276": {
+    "desc": "Great Northern / Long Pass Blue",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 65,
+      "slow": 50,
+      "start": 20
+    },
+    "limit": 0
+  },
+  "277": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 2,
+      "fast": 60,
+      "medium": 50,
+      "slow": 30,
+      "start": 20
+    },
+    "limit": 0
+  },
+  "314": {
+    "desc": "Great Northern / Long Pass Blue",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 65,
+      "slow": 50,
+      "start": 20
+    },
+    "limit": 0
+  },
+  "326": {
+    "desc": "Santa Fe / Open Load",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 65,
+      "slow": 30,
+      "start": 10
+    },
+    "limit": 0
+  },
+  "375": {
+    "desc": "RDC / Western Pacific (2)",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 70,
+      "medium": 59,
+      "slow": 35,
+      "start": 25
+    },
+    "limit": 0
+  },
+  "427": {
+    "desc": "PSRY 2-8-2 / Old Style Red",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "453": {
+    "desc": "Amtrack /  Passenger",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "493": {
+    "desc": "NP / PSR Old Style Red",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 85,
+      "medium": 66,
+      "slow": 25,
+      "start": 15
+    },
+    "limit": 0
+  },
+  "498": {
+    "desc": "ATSF 4-4-0 Coal / Nassau Nrth",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "513": {
+    "desc": "Penn 2-10-0 / Bill Board Freight",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "552": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 100,
+      "medium": 78,
+      "slow": 30,
+      "start": 20
+    },
+    "limit": 0
+  },
+  "579": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 60,
+      "medium": 46,
+      "slow": 15,
+      "start": 5
+    },
+    "limit": 0
+  },
+  "600": {
+    "desc": "DRG / Long Passenger",
+    "prof": {
+      "acc": 1,
+      "dec": 2,
+      "fast": 95,
+      "medium": 76,
+      "slow": 35,
+      "start": 25
+    },
+    "limit": 0
+  },
+  "604": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 2,
+      "fast": 85,
+      "medium": 72,
+      "slow": 45,
+      "start": 35
+    },
+    "limit": 0
+  },
+  "609": {
+    "desc": "Reading (4) / Mixed Freight",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "669": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 90,
+      "medium": 71,
+      "slow": 30,
+      "start": 20
+    },
+    "limit": 0
+  },
+  "671": {
+    "desc": "Great Northern (3) / Cattle",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 61,
+      "slow": 30,
+      "start": 10
+    },
+    "limit": 0
+  },
+  "700": {
+    "desc": "New Haven / Passenger",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 75,
+      "medium": 65,
+      "slow": 45,
+      "start": 35
+    },
+    "limit": 0
+  },
+  "743": {
+    "desc": "B&O / Short Passenger",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "791": {
+    "desc": "New Haven / Passenger",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 90,
+      "medium": 71,
+      "slow": 30,
+      "start": 20
+    },
+    "limit": 0
+  },
+  "860": {
+    "desc": "Lackawanna / Passenger",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 100,
+      "medium": 80,
+      "slow": 60,
+      "start": 40
+    },
+    "limit": 0
+  },
+  "905": {
+    "desc": "Reading (2) / Cursader",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 75,
+      "medium": 56,
+      "slow": 15,
+      "start": 5
+    },
+    "limit": 0
+  },
+  "911": {
+    "desc": "Northern Pacific / Short Pass",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "912": {
+    "desc": "Northern Pacific / Short Pass",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "913": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 60,
+      "medium": 49,
+      "slow": 24,
+      "start": 14
+    },
+    "limit": 0
+  },
+  "914": {
+    "desc": "UP / Long Passenger",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 90,
+      "medium": 68,
+      "slow": 35,
+      "start": 15
+    },
+    "limit": 0
+  },
+  "929": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 120,
+      "medium": 101,
+      "slow": 60,
+      "start": 50
+    },
+    "limit": 0
+  },
+  "990": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "limit": 0
+  },
+  "991": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "limit": 0
+  },
+  "1006": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 60,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "1074": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 115,
+      "medium": 95,
+      "slow": 50,
+      "start": 40
+    },
+    "limit": 0
+  },
+  "1147": {
+    "desc": "PSRY 2-8-0 / Old Style Green",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "1309": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 70,
+      "medium": 54,
+      "slow": 20,
+      "start": 10
+    },
+    "limit": 0
+  },
+  "1415": {
+    "desc": "PSRY / Old Style Green",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "1419": {
+    "desc": "B&O / Long Passenger",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 100,
+      "medium": 80,
+      "slow": 55,
+      "start": 35
+    },
+    "limit": 0
+  },
+  "1523": {
+    "desc": "NJ Central / Engine (Test)",
+    "prof": {
+      "acc": 2,
+      "dec": 1,
+      "fast": 65,
+      "medium": 52,
+      "slow": 25,
+      "start": 15
+    },
+    "limit": 0
+  },
+  "1790": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 110,
+      "medium": 87,
+      "slow": 35,
+      "start": 25
+    },
+    "limit": 0
+  },
+  "1918": {
+    "desc": "Nassau Nth 2-6-2 / Freight",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 60,
+      "medium": 50,
+      "slow": 30,
+      "start": 10
+    },
+    "limit": 0
+  },
+  "1921": {
+    "desc": "Nassau Nthn 4-6-2 / Old Pass",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 60,
+      "slow": 30,
+      "start": 10
+    },
+    "limit": 0
+  },
+  "2049": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 120,
+      "medium": 88,
+      "slow": 15,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "2100": {
+    "desc": "Redding 4-8-4 / Mixed Freight",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 72,
+      "medium": 53,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "2111": {
+    "desc": null,
+    "prof": {
+      "acc": 2,
+      "dec": 2,
+      "fast": 90,
+      "medium": 76,
+      "slow": 45,
+      "start": 35
+    },
+    "limit": 0
+  },
+  "2113": {
+    "desc": "Reading 4-8-4 / Mixed freight",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 85,
+      "medium": 69,
+      "slow": 35,
+      "start": 25
+    },
+    "limit": 0
+  },
+  "2123": {
+    "desc": "Reading / Passenger",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 85,
+      "medium": 65,
+      "slow": 20,
+      "start": 10
+    },
+    "limit": 0
+  },
+  "2124": {
+    "desc": "Reading (2) / Passenger",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 75,
+      "medium": 60,
+      "slow": 40,
+      "start": 30
+    },
+    "limit": 0
+  },
+  "2216": {
+    "desc": "NP / Passenger",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "2511": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 90,
+      "medium": 70,
+      "slow": 25,
+      "start": 15
+    },
+    "limit": 0
+  },
+  "2591": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 60,
+      "slow": 15,
+      "start": 5
+    },
+    "limit": 0
+  },
+  "2681": {
+    "desc": "Santa Fe / Old Style",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 90,
+      "medium": 70,
+      "slow": 30,
+      "start": 20
+    },
+    "limit": 0
+  },
+  "2916": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 90,
+      "medium": 74,
+      "slow": 40,
+      "start": 30
+    },
+    "limit": 0
+  },
+  "2919": {
+    "desc": "Santa Fe / Old Style",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 75,
+      "medium": 58,
+      "slow": 20,
+      "start": 7
+    },
+    "limit": 0
+  },
+  "3262": {
+    "desc": "CSX / Container Train",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 64,
+      "slow": 27,
+      "start": 17
+    },
+    "limit": 0
+  },
+  "3322": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 95,
+      "medium": 78,
+      "slow": 40,
+      "start": 30
+    },
+    "limit": 0
+  },
+  "3406": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 85,
+      "medium": 65,
+      "slow": 20,
+      "start": 10
+    },
+    "limit": 0
+  },
+  "3646": {
+    "desc": "description",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    }
+  },
+  "3648": {
+    "desc": "Penn / Bill Board Reefer",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 60,
+      "slow": 30,
+      "start": 20
+    },
+    "limit": 0
+  },
+  "3755": {
+    "desc": "ATSF 4-8-4 / Santa Fe heavy weight",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 85,
+      "medium": 60,
+      "slow": 40,
+      "start": 30
+    },
+    "limit": 0
+  },
+  "3758": {
+    "desc": "Santa Fe 4-8-8 / Old Style",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "3768": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 50,
+      "medium": 37,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "3809": {
+    "desc": "PSRY 2-6-6-4 / Fruit Train",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 60,
+      "medium": 50,
+      "slow": 30,
+      "start": 15
+    },
+    "limit": 0
+  },
+  "3819": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "4023": {
+    "desc": "UP 4-8-8-4 / Pate Bros Circus",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 60,
+      "medium": 40,
+      "slow": 30,
+      "start": 20
+    },
+    "limit": 0
+  },
+  "4024": {
+    "desc": "NYC / Streamline",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 100,
+      "medium": 80,
+      "slow": 50,
+      "start": 30
+    },
+    "limit": 0
+  },
+  "4090": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 95,
+      "medium": 76,
+      "slow": 35,
+      "start": 25
+    },
+    "limit": 0
+  },
+  "4100": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 95,
+      "medium": 76,
+      "slow": 35,
+      "start": 25
+    },
+    "limit": 0
+  },
+  "4101": {
+    "desc": "SP Cab forward F 4-8-8-4 /",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "4197": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 61,
+      "slow": 20,
+      "start": 10
+    },
+    "limit": 0
+  },
+  "4294": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 50,
+      "medium": 40,
+      "slow": 20,
+      "start": 10
+    },
+    "limit": 0
+  },
+  "4303": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 70,
+      "medium": 54,
+      "slow": 20,
+      "start": 10
+    },
+    "limit": 0
+  },
+  "4350": {
+    "desc": "SP 4-8-2 / Daylight (silver)",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "4368": {
+    "desc": "Rock Island / Grain Train",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 110,
+      "medium": 85,
+      "slow": 40,
+      "start": 30
+    },
+    "limit": 0
+  },
+  "4515": {
+    "desc": "NJ Transit / Bi-directional",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 60,
+      "slow": 50,
+      "start": 30
+    },
+    "limit": 0
+  },
+  "4847": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 67,
+      "slow": 40,
+      "start": 30
+    },
+    "limit": 0
+  },
+  "5024": {
+    "desc": "C&NW / Bi-directional",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 90,
+      "medium": 65,
+      "slow": 40,
+      "start": 25
+    },
+    "limit": 0
+  },
+  "5056": {
+    "desc": "Conrail / Freight",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "5213": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 90,
+      "medium": 74,
+      "slow": 40,
+      "start": 30
+    },
+    "limit": 0
+  },
+  "5298": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 50,
+      "medium": 37,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "5304": {
+    "desc": "Reading (6) / Full Coal Train",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 90,
+      "medium": 80,
+      "slow": 60,
+      "start": 50
+    },
+    "limit": 0
+  },
+  "5450": {
+    "desc": "NYC 4-6-4 / Streamline Pass",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 90,
+      "medium": 80,
+      "slow": 60,
+      "start": 50
+    },
+    "limit": 0
+  },
+  "5513": {
+    "desc": null,
+    "prof": {
+      "acc": 2,
+      "dec": 2,
+      "fast": 95,
+      "medium": 78,
+      "slow": 40,
+      "start": 30
+    },
+    "limit": 0
+  },
+  "5533": {
+    "desc": "Penn T1 4-4-4-4/ Passenger",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 110,
+      "medium": 90,
+      "slow": 60,
+      "start": 40
+    },
+    "limit": 0
+  },
+  "5536": {
+    "desc": "Penn / Long Passenger",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 100,
+      "medium": 80,
+      "slow": 70,
+      "start": 40
+    },
+    "limit": 0
+  },
+  "5601": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 90,
+      "medium": 68,
+      "slow": 20,
+      "start": 10
+    },
+    "limit": 0
+  },
+  "5641": {
+    "desc": "DRG Ski / Long Pass",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "5691": {
+    "desc": "DRG / Ski train",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "5754": {
+    "desc": "Penn / New Haven Pass",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 60,
+      "slow": 40,
+      "start": 20
+    },
+    "limit": 0
+  },
+  "5840": {
+    "desc": "BNSF / Grain Train",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 82,
+      "medium": 67,
+      "slow": 35,
+      "start": 25
+    },
+    "limit": 0
+  },
+  "6002": {
+    "desc": "NYC 4-8-4 / Old Style",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 90,
+      "medium": 75,
+      "slow": 35,
+      "start": 20
+    },
+    "limit": 0
+  },
+  "6013": {
+    "desc": "Penn / Reading Sea Shore",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 40,
+      "medium": 30,
+      "slow": 10,
+      "start": 5
+    },
+    "limit": 0
+  },
+  "6034": {
+    "desc": "SP PA / Daylight",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 120,
+      "medium": 100,
+      "slow": 20,
+      "start": 10
+    },
+    "limit": 0
+  },
+  "6051": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 110,
+      "medium": 91,
+      "slow": 50,
+      "start": 40
+    },
+    "limit": 0
+  },
+  "6076": {
+    "desc": "BHP / Tank Traint",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 90,
+      "medium": 70,
+      "slow": 35,
+      "start": 20
+    },
+    "limit": 0
+  },
+  "6078": {
+    "desc": "CXS / Tank Train",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "6118": {
+    "desc": "RDC - B&M (2 units)",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 100,
+      "medium": 84,
+      "slow": 50,
+      "start": 40
+    },
+    "limit": 0
+  },
+  "6137": {
+    "desc": "RDC - B&O (3 units)",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 100,
+      "medium": 84,
+      "slow": 50,
+      "start": 40
+    },
+    "limit": 0
+  },
+  "6194": {
+    "desc": "Reading / RDC (1)",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "6197": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 95,
+      "medium": 76,
+      "slow": 35,
+      "start": 25
+    },
+    "limit": 0
+  },
+  "6418": {
+    "desc": "Penn / Mix Freight",
+    "prof": {
+      "acc": 2,
+      "dec": 2,
+      "fast": 100,
+      "medium": 84,
+      "slow": 50,
+      "start": 40
+    },
+    "limit": 0
+  },
+  "6511": {
+    "desc": "NP / Long Passenger",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "6733": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 100,
+      "medium": 72,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "6798": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 100,
+      "medium": 78,
+      "slow": 30,
+      "start": 20
+    },
+    "limit": 0
+  },
+  "6904": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 90,
+      "medium": 69,
+      "slow": 21,
+      "start": 11
+    },
+    "limit": 0
+  },
+  "6972": {
+    "desc": " PSRY 4-8-4 / Santa Fe Old Pass",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 60,
+      "medium": 50,
+      "slow": 30,
+      "start": 10
+    },
+    "limit": 0
+  },
+  "6973": {
+    "desc": "DRG 4-6-6-4 / Fruit Train",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 60,
+      "medium": 50,
+      "slow": 30,
+      "start": 10
+    },
+    "limit": 0
+  },
+  "7519": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 61,
+      "slow": 20,
+      "start": 10
+    },
+    "limit": 0
+  },
+  "7600": {
+    "desc": "B&O(2)  2-8-8-4 / Empty Coal Train",
+    "prof": {
+      "acc": 5,
+      "dec": 10,
+      "fast": 40,
+      "medium": 30,
+      "slow": 20,
+      "start": 10
+    },
+    "limit": 0
+  },
+  "8099": {
+    "desc": "Southern / Container",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 90,
+      "medium": 73,
+      "slow": 35,
+      "start": 25
+    },
+    "limit": 0
+  },
+  "9002": {
+    "desc": "Indiana / Tank Train",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 30,
+      "start": 10
+    },
+    "limit": 0
+  },
+  "9164": {
+    "desc": "RDC / Reading (1 unit)",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  },
+  "9472": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 61,
+      "slow": 20,
+      "start": 10
+    },
+    "limit": 0
+  },
+  "9631": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 110,
+      "medium": 87,
+      "slow": 35,
+      "start": 25
+    },
+    "limit": 0
+  },
+  "9648": {
+    "desc": "Penn / Baggage Train",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 60,
+      "slow": 30,
+      "start": 20
+    },
+    "limit": 0
+  },
+  "9669": {
+    "desc": "Penn / Mail Train",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 100,
+      "medium": 83,
+      "slow": 45,
+      "start": 35
+    },
+    "limit": 0
+  },
+  "9916": {
+    "desc": null,
+    "prof": {
+      "acc": 2,
+      "dec": 1,
+      "fast": 70,
+      "medium": 57,
+      "slow": 30,
+      "start": 20
+    },
+    "limit": 0
+  },
+  "9922": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 120,
+      "medium": 101,
+      "slow": 60,
+      "start": 50
+    },
+    "limit": 0
+  },
+  "9968": {
+    "desc": "Burlington / Denver Rio Grande",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0
+  }
+}

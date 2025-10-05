@@ -1,0 +1,212 @@
+{
+  "address": 66,
+  "description": "Foss",
+  "obytes": [
+    [
+      {
+        "label": "D10R(0)",
+        "used": true
+      },
+      {
+        "label": "D10R(1)",
+        "used": true
+      },
+      {
+        "label": "D10R(2)",
+        "used": true
+      },
+      {
+        "label": "D12R(0)",
+        "used": true
+      },
+      {
+        "label": "D12R(1)",
+        "used": true
+      },
+      {
+        "label": "D12R(2)",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ],
+    [
+      {
+        "label": "D10L(0)",
+        "used": true
+      },
+      {
+        "label": "D10L(1)",
+        "used": true
+      },
+      {
+        "label": "D10L(2)",
+        "used": true
+      },
+      {
+        "label": "D12L(0)",
+        "used": true
+      },
+      {
+        "label": "D12L(1)",
+        "used": true
+      },
+      {
+        "label": "D12L(2)",
+        "used": true
+      },
+      {
+        "label": "D21.srel",
+        "used": true
+      },
+      {
+        "label": "S10.srel",
+        "used": true
+      }
+    ],
+    [
+       {
+        "label": "(bad bit)",
+        "used": false
+      },
+      {
+        "label": "R10.srel",
+        "used": true
+      },
+      {
+        "label": "RXO",
+        "used": true
+      },
+      {
+        "label": "R10W(0)",
+        "used": true
+      },
+      {
+        "label": "R10W(1)",
+        "used": true
+      },
+      {
+        "label": "R10W(2)",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ],
+  "ibytes": [
+    [
+      {
+        "label": "D21.W",
+        "used": true
+      },
+      {
+        "label": "D21A",
+        "used": true
+      },
+      {
+        "label": "D21B",
+        "used": true
+      },
+      {
+        "label": "D21.E",
+        "used": true
+      },
+      {
+        "label": "DOSFOW",
+        "used": true
+      },
+      {
+        "label": "DOSFOE",
+        "used": true
+      },
+      {
+        "label": "S10.W",
+        "used": true
+      },
+      {
+        "label": "S10A",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "S10B",
+        "used": true
+      },
+      {
+        "label": "S10C",
+        "used": true
+      },
+      {
+        "label": "S10.E",
+        "used": true
+      },
+      {
+        "label": "R10.W",
+        "used": true
+      },
+      {
+        "label": "R10A",
+        "used": true
+      },
+      {
+        "label": "R10B",
+        "used": true
+      },
+      {
+        "label": "R10C",
+        "used": true
+      },
+      {
+        "label": "R11",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "R12",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ]
+}

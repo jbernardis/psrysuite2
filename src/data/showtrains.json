@@ -1,0 +1,2749 @@
+{
+  "CFYD": {
+    "block": null,
+    "cutoff": false,
+    "desc": "Westbound Freight",
+    "eastbound": false,
+    "loco": null,
+    "normalloco": null,
+    "origin": {
+      "loc": "CF",
+      "track": null
+    },
+    "sequence": [
+      {
+        "block": "C23",
+        "os": "COSCLEW",
+        "route": "CRtC23C22",
+        "signal": "C10R",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "C13",
+        "os": "COSCLW",
+        "route": "CRtC13C23",
+        "signal": "C14RB",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "B11",
+        "os": "BOSE",
+        "route": "BRtB11C13",
+        "signal": "C18R",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "B10",
+        "os": "BOSWW",
+        "route": "BRtB10B11",
+        "signal": "C22R",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "N12",
+        "os": "NEOSW",
+        "route": "NRtB10N12",
+        "signal": "N26L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "N11",
+        "os": "NWOSW",
+        "route": "NRtN11N12",
+        "signal": "N16L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "N10",
+        "os": "KOSW",
+        "route": "KRtN10N11",
+        "signal": "K8LB",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "S11",
+        "os": "KOSN10S11",
+        "route": "KRtN10S11",
+        "signal": "N10W",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "S10",
+        "os": "SOSW",
+        "route": "SRtS10S11",
+        "signal": "S12LA",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "D11",
+        "os": "DOSFOW",
+        "route": "DRtD11S10",
+        "signal": "D12L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "D10",
+        "os": "DOSVJW",
+        "route": "DRtD10D11",
+        "signal": "D6L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "L11",
+        "os": "LOSCAW",
+        "route": "LRtL11D10",
+        "signal": "L18L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "L10",
+        "os": "LOSLAW",
+        "route": "LRtL10L11",
+        "signal": "L8L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "Y11",
+        "os": "YOSCJW",
+        "route": "YRtY11L10",
+        "signal": "Y2R",
+        "time": 5000,
+        "trigger": "Front"
+      }
+    ],
+    "startblock": "C22",
+    "startsubblock": null,
+    "terminus": {
+      "loc": "YD",
+      "track": "Y87"
+    },
+    "time": 5000,
+    "tracker": [
+      [
+        "CLIFF",
+        "Sheffield Yd / C41-C44",
+        11
+      ],
+      [
+        "BANK",
+        "(sig) Martinsville",
+        3
+      ],
+      [
+        "NASSAU",
+        "(sig) Wilson City / Track N22",
+        23
+      ],
+      [
+        null,
+        "(sig) Krulish Jct",
+        19
+      ],
+      [
+        "SHORE",
+        "(sig) River jct",
+        5
+      ],
+      [
+        "DELL",
+        "(sig) LaPorte",
+        21
+      ],
+      [
+        "LATHAM",
+        "(sig) Latham Jct",
+        10
+      ],
+      [
+        null,
+        "(sig) Cornell",
+        7
+      ],
+      [
+        "YARD",
+        "Waterman Yd / Track Y87",
+        1
+      ]
+    ],
+    "route": null
+  },
+  "20Y": {
+    "block": null,
+    "cutoff": false,
+    "desc": "Westbound Freight",
+    "eastbound": false,
+    "loco": null,
+    "normalloco": null,
+    "origin": {
+      "loc": "CF",
+      "track": null
+    },
+    "sequence": [
+      {
+        "block": "C23",
+        "os": "COSCLEW",
+        "route": "CRtC23C22",
+        "signal": "C10R",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "C13",
+        "os": "COSCLW",
+        "route": "CRtC13C23",
+        "signal": "C14RB",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "B11",
+        "os": "BOSE",
+        "route": "BRtB11C13",
+        "signal": "C18R",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "B10",
+        "os": "BOSWW",
+        "route": "BRtB10B11",
+        "signal": "C22R",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "N12",
+        "os": "NEOSW",
+        "route": "NRtB10N12",
+        "signal": "N26L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "N11",
+        "os": "NWOSW",
+        "route": "NRtN11N12",
+        "signal": "N16L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "N10",
+        "os": "KOSW",
+        "route": "KRtN10N11",
+        "signal": "K8LB",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "S11",
+        "os": "KOSN10S11",
+        "route": "KRtN10S11",
+        "signal": "N10W",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "S10",
+        "os": "SOSW",
+        "route": "SRtS10S11",
+        "signal": "S12LA",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "D11",
+        "os": "DOSFOW",
+        "route": "DRtD11S10",
+        "signal": "D12L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "D10",
+        "os": "DOSVJW",
+        "route": "DRtD10D11",
+        "signal": "D6L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "L11",
+        "os": "LOSCAW",
+        "route": "LRtL11D10",
+        "signal": "L18L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "L10",
+        "os": "LOSLAW",
+        "route": "LRtL10L11",
+        "signal": "L8L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "Y11",
+        "os": "YOSCJW",
+        "route": "YRtY11L10",
+        "signal": "Y2R",
+        "time": 5000,
+        "trigger": "Front"
+      }
+    ],
+    "startblock": "C22",
+    "startsubblock": null,
+    "terminus": {
+      "loc": "YD",
+      "track": "Y87"
+    },
+    "time": 5000,
+    "tracker": [
+      [
+        "CLIFF",
+        "Sheffield Yd / C41-C44",
+        11
+      ],
+      [
+        "BANK",
+        "(sig) Martinsville",
+        3
+      ],
+      [
+        "NASSAU",
+        "(sig) Wilson City / Track N22",
+        23
+      ],
+      [
+        null,
+        "(sig) Krulish Jct",
+        19
+      ],
+      [
+        "SHORE",
+        "(sig) River jct",
+        5
+      ],
+      [
+        "DELL",
+        "(sig) LaPorte",
+        21
+      ],
+      [
+        "LATHAM",
+        "(sig) Latham Jct",
+        10
+      ],
+      [
+        null,
+        "(sig) Cornell",
+        7
+      ],
+      [
+        "YARD",
+        "Waterman Yd / Track Y87",
+        1
+      ]
+    ],
+    "route": null
+  },
+  "50Y": {
+    "block": null,
+    "cutoff": false,
+    "desc": "Westbound Freight",
+    "eastbound": false,
+    "loco": null,
+    "normalloco": null,
+    "origin": {
+      "loc": "CF",
+      "track": null
+    },
+    "sequence": [
+      {
+        "block": "C23",
+        "os": "COSCLEW",
+        "route": "CRtC23C22",
+        "signal": "C10R",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "C13",
+        "os": "COSCLW",
+        "route": "CRtC13C23",
+        "signal": "C14RB",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "B11",
+        "os": "BOSE",
+        "route": "BRtB11C13",
+        "signal": "C18R",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "B10",
+        "os": "BOSWW",
+        "route": "BRtB10B11",
+        "signal": "C22R",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "N12",
+        "os": "NEOSW",
+        "route": "NRtB10N12",
+        "signal": "N26L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "N11",
+        "os": "NWOSW",
+        "route": "NRtN11N12",
+        "signal": "N16L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "N10",
+        "os": "KOSW",
+        "route": "KRtN10N11",
+        "signal": "K8LB",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "S11",
+        "os": "KOSN10S11",
+        "route": "KRtN10S11",
+        "signal": "N10W",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "S10",
+        "os": "SOSW",
+        "route": "SRtS10S11",
+        "signal": "S12LA",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "D11",
+        "os": "DOSFOW",
+        "route": "DRtD11S10",
+        "signal": "D12L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "D10",
+        "os": "DOSVJW",
+        "route": "DRtD10D11",
+        "signal": "D6L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "L11",
+        "os": "LOSCAW",
+        "route": "LRtL11D10",
+        "signal": "L18L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "L10",
+        "os": "LOSLAW",
+        "route": "LRtL10L11",
+        "signal": "L8L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "Y11",
+        "os": "YOSCJW",
+        "route": "YRtY11L10",
+        "signal": "Y2R",
+        "time": 5000,
+        "trigger": "Front"
+      }
+    ],
+    "startblock": "C22",
+    "startsubblock": null,
+    "terminus": {
+      "loc": "YD",
+      "track": "Y87"
+    },
+    "time": 5000,
+    "tracker": [
+      [
+        "CLIFF",
+        "Sheffield Yd / C41-C44",
+        11
+      ],
+      [
+        "BANK",
+        "(sig) Martinsville",
+        3
+      ],
+      [
+        "NASSAU",
+        "(sig) Wilson City / Track N22",
+        23
+      ],
+      [
+        null,
+        "(sig) Krulish Jct",
+        19
+      ],
+      [
+        "SHORE",
+        "(sig) River jct",
+        5
+      ],
+      [
+        "DELL",
+        "(sig) LaPorte",
+        21
+      ],
+      [
+        "LATHAM",
+        "(sig) Latham Jct",
+        10
+      ],
+      [
+        null,
+        "(sig) Cornell",
+        7
+      ],
+      [
+        "YARD",
+        "Waterman Yd / Track Y87",
+        1
+      ]
+    ],
+    "route": null
+  },
+  "HEX": {
+    "block": null,
+    "cutoff": false,
+    "desc": "Empty Coal Hoppers",
+    "eastbound": true,
+    "loco": "7600",
+    "normalloco": "7600",
+    "origin": {
+      "loc": "HY",
+      "track": "H40"
+    },
+    "sequence": [
+      {
+        "block": "H23",
+        "os": "HOSEE",
+        "route": "HRtH23H40",
+        "signal": "H10RE",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "D21",
+        "os": "DOSVJE",
+        "route": "DRtH23D21",
+        "signal": "D4RB",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "S20",
+        "os": "DOSFOE",
+        "route": "DRtD21S20",
+        "signal": "D10R",
+        "time": 4000,
+        "trigger": "Front"
+      },
+      {
+        "block": "H20",
+        "os": "SOSE",
+        "route": "SRtS20H20",
+        "signal": "S4R",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "H40",
+        "os": "SOSHJM",
+        "route": "SRtH20H40",
+        "signal": "S18R",
+        "time": 5000,
+        "trigger": "Front"
+      }
+    ],
+    "startblock": "H40",
+    "startsubblock": null,
+    "terminus": {
+      "loc": "HY",
+      "track": "H40"
+    },
+    "time": 5000,
+    "tracker": [
+      [
+        "HYDE E",
+        "Hidden / Track H40",
+        11
+      ],
+      [
+        "DELL",
+        "(sig) LaPorte",
+        21
+      ],
+      [
+        null,
+        "(sig) Loland",
+        25
+      ],
+      [
+        null,
+        "(sig) Bortell",
+        4
+      ],
+      [
+        "SHORE",
+        "River Jct",
+        6
+      ],
+      [
+        "HYDE W",
+        "Hidden / Track H40 (X)",
+        11
+      ]
+    ],
+    "route": null
+  },
+  "HWX": {
+    "block": null,
+    "cutoff": false,
+    "desc": "Loaded Coal Hoppers",
+    "eastbound": false,
+    "loco": "5304",
+    "normalloco": "5304",
+    "origin": {
+      "loc": "HY",
+      "track": "H32"
+    },
+    "sequence": [
+      {
+        "block": "S10",
+        "os": "SOSW",
+        "route": "SRtS10H30",
+        "signal": "S12LB",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "D11",
+        "os": "DOSFOW",
+        "route": "DRtD11S10",
+        "signal": "D12L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "H13",
+        "os": "DOSVJW",
+        "route": "DRtH13D11",
+        "signal": "D6L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "H31",
+        "os": "HOSEW",
+        "route": "HRtH13H31",
+        "signal": "H12L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "H30",
+        "os": "HOSWW2",
+        "route": "HRtH30H31",
+        "signal": "H8L",
+        "time": 5000,
+        "trigger": "Front"
+      }
+    ],
+    "startblock": "H30",
+    "startsubblock": "H30A",
+    "terminus": {
+      "loc": "HY",
+      "track": "H32"
+    },
+    "time": 7500,
+    "tracker": [
+      [
+        "HYDE W",
+        "Hidden / Track H32 ",
+        11
+      ],
+      [
+        "SHORE",
+        "(sig) River Jct",
+        6
+      ],
+      [
+        "",
+        "Bortell Station",
+        4
+      ],
+      [
+        null,
+        "(sig) Loland",
+        26
+      ],
+      [
+        "DELL",
+        "(sig) LaPorte",
+        21
+      ],
+      [
+        "HYDE E",
+        "Hidden / Track H32 (X)",
+        11
+      ]
+    ],
+    "route": null
+  },
+  "PBCX": {
+    "block": null,
+    "cutoff": false,
+    "desc": "Pate Brothers Circus",
+    "eastbound": false,
+    "loco": "4023",
+    "normalloco": "4023",
+    "origin": {
+      "loc": "HY",
+      "track": "H32"
+    },
+    "sequence": [
+      {
+        "block": "H11",
+        "os": "HOSWW",
+        "route": "HRtH11H32",
+        "signal": "H6LA",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "H10",
+        "os": "SOSHJW",
+        "route": "SRtH10H11",
+        "signal": "S20L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "S10",
+        "os": "SOSW",
+        "route": "SRtS10H10",
+        "signal": "S12LC",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "D11",
+        "os": "DOSFOW",
+        "route": "DRtD11S10",
+        "signal": "D12L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "H13",
+        "os": "DOSVJW",
+        "route": "DRtH13D11",
+        "signal": "D6L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "H32",
+        "os": "HOSEW",
+        "route": "HRtH13H32",
+        "signal": "H12L",
+        "time": 5000,
+        "trigger": "Front"
+      }
+    ],
+    "startblock": "H32",
+    "startsubblock": null,
+    "terminus": {
+      "loc": "HY",
+      "track": "H32"
+    },
+    "time": 5000,
+    "tracker": [
+      [
+        "HYDE W",
+        "Hidden / Track H32",
+        11
+      ],
+      [
+        "SHORE",
+        "(sig) River Jct",
+        6
+      ],
+      [
+        null,
+        "Bortell",
+        4
+      ],
+      [
+        null,
+        "(sig) Loland",
+        26
+      ],
+      [
+        "DELL",
+        "(sig) LaPorte",
+        21
+      ],
+      [
+        "HYDE E",
+        "Hidden / Track H32 (X)",
+        11
+      ]
+    ],
+    "route": null
+  },
+  "YDCF": {
+    "block": null,
+    "cutoff": false,
+    "desc": "Eastbound Freight",
+    "eastbound": true,
+    "loco": null,
+    "normalloco": null,
+    "origin": {
+      "loc": "YD",
+      "track": "Y20"
+    },
+    "sequence": [
+      {
+        "block": "Y21",
+        "os": "YOSEJE",
+        "route": "YRtY20Y21",
+        "signal": "Y10L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "L20",
+        "os": "YOSCJE",
+        "route": "YRtY21L20",
+        "signal": "Y4L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "L21",
+        "os": "LOSLAM",
+        "route": "LRtL20L21",
+        "signal": "L6RA",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "D20",
+        "os": "LOSCAM",
+        "route": "LRtL21D20",
+        "signal": "L16R",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "D21",
+        "os": "DOSVJE",
+        "route": "DRtD20D21",
+        "signal": "D4RA",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "S20",
+        "os": "DOSFOE",
+        "route": "DRtD21S20",
+        "signal": "D10R",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "S21",
+        "os": "SOSE",
+        "route": "SRtS20S21",
+        "signal": "S4R",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "N20",
+        "os": "KOSN20S21",
+        "route": "KRtN20S21",
+        "signal": "S21E",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "N21",
+        "os": "KOSE",
+        "route": "KRtN20N21",
+        "signal": "K2R",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "N22",
+        "os": "NWOSE",
+        "route": "NRtN21N22",
+        "signal": "N14R",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "B20",
+        "os": "NEOSE",
+        "route": "NRtB20N22",
+        "signal": "N24RA",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "B21",
+        "os": "BOSWE",
+        "route": "BRtB20B21",
+        "signal": "C24L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "C13",
+        "os": "BOSE",
+        "route": "BRtB21C13",
+        "signal": "C18LB",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "C12",
+        "os": "COSCLW",
+        "route": "CRtC13C12",
+        "signal": "C14L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "C11",
+        "os": "COSCLEE",
+        "route": "CRtC12C11",
+        "signal": "C12L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "C10",
+        "signal": "C4L",
+        "os": "COSGMW",
+        "route": "CRtC11C10",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "C20",
+        "signal": "C2LB",
+        "os": "COSGME",
+        "route": "CRtC10C20",
+        "time": 5000,
+        "trigger": "Front"
+      }
+    ],
+    "startblock": "Y20",
+    "startsubblock": null,
+    "terminus": {
+      "loc": "CF",
+      "track": null
+    },
+    "time": 5000,
+    "tracker": [
+      [
+        "YARD",
+        "Koehlstadt / Track Y70",
+        1
+      ],
+      [
+        "",
+        "(sig) Cornell",
+        8
+      ],
+      [
+        "LATHAM",
+        "(sig) Latham Jct",
+        10
+      ],
+      [
+        "DELL",
+        "(sig) LaPorte",
+        21
+      ],
+      [
+        "SHORE",
+        "River jct",
+        5
+      ],
+      [
+        null,
+        "(sig) Krulish Jct",
+        19
+      ],
+      [
+        "NASSAU",
+        "(sig) Wilson City / Track N22",
+        23
+      ],
+      [
+        "BANK",
+        "(sig) Martinsville",
+        3
+      ],
+      [
+        "CLIFF",
+        "Sheffield Yd / C41-C44",
+        11
+      ]
+    ],
+    "route": null
+  },
+  "20C": {
+    "block": null,
+    "cutoff": false,
+    "desc": "Eastbound Freight",
+    "eastbound": true,
+    "loco": null,
+    "normalloco": null,
+    "origin": {
+      "loc": "YD",
+      "track": "Y20"
+    },
+    "sequence": [
+      {
+        "block": "Y21",
+        "os": "YOSEJE",
+        "route": "YRtY20Y21",
+        "signal": "Y10L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "L20",
+        "os": "YOSCJE",
+        "route": "YRtY21L20",
+        "signal": "Y4L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "L21",
+        "os": "LOSLAM",
+        "route": "LRtL20L21",
+        "signal": "L6RA",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "D20",
+        "os": "LOSCAM",
+        "route": "LRtL21D20",
+        "signal": "L16R",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "D21",
+        "os": "DOSVJE",
+        "route": "DRtD20D21",
+        "signal": "D4RA",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "S20",
+        "os": "DOSFOE",
+        "route": "DRtD21S20",
+        "signal": "D10R",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "S21",
+        "os": "SOSE",
+        "route": "SRtS20S21",
+        "signal": "S4R",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "N20",
+        "os": "KOSN20S21",
+        "route": "KRtN20S21",
+        "signal": "S21E",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "N21",
+        "os": "KOSE",
+        "route": "KRtN20N21",
+        "signal": "K2R",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "N22",
+        "os": "NWOSE",
+        "route": "NRtN21N22",
+        "signal": "N14R",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "B20",
+        "os": "NEOSE",
+        "route": "NRtB20N22",
+        "signal": "N24RA",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "B21",
+        "os": "BOSWE",
+        "route": "BRtB20B21",
+        "signal": "C24L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "C13",
+        "os": "BOSE",
+        "route": "BRtB21C13",
+        "signal": "C18LB",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "C12",
+        "os": "COSCLW",
+        "route": "CRtC13C12",
+        "signal": "C14L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "C11",
+        "os": "COSCLEE",
+        "route": "CRtC12C11",
+        "signal": "C12L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "C30",
+        "signal": "C4L",
+        "os": "COSGMW",
+        "route": "CRtC11C30",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "C20",
+        "signal": "C2LA",
+        "os": "COSGME",
+        "route": "CRtC30C20",
+        "time": 5000,
+        "trigger": "Front"
+      }
+    ],
+    "startblock": "Y20",
+    "startsubblock": null,
+    "terminus": {
+      "loc": "CF",
+      "track": null
+    },
+    "time": 5000,
+    "tracker": [
+      [
+        "YARD",
+        "Koehlstadt / Track Y70",
+        1
+      ],
+      [
+        "",
+        "(sig) Cornell",
+        8
+      ],
+      [
+        "LATHAM",
+        "(sig) Latham Jct",
+        10
+      ],
+      [
+        "DELL",
+        "(sig) LaPorte",
+        21
+      ],
+      [
+        "SHORE",
+        "River jct",
+        5
+      ],
+      [
+        null,
+        "(sig) Krulish Jct",
+        19
+      ],
+      [
+        "NASSAU",
+        "(sig) Wilson City / Track N22",
+        23
+      ],
+      [
+        "BANK",
+        "(sig) Martinsville",
+        3
+      ],
+      [
+        "CLIFF",
+        "Sheffield Yd / C41-C44",
+        11
+      ]
+    ],
+    "route": null
+  },
+  "50C": {
+    "block": null,
+    "cutoff": false,
+    "desc": "Eastbound Freight",
+    "eastbound": true,
+    "loco": null,
+    "normalloco": null,
+    "origin": {
+      "loc": "YD",
+      "track": "Y20"
+    },
+    "sequence": [
+      {
+        "block": "Y21",
+        "os": "YOSEJE",
+        "route": "YRtY20Y21",
+        "signal": "Y10L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "L20",
+        "os": "YOSCJE",
+        "route": "YRtY21L20",
+        "signal": "Y4L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "L21",
+        "os": "LOSLAM",
+        "route": "LRtL20L21",
+        "signal": "L6RA",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "D20",
+        "os": "LOSCAM",
+        "route": "LRtL21D20",
+        "signal": "L16R",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "D21",
+        "os": "DOSVJE",
+        "route": "DRtD20D21",
+        "signal": "D4RA",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "S20",
+        "os": "DOSFOE",
+        "route": "DRtD21S20",
+        "signal": "D10R",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "S21",
+        "os": "SOSE",
+        "route": "SRtS20S21",
+        "signal": "S4R",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "N20",
+        "os": "KOSN20S21",
+        "route": "KRtN20S21",
+        "signal": "S21E",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "N21",
+        "os": "KOSE",
+        "route": "KRtN20N21",
+        "signal": "K2R",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "N22",
+        "os": "NWOSE",
+        "route": "NRtN21N22",
+        "signal": "N14R",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "B20",
+        "os": "NEOSE",
+        "route": "NRtB20N22",
+        "signal": "N24RA",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "B21",
+        "os": "BOSWE",
+        "route": "BRtB20B21",
+        "signal": "C24L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "C13",
+        "os": "BOSE",
+        "route": "BRtB21C13",
+        "signal": "C18LB",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "C12",
+        "os": "COSCLW",
+        "route": "CRtC13C12",
+        "signal": "C14L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "C11",
+        "os": "COSCLEE",
+        "route": "CRtC12C11",
+        "signal": "C12L",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "C10",
+        "signal": "C4L",
+        "os": "COSGMW",
+        "route": "CRtC11C10",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "C20",
+        "signal": "C2LB",
+        "os": "COSGME",
+        "route": "CRtC10C20",
+        "time": 5000,
+        "trigger": "Front"
+      }
+    ],
+    "startblock": "Y20",
+    "startsubblock": null,
+    "terminus": {
+      "loc": "CF",
+      "track": null
+    },
+    "time": 5000,
+    "tracker": [
+      [
+        "YARD",
+        "Koehlstadt / Track Y70",
+        1
+      ],
+      [
+        "",
+        "(sig) Cornell",
+        8
+      ],
+      [
+        "LATHAM",
+        "(sig) Latham Jct",
+        10
+      ],
+      [
+        "DELL",
+        "(sig) LaPorte",
+        21
+      ],
+      [
+        "SHORE",
+        "River jct",
+        5
+      ],
+      [
+        null,
+        "(sig) Krulish Jct",
+        19
+      ],
+      [
+        "NASSAU",
+        "(sig) Wilson City / Track N22",
+        23
+      ],
+      [
+        "BANK",
+        "(sig) Martinsville",
+        3
+      ],
+      [
+        "CLIFF",
+        "Sheffield Yd / C41-C44",
+        11
+      ]
+    ],
+    "route": null
+  },
+  "EL": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": null,
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": false,
+    "startblock": "H23",
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": [
+      {
+        "block": "D21",
+        "signal": "D4RB",
+        "os": "DOSVJE",
+        "route": "DRtH23D21",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "S20",
+        "signal": "D10R",
+        "os": "DOSFOE",
+        "route": "DRtD21S20",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "H20",
+        "signal": "S4R",
+        "os": "SOSE",
+        "route": "SRtS20H20",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "H21",
+        "signal": "S18R",
+        "os": "SOSHJM",
+        "route": "SRtH20H21",
+        "time": 5000,
+        "trigger": "Front"
+      }
+    ]
+  },
+  "WL": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": null,
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": false,
+    "startblock": "H11",
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": [
+      {
+        "block": "H10",
+        "signal": "S20L",
+        "os": "SOSHJW",
+        "route": "SRtH10H11",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "S10",
+        "signal": "S12LC",
+        "os": "SOSW",
+        "route": "SRtS10H10",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "D11",
+        "signal": "D12L",
+        "os": "DOSFOW",
+        "route": "DRtD11S10",
+        "time": 5000,
+        "trigger": "Front"
+      },
+      {
+        "block": "H13",
+        "signal": "D6L",
+        "os": "DOSVJW",
+        "route": "DRtH13D11",
+        "time": 5000,
+        "trigger": "Front"
+      }
+    ]
+  },
+  "21C": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "20C",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "22C": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "20C",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "23C": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "20C",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "24C": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "20C",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "25C": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "20C",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "26C": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "20C",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "27C": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "20C",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "28C": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "20C",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "29C": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "20C",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "21Y": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "20Y",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "22Y": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "20Y",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "23Y": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "20Y",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "24Y": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "20Y",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "25Y": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "20Y",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "26Y": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "20Y",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "27Y": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "20Y",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "28Y": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "20Y",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "29Y": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "20Y",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "51C": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "50C",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "52C": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "50C",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "53C": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "50C",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "54C": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "50C",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "55C": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "50C",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "56C": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "50C",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "57C": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "50C",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "58C": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "50C",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "59C": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "50C",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "51Y": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "50Y",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "52Y": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "50Y",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "53Y": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "50Y",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "54Y": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "50Y",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "55Y": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "50Y",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "56Y": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "50Y",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "57Y": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "50Y",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "58Y": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "50Y",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "59Y": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "50Y",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "31EL": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "EL",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "31WL": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "WL",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "32EL": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "EL",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "32WL": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "WL",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "33EL": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "EL",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "33WL": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "WL",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "34EL": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "EL",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "34WL": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "WL",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "35EL": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "EL",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "35WL": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "WL",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "36EL": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "EL",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "36WL": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "WL",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "37EL": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "EL",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "37WL": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "WL",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "38EL": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "EL",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "38WL": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "WL",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "39EL": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "EL",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  },
+  "39WL": {
+    "tracker": [],
+    "block": null,
+    "cutoff": false,
+    "desc": null,
+    "loco": null,
+    "route": "WL",
+    "normalloco": null,
+    "origin": {
+      "loc": null,
+      "track": null
+    },
+    "terminus": {
+      "loc": null,
+      "track": null
+    },
+    "eastbound": true,
+    "startblock": null,
+    "startsubblock": null,
+    "time": 5000,
+    "sequence": []
+  }
+}
+

@@ -1,0 +1,22 @@
+{
+  "A": {
+    "name": "A",
+    "loco": "??",
+    "east": true,
+    "route": null,
+    "blocks": [
+      "SOSE",
+      "S21"
+    ]
+  },
+  "B": {
+    "name": "B",
+    "loco": "??",
+    "east": false,
+    "route": null,
+    "blocks": [
+      "DOSFOW",
+      "D11"
+    ]
+  }
+}

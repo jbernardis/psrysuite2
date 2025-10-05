@@ -1,0 +1,416 @@
+{
+  "address": 97,
+  "description": "Shore",
+  "obytes": [
+    [
+      {
+        "label": "S4R(0)",
+        "used": true
+      },
+      {
+        "label": "S4R(1)",
+        "used": true
+      },
+      {
+        "label": "S4R(2)",
+        "used": true
+      },
+      {
+        "label": "S12R(0)",
+        "used": true
+      },
+      {
+        "label": "S12R(1)",
+        "used": true
+      },
+      {
+        "label": "S12R(2)",
+        "used": true
+      },
+      {
+        "label": "S4LA",
+        "used": true
+      },
+      {
+        "label": "S4LB(0)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "S4LB(1)",
+        "used": true
+      },
+      {
+        "label": "S4LB(2)",
+        "used": true
+      },
+      {
+        "label": "S4LC(0)",
+        "used": true
+      },
+      {
+        "label": "S4LC(1)",
+        "used": true
+      },
+      {
+        "label": "S4LC(2)",
+        "used": true
+      },
+      {
+        "label": "S12LA(0)",
+        "used": true
+      },
+      {
+        "label": "S12LA(1)",
+        "used": true
+      },
+      {
+        "label": "S12LA(2)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "S12LB",
+        "used": true
+      },
+      {
+        "label": "S12LC(0)",
+        "used": true
+      },
+      {
+        "label": "S12LC(1)",
+        "used": true
+      },
+      {
+        "label": "S12LC(2)",
+        "used": true
+      },
+      {
+        "label": "F10H",
+        "used": true
+      },
+      {
+        "label": "F10D",
+        "used": true
+      },
+      {
+        "label": "S8R",
+        "used": true
+      },
+      {
+        "label": "S8L",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "S10.ind",
+        "used": true
+      },
+      {
+        "label": "H20.ind",
+        "used": true
+      },
+      {
+        "label": "S21.ind",
+        "used": true
+      },
+      {
+        "label": "P32.ind",
+        "used": true
+      },
+      {
+        "label": "CBShore.ind",
+        "used": true
+      },
+      {
+        "label": "CBHarpersFerry.ind",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "SSw1.hslck",
+        "used": true
+      },
+      {
+        "label": "SSw3.N",
+        "used": true
+      },
+      {
+        "label": "SSw3.R",
+        "used": true
+      },
+      {
+        "label": "SSw5.N",
+        "used": true
+      },
+      {
+        "label": "SSw5.R",
+        "used": true
+      },
+      {
+        "label": "SSw7.N",
+        "used": true
+      },
+      {
+        "label": "SSw7.R",
+        "used": true
+      },
+      {
+        "label": "SSw9.N",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "SSw9.R",
+        "used": true
+      },
+      {
+        "label": "SSw11.N",
+        "used": true
+      },
+      {
+        "label": "SSw11.R",
+        "used": true
+      },
+      {
+        "label": "SSw13.N",
+        "used": true
+      },
+      {
+        "label": "SSw13.R",
+        "used": true
+      },
+      {
+        "label": "BX",
+        "used": true
+      },
+      {
+        "label": "S20.srel",
+        "used": true
+      },
+      {
+        "label": "S11.srel",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "H30.srel",
+        "used": true
+      },
+      {
+        "label": "H10.srel",
+        "used": true
+      },
+      {
+        "label": "F10.srel",
+        "used": true
+      },
+      {
+        "label": "F11.srel",
+        "used": true
+      },
+      {
+        "label": "CSw15.hslck",
+        "used": true
+      },
+      {
+        "label": "SXG",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ],
+  "ibytes": [
+    [
+      {
+        "label": "SSw1.N",
+        "used": true
+      },
+      {
+        "label": "SSw1.R",
+        "used": true
+      },
+      {
+        "label": "SSw3.N",
+        "used": true
+      },
+      {
+        "label": "SSw3.R",
+        "used": true
+      },
+      {
+        "label": "SSw5.N",
+        "used": true
+      },
+      {
+        "label": "SSw5.R",
+        "used": true
+      },
+      {
+        "label": "SSw7.N",
+        "used": true
+      },
+      {
+        "label": "SSw7.R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "SSw9.N",
+        "used": true
+      },
+      {
+        "label": "SSw9.R",
+        "used": true
+      },
+      {
+        "label": "SSw11.N",
+        "used": true
+      },
+      {
+        "label": "SSw11.R",
+        "used": true
+      },
+      {
+        "label": "SSw13.N",
+        "used": true
+      },
+      {
+        "label": "SSw13.R",
+        "used": true
+      },
+      {
+        "label": "S20.W",
+        "used": true
+      },
+      {
+        "label": "S20A",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "S20C",
+        "used": true
+      },
+      {
+        "label": "S20B",
+        "used": true
+      },
+      {
+        "label": "S20.E",
+        "used": true
+      },
+      {
+        "label": "SOSW",
+        "used": true
+      },
+      {
+        "label": "SOSE",
+        "used": true
+      },
+      {
+        "label": "S11.W",
+        "used": true
+      },
+      {
+        "label": "S11B",
+        "used": true
+      },
+      {
+        "label": "S11.E",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "H30.W",
+        "used": true
+      },
+      {
+        "label": "H30B",
+        "used": true
+      },
+      {
+        "label": "H10.W",
+        "used": true
+      },
+      {
+        "label": "H10B",
+        "used": true
+      },
+      {
+        "label": "F10",
+        "used": true
+      },
+      {
+        "label": "F10.E",
+        "used": true
+      },
+      {
+        "label": "SOSHF",
+        "used": true
+      },
+      {
+        "label": "F11.W",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "F11",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "CSw15.N",
+        "used": true
+      },
+      {
+        "label": "CSw15.R",
+        "used": true
+      },
+      {
+        "label": "S11A",
+        "used": true
+      },
+      {
+        "label": "H30A",
+        "used": true
+      },
+      {
+        "label": "H10A",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ]
+}

@@ -1,0 +1,212 @@
+{
+  "address": 18,
+  "description": "Kale",
+  "obytes": [
+    [
+      {
+        "label": "Y22L",
+        "used": true
+      },
+      {
+        "label": "Y26LA",
+        "used": true
+      },
+      {
+        "label": "Y26LB",
+        "used": true
+      },
+      {
+        "label": "Y26LC",
+        "used": true
+      },
+      {
+        "label": "Y24LA",
+        "used": true
+      },
+      {
+        "label": "Y24LB",
+        "used": true
+      },
+      {
+        "label": "Y20H",
+        "used": true
+      },
+      {
+        "label": "Y20D",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "Y26R",
+        "used": true
+      },
+      {
+        "label": "Y22Ra",
+        "used": true
+      },
+      {
+        "label": "Y22Rb",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ],
+    [
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ],
+  "ibytes": [
+    [
+      {
+        "label": "YSw17.N",
+        "used": true
+      },
+      {
+        "label": "YSw17.R",
+        "used": true
+      },
+      {
+        "label": "YSw19.N",
+        "used": true
+      },
+      {
+        "label": "YSw19.R",
+        "used": true
+      },
+      {
+        "label": "YSw21.N",
+        "used": true
+      },
+      {
+        "label": "YSw21.R",
+        "used": true
+      },
+      {
+        "label": "YSw23.N",
+        "used": true
+      },
+      {
+        "label": "YSw23.R",
+        "used": true
+      }
+   ],
+    [
+      {
+        "label": "YSw25.N",
+        "used": true
+      },
+      {
+        "label": "YSw25.R",
+        "used": true
+      },
+      {
+        "label": "YSw27.N",
+        "used": true
+      },
+      {
+        "label": "YSw27.R",
+        "used": true
+      },
+      {
+        "label": "YSw29.N",
+        "used": true
+      },
+      {
+        "label": "YSw29.R",
+        "used": true
+      },
+      {
+        "label": "Y30",
+        "used": true
+      },
+      {
+        "label": "YOSKL4",
+        "used": true
+      }
+   ],
+   [
+      {
+        "label": "Y53",
+        "used": true
+      },
+      {
+        "label": "Y52",
+        "used": true
+      },
+      {
+        "label": "Y51",
+        "used": true
+      },
+      {
+        "label": "Y50",
+        "used": true
+      },
+      {
+        "label": "YOSKL2",
+        "used": true
+      },
+      {
+        "label": "YOSKL1",
+        "used": true
+      },
+      {
+        "label": "YOSKL3",
+        "used": true
+      },
+      {
+        "label": "Y10",
+        "used": true
+      }
+    ]
+  ]
+}

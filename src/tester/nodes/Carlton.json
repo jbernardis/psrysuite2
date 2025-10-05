@@ -1,0 +1,280 @@
+{
+  "address": 50,
+  "description": "Carlton",
+  "obytes": [
+    [
+      {
+        "label": "L16R(0)",
+        "used": true
+      },
+      {
+        "label": "L16R(1)",
+        "used": true
+      },
+      {
+        "label": "L16R(2)",
+        "used": true
+      },
+      {
+        "label": "L18R",
+        "used": true
+      },
+      {
+        "label": "L14R(0)",
+        "used": true
+      },
+      {
+        "label": "L14R(1)",
+        "used": true
+      },
+      {
+        "label": "L14R(2)",
+        "used": true
+      },
+      {
+        "label": "L14L",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "L18L(0)",
+        "used": true
+      },
+      {
+        "label": "L18L(1)",
+        "used": true
+      },
+      {
+        "label": "L18L(2)",
+        "used": true
+      },
+      {
+        "label": "LSw11.hslck",
+        "used": true
+      },
+      {
+        "label": "LSw13.hslck",
+        "used": true
+      },
+      {
+        "label": "LSw15.N",
+        "used": true
+      },
+      {
+        "label": "LSw15.R",
+        "used": true
+      },
+      {
+        "label": "LSw17.N",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "LSw17.R",
+        "used": true
+      },
+      {
+        "label": "L31.srel",
+        "used": true
+      },
+      {
+        "label": "D10.srel",
+        "used": true
+      },
+      {
+        "label": "S21E(0)",
+        "used": true
+      },
+      {
+        "label": "S21E(1)",
+        "used": true
+      },
+      {
+        "label": "S21E(2)",
+        "used": true
+      },
+      {
+        "label": "N20W(0)",
+        "used": true
+      },
+      {
+        "label": "N20W(1)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "N20W(2)",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "S11E(0)",
+        "used": true
+      },
+      {
+        "label": "S11E(1)",
+        "used": true
+      },
+      {
+        "label": "S11E(2)",
+        "used": true
+      },
+      {
+        "label": "N10W(0)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "N10W(1)",
+        "used": true
+      },
+      {
+        "label": "N10W(2)",
+        "used": true
+      },
+      {
+        "label": "S21.srel",
+        "used": true
+      },
+      {
+        "label": "N25.srel",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ],
+  "ibytes": [
+    [
+      {
+        "label": "LSw11.N",
+        "used": true
+      },
+      {
+        "label": "LSw11.R",
+        "used": true
+      },
+      {
+        "label": "LSw13.N",
+        "used": true
+      },
+      {
+        "label": "LSw13.R",
+        "used": true
+      },
+      {
+        "label": "LSw15.N",
+        "used": true
+      },
+      {
+        "label": "LSw15.R",
+        "used": true
+      },
+      {
+        "label": "LSw17.N",
+        "used": true
+      },
+      {
+        "label": "LSw17.R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "L31",
+        "used": true
+      },
+      {
+        "label": "L31.E",
+        "used": true
+      },
+      {
+        "label": "LOSCAW",
+        "used": true
+      },
+      {
+        "label": "LOSCAM",
+        "used": true
+      },
+      {
+        "label": "LOSCAE",
+        "used": true
+      },
+      {
+        "label": "D10.W",
+        "used": true
+      },
+      {
+        "label": "D10",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ],
+    [
+      {
+        "label": "S21.W",
+        "used": true
+      },
+      {
+        "label": "S21",
+        "used": true
+      },
+      {
+        "label": "S21.E",
+        "used": true
+      },
+      {
+        "label": "N25.W",
+        "used": true
+      },
+      {
+        "label": "N25",
+        "used": true
+      },
+      {
+        "label": "N25.E",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ]
+}
