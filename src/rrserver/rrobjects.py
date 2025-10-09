@@ -22,6 +22,8 @@ class Block:
 		self.stoppingBlocks = []
 		self.stoppedBlock = None
 		self.route = None
+		self.nextBlockEast = None
+		self.nextBlockWest = None
 
 	def toJson(self):
 		return {"name": self.name, "east": 1 if self.east else 0, "cleared": 1 if self.cleared else 0, "statue": self.status}
@@ -99,6 +101,18 @@ class Block:
 		
 	def IsEast(self):
 		return self.east
+
+	def East(self):
+		return self.east
+
+	def SetEast(self, flag):
+		self.east = flag
+
+	def IsReversed(self):
+		return self.east != self.normalEast
+
+	def Reset(self):
+		self.east = self.normalEast
 	
 	def SetStatus(self, stat):
 		if self.status == stat:
@@ -165,7 +179,13 @@ class Block:
 			clr = True if b.status == "C" else clr
 			
 		return clr
-	
+
+	def SetNextWest(self, blk):
+		self.nextBlockWest = blk
+
+	def SetNextEast(self, blk):
+		self.nextBlockWest = blk
+
 	def AddIndicator(self, district, node, address, bits):
 		self.indicators.append((district, node, address, bits))
 		
@@ -178,9 +198,9 @@ class Block:
 			parentBlk = self.stoppedBlock
 		elif self.mainBlock is not None:
 			parentBlk = self.mainBlock
-			 
+
 		occ = parentBlk.IsOccupied() # the occupancy status of the block and all sublocks
-			 
+
 		for sb in parentBlk.StoppingBlocks():
 			occ = True if sb.IsOccupied() else occ
 
@@ -200,7 +220,7 @@ class Block:
 			bname = self.name
 			stat = self.status
 
-		return {"block": [{ "name": bname, "state": stat}]}
+		return {"block": [{ "name": bname, "state": stat, "east": self.east}]}
 
 
 class OSBlock:
@@ -209,18 +229,44 @@ class OSBlock:
 		self.block = blk
 		self.routes = {}
 		self.activeRoute = None
+		self.activeRouteName = None
 		self.turnouts = set()
 
 	def Name(self):
 		return self.name
 
+	def Block(self):
+		return self.block
+
+	def RouteDesignator(self):
+		return self.activeRoute
+
 	def Routes(self):
 		return self.routes
 
-	def AddRoute(self, rname, turnouts, signals):
-		t = [[tout[0], True if tout[1] == 'N' else False] for tout in turnouts]
-		self.routes[rname] = {"turnouts": t, "signals": signals}
-		self.turnouts.update([tout[0] for tout in turnouts])
+	def SetStatus(self, stat):
+		self.block.SetStatus(stat)
+
+	def IsOccupied(self):
+		return self.block.IsOccupied()
+
+	def IsCleared(self):
+		return self.block.IsCleared()
+
+	def IsReversed(self):
+		return self.block.IsReversed()
+
+	def IsEast(self):
+		return self.block.IsEast()
+
+	def SetEast(self, flag):
+		self.block.SetEast(flag)
+
+	def Reset(self):
+		self.block.Reset()
+
+	def AddRoute(self, rt):
+		self.routes[rt.Name()] = rt
 
 	def HasTurnout(self, tn):
 		return tn in self.turnouts
@@ -228,44 +274,110 @@ class OSBlock:
 	def GetActiveSignals(self):
 		if self.activeRoute is None:
 			return []
-		return self.routes[self.activeRoute]["signals"]
+		return self.activeRoute.Signals()
 
 	def DetermineActiveRoute(self, turnouts):
-		logging.debug("determine active route for OS %s" % self.name)
 		routeSelected = False
 		for rname, rt in self.routes.items():
-			logging.debug("in loop route %s: %s" % (rname, str(rt)))
 			routeSelected = True
-			for trnout, wantedstate in rt["turnouts"]:
+			for trnout, wantedstate in rt.Turnouts():
 				tout = turnouts[trnout]
 				currentstate = tout.IsNormal()
 				if wantedstate != currentstate:
 					routeSelected = False
 					break
 			if routeSelected:
-				if self.activeRoute == rname:
-					return False
-				else:
-					self.activeRoute = rname
-					return True
+				return self.SetActiveRoute(rt)
 
 		if not routeSelected:
-			if self.activeRoute is None:
-				return False
-			else:
-				self.activeRoute = None
-				return True
+			return self.SetActiveRoute(None)
 
 		return False
 
 	def ActiveRoute(self):
 		return self.activeRoute
 
+	def ActiveRouteName(self):
+		return self.activeRouteName
+
+	def SetActiveRoute(self, rt):
+		if rt is None:
+			rc = not self.activeRoute is None
+			self.activeRoute = None
+			self.activeRouteName = None
+			return rc
+
+		rc = not self.activeRouteName == rt.Name()
+		self.activeRoute = rt
+		self.activeRouteName = rt.Name()
+		# each of the two ends of the route need to point back to this OS block
+		ar = self.activeRoute
+		nxtEast = ar.NextBlockEast()
+		if nxtEast is not None:
+			nxtEast.SetNextWest(self)
+		nxtWest = ar.NextBlockWest()
+		if nxtWest is not None:
+			nxtWest.SetNextEast(self)
+		return rc
+
 	def GetEventMessages(self):
 		if self.activeRoute is None:
 			return None
 
-		return [{"setroute": [{"os": self.Name(), "route": self.activeRoute}]}]
+		return [{"setroute": [{"os": self.Name(), "route": self.activeRouteName}]}]
+
+
+class Route:
+	def __init__(self, name, osblk, turnouts, signals, ends, rtype):
+		self.name = name
+		self.osblk = osblk
+		self.turnouts = [[x[0], True if x[1] == "N" else False] for x in turnouts]
+		self.signals = [s for s in signals]
+		self.ends = [x for x in ends]
+		self.rtype = [x for x in rtype]
+
+	def SetOS(self, osblk):
+		self.osblk = osblk
+
+	def Name(self):
+		return self.name
+
+	def Turnouts(self):
+		return self.turnouts
+
+	def Signals(self):
+		return self.signals
+
+	def HasSignal(self, sigPrefix):
+		for sig in self.signals:
+			if sig.startswith(sigPrefix):
+				return sig
+
+		return None
+
+	def NextBlockEast(self):
+		return self.ends[0]
+
+	def NextBlockWest(self):
+		return self.ends[1]
+
+	def GetExitBlock(self, reverse=False):
+		if self.osblk.IsReversed():
+			return self.ends[1] if reverse else self.ends[0]
+		else:
+			return self.ends[0] if reverse else self.ends[1]
+
+	def GetEntryBlock(self, reverse=False):
+		if self.osblk.IsReversed():
+			return self.ends[0] if reverse else self.ends[1]
+		else:
+			return self.ends[1] if reverse else self.ends[0]
+
+	def GetRouteType(self, reverse=False):
+		if self.osblk.IsEast():
+			return self.rtype[1] if reverse else self.rtype[0]
+		else:
+			return self.rtype[0] if reverse else self.rtype[1]
 
 
 class StopRelay:
@@ -382,6 +494,7 @@ class Breaker:
 		if self.district is None:
 			logging.info("<===== NULL BREAKER DEFINITION")
 
+
 class Indicator:
 	def __init__(self, name, district, node, address):
 		self.name = name
@@ -404,7 +517,8 @@ class Indicator:
 	
 	def GetEventMessage(self):
 		return {"indicator": [{ "name": self.name, "state": 1 if self.status else 0}]}
-	
+
+
 class ODevice:
 	def __init__(self, name, district, node, address):
 		self.name = name
@@ -428,7 +542,8 @@ class ODevice:
 		
 	def IsOn(self):
 		return self.status
-	
+
+
 class Lock:
 	def __init__(self, name, district, node, address):
 		self.name = name
@@ -468,6 +583,7 @@ class Signal:
 		self.locked = False
 		self.lockBits = []
 		self.indicators = []
+		self.east = True
 
 	def IsNullSignal(self):
 		return self.district is None
@@ -488,7 +604,6 @@ class Signal:
 			return False
 		
 		self.aspect = aspect
-		logging.debug("Setting aspect for signal %s to %d" % (self.name, self.aspect))
 		return True
 	
 	def SetAspectType(self, atype):
@@ -508,7 +623,13 @@ class Signal:
 	
 	def Name(self):
 		return self.name
-	
+
+	def East(self):
+		return self.east
+
+	def SetEast(self, flag):
+		self.east = flag
+
 	def SetLockBits(self, bits):
 		self.lockBits = bits
 		
@@ -539,7 +660,6 @@ class Signal:
 	
 	def GetEventMessage(self):
 		msg = {"showaspect": [{ "signal": self.name, "aspect": self.aspect, "aspecttype": self.aspectType, "frozenaspect": self.frozenaspect}]}
-		logging.debug("Signal command: %s" % str(msg))
 
 		return msg
 		
@@ -551,9 +671,6 @@ class Signal:
 			logging.info("<===== NULL SIGNAL DEFINITION")
 
 
-'''
-signal lever is a separate class because there is only 1 signal lever for each grouping of Lx and Rx signals
-'''
 class SignalLever:
 	def __init__(self, name, district, node, address):
 		self.name = name
@@ -579,7 +696,7 @@ class SignalLever:
 		self.district = district
 		self.node = node
 		self.address = address
-	
+
 	def Name(self):
 		return self.name
 		
@@ -612,6 +729,12 @@ class SignalLever:
 		return self.bits
 	
 	def SetLeverState(self, rbit, cbit, lbit):
+		lastRBit = 1 if self.state == 'R' else 0
+		lastLBit = 1 if self.state == 'L' else 0
+		lastCBit = 1 if self.callon else 0
+
+		nCallOn = cbit == 1
+
 		self.callon = cbit == 1
 		nstate = self.state
 		if lbit is not None and lbit != 0:
@@ -702,6 +825,7 @@ class Turnout:
 		self.locked = False
 		self.lockBits = None
 		self.force = False
+		self.lockers = []
 		self.lockBitValue = 0
 		self.pairedTurnout = None
 
@@ -835,13 +959,26 @@ class Turnout:
 	def LockBits(self):
 		return self.lockBits
 	
-	def Lock(self, locked):
-		if self.locked == locked:
-			return False
-		
-		self.locked = locked
-		return True
-		
+	def Lock(self, lockFlag, locker):
+		# Return value indicates whether or not the locked value changes
+		if lockFlag:
+			if locker not in self.lockers:
+				self.lockers.append(locker)
+				self.locked = True
+				return True
+			else:
+				return False
+		else:
+			if locker not in self.lockers:
+				return False
+
+			self.lockers.remove(locker)
+			if len(self.lockers) == 0:
+				self.locked = False
+				return True
+			else:
+				return False
+
 	def IsLocked(self):
 		return self.locked
 

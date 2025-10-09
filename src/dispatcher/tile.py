@@ -1,6 +1,6 @@
 import logging
 
-from dispatcher.constants import EMPTY, OCCUPIED, CLEARED, NORMAL, REVERSE, STOP, CLEAR, RegAspects, RegSloAspects, AdvAspects, SloAspects
+from dispatcher.constants import EMPTY, OCCUPIED, CLEARED, STOP, CLEAR, RegAspects, RegSloAspects, AdvAspects, SloAspects
 
 
 class Tile:
@@ -79,7 +79,7 @@ class TurnoutTile:
 		self.rbmps = rbmps
 
 	def getBmp(self, tostat, blkstat, east, disabled):
-		if tostat == NORMAL:
+		if tostat == "N":
 			bmps = self.nbmps
 		else:
 			bmps = self.rbmps
@@ -131,13 +131,13 @@ class SlipSwitchTile:
 		self.rrbmps = rrbmps
 
 	def getBmp(self, tostat, blkstat, disabled, unknownTrain=False):
-		if tostat == [NORMAL, NORMAL]:
+		if tostat == ["N", "N"]:
 			bmps = self.nnbmps
-		elif tostat == [NORMAL, REVERSE]:
+		elif tostat == ["N", "R"]:
 			bmps = self.nrbmps
-		elif tostat == [REVERSE, NORMAL]:
+		elif tostat == ["R", "N"]:
 			bmps = self.rnbmps
-		else: # tostat == [REVERSE, REVERSE]
+		else: # tostat == ["R", "R]
 			bmps = self.rrbmps
 
 		if blkstat == OCCUPIED:
@@ -160,7 +160,7 @@ class SlipSwitchTile:
 						pass
 				return bmps["red"]
 
-		if blkstat == CLEARED:
+		if blkstat == "C":
 			if disabled:
 				try:
 					return bmps["green-dis"]

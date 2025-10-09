@@ -22,6 +22,12 @@ class District:
 		print("in default checkswitchlocks")
 		return []
 
+	def ControlRestricted(self):
+		return "Control is Restricted"
+
+	def MapLeverToSignals(self, lever):
+		return [], []
+
 	def Initialize(self):
 		pass
 			

@@ -125,9 +125,9 @@ class Dell(District):
 		changes = []
 		s5 = turnouts["DSw5"].IsNormal()
 		s7 = turnouts["DSw7"].IsNormal()
-		if turnouts["DSw5"].Lock(not s7):
+		if turnouts["DSw5"].Lock(not s7, "DSw7"):
 			changes.append(["DSw5", not s7])
-		if turnouts["DSw7"].Lock(not s5):
+		if turnouts["DSw7"].Lock(not s5, "DSw5"):
 			changes.append(["DSw7", not s5])
 			changes.append(["DSw7b", not s5])
 		return changes

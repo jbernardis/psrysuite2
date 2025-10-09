@@ -334,29 +334,30 @@ class Nassau(District):
 			}
 
 		}
- #
- #
- #
- #
- #
- #
- #
- # def DetermineSignalLevers(self):
- # 	self.sigLever["N14"] = self.DetermineSignalLever(["N14LA", "N14LB", "N14LC"], ["N14R"])
- # 	self.sigLever["N16"] = self.DetermineSignalLever(["N16L"], ["N16R"])
- # 	self.sigLever["N18"] = self.DetermineSignalLever(["N18LA", "N18LB"], ["N18R"])
- # 	self.sigLever["N20"] = self.DetermineSignalLever(["N20L"], ["N20R"])
- # 	self.sigLever["N24"] = self.DetermineSignalLever(["N24L"], ["N24RA", "N24RB", "N24RC", "N24RD"])
- # 	self.sigLever["N26"] = self.DetermineSignalLever(["N26L"], ["N26RA", "N26RB", "N26RC"])
- # 	self.sigLever["N28"] = self.DetermineSignalLever(["N28L"], ["N28R"])
- #
- #
- #
- #
- #
- #
- #
- #
+
+		self.leverToSignals = {
+			"N14": [["N14LA", "N14LB", "N14LC"], ["N14R"]],
+			"N16": [["N16L"], ["N16R"]],
+			"N18": [["N18LA", "N18LB"], ["N18R"]],
+			"N20": [["N20L"], ["N20R"]],
+			"N24": [["N24L"], ["N24RA", "N24RB", "N24RC", "N24RD"]],
+			"N26": [["N26L"], ["N26RA", "N26RB", "N26RC"]],
+			"N28": [["N28L"], ["N28R"]]
+		}
+
+	def MapLeverToSignals(self, lever):
+		try:
+			return self.leverToSignals[lever][0], self.leverToSignals[lever][1]
+		except KeyError:
+			return [], []
+
+
+
+
+
+
+
+
 
 	def PressButton(self, btn):
 		'''
@@ -426,6 +427,14 @@ class Nassau(District):
 			return None
 
 		return "NWOSCY"
+
+	def ControlRestricted(self):
+		if self.control == 0:
+			return "Control is Local"
+		elif self.control == 1:
+			return "Dispatcher controls main line"
+		else:
+			return "Dispatcher controls Nassau Tower"
 
 	def UpdateControlOption(self):
 		self.lastControl = self.control

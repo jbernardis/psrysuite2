@@ -8,7 +8,7 @@ from dispatcher.turnout import Turnout, SlipSwitch
 from dispatcher.signal import Signal
 from dispatcher.handswitch import HandSwitch
 
-from dispatcher.constants import LaKr, EMPTY, NORMAL, REVERSE, RESTRICTING, SLOW, MAIN, DIVERGING, RegAspects
+from dispatcher.constants import LaKr, EMPTY, RESTRICTING, SLOW, MAIN, DIVERGING, RegAspects
 
 
 class Port (District):
@@ -19,7 +19,7 @@ class Port (District):
 	def DoTurnoutAction(self, turnout, state, force=False):
 		tn = turnout.GetName()
 		if tn == "PASw35":
-			bstat = NORMAL if self.turnouts["PASw37"].IsNormal() else REVERSE
+			bstat = "N" if self.turnouts["PASw37"].IsNormal() else "R"
 			turnout.SetStatus([state, bstat])
 			turnout.Draw()
 			to = self.turnouts["PASw33"]
@@ -28,7 +28,7 @@ class Port (District):
 			to.Draw()
 
 		elif tn == "PASw33":
-			bstat = NORMAL if self.turnouts["PASw35"].IsNormal() else REVERSE
+			bstat = "N" if self.turnouts["PASw35"].IsNormal() else "R"
 			turnout.SetStatus([state, bstat])
 			turnout.Draw()
 
@@ -47,7 +47,7 @@ class Port (District):
 			to.Draw()
 
 		elif tn == "PASw21":
-			bstat = NORMAL if self.turnouts["PASw23"].IsNormal() else REVERSE
+			bstat = "N" if self.turnouts["PASw23"].IsNormal() else "R"
 			turnout.SetStatus([state, bstat])
 			turnout.Draw()
 
@@ -59,7 +59,7 @@ class Port (District):
 			to.Draw()
 
 		elif tn == "PASw5":
-			bstat = NORMAL if self.turnouts["PASw7"].IsNormal() else REVERSE
+			bstat = "N" if self.turnouts["PASw7"].IsNormal() else "R"
 			turnout.SetStatus([state, bstat])
 			turnout.Draw()
 
@@ -69,7 +69,7 @@ class Port (District):
 			to.Draw()
 
 		elif tn == "PASw3":
-			bstat = NORMAL if self.turnouts["PASw5"].IsNormal() else REVERSE
+			bstat = "N" if self.turnouts["PASw5"].IsNormal() else "R"
 			turnout.SetStatus([state, bstat])
 			turnout.Draw()
 
@@ -79,7 +79,7 @@ class Port (District):
 			to.Draw()
 
 		elif tn == "PASw1":
-			bstat = NORMAL if self.turnouts["PASw3"].IsNormal() else REVERSE
+			bstat = "N" if self.turnouts["PASw3"].IsNormal() else "R"
 			turnout.SetStatus([state, bstat])
 			turnout.Draw()
 
@@ -125,17 +125,17 @@ class Port (District):
 
 	def drawCrossover(self, block):
 		unk = False if block is None else block.HasUnknownTrain()
-		s9 = NORMAL if self.sw9.IsNormal() else REVERSE
-		s3 = NORMAL if self.sw3.IsNormal() else REVERSE
+		s9 = "N" if self.sw9.IsNormal() else "R"
+		s3 = "N" if self.sw3.IsNormal() else "R"
 
-		if s9 == REVERSE:
+		if s9 == "R":
 			blkstat = self.sw9.GetBlockStatus()
-		elif s3 == REVERSE:
+		elif s3 == "R":
 			blkstat = self.sw3.GetBlockStatus()
 		else:
 			blkstat = EMPTY
 
-		bmp = "diagright" if s9 == REVERSE else "diagleft" if s3 == REVERSE else "cross"
+		bmp = "diagright" if s9 == "R" else "diagleft" if s3 == "R" else "cross"
 		bmp = self.misctiles["crossover"].getBmp(blkstat, bmp, unknownTrain=unk)
 		self.frame.DrawTile(self.screen, (104, 29), bmp)
 
@@ -144,15 +144,15 @@ class Port (District):
 		s3 = 'N' if self.turnouts["PBSw3"].IsNormal() else 'R'
 		s11 = 'N' if self.turnouts["PBSw11"].IsNormal() else 'R'
 		s13 = 'N' if self.turnouts["PBSw13"].IsNormal() else 'R'
-		self.turnouts["PBSw11"].SetLock(s13 == 'R', refresh=True)
-		self.turnouts["PBSw11b"].SetLock(s13 == 'R', refresh=True)
-		self.turnouts["PBSw13"].SetLock(s11 == 'R', refresh=True)
-		self.turnouts["PBSw13b"].SetLock(s11 == 'R', refresh=True)
+		self.turnouts["PBSw11"].SetLock(s13 == 'R', "PBSw13", refresh=True)
+		self.turnouts["PBSw11b"].SetLock(s13 == 'R', "PBSw13", refresh=True)
+		self.turnouts["PBSw13"].SetLock(s11 == 'R', "PBSw11", refresh=True)
+		self.turnouts["PBSw13b"].SetLock(s11 == 'R', "PBSw11", refresh=True)
 
-		self.turnouts["PBSw1"].SetLock(s3 == 'R', refresh=True)
-		self.turnouts["PBSw1b"].SetLock(s3 == 'R', refresh=True)
-		self.turnouts["PBSw3"].SetLock(s1 == 'R', refresh=True)
-		self.turnouts["PBSw3b"].SetLock(s1 == 'R', refresh=True)
+		self.turnouts["PBSw1"].SetLock(s3 == 'R', "PBSw3", refresh=True)
+		self.turnouts["PBSw1b"].SetLock(s3 == 'R', "PBSw3", refresh=True)
+		self.turnouts["PBSw3"].SetLock(s1 == 'R', "PBSw1", refresh=True)
+		self.turnouts["PBSw3b"].SetLock(s1 == 'R', "PBSw1", refresh=True)
 
 		self.FindTurnoutCombinations(blocks, [
 			"PBSw1", "PBSw3", "PBSw11", "PBSw13",    # Port B - Circus and south junctions

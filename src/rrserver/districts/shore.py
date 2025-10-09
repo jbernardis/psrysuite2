@@ -173,10 +173,10 @@ class Shore(District):
 		changes = []
 		s3 = turnouts["SSw3"].IsNormal()
 		s5 = turnouts["SSw5"].IsNormal()
-		if turnouts["SSw3"].Lock(not s5):
+		if turnouts["SSw3"].Lock(not s5, "SSw5"):
 			changes.append(["SSw3", not s5])
 			changes.append(["SSw3b", not s5])
-		if turnouts["SSw5"].Lock(not s3):
+		if turnouts["SSw5"].Lock(not s3, "SSw3"):
 			changes.append(["SSw5", not s3])
 			changes.append(["SSw5b", not s3])
 		return changes

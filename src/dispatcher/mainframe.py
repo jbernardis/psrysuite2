@@ -31,7 +31,7 @@ from dispatcher.trainqueue import TrainQueue
 from dispatcher.block import formatRouteDesignator
 from dispatcher.node import Node
 
-from dispatcher.constants import HyYdPt, LaKr, NaCl, EMPTY, OCCUPIED, NORMAL, REVERSE, \
+from dispatcher.constants import HyYdPt, LaKr, NaCl, EMPTY, OCCUPIED, \
 		OVERSWITCH, SLIPSWITCH, turnoutstate, REPLACE, REAR
 from dispatcher.listener import Listener
 from dispatcher.rrserver import RRServer
@@ -599,9 +599,11 @@ class MainFrame(wx.Frame):
 			self.cliffControl = value
 			
 		elif name == "yard":
+			logging.debug("setting yard control to %d" % value)
 			self.rbYardControl.SetSelection(value)
 			self.cbYardFleet.Enable(value != 0)
 			self.yardControl = value
+			logging.debug("updatecontrolwidget, yard=%d" % value)
 
 		elif name == "cliff.fleet":
 			ctl = self.rbCliffControl.GetSelection()
@@ -838,6 +840,7 @@ class MainFrame(wx.Frame):
 		ctl = evt.GetInt()
 		self.cbYardFleet.Enable(ctl != 0)
 		self.Request({"control": { "name": "yard", "value": ctl}})
+		self.yardControl = ctl
 
 	def OnCBLathamFleet(self, _):
 		f = 1 if self.cbLathamFleet.IsChecked() else 0
@@ -1283,7 +1286,7 @@ class MainFrame(wx.Frame):
 				return
 
 			if self.IsDispatcherOrSatellite():
-				to.GetDistrict().PerformTurnoutAction(to, force=shift)
+				to.GetDistrict().TurnoutClick(to, force=shift)
 			return
 
 		try:
@@ -2704,42 +2707,42 @@ class MainFrame(wx.Frame):
 		self.dispatch = {
 			"showaspect":		self.DoCmdShowAspect,
 			"turnout":			self.DoCmdTurnout,
-			"turnoutlever":		self.DoCmdTurnoutLever,
-			"turnoutlock":		self.DoCmdTurnoutLock,
+			# "turnoutlever":		self.DoCmdTurnoutLever,
+			# "turnoutlock":		self.DoCmdTurnoutLock,
 			"lockturnout":		self.DoCmdLockTurnout,
 			"fleet":			self.DoCmdFleet,
 			"block":			self.DoCmdBlock,
-			"blockdir":			self.DoCmdBlockDir,
-			"blockclear":		self.DoCmdBlockClear,
+			# "blockdir":			self.DoCmdBlockDir,
+			# "blockclear":		self.DoCmdBlockClear,
 			"signal":			self.DoCmdSignal,
-			"siglever":			self.DoCmdSigLever,
-			"handswitch":		self.DoCmdHandSwitch,
-			"indicator":		self.DoCmdIndicator,
+			# "siglever":			self.DoCmdSigLever,
+			# "handswitch":		self.DoCmdHandSwitch,
+			# "indicator":		self.DoCmdIndicator,
 			"breaker":			self.DoCmdBreaker,
-			"trainsignal":		self.DoCmdTrainSignal,
-			"settrain":			self.DoCmdSetTrain,
-			"deletetrain":		self.DoCmdDeleteTrain,
-			"assigntrain":		self.DoCmdAssignTrain,
-			"traincomplete":	self.DoCmdTrainComplete,
+			# "trainsignal":		self.DoCmdTrainSignal,
+			# "settrain":			self.DoCmdSetTrain,
+			# "deletetrain":		self.DoCmdDeleteTrain,
+			# "assigntrain":		self.DoCmdAssignTrain,
+			# "traincomplete":	self.DoCmdTrainComplete,
 			"clock":			self.DoCmdClock,
-			"dccspeed":			self.DoCmdDCCSpeed,
-			"dccspeeds":		self.DoCmdDCCSpeeds,
+			# "dccspeed":			self.DoCmdDCCSpeed,
+			# "dccspeeds":		self.DoCmdDCCSpeeds,
 			"control":			self.DoCmdControl,
 			"sessionID":		self.DoCmdSessionID,
 			"end":				self.DoCmdEnd,
 			"advice":			self.DoCmdAdvice,
 			"alert":			self.DoCmdAlert,
-			"ar":				self.DoCmdAR,
-			"atc":				self.DoCmdATC,
-			"atcstatus":		self.DoCmdATCStatus,
-			"checktrains":		self.DoCmdCheckTrains,
-			"dumptrains":		self.DoCmdDumpTrains,
+			# "ar":				self.DoCmdAR,
+			# "atc":				self.DoCmdATC,
+			# "atcstatus":		self.DoCmdATCStatus,
+			# "checktrains":		self.DoCmdCheckTrains,
+			# "dumptrains":		self.DoCmdDumpTrains,
 			"relay":			self.DoCmdRelay,
 			"setroute":			self.DoCmdSetRoute,
-			"signallock":		self.DoCmdSignalLock,
-			"traintimesrequest":	self.DoCmdTrainTimesRequest,
-			"traintimesreport":		self.DoCmdTrainTimesReport,
-			"trainblockorder":	self.DoCmdTrainBlockOrder,
+			# "signallock":		self.DoCmdSignalLock,
+			# "traintimesrequest":	self.DoCmdTrainTimesRequest,
+			# "traintimesreport":		self.DoCmdTrainTimesReport,
+			# "trainblockorder":	self.DoCmdTrainBlockOrder,
 			"nodestatus":		self.DoCmdNodeStatus,
 			"ignore":			self.DoCmdIgnore,
 		}
@@ -2748,6 +2751,7 @@ class MainFrame(wx.Frame):
 		pass
 
 	def onDeliveryEvent(self, evt):
+		logging.debug("Data: %s" % str(evt.data))
 		for cmd, parms in evt.data.items():
 			logging.info("Inbound command: %s: %s" % (cmd, parms))
 			
@@ -2790,7 +2794,7 @@ class MainFrame(wx.Frame):
 				
 			if to is not None and state != to.GetStatus():
 				district = to.GetDistrict()
-				st = REVERSE if state == "R" else NORMAL
+				st = "R" if state == "R" else "N"
 				district.DoTurnoutAction(to, st, force=force)
 
 		if self.CTCManager is not None:
@@ -2875,11 +2879,23 @@ class MainFrame(wx.Frame):
 		if self.CTCManager is not None:
 			self.CTCManager.DoCmdTurnoutLock(parms)
 		for p in parms:
-			tonm = p["name"]
+			try:
+				tonm = p["name"]
+			except KeyError:
+				tonm = None
+
 			try:
 				lock = int(p["lock"])
 			except (KeyError, ValueError):
 				lock = False
+			try:
+
+				locker = p["locker"]
+			except KeyError:
+				locker = None
+
+			if tonm is None or locker is None:
+				logging.debug("lockturnout command missing turnout and/or locker")
 
 			try:
 				tout = self.turnouts[tonm]
@@ -2887,7 +2903,7 @@ class MainFrame(wx.Frame):
 				logging.error("lockturnout: Unable to find turnout %s" % tonm)
 				return
 
-			tout.SetLock(lock, refresh=True)
+			tout.SetLock(lock, locker, refresh=True)
 
 	def DoCmdTurnoutLever(self, parms):
 		for p in parms:
@@ -2959,16 +2975,14 @@ class MainFrame(wx.Frame):
 				state = p["state"]
 			except KeyError:
 				state = None
+			try:
+				east = p["east"]
+			except KeyError:
+				east = True
 
 			if block is None or state is None:
 				logging.error("Block command without block and/or state parameter")
 				return
-
-			if block in self.osProxies:
-				district = self.osProxies[block].GetDistrict()
-				block = district.CheckOSProxies(block, state)
-				if block is None:
-					return
 
 			blk = None
 			blockend = None
@@ -2986,6 +3000,20 @@ class MainFrame(wx.Frame):
 			if blk is None:
 				logging.info("Ignoring block command for unknown block: %s" % block)
 				return
+
+			blk.SetEast(east)
+
+			if state == "C":
+				blk.SetCleared(True)
+				return
+			elif blk.IsCleared():
+				blk.SetCleared(False)
+
+			if block in self.osProxies:
+				district = self.osProxies[block].GetDistrict()
+				block = district.CheckOSProxies(block, state)
+				if block is None:
+					return
 
 			if blk.GetBlockType() == OVERSWITCH:
 				if blk.GetRoute() is None:
@@ -3933,7 +3961,7 @@ class MainFrame(wx.Frame):
 	def DoCmdAdvice(self, parms):
 		if "msg" in parms:
 			if self.IsDispatcherOrSatellite() or self.settings.display.showadvice:
-				self.PopupAdvice(parms["msg"][0])
+				self.PopupAdvice(parms["msg"])
 
 	def DoCmdNodeStatus(self, parms):
 		logging.debug("nodestatus %s" % str(parms))
@@ -3973,7 +4001,7 @@ class MainFrame(wx.Frame):
 		if "msg" in parms:
 			if self.IsDispatcherOrSatellite() or self.settings.display.showevents:
 				logging.info("ALERT: %s" % (str(parms)))
-				self.PopupEvent(parms["msg"][0])
+				self.PopupEvent(parms["msg"])
 				
 	def DoCmdAR(self, parms):
 		try:

@@ -55,10 +55,10 @@ class Krulish(District):
 		changes = []
 		s3 = turnouts["KSw3"].IsNormal()
 		s5 = turnouts["KSw5"].IsNormal()
-		if turnouts["KSw3"].Lock(not s5):
+		if turnouts["KSw3"].Lock(not s5, "KSw5"):
 			changes.append(["KSw3", not s5])
 			changes.append(["KSw3b", not s5])
-		if turnouts["KSw5"].Lock(not s3):
+		if turnouts["KSw5"].Lock(not s3, "KSw3"):
 			changes.append(["KSw5", not s3])
 			changes.append(["KSw5b", not s3])
 		return changes

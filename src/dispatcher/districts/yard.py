@@ -6,7 +6,7 @@ from dispatcher.signal import Signal
 from dispatcher.button import Button
 from dispatcher.indicator import Indicator
 
-from dispatcher.constants import RESTRICTING, MAIN, DIVERGING, SLOW, NORMAL, REVERSE, EMPTY, SLIPSWITCH, RegAspects, AdvAspects, SloAspects
+from dispatcher.constants import RESTRICTING, MAIN, DIVERGING, SLOW, EMPTY, SLIPSWITCH, RegAspects, AdvAspects, SloAspects
 
 CJBlocks = ["YOSCJE", "YOSCJW"]
 EEBlocks = ["YOSEJE", "YOSEJW"]
@@ -32,17 +32,17 @@ class Yard (District):
 
 	def drawCrossover(self, block):
 		unk = False if block is None else block.HasUnknownTrain()
-		s17 = NORMAL if self.sw17.IsNormal() else REVERSE
-		s21 = NORMAL if self.sw21.IsNormal() else REVERSE
+		s17 = "N" if self.sw17.IsNormal() else "R"
+		s21 = "N" if self.sw21.IsNormal() else "R"
 
-		if s17 == REVERSE:
+		if s17 == "R":
 			blkstat = self.sw17.GetBlockStatus()
-		elif s21 == REVERSE:
+		elif s21 == "R":
 			blkstat = self.sw21.GetBlockStatus()
 		else:
-			blkstat = EMPTY
+			blkstat = "E"
 
-		bmp = "diagright" if s17 == REVERSE else "diagleft" if s21 == REVERSE else "cross"
+		bmp = "diagright" if s17 == "R" else "diagleft" if s21 == "R" else "cross"
 		bmp = self.misctiles["crossover"].getBmp(blkstat, bmp, unk)
 		self.frame.DrawTile(self.screen, (104, 12), bmp)
 
@@ -50,7 +50,7 @@ class Yard (District):
 		tn = turnout.GetName()
 		if turnout.GetType() == SLIPSWITCH:
 			if tn == "YSw19":
-				bstat = NORMAL if self.turnouts["YSw17"].IsNormal() else REVERSE
+				bstat = "N" if self.turnouts["YSw17"].IsNormal() else "R"
 				turnout.SetStatus([state, bstat])
 				turnout.Draw()
 
@@ -84,7 +84,7 @@ class Yard (District):
 	def PerformSignalAction(self, sig, callon=False, silent=False):
 		controlOpt = self.frame.yardControl
 		if controlOpt == 0:  # Yard local control
-			self.frame.PopupEvent("Yard control is local")
+			self.frame.PopupEvent("Yard control is localSA")
 			return False
 
 		return District.PerformSignalAction(self, sig, callon=callon, silent=silent)
@@ -92,7 +92,7 @@ class Yard (District):
 	def SetUpRoute(self, osblk, route):
 		controlOpt = self.frame.yardControl
 		if controlOpt == 0:  # Yard local control
-			self.frame.PopupEvent("Yard control is local")
+			self.frame.PopupEvent("Yard control is localSUR")
 			return
 		
 		try:
@@ -108,7 +108,7 @@ class Yard (District):
 			btn.Press(refresh=False)
 			btn.Invalidate(refresh=True)
 			self.frame.ClearButtonAfter(2, btn)
-			self.frame.PopupEvent("Yard control is local")
+			self.frame.PopupEvent("Yard control is localPBA")
 			return
 
 		District.PerformButtonAction(self, btn)

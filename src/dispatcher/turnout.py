@@ -1,4 +1,5 @@
-from dispatcher.constants import NORMAL, REVERSE, EMPTY, OCCUPIED, TURNOUT, SLIPSWITCH
+from dispatcher.constants import EMPTY, OCCUPIED, TURNOUT, SLIPSWITCH
+import logging
 
 
 class Turnout:
@@ -10,7 +11,7 @@ class Turnout:
 		self.tiles = tiles
 		self.pos = pos
 		self.normal = True
-		self.statusFromBlock = EMPTY
+		self.statusFromBlock = "E"
 		self.eastFromBlock = True
 		self.routeControlled = False
 		self.disabled = False
@@ -40,11 +41,28 @@ class Turnout:
 	def GetContainingBlock(self):
 		return self.containingBlock
 
-	def SetLock(self, flag, refresh=False):
-		self.locked = flag
-
+	def SetLock(self, flag, locker, refresh=False):
+		if flag:
+			if locker not in self.lockedBy:
+				self.lockedBy.append(locker)
+				self.locked = True
+				rc = True
+			else:
+				rc = False
+		else:
+			if locker not in self.lockedBy:
+				rc = False
+			else:
+				self.lockedBy.remove(locker)
+				if len(self.lockedBy) == 0:
+					self.locked = False
+					rc = True
+				else:
+					rc = False
 		if refresh:
 			self.Draw()
+
+		return rc
 
 	def ClearLock(self, locker, refresh=False, forward=True):
 		if locker not in self.lockedBy:
@@ -57,6 +75,7 @@ class Turnout:
 			self.frame.Request({"turnoutlock": { "name": self.name, "status": 0, "locker": locker}})
 		if refresh:
 			self.Draw()
+		return True
 
 	def ClearLocks(self, refresh=False, forward=True):
 		self.lockedBy = []
@@ -81,14 +100,19 @@ class Turnout:
 	def AddBlock(self, blknm):
 		self.blockList.append(self.frame.blocks[blknm])
 
+	def GetPos(self):
+		return self.screen, self.pos
+
 	def Draw(self, blockstat=None, east=None):
+		logging.debug("draw turnout %s, blkstat = %s" % (self.name, blockstat))
 		if east is None:
 			east = self.eastFromBlock
 		if blockstat is None:
 			blockstat = self.statusFromBlock
+		logging.debug("after check for None turnout %s, blkstat = %s" % (self.name, blockstat))
 
 		if self.pos is not None:
-			tostat = NORMAL if self.normal else REVERSE
+			tostat = "N" if self.normal else "R"
 
 			bmp = self.tiles.getBmp(tostat, blockstat, east, self.routeControlled or self.disabled or self.locked)
 			self.frame.DrawTile(self.screen, self.pos, bmp)
@@ -190,7 +214,7 @@ class SlipSwitch(Turnout):
 	def __init__(self, district, frame, name, screen, tiles, pos):
 		Turnout.__init__(self, district, frame, name, screen, tiles, pos)
 		self.ttype = SLIPSWITCH
-		self.status = [NORMAL, NORMAL]
+		self.status = ["N", "N"]
 		self.disabled = False
 		self.controllers = [None, None]
 		self.controller = None
@@ -212,13 +236,13 @@ class SlipSwitch(Turnout):
 		if self.controller is None:
 			return False
 
-		return self.status[self.controller] == NORMAL
+		return self.status[self.controller] == "N"
 
 	def IsReverse(self):
 		if self.controller is None:
 			return False
 
-		return self.status[self.controller] != NORMAL
+		return self.status[self.controller] != "N"
 
 	def SetReverse(self, refresh=False, force=False):
 		if self.controller is None:
@@ -231,7 +255,7 @@ class SlipSwitch(Turnout):
 			return False
 		
 		self.normal = False
-		self.status[self.controller] = REVERSE
+		self.status[self.controller] = "R"
 		if self.pairedTurnout is not None:
 			if self.opposite:
 				self.pairedTurnout.SetNormal(refresh)
@@ -256,7 +280,7 @@ class SlipSwitch(Turnout):
 		
 		self.normal = True
 
-		self.status[self.controller] = NORMAL
+		self.status[self.controller] = "N"
 		if self.pairedTurnout is not None:
 			if self.opposite:
 				self.pairedTurnout.SetNormal(refresh)
@@ -276,9 +300,9 @@ class SlipSwitch(Turnout):
 	def UpdateStatus(self):
 		newstat = [s for s in self.status]
 		if self.controller != 0:
-			newstat[0] = NORMAL if self.controllers[0].IsNormal() else REVERSE
+			newstat[0] = "N" if self.controllers[0].IsNormal() else "R"
 		if self.controller != 1:
-			newstat[1] = NORMAL if self.controllers[1].IsNormal() else REVERSE
+			newstat[1] = "N" if self.controllers[1].IsNormal() else "R"
 		self.SetStatus(newstat)
 
 	def GetStatus(self):
@@ -287,6 +311,8 @@ class SlipSwitch(Turnout):
 	def Draw(self, blkStat=None, east=None, unknownTrain=False):
 		if blkStat is None:
 			blkStat = self.statusFromBlock
+
+		logging.debug("slip %s draw, blkstat = %s, turnout status = %s" % (self.name, blkStat, str(self.status)))
 			
 		if self.containingBlock is not None and blkStat == OCCUPIED:
 			unknownTrain = self.containingBlock.HasUnknownTrain()

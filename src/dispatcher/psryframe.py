@@ -23,7 +23,7 @@ from dispatcher.districts.port import Port
 from dispatcher.constants import HyYdPt, LaKr, NaCl, screensList
 
 from ctcmanager.ctcmanager import CTCManager
-
+import logging
 
 class PSRYFrame(MainFrame):
 	def __init__(self, settings):
@@ -294,6 +294,7 @@ class PSRYFrame(MainFrame):
 
 		if name == "yard":
 			self.yardControl = value
+			logging.debug("update control display, yard=%d" % value)
 			if value == 0:
 				self.stYardControl.SetLabel("YARD: Local")
 			elif value == 1:

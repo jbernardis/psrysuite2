@@ -2,7 +2,6 @@ import logging
 import re
 import os
 import json
-import sys
 
 from rrserver.districts.yard import Yard
 from rrserver.districts.latham import Latham
@@ -19,8 +18,32 @@ from rrserver.districts.port import Port
 from rrserver.constants import INPUT_BLOCK, INPUT_TURNOUTPOS, INPUT_BREAKER, INPUT_SIGNALLEVER, \
 	INPUT_HANDSWITCH, INPUT_ROUTEIN, nodeNames
 
-from rrserver.rrobjects import Block, OSBlock, StopRelay, Signal, SignalLever, RouteIn, Turnout, \
+from rrserver.rrobjects import Block, OSBlock, Route, StopRelay, Signal, SignalLever, RouteIn, Turnout, \
 			OutNXButton, Handswitch, Breaker, Indicator, ODevice, Lock
+
+from dispatcher.constants import RegAspects, RegSloAspects, AdvAspects, SloAspects, \
+	MAIN, SLOW, DIVERGING, RESTRICTING, \
+	CLEARED, OCCUPIED, STOP, OVERSWITCH, \
+	restrictedaspect, routetype, statusname, aspectname, aspecttype
+
+EWCrossoverPoints = [
+	["COSSHE", "C20"],
+	["YOSCJE", "P50"],
+	["YOSCJW", "P50"],
+	["POSSJ1", "P30"],
+	["SOSE",   "P32"],
+	["SOSW",   "P32"],
+	["YOSKL4", "Y30"],
+	["YOSWYW", "Y87"],
+]
+
+
+def CrossingEastWestBoundary(osblk, blk):
+	if osblk is None or blk is None:
+		return False
+	blkNm = blk.Name()
+	osNm = osblk.Name()
+	return [osNm, blkNm] in EWCrossoverPoints or [blkNm, osNm] in EWCrossoverPoints
 
 
 class Railroad:
@@ -68,6 +91,7 @@ class Railroad:
 		self.loRoutes = {}
 		self.loBlocks = {}
 		self.to2osMap = {}
+		self.lastValues = {}
 
 		self.pulsedOutputs = {} 
 		self.topulselen = self.settings.rrserver.topulselen
@@ -102,7 +126,7 @@ class Railroad:
 			exit(1)
 
 		self.loRoutes = j["routes"]
-		self.loBlocks = j["blocks"]
+		# self.loBlocks = j["blocks"]
 		self.loSignals = j["signals"]
 
 		# build the subblock table
@@ -122,18 +146,13 @@ class Railroad:
 
 		self.sigToOSMap = {}
 		self.to2osMap = {}
+		self.routes = {}
 		for rtName, rt in self.loRoutes.items():
 			osBlockName = rt["os"]
 			if osBlockName in ["KOSN10S11", "KOSN20S21", "N60"]:
 				continue
 			toList = rt["turnouts"]
 			sigList = rt["signals"]
-
-			for sn in sigList:
-				z = re.match("([A-Za-z]+[0-9]+[A-Za-z])", sn)
-				if z is None or len(z.groups()) < 1:
-					continue
-				self.sigToOSMap[z.groups()[0]] = osBlockName
 
 			try:
 				osBlock = self.osblocks[osBlockName]
@@ -151,6 +170,17 @@ class Railroad:
 			if osBlock is None:
 				continue
 
+			for sn in sigList:
+				z = re.match("([A-Za-z]+[0-9]+[A-Za-z])", sn)
+				if z is None or len(z.groups()) < 1:
+					continue
+				lvr = z.groups()[0]
+				if lvr in self.sigToOSMap:
+					if osBlockName not in self.sigToOSMap[lvr]:
+						self.sigToOSMap[lvr].append(osBlockName)
+				else:
+					self.sigToOSMap[lvr] = [osBlockName]
+
 			for tn in [tout[0] for tout in toList]:
 				if tn not in self.to2osMap:
 					self.to2osMap[tn] = [osBlockName]
@@ -158,7 +188,10 @@ class Railroad:
 					if osBlockName not in self.to2osMap[tn]:
 						self.to2osMap[tn].append(osBlockName)
 
-			osBlock.AddRoute(rtName, toList, sigList)
+			endBlocks = [None if x not in self.blocks else self.blocks[x] for x in rt["ends"]]
+			r = Route(rtName, osBlock, toList, sigList, endBlocks, rt["type"])
+			self.routes[rtName] = r
+			osBlock.AddRoute(r)
 
 		for osBlock in self.osblocks.values():
 			osBlock.DetermineActiveRoute(self.turnouts)
@@ -167,7 +200,9 @@ class Railroad:
 			try:
 				s = self.signals[sn]
 				at = siginfo.get("aspecttype", None)
+				east = siginfo.get("east", True)
 				s.SetAspectType(at)
+				s.SetEast(east)
 				if at is None:
 					logging.debug("Signal %s, aspect type set to None" % sn)
 
@@ -523,7 +558,7 @@ class Railroad:
 
 		if aturnout:
 			release = tout.district.Released(tout)
-			if tout.Lock(state == 1):
+			if tout.Lock(state == 1, locker):
 				tout.UpdateLockBits(release=release)
 
 		msg = tout.GetEventMessage(lock=True, locker=locker)
@@ -1011,9 +1046,10 @@ class Railroad:
 		'''					
 		for l in [self.blocks, self.turnouts]: #  #, self.signals, self.signalLevers, self.stopRelays]:
 			for s in l.values():
-				m = s.GetEventMessages()
-				if m is not None:
-					yield m
+				mlist = s.GetEventMessages()
+				if mlist is not None:
+					for m in mlist:
+						yield m
 		
 		'''
 		routes in are essentially a set of turnouts - send that information
@@ -1031,9 +1067,9 @@ class Railroad:
 					yield m
 
 		for osnm, osblk in self.osblocks.items():
-			activeRoute = osblk.ActiveRoute()
-			if activeRoute is not None:
-				m = {"setroute": [{ "os": osnm, "route": activeRoute}]}
+			activeRouteName = osblk.ActiveRouteName()
+			if activeRouteName is not None:
+				m = {"setroute": [{ "os": osnm, "route": activeRouteName}]}
 				yield m
 		#
 		# for signm, flag in self.fleetedSignals.items():
@@ -1194,7 +1230,7 @@ class Railroad:
 				obj = objparms[0]
 				objType = obj.InputType()
 				objName = obj.Name()
-				print("changed bit: %s(%s) %x %s %s %s" % (objName, objType, node.Address(), vbyte, vbit, newval))
+				logging.debug("changed bit: %s(%s) %x %s %s %s" % (objName, objType, node.Address(), vbyte, vbit, newval))
 
 				if objType == INPUT_BLOCK:
 					if objName.split(".")[0] in self.ignoredBlocks:
@@ -1263,56 +1299,10 @@ class Railroad:
 							self.RailroadEvent(obj.GetEventMessage())
 	
 				elif objType == INPUT_SIGNALLEVER:
-					logging.debug("Signal Lever %s %s" % (obj.Name(), str(skiplist)))
-
 					if obj.Name() not in skiplist: # bypass levers that are skipped because of a control option
-						bt = obj.Bits()
-						if len(bt) > 0:
-							rbit, cbit, lbit = node.GetInputBits(bt)
-							if obj.SetLeverState(rbit, cbit, lbit):
-								rSigBaseNm = objName + "R"
-								lSigBaseNm = objName + "L"
-								osName = self.sigToOSMap.get(rSigBaseNm, None)
-								if osName is None:
-									osName = self.sigToOSMap.get(lSigBaseNm, None)
-
-								if osName is None:
-									logging.error("Unable to determine OS block for signals %s/%s" % (rSigBaseNm, lSigBaseNm))
-									continue
-
-								activeSigs = self.osblocks[osName].GetActiveSignals()
-								logging.debug("active signals = %s" % str(activeSigs))
-
-								rSigNm = activeSigs[0]
-								lSigNm = activeSigs[1]
-								rSig = self.signals.get(rSigNm, None)
-								lSig = self.signals.get(lSigNm, None)
-
-								msgs = []
-								if rSig is not None:
-									if self.CalculateAspect(rSig, rbit, cbit):
-										msgs.extend(rSig.GetEventMessages())
-									rAspect = rSig.Aspect()
-									logging.debug("R:calculated aspect for %s = %d" % (rSigNm, rAspect))
-								else:
-									rAspect = 0
-									logging.debug("R:No signal %s defined, setting aspect to 0" % rSigNm)
-
-								if lSig is not None:
-									if self.CalculateAspect(lSig, lbit, cbit):
-										msgs.extend(lSig.GetEventMessages())
-									lAspect = lSig.Aspect()
-									logging.debug("L:calculated aspect for %s = %d" % (lSigNm, lAspect))
-								else:
-									lAspect = 0
-									logging.debug("L:No signal %s defined, setting aspect to 0" % lSigNm)
-
-								logging.debug("Updating switch lever LEDs: %s %s" % (rAspect, lAspect))
-								obj.UpdateLed(rAspect, lAspect)
-
-								for m in msgs:
-									logging.debug("Sending message %s" % str(m))
-									self.RailroadEvent(m)
+						self.ProcessSignalLever(obj, node)
+					else:
+						self.Alert(district.ControlRestricted())
 
 				elif objType == INPUT_HANDSWITCH:
 					dataType = objparms[1]
@@ -1404,8 +1394,18 @@ class Railroad:
 							self.RailroadEvent(obj.GetEventMessage())
 							obj.UpdateLed()
 
+	def RailroadEvents(self, elist):
+		for e in elist:
+			self.cbEvent(e)
+
 	def RailroadEvent(self, event):
 		self.cbEvent(event)
+
+	def Alert(self, msg):
+		self.RailroadEvent({"alert": {"msg": msg}})
+
+	def Advice(self, msg):
+		self.RailroadEvent({"advice": {"msg": msg}})
 
 	def UpdateRoutesForTurnout(self, turnout):
 		tn = turnout.Name()
@@ -1417,12 +1417,13 @@ class Railroad:
 
 		result = []
 		for osName in osList:
-			result.extend(self.UpdateRoutesForOS(osName))
+			result.extend(self.UpdateRoutesForOS(osName, turnout=tn))
 
 		return result
 
-	def UpdateRoutesForOS(self, osName):
+	def UpdateRoutesForOS(self, osName, turnout=None):
 		result = []
+		locker = osName if turnout is None else turnout
 		try:
 			osBlk = self.osblocks[osName]
 		except KeyError:
@@ -1439,16 +1440,244 @@ class Railroad:
 					if dist is not None:
 						changes = dist.CheckTurnoutLocks(self.turnouts)
 						for sw, flag in changes:
-							result.append({"lockturnout": [{"name": sw, "lock": flag}]})
+							result.append({"lockturnout": [{"name": sw, "lock": flag, "locker": locker}]})
 
 		return result
 
-	def CalculateAspect(self, sig, bit, cbit):
-		logging.debug("calculate aspect for signal %s: %d %d" % (sig.Name(), bit, cbit))
-		return sig.SetAspect(bit)
+	def ProcessSignalLever(self, obj, node):
+		objName = obj.Name()
+		logging.debug("in process sig lever")
+		bt = obj.Bits()
+		currentBits = self.lastValues.get(objName, [0, 0])
+		if len(bt) > 0:
+			rbit, cbit, lbit = node.GetInputBits(bt)
+			if obj.SetLeverState(rbit, cbit, lbit):
+				aspectL = 0
+				aspectR = 0
+
+				# possible values here: rbit is 1, lbit is one, or neither is 1.  Both being 1 is impossible
+				if lbit != 0:
+					left = 1
+					right = 0
+				elif rbit != 0:
+					left = 0
+					right = 1
+				else:
+					left = 0
+					right = 0
+
+				msgsL = []
+				msgsR = []
+
+				if left != currentBits[0]:
+					aspectL, msgsL = self.ProcessSignalLeverSide(objName, left, cbit, "L")
+					if objName not in self.lastValues:
+						self.lastValues[objName] = [left, 0]
+					else:
+						self.lastValues[objName][0] = left
+
+				if right != currentBits[1]:
+					aspectR, msgsR = self.ProcessSignalLeverSide(objName, right, cbit, "R")
+					if objName not in self.lastValues:
+						self.lastValues[objName] = [0, right]
+					else:
+						self.lastValues[objName][1] = right
+
+				obj.UpdateLed(aspectR, aspectL)
+
+				for m in msgsL+msgsR:
+					self.RailroadEvent(m)
+
+	def ProcessSignalLeverSide(self, leverName, bit, callon, LR):
+		msgs = []
+		sigBaseNm = leverName + LR
+		osList = self.sigToOSMap.get(sigBaseNm, None)
+
+		if osList is None:
+			logging.error("Unable to determine OS block for signal lever %s" % sigBaseNm)
+			return None, []
+
+		sigMatch = None
+
+		for osName in osList:
+			osblk = self.osblocks[osName]
+			oab = osblk.ActiveRoute()
+			if oab is None:
+				sigMatch = None
+			else:
+				sigMatch = oab.HasSignal(sigBaseNm)
+				if sigMatch is not None:
+					break
+		else:
+			sigMatch = None
+
+		if sigMatch is None:
+			self.Alert("Unable to determine signal for lever %s" % sigBaseNm)
+			return None
+		else:
+			osblk = self.osblocks[osName]
+			rtName = osblk.ActiveRouteName()
+			if rtName is None:
+				self.Alert("No Route Available for signal %s" % sigBaseNm)
+				logging.debug("no active route for os %s - not setting signal %s" % (osName, leverName))
+				return None, []
+
+			sig = self.signals.get(sigMatch, None)
+
+			if sig is not None:
+				try:
+					if self.CalculateAspect(sig, osName, bit, callon):
+						msgs = [m for m in sig.GetEventMessages()]
+				except Exception as e:
+					logging.warning("Exception %s in calc aspect %s" % (str(e), sigMatch))
+
+				aspect = sig.Aspect()
+				logging.debug("calculated aspect for %s = %d" % (sigMatch, aspect))
+			else:
+				aspect = 0
+
+			return aspect, msgs
+
+	def CalculateAspect(self, sig, osName, bit, callon, silent=False):
+		osblk = self.osblocks[osName]
+		blk = osblk.Block()
+		rtName = osblk.ActiveRouteName()
+		rt = osblk.ActiveRoute()
+
+		if sig is None or rtName is None:
+			logging.error("unable to calculate aspect because signal(%s) and/or route(%s) or both is None" % (str(sig), str(rtName)))
+			return False
+
+		logging.debug(
+			"Calculating aspect for os %s/%s signal %s route %s bit %d" % (osblk.Name(), blk.Name(), sig.Name(), rtName, bit))
+
+		if blk.IsOccupied():
+			if not silent:
+				self.Alert("Block %s is busy" % osblk.RouteDesignator())
+			logging.debug("Unable to calculate aspect: OS Block is busy")
+			return False
+
+		currentDirection = sig.East()
+		if bit != 0 and currentDirection != osblk.IsEast() and osblk.IsCleared():
+			if not silent:
+				self.Alert("Block %s is cleared in opposite direction" % osblk.RouteDesignator())
+			logging.debug("Unable to calculate aspect: Block %s is cleared in opposite direction" % osblk.Name())
+			return False
+
+		exitBlk = rt.GetExitBlock(reverse=currentDirection != blk.IsEast())
+		rType = rt.GetRouteType(reverse=currentDirection != blk.IsEast())
+
+		if exitBlk.IsOccupied():
+			if not silent:
+				self.Alert("Block %s is busy" % exitBlk.RouteDesignator())
+			logging.debug("Unable to calculate aspect: Block %s is busy" % exitBlk.Name())
+			return False
+
+		if CrossingEastWestBoundary(osblk, exitBlk):
+			logging.debug("we crossed a EW boundary between %s and %s" % (osblk, exitBlk))
+			currentDirection = not currentDirection
+
+		if bit != 0:
+			if exitBlk.IsCleared():
+				if exitBlk.East() != currentDirection:
+					if not silent or True:
+						self.Alert("Block %s is cleared in opposite direction" % exitBlk.RouteDesignator())
+					logging.debug("Unable to calculate aspect: Block %s cleared in opposite direction" % exitBlk.Name())
+					return False
+
+		#
+		# if exitBlk.AreHandSwitchesSet() and not self.frame.sidingsUnlocked:
+		# 	if not silent:
+		# 		self.frame.PopupEvent("Block %s is locked" % exitBlk.GetRouteDesignator())
+		# 	logging.debug("Unable to calculate aspect: Block %s is locked" % exitBlkNm)
+		# 	return None
+		#
+		# nb = exitBlk.NextBlock(reverse=currentDirection != exitBlk.GetEast())
+		# if nb:
+		# 	nbName = nb.GetName()
+		# 	if CrossingEastWestBoundary(nb, exitBlk):
+		# 		currentDirection = not currentDirection
+		#
+		# 	nbStatus = nb.GetStatus()
+		# 	nbRType = nb.GetRouteType(reverse=currentDirection != nb.GetEast())
+		# 	nbRtName = nb.GetRouteName()
+		# 	# try to go one more block, skipping past an OS block
+		#
+		# 	nxbNm = nb.GetExitBlock(reverse=currentDirection != nb.GetEast())
+		# 	if nxbNm is None:
+		# 		nnb = None
+		# 	else:
+		# 		try:
+		# 			nxb = self.frame.blocks[nxbNm]
+		# 		except (KeyError, IndexError):
+		# 			nxb = None
+		# 		if nxb:
+		# 			if CrossingEastWestBoundary(nb, nxb):
+		# 				currentDirection = not currentDirection
+		# 			nnb = nxb.NextBlock(reverse=currentDirection != nxb.GetEast())
+		# 		else:
+		# 			nnb = None
+		#
+		# 	if nnb:
+		# 		nnbClear = nnb.GetStatus() == CLEARED
+		# 		nnbName = nnb.GetName()
+		# 	else:
+		# 		nnbClear = False
+		# 		nnbName = None
+		# else:
+		# 	nxbNm = None
+		# 	nbStatus = None
+		# 	nbName = None
+		# 	nbRType = None
+		# 	nbRtName = None
+		# 	nnbClear = False
+		# 	nnbName = None
+		#
+		# aType = sig.GetAspectType()
+		# aspect = self.GetAspect(aType, rType, nbStatus, nbRType, nnbClear)
+		#
+		# if self.dbg.showaspectcalculation:
+		# 	self.frame.DebugMessage("======== New aspect calculation ========")
+		# 	self.frame.DebugMessage("OS: %s Route: %s  Sig: %s" % (osblk.GetName(), rt.GetName(), sig.GetName()))
+		# 	self.frame.DebugMessage("exit block name = %s   RT: %s" % (exitBlkNm, routetype(rType)))
+		# 	self.frame.DebugMessage("NB: %s Status: %s  NRT: %s" % (nbName, statusname(nbStatus), routetype(nbRType)))
+		# 	self.frame.DebugMessage("Next route = %s" % nbRtName)
+		# 	self.frame.DebugMessage("next exit block = %s" % nxbNm)
+		# 	self.frame.DebugMessage("NNB: %s  NNBC: %s" % (nnbName, nnbClear))
+		# 	self.frame.DebugMessage("Aspect = %s (%x)" % (aspectname(aspect, aType), aspect))
+		#
+		# logging.debug(
+		# 	"Calculated aspect = %s   aspect type = %s route type = %s next block status = %s next block route type = %s next next block clear = %s" %
+		# 	(aspectname(aspect, aType), aspecttype(aType), routetype(rType), statusname(nbStatus), routetype(nbRType),
+		# 	 nnbClear))
+		#
+		# # self.CheckBlockSignals(sig, aspect, exitBlk, doReverseExit, rType, nbStatus, nbRType, nnbClear)
+		#
+		# return aspect
+
+		sig.SetAspect(bit)
+		if bit == 0:
+			if not exitBlk.IsOccupied():
+				exitBlk.SetStatus("E")
+				exitBlk.Reset()
+			if not osblk.IsOccupied():
+				osblk.SetStatus("E")
+				osblk.Reset()
+		else:
+			exitBlk.SetEast(currentDirection)
+			osblk.SetEast(currentDirection)
+			exitBlk.SetStatus("C")
+			osblk.SetStatus("C")
+
+		self.RailroadEvents(exitBlk.GetEventMessages())
+		self.RailroadEvents(osblk.Block().GetEventMessages())
+
+		logging.debug("end of CA =======================================================")
+
+		return True
 
 	def IdentifyTrain(self, blk):
-		print("identify train in block %s" % blk.Name())
+		logging.debug("identify train in block %s" % blk.Name())
 
 
 class PendingDetectionLoss:
@@ -1508,3 +1737,5 @@ class PulseCounter:
 
 		self.node.SetOutputBit(self.vbyte, self.vbit, sendBit)
 		return True
+
+

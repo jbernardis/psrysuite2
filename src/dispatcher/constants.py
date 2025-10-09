@@ -15,8 +15,8 @@ OVERSWITCH = 11
 STOPPINGBLOCK = 12
 
 # turnout status
-NORMAL = 20
-REVERSE = 21
+# NORMAL = 20
+# REVERSE = 21
 
 # turnout types
 TURNOUT = 30
@@ -45,9 +45,9 @@ SloAspects = 53
 
 
 def turnoutstate(st, short=False):
-	if st == NORMAL:
+	if st == "N":
 		return "Nml" if short else "Normal"
-	if st == REVERSE:
+	if st == "R":
 		return "Rev" if short else "Reverse"
 	
 	return "??"

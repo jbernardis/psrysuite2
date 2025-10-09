@@ -262,7 +262,7 @@ class ServerMain:
 			# "signallock":	self.DoSignalLock,
 			"siglever":		self.DoSigLever,
 			# "sigleverled":	self.DoSigLeverLED,
-			"turnout":  	self.DoTurnout,
+			"turnoutclick":  	self.DoTurnoutClick,
 			# "turnoutlock":	self.DoTurnoutLock,
 			# "turnoutlever":	self.DoTurnoutLever,
 			# "setroute": 	self.DoSetRoute,
@@ -323,8 +323,8 @@ class ServerMain:
 				jstr = json.dumps(cmd)
 			except:
 				jstr = str(cmd)
-			logging.info("HTTP Cmd receipt: %s" % jstr)
-		
+			logging.debug("HTTP Cmd receipt: %s" % jstr)
+
 		try:
 			handler = self.dispatch[verb]
 		except KeyError:
@@ -433,7 +433,7 @@ class ServerMain:
 		
 		self.rr.SetSignalLock(signame, status)
 				
-	def DoTurnout(self, cmd):
+	def DoTurnoutClick(self, cmd):
 		try:
 			swname = cmd["name"][0]
 		except KeyError:

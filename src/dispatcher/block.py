@@ -28,7 +28,8 @@ class Route:
 				"signals":
 					[x for x in self.signals],
 				"turnouts":
-					[[x[0], x[1]] for x in self.turnouts]
+					[[x[0], x[1]] for x in self.turnouts],
+				"type": self.rtype
 			}
 		}
 		return msg
@@ -41,6 +42,12 @@ class Route:
 
 	def GetPositions(self):
 		return self.screen, self.pos
+
+	def PosInRoute(self, screen, p):
+		if screen != self.screen:
+			return False
+
+		return p in self.pos
 
 	def Contains(self, screen, pos):
 		if screen != self.screen:
@@ -122,6 +129,7 @@ class Block:
 		self.east = east
 		self.defaultEast = east
 		self.status = "E"
+		self.cleared = False
 		self.unknownTrain = False
 		self.cleared = False
 		self.turnouts = []
@@ -288,6 +296,7 @@ class Block:
 			return 
 		
 		self.SetEast(self.defaultEast)
+		self.cleared = False
 		self.SetLastEntered(None)
 
 	def SetNextBlockEast(self, blk):
@@ -322,7 +331,7 @@ class Block:
 
 	def GetStatus(self, blockend=None):
 		if blockend is None:
-			return self.status
+			return "C" if self.cleared else self.status
 		elif blockend == 'E' and self.sbEast is not None:
 			return self.sbEast.GetStatus()
 		elif blockend == 'W' and self.sbWest is not None:
@@ -343,17 +352,12 @@ class Block:
 
 		self.east = east
 		self.Draw()
-		if broadcast:
-			self.frame.Request({"blockdir": {"block": self.GetName(), "dir": "E" if east else "W"}})
-			for b in [self.sbEast, self.sbWest]:
-				if b is not None:
-					self.frame.Request({"blockdir": {"block": b.GetName(), "dir": "E" if east else "W"}})
 
 	def IsReversed(self):
 		return self.east != self.defaultEast
 
 	def IsBusy(self):
-		if self.cleared or self.occupied:
+		if self.cleared or self.IsOccupied():
 			return True
 		for b in [self.sbEast, self.sbWest]:
 			if b and b.IsBusy():
@@ -361,7 +365,7 @@ class Block:
 		return False
 
 	def IsCleared(self):
-		return self.status == "C"
+		return self.cleared
 
 	def IsSectionOccupied(self, section):
 		if section == "E":
@@ -393,8 +397,9 @@ class Block:
 		return self.type == OVERSWITCH
 
 	def Draw(self):
+		stat = "C" if self.cleared else self.status
 		for t, screen, pos, revflag in self.tiles:
-			bmp = t.getBmp(self.status, self.east, revflag)
+			bmp = t.getBmp(stat, self.east, revflag)
 			self.frame.DrawTile(screen, pos, bmp)
 
 		for b in [self.sbEast, self.sbWest]:
@@ -402,7 +407,7 @@ class Block:
 				b.Draw()
 				
 		for t in self.turnouts:
-			t.Draw(self.status, self.east)
+			t.Draw(stat, self.east)
 
 		self.district.DrawOthers(self)
 		self.DrawTrain()
@@ -436,16 +441,34 @@ class Block:
 				self.Draw()
 			return
 
+		if state == "C":
+			self.SetCleared(True)
+			if refresh:
+				self.Draw()
+			return
+
 		if self.status == state:
 			# already in the requested state - refresh anyway
 			if refresh:
 				self.Draw()
 			return
 
+		self.SetCleared(False)
+
 		self.status = state
-		if self.status == EMPTY:
+
+		if self.status == "E":
 			self.Reset()
 
+		if refresh:
+			self.Draw()
+
+	def SetCleared(self, flag=True, refresh=True):
+		self.cleared = flag
+		if self.sbEast:
+			self.sbEast.SetCleared(flag)
+		if self.sbWest:
+			self.sbWest.SetCleared(flag)
 		if refresh:
 			self.Draw()
 
@@ -722,6 +745,7 @@ class StoppingBlock:
 		self.type = STOPPINGBLOCK
 		self.frame = self.block.frame
 		self.status = None
+		self.cleared = False
 		self.active = False
 		self.occupied = False
 		self.cleared = False
@@ -732,10 +756,8 @@ class StoppingBlock:
 		logging.debug("Stopping section %s occupied: %s  cleared: %s" % (self.GetName(), self.occupied, self.cleared))
 
 	def EvaluateStoppingSection(self):
-		logging.debug("Evaluating stopping section %s" % self.block.GetName())
 		if (self.block.east and (not self.eastend)) or ((not self.block.east) and self.eastend):
 			# wrong end of the block - assert stopping section is inactive
-			logging.debug("wrong end of block - assert False")
 			self.Activate(False)
 			return
 		
@@ -828,13 +850,21 @@ class StoppingBlock:
 
 	def Draw(self):
 		self.east = self.block.east
+		stat = "C" if self.cleared else self.status
 		# self.frame.Request({"blockdir": { "block": self.GetName(), "dir": "E" if self.east else "W"}})
 		for t, screen, pos, revflag in self.tiles:
-			bmp = t.getBmp(self.status, self.east, revflag)
+			bmp = t.getBmp(stat, self.east, revflag)
 			self.frame.DrawTile(screen, pos, bmp)
 
 	def SetStatus(self, state, refresh=False):
-		self.status = state
+		if state == "C":
+			self.SetCleared(True)
+		else:
+			self.SetCleared(False)
+			self.status = state
+
+	def SetCleared(self, flag):
+		self.cleared = flag
 
 	def GetStatus(self):
 		return self.status
@@ -859,6 +889,9 @@ class StoppingBlock:
 			return True
 
 		return False
+
+	def IsCleared(self):
+		return self.cleared
 
 	@staticmethod
 	def GetDistrict():
@@ -1062,7 +1095,7 @@ class OverSwitch (Block):
 
 	def SetEntrySignal(self, sig):
 		self.entrySignal = sig
-		if self.occupied:
+		if self.IsOccupied():
 			# do not change the aspect if the block is occupied
 			return 
 		
@@ -1098,6 +1131,11 @@ class OverSwitch (Block):
 		return False
 
 	def SetStatus(self, state, blockend=None, refresh=False):
+		if state == "C":
+			self.SetCleared(True)
+			if refresh:
+				self.Draw()
+
 		if state == self.status:
 			return  # we're already in the desired state
 		
@@ -1114,12 +1152,16 @@ class OverSwitch (Block):
 	def Draw(self):
 		for t, screen, pos, revflag in self.tiles:
 			draw, stat = self.GetTileInRoute(screen, pos)
+			if self.cleared:
+				stat = "C"
 			if draw:
 				bmp = t.getBmp(stat, self.east, revflag)
 				self.frame.DrawTile(screen, pos, bmp)
 
 		for t in self.turnouts:
 			draw, stat = self.GetTileInRoute(t.GetScreen(), t.GetPos())
+			if self.cleared:
+				stat = "C"
 			if draw:
 				t.SetContainingBlock(self)
 				t.Draw(stat, self.east)

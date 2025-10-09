@@ -1,3 +1,4 @@
+import logging
 from dispatcher.district import District
 
 from dispatcher.block import Block, OverSwitch, Route, OSProxy
@@ -5,7 +6,7 @@ from dispatcher.turnout import Turnout, SlipSwitch
 from dispatcher.signal import Signal
 from dispatcher.button import Button
 
-from dispatcher.constants import LaKr, SloAspects, SLOW, RESTRICTING, SLIPSWITCH, NORMAL, REVERSE, RegAspects, AdvAspects, EMPTY
+from dispatcher.constants import OVERSWITCH, LaKr, SloAspects, SLOW, RESTRICTING, SLIPSWITCH, RegAspects, AdvAspects, EMPTY
 
 
 class Nassau (District):
@@ -246,27 +247,78 @@ class Nassau (District):
 		elif signame == "R10W":
 			sig.SetAspect(aspect, refresh=True)
 
+	def DrawOthers(self, block):
+		blkName = block.GetName()
+		blkStat = block.GetStatus()
+		logging.debug("Draw others for nassau OS %s %s %s" % (blkName, block.GetStatus(), block.IsCleared()))
+		if block.GetBlockType() != OVERSWITCH:
+			return
+
+		rte = block.GetRoute()
+		if rte is None:
+			return
+
+		tlist = rte.GetLockTurnouts()
+		logging.debug("Turnouts: %s" % str(tlist))
+
+		for tn in tlist:
+			turnout = self.turnouts[tn]
+			logging.debug("state for turnout %s is %s" % (tn, turnout.GetStatus()))
+			if turnout.GetType() == SLIPSWITCH:
+				state = turnout.GetStatus()[0]
+				scr, pos = turnout.GetPos()
+				if rte.PosInRoute(scr, pos):
+					if tn == "NSw29":
+						bstat = "N" if self.turnouts["NSw27"].IsNormal() else "R"
+						turnout.SetStatus([bstat, state])
+						turnout.Draw(blkStat=blkStat)
+					elif tn == "NSw31":
+						bstat = "N" if self.turnouts["NSw29"].IsNormal() else "R"
+						state = turnout.GetStatus()[0]
+						turnout.SetStatus([bstat, state])
+						turnout.Draw(blkStat=blkStat)
+					elif tn == "NSw23":
+						bstat = "N" if self.turnouts["NSw21"].IsNormal() else "R"
+						state = turnout.GetStatus()[0]
+						turnout.SetStatus([bstat, state])
+						turnout.Draw(blkStat=blkStat)
+					elif tn == "NSw43":
+						bstat = "N" if self.turnouts["NSw45"].IsNormal() else "R"
+						state = turnout.GetStatus()[0]
+						turnout.SetStatus([state, bstat])
+						turnout.Draw(blkStat=blkStat)
+					elif tn == "NSw45":
+						bstat = "N" if self.turnouts["NSw47"].IsNormal() else "R"
+						state = turnout.GetStatus()[0]
+						turnout.SetStatus([state, bstat])
+						turnout.Draw(blkStat=blkStat)
+
 	def DoTurnoutAction(self, turnout, state, force=False):
 		tn = turnout.GetName()
 		if turnout.GetType() == SLIPSWITCH:
 			if tn == "NSw29":
-				bstat = NORMAL if self.turnouts["NSw27"].IsNormal() else REVERSE
+				bstat = "N" if self.turnouts["NSw27"].IsNormal() else "R"
+				# state = turnout.GetStatus()[0]
 				turnout.SetStatus([bstat, state])
 				turnout.Draw()
 			elif tn == "NSw31":
-				bstat = NORMAL if self.turnouts["NSw29"].IsNormal() else REVERSE
+				bstat = "N" if self.turnouts["NSw29"].IsNormal() else "R"
+				# state = turnout.GetStatus()[0]
 				turnout.SetStatus([bstat, state])
 				turnout.Draw()
 			elif tn == "NSw23":
-				bstat = NORMAL if self.turnouts["NSw21"].IsNormal() else REVERSE
+				bstat = "N" if self.turnouts["NSw21"].IsNormal() else "R"
+				# state = turnout.GetStatus()[0]
 				turnout.SetStatus([bstat, state])
 				turnout.Draw()
 			elif tn == "NSw43":
-				bstat = NORMAL if self.turnouts["NSw45"].IsNormal() else REVERSE
+				bstat = "N" if self.turnouts["NSw45"].IsNormal() else "R"
+				# state = turnout.GetStatus()[0]
 				turnout.SetStatus([state, bstat])
 				turnout.Draw()
 			elif tn == "NSw45":
-				bstat = NORMAL if self.turnouts["NSw47"].IsNormal() else REVERSE
+				bstat = "N" if self.turnouts["NSw47"].IsNormal() else "R"
+				# state = turnout.GetStatus()[0]
 				turnout.SetStatus([state, bstat])
 				turnout.Draw()
 

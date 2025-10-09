@@ -371,36 +371,33 @@ class MainFrame(wx.Frame):
 			
 			self.bSigLvr = wx.Button(self, wx.ID_ANY, "Signal Lever", size=(100, 46))
 			self.Bind(wx.EVT_BUTTON, self.OnSigLvr, self.bSigLvr)
-			hsz.Add(self.bSigLvr)
+			hsz.Add(self.bSigLvr, 0, wx.ALIGN_CENTER_VERTICAL)
 			
 			hsz.AddSpacer(20)
 			self.chSigLvr = wx.Choice(self, wx.ID_ANY, choices=[])
-			hsz.Add(self.chSigLvr, 0, wx.TOP, 10)
+			hsz.Add(self.chSigLvr, 0, wx.ALIGN_CENTER_VERTICAL)
 			self.chSigLvr.SetSelection(wx.NOT_FOUND)
 			
 			hsz.AddSpacer(20)
-			self.cbLeft = wx.CheckBox(self, wx.ID_ANY, "Left")
-			hsz.Add(self.cbLeft, 0, wx.TOP, 15)
-
-			hsz.AddSpacer(10)
-			self.cbRight = wx.CheckBox(self, wx.ID_ANY, "Right")
-			hsz.Add(self.cbRight, 0, wx.TOP, 15)
+			self.rbSigLever = wx.RadioBox(self, wx.ID_ANY,choices=["Left", "Center", "Right"], majorDimension=1, style=wx.RA_SPECIFY_COLS,)
+			self.rbSigLever.SetSelection(1)
+			hsz.Add(self.rbSigLever)
 
 			hsz.AddSpacer(10)
 			self.cbCallOn = wx.CheckBox(self, wx.ID_ANY, "Call On")
-			hsz.Add(self.cbCallOn, 0, wx.TOP, 15)
+			hsz.Add(self.cbCallOn, 0, wx.ALIGN_CENTER_VERTICAL)
 
 			hsz.AddSpacer(20)
 
 			self.bSigLvrShow = wx.Button(self, wx.ID_ANY, "Show", size=(100, 46))
 			self.Bind(wx.EVT_BUTTON, self.OnSigLvrShow, self.bSigLvrShow)
-			hsz.Add(self.bSigLvrShow)
+			hsz.Add(self.bSigLvrShow, 0, wx.ALIGN_CENTER_VERTICAL)
 
 			hsz.AddSpacer(20)
 
 			self.bSigNeutral = wx.Button(self, wx.ID_ANY, "Neutralize\nAll Signals", size=(100, 46))
 			self.Bind(wx.EVT_BUTTON, self.OnSigNeutral, self.bSigNeutral)
-			hsz.Add(self.bSigNeutral)
+			hsz.Add(self.bSigNeutral, 0, wx.ALIGN_CENTER_VERTICAL)
 
 			hsz.AddSpacer(20)
 
@@ -1096,14 +1093,16 @@ class MainFrame(wx.Frame):
 		lvr = self.chSigLvr.GetString(chx)
 		sli = self.iobits["siglevers"][lvr]["position"]
 
-		print(str(sli), flush=True)
-
 		right = sli[0][0]
 		callon = sli[0][1]
 		left = sli[0][2]
 
-		vRight = 1 if self.cbRight.IsChecked() else 0
-		vLeft = 1 if self.cbLeft.IsChecked() else 0
+		swPos = self.rbSigLever.GetSelection()
+		vRight = 1 if swPos == 2 else 0
+		vLeft = 1 if swPos == 0 else 0
+
+		# vRight = 1 if self.cbRight.IsChecked() else 0
+		# vLeft = 1 if self.cbLeft.IsChecked() else 0
 		vCallOn = 1 if self.cbCallOn.IsChecked() else 0
 
 		bytes = []

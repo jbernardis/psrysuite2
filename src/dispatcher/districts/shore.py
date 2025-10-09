@@ -152,10 +152,10 @@ class Shore (District):
 	def DetermineRoute(self, blocks):
 		s3 = 'N' if self.turnouts["SSw3"].IsNormal() else 'R'
 		s5 = 'N' if self.turnouts["SSw5"].IsNormal() else 'R'
-		self.turnouts["SSw3"].SetLock(s5 == 'R', refresh=True)
-		self.turnouts["SSw3b"].SetLock(s5 == 'R', refresh=True)
-		self.turnouts["SSw5"].SetLock(s3 == 'R', refresh=True)
-		self.turnouts["SSw5b"].SetLock(s3 == 'R', refresh=True)
+		self.turnouts["SSw3"].SetLock(s5 == 'R', "SSw5", refresh=True)
+		self.turnouts["SSw3b"].SetLock(s5 == 'R', "SSw5", refresh=True)
+		self.turnouts["SSw5"].SetLock(s3 == 'R', "SSw3", refresh=True)
+		self.turnouts["SSw5b"].SetLock(s3 == 'R', "SSw3", refresh=True)
 
 		self.FindTurnoutCombinations(blocks, ["SSw3", "SSw5", "SSw7", "SSw9", "SSw11", "SSw13", "SSw15", "SSw17", "SSw19"])
 

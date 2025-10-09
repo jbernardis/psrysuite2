@@ -2,7 +2,7 @@ import logging
 
 from dispatcher.constants import RegAspects, RegSloAspects, AdvAspects, SloAspects, \
 	MAIN, SLOW, DIVERGING, RESTRICTING, \
-	CLEARED, OCCUPIED, STOP, NORMAL, OVERSWITCH, \
+	CLEARED, OCCUPIED, STOP, OVERSWITCH, \
 	restrictedaspect, routetype, statusname, aspectname, aspecttype
 	
 EWCrossoverPoints = [
@@ -178,9 +178,9 @@ class District:
 		for toname, state in tolist:
 			if (state == "R" and self.turnouts[toname].IsNormal()) or \
 					(state == "N" and self.turnouts[toname].IsReverse()):
-				req = {"turnout": {"name": toname, "status": state}}
+				req = {"turnoutclick": {"name": toname, "status": state}}
 				if not first and interval != 0:
-					req["turnout"]["delay"] = delay
+					req["turnoutclick"]["delay"] = delay
 					delay += interval
 					
 				first = False
@@ -190,15 +190,18 @@ class District:
 		self.MatrixTurnoutRequest(route.GetSetTurnouts(), interval=self.matrixturnoutdelay)
 
 	def PerformTurnoutAction(self, turnout, force=False):
+		pass
+
+	def TurnoutClick(self, turnout, force=False):
 		turnout = turnout.GetControlledBy()
 		if turnout.IsLocked() and not force:
 			self.ReportTurnoutLocked(turnout.GetName())
 			return
 
 		if turnout.IsNormal():
-			self.frame.Request({"turnout": {"name": turnout.GetName(), "status": "R", "force": force}})
+			self.frame.Request({"turnoutclick": {"name": turnout.GetName(), "status": "R", "force": force}})
 		else:
-			self.frame.Request({"turnout": {"name": turnout.GetName(), "status": "N", "force": force}})
+			self.frame.Request({"turnoutclick": {"name": turnout.GetName(), "status": "N", "force": force}})
 
 	def FindRoute(self, sig):
 		signm = sig.GetName()
@@ -445,7 +448,7 @@ class District:
 		else:
 			aspect = 0       # stop
 
-		if sig.SetAspect(aspect, refresh=True, callon=False):
+		if sig.SetAspect(aspect, refresh=True):
 			self.frame.Request({"signal": {"name": sigNm, "aspect": aspect, "aspecttype": atype}})
 
 	def CheckBlockSignalsAdv(self, blkNm, blkNxtNm, sigNm, blkEast):
@@ -500,7 +503,7 @@ class District:
 		else:
 			aspect = 0       # stop
 		
-		if sig.SetAspect(aspect, refresh=True, callon=False):
+		if sig.SetAspect(aspect, refresh=True):
 			self.frame.Request({"signal": {"name": sigNm, "aspect": aspect, "aspecttype": atype}})
 
 	def anyTurnoutLocked(self, toList):
@@ -665,7 +668,7 @@ class District:
 			osblk.Draw()
 
 	def DoTurnoutAction(self, turnout, state, force=False):
-		if state == NORMAL:
+		if state == "N":
 			turnout.SetNormal(refresh=True, force=force)
 		else:
 			turnout.SetReverse(refresh=True, force=force)
@@ -975,10 +978,10 @@ class District:
 	def LockTurnouts(self, locker, tolist, flag):
 		for t in tolist:
 			to = self.frame.turnouts[t]
-			to.SetLock(flag, refresh=True)
+			to.SetLock(flag, locker, refresh=True)
 			tp = to.GetPaired()
 			if tp:
-				tp.SetLock(flag, refresh=True)
+				tp.SetLock(flag, locker, refresh=True)
 
 	@staticmethod
 	def DoHandSwitchAction(hs, stat):
@@ -1037,19 +1040,13 @@ class District:
 		return blocks
 		
 	def CheckOSProxies(self, block, state):
-		logging.debug("inside default checkOsProxies")
 		if block not in self.osProxies:
-			logging.debug("block %s is not in proxies" % block)
 			return block
 
-		logging.debug("check for states not equal: %s <=> %s" % (state, self.osProxies[block].GetStatus()))
 		if state == self.osProxies[block].GetStatus():
 			return None
 
-		logging.debug("past the checks")
-
 		preCounts = self.GetOSProxyCounts()
-		logging.debug("PreCounts for %s: %s" % (block, str(preCounts)))
 		if self.dbg.blockoccupancy:
 			self.frame.DebugMessage("PreCounts for %s: %s" % (block, str(preCounts)))
 
@@ -1083,23 +1080,12 @@ class District:
 
 	def GetOSProxyCounts(self):
 		counts = {}
-		logging.debug("inside get proxy counts: %d" % len(self.osProxies))
-		logging.debug(str(self.osProxies))
-		logging.debug("================================")
-		try:
-			for pn, prx in self.osProxies.items():
-				logging.debug("proxy name %s" % pn)
-				logging.debug("pn: %s  oslist: %s" % (pn, prx.osList))
-				for osb in prx.osList:
-					logging.debug("OS %s" % osb.GetName())
-					rte = osb.GetRoute()
-					logging.debug("rte = %s" % str(rte))
-					if rte is not None:
-						logging.debug("Route %s" % str(rte))
-						if prx.HasRoute(rte.GetName()) and self.IsAligned(rte):
-							counts[rte.GetName()] = counts.get(rte.GetName(), 0) + (1 if prx.IsOccupied() else 0)
-		except Exception as e:
-			logging.debug("Exception %s" % str(e))
+		for pn, prx in self.osProxies.items():
+			for osb in prx.osList:
+				rte = osb.GetRoute()
+				if rte is not None:
+					if prx.HasRoute(rte.GetName()) and self.IsAligned(rte):
+						counts[rte.GetName()] = counts.get(rte.GetName(), 0) + (1 if prx.IsOccupied() else 0)
 
 		return counts
 

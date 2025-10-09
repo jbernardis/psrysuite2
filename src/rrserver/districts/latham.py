@@ -146,3 +146,24 @@ class Latham(District):
 		self.rr.SetAspect("N10W", 1)
 		self.rr.SetBlockDirection("N20", "E")
 		self.rr.SetBlockDirection("S11", "W")
+
+	def CheckTurnoutLocks(self, turnouts):
+		changes = []
+		s3 = turnouts["LSw3"].IsNormal()
+		s5 = turnouts["LSw5"].IsNormal()
+		s7 = turnouts["LSw7"].IsNormal()
+		s9 = turnouts["LSw9"].IsNormal()
+		if turnouts["LSw3"].Lock(not s9, "LSw9"):
+			changes.append(["LSw3", not s9])
+			changes.append(["LSw3b", not s9])
+		if turnouts["LSw5"].Lock(not s7, "LSw7"):
+			changes.append(["LSw5", not s7])
+			changes.append(["LSw5b", not s7])
+		if turnouts["LSw7"].Lock(not s5, "LSw5"):
+			changes.append(["LSw7", not s5])
+			changes.append(["LSw7b", not s5])
+		if turnouts["LSw9"].Lock(not s3, "LSw3"):
+			changes.append(["LSw9", not s3])
+			changes.append(["LSw9b", not s3])
+		return changes
+

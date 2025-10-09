@@ -381,8 +381,9 @@ class MainFrame(wx.Frame):
 				for p in parms:
 					toName = p["name"]
 					lock = int(p["state"])
+					locker = int(p["locker"])
 					if toName in self.turnouts:
-						self.turnouts[toName].Lock(lock != 0)
+						self.turnouts[toName].Lock(lock != 0, locker)
 
 			elif cmd == "block":
 				for p in parms:

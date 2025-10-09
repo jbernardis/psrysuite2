@@ -25,7 +25,8 @@ class Signal:
 	def GetDefinition(self):
 		return {
 			self.name: {
-				"aspecttype": self.aspectType
+				"aspecttype": self.aspectType,
+				"east": self.east
 			}
 		}
 
