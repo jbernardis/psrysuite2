@@ -31,7 +31,6 @@ class Yard (District):
 			self.drawCrossover(block)
 
 	def drawCrossover(self, block):
-		unk = False if block is None else block.HasUnknownTrain()
 		s17 = "N" if self.sw17.IsNormal() else "R"
 		s21 = "N" if self.sw21.IsNormal() else "R"
 
@@ -43,7 +42,7 @@ class Yard (District):
 			blkstat = "E"
 
 		bmp = "diagright" if s17 == "R" else "diagleft" if s21 == "R" else "cross"
-		bmp = self.misctiles["crossover"].getBmp(blkstat, bmp, unk)
+		bmp = self.misctiles["crossover"].getBmp(blkstat, bmp)
 		self.frame.DrawTile(self.screen, (104, 12), bmp)
 
 	def DoTurnoutAction(self, turnout, state, force=False):
@@ -84,7 +83,7 @@ class Yard (District):
 	def PerformSignalAction(self, sig, callon=False, silent=False):
 		controlOpt = self.frame.yardControl
 		if controlOpt == 0:  # Yard local control
-			self.frame.PopupEvent("Yard control is localSA")
+			self.frame.PopupEvent("Yard control is local")
 			return False
 
 		return District.PerformSignalAction(self, sig, callon=callon, silent=silent)
@@ -92,7 +91,7 @@ class Yard (District):
 	def SetUpRoute(self, osblk, route):
 		controlOpt = self.frame.yardControl
 		if controlOpt == 0:  # Yard local control
-			self.frame.PopupEvent("Yard control is localSUR")
+			self.frame.PopupEvent("Yard control is local")
 			return
 		
 		try:
@@ -102,16 +101,16 @@ class Yard (District):
 		else:
 			self.frame.Request({"nxbutton": {"button": bname}})
 
-	def PerformButtonAction(self, btn):
+	def ButtonClick(self, btn):
 		controlOpt = self.frame.yardControl
 		if controlOpt == 0:  # yard local control
 			btn.Press(refresh=False)
 			btn.Invalidate(refresh=True)
 			self.frame.ClearButtonAfter(2, btn)
-			self.frame.PopupEvent("Yard control is localPBA")
+			self.frame.PopupEvent("Yard control is local")
 			return
 
-		District.PerformButtonAction(self, btn)
+		District.ButtonClick(self, btn)
 		bname = btn.GetName()
 		if bname in self.osButtons["YOSCJW"]:
 			self.DoEntryExitButtons(btn, "YOSCJ", interval=self.matrixturnoutdelay)
@@ -124,7 +123,6 @@ class Yard (District):
 			rte = self.routes[rtname]
 			tolist = rte.GetSetTurnouts()
 			osBlk = rte.GetOS()
-			# osname = osBlk.GetName()
 			if osBlk.IsBusy():
 				self.ReportBlockBusy(osBlk.GetRouteDesignator())
 				return

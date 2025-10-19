@@ -1,55 +1,45 @@
-immediate to do
-***************
+
+make sure fleeting is working ( after trains qre implemented)
+
+add locales to event/advice messages - all, None, locale only
 
 
 
 
-Pondering/Future
-****************
-ar/atc - ??get rid of checkboxes and have always on???
-
-modify notification of train routing into an invalid block to be settable on a train by train basis instead of being global
-
-when committing to python 3.12, make sure to update requirements.txt for correct version of wxPython(4.2.1 instead of 4.2.0)
+block locking
 
 
+finish aspect calculation logic
+    make sure to have callon logic in aspect calculation
 
+propagate signals forward and backward
 
-To Be Tested
-************
-automate management of single track if dispatcher all or dispatcher cliveden/martinsville:
-    EB train entering B11 or B21 or leaves COSCLW
-    WB train entering C23, C12 or leaving BOSE
+trains - all things
+    active trains
+    routing dislog box
+    edit dialog box
+    separating roster from active trains
+    high light routes
 
-
-cliff fleeting - physical lever controls martinsville, cliveden and green mountain - NOT SHEFFIELD
-when the cliff control is set to all, cliff controls everything.
-When it is set to dispatch all, the dispatcher controls everything
-When set to dispatcher controls bank/cliveden, cliff only controls sheffield, green mountain, and cliveden.  Dispatcher controls single track (and it's end OSes) and martinsville/bank
-
-Need to verify block adjacency is defined properly.  Concerns about waterman and port
-
-better algorithm for DCC speeds.  Instead of a broadcase for every speed change for every loco, store/update the speeds in a local table, and
-send 1 message with all speeds every 5 or 10 seconds.
+to be fixed in monitor:
+    move trains
+    neutralize all signals
+    scripting/recording
 
 
 
-
-
-To Be designed/Implemented
-**************************
-inspection interface
-     look into signal lever position.  For some locales, we should probably reverse L/R on this screen
-        cliff and yard seem to be ok, but nassau and port are reversed.  I think all of them are backwards, and the
-        cliff and yard should be reversed on the display.  I really need to verify actual operation with what I see in the software
-
-need to implement locales for alerts/events - all on, all off, or on only for matching locale(s)
-
-look into moving train identification from dispatcher/display/satellite and into server
-
-branch line disappearance logic should not consider train direction when chaeking fo match.  Only which end of the branch line
-
-work out issue with 2 bit slow aspect signals, particularly N26L in conjunction with N16L
+Rip out ALL dead code
 
 
 
+Try on the actual railroad
+
+Test with multiple displays
+
+Make sure that cliffdisplay still works.
+
+Other tools:
+    AR
+    ATC
+    DCC
+    Traffic Gen

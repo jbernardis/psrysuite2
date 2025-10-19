@@ -104,7 +104,7 @@ class District:
 	#  and buttons
 	#  in most cases, this does not actually make any changed to the display, but instead sends
 	#  requests to the dispatch server
-	def PerformButtonAction(self, btn):
+	def ButtonClick(self, btn):
 		pass
 
 	def DoEntryExitButtons(self, btn, groupName, sendButtons=False, interval=0):
@@ -137,9 +137,12 @@ class District:
 			self.frame.ResetButtonExpiry(2, eButton)
 			try:
 				rtName = self.NXMap[wButton.GetName()][eButton.GetName()]
+				logging.debug("routename = %s" % rtName)
 				toList = self.frame.routes[rtName].GetSetTurnouts()
+				logging.debug("TO list = %s" % str(toList))
 			except KeyError:
 				toList = None
+				logging.debug("exception - list empty")
 
 			if toList is None or self.anyTurnoutLocked(toList):
 				wButton.Invalidate(refresh=True)
@@ -189,19 +192,13 @@ class District:
 	def SetUpRoute(self, osblk, route):
 		self.MatrixTurnoutRequest(route.GetSetTurnouts(), interval=self.matrixturnoutdelay)
 
-	def PerformTurnoutAction(self, turnout, force=False):
-		pass
-
 	def TurnoutClick(self, turnout, force=False):
 		turnout = turnout.GetControlledBy()
 		if turnout.IsLocked() and not force:
 			self.ReportTurnoutLocked(turnout.GetName())
 			return
 
-		if turnout.IsNormal():
-			self.frame.Request({"turnoutclick": {"name": turnout.GetName(), "status": "R", "force": force}})
-		else:
-			self.frame.Request({"turnoutclick": {"name": turnout.GetName(), "status": "N", "force": force}})
+		self.frame.Request({"turnoutclick": {"name": turnout.GetName(), "status": "R" if turnout.IsNormal() else "N", "force": force}})
 
 	def FindRoute(self, sig):
 		signm = sig.GetName()
@@ -226,46 +223,47 @@ class District:
 		# print("no route found")
 		return None, None
 
-	def PerformSignalAction(self, sig, callon=False, silent=False):
-		currentMovement = sig.GetAspect() != 0  # does the CURRENT signal status allow movement
-		signm = sig.GetName()
-		rt, osblk = self.FindRoute(sig)
-		aspectType = sig.GetAspectType()
-
-		if callon:
-			aspect = 0 if currentMovement else restrictedaspect(sig.GetAspectType())
-		else:
-			if rt is None:
-				self.frame.PopupEvent("No available route")
-				self.NeutralizeLeverLED(sig.GetLever())
-				return False
-	
-			if osblk.AreHandSwitchesSet():
-				self.frame.PopupEvent("Block %s siding(s) unlocked" % osblk.GetName())
-				self.NeutralizeLeverLED(sig.GetLever())
-				return False
-	
-			# this is a valid signal for the current route	
-			if not currentMovement:  # we are trying to change the signal to allow movement
-				aspect = self.CalculateAspect(sig, osblk, rt, silent=silent)
-				if aspect is None:
-					self.NeutralizeLeverLED(sig.GetLever())
-					return False
-	
-			else:  # we are trying to change the signal to stop the train
-				esig = osblk.GetEntrySignal()
-				if esig is not None and esig.GetName() != signm:
-					self.frame.PopupEvent("Incorrect signal for current route  %s not = %s" % (esig.GetName(), signm))
-					self.NeutralizeLeverLED(sig.GetLever())
-					return False
-				aspect = 0
-
-		self.frame.Request({"signal": {"name": signm, "aspect": aspect, "aspecttype": aspectType, "callon": 1 if callon else 0}})
-		
-		if not callon:
-			sig.SetLock(osblk.GetName(), 0 if aspect == 0 else 1)
-			
-		return True
+	def SignalClick(self, sig, callon=False, silent=False):
+		self.frame.Request({"signalclick": {"name": sig.GetName(), "callon": callon == 1}})
+		# currentMovement = sig.GetAspect() != 0  # does the CURRENT signal status allow movement
+		# signm = sig.GetName()
+		# rt, osblk = self.FindRoute(sig)
+		# aspectType = sig.GetAspectType()
+		#
+		# if callon:
+		# 	aspect = 0 if currentMovement else restrictedaspect(sig.GetAspectType())
+		# else:
+		# 	if rt is None:
+		# 		self.frame.PopupEvent("No available route")
+		# 		self.NeutralizeLeverLED(sig.GetLever())
+		# 		return False
+		#
+		# 	if osblk.AreHandSwitchesSet():
+		# 		self.frame.PopupEvent("Block %s siding(s) unlocked" % osblk.GetName())
+		# 		self.NeutralizeLeverLED(sig.GetLever())
+		# 		return False
+		#
+		# 	# this is a valid signal for the current route
+		# 	if not currentMovement:  # we are trying to change the signal to allow movement
+		# 		aspect = self.CalculateAspect(sig, osblk, rt, silent=silent)
+		# 		if aspect is None:
+		# 			self.NeutralizeLeverLED(sig.GetLever())
+		# 			return False
+		#
+		# 	else:  # we are trying to change the signal to stop the train
+		# 		esig = osblk.GetEntrySignal()
+		# 		if esig is not None and esig.GetName() != signm:
+		# 			self.frame.PopupEvent("Incorrect signal for current route  %s not = %s" % (esig.GetName(), signm))
+		# 			self.NeutralizeLeverLED(sig.GetLever())
+		# 			return False
+		# 		aspect = 0
+		#
+		# self.frame.Request({"signal": {"name": signm, "aspect": aspect, "aspecttype": aspectType, "callon": 1 if callon else 0}})
+		#
+		# if not callon:
+		# 	sig.SetLock(osblk.GetName(), 0 if aspect == 0 else 1)
+		#
+		# return True
 
 	def NeutralizeLeverLED(self, lvrName):
 		if lvrName is None:
@@ -509,13 +507,16 @@ class District:
 	def anyTurnoutLocked(self, toList):
 		rv = False
 		self.lockedList = []
+		logging.debug("================================== anyTurnoutLocked")
 		for toname, stat in toList:
 			turnout = self.turnouts[toname]
 			tostat = "N" if turnout.IsNormal() else "R"
+			logging.debug("To: %s, %s <=> %s  (%s)" % (toname, stat, tostat, turnout.IsLocked()))
 			if turnout.IsLocked() and tostat != stat:
 				self.lockedList.append(toname)
 				rv = True
 
+		logging.debug("================================= end - rv = %s" % str(rv))
 		return rv
 
 	@staticmethod
@@ -975,13 +976,13 @@ class District:
 				tolist = rt.GetLockTurnouts()
 				self.LockTurnouts(signm, tolist, flag)
 
-	def LockTurnouts(self, locker, tolist, flag):
+	def LockTurnouts(self, tolist, flag):
 		for t in tolist:
 			to = self.frame.turnouts[t]
-			to.SetLock(flag, locker, refresh=True)
+			to.SetLock(flag, refresh=True)
 			tp = to.GetPaired()
 			if tp:
-				tp.SetLock(flag, locker, refresh=True)
+				tp.SetLock(flag, refresh=True)
 
 	@staticmethod
 	def DoHandSwitchAction(hs, stat):
@@ -1014,6 +1015,9 @@ class District:
 
 	def DefineHandSwitches(self):
 		self.handswitches = {}
+		return {}
+
+	def DefineDistrictLocks(self):
 		return {}
 
 	def ReportBlockBusy(self, blknm):
@@ -1184,6 +1188,13 @@ class Districts:
 			indicators.update(t.DefineIndicators())
 
 		return indicators
+
+	def DefineDistrictLocks(self):
+		dlocks = {}
+		for t in self.districts.values():
+			dlocks.update(t.DefineDistrictLocks())
+
+		return dlocks
 
 	def GetRouteDefinitions(self):
 		return [r.GetDefinition() for r in self.frame.routes.values()]

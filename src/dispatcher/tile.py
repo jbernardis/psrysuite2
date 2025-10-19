@@ -53,16 +53,15 @@ class MiscTile:
 		self.name = name
 		self.bmps = bmps
 
-	def getBmp(self, status, tag, unknownTrain=False):
+	def getBmp(self, status, tag):
 		prefix = ""
-		if status == OCCUPIED:
-			if unknownTrain:
-				prefix = "yellow-"
-			else:
-				prefix = "red-"
-		elif status == CLEARED:
+		if status == "O":
+			prefix = "red-"
+		elif status == "U":
+			prefix = "yellow-"
+		elif status == "C":
 			prefix = "green-"
-		elif status == EMPTY:
+		else:  # status == "E":
 			prefix = "white-"
 
 		try:
@@ -130,7 +129,7 @@ class SlipSwitchTile:
 		self.rnbmps = rnbmps
 		self.rrbmps = rrbmps
 
-	def getBmp(self, tostat, blkstat, disabled, unknownTrain=False):
+	def getBmp(self, tostat, blkstat, disabled):
 		if tostat == ["N", "N"]:
 			bmps = self.nnbmps
 		elif tostat == ["N", "R"]:
@@ -140,25 +139,21 @@ class SlipSwitchTile:
 		else: # tostat == ["R", "R]
 			bmps = self.rrbmps
 
-		if blkstat == OCCUPIED:
-			if unknownTrain:
-				if disabled:
-					try:
-						return bmps["yellow-dis"]
-					except KeyError:
-						pass
+		if blkstat == "O":
+			if disabled:
+				try:
+					return bmps["red-dis"]
+				except KeyError:
+					pass
+			return bmps["red"]
+
+		if blkstat == "U":
+			if disabled:
 				try:
 					return bmps["yellow"]
 				except KeyError:
 					pass
-				return bmps["red"]
-			else:
-				if disabled:
-					try:
-						return bmps["red-dis"]
-					except KeyError:
-						pass
-				return bmps["red"]
+			return bmps["red"]
 
 		if blkstat == "C":
 			if disabled:

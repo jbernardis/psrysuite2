@@ -4,6 +4,10 @@ from rrserver.constants import INPUT_BLOCK, INPUT_BREAKER, INPUT_SIGNALLEVER, IN
 from dispatcher.constants import RegAspects
 
 
+def formatRouteDesignator(rtName):
+	return "" if rtName is None else "{%s}" % rtName[3:]
+
+
 class Block:
 	def __init__(self, name, district, node, address, east):
 		self.name = name
@@ -24,6 +28,7 @@ class Block:
 		self.route = None
 		self.nextBlockEast = None
 		self.nextBlockWest = None
+		self.handswitches = []
 
 	def toJson(self):
 		return {"name": self.name, "east": 1 if self.east else 0, "cleared": 1 if self.cleared else 0, "statue": self.status}
@@ -39,7 +44,10 @@ class Block:
 
 	def Name(self):
 		return self.name
-		
+
+	def RouteDesignator(self):
+		return self.name
+
 	def Address(self):
 		return self.address
 	
@@ -48,6 +56,9 @@ class Block:
 	
 	def InputType(self):
 		return INPUT_BLOCK
+
+	def IsOS(self):
+		return False
 
 	def IsNullBlock(self):
 		return self.district is None
@@ -65,6 +76,23 @@ class Block:
 		self.subBlocks.extend(blkl)
 		for b in blkl:
 			b.SetMainBlock(self)
+
+	def NextBlock(self, reverse=False):
+		if self.east:
+			return self.nextBlockWest if reverse else self.nextBlockEast
+		else:
+			return self.nextBlockEast if reverse else self.nextBlockWest
+
+	def AddHandSwitch(self, hs):
+		logging.debug("adding handswitch %s to block %s" % (hs.Name(), self.Name()))
+		self.handswitches.append(hs)
+
+	def AreHandSwitchesUnlocked(self):
+		for hs in self.handswitches:
+			if hs.IsUnlocked():
+				return True
+
+		return False
 		
 	def SubBlocks(self):
 		return self.subBlocks
@@ -180,11 +208,18 @@ class Block:
 			
 		return clr
 
+	def IsBusy(self):
+		return self.IsOccupied() or self.IsCleared()
+
 	def SetNextWest(self, blk):
+		if self.name == "D20":
+			logging.debug("setting next block west to %s" % ("None" if blk is None else blk.Name()))
 		self.nextBlockWest = blk
 
 	def SetNextEast(self, blk):
-		self.nextBlockWest = blk
+		if self.name == "D20":
+			logging.debug("setting next block east to %s" % ("None" if blk is None else blk.Name()))
+		self.nextBlockEast = blk
 
 	def AddIndicator(self, district, node, address, bits):
 		self.indicators.append((district, node, address, bits))
@@ -239,7 +274,7 @@ class OSBlock:
 		return self.block
 
 	def RouteDesignator(self):
-		return self.activeRoute
+		return formatRouteDesignator(self.activeRouteName)
 
 	def Routes(self):
 		return self.routes
@@ -247,16 +282,28 @@ class OSBlock:
 	def SetStatus(self, stat):
 		self.block.SetStatus(stat)
 
+	def GetStatus(self):
+		return self.block.GetStatus()
+
 	def IsOccupied(self):
 		return self.block.IsOccupied()
 
+	def IsOS(self):
+		return True
+
 	def IsCleared(self):
 		return self.block.IsCleared()
+
+	def IsBusy(self):
+		return self.IsOccupied() or self.IsCleared()
 
 	def IsReversed(self):
 		return self.block.IsReversed()
 
 	def IsEast(self):
+		return self.block.IsEast()
+
+	def East(self):
 		return self.block.IsEast()
 
 	def SetEast(self, flag):
@@ -276,12 +323,18 @@ class OSBlock:
 			return []
 		return self.activeRoute.Signals()
 
+	def LockRoute(self, flag, locker):
+		if self.activeRoute is None:
+			logging.debug("Trying to lock active route of os %s, but not selected" % self.Name())
+			return []
+		return self.activeRoute.Lock(flag, locker)
+
 	def DetermineActiveRoute(self, turnouts):
 		routeSelected = False
 		for rname, rt in self.routes.items():
 			routeSelected = True
-			for trnout, wantedstate in rt.Turnouts():
-				tout = turnouts[trnout]
+			for tout, wantedstate in rt.Turnouts():
+				trnout = tout.Name()
 				currentstate = tout.IsNormal()
 				if wantedstate != currentstate:
 					routeSelected = False
@@ -300,12 +353,28 @@ class OSBlock:
 	def ActiveRouteName(self):
 		return self.activeRouteName
 
+	def GetRouteType(self, reverse=False):
+		if self.activeRoute is None:
+			return None
+
+		return self.activeRoute.GetRouteType(reverse=reverse)
+
+	def GetExitBlock(self, reverse=False):
+		if self.activeRoute is None:
+			return None
+
+		return self.activeRoute.GetExitBlock(reverse=reverse)
+
 	def SetActiveRoute(self, rt):
 		if rt is None:
-			rc = not self.activeRoute is None
+			rc = self.activeRoute is not None
 			self.activeRoute = None
 			self.activeRouteName = None
 			return rc
+
+		dbg = self.name.startswith("DOSVJ")
+		if dbg:
+			logging.debug("enter set active route for %s to %s" % (self.name, rt.name))
 
 		rc = not self.activeRouteName == rt.Name()
 		self.activeRoute = rt
@@ -313,11 +382,17 @@ class OSBlock:
 		# each of the two ends of the route need to point back to this OS block
 		ar = self.activeRoute
 		nxtEast = ar.NextBlockEast()
+		if dbg:
+			logging.debug("next block east = %s" % nxtEast.Name())
 		if nxtEast is not None:
 			nxtEast.SetNextWest(self)
+
 		nxtWest = ar.NextBlockWest()
+		if dbg:
+			logging.debug("next block west = %s" % nxtWest.Name())
 		if nxtWest is not None:
 			nxtWest.SetNextEast(self)
+
 		return rc
 
 	def GetEventMessages(self):
@@ -332,6 +407,7 @@ class Route:
 		self.name = name
 		self.osblk = osblk
 		self.turnouts = [[x[0], True if x[1] == "N" else False] for x in turnouts]
+		self.toMap = {}
 		self.signals = [s for s in signals]
 		self.ends = [x for x in ends]
 		self.rtype = [x for x in rtype]
@@ -348,6 +424,9 @@ class Route:
 	def Signals(self):
 		return self.signals
 
+	def EndPoints(self):
+		return self.ends
+
 	def HasSignal(self, sigPrefix):
 		for sig in self.signals:
 			if sig.startswith(sigPrefix):
@@ -355,11 +434,25 @@ class Route:
 
 		return None
 
+	def Lock(self, flag, locker):
+		tlocks = []
+		for tout, _ in self.turnouts:
+			tout.Lock(flag, locker)
+			tlocks.append([tout, flag])
+
+		return tlocks
+
 	def NextBlockEast(self):
-		return self.ends[0]
+		if self.osblk.East():
+			return self.ends[1]
+		else:
+			return self.ends[0]
 
 	def NextBlockWest(self):
-		return self.ends[1]
+		if self.osblk.East():
+			return self.ends[0]
+		else:
+			return self.ends[1]
 
 	def GetExitBlock(self, reverse=False):
 		if self.osblk.IsReversed():
@@ -630,6 +723,9 @@ class Signal:
 	def SetEast(self, flag):
 		self.east = flag
 
+	def District(self):
+		return self.district
+
 	def SetLockBits(self, bits):
 		self.lockBits = bits
 		
@@ -702,6 +798,9 @@ class SignalLever:
 		
 	def Address(self):
 		return self.address
+
+	def District(self):
+		return self.district
 	
 	def InputType(self):
 		return INPUT_SIGNALLEVER
@@ -822,6 +921,7 @@ class Turnout:
 		self.lever = None
 		self.position = None
 		self.leverState = 'N'
+		self.disabled = False
 		self.locked = False
 		self.lockBits = None
 		self.force = False
@@ -960,27 +1060,39 @@ class Turnout:
 		return self.lockBits
 	
 	def Lock(self, lockFlag, locker):
+		action = "Locking" if lockFlag else "Unlocking"
+		logging.debug("%s turnout %s, locker %s" % (action, self.Name(), locker))
 		# Return value indicates whether or not the locked value changes
 		if lockFlag:
 			if locker not in self.lockers:
 				self.lockers.append(locker)
+				logging.debug("new locker: %s" % str(self.lockers))
+				if self.locked:
+					return False
 				self.locked = True
 				return True
 			else:
+				logging.debug("duplicate locker")
 				return False
 		else:
 			if locker not in self.lockers:
+				logging.debug("unknown locker")
 				return False
 
 			self.lockers.remove(locker)
 			if len(self.lockers) == 0:
+				logging.debug("Locker list down to 0 - unlocking turnout")
 				self.locked = False
 				return True
 			else:
+				logging.debug("Not actually debugging becasue lockers = %s" % str(self.lockers))
 				return False
 
 	def IsLocked(self):
 		return self.locked
+
+	def IsDisabled(self):
+		return self.disabled
 
 	def GetEventMessages(self, force=False):
 		self.force = force
@@ -1011,8 +1123,9 @@ class OutNXButton:
 	def Bits(self):
 		return self.bits
 
+
 class Handswitch:
-	def __init__(self, name, district, node, address):
+	def __init__(self, name, district, node, address, blocknm):
 		self.name = name
 		self.district = district
 		self.node = node
@@ -1020,9 +1133,11 @@ class Handswitch:
 		self.normal = True
 		self.bits = []
 		self.indicators = []
-		self.locked = False
+		self.unlocked = False
 		self.reverseIndicators = []
 		self.unlock = None
+		self.blocknm = blocknm
+		self.block = None
 
 	def Name(self):
 		return self.name
@@ -1049,11 +1164,23 @@ class Handswitch:
 	def IsNullHandswitch(self):
 		return self.district is None
 	
-	def SetHandswitchAddress(self, district, node, address):
+	def SetHandswitchAddress(self, district, node, address, blocknm):
 		self.district = district
 		self.node = node
 		self.address = address
-	
+		self.blocknm = blocknm
+
+	def ResolveBlock(self, blocks):
+		logging.debug("Resolving block %s for handswitch %s" % (self.blocknm, self.Name()))
+		self.block = blocks.get(self.blocknm, None)
+		logging.debug("resolved to block: %s" % str(self.block))
+
+	def Block(self):
+		return self.block
+
+	def BlockName(self):
+		return self.blocknm
+
 	def SetNormal(self, normal):
 		if self.normal == normal:
 			return False
@@ -1074,7 +1201,7 @@ class Handswitch:
 			return False
 		# indicators with one bit: simple on/off led to show lock status
 		# indicators with 2 bits: panel indicators with one being the inverted value of the other
-		lval = 1 if self.locked else 0
+		lval = 1 if self.unlocked else 0
 		for ind in self.indicators:
 			district, node, address, bits, inverted = ind
 			if len(bits) == 1:
@@ -1088,6 +1215,7 @@ class Handswitch:
 		return True
 
 	def AddReverseIndicator(self, district, node, addr, bits):
+		#  this indicates if the handswitch turnout is in the reverse position versus normal
 		self.reverseIndicators.append([district, node, addr, bits])
 		self.UpdateReverseIndicators()
 
@@ -1118,19 +1246,34 @@ class Handswitch:
 	def Position(self):
 		return [self.district, self.node, self.address, self.bits]
 	
-	def Lock(self, locked):
-		if self.locked == locked:
+	def Unlock(self, unlocked):
+		if self.unlocked == unlocked:
 			return False
 		
-		self.locked = locked
+		self.unlocked = unlocked
 		return True
 		
-	def IsLocked(self):
-		return self.locked
-		
+	def IsUnlocked(self):
+		return self.unlocked
+
+	def ForBitMap(self):
+		indicators = [[ind[3], ind[2], ind[4]] for ind in self.indicators]
+		rindicators = [[ind[3], ind[2]] for ind in self.reverseIndicators]
+		if self.unlock is None:
+			unlock = []
+		else:
+			unlock = [self.unlock[3], self.unlock[2]]
+
+		return {self.name: {
+			"position": [self.bits, self.address],
+			"indicators": indicators,
+			"revindicators": rindicators,
+			"unlock": unlock
+		}}
+
 	def GetEventMessage(self, lock=False):
 		if lock:
-			return {"handswitch": [{ "name": self.name+".hand", "state": 1 if self.locked else 0}]}
+			return {"handswitch": [{ "name": self.name+".hand", "state": 1 if self.unlocked else 0}]}
 		else:
 			return {"turnout": [{ "name": self.name, "state": "N" if self.normal else "R"}]}
  

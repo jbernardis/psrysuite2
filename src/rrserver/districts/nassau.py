@@ -23,6 +23,10 @@ class Nassau(District):
 		self.fleetDispatch = None
 		self.released = False
 		self.control = 2
+		self.lastControl = 2
+
+		self.NWBlocks = ["NWOSCY", "NWOSTY", "NWOSW", "NWOSE"]
+		self.NEBlocks = ["NEOSRH", "NEOSW", "NEOSE"]
 
 		addr = NASSAUW
 		with self.nodes[addr] as n:
@@ -99,8 +103,14 @@ class Nassau(District):
 			self.rr.AddTurnoutPosition("NSw27", self, n, addr, [(1, 0), (1, 1)])	
 			self.rr.AddTurnoutPosition("NSw29", self, n, addr, [(1, 2), (1, 3)])	
 			self.rr.AddTurnoutPosition("NSw31", self, n, addr, [(1, 4), (1, 5)])	
-			self.rr.AddTurnoutPosition("NSw33", self, n, addr, [(1, 6), (1, 7)])	
-	
+			self.rr.AddTurnoutPosition("NSw33", self, n, addr, [(1, 6), (1, 7)])
+
+			#  virtual turnouts in coach yard - no outputs to the railroad, but messages
+			#  to the dispatcher/displays to show proper route
+			self.rr.AddTurnout("NSw13", self, n, addr, [])
+			self.rr.AddTurnout("NSw15", self, n, addr, [])
+			self.rr.AddTurnout("NSw17", self, n, addr, [])
+
 			self.rr.AddBlock("N21.W",   self, n, addr, [(2, 0)], True)
 			self.rr.AddBlock("N21",     self, n, addr, [(2, 1)], True)
 			self.rr.AddBlock("N21.E",   self, n, addr, [(2, 2)], True)
@@ -351,13 +361,78 @@ class Nassau(District):
 		except KeyError:
 			return [], []
 
+	def EvaluateDistrictLocks(self, sig, ossLocks=None):
+		logging.debug("enter evaluate district locks - Nassau")
+		rt, osblk = self.rr.FindRoute(sig)
+		osblknm = osblk.Name()
+		logging.debug("Route: %s osblk: %s" % (str(rt), osblknm))
 
+		if osblknm in self.NWBlocks:
+			logging.debug("os in W: %s" % str(self.NWBlocks))
+			lock = [False, False, False, False]
+			for blknm in self.NWBlocks:
+				logging.debug("inner loop for block %s" % blknm)
+				blk = self.rr.blocks[blknm]
+				osblk = self.rr.osblocks[blknm]
+				rt = osblk.ActiveRoute()
+				if rt is None:
+					logging.debug("active route is None")
+					continue
+				sigs = rt.Signals()
+				bLock = [False, False, False, False]
+				if blk.IsCleared():
+					logging.debug("block is cleared")
+					for s in sigs:
+						logging.debug("considering signal %s" % str(s))
+						if s.startswith("N20"):
+							logging.debug("N20 true")
+							bLock[0] = True
+						elif s.startswith("N18"):
+							logging.debug("N18 true")
+							bLock[1] = True
+						elif s.startswith("N16"):
+							logging.debug("N16 true")
+							bLock[2] = True
+						elif s.startswith("N14"):
+							logging.debug("N14 true")
+							bLock[3] = True
+					if bLock[0] and bLock[3]:
+						bLock[1] = bLock[2] = True
+					elif bLock[0] and bLock[2]:
+						bLock[1] = True
+					elif bLock[1] and bLock[3]:
+						bLock[2] = True
+				lock = [a or b for a, b in zip(lock, bLock)]
+				logging.debug("lock = %s" % str(lock))
 
+			lv = [1 if x else 0 for x in lock]
+			self.rr.SetDistrictLock("NWSL", lv)
 
+		elif osblknm in self.NEBlocks:
+			lock = [False, False, False]
+			for blknm in self.NEBlocks:
+				blk = self.rr.blocks[blknm]
+				osblk = self.rr.osblocks[blknm]
+				rt = osblk.ActiveRoute()
+				if rt is None:
+					continue
+				sigs = rt.Signals()
+				bLock = [False, False, False]
+				if blk.IsCleared():
+					for s in sigs:
+						if s.startswith("N28"):
+							bLock[0] = True
+						elif s.startswith("N26"):
+							bLock[1] = True
+						elif s.startswith("N24"):
+							bLock[2] = True
+					if bLock[0] and bLock[2]:
+						bLock[1] = True
 
+				lock = [a or b for a, b in zip(lock, bLock)]
 
-
-
+			lv = [1 if x else 0 for x in lock]
+			self.rr.SetDistrictLock("NESL", lv)
 
 	def PressButton(self, btn):
 		'''
@@ -428,7 +503,7 @@ class Nassau(District):
 
 		return "NWOSCY"
 
-	def ControlRestricted(self):
+	def ControlRestrictedMessage(self):
 		if self.control == 0:
 			return "Control is Local"
 		elif self.control == 1:
@@ -436,12 +511,15 @@ class Nassau(District):
 		else:
 			return "Dispatcher controls Nassau Tower"
 
+	def ControlRestrictedSignal(self, signm):
+		logging.debug("Check for signal %s not in list %s, control = %d" % (signm, self.fleetedSignals[self.control], self.control))
+		return signm not in self.fleetedSignals[self.control]
+
 	def UpdateControlOption(self):
 		self.lastControl = self.control
 		self.control = self.rr.GetControlOption("nassau")  # 0 => Nassau, 1 => Dispatcher Main, 2 => Dispatcher All
 
 	def OutIn(self):
-		self.UpdateControlOption()
 		if self.control in [0, 1]:
 			fleetPanel = self.nodes[NASSAUW].GetInputBit(3, 3) # get the state of the lever on the panel
 		else:
@@ -529,5 +607,6 @@ class Nassau(District):
 				resumelist = ["N14", "N16", "N18", "N24", "N26"]
 			else:
 				resumelist = []
-				
+
+		self.lastControl = self.control
 		return skiplist, resumelist

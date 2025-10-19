@@ -66,7 +66,7 @@ wildcardTrain = "train files (*.trn)|*.trn|"	 \
 wildcardLoco = "locomotive files (*.loco)|*.loco|"	 \
 			"All files (*.*)|*.*"
 			
-SidingSwitches = [ "LSw11", "LSw13", "DSw9", "SSw1", "CSw3", "CSw11", "CSw15", "CSw19", "Csw21a", "CSw21b" ]
+SidingSwitches = [ "LSw11", "LSw13", "DSw9", "SSw1", "CSw3", "CSw11", "CSw15", "CSw19", "CSw21a", "CSw21b" ]
 
 # blocks to consider valid for all routes
 ValidBlocks = YardBlocks + LadderBlocks
@@ -322,6 +322,20 @@ class MainFrame(wx.Frame):
 		else:
 			#self.PopupEvent("Key Code: %d" % kcd)
 			evt.Skip()
+
+	def SendDebugFlags(self):
+		if not self.subscribed:
+			return
+
+		msg = {"debugflags":
+					{
+						"showaspectcalculation": 1 if self.settings.debug.showaspectcalculation else 0,
+						"blockoccupancy": 1 if self.settings.debug.blockoccupancy else 0,
+						"identifytrain": 1 if self.settings.debug.identifytrain else 0
+					}
+		}
+		logging.debug("sending message: %s" % str(msg))
+		self.Request(msg)
 
 	def CloseInspect(self):
 		self.dlgInspect.Destroy()
@@ -1018,6 +1032,7 @@ class MainFrame(wx.Frame):
 		self.buttons =  self.districts.DefineButtons()
 		self.handswitches =  self.districts.DefineHandSwitches()
 		self.indicators = self.districts.DefineIndicators()
+		self.dlocks = self.districts.DefineDistrictLocks()
 		
 		self.blockAdjacency = {}
 		for osname, blklist in self.osBlocks.items():
@@ -1310,7 +1325,7 @@ class MainFrame(wx.Frame):
 				return
 			
 			if self.IsDispatcherOrSatellite():
-				btn.GetDistrict().PerformButtonAction(btn)
+				btn.GetDistrict().ButtonClick(btn)
 			return
 
 		try:
@@ -1341,7 +1356,7 @@ class MainFrame(wx.Frame):
 				return
 
 			if self.IsDispatcherOrSatellite():
-				sig.GetDistrict().PerformSignalAction(sig, callon=shift)
+				sig.GetDistrict().SignalClick(sig, callon=shift)
 			return
 
 		try:
@@ -1381,11 +1396,13 @@ class MainFrame(wx.Frame):
 						return
 
 					if not right:
-						self.EditTrain(tr, blk)
+						pass
+						# self.EditTrain(tr, blk)
 
 					else: # pop-up menu
-						menuPos = (screenpos[0], screenpos[1] + 90)
-						self.PopupTrainMenu(self, tr, blk, menuPos)
+						pass
+						# menuPos = (screenpos[0], screenpos[1] + 90)
+						# self.PopupTrainMenu(self, tr, blk, menuPos)
 
 				return
 
@@ -2708,7 +2725,7 @@ class MainFrame(wx.Frame):
 			"showaspect":		self.DoCmdShowAspect,
 			"turnout":			self.DoCmdTurnout,
 			# "turnoutlever":		self.DoCmdTurnoutLever,
-			# "turnoutlock":		self.DoCmdTurnoutLock,
+			#  "turnoutlock":		self.DoCmdTurnoutLock,
 			"lockturnout":		self.DoCmdLockTurnout,
 			"fleet":			self.DoCmdFleet,
 			"block":			self.DoCmdBlock,
@@ -2716,9 +2733,10 @@ class MainFrame(wx.Frame):
 			# "blockclear":		self.DoCmdBlockClear,
 			"signal":			self.DoCmdSignal,
 			# "siglever":			self.DoCmdSigLever,
-			# "handswitch":		self.DoCmdHandSwitch,
+			"handswitch":		self.DoCmdHandSwitch,
 			# "indicator":		self.DoCmdIndicator,
 			"breaker":			self.DoCmdBreaker,
+			"districtlock":		self.DoCmdDistrictLock,
 			# "trainsignal":		self.DoCmdTrainSignal,
 			# "settrain":			self.DoCmdSetTrain,
 			# "deletetrain":		self.DoCmdDeleteTrain,
@@ -2859,10 +2877,6 @@ class MainFrame(wx.Frame):
 			except (KeyError, ValueError):
 				state = 0
 			state = True if state != 0 else False
-			try:
-				locker = p["locker"]
-			except KeyError:
-				locker = None
 
 			try:
 				tout = self.turnouts[tonm]
@@ -2870,10 +2884,13 @@ class MainFrame(wx.Frame):
 				logging.error("turnoutlock: Unable to find turnout %s" % tonm)
 				return
 
-			if locker is None:
-				tout.ClearLocks(forward=False, refresh=True)
-			else:
-				tout.SetLock(state, refresh=True)
+			tout.SetLock(state, refresh=True)
+
+	def DoCmdDistrictLock(self, parms):
+		self.PopupEvent("district lock: %s" % str(parms))
+		for lname, lvalue in parms.items():
+			if lname in self.dlocks:
+				self.dlocks[lname].DoDistrictLocks(lname, lvalue)
 
 	def DoCmdLockTurnout(self, parms):
 		if self.CTCManager is not None:
@@ -2888,14 +2905,9 @@ class MainFrame(wx.Frame):
 				lock = int(p["lock"])
 			except (KeyError, ValueError):
 				lock = False
-			try:
 
-				locker = p["locker"]
-			except KeyError:
-				locker = None
-
-			if tonm is None or locker is None:
-				logging.debug("lockturnout command missing turnout and/or locker")
+			if tonm is None:
+				logging.debug("lockturnout command missing turnout name")
 
 			try:
 				tout = self.turnouts[tonm]
@@ -2903,7 +2915,7 @@ class MainFrame(wx.Frame):
 				logging.error("lockturnout: Unable to find turnout %s" % tonm)
 				return
 
-			tout.SetLock(lock, locker, refresh=True)
+			tout.SetLock(lock, refresh=True)
 
 	def DoCmdTurnoutLever(self, parms):
 		for p in parms:
@@ -3907,6 +3919,8 @@ class MainFrame(wx.Frame):
 		# Done refreshing from  server - now load latest snapshot
 		#if self.IsDispatcher() and self.settings.dispatcher.autoloadsnapshot and self.initializing:
 			#self.LoadSnapshot(wx.ID_OPEN, silent=True)
+
+		self.SendDebugFlags()
 
 		self.initializing = False
 

@@ -59,10 +59,10 @@ class Krulish (District):
 	def DetermineRoute(self, blocks):
 		s3 = 'N' if self.turnouts["KSw3"].IsNormal() else 'R'
 		s5 = 'N' if self.turnouts["KSw5"].IsNormal() else 'R'
-		self.turnouts["KSw3"].SetLock(s5 == 'R', "KSw5", refresh=True)
-		self.turnouts["KSw3b"].SetLock(s5 == 'R', "KSw5", refresh=True)
-		self.turnouts["KSw5"].SetLock(s3 == 'R', "KSw3", refresh=True)
-		self.turnouts["KSw5b"].SetLock(s3 == 'R', "KSw3", refresh=True)
+		self.turnouts["KSw3"].SetLock(s5 == 'R', refresh=True)
+		self.turnouts["KSw3b"].SetLock(s5 == 'R', refresh=True)
+		self.turnouts["KSw5"].SetLock(s3 == 'R', refresh=True)
+		self.turnouts["KSw5b"].SetLock(s3 == 'R', refresh=True)
 
 		self.FindTurnoutCombinations(blocks, ["KSw1", "KSw3", "KSw5", "KSw7"])
 

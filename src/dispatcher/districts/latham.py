@@ -17,14 +17,14 @@ class Latham (District):
 		s5 = 'N' if self.turnouts["LSw5"].IsNormal() else 'R'
 		s7 = 'N' if self.turnouts["LSw7"].IsNormal() else 'R'
 		s9 = 'N' if self.turnouts["LSw9"].IsNormal() else 'R'
-		self.turnouts["LSw3"].SetLock(s9 == 'R', "LSw9", refresh=True)
-		self.turnouts["LSw3b"].SetLock(s9 == 'R', "LSw9", refresh=True)
-		self.turnouts["LSw9"].SetLock(s3 == 'R', "LSw3", refresh=True)
-		self.turnouts["LSw9b"].SetLock(s3 == 'R', "LSw3", refresh=True)
-		self.turnouts["LSw5"].SetLock(s7 == 'R', "LSw7", refresh=True)
-		self.turnouts["LSw5b"].SetLock(s7 == 'R', "LSw7", refresh=True)
-		self.turnouts["LSw7"].SetLock(s5 == 'R', "LSw5", refresh=True)
-		self.turnouts["LSw7b"].SetLock(s5 == 'R', "LSw5", refresh=True)
+		self.turnouts["LSw3"].SetLock(s9 == 'R', refresh=True)
+		self.turnouts["LSw3b"].SetLock(s9 == 'R', refresh=True)
+		self.turnouts["LSw9"].SetLock(s3 == 'R', refresh=True)
+		self.turnouts["LSw9b"].SetLock(s3 == 'R', refresh=True)
+		self.turnouts["LSw5"].SetLock(s7 == 'R', refresh=True)
+		self.turnouts["LSw5b"].SetLock(s7 == 'R', refresh=True)
+		self.turnouts["LSw7"].SetLock(s5 == 'R', refresh=True)
+		self.turnouts["LSw7b"].SetLock(s5 == 'R', refresh=True)
 
 		self.FindTurnoutCombinations(blocks, ["LSw1", "LSw3", "LSw5", "LSw7", "LSw9", "LSw15", "LSw17"])
 

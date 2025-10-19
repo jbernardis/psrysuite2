@@ -81,9 +81,9 @@ class Cliff (District):
 		
 		bname = self.routeButtons[rtname]
 		btn = self.frame.buttons[bname]
-		self.PerformButtonAction(btn)
+		self.ButtonClick(btn)
 
-	def PerformButtonAction(self, btn):
+	def ButtonClick(self, btn):
 		controlOpt = self.frame.cliffControl
 		if controlOpt != 2:  # cliff local control or limited to bank/cliveden (handled in those districts)
 			btn.Press(refresh=False)

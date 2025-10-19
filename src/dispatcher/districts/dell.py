@@ -31,9 +31,9 @@ class Dell (District):
 	def DetermineRoute(self, blocks):
 		s5 = 'N' if self.turnouts["DSw5"].IsNormal() else 'R'
 		s7 = 'N' if self.turnouts["DSw7"].IsNormal() else 'R'
-		self.turnouts["DSw5"].SetLock(s7 == 'R', "DSw7", refresh=True)
-		self.turnouts["DSw7"].SetLock(s5 == 'R', "DSw5", refresh=True)
-		self.turnouts["DSw7b"].SetLock(s5 == 'R', "DSw5", refresh=True)
+		self.turnouts["DSw5"].SetLock(s7 == 'R', refresh=True)
+		self.turnouts["DSw7"].SetLock(s5 == 'R', refresh=True)
+		self.turnouts["DSw7b"].SetLock(s5 == 'R', refresh=True)
 
 		# self.FindTurnoutCombinations(blocks, ["DSw1", "DSw3", "DSw5", "DSw7", "DSw11"])
 

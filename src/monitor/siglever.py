@@ -92,9 +92,9 @@ class SigLeverShowDlg(wx.Dialog):
 		self.Fit()
 		
 	def formatSigLvr(self, data):
-		dl = 0 if data[0] is None else data[0]
+		dr = 0 if data[0] is None else data[0]
 		dc = 0 if data[1] is None else data[1]
-		dr = 0 if data[2] is None else data[2]
+		dl = 0 if data[2] is None else data[2]
 		
 		callon = " C" if dc != 0 else "  "
 		
@@ -116,7 +116,7 @@ class SigLeverShowDlg(wx.Dialog):
 		return "%s%03d" % (nm, int(nbr))
 
 	def RefreshLvrs(self):
-		sl = self.parent.rrServer.Get("signallevers", {})
+		sl = self.parent.RetrieveSigLevers()
 		
 		slnms = sorted(list(sl.keys()), key=self.BuildLeverKey)
 		items = []

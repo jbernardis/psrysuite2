@@ -428,7 +428,7 @@ class HTTPServer:
 				jstr = json.dumps(rt)
 				return 200, jstr
 
-		elif verb == "signallevers":
+		elif verb == "getsiglevers":
 			sl = self.rr.GetSignalLevers()
 			if sl is None:
 				logging.info("Unknown error")

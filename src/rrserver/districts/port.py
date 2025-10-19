@@ -271,9 +271,9 @@ class Port(District):
 			self.rr.AddTurnoutPosition("PBSw11", self, n, addr, [(0, 4), (0, 5)])
 			self.rr.AddTurnoutPosition("PBSw13", self, n, addr, [(0, 6), (0, 7)])
 	
-			self.rr.AddHandswitch("PBSw5",   self, n, addr, [(1, 0), (1, 1)])
-			self.rr.AddHandswitch("PBSw15a", self, n, addr, [(1, 2), (1, 3)])
-			self.rr.AddHandswitch("PBSw15b", self, n, addr, [(1, 4), (1, 5)])
+			self.rr.AddHandswitch("PBSw5",   self, n, addr, [(1, 0), (1, 1)], "P41")
+			self.rr.AddHandswitch("PBSw15a", self, n, addr, [(1, 2), (1, 3)], "P42")
+			self.rr.AddHandswitch("PBSw15b", self, n, addr, [(1, 4), (1, 5)], "P42")
 
 			b = self.rr.AddBlock("P40",    self, n, addr, [(1, 6)], False)	
 			sbe = self.rr.AddBlock("P40.E",  self, n, addr, [(1, 7)], False)	
@@ -408,20 +408,20 @@ class Port(District):
 		hsname = hs.Name()
 		if hsname == "PBSw15ab":
 			hsa = self.rr.GetHandswitch("PBSw15a")
-			if hsa.Lock(state != 0):
+			if hsa.Unlock(state != 0):
 				self.rr.RailroadEvent(hsa.GetEventMessage(lock=True))
 				
 			hsb = self.rr.GetHandswitch("PBSw15b")
-			if hsb.Lock(state != 0):
+			if hsb.Unlock(state != 0):
 				self.rr.RailroadEvent(hsb.GetEventMessage(lock=True))
 
 	def SetHandswitch(self, hsname, state):
 		if hsname in ["PBSw15a", "PBSw15b"]:
 			hsa = self.rr.GetHandswitch("PBSw15a")
 			hsb = self.rr.GetHandswitch("PSw15b")
-			locked = hsa.IsLocked() or hsb.IsLocked()
+			unlocked = hsa.IsUnlocked() or hsb.IsUnlocked()
 			
 			hs = self.rr.GetHandswitch("PBSw15ab")
-			if hs.Lock(locked):
+			if hs.Unlock(unlocked):
 				hs.UpdateIndicators()
 

@@ -31,7 +31,7 @@ class Cliff (District):
 
 		bname = self.routeButtons[rtname]
 		btn = self.frame.buttons[bname]
-		self.PerformButtonAction(btn)
+		self.ButtonClick(btn)
 
 	def DetermineRoute(self, blocks):
 		self.FindTurnoutCombinations(blocks, [

@@ -114,8 +114,8 @@ class Latham(District):
 			self.rr.AddStopRelay("N25.srel", self, n, addr, [(4, 3)])
 			
 			# inputs
-			self.rr.AddHandswitch("LSw11", self, n, addr, [(0, 0), (0, 1)])
-			self.rr.AddHandswitch("LSw13", self, n, addr, [(0, 2), (0, 3)])
+			self.rr.AddHandswitch("LSw11", self, n, addr, [(0, 0), (0, 1)], "L11")
+			self.rr.AddHandswitch("LSw13", self, n, addr, [(0, 2), (0, 3)], "L31")
 			
 			self.rr.AddTurnoutPosition("LSw15", self, n, addr, [(0, 4), (0, 5)])
 			self.rr.AddTurnoutPosition("LSw17", self, n, addr, [(0, 6), (0, 7)])

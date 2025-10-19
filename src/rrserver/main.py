@@ -247,18 +247,18 @@ class ServerMain:
 			"fleet":		self.DoFleet,
 			"control":		self.DoControl,
 			
-			"settrain":		self.DoSetTrain,
-			"deletetrain":	self.DoDeleteTrain,
-			"renametrain":	self.DoRenameTrain,
-			"trainsignal":	self.DoTrainSignal,
-			"movetrain":	self.DoMoveTrain,
-			"removetrain":	self.DoRemoveTrain,
-			"traincomplete":		self.DoTrainComplete,
-			"trainblockorder":		self.DoTrainBlockOrder,
-			"assigntrain":  self.DoAssignTrain,
-			"checktrains":  self.DoCheckTrains,
+			# "settrain":		self.DoSetTrain,
+			# "deletetrain":	self.DoDeleteTrain,
+			# "renametrain":	self.DoRenameTrain,
+			# "trainsignal":	self.DoTrainSignal,
+			# "movetrain":	self.DoMoveTrain,
+			# "removetrain":	self.DoRemoveTrain,
+			# "traincomplete":		self.DoTrainComplete,
+			# "trainblockorder":		self.DoTrainBlockOrder,
+			# "assigntrain":  self.DoAssignTrain,
+			# "checktrains":  self.DoCheckTrains,
 			
-			"signal":   	self.DoSignal,
+			"signalclick":   	self.DoSignalClick,
 			# "signallock":	self.DoSignalLock,
 			"siglever":		self.DoSigLever,
 			# "sigleverled":	self.DoSigLeverLED,
@@ -280,12 +280,13 @@ class ServerMain:
 			"alert":		self.DoAlert,
 			"server":		self.DoServer,
 			
-			"autorouter":	self.DoAutorouter,
-			"ar":			self.DoAR,
-			"atc":			self.DoATC,
-			"atcstatus":	self.DoATCStatus,
+			# "autorouter":	self.DoAutorouter,
+			# "ar":			self.DoAR,
+			# "atc":			self.DoATC,
+			# "atcstatus":	self.DoATCStatus,
 
 			"debug":		self.DoDebug,
+			"debugflags":	self.DoDebugFlags,
 			"simulate": 	self.DoSimulate,
 			"dumptrains":	self.DoDumpTrains,
 			"ignore": 		self.DoIgnore,
@@ -384,37 +385,25 @@ class ServerMain:
 		if sl.SetLeverState(1 if state == "R" else 0, 0, 1 if state == 'L' else 0):
 			sl.UpdateLed()
 
-	def DoSignal(self, cmd):
+	def DoSignalClick(self, cmd):
 		try:
 			signame = cmd["name"][0]
 		except KeyError:
 			signame = None
 		try:
-			aspect = int(cmd["aspect"][0])
-		except KeyError:
-			aspect = None
-		try:
-			aspectType = int(cmd["aspecttype"][0])
-		except KeyError:
-			logging.info("Received signal command with no aspecttype - assuming regular aspects (%s)" % str(cmd))
-			aspectType = None
-		try:
 			callon = int(cmd["callon"][0]) == 1
 		except:
 			callon = False
-		try:
-			frozenaspect = int(cmd["frozenaspect"][0])
-		except:
-			frozenaspect=None
 
 		if signame is None:
 			logging.error("Signal command without name parameter")
 			return
 	
-		if aspectType is not None:
-			self.rr.SetAspect(signame, aspect, frozenaspect, callon, aspectType=aspectType)
-		else:
-			self.rr.SetAspect(signame, aspect, frozenaspect, callon)
+		# if aspectType is not None:
+		# 	self.rr.SetAspect(signame, aspect, frozenaspect, callon, aspectType=aspectType)
+		# else:
+		# 	self.rr.SetAspect(signame, aspect, frozenaspect, callon)
+		self.rr.SignalClick(signame, callon=callon)
 
 	def DoSignalLock(self, cmd):			
 		try:
@@ -435,20 +424,20 @@ class ServerMain:
 				
 	def DoTurnoutClick(self, cmd):
 		try:
-			swname = cmd["name"][0]
+			toname = cmd["name"][0]
 		except KeyError:
-			swname = None
+			toname = None
 
 		try:
 			status = cmd["status"][0]
 		except KeyError:
 			status = None
 
-		if swname is None or status is None:
+		if toname is None or status is None:
 			logging.error("turnout command without name and/or status paremeter")
 			return
 
-		self.rr.SetOutPulseTo(swname, status)
+		self.rr.TurnoutClick(toname, status)
 
 	def DoTurnoutLever(self, cmd):
 		p = {tag: cmd[tag][0] for tag in cmd if tag != "cmd"}
@@ -1164,7 +1153,28 @@ class ServerMain:
 		addrList = self.clientList.GetFunctionAddress(function)
 		for addr, skt in addrList:
 			self.socketServer.sendToOne(skt, addr, {"debug": cmd})
-			
+
+	def DoDebugFlags(self, cmd):
+		logging.debug("Got debugflags command: %s" % str(cmd))
+		try:
+			showaspectcalculation = int(cmd["showaspectcalculation"][0])
+			logging.debug("%s" % showaspectcalculation)
+		except (KeyError, IndexError, ValueError):
+			showaspectcalculation = 0
+
+		try:
+			blockoccupancy = int(cmd["blockoccupancy"][0])
+		except (KeyError, IndexError, ValueError):
+			blockoccupancy = 0
+		try:
+			identifytrain = int(cmd["identifytrain"][0])
+		except (KeyError, IndexError, ValueError):
+			identifytrain = 0
+
+		settings.debug.showaspectcalculation = showaspectcalculation > 0
+		settings.debug.blockoccupancy = blockoccupancy > 0
+		settings.debug.identifytrain = identifytrain > 0
+
 	def DoDumpTrains(self, cmd):
 		self.trainList.Dump()
 

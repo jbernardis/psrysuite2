@@ -58,7 +58,7 @@ class Cliff(District):
 			self.rr.AddRouteIn("CC10W", self, n, addr, [(0, 6)])	
 			self.rr.AddRouteIn("CG21W", self, n, addr, [(0, 7)])	
 			
-			self.rr.AddHandswitch("CSw3", self, n, addr, [(1, 0), (1, 1)])
+			self.rr.AddHandswitch("CSw3", self, n, addr, [(1, 0), (1, 1)], "C30")
 
 			self.rr.AddBlock("C11", self, n, addr, [(1, 2)], True)
 			self.rr.AddBlock("COSGMW", self, n, addr, [(1, 3)], True)
@@ -315,13 +315,13 @@ class Cliff(District):
 			"CC21E": [["CSw43", "R"], ["CSw45", "R"], ["CSw47", "R"], ["CSw51", "R"], ["CSw63", "R"]],
 			"CC50E": [["CSw43", "R"], ["CSw45", "R"], ["CSw47", "R"], ["CSw51", "R"], ["CSw63", "N"], ["CSw65", "R"]],
 			"CC51E": [["CSw43", "R"], ["CSw45", "R"], ["CSw47", "R"], ["CSw51", "R"], ["CSw63", "N"], ["CSw65", "N"],
-					  ["CSw67", "R"], ["CSw69", "N"]],
+						["CSw67", "R"], ["CSw69", "N"]],
 			"CC52E": [["CSw43", "R"], ["CSw45", "R"], ["CSw47", "R"], ["CSw51", "R"], ["CSw63", "N"], ["CSw65", "N"],
-					  ["CSw67", "R"], ["CSw69", "R"]],
+						["CSw67", "R"], ["CSw69", "R"]],
 			"CC53E": [["CSw43", "R"], ["CSw45", "R"], ["CSw47", "R"], ["CSw51", "R"], ["CSw63", "N"], ["CSw65", "N"],
-					  ["CSw67", "N"], ["CSw71", "R"]],
+						["CSw67", "N"], ["CSw71", "R"]],
 			"CC54E": [["CSw43", "R"], ["CSw45", "R"], ["CSw47", "R"], ["CSw51", "R"], ["CSw63", "N"], ["CSw65", "N"],
-					  ["CSw67", "N"], ["CSw71", "N"]],
+						["CSw67", "N"], ["CSw71", "N"]],
 
 			"CC44W": [["CSw57", "N"], ["CSw53", "R"], ["CSw55", "R"], ["CSw59", "N"], ["CSw61", "R"]],
 			"CC43W": [["CSw57", "R"], ["CSw53", "N"], ["CSw55", "R"], ["CSw59", "N"], ["CSw61", "R"]],
@@ -331,13 +331,13 @@ class Cliff(District):
 			"CC21W": [["CSw55", "N"], ["CSw61", "N"], ["CSw53", "R"], ["CSw73", "N"]],
 			"CC50W": [["CSw55", "N"], ["CSw61", "N"], ["CSw53", "N"], ["CSw73", "R"], ["CSw75", "R"]],
 			"CC51W": [["CSw55", "N"], ["CSw61", "N"], ["CSw53", "N"], ["CSw73", "R"], ["CSw75", "N"], ["CSw77", "R"],
-					  ["CSw79", "N"]],
+						["CSw79", "N"]],
 			"CC52W": [["CSw55", "N"], ["CSw61", "N"], ["CSw53", "N"], ["CSw73", "R"], ["CSw75", "N"], ["CSw77", "R"],
-					  ["CSw79", "R"]],
+						["CSw79", "R"]],
 			"CC53W": [["CSw55", "N"], ["CSw61", "N"], ["CSw53", "N"], ["CSw73", "R"], ["CSw75", "N"], ["CSw77", "N"],
-					  ["CSw79", "N"], ["CSw81", "R"]],
+						 ["CSw79", "N"], ["CSw81", "R"]],
 			"CC54W": [["CSw55", "N"], ["CSw61", "N"], ["CSw53", "N"], ["CSw73", "R"], ["CSw75", "N"], ["CSw77", "N"],
-					  ["CSw79", "R"], ["CSw81", "N"]],
+						["CSw79", "R"], ["CSw81", "N"]],
 		}
 
 		self.routeOSMap = {
@@ -390,6 +390,9 @@ class Cliff(District):
 			"CC44W", "CC43W", "CC42W", "CC41W", "CC40W", "CC21W", "CC50W", "CC51W", "CC52W", "CC53W", "CC54W",
 		]
 
+	def Locale(self):
+		return "cliff"
+
 	def PressButton(self, btn):
 		self.rr.SetRouteIn(btn.Name())
 		
@@ -428,6 +431,15 @@ class Cliff(District):
 		except KeyError:
 			return None
 
+		# make sure all of the turnouts we need are available
+		for toName, _ in tolist:
+			tout = self.rr.GetTurnout(toName)
+			if not tout:
+				return None
+			if tout.IsLocked() or tout.IsDisabled():
+				self.rr.Alert("Route %s not allowed" % rtNm)
+				return None
+
 		for toName, state in tolist:
 			tout = self.rr.GetTurnout(toName)
 			if tout:
@@ -459,11 +471,11 @@ class Cliff(District):
 		hsname = hs.Name()
 		if hsname == "CSw21ab":
 			hsa = self.rr.GetHandswitch("CSw21a")
-			if hsa.Lock(state != 0):
+			if hsa.Unlock(state != 0):
 				self.rr.RailroadEvent(hsa.GetEventMessage(lock=True))
 				
 			hsb = self.rr.GetHandswitch("CSw21b")
-			if hsb.Lock(state != 0):
+			if hsb.Unlock(state != 0):
 				self.rr.RailroadEvent(hsb.GetEventMessage(lock=True))
 
 	def UpdateControlOption(self):
@@ -471,7 +483,6 @@ class Cliff(District):
 		self.control = self.rr.GetControlOption("cliff")  # 0 => Cliff, 1 => Dispatcher bank/cliveden, 2 => Dispatcher All
 
 	def OutIn(self):
-		self.UpdateControlOption()
 		if self.control in [ 0, 1 ]:
 			optFleet = self.nodes[CLIFF].GetInputBit(5, 1)
 			if self.control == 1:
@@ -537,4 +548,13 @@ class Cliff(District):
 			else:
 				resumelist= []
 
+		self.lastControl = self.control
 		return skiplist, resumelist
+
+	def ControlRestrictedMessage(self):
+		if self.control == 0:
+			return "Control is Local"
+		elif self.control == 1:
+			return "Dispatcher controls main Bank/Cliveden"
+		else:
+			return "Dispatcher controls Cliff Tower"

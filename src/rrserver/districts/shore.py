@@ -81,7 +81,7 @@ class Shore(District):
 			self.rr.AddOutputDevice("SXG", self, n, SHORE, [(6, 5)]) # bortell crossing gate
 
 			#inputs	
-			self.rr.AddHandswitch("SSw1",  self, n, SHORE, [(0, 0), (0, 1)])
+			self.rr.AddHandswitch("SSw1",  self, n, SHORE, [(0, 0), (0, 1)], "S10")
 			self.rr.AddTurnoutPosition("SSw3",  self, n, SHORE, [(0, 2), (0, 3)])
 			self.rr.AddTurnoutPosition("SSw5",  self, n, SHORE, [(0, 4), (0, 5)])
 			self.rr.AddTurnoutPosition("SSw7",  self, n, SHORE, [(0, 6), (0, 7)])
@@ -129,7 +129,7 @@ class Shore(District):
 			self.rr.AddBlock("F11",    self, n, SHORE, [(4, 0)], False) 
 			# 		SXON  = SIn[4].bit.b1;	//Crossing gate off normal - no londer needed
 
-			self.rr.AddHandswitch("CSw15", self, n, SHORE, [(4, 2), (4, 3)])
+			self.rr.AddHandswitch("CSw15", self, n, SHORE, [(4, 2), (4, 3)], "C13")
 
 		with self.nodes[HYDEJCT] as n:
 			#outputs
@@ -180,6 +180,44 @@ class Shore(District):
 			changes.append(["SSw5", not s3])
 			changes.append(["SSw5b", not s3])
 		return changes
+
+	def SignalClick(self, sig, callon):
+		if not callon:
+			signm = sig.Name()
+			aspect = sig.Aspect()
+			if signm in ["S8L", "S8R"]:
+				if aspect != 0:
+					return True
+
+				if self.rr.osblocks["SOSE"].IsBusy() or self.rr.osblocks["SOSW"].IsBusy():
+					self.rr.Alert("Main line is busy")
+					return False
+				osblk = self.rr.osblocks["SOSHF"]
+				east = signm == "S8R"
+				osblk.SetEast(east)
+				osblk.SetActiveRoute(self.rr.routes["SRtF10F11"])
+
+				if osblk.IsBusy():
+					self.rr.Alert("Already cleared in the opposite direction")
+					return False
+
+				exitBlkName = "F11" if east else "F10"
+				exitBlk = self.rr.blocks[exitBlkName]
+				entryBlk = self.rr.blocks["F10" if east else "F11"]
+				if exitBlk.IsOccupied():
+					self.rr.Alert("Exit block %s is occupied" % exitBlkName)
+					return False
+
+				exitBlk.SetEast(east)
+				entryBlk.SetEast(east)
+				return True
+
+			elif signm in ["S12R", "S12LA", "S12LB", "S12LC", "S4R", "S4LA", "S4LB", "S4LC"]:
+				if self.rr.osblocks["SOSHF"].IsBusy():
+					self.rr.Alert("Branch line is busy")
+					return False
+
+		return True
 
 	def OutIn(self):
 		# determine whether or not the bortell gate should be activated

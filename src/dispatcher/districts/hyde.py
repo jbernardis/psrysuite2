@@ -32,7 +32,7 @@ class Hyde (District):
 			"HSw1", "HSw3", "HSw5", "HSw7", "HSw9", "HSw11", "HSw13", "HSw15",
 			"HSw17", "HSw19", "HSw21", "HSw23", "HSw25", "HSw27", "HSw29"])
 
-	def PerformButtonAction(self, btn):
+	def ButtonClick(self, btn):
 		bname = btn.GetName()
 		if bname in ["HydeEastPower", "HydeWestPower", "H30Power"]:
 			onFlag = self.buttons[bname].IsOn()
@@ -44,7 +44,6 @@ class Hyde (District):
 		rte = self.routes[rtname]
 		tolist = rte.GetSetTurnouts()
 		osBlk = rte.GetOS()
-		# osname = osBlk.GetName()
 		if osBlk.IsBusy():
 			self.ReportBlockBusy(osBlk.GetRouteDesignator())
 			return

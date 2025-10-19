@@ -60,14 +60,14 @@ class Cliveden (District):
 		
 		District.SetUpRoute(self, osblk, route)
 
-	def PerformTurnoutAction(self, turnout, force=False):
+	def TurnoutClick(self, turnout, force=False):
 		toname = turnout.GetName()
 		controlOpt = self.frame.cliffControl
 		if (controlOpt == 1 and toname != "CSw13") or controlOpt == 0:
 			self.frame.PopupEvent("Cliveden control is local")
 			return
 
-		District.PerformTurnoutAction(self, turnout, force=force)
+		District.TurnoutClick(self, turnout, force=force)
 
 	def PerformSignalAction(self, sig, callon=False, silent=False):
 		signame = sig.GetName()

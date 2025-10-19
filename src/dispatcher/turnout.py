@@ -22,15 +22,11 @@ class Turnout:
 		self.blockList = []
 		self.containingBlock = None
 		self.locked = False
-		self.lockedBy = []
 		if pos is None:
 			self.disabled = True
 
 	def IsLocked(self):
 		return self.locked
-	
-	def GetLockedBy(self):
-		return self.lockedBy
 
 	def IsDisabled(self):
 		return self.disabled
@@ -41,50 +37,18 @@ class Turnout:
 	def GetContainingBlock(self):
 		return self.containingBlock
 
-	def SetLock(self, flag, locker, refresh=False):
-		if flag:
-			if locker not in self.lockedBy:
-				self.lockedBy.append(locker)
-				self.locked = True
-				rc = True
-			else:
-				rc = False
-		else:
-			if locker not in self.lockedBy:
-				rc = False
-			else:
-				self.lockedBy.remove(locker)
-				if len(self.lockedBy) == 0:
-					self.locked = False
-					rc = True
-				else:
-					rc = False
-		if refresh:
-			self.Draw()
-
-		return rc
-
-	def ClearLock(self, locker, refresh=False, forward=True):
-		if locker not in self.lockedBy:
+	def SetLock(self, flag, refresh=False):
+		if self.locked == flag:
 			return False
 
-		self.lockedBy.remove(locker)
-		if self.locked and len(self.lockedBy) == 0:
-			self.locked = False
-		if forward:
-			self.frame.Request({"turnoutlock": { "name": self.name, "status": 0, "locker": locker}})
+		self.locked = flag
 		if refresh:
 			self.Draw()
+
 		return True
 
-	def ClearLocks(self, refresh=False, forward=True):
-		self.lockedBy = []
-		if self.locked:
-			self.locked = False
-		if forward:
-			self.frame.Request({"turnoutlock": { "name": self.name, "status": 0}})
-		if refresh:
-			self.Draw()
+	def ClearLock(self, refresh=False):
+		return self.SetLock(False, refresh)
 
 	def GetType(self):
 		return self.ttype
@@ -308,17 +272,12 @@ class SlipSwitch(Turnout):
 	def GetStatus(self):
 		return self.status
 
-	def Draw(self, blkStat=None, east=None, unknownTrain=False):
+	def Draw(self, blkStat=None, east=None):
 		if blkStat is None:
 			blkStat = self.statusFromBlock
 
 		logging.debug("slip %s draw, blkstat = %s, turnout status = %s" % (self.name, blkStat, str(self.status)))
 			
-		if self.containingBlock is not None and blkStat == OCCUPIED:
-			unknownTrain = self.containingBlock.HasUnknownTrain()
-		else:
-			unknownTrain = False
-
-		bmp = self.tiles.getBmp(self.status, blkStat, self.routeControlled or self.disabled or self.locked, unknownTrain=unknownTrain)
+		bmp = self.tiles.getBmp(self.status, blkStat, self.routeControlled or self.disabled or self.locked)
 		self.frame.DrawTile(self.screen, self.pos, bmp)
 		self.statusFromBlock = blkStat

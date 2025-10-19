@@ -54,13 +54,16 @@ def turnoutstate(st, short=False):
 
 
 def statusname(status):
-	if status == EMPTY:
+	if status == "E":
 		return "EMPTY"
-	
-	elif status == "OCCUPIED":
+
+	elif status == "O":
 		return "OCCUPIED"
-	
-	elif status == CLEARED:
+
+	elif status == "U":
+		return "OCCUPIED UNKNOWN"
+
+	elif status == "C":
 		return "CLEARED"
 	
 	else:

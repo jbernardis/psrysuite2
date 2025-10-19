@@ -19,12 +19,14 @@ class Route:
 		self.rtype = [x for x in rtype]
 		self.turnouts = [x.split(":") for x in turnouts]
 		self.signals = [x for x in signals]
+		if self.name.startswith("D"):
+			logging.debug("Defining D route, ends = %s %s" % (blkin, blkout))
 
 	def GetDefinition(self):
 		msg = {
 			self.name: {
 				"os":   self.osblk.GetName(),
-				"ends": ["-" if self.blkin is None else self.blkin, "" if self.blkout is None else self.blkout],
+				"ends": ["-" if self.blkin is None else self.blkin, "-" if self.blkout is None else self.blkout],
 				"signals":
 					[x for x in self.signals],
 				"turnouts":
@@ -32,6 +34,8 @@ class Route:
 				"type": self.rtype
 			}
 		}
+		if self.name.startswith("D"):
+			logging.debug("Definition for route %s: %s" % (self.name, str(msg)))
 		return msg
 
 	def GetName(self):
@@ -130,7 +134,6 @@ class Block:
 		self.defaultEast = east
 		self.status = "E"
 		self.cleared = False
-		self.unknownTrain = False
 		self.cleared = False
 		self.turnouts = []
 		self.handswitches = []
@@ -153,10 +156,6 @@ class Block:
 
 	def SetTrain(self, train):
 		self.train = train
-		if train is None:
-			self.unknownTrain = False
-		else:
-			self.unknownTrain = train.GetName().startswith("??")
 
 	def SetEntrySignal(self, esig):
 		self.entrySignal = esig
@@ -231,7 +230,7 @@ class Block:
 		return False
 		
 	def HasUnknownTrain(self):
-		return self.unknownTrain
+		return self.status == "U"
 
 	def DrawTrain(self, hilite=False):
 		if len(self.trainLoc) == 0:

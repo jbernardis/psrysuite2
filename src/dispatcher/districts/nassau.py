@@ -155,7 +155,14 @@ class Nassau (District):
 
 			lv = [1 if x else 0 for x in lock]
 			self.frame.Request({"districtlock": {"name": "NESL", "value": lv}})
-			self.NELocks = [x for x in lock]
+
+	def DoDistrictLocks(self, lname, lvalue):
+		if lname == "NWSL":
+			self.NWLocks = [x for x in lvalue]
+			for i in range(len(self.NWLocks)):
+				self.wlocks[i].TurnOn(flag=not self.NWLocks[i], refresh=True)
+		elif lname == "NESL":
+			self.NELocks = [x for x in lvalue]
 			for i in range(len(self.NELocks)):
 				self.elocks[i].TurnOn(flag=not self.NELocks[i], refresh=True)
 
@@ -198,7 +205,7 @@ class Nassau (District):
 			
 		return False		
 
-	def PerformButtonAction(self, btn):
+	def ButtonClick(self, btn):
 		controlOpt = self.frame.nassauControl
 		if controlOpt == 0:  # nassau local control
 			btn.Press(refresh=False)
@@ -217,7 +224,7 @@ class Nassau (District):
 			self.frame.PopupEvent("Nassau control is main only")
 			return
 
-		District.PerformButtonAction(self, btn)
+		District.ButtonClick(self, btn)
 		if bname in self.eastGroup["NOSW"] + self.westGroup["NOSW"]:
 			self.DoEntryExitButtons(btn, "NOSW", sendButtons=True)
 		elif bname in self.eastGroup["NOSE"] + self.westGroup["NOSE"]:
@@ -298,34 +305,29 @@ class Nassau (District):
 		if turnout.GetType() == SLIPSWITCH:
 			if tn == "NSw29":
 				bstat = "N" if self.turnouts["NSw27"].IsNormal() else "R"
-				# state = turnout.GetStatus()[0]
 				turnout.SetStatus([bstat, state])
 				turnout.Draw()
 			elif tn == "NSw31":
 				bstat = "N" if self.turnouts["NSw29"].IsNormal() else "R"
-				# state = turnout.GetStatus()[0]
 				turnout.SetStatus([bstat, state])
 				turnout.Draw()
 			elif tn == "NSw23":
 				bstat = "N" if self.turnouts["NSw21"].IsNormal() else "R"
-				# state = turnout.GetStatus()[0]
 				turnout.SetStatus([bstat, state])
 				turnout.Draw()
 			elif tn == "NSw43":
 				bstat = "N" if self.turnouts["NSw45"].IsNormal() else "R"
-				# state = turnout.GetStatus()[0]
 				turnout.SetStatus([state, bstat])
 				turnout.Draw()
 			elif tn == "NSw45":
 				bstat = "N" if self.turnouts["NSw47"].IsNormal() else "R"
-				# state = turnout.GetStatus()[0]
 				turnout.SetStatus([state, bstat])
 				turnout.Draw()
 
 		else:
 			reClearN60 = False
 			updBlk = None
-			if tn in ["NSw13", "NSw15", "NSw17"]:  # Coach Yard - update display
+			if tn in ["NSw13", "NSw15", "NSw17"]:
 				updBlk = self.blocks["N60"]
 				if updBlk.IsCleared():
 					# temporarily remove the clearance from this block so it can 
@@ -333,17 +335,24 @@ class Nassau (District):
 					updBlk.SetCleared(False, False)
 					reClearN60 = True
 					for t, screen, pos, _ in updBlk.GetTiles():
-						bmp = t.getBmp(EMPTY, False, False)
+						bmp = t.getBmp("E", False, False)
 						self.frame.DrawTile(screen, pos, bmp)
 
-				self.turnouts["NSw13"].Draw(blockstat=EMPTY, east=False)
-				self.turnouts["NSw15"].Draw(blockstat=EMPTY, east=False)
-				self.turnouts["NSw17"].Draw(blockstat=EMPTY, east=False)
+				self.turnouts["NSw13"].Draw(blockstat="E", east=False)
+				self.turnouts["NSw15"].Draw(blockstat="E", east=False)
+				self.turnouts["NSw17"].Draw(blockstat="E", east=False)
 
 			District.DoTurnoutAction(self, turnout, state, force=force)
+			block = self.blocks["N60"]
+			rte = self.GetCoachYardRoute()
+			if rte is None:
+				block.SetRoute(None)
+			elif block.GetRouteName() != rte:
+				block.SetRoute(self.routes[rte])
+
 			if reClearN60:
 				# we removed the cleared status from N60 because a switch not under
-				# our control was changed under the clearance.  Re-clear the block				
+				# our control was changed under the clearance.  Re-clear the block
 				updBlk.SetCleared(True, True)
 
 		if tn == "RSw1":
@@ -1155,6 +1164,9 @@ class Nassau (District):
 			b.TurnOn(flag=True, refresh=True)
 
 		return self.buttons
+
+	def DefineDistrictLocks(self):
+		return {"NWSL": self, "NESL": self}
 	
 	def DefineSignals(self):
 		self.signals = {}

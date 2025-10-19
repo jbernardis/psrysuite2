@@ -118,6 +118,7 @@ class InspectDlg(wx.Dialog):
         rc = dlg.ShowModal()
         if rc == wx.ID_OK:
             dlg.ApplyResults()
+            self.parent.SendDebugFlags()
         dlg.Destroy()
 
     def OnBProxies(self, _):

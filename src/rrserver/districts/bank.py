@@ -46,9 +46,9 @@ class Bank(District):
 			
 			#inputs
 			self.rr.AddTurnoutPosition("CSw23",  self, n, addr, [(0, 0), (0, 1)])
-			self.rr.AddHandswitch("CSw21a", self, n, addr, [(0, 2), (0, 3)])
-			self.rr.AddHandswitch("CSw21b", self, n, addr, [(0, 4), (0, 5)])
-			self.rr.AddHandswitch("CSw19",  self, n, addr, [(0, 6), (0, 7)])
+			self.rr.AddHandswitch("CSw21a", self, n, addr, [(0, 2), (0, 3)], "B11")
+			self.rr.AddHandswitch("CSw21b", self, n, addr, [(0, 4), (0, 5)], "B11")
+			self.rr.AddHandswitch("CSw19",  self, n, addr, [(0, 6), (0, 7)], "B21")
 			self.rr.AddTurnoutPosition("CSw17",  self, n, addr, [(1, 0), (1, 1)])
 				
 			self.rr.AddBlock("B20",   self, n, addr, [(1, 2)], True)
@@ -89,4 +89,6 @@ class Bank(District):
 			hs = self.rr.GetHandswitch("CSw21ab")
 			if hs.Lock(locked):
 				hs.UpdateIndicators()
-				
+
+	def Locale(self):
+		return "cliff"

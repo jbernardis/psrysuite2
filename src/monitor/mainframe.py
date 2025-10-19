@@ -121,6 +121,7 @@ class MainFrame(wx.Frame):
 		self.routesInList = []
 		self.riFamilies = {}
 		self.sigLvrList = []
+		self.hsUnlock = []
 
 		self.rrServer = None
 		self.delayedRequests = None
@@ -302,27 +303,50 @@ class MainFrame(wx.Frame):
 			
 			vsz.AddSpacer(20)
 
-		if self.settings.rrserver.simulation:			
+		if self.settings.rrserver.simulation:
 			hsz = wx.BoxSizer(wx.HORIZONTAL)
 			hsz.AddSpacer(20)
-			
+
 			self.bTurnoutPos = wx.Button(self, wx.ID_ANY, "TurnoutPos", size=(100, 46))
 			self.Bind(wx.EVT_BUTTON, self.OnTurnoutPos, self.bTurnoutPos)
 			hsz.Add(self.bTurnoutPos)
-			
+
 			hsz.AddSpacer(20)
 			self.chTurnout = wx.Choice(self, wx.ID_ANY, choices=[])
 			hsz.Add(self.chTurnout, 0, wx.TOP, 10)
 			self.chTurnout.SetSelection(wx.NOT_FOUND)
-			
+
 			hsz.AddSpacer(20)
 			self.cbNormal = wx.CheckBox(self, wx.ID_ANY, "Normal")
 			hsz.Add(self.cbNormal, 0, wx.TOP, 15)
-			
+
 			hsz.AddSpacer(20)
-			
+
 			vsz.Add(hsz)
-			
+
+			vsz.AddSpacer(20)
+
+		if self.settings.rrserver.simulation:
+			hsz = wx.BoxSizer(wx.HORIZONTAL)
+			hsz.AddSpacer(20)
+
+			self.bHSUnlock = wx.Button(self, wx.ID_ANY, "Hand Switch\nUnlock", size=(100, 46))
+			self.Bind(wx.EVT_BUTTON, self.OnHSUnlock, self.bHSUnlock)
+			hsz.Add(self.bHSUnlock)
+
+			hsz.AddSpacer(20)
+			self.chHSUnlock = wx.Choice(self, wx.ID_ANY, choices=[])
+			hsz.Add(self.chHSUnlock, 0, wx.TOP, 10)
+			self.chHSUnlock.SetSelection(wx.NOT_FOUND)
+
+			hsz.AddSpacer(20)
+			self.cbHSUnlock = wx.CheckBox(self, wx.ID_ANY, "Unlock")
+			hsz.Add(self.cbHSUnlock, 0, wx.TOP, 15)
+
+			hsz.AddSpacer(20)
+
+			vsz.Add(hsz)
+
 			vsz.AddSpacer(20)
 
 		if self.settings.rrserver.simulation:
@@ -626,6 +650,7 @@ class MainFrame(wx.Frame):
 			self.bClearAll.Enable(flag)
 			self.bQuit.Enable(flag)
 			self.bTurnoutPos.Enable(flag)
+			self.bHSUnlock.Enable(flag)
 			self.bSetInputBit.Enable(flag)
 			self.bMatrix.Enable(flag)
 			self.bRoutesIn.Enable(flag)
@@ -963,6 +988,28 @@ class MainFrame(wx.Frame):
 		for s in script:
 			self.Request(s)
 
+	def OnHSUnlock(self, _):
+		hsx = self.chHSUnlock.GetSelection()
+		if hsx == wx.NOT_FOUND:
+			return
+
+		hsName = self.chHSUnlock.GetString(hsx)
+		try:
+			hsi = self.iobits["handswitches"][hsName]["unlock"]
+		except KeyError:
+			hsi = None
+		unlock = self.cbHSUnlock.IsChecked()
+
+		if hsi is not None:
+			byte = hsi[0][0][0]
+			bit = hsi[0][0][1]
+			nodeaddress = hsi[1]
+
+			req = {"setinbit": {"address": "0x%x" % nodeaddress, "byte": [byte], "bit": [bit],
+								"value": [1 if unlock else 0]}}
+
+			self.Request(req)
+
 	def OnTurnoutPos(self, _):
 		chx = self.chTurnout.GetSelection()
 		if chx == wx.NOT_FOUND:
@@ -976,16 +1023,24 @@ class MainFrame(wx.Frame):
 			valN = 0
 			valR = 1
 
-		ti = self.iobits["turnouts"][tname]["position"]
-		byteN = ti[0][0][0]
-		bitN  = ti[0][0][1]
-		byteR = ti[0][1][0]
-		bitR  = ti[0][1][1]
-		nodeaddress = ti[1]
+		try:
+			ti = self.iobits["turnouts"][tname]["position"]
+		except KeyError:
+			try:
+				ti = self.iobits["handswitches"][tname]["position"]
+			except KeyError:
+					ti = None
 
-		req = {"setinbit": {"address": "0x%x" % nodeaddress, "byte": [byteN, byteR], "bit": [bitN, bitR], "value": [valN, valR]}}
+		if ti is not None:
+			byteN = ti[0][0][0]
+			bitN  = ti[0][0][1]
+			byteR = ti[0][1][0]
+			bitR  = ti[0][1][1]
+			nodeaddress = ti[1]
 
-		self.Request(req)
+			req = {"setinbit": {"address": "0x%x" % nodeaddress, "byte": [byteN, byteR], "bit": [bitN, bitR], "value": [valN, valR]}}
+
+			self.Request(req)
 
 	def OnRoutesIn(self, _):
 		chx = self.chRoutesIn.GetSelection()
@@ -1128,11 +1183,13 @@ class MainFrame(wx.Frame):
 
 		req = {"setinbit": {"address": "0x%x" % addr, "byte": bytes, "bit": bits, "value": vals}}
 		self.Request(req)
-		
-	def OnSigLvrShow(self, _):
-		pass
 
-	def SigLvrShow(self):
+	def RetrieveSigLevers(self):
+		siglvrs = self.rrServer.Get("getsiglevers", {})
+		print(json.dumps(siglvrs, indent=2), flush=True)
+		return siglvrs
+
+	def OnSigLvrShow(self, _):
 		if self.dlgSigLvrs is None:
 			self.dlgSigLvrs = SigLeverShowDlg(self, self.CloseSigLvrShow)
 			self.dlgSigLvrs.Show()
@@ -1634,7 +1691,7 @@ class MainFrame(wx.Frame):
 		if self.connected:
 			self.blockOsMap = BlockOSMap(self.rrServer)
 
-		if self.settings.rrserver.simulation:			
+		if self.settings.rrserver.simulation:
 			b = self.iobits["blocks"]
 			
 			bl = [bn for bn in b.keys()]
@@ -1644,8 +1701,11 @@ class MainFrame(wx.Frame):
 			self.chBlock.SetSelection(0)
 	
 			t = self.iobits["turnouts"]
-
 			tl = [tn for tn in t.keys() if t[tn]["position"] is not None]
+
+			hs = self.iobits["handswitches"]
+			hsl = [hsn for hsn in hs.keys() if hsn not in ["CSw21ab", "PBSw15ab"]]
+			tl = tl + hsl
 
 			self.turnoutList = sorted(tl, key=self.BuildTurnoutKey)
 			self.chTurnout.SetItems(self.turnoutList)
@@ -1668,6 +1728,12 @@ class MainFrame(wx.Frame):
 			self.sigLvrList = sorted(list(sl.keys()))
 			self.chSigLvr.SetItems(self.sigLvrList)
 			self.chSigLvr.SetSelection(0)
+
+			hs = self.iobits["handswitches"]
+			hsl = [hsn for hsn in hs.keys() if len(self.iobits["handswitches"][hsn]["unlock"]) > 0]
+			self.hsUnlock = sorted(hsl, key=self.BuildTurnoutKey)
+			self.chHSUnlock.SetItems(self.hsUnlock)
+			self.chHSUnlock.SetSelection(0)
 
 			if self.connected:
 				self.ClearAllBreakers()
@@ -1709,13 +1775,21 @@ class MainFrame(wx.Frame):
 		nm, nbr = z.groups()
 		return "%s%03d" % (nm, int(nbr))
 
-	def BuildTurnoutKey(self, tonm):
-		z = re.match("([A-Za-z]+)([0-9]+)", tonm)
-		if z is None or len(z.groups()) != 2:
+	@staticmethod
+	def BuildTurnoutKey(tonm):
+		z = re.match("([A-Za-z]+)([0-9]+)(.*)", tonm)
+		if z is None:
 			return tonm
 
-		nm, nbr = z.groups()
-		return "%s%03d" % (nm, int(nbr))
+		if len(z.groups()) == 2:
+			nm, nbr = z.groups()
+			return "%s%03d" % (nm, int(nbr))
+
+		elif len(z.groups()) == 3:
+			nm, nbr, sfx = z.groups()
+			return "%s%03d%s" % (nm, int(nbr), sfx)
+
+		return None
 
 	def Request(self, req):
 		if self.connected:

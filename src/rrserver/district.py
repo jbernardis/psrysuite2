@@ -13,6 +13,9 @@ class District:
 		
 	def Name(self):
 		return self.name
+
+	def Locale(self):
+		return None
 				
 	def OutIn(self):
 		for nd in self.nodes.values():
@@ -22,8 +25,14 @@ class District:
 		print("in default checkswitchlocks")
 		return []
 
-	def ControlRestricted(self):
+	def EvaluateDistrictLocks(self, sig, ossLocks=None):
+		pass
+
+	def ControlRestrictedMessage(self):
 		return "Control is Restricted"
+
+	def ControlRestrictedSignal(self, sig):
+		return False
 
 	def MapLeverToSignals(self, lever):
 		return [], []
@@ -75,6 +84,9 @@ class District:
 	
 	def VerifyAspect(self, signame, aspect):
 		return aspect
+
+	def SignalClick(self, sig, callon):
+		return True
 			
 	def setBus(self, bus):
 		self.rrBus = bus

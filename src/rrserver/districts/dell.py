@@ -54,7 +54,7 @@ class Dell(District):
 			self.rr.AddTurnoutPosition("DSw5", self, n, DELL, [(0, 4), (0, 5)])
 			self.rr.AddTurnoutPosition("DSw7", self, n, DELL, [(0, 6), (0, 7)])
 
-			self.rr.AddHandswitch("DSw9", self, n, DELL, [(1, 0), (1, 1)])
+			self.rr.AddHandswitch("DSw9", self, n, DELL, [(1, 0), (1, 1)], "D21")
 			self.rr.AddTurnoutPosition("DSw11", self, n, DELL, [(1, 2), (1, 3)])
 			self.rr.AddBlock("D20",      self, n, DELL, [(1, 4)], True) 
 			self.rr.AddBlock("D20.E",    self, n, DELL, [(1, 5)], True) 

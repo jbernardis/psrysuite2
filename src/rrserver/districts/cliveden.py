@@ -39,7 +39,7 @@ class Cliveden(District):
 			# Inputs
 			self.rr.AddTurnoutPosition("CSw13", self, n, addr, [(0, 2), (0, 3)])
 			
-			self.rr.AddHandswitch("CSw11", self, n, addr, [(0, 4), (0, 5)])
+			self.rr.AddHandswitch("CSw11", self, n, addr, [(0, 4), (0, 5)], "C23")
 			
 			self.rr.AddTurnoutPosition("CSw9",  self, n, addr, [(0, 6), (0, 7)])
 
@@ -90,9 +90,6 @@ class Cliveden(District):
 					cbrkr.UpdateIndicators()
 					# if we change the state of the breaker, notify everyone
 					self.rr.RailroadEvent(cbrkr.GetEventMessage())
-			
-			
-			
-			
-			
-			
+
+	def Locale(self):
+		return "cliff"

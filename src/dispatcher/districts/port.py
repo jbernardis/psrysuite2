@@ -124,7 +124,6 @@ class Port (District):
 			self.drawCrossover(block)
 
 	def drawCrossover(self, block):
-		unk = False if block is None else block.HasUnknownTrain()
 		s9 = "N" if self.sw9.IsNormal() else "R"
 		s3 = "N" if self.sw3.IsNormal() else "R"
 
@@ -133,10 +132,11 @@ class Port (District):
 		elif s3 == "R":
 			blkstat = self.sw3.GetBlockStatus()
 		else:
-			blkstat = EMPTY
+			blkstat = "E"
 
 		bmp = "diagright" if s9 == "R" else "diagleft" if s3 == "R" else "cross"
-		bmp = self.misctiles["crossover"].getBmp(blkstat, bmp, unknownTrain=unk)
+
+		bmp = self.misctiles["crossover"].getBmp(blkstat, bmp)
 		self.frame.DrawTile(self.screen, (104, 29), bmp)
 
 	def DetermineRoute(self, blocks):
@@ -144,15 +144,15 @@ class Port (District):
 		s3 = 'N' if self.turnouts["PBSw3"].IsNormal() else 'R'
 		s11 = 'N' if self.turnouts["PBSw11"].IsNormal() else 'R'
 		s13 = 'N' if self.turnouts["PBSw13"].IsNormal() else 'R'
-		self.turnouts["PBSw11"].SetLock(s13 == 'R', "PBSw13", refresh=True)
-		self.turnouts["PBSw11b"].SetLock(s13 == 'R', "PBSw13", refresh=True)
-		self.turnouts["PBSw13"].SetLock(s11 == 'R', "PBSw11", refresh=True)
-		self.turnouts["PBSw13b"].SetLock(s11 == 'R', "PBSw11", refresh=True)
+		self.turnouts["PBSw11"].SetLock(s13 == 'R', refresh=True)
+		self.turnouts["PBSw11b"].SetLock(s13 == 'R', refresh=True)
+		self.turnouts["PBSw13"].SetLock(s11 == 'R', refresh=True)
+		self.turnouts["PBSw13b"].SetLock(s11 == 'R', refresh=True)
 
-		self.turnouts["PBSw1"].SetLock(s3 == 'R', "PBSw3", refresh=True)
-		self.turnouts["PBSw1b"].SetLock(s3 == 'R', "PBSw3", refresh=True)
-		self.turnouts["PBSw3"].SetLock(s1 == 'R', "PBSw1", refresh=True)
-		self.turnouts["PBSw3b"].SetLock(s1 == 'R', "PBSw1", refresh=True)
+		self.turnouts["PBSw1"].SetLock(s3 == 'R', refresh=True)
+		self.turnouts["PBSw1b"].SetLock(s3 == 'R', refresh=True)
+		self.turnouts["PBSw3"].SetLock(s1 == 'R', refresh=True)
+		self.turnouts["PBSw3b"].SetLock(s1 == 'R', refresh=True)
 
 		self.FindTurnoutCombinations(blocks, [
 			"PBSw1", "PBSw3", "PBSw11", "PBSw13",    # Port B - Circus and south junctions

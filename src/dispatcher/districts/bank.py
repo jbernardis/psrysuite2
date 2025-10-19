@@ -30,13 +30,13 @@ class Bank (District):
 		
 		District.SetUpRoute(self, osblk, route)
 
-	def PerformTurnoutAction(self, turnout, force=False):
+	def TurnoutClick(self, turnout, force=False):
 		controlOpt = self.frame.cliffControl
 		if controlOpt == 0:  # bank local control
 			self.frame.PopupEvent("Bank control is local")
 			return
 
-		District.PerformTurnoutAction(self, turnout, force=force)
+		District.TurnoutClick(self, turnout, force=force)
 
 	def PerformSignalAction(self, sig, callon=False, silent=False):
 		controlOpt = self.frame.cliffControl

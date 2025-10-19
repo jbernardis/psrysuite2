@@ -12,6 +12,7 @@ class Yard(District):
 		self.name = name
 		self.released = False
 		self.control = 0
+		self.lastControl = 0
 		
 		self.Y20D = None
 		self.Y20H = None
@@ -333,7 +334,6 @@ class Yard(District):
 		self.control = self.rr.GetControlOption("yard")  # 0 => Yard, 1 => Dispatcher
 
 	def OutIn(self):
-		self.UpdateControlOption()
 		if self.control == 0: #yard local control allows the panel release button
 			rlReq = self.nodes[YARD].GetInputBit(3, 1)
 			if rlReq is None:
@@ -374,5 +374,12 @@ class Yard(District):
 				resumelist = ["Y2", "Y4", "Y8", "Y10", "Y22", "Y24", "Y26", "Y34"]
 			else:
 				resumelist = []
-				
+
+		self.lastControl = self.control
 		return skiplist, resumelist
+
+	def ControlRestrictedMessage(self):
+		if self.control == 0:
+			return "Control is Local"
+		else:
+			return "Dispatcher controls Yard Tower"
