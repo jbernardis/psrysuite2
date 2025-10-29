@@ -215,8 +215,10 @@ class Hyde(District):
 			self.rr.AddRouteIn("H32E", self, n, addr, [(2, 2)])
 			self.rr.AddRouteIn("H31E", self, n, addr, [(2, 3)])
 			
-			self.rr.AddBlock("H21", self, n, addr, [(2, 4)], True)
-			self.rr.AddBlock("H21.E", self, n, addr, [(2, 5)], True)
+			b = self.rr.AddBlock("H21", self, n, addr, [(2, 4)], True)
+			sbe = self.rr.AddBlock("H21.E", self, n, addr, [(2, 5)], True)
+			b.AddStoppingBlocks([sbe])
+
 			self.rr.AddBlock("HOSWW2", self, n, addr, [(2, 6)], False)
 			self.rr.AddBlock("HOSWW", self, n, addr, [(2, 7)], False)
 			self.rr.AddBlock("HOSWE", self, n, addr, [(3, 0)], True)
@@ -232,8 +234,10 @@ class Hyde(District):
 			self.rr.AddBlock("H40", self, n, addr, [(4, 2)], True)
 			self.rr.AddBlock("HOSEW", self, n, addr, [(4, 3)], False)
 			self.rr.AddBlock("HOSEE", self, n, addr, [(4, 4)], True)
-			self.rr.AddBlock("H13.W", self, n, addr, [(4, 5)], False)
-			self.rr.AddBlock("H13", self, n, addr, [(4, 6)], False)
+
+			sbw = self.rr.AddBlock("H13.W", self, n, addr, [(4, 5)], False)
+			b = self.rr.AddBlock("H13", self, n, addr, [(4, 6)], False)
+			b.AddStoppingBlocks([sbw])
 
 	def OutIn(self):
 		n25occ = self.rr.GetBlock("N25.W").IsOccupied() or self.rr.GetBlock("N25").IsOccupied() or self.rr.GetBlock("N25.E").IsOccupied()

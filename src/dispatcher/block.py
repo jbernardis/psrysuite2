@@ -175,6 +175,9 @@ class Block:
 	def AddTrainLoc(self, screen, loc, routes=None):
 		self.trainLoc.append([screen, loc, routes])
 
+	def TrainLoc(self):
+		return self.trainLoc
+
 	def IsInActiveRoute(self, col, row):
 		# not applicable to normal blocks
 		return True
@@ -231,43 +234,43 @@ class Block:
 		
 	def HasUnknownTrain(self):
 		return self.status == "U"
-
-	def DrawTrain(self, hilite=False):
-		if len(self.trainLoc) == 0:
-			return
-
-		if self.train is None:
-			trainID = "??"
-			locoID = "??"
-			atc = False
-			ar = False
-			sbActive = False
-			misrouted = False
-		else:
-			trainID, locoID = self.train.GetNameAndLoco()
-			sbActive = self.train.GetSBActive()
-			atc = self.train.IsOnATC()
-			ar = self.train.IsOnAR()
-			misrouted = self.train.misrouted
-
-		anyOccupied = self.IsOccupied()
-		if self.sbEast and self.sbEast.IsOccupied():
-			anyOccupied = True
-		if self.sbWest and self.sbWest.IsOccupied():
-			anyOccupied = True
-
-		for screen, loc, routes in self.trainLoc:
-			drawTrain = True  # assume that we draw the train here
-			if routes and self.IsOS():
-				if self.route is None:
-					drawTrain = False  # this OS has no route - do not show a train
-				elif self.route.GetName() not in routes:
-					drawTrain = False  # the current route through this OS is not in the list
-					
-			if anyOccupied and drawTrain:
-				self.frame.DrawTrain(screen, loc, trainID, locoID, sbActive, atc, ar, hilite, misrouted)
-			elif drawTrain:  # don't clear trains from alternate routes that are not currently set
-				self.frame.ClearTrain(screen, loc)
+	#
+	# def DrawTrain(self, hilite=False):
+	# 	if len(self.trainLoc) == 0:
+	# 		return
+	#
+	# 	if self.train is None:
+	# 		trainID = "??"
+	# 		locoID = "??"
+	# 		atc = False
+	# 		ar = False
+	# 		sbActive = False
+	# 		misrouted = False
+	# 	else:
+	# 		trainID, locoID = self.train.GetNameAndLoco()
+	# 		sbActive = self.train.GetSBActive()
+	# 		atc = self.train.IsOnATC()
+	# 		ar = self.train.IsOnAR()
+	# 		misrouted = self.train.misrouted
+	#
+	# 	anyOccupied = self.IsOccupied()
+	# 	if self.sbEast and self.sbEast.IsOccupied():
+	# 		anyOccupied = True
+	# 	if self.sbWest and self.sbWest.IsOccupied():
+	# 		anyOccupied = True
+	#
+	# 	for screen, loc, routes in self.trainLoc:
+	# 		drawTrain = True  # assume that we draw the train here
+	# 		if routes and self.IsOS():
+	# 			if self.route is None:
+	# 				drawTrain = False  # this OS has no route - do not show a train
+	# 			elif self.route.GetName() not in routes:
+	# 				drawTrain = False  # the current route through this OS is not in the list
+	#
+	# 		if anyOccupied and drawTrain:
+	# 			self.frame.DrawTrain(screen, loc, trainID, locoID, sbActive, atc, ar, hilite, misrouted)
+	# 		elif drawTrain:  # don't clear trains from alternate routes that are not currently set
+	# 			self.frame.ClearTrain(screen, loc)
 
 	def StoppingRelayActivated(self):
 		active = False
@@ -409,7 +412,7 @@ class Block:
 			t.Draw(stat, self.east)
 
 		self.district.DrawOthers(self)
-		self.DrawTrain()
+		# self.DrawTrain()
 
 	def AddTurnout(self, turnout):
 		self.turnouts.append(turnout)
@@ -429,36 +432,27 @@ class Block:
 
 		return False
 
-	def SetStatus(self, state, blockend=None, refresh=False):
-		if blockend in ["E", "W"]:
-			b = self.sbEast if blockend == "E" else self.sbWest
-			if b is None:
-				logging.warning("Stopping block %s not defined for block %s" % (blockend, self.GetName()))
-				return
-			b.SetStatus(state, refresh)
-			if refresh:
-				self.Draw()
-			return
-
-		if state == "C":
-			self.SetCleared(True)
-			if refresh:
-				self.Draw()
-			return
-
+	def SetStatus(self, state, refresh=False):
 		if self.status == state:
 			# already in the requested state - refresh anyway
 			if refresh:
 				self.Draw()
 			return
 
-		self.SetCleared(False)
-
 		self.status = state
 
 		if self.status == "E":
 			self.Reset()
 
+		if refresh:
+			self.Draw()
+
+	def SetStopSectionStatus(self, state, blockend, refresh=False):
+		b = self.sbEast if blockend == "E" else self.sbWest
+		if b is None:
+			logging.warning("Stopping block %s not defined for block %s" % (blockend, self.GetName()))
+			return
+		b.SetStatus(state, refresh)
 		if refresh:
 			self.Draw()
 
@@ -732,8 +726,9 @@ class Block:
 	def GetDefinition(self):
 		return {self.name: {"east": 1 if self.defaultEast else 0,
 							"sbeast": None if self.sbEast is None else self.sbEast.GetName(),
-							"sbwest": None if self.sbWest is None else self.sbWest.GetName()}}
-
+							"sbwest": None if self.sbWest is None else self.sbWest.GetName(),
+							"sbsigeast": None if self.sbSigEast is None else self.sbSigEast,
+							"sbsigwest": None if self.sbSigWest is None else self.sbSigWest}}
 
 class StoppingBlock:
 	def __init__(self, block, tiles, eastend):
@@ -839,10 +834,10 @@ class StoppingBlock:
 		msg = {"relay": {"block": self.block.GetName(), "state": 1 if flag else 0, "silent": 1 if silent else 0, "direction": direction, "train": tname}}
 		self.frame.Request(msg)
 
-		if tr is None:
-			self.block.DrawTrain()
-		else:
-			tr.Draw()
+		# if tr is None:
+		# 	self.block.DrawTrain()
+		# else:
+		# 	tr.Draw()
 
 	def IsActive(self):
 		return self.active
@@ -1130,15 +1125,10 @@ class OverSwitch (Block):
 		return False
 
 	def SetStatus(self, state, blockend=None, refresh=False):
-		if state == "C":
-			self.SetCleared(True)
-			if refresh:
-				self.Draw()
-
 		if state == self.status:
 			return  # we're already in the desired state
 		
-		Block.SetStatus(self, state, blockend, refresh)
+		Block.SetStatus(self, state, refresh)
 
 	def GetTileInRoute(self, screen, pos):
 		if self.route is None:
@@ -1166,7 +1156,7 @@ class OverSwitch (Block):
 				t.Draw(stat, self.east)
 
 		self.district.DrawOthers(self)
-		self.DrawTrain()
+		# self.DrawTrain()
 
 	def DrawTurnouts(self):
 		for t in self.turnouts:

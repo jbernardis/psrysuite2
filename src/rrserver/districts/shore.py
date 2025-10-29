@@ -122,11 +122,16 @@ class Shore(District):
 			b.AddStoppingBlocks([sbw])
 			b.AddSubBlocks([sba, sbb])
 
-			self.rr.AddBlock("F10",    self, n, SHORE, [(3, 4)], True) 
-			self.rr.AddBlock("F10.E",  self, n, SHORE, [(3, 5)], True) 
-			self.rr.AddBlock("SOSHF",  self, n, SHORE, [(3, 6)], True) 
-			self.rr.AddBlock("F11.W",  self, n, SHORE, [(3, 7)], False) 
-			self.rr.AddBlock("F11",    self, n, SHORE, [(4, 0)], False) 
+			b = self.rr.AddBlock("F10",    self, n, SHORE, [(3, 4)], True)
+			sbe = self.rr.AddBlock("F10.E",  self, n, SHORE, [(3, 5)], True)
+			b.AddStoppingBlocks([sbe])
+
+			self.rr.AddBlock("SOSHF",  self, n, SHORE, [(3, 6)], True)
+
+			sbw = self.rr.AddBlock("F11.W",  self, n, SHORE, [(3, 7)], False)
+			b = self.rr.AddBlock("F11",    self, n, SHORE, [(4, 0)], False)
+			b.AddStoppingBlocks([sbw])
+
 			# 		SXON  = SIn[4].bit.b1;	//Crossing gate off normal - no londer needed
 
 			self.rr.AddHandswitch("CSw15", self, n, SHORE, [(4, 2), (4, 3)], "C13")
@@ -160,14 +165,18 @@ class Shore(District):
 			sbe = self.rr.AddBlock("H20.E",  self, n, HYDEJCT, [(0, 7)], True) 
 			b.AddStoppingBlocks([sbe])
 			
-			self.rr.AddBlock("P42.W",  self, n, HYDEJCT, [(1, 0)], True) 
-			self.rr.AddBlock("P42",    self, n, HYDEJCT, [(1, 1)], True) 
-			self.rr.AddBlock("P42.E",  self, n, HYDEJCT, [(1, 2)], True) 
+			sbw = self.rr.AddBlock("P42.W",  self, n, HYDEJCT, [(1, 0)], True)
+			b = self.rr.AddBlock("P42",    self, n, HYDEJCT, [(1, 1)], True)
+			sbe = self.rr.AddBlock("P42.E",  self, n, HYDEJCT, [(1, 2)], True)
+			b.AddStoppingBlocks([sbe, sbw])
+
 			self.rr.AddBlock("SOSHJW", self, n, HYDEJCT, [(1, 3)], False) 
 			self.rr.AddBlock("SOSHJM", self, n, HYDEJCT, [(1, 4)], True) 
-			self.rr.AddBlock("SOSHJE", self, n, HYDEJCT, [(1, 5)], True) 
-			self.rr.AddBlock("H11.W",  self, n, HYDEJCT, [(1, 6)], False) 
-			self.rr.AddBlock("H11",    self, n, HYDEJCT, [(1, 7)], False)
+			self.rr.AddBlock("SOSHJE", self, n, HYDEJCT, [(1, 5)], True)
+
+			sbw = self.rr.AddBlock("H11.W",  self, n, HYDEJCT, [(1, 6)], False)
+			b = self.rr.AddBlock("H11",    self, n, HYDEJCT, [(1, 7)], False)
+			b.AddStoppingBlocks([sbw])
 
 	def CheckTurnoutLocks(self, turnouts):
 		changes = []

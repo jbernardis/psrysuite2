@@ -153,8 +153,15 @@ class TrackDiagram(wx.Panel):
 		del(self.text[textKey])
 		self.Refresh()
 
-	def DrawTrain(self, x, y, offset, trainID, locoID, stopRelay, atc, ar, hilite, misrouted):
-		self.trains[(x*16+offset, y*16)] = [trainID, locoID, stopRelay, atc, ar, hilite, misrouted]
+	def DrawTrain(self, x, y, offset, trainID, locoID, stopRelay, atc, ar, pinpoint, misrouted):
+		self.trains[(x*16+offset, y*16)] = [trainID, locoID, stopRelay, atc, ar, pinpoint, misrouted]
+		self.Refresh()
+
+	def ClearTrain(self, x, y, offset, trainID):
+		try:
+			del self.trains[(x*16+offset, y*16)]
+		except KeyError:
+			pass
 		self.Refresh()
 
 	def SetHighlitedRoute(self, tiles):
@@ -166,13 +173,6 @@ class TrackDiagram(wx.Panel):
 
 	def ClearHighlitedRoute(self):
 		self.highlitedRoute = []
-		self.Refresh()
-
-	def ClearTrain(self, x, y, offset):
-		textKey = (x*16+offset, y*16)
-		if textKey not in self.trains:
-			return
-		del(self.trains[textKey])
 		self.Refresh()
 
 	def OnPaint(self, evt):

@@ -85,6 +85,7 @@ class ServerMain:
 		self.timeValue = None
 		self.rrBus = None
 		self.DCCServer = None
+		self.firstInterval = True
 		self.clockStatus = 2
 		self.busInterval = settings.rrserver.businterval
 		
@@ -151,6 +152,8 @@ class ServerMain:
 			else:
 				logging.info("start DCC sniffer process skipped")
 
+		self.rr.DelayedStartup()
+
 	def StartDCCServer(self):
 		self.DCCServer = DCCHTTPServer(settings.ipaddr, settings.dccserverport, settings.rrserver.dcctty)
 		if not self.DCCServer.IsConnected():
@@ -210,6 +213,7 @@ class ServerMain:
 		for m in self.rr.GetCurrentValues():
 			self.socketServer.sendToOne(skt, addr, m)
 
+		logging.debug("++++++++ startint refresh client: %s" % self.rr.DumpN20())
 		for opt, val in self.rr.GetControlOptions().items():
 			m = {"control": [{"name": opt, "value": val}]}
 			self.socketServer.sendToOne(skt, addr, m)
@@ -347,6 +351,10 @@ class ServerMain:
 			return 
 		
 		self.rr.OutIn()
+		if self.firstInterval:
+			self.DelayedStartup(None)
+			logging.debug("After first out/in: %s" % self.rr.DumpN20())
+			self.firstInterval = False
 
 	def DoSigLever(self, cmd):
 		p = {tag: cmd[tag][0] for tag in cmd if tag != "cmd"}
@@ -742,7 +750,7 @@ class ServerMain:
 			logging.error("Fleet command without signame and/or value parameter")
 			return
 
-		self.rr.SetSignalFleet(signame, value)
+		self.rr.SetSignalFleet(signame, value != 0)
 		resp = {"fleet": [{"name": signame, "value": value}]}
 		# fleeting changes are always echoed back to all listeners
 		self.socketServer.sendToAll(resp)
@@ -1253,7 +1261,7 @@ class ServerMain:
 				self.delay -= 1
 				if self.delay <= 0:
 					self.delay = None
-					self.cmdQ.put({"cmd": ["delayedstartup"]})
+					# self.cmdQ.put({"cmd": ["delayedstartup"]})
 					
 	def ServeForever(self):
 		logging.info("serve forever starting")

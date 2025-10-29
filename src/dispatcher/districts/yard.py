@@ -101,6 +101,14 @@ class Yard (District):
 		else:
 			self.frame.Request({"nxbutton": {"button": bname}})
 
+	def SignalClick(self, sig, callon=False, silent=False):
+		controlOpt = self.frame.yardControl
+		if controlOpt == 0:  # Yard control is local
+			self.frame.PopupEvent("Yard control is local")
+			return
+
+		District.SignalClick(self, sig, callon=callon, silent=silent)
+
 	def ButtonClick(self, btn):
 		controlOpt = self.frame.yardControl
 		if controlOpt == 0:  # yard local control

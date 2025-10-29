@@ -66,11 +66,15 @@ class Latham(District):
 			self.rr.AddBlock("LOSLAW",   self, n, addr, [(1, 6)], False) #LOS1
 			self.rr.AddBlock("LOSLAM",   self, n, addr, [(1, 7)], True) #LOS2
 			self.rr.AddBlock("LOSLAE",   self, n, addr, [(2, 0)], True) #LOS3
-			self.rr.AddBlock("L11.W",    self, n, addr, [(2, 1)], False)
-			self.rr.AddBlock("L11",      self, n, addr, [(2, 2)], False)
-			self.rr.AddBlock("L21.W",    self, n, addr, [(2, 3)], True)
-			self.rr.AddBlock("L21",      self, n, addr, [(2, 4)], True)
-			self.rr.AddBlock("L21.E",    self, n, addr, [(2, 5)], True)
+
+			sbw = self.rr.AddBlock("L11.W",    self, n, addr, [(2, 1)], False)
+			b = self.rr.AddBlock("L11",      self, n, addr, [(2, 2)], False)
+			b.AddStoppingBlocks([sbw])
+
+			sbw = self.rr.AddBlock("L21.W",    self, n, addr, [(2, 3)], True)
+			b = self.rr.AddBlock("L21",      self, n, addr, [(2, 4)], True)
+			sbe = self.rr.AddBlock("L21.E",    self, n, addr, [(2, 5)], True)
+			b.AddStoppingBlocks([sbw, sbe])
 			
 			self.rr.AddBreaker("CBCliveden",       self, n, addr, [(2, 6)])
 			self.rr.AddBreaker("CBLatham",         self, n, addr, [(2, 7)])
@@ -126,26 +130,39 @@ class Latham(District):
 
 			self.rr.AddBlock("LOSCAW",   self, n, addr, [(1, 2)], False) 
 			self.rr.AddBlock("LOSCAM",   self, n, addr, [(1, 3)], True) 
-			self.rr.AddBlock("LOSCAE",   self, n, addr, [(1, 4)], True) 
-			self.rr.AddBlock("D10.W",    self, n, addr, [(1, 5)], False) 
-			self.rr.AddBlock("D10",      self, n, addr, [(1, 6)], False) 
+			self.rr.AddBlock("LOSCAE",   self, n, addr, [(1, 4)], True)
+
+			sbw = self.rr.AddBlock("D10.W",    self, n, addr, [(1, 5)], False)
+			b = self.rr.AddBlock("D10",      self, n, addr, [(1, 6)], False)
+			b.AddStoppingBlocks([sbw])
 	
 			sbw = self.rr.AddBlock("S21.W",    self, n, addr, [(2, 0)], True) 
 			b = self.rr.AddBlock("S21",      self, n, addr, [(2, 1)], True) 
 			sbe = self.rr.AddBlock("S21.E",    self, n, addr, [(2, 2)], True) 
 			b.AddStoppingBlocks([sbe, sbw])
 			
-			self.rr.AddBlock("N25.W",    self, n, addr, [(2, 3)], False) 
-			self.rr.AddBlock("N25",      self, n, addr, [(2, 4)], False) 
-			self.rr.AddBlock("N25.E",    self, n, addr, [(2, 5)], False) 
+			sbw = self.rr.AddBlock("N25.W",    self, n, addr, [(2, 3)], False)
+			b = self.rr.AddBlock("N25",      self, n, addr, [(2, 4)], False)
+			sbe = self.rr.AddBlock("N25.E",    self, n, addr, [(2, 5)], False)
+			b.AddStoppingBlocks([sbe, sbw])
 
-	def Initialize(self):
-		District.Initialize(self)
+	def DelayedStartup(self):
+		District.DelayedStartup(self)
 		
 		self.rr.SetAspect("S21E", 1)
 		self.rr.SetAspect("N10W", 1)
 		self.rr.SetBlockDirection("N20", "E")
 		self.rr.SetBlockDirection("S11", "W")
+		self.rr.SetBlockClear("N20", True)
+		self.rr.SetBlockClear("N20.E", True)
+		self.rr.SetBlockClear("N20.W", True)
+		self.rr.SetBlockClear("S11", True)
+		self.rr.SetBlockClear("S11.E", True)
+		self.rr.SetBlockClear("S11.W", True)
+		self.rr.SetSignalFleet("S21E", True)
+		self.rr.SetSignalFleet("S11E", True)
+		self.rr.SetSignalFleet("N10W", True)
+		self.rr.SetSignalFleet("N20W", True)
 
 	def CheckTurnoutLocks(self, turnouts):
 		changes = []

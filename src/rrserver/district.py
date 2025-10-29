@@ -39,8 +39,11 @@ class District:
 
 	def Initialize(self):
 		pass
+
+	def DelayedStartup(self):
+		pass
 			
-	def GetControlOption(self):
+	def GetControlOption(self, reset=True):
 		return [], []
 
 	def UpdateControlOption(self):

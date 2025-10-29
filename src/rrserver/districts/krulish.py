@@ -38,18 +38,34 @@ class Krulish(District):
 			self.rr.AddTurnoutPosition("KSw7", self, n, addr, [(0, 6), (0, 7)])
 	
 			# bits 1:0 and 1:1 are unused
-			self.rr.AddBlock("N10.W",  self, n, addr, [(1, 2)], False)
-			self.rr.AddBlock("N10",    self, n, addr, [(1, 3)], False)
-			self.rr.AddBlock("N10.E",  self, n, addr, [(1, 4)], False)
-			self.rr.AddBlock("N20.W",  self, n, addr, [(1, 5)], True)
-			self.rr.AddBlock("N20",    self, n, addr, [(1, 6)], True)
-			self.rr.AddBlock("N20.E",  self, n, addr, [(1, 7)], True)
+			sbw = self.rr.AddBlock("N10.W",  self, n, addr, [(1, 2)], False)
+			b = self.rr.AddBlock("N10",    self, n, addr, [(1, 3)], False)
+			sbe = self.rr.AddBlock("N10.E",  self, n, addr, [(1, 4)], False)
+			b.AddStoppingBlocks([sbe, sbw])
+
+			sbw = self.rr.AddBlock("N20.W",  self, n, addr, [(1, 5)], True)
+			b = self.rr.AddBlock("N20",    self, n, addr, [(1, 6)], True)
+			sbe = self.rr.AddBlock("N20.E",  self, n, addr, [(1, 7)], True)
+			b.AddStoppingBlocks([sbe, sbw])
+
 			self.rr.AddBlock("KOSW",   self, n, addr, [(2, 0)], False)
 			self.rr.AddBlock("KOSM",   self, n, addr, [(2, 1)], False)
 			self.rr.AddBlock("KOSE",   self, n, addr, [(2, 2)], True)
-			self.rr.AddBlock("N11.W",  self, n, addr, [(2, 3)], False)
-			self.rr.AddBlock("N11",    self, n, addr, [(2, 4)], False)
-			self.rr.AddBlock("N11.E",  self, n, addr, [(2, 5)], False)
+
+			sbw = self.rr.AddBlock("N11.W",  self, n, addr, [(2, 3)], False)
+			b = self.rr.AddBlock("N11",    self, n, addr, [(2, 4)], False)
+			sbe = self.rr.AddBlock("N11.E",  self, n, addr, [(2, 5)], False)
+			b.AddStoppingBlocks([sbe, sbw])
+
+			# virtual signals - these do not physically exist and are given no bit positione
+			self.rr.AddSignal("N10W",  self, n, addr, [])
+			self.rr.AddSignal("N20W",  self, n, addr, [])
+			self.rr.AddSignal("S11E",  self, n, addr, [])
+			self.rr.AddSignal("S21E",  self, n, addr, [])
+
+			# virtual blocks
+			self.rr.AddBlock("KOSN10S11", self, n, addr, [], False)
+			self.rr.AddBlock("KOSN20S21", self, n, addr, [], True)
 
 	def CheckTurnoutLocks(self, turnouts):
 		changes = []

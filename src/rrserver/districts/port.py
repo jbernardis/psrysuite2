@@ -143,8 +143,10 @@ class Port(District):
 			self.rr.AddBlock("POSSP3", self, n, addr, [(4, 1)], True)
 			self.rr.AddBlock("POSSP4", self, n, addr, [(4, 2)], True)
 			self.rr.AddBlock("POSSP5", self, n, addr, [(4, 3)], True)
-			self.rr.AddBlock("P10",    self, n, addr, [(4, 4)], False)
-			self.rr.AddBlock("P10.E",  self, n, addr, [(4, 5)], False)
+
+			b = self.rr.AddBlock("P10",    self, n, addr, [(4, 4)], False)
+			sbe = self.rr.AddBlock("P10.E",  self, n, addr, [(4, 5)], False)
+			b.AddStoppingBlocks([sbe])
 
 			self.rr.AddSignalLever("PA4",  self, n, addr, [(4, 6), (4, 7), (5, 0)])
 			self.rr.AddSignalLever("PA6",  self, n, addr, [(5, 1), (5, 2), (5, 3)])
@@ -197,13 +199,18 @@ class Port(District):
 			self.rr.AddTurnoutPosition("PASw35", self, n, addr, [(1, 0), (1, 1)])
 			self.rr.AddTurnoutPosition("PASw37", self, n, addr, [(1, 2), (1, 3)])
 			
-			self.rr.AddBlock("P20",    self, n, addr, [(1, 4)], True)
-			self.rr.AddBlock("P20.E",  self, n, addr, [(1, 5)], True)
-			self.rr.AddBlock("P30.W",  self, n, addr, [(1, 6)], False)
-			self.rr.AddBlock("P30",    self, n, addr, [(1, 7)], False)				
-			self.rr.AddBlock("P30.E",  self, n, addr, [(2, 0)], False)
+			b = self.rr.AddBlock("P20",    self, n, addr, [(1, 4)], True)
+			sbe = self.rr.AddBlock("P20.E",  self, n, addr, [(1, 5)], True)
+			b.AddStoppingBlocks([sbe])
+
+			sbw = self.rr.AddBlock("P30.W",  self, n, addr, [(1, 6)], False)
+			b = self.rr.AddBlock("P30",    self, n, addr, [(1, 7)], False)
+			sbe = self.rr.AddBlock("P30.E",  self, n, addr, [(2, 0)], False)
+			b.AddStoppingBlocks([sbe, sbw])
+
 			self.rr.AddBlock("POSPJ1", self, n, addr, [(2, 1)], False)
 			self.rr.AddBlock("POSPJ2", self, n, addr, [(2, 2)], False)
+
 			sbw = self.rr.AddBlock("P50.W",  self, n, addr, [(2, 5)], False)
 			b = self.rr.AddBlock("P50",    self, n, addr, [(2, 4)], False)
 			sbe = self.rr.AddBlock("P50.E",  self, n, addr, [(2, 3)], False)
@@ -280,20 +287,25 @@ class Port(District):
 			b.AddStoppingBlocks([sbe])
 
 			self.rr.AddBlock("POSSJ2", self, n, addr, [(2, 0)], False)	
-			self.rr.AddBlock("POSSJ1", self, n, addr, [(2, 1)], False)	
-			self.rr.AddBlock("P31.E",  self, n, addr, [(2, 2)], False)	
-			self.rr.AddBlock("P31",    self, n, addr, [(2, 3)], False)	
-			self.rr.AddBlock("P31.W",  self, n, addr, [(2, 4)], False)	
+			self.rr.AddBlock("POSSJ1", self, n, addr, [(2, 1)], False)
+
+			sbe = self.rr.AddBlock("P31.E",  self, n, addr, [(2, 2)], False)
+			b = self.rr.AddBlock("P31",    self, n, addr, [(2, 3)], False)
+			sbw = self.rr.AddBlock("P31.W",  self, n, addr, [(2, 4)], False)
+			b.AddStoppingBlocks([sbe, sbw])
+
 			sbw = self.rr.AddBlock("P32.W",  self, n, addr, [(2, 5)], False)	
 			b = self.rr.AddBlock("P32",    self, n, addr, [(2, 6)], False)	
 			sbe = self.rr.AddBlock("P32.E",  self, n, addr, [(2, 7)], False)	
 			b.AddStoppingBlocks([sbe, sbw])
+
 			self.rr.AddBlock("POSCJ2", self, n, addr, [(3, 0)], False)	
-			self.rr.AddBlock("POSCJ1", self, n, addr, [(3, 1)], False)	
-			self.rr.AddBlock("P41.E",  self, n, addr, [(3, 2)], True)	
-			self.rr.AddBlock("P41",    self, n, addr, [(3, 3)], True)	
-			self.rr.AddBlock("P41.W",  self, n, addr, [(3, 4)], True)	
-				
+			self.rr.AddBlock("POSCJ1", self, n, addr, [(3, 1)], False)
+
+			sbe = self.rr.AddBlock("P41.E",  self, n, addr, [(3, 2)], True)
+			b = self.rr.AddBlock("P41",    self, n, addr, [(3, 3)], True)
+			sbw = self.rr.AddBlock("P41.W",  self, n, addr, [(3, 4)], True)
+			b.AddStoppingBlocks([sbe, sbw])
 				
 			self.rr.AddSignalLever("PB2",  self, n, addr, [(3, 7), (3, 6), (3, 5)])
 			self.rr.AddSignalLever("PB4",  self, n, addr, [(4, 2), (4, 1), (4, 0)])

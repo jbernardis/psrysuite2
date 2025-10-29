@@ -73,12 +73,16 @@ class Yard(District):
 			self.rr.AddTurnoutPosition("YSw9",  self, n, addr, [(0, 2), (0, 3)])
 			self.rr.AddTurnoutPosition("YSw11", self, n, addr, [(0, 4), (0, 5)])
 
-			self.rr.AddBlock("Y20",    self, n, addr, [(0, 6)], True)
-			self.rr.AddBlock("Y20.E",  self, n, addr, [(0, 7)], True)
+			b = self.rr.AddBlock("Y20",    self, n, addr, [(0, 6)], True)
+			sbe = self.rr.AddBlock("Y20.E",  self, n, addr, [(0, 7)], True)
+			b.AddStoppingBlocks([sbe])
+
 			self.rr.AddBlock("YOSEJW", self, n, addr, [(1, 0)], False) #  KJOS1
 			self.rr.AddBlock("YOSEJE", self, n, addr, [(1, 1)], True) #  KJOS2
-			self.rr.AddBlock("Y11.W" , self, n, addr, [(1, 2)], False)
-			self.rr.AddBlock("Y11",    self, n, addr, [(1, 3)], False)
+
+			sbw = self.rr.AddBlock("Y11.W" , self, n, addr, [(1, 2)], False)
+			b = self.rr.AddBlock("Y11",    self, n, addr, [(1, 3)], False)
+			b.AddStoppingBlocks([sbw])
 
 		# kale node
 		addr = KALE
@@ -363,7 +367,7 @@ class Yard(District):
 			self.rr.SetAspect("Y20H", 1 if Y20H else 0)
 			self.rr.SetAspect("Y20D", 1 if Y20D else 0)
 		
-	def GetControlOption(self):
+	def GetControlOption(self, reset=True):
 		if self.control == 1:  # dispatcher control
 			skiplist = ["Y2", "Y4", "Y8", "Y10", "Y22", "Y24", "Y26", "Y34"]
 			resumelist = []
@@ -375,11 +379,12 @@ class Yard(District):
 			else:
 				resumelist = []
 
-		self.lastControl = self.control
+		if reset:
+			self.lastControl = self.control
 		return skiplist, resumelist
 
 	def ControlRestrictedMessage(self):
 		if self.control == 0:
-			return "Control is Local"
+			return "Yard Control is Local"
 		else:
 			return "Dispatcher controls Yard Tower"

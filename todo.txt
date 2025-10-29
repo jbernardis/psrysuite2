@@ -1,18 +1,23 @@
+remove excessive debugging
 
-make sure fleeting is working ( after trains qre implemented)
+tile for DSw3
+
+stop section logic
+
+Hyde power buttons
+
+Fleet levers from panels
+
+Indicators for N10W, S11E, N20W, S21E
+
+do not allow turnouts to be thrown if block is occupied
 
 add locales to event/advice messages - all, None, locale only
 
-
-
+get turnout lockers from rrserver
 
 block locking
 
-
-finish aspect calculation logic
-    make sure to have callon logic in aspect calculation
-
-propagate signals forward and backward
 
 trains - all things
     active trains

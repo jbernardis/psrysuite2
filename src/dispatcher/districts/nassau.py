@@ -170,14 +170,18 @@ class Nassau (District):
 		osblk = self.blocks[osblknm]
 		route = osblk.GetRoute()
 		if route is None:
+			self.frame.PopupEvent("Route for os %s in None" % osblknm)
 			return False
 
+		self.frame.PopupEvent("Route for os %s is %s" % (osblknm, route.GetName()))
+
 		blk1, blk2 = route.GetEndPoints()
+		self.frame.PopupEvent("end points are %s and %s" % (blk1, blk2))
 		for b in [blk1, blk2]:
 			if not b:
 				continue
 
-			if b in ["N12", "N22"]:
+			if b in ["N12", "N22", "B10", "B20", "N11", "N21"]:
 				return True
 
 		return False
@@ -203,7 +207,37 @@ class Nassau (District):
 			if b in rname:
 				return True
 			
-		return False		
+		return False
+
+	def SignalClick(self, sig, callon=False, silent=False):
+		self.frame.PopupEvent("Nassau signal click")
+		controlOpt = self.frame.nassauControl
+		if controlOpt == 0:  # nassau local control
+			self.frame.PopupEvent("Nassau control is local")
+			return
+
+		if controlOpt == 1:  # dispatcher controls main line only
+			signm = sig.GetName()
+			if signm == "N28L":
+				mainOnly = self.CheckIfMainRoute("NEOSRH")
+			elif signm in ["N26L", "N26RB", "N26RC"]:
+				mainOnly = self.CheckIfMainRoute("NEOSW")
+			elif signm in ["N24L", "N24RA", "N24RB"]:
+				mainOnly = self.CheckIfMainRoute("NEOSE")
+			elif signm in ["N18LB", "N18R"]:
+				mainOnly = self.CheckIfMainRoute("NWOSCY")
+			elif signm in ["N16R", "N16L"]:
+				mainOnly = self.CheckIfMainRoute("NWOSW")
+			elif signm in ["N14R", "N14LA", "N14LB"]:
+				mainOnly = self.CheckIfMainRoute("NWOSE")
+			else:
+				mainOnly = False
+
+			if not mainOnly:
+				self.frame.PopupEvent("Nassau control is main only")
+				return
+
+		District.SignalClick(self, sig, callon, silent)
 
 	def ButtonClick(self, btn):
 		controlOpt = self.frame.nassauControl
@@ -216,8 +250,8 @@ class Nassau (District):
 
 		bname = btn.GetName()
 		if controlOpt == 1 and bname not in ["NNXBtnN12W", "NNXBtnN22W", "NNXBtnN12E", "NNXBtnN22E",
-												"NNXBtnR10", "NNXBtnB10", "NNXBtnB20",
-												"NNXBtnN60", "NNXBtnN11", "NNXBtnN21"]:  # dispatcher: main only
+												"NNXBtnN31W", "NNXBtnN31E", "NNXBtnN41W", "NNXBtnN41E",
+												"NNXBtnB10", "NNXBtnB20", "NNXBtnN11", "NNXBtnN21"]:  # dispatcher: main only
 			btn.Press(refresh=False)
 			btn.Invalidate(refresh=True)
 			self.frame.ClearButtonAfter(2, btn)

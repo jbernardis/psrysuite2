@@ -3,917 +3,1283 @@
     "Y10": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "Y11": {
       "east": 0,
       "sbeast": null,
-      "sbwest": "Y11.W"
+      "sbwest": "Y11.W",
+      "sbsigeast": null,
+      "sbsigwest": "Y8R"
     },
     "Y20": {
       "east": 1,
       "sbeast": "Y20.E",
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": "Y10L",
+      "sbsigwest": null
     },
     "Y21": {
       "east": 1,
       "sbeast": "Y21.E",
-      "sbwest": "Y21.W"
+      "sbwest": "Y21.W",
+      "sbsigeast": "Y4L",
+      "sbsigwest": "Y10R"
     },
     "Y30": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "Y50": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "Y51": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "Y52": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "Y53": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "Y60": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "Y70": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "Y81": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "Y82": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "Y83": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "Y84": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "Y87": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "YOSEJW": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "YOSEJE": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "YOSCJE": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "YOSCJW": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "YOSKL2": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "YOSKL3": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "YOSKL1": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "YOSKL4": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "YOSWYW": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "YOSWYE": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "L10": {
       "east": 0,
       "sbeast": null,
-      "sbwest": "L10.W"
+      "sbwest": "L10.W",
+      "sbsigeast": null,
+      "sbsigwest": "Y2R"
     },
     "L20": {
       "east": 1,
       "sbeast": "L20.E",
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": "L6RA",
+      "sbsigwest": null
     },
     "L11": {
       "east": 0,
       "sbeast": null,
-      "sbwest": "L11.W"
+      "sbwest": "L11.W",
+      "sbsigeast": null,
+      "sbsigwest": "L8L"
     },
     "L21": {
       "east": 1,
       "sbeast": "L21.E",
-      "sbwest": "L21.W"
+      "sbwest": "L21.W",
+      "sbsigeast": "L16R",
+      "sbsigwest": "L6L"
     },
     "L31": {
       "east": 1,
       "sbeast": "L31.E",
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": "L14R",
+      "sbsigwest": null
     },
     "LOSLAW": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "LOSLAM": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "LOSLAE": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "LOSCAW": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "LOSCAM": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "LOSCAE": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "D10": {
       "east": 0,
       "sbeast": null,
-      "sbwest": "D10.W"
+      "sbwest": "D10.W",
+      "sbsigeast": null,
+      "sbsigwest": "L18L"
     },
     "D20": {
       "east": 1,
       "sbeast": "D20.E",
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": "D4RA",
+      "sbsigwest": null
     },
     "D11": {
       "east": 0,
       "sbeast": "D11.E",
-      "sbwest": "D11.W"
+      "sbwest": "D11.W",
+      "sbsigeast": "D12R",
+      "sbsigwest": "D6L"
     },
     "D21": {
       "east": 1,
       "sbeast": "D21.E",
-      "sbwest": "D21.W"
+      "sbwest": "D21.W",
+      "sbsigeast": "D10R",
+      "sbsigwest": "D4L"
     },
     "DOSVJW": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "DOSVJE": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "DOSFOE": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "DOSFOW": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "S10": {
       "east": 0,
       "sbeast": "S10.E",
-      "sbwest": "S10.W"
+      "sbwest": "S10.W",
+      "sbsigeast": "S12R",
+      "sbsigwest": "D12L"
     },
     "S11": {
       "east": 0,
       "sbeast": "S11.E",
-      "sbwest": "S11.W"
+      "sbwest": "S11.W",
+      "sbsigeast": "S11E",
+      "sbsigwest": "S12LA"
     },
     "S20": {
       "east": 1,
       "sbeast": "S20.E",
-      "sbwest": "S20.W"
+      "sbwest": "S20.W",
+      "sbsigeast": "S4R",
+      "sbsigwest": "D10L"
     },
     "S21": {
       "east": 1,
       "sbeast": "S21.E",
-      "sbwest": "S21.W"
+      "sbwest": "S21.W",
+      "sbsigeast": "S21E",
+      "sbsigwest": "S4LB"
     },
     "SOSW": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "SOSE": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "F10": {
       "east": 1,
       "sbeast": "F10.E",
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": "S8R",
+      "sbsigwest": null
     },
     "F11": {
       "east": 0,
       "sbeast": null,
-      "sbwest": "F11.W"
+      "sbwest": "F11.W",
+      "sbsigeast": null,
+      "sbsigwest": "S8L"
     },
     "SOSHF": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "SOSHJW": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "SOSHJM": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "SOSHJE": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "N10": {
       "east": 0,
       "sbeast": "N10.E",
-      "sbwest": "N10.W"
+      "sbwest": "N10.W",
+      "sbsigeast": "K8R",
+      "sbsigwest": "N10W"
     },
     "N25": {
       "east": 0,
       "sbeast": "N25.E",
-      "sbwest": "N25.W"
+      "sbwest": "N25.W",
+      "sbsigeast": "K4R",
+      "sbsigwest": "S16L"
     },
     "N20": {
       "east": 1,
       "sbeast": "N20.E",
-      "sbwest": "N20.W"
+      "sbwest": "N20.W",
+      "sbsigeast": "K2R",
+      "sbsigwest": "N20W"
     },
     "N11": {
       "east": 0,
       "sbeast": "N11.E",
-      "sbwest": "N11.W"
+      "sbwest": "N11.W",
+      "sbsigeast": "N16R",
+      "sbsigwest": "K8LB"
     },
     "K10": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "KOSW": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "KOSM": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "KOSE": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "KOSN10S11": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "KOSN20S21": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "N21": {
       "east": 1,
       "sbeast": "N21.E",
-      "sbwest": "N21.W"
+      "sbwest": "N21.W",
+      "sbsigeast": "N14R",
+      "sbsigwest": "K2L"
     },
     "N32": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "N31": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "N12": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "N22": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "N41": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "N42": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "W20": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "R10": {
       "east": 0,
       "sbeast": null,
-      "sbwest": "R10.W"
+      "sbwest": "R10.W",
+      "sbsigeast": null,
+      "sbsigwest": "N28L"
     },
     "B10": {
       "east": 0,
       "sbeast": null,
-      "sbwest": "B10.W"
+      "sbwest": "B10.W",
+      "sbsigeast": null,
+      "sbsigwest": "N26L"
     },
     "W10": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "W11": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "T12": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "N60": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "NWOSTY": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "NWOSCY": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "NWOSW": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "NWOSE": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "NEOSRH": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "NEOSW": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "NEOSE": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "B20": {
       "east": 1,
       "sbeast": "B20.E",
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": "C24L",
+      "sbsigwest": null
     },
     "B11": {
       "east": 0,
       "sbeast": null,
-      "sbwest": "B11.W"
+      "sbwest": "B11.W",
+      "sbsigeast": null,
+      "sbsigwest": "C22R"
     },
     "B21": {
       "east": 1,
       "sbeast": "B21.E",
-      "sbwest": "B21.W"
+      "sbwest": "B21.W",
+      "sbsigeast": "C18LB",
+      "sbsigwest": "C24R"
     },
     "BOSWW": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "BOSWE": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "BOSE": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "C13": {
       "east": 0,
       "sbeast": "C13.E",
-      "sbwest": "C13.W"
+      "sbwest": "C13.W",
+      "sbsigeast": "C14L",
+      "sbsigwest": "C18R"
     },
     "C23": {
       "east": 0,
       "sbeast": null,
-      "sbwest": "C23.W"
+      "sbwest": "C23.W",
+      "sbsigeast": null,
+      "sbsigwest": "C14RB"
     },
     "C12": {
       "east": 1,
       "sbeast": null,
-      "sbwest": "C12.W"
+      "sbwest": "C12.W",
+      "sbsigeast": null,
+      "sbsigwest": "C14RA"
     },
     "C22": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "C11": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "COSCLW": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "COSCLEW": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "COSCLEE": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "G21": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "C10": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "C30": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "C31": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "COSGMW": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "G12": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "G10": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "C20": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "COSGME": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "C44": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "C43": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "C42": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "C41": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "C40": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "C21": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "C50": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "C51": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "C52": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "C53": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "C54": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "COSSHE": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "COSSHW": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "H11": {
       "east": 0,
       "sbeast": null,
-      "sbwest": "H11.W"
+      "sbwest": "H11.W",
+      "sbsigeast": null,
+      "sbsigwest": "S20L"
     },
     "H12": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "H30": {
       "east": 0,
       "sbeast": null,
-      "sbwest": "H30.W"
+      "sbwest": "H30.W",
+      "sbsigeast": null,
+      "sbsigwest": "S12LB"
     },
     "H31": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "H32": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "H33": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "H34": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "HOSWW": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "HOSWW2": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "H21": {
       "east": 1,
       "sbeast": "H21.E",
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": "H4R",
+      "sbsigwest": null
     },
     "H22": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "H43": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "H42": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "H41": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "H40": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "HOSWE": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "H13": {
       "east": 0,
       "sbeast": null,
-      "sbwest": "H13.W"
+      "sbwest": "H13.W",
+      "sbsigeast": null,
+      "sbsigwest": "H12L"
     },
     "HOSEW": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "H23": {
       "east": 1,
       "sbeast": "H23.E",
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": "D4RB",
+      "sbsigwest": null
     },
     "HOSEE": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "H10": {
       "east": 0,
       "sbeast": null,
-      "sbwest": "H10.W"
+      "sbwest": "H10.W",
+      "sbsigeast": null,
+      "sbsigwest": "S12LC"
     },
     "H20": {
       "east": 1,
       "sbeast": "H20.E",
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": "S18R",
+      "sbsigwest": null
     },
     "V10": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "V11": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "P1": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "P2": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "P3": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "P4": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "P5": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "P6": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "P7": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "P10": {
       "east": 0,
       "sbeast": "P10.E",
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": "PA34RD",
+      "sbsigwest": null
     },
     "P11": {
       "east": 0,
       "sbeast": "P11.E",
-      "sbwest": "P11.W"
+      "sbwest": "P11.W",
+      "sbsigeast": "L6RB",
+      "sbsigwest": "PA34LB"
     },
     "P20": {
       "east": 1,
       "sbeast": "P20.E",
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": "PA32RA",
+      "sbsigwest": null
     },
     "P21": {
       "east": 1,
       "sbeast": "P21.E",
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": "L4R",
+      "sbsigwest": null
     },
     "P30": {
       "east": 0,
       "sbeast": "P30.E",
-      "sbwest": "P30.W"
+      "sbwest": "P30.W",
+      "sbsigeast": "PA32RB",
+      "sbsigwest": "PB4L"
     },
     "P31": {
       "east": 0,
       "sbeast": "P31.E",
-      "sbwest": "P31.W"
+      "sbwest": "P31.W",
+      "sbsigeast": "PB14L",
+      "sbsigwest": "PB4R"
     },
     "P32": {
       "east": 0,
       "sbeast": "P32.E",
-      "sbwest": "P32.W"
+      "sbwest": "P32.W",
+      "sbsigeast": "S4LC",
+      "sbsigwest": "PB14R"
     },
     "P33": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "P40": {
       "east": 0,
       "sbeast": "P40.E",
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": "PB2L"
     },
     "P41": {
       "east": 1,
       "sbeast": "P41.E",
-      "sbwest": "P41.W"
+      "sbwest": "P41.W",
+      "sbsigeast": "PB12L",
+      "sbsigwest": "PB2R"
     },
     "P42": {
       "east": 1,
       "sbeast": "P42.E",
-      "sbwest": "P42.W"
+      "sbwest": "P42.W",
+      "sbsigeast": "S16R",
+      "sbsigwest": "PB12R"
     },
     "P50": {
       "east": 0,
       "sbeast": "P50.E",
-      "sbwest": "P50.W"
+      "sbwest": "P50.W",
+      "sbsigeast": "Y4RA",
+      "sbsigwest": "PA34LA"
     },
     "P60": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "P61": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "P62": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "P63": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "P64": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "POSCJ1": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "POSCJ2": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "POSSJ1": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "POSSJ2": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "POSPJ1": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "POSPJ2": {
       "east": 0,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "POSSP1": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "POSSP2": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "POSSP3": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "POSSP4": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     },
     "POSSP5": {
       "east": 1,
       "sbeast": null,
-      "sbwest": null
+      "sbwest": null,
+      "sbsigeast": null,
+      "sbsigwest": null
     }
   },
   "routes": {

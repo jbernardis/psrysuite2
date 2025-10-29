@@ -56,19 +56,23 @@ class Dell(District):
 
 			self.rr.AddHandswitch("DSw9", self, n, DELL, [(1, 0), (1, 1)], "D21")
 			self.rr.AddTurnoutPosition("DSw11", self, n, DELL, [(1, 2), (1, 3)])
-			self.rr.AddBlock("D20",      self, n, DELL, [(1, 4)], True) 
-			self.rr.AddBlock("D20.E",    self, n, DELL, [(1, 5)], True) 
+
+			b = self.rr.AddBlock("D20",      self, n, DELL, [(1, 4)], True)
+			sbe = self.rr.AddBlock("D20.E",    self, n, DELL, [(1, 5)], True)
+			b.AddStoppingBlocks([sbe])
+
 			b = self.rr.AddBlock("H23",      self, n, DELL, [(1, 6)], True) 
 			sbe = self.rr.AddBlock("H23.E",    self, n, DELL, [(1, 7)], True) 
 			b.AddStoppingBlocks([sbe])
 
 			self.rr.AddBlock("DOSVJW",   self, n, DELL, [(2, 0)], False) 
-			self.rr.AddBlock("DOSVJE",   self, n, DELL, [(2, 1)], True) 
+			self.rr.AddBlock("DOSVJE",   self, n, DELL, [(2, 1)], True)
+
 			sbw = self.rr.AddBlock("D11.W",    self, n, DELL, [(2, 2)], False) 
 			sba = self.rr.AddBlock("D11A",     self, n, DELL, [(2, 3)], False) 
 			sbb = self.rr.AddBlock("D11B",     self, n, DELL, [(2, 4)], False) 
 			b = self.rr.AddBlock("D11",      self, n, DELL, [], False)  # virtual definition for D11 
-			sbe = self.rr.AddBlock("D11.E",    self, n, DELL, [(2, 5)], False) 
+			sbe = self.rr.AddBlock("D11.E",    self, n, DELL, [(2, 5)], False)
 			b.AddStoppingBlocks([sbe, sbw])
 			b.AddSubBlocks([sba, sbb])
 

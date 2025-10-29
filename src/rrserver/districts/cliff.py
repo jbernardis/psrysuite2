@@ -48,7 +48,7 @@ class Cliff(District):
 			self.rr.AddTurnout("CSw39", self, n, addr, [])
 			self.rr.AddTurnout("CSw41", self, n, addr, [])
 
-			# inpits
+			# inputs
 			self.rr.AddRouteIn("CC30E", self, n, addr, [(0, 0)])	
 			self.rr.AddRouteIn("CC10E", self, n, addr, [(0, 1)])	
 			self.rr.AddRouteIn("CG10E", self, n, addr, [(0, 2)])	
@@ -519,20 +519,20 @@ class Cliff(District):
 	def Released(self, _):
 		return self.released
 
-	def GetControlOption(self):
+	def GetControlOption(self, reset=True):
 		"""
 		skiplist is a list of objects that we ignore from the physical control panel beacuse of control settings
 		resumelist is a list of things we had been ignoring but which now come into play
 		"""
 		if self.control == 2: # Dispatcher ALL
 			skiplist = ["C2", "C4", "C6", "C8", "C10", "C12", "C14", "C18", "C22", "C24",
-					"CSw3", "CSw11", "CSw15", "CSw19", "CSw21a", "CSw21b", "CSw21ab"]
+					"CSw3", "CSw9", "CSw11", "CSw15", "CSw19", "CSw21a", "CSw21b", "CSw21ab", "CSw23"]
 			resumelist = []
 			
-		elif self.control == 1: # dispatcher runs bank/cliveden
+		elif self.control == 1: # dispatcher runs bank/c13
 			skiplist = ["C14", "C18", "C22", "C24", "CSw11", "CSw15", "CSw19", "CSw21a", "CSw21b", "CSw21ab"]
 			if self.lastControl == 2:
-				resumelist = ["C2", "C4", "C6", "C8", "C10", "C12", "CSw3"]
+				resumelist = ["C2", "C4", "C6", "C8", "C10", "C12", "CSw3", "CSw9"]
 			elif self.lastControl == 0:
 				resumelist = []
 			else:
@@ -542,18 +542,19 @@ class Cliff(District):
 			skiplist = []
 			if self.lastControl == 2:
 				resumelist = ["C2", "C4", "C6", "C8", "C10", "C12", "C14", "C18", "C22", "C24",
-					"CSw3", "CSw11", "CSw15", "CSw19", "CSw21a", "CSw21b", "CSw21ab"]
+					"CSw3", "CSw9", "CSw11", "CSw15", "CSw19", "CSw21a", "CSw21b", "CSw21ab"]
 			elif self.lastControl == 1:
-				resumelist = ["C10", "C12", "C14", "C18", "C22", "C24", "CSw11", "CSw15", "CSw19", "CSw21a", "CSw21b", "CSw21ab"]
+				resumelist = ["C10", "C12", "C14", "C18", "C22", "C24", "CSw9", "CSw11", "CSw15", "CSw19", "CSw21a", "CSw21b", "CSw21ab"]
 			else:
 				resumelist= []
 
-		self.lastControl = self.control
+		if reset:
+			self.lastControl = self.control
 		return skiplist, resumelist
 
 	def ControlRestrictedMessage(self):
 		if self.control == 0:
-			return "Control is Local"
+			return "Cliff Control is Local"
 		elif self.control == 1:
 			return "Dispatcher controls main Bank/Cliveden"
 		else:

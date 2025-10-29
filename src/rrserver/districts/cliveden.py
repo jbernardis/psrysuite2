@@ -49,12 +49,18 @@ class Cliveden(District):
 			b.AddStoppingBlocks([sbe, sbw])
 			
 			self.rr.AddBlock("COSCLW",  self, n, addr, [(1, 3)], False)
-			self.rr.AddBlock("C12.W",   self, n, addr, [(1, 4)], True)
-			self.rr.AddBlock("C12",     self, n, addr, [(1, 5)], True)
-			self.rr.AddBlock("C23.W",   self, n, addr, [(1, 6)], False)
-			self.rr.AddBlock("C23",     self, n, addr, [(1, 7)], False)
+
+			sbw = self.rr.AddBlock("C12.W",   self, n, addr, [(1, 4)], True)
+			b = self.rr.AddBlock("C12",     self, n, addr, [(1, 5)], True)
+			b.AddStoppingBlocks([sbw])
+
+			sbw = self.rr.AddBlock("C23.W",   self, n, addr, [(1, 6)], False)
+			b = self.rr.AddBlock("C23",     self, n, addr, [(1, 7)], False)
+			b.AddStoppingBlocks([sbw])
+
 			self.rr.AddBlock("COSCLEW", self, n, addr, [(2, 0)], False)
 			self.rr.AddBlock("COSCLEE", self, n, addr, [(2, 1)], True)
+
 			self.rr.AddBlock("C22",     self, n, addr, [(2, 2)], False)
 			
 			b = self.rr.AddBreaker("CBGreenMtnStn",  self, n, addr, [(2, 4)])

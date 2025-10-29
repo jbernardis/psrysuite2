@@ -45,6 +45,11 @@ class Turnout:
 		if refresh:
 			self.Draw()
 
+		if self.pairedTurnout is not None and self.pairedTurnout.IsLocked() != flag:
+			self.pairedTurnout.SetLock(flag, refresh=refresh)
+		if self.controllingTurnout is not None and self.controllingTurnout.IsLocked() != flag:
+			self.controllingTurnout.SetLock(flag, refresh=refresh)
+
 		return True
 
 	def ClearLock(self, refresh=False):
@@ -64,16 +69,14 @@ class Turnout:
 	def AddBlock(self, blknm):
 		self.blockList.append(self.frame.blocks[blknm])
 
-	def GetPos(self):
-		return self.screen, self.pos
+	# def GetPos(self):
+	# 	return self.screen, self.pos
 
 	def Draw(self, blockstat=None, east=None):
-		logging.debug("draw turnout %s, blkstat = %s" % (self.name, blockstat))
 		if east is None:
 			east = self.eastFromBlock
 		if blockstat is None:
 			blockstat = self.statusFromBlock
-		logging.debug("after check for None turnout %s, blkstat = %s" % (self.name, blockstat))
 
 		if self.pos is not None:
 			tostat = "N" if self.normal else "R"

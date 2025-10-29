@@ -1,4 +1,5 @@
 import logging
+import traceback
 
 from rrserver.constants import INPUT_BLOCK, INPUT_BREAKER, INPUT_SIGNALLEVER, INPUT_ROUTEIN, INPUT_HANDSWITCH, INPUT_TURNOUTPOS
 from dispatcher.constants import RegAspects
@@ -6,6 +7,10 @@ from dispatcher.constants import RegAspects
 
 def formatRouteDesignator(rtName):
 	return "" if rtName is None else "{%s}" % rtName[3:]
+
+
+SBEAST = 0
+SBWEST = 1
 
 
 class Block:
@@ -16,6 +21,7 @@ class Block:
 		self.address = address
 		self.east = east
 		self.normalEast = east
+		self.osblk = None
 		self.bits = []
 		self.cleared = False
 		self.status = "E"    # E = Empty, C = Cl;eared, O = Occupied, U = Occupied by unknown train
@@ -23,12 +29,22 @@ class Block:
 		self.mainBlock = None
 		self.mainBlockName = None
 		self.subBlocks = []
-		self.stoppingBlocks = []
+		self.stoppingBlocks = [None, None]
 		self.stoppedBlock = None
 		self.route = None
 		self.nextBlockEast = None
 		self.nextBlockWest = None
 		self.handswitches = []
+		self.train = None
+
+	def GetAllBlocks(self):
+		if self.stoppedBlock is not None:
+			return self.stoppedBlock.GetAllBlocks()
+
+		blocks = [self] + [sb for sb in self.stoppingBlocks if sb is not None]
+		logging.debug("Returning block list: %s" % str([b.Name() for b in blocks]))
+		logging.debug("length stoppingBlocks = %d" % len(self.stoppingBlocks))
+		return blocks
 
 	def toJson(self):
 		return {"name": self.name, "east": 1 if self.east else 0, "cleared": 1 if self.cleared else 0, "statue": self.status}
@@ -41,6 +57,9 @@ class Block:
 				"indicators": indicators
 			}
 		}
+
+	def SetOS(self, osblk):
+		self.osblk = osblk
 
 	def Name(self):
 		return self.name
@@ -71,20 +90,85 @@ class Block:
 	def SetMainBlock(self, blk):
 		self.mainBlockName = blk.Name()
 		self.mainBlock = blk
+
+	def GetMainBlock(self):
+		return self if self.mainBlock is None else self.mainBlock
 		
 	def AddSubBlocks(self, blkl):
 		self.subBlocks.extend(blkl)
 		for b in blkl:
 			b.SetMainBlock(self)
 
+	def IsSubBlock(self):
+		return self.mainBlock is not None
+
+	def MainBlockName(self):
+		if self.stoppedBlock is not None:
+			return self.stoppedBlock.Name()
+
+		if self.mainBlock is not None:
+			return self.mainBlock.Name()
+
+		return self.Name()
+
+	def MainHasTrain(self):
+		if self.mainBlock is None:
+			return False
+
+		return self.mainBlock.Train() is not None
+
+	def MainBlockTrain(self):
+		if self.mainBlock is None:
+			return None
+		return self.mainBlock.Train()
+
+	def MainBlockStatus(self):
+		if self.mainBlock is None:
+			return "E"
+
+		return self.mainBlock.GetStatus()
+
 	def NextBlock(self, reverse=False):
+		e = self.nextBlockEast
+		w = self.nextBlockWest
 		if self.east:
 			return self.nextBlockWest if reverse else self.nextBlockEast
 		else:
 			return self.nextBlockEast if reverse else self.nextBlockWest
 
+	def SetTrain(self, tr):
+		self.train = tr
+		logging.debug("Setting train to %s for block %s" % ("None" if tr is None else tr.Name(), self.Name()))
+		if self.mainBlock is not None:
+			self.mainBlock.SetTrain(tr)
+
+	def RemoveFromTrain(self):
+		logging.debug("removing train %s from block %s" % ("None" if self.train is None else self.train.Name(), self.Name()))
+		if self.train is None:
+			return None
+
+		tr = self.train
+		self.train = None
+		if self.mainBlock is None:
+			tr.RemoveBlock(self)
+		else:
+			self.mainBlock.CheckForTrainRemoval(tr)
+		return tr
+
+	def CheckForTrainRemoval(self, tr):
+		ct = 0
+		for sb in self.subBlocks:
+			if sb.Train() is not None:
+				ct += 1
+
+		if ct == 0:
+			tr.RemoveBlock(self)
+			self.train = None
+
+	def Train(self):
+		return self.train
+
 	def AddHandSwitch(self, hs):
-		logging.debug("adding handswitch %s to block %s" % (hs.Name(), self.Name()))
 		self.handswitches.append(hs)
 
 	def AreHandSwitchesUnlocked(self):
@@ -104,15 +188,37 @@ class Block:
 		return {self.Name(): [b.Name() for b in self.subBlocks]}
 		
 	def AddStoppingBlocks(self, sbl):
-		self.stoppingBlocks.extend(sbl)
 		for sb in sbl:
-			sb.SetStoppedBlock(self)
+			if sb.Name().endswith(".E"):
+				self.stoppingBlocks[SBEAST] = sb
+				sb.SetStoppedBlock(self)
+			elif sb.Name().endswith(".W"):
+				self.stoppingBlocks[SBWEST] = sb
+				sb.SetStoppedBlock(self)
 			
 	def StoppingBlocks(self):
 		return self.stoppingBlocks
 		
 	def SetStoppedBlock(self, blk):
 		self.stoppedBlock = blk
+
+	def IsCompletelyEmpty(self):
+		if self.stoppedBlock is not None:
+			return self.stoppedBlock.IsCompletelyEmpty()
+
+		if self.mainBlock is not None:
+			return self.mainBlock.IsCompletelyEmpty()
+
+		for sb in self.stoppingBlocks:
+			if sb is not None:
+				if sb.IsOccupied():
+					return False
+
+		for sb in self.subBlocks:
+			if sb.IsOccupied():
+				return False
+
+		return not self.IsOccupied()
 		
 	def SetBits(self, bits):
 		self.bits = bits
@@ -123,7 +229,7 @@ class Block:
 	def SetDirection(self, east):
 		if self.east == east:
 			return False
-		
+
 		self.east = east
 		return True
 		
@@ -143,6 +249,9 @@ class Block:
 		self.east = self.normalEast
 	
 	def SetStatus(self, stat):
+		if self.name == "N20":
+			logging.debug("===================================== setting N20 status to %s" % stat)
+			traceback.print_stack()
 		if self.status == stat:
 			return False
 
@@ -163,6 +272,7 @@ class Block:
 		self.route = rtName
 
 	def DeriveOccupancyFromSubs(self):
+		logging.debug("derive occupancy from subs: %s" % self.name)
 		if len(self.subBlocks) > 0:
 			# this is the main block - get occupied status from subblocks
 			occ = []
@@ -182,6 +292,8 @@ class Block:
 				ov = "E"
 
 			rc = ov != self.status
+			if self.name == "N20":
+				logging.debug("===================================== derived N20 status to %s" % ov)
 			self.status = ov
 			return rc
 		return False
@@ -192,7 +304,9 @@ class Block:
 	def SetCleared(self, flag):
 		if self.status == "C":
 			return False
-		
+
+		if self.name == "N20":
+			logging.debug("----set N20 clear")
 		self.status = "C"
 		return True
 		
@@ -212,14 +326,56 @@ class Block:
 		return self.IsOccupied() or self.IsCleared()
 
 	def SetNextWest(self, blk):
-		if self.name == "D20":
-			logging.debug("setting next block west to %s" % ("None" if blk is None else blk.Name()))
 		self.nextBlockWest = blk
 
+	def GetNextWest(self):
+		return self.nextBlockWest
+
+	def NextDetectionSectionWest(self):
+		if self.osblk is not None:
+			return self.osblk.NextDetectionSectionWest()
+
+		if self.mainBlock is not None:
+			return self.mainBlock.NextDetectionSectionWest()
+
+		if self.stoppedBlock is None:  # this is a main block
+			if self.stoppingBlocks[SBWEST] is not None:
+				return self.stoppingBlocks[SBWEST]
+			else:
+				return self.GetNextWest()
+		elif self.name.endswith(".E"):  # this is an east end stopping section
+			return self.stoppedBlock
+		elif self.name.endswith(".W"):  # this is the west side stopping block
+			return self.stoppedBlock.GetNextWest()
+
+		# this should never happen, but just return the next physical block
+		return self.GetNextWest()
+
 	def SetNextEast(self, blk):
-		if self.name == "D20":
-			logging.debug("setting next block east to %s" % ("None" if blk is None else blk.Name()))
 		self.nextBlockEast = blk
+
+	def NextDetectionSectionEast(self):
+		if self.osblk is not None:
+			return self.osblk.NextDetectionSectionEast()
+
+		if self.mainBlock is not None:
+			return self.mainBlock.NextDetectionSectionEast()
+
+		if self.stoppedBlock is None:  # this is a main block
+			if self.stoppingBlocks[SBEAST] is not None:
+				return self.stoppingBlocks[SBEAST]
+			else:
+				return self.GetNextEast()
+		elif self.name.endswith(".W"):  # this is a west end stopping section
+			return self.stoppedBlock
+		elif self.name.endswith(".E"):  # this is the east side stopping block
+			return self.stoppedBlock.GetNextEast()
+
+		# this should never happen, but just return the next physical block
+		return self.GetNextEast()
+
+	def GetNextEast(self):
+		return self.nextBlockEast
 
 	def AddIndicator(self, district, node, address, bits):
 		self.indicators.append((district, node, address, bits))
@@ -237,7 +393,8 @@ class Block:
 		occ = parentBlk.IsOccupied() # the occupancy status of the block and all sublocks
 
 		for sb in parentBlk.StoppingBlocks():
-			occ = True if sb.IsOccupied() else occ
+			if sb is not None:
+				occ = True if sb.IsOccupied() else occ
 
 		for ind in parentBlk.indicators:
 			district, node, address, bits = ind
@@ -272,6 +429,12 @@ class OSBlock:
 
 	def Block(self):
 		return self.block
+
+	def Train(self):
+		return self.block.Train()
+
+	def SetTrain(self, tr):
+		self.block.SetTrain(tr)
 
 	def RouteDesignator(self):
 		return formatRouteDesignator(self.activeRouteName)
@@ -347,23 +510,41 @@ class OSBlock:
 
 		return False
 
+	def NextDetectionSectionWest(self):
+		if self.activeRoute is None:
+			return None
+
+		blk = self.activeRoute.NextBlockWest()
+		# if this block has an east stop section, send that as the next block instead
+		sbeast = blk.StoppingBlocks()[SBEAST]
+		return blk if sbeast is None else sbeast
+
+	def NextDetectionSectionEast(self):
+		if self.activeRoute is None:
+			return None
+
+		blk = self.activeRoute.NextBlockEast()
+		# if this block has a west stop section, send that as the next block instead
+		sbwest = blk.StoppingBlocks()[SBWEST]
+		return blk if sbwest is None else sbwest
+
 	def ActiveRoute(self):
 		return self.activeRoute
 
 	def ActiveRouteName(self):
 		return self.activeRouteName
 
-	def GetRouteType(self, reverse=False):
+	def RouteType(self, reverse=False):
 		if self.activeRoute is None:
 			return None
 
-		return self.activeRoute.GetRouteType(reverse=reverse)
+		return self.activeRoute.RouteType(reverse=reverse)
 
-	def GetExitBlock(self, reverse=False):
+	def ExitBlock(self, reverse=False):
 		if self.activeRoute is None:
 			return None
 
-		return self.activeRoute.GetExitBlock(reverse=reverse)
+		return self.activeRoute.ExitBlock(reverse=reverse)
 
 	def SetActiveRoute(self, rt):
 		if rt is None:
@@ -372,24 +553,16 @@ class OSBlock:
 			self.activeRouteName = None
 			return rc
 
-		dbg = self.name.startswith("DOSVJ")
-		if dbg:
-			logging.debug("enter set active route for %s to %s" % (self.name, rt.name))
-
 		rc = not self.activeRouteName == rt.Name()
 		self.activeRoute = rt
 		self.activeRouteName = rt.Name()
 		# each of the two ends of the route need to point back to this OS block
 		ar = self.activeRoute
 		nxtEast = ar.NextBlockEast()
-		if dbg:
-			logging.debug("next block east = %s" % nxtEast.Name())
 		if nxtEast is not None:
 			nxtEast.SetNextWest(self)
 
 		nxtWest = ar.NextBlockWest()
-		if dbg:
-			logging.debug("next block west = %s" % nxtWest.Name())
 		if nxtWest is not None:
 			nxtWest.SetNextEast(self)
 
@@ -454,19 +627,43 @@ class Route:
 		else:
 			return self.ends[1]
 
-	def GetExitBlock(self, reverse=False):
+	def SignalEast(self):
+		if self.osblk.East():
+			return self.signals[1]
+		else:
+			return self.signals[0]
+
+	def SignalWest(self):
+		if self.osblk.East():
+			return self.signals[0]
+		else:
+			return self.signals[1]
+
+	def ExitSignal(self, reverse=False):
+		if self.osblk.IsReversed():
+			return self.signals[1] if reverse else self.signals[0]
+		else:
+			return self.signals[0] if reverse else self.signals[1]
+
+	def EntrySignal(self, reverse=False):
+		if self.osblk.IsReversed():
+			return self.signals[0] if reverse else self.signals[1]
+		else:
+			return self.signals[1] if reverse else self.signals[0]
+
+	def ExitBlock(self, reverse=False):
 		if self.osblk.IsReversed():
 			return self.ends[1] if reverse else self.ends[0]
 		else:
 			return self.ends[0] if reverse else self.ends[1]
 
-	def GetEntryBlock(self, reverse=False):
+	def EntryBlock(self, reverse=False):
 		if self.osblk.IsReversed():
 			return self.ends[0] if reverse else self.ends[1]
 		else:
 			return self.ends[1] if reverse else self.ends[0]
 
-	def GetRouteType(self, reverse=False):
+	def RouteType(self, reverse=False):
 		if self.osblk.IsEast():
 			return self.rtype[1] if reverse else self.rtype[0]
 		else:
@@ -619,6 +816,7 @@ class ODevice:
 		self.node = node
 		self.address = address
 		self.status = False
+		self.bits = None
 		
 	def SetBits(self, bits):
 		self.bits = bits
@@ -677,6 +875,8 @@ class Signal:
 		self.lockBits = []
 		self.indicators = []
 		self.east = True
+		self.callon = False
+		self.fleeted = False
 
 	def IsNullSignal(self):
 		return self.district is None
@@ -692,12 +892,38 @@ class Signal:
 	def Bits(self):
 		return self.bits
 	
-	def SetAspect(self, aspect):
+	def SetAspect(self, aspect, callon=False):
 		if self.aspect == aspect:
 			return False
 		
 		self.aspect = aspect
+		if aspect == 0:
+			self.callon = False
+		else:
+			self.callon = callon
+
+		lb = len(self.bits)
+		if lb == 0:
+			self.district.SetAspect(self, aspect)
+		else:
+			if lb == 1:
+				vals = [1 if aspect != 0 else 0]
+			elif lb == 2:
+				vals = [aspect & 0x02, aspect & 0x01]
+			elif lb == 3:
+				vals = [aspect & 0x04, aspect & 0x02, aspect & 0x01]
+			else:
+				logging.warning("Unknown bits length for signal %s: %d" % (self.Name(), len(self.bits)))
+				return False
+
+			for (vbyte, vbit), val in zip(self.bits, vals):
+				self.node.SetOutputBit(vbyte, vbit, 1 if val != 0 else 0)
+
+		self.UpdateIndicators()  # make sure all indicators reflect this change
 		return True
+
+	def IsCallon(self):
+		return self.callon
 	
 	def SetAspectType(self, atype):
 		self.aspectType = atype
@@ -722,6 +948,12 @@ class Signal:
 
 	def SetEast(self, flag):
 		self.east = flag
+
+	def SetFleet(self, flag):
+		self.fleeted = flag
+
+	def Fleeted(self):
+		return self.fleeted
 
 	def District(self):
 		return self.district
@@ -1061,32 +1293,29 @@ class Turnout:
 	
 	def Lock(self, lockFlag, locker):
 		action = "Locking" if lockFlag else "Unlocking"
-		logging.debug("%s turnout %s, locker %s" % (action, self.Name(), locker))
 		# Return value indicates whether or not the locked value changes
 		if lockFlag:
 			if locker not in self.lockers:
 				self.lockers.append(locker)
-				logging.debug("new locker: %s" % str(self.lockers))
 				if self.locked:
 					return False
 				self.locked = True
 				return True
 			else:
-				logging.debug("duplicate locker")
 				return False
 		else:
 			if locker not in self.lockers:
-				logging.debug("unknown locker")
 				return False
 
 			self.lockers.remove(locker)
 			if len(self.lockers) == 0:
-				logging.debug("Locker list down to 0 - unlocking turnout")
 				self.locked = False
 				return True
 			else:
-				logging.debug("Not actually debugging becasue lockers = %s" % str(self.lockers))
 				return False
+
+	def Lockers(self):
+		return self.lockers
 
 	def IsLocked(self):
 		return self.locked
@@ -1171,9 +1400,7 @@ class Handswitch:
 		self.blocknm = blocknm
 
 	def ResolveBlock(self, blocks):
-		logging.debug("Resolving block %s for handswitch %s" % (self.blocknm, self.Name()))
 		self.block = blocks.get(self.blocknm, None)
-		logging.debug("resolved to block: %s" % str(self.block))
 
 	def Block(self):
 		return self.block

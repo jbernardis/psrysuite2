@@ -13,14 +13,14 @@ class Cliveden (District):
 		District.__init__(self, name, frame, screen)
 		self.C13Queue = self.frame.C13Queue
 
-	def PerformHandSwitchAction(self, hs, nv=None):
+	def HandSwitchClick(self, hs, nv=None):
 		controlOpt = self.frame.cliffControl
 		if controlOpt in [0, 1]:  # cliff local control or limited to bank/cliveden (handled in those districts)
-			msg = "Cliff control is local"
+			msg = "Cliveden control is local (Cliff)"
 			self.frame.PopupEvent(msg)
 			return
 
-		District.PerformHandSwitchAction(self, hs, nv)
+		District.HandSwitchClick(self, hs, nv)
 
 	def DoBlockAction(self, blk, blockend, state):
 		blknm = blk.GetName()
@@ -55,46 +55,67 @@ class Cliveden (District):
 		osname = osblk.GetName()
 		controlOpt = self.frame.cliffControl
 		if (controlOpt == 1 and osname != "COSCLW") or controlOpt == 0:
-			self.frame.PopupEvent("Cliveden control is local")
+			if controlOpt == 0:
+				msg = "Cliveden control is local (Cliff)"
+			else:
+				msg = "Dispatcher controls Bank/C13 only"
+			self.frame.PopupEvent(msg)
 			return
 		
 		District.SetUpRoute(self, osblk, route)
+
+	def SignalClick(self, sig, callon=False, silent=False):
+		controlOpt = self.frame.cliffControl
+		if controlOpt == 0:  # either cliff local for everything, including cliveden and bank
+			self.frame.PopupEvent("Cliveden control is local (Cliff)")
+			return
+		if controlOpt == 1:  # Cliff does not control signals/os at east end of single track
+			if sig.GetName() not in ["C14L", "C14RA", "C14RB"]:
+				self.frame.PopupEvent("Dispatcher controls Bank/C13 only")
+				return
+
+		# otherwise, allow
+		District.SignalClick(self, sig, callon, silent)
 
 	def TurnoutClick(self, turnout, force=False):
 		toname = turnout.GetName()
 		controlOpt = self.frame.cliffControl
 		if (controlOpt == 1 and toname != "CSw13") or controlOpt == 0:
-			self.frame.PopupEvent("Cliveden control is local")
+			if controlOpt == 0:
+				msg = "Cliveden control is local (Cliff)"
+			else:
+				msg = "Dispatcher controls Bank/C13 only"
+			self.frame.PopupEvent(msg)
 			return
 
 		District.TurnoutClick(self, turnout, force=force)
-
-	def PerformSignalAction(self, sig, callon=False, silent=False):
-		signame = sig.GetName()
-		controlOpt = self.frame.cliffControl
-		if (controlOpt == 1 and signame not in ["C14RA", "C14RB", "C14L"]) or controlOpt == 0:
-			self.frame.PopupEvent("Cliveden control is local")
-			return False
-
-		return District.PerformSignalAction(self, sig, callon=callon)
-
-	def DoSignalLeverAction(self, signame, state, callon, silent=1, source=None):
-		controlOpt = self.frame.cliffControl
-		if source == "ctc":
-			if controlOpt in [0, 1]:
-				self.frame.PopupEvent("Cliff control is local")
-				return False
-
-		return District.DoSignalLeverAction(self, signame, state, callon, silent, source)
-
-	def DoTurnoutLeverAction(self, turnout, state, force=False, source=None):
-		controlOpt = self.frame.cliffControl
-		if source == "ctc":
-			if controlOpt in [0, 1]:
-				self.frame.PopupEvent("Cliff control is local")
-				return False
-
-		return District.DoTurnoutLeverAction(self, turnout, state, force, source)
+	#
+	# def PerformSignalAction(self, sig, callon=False, silent=False):
+	# 	signame = sig.GetName()
+	# 	controlOpt = self.frame.cliffControl
+	# 	if (controlOpt == 1 and signame not in ["C14RA", "C14RB", "C14L"]) or controlOpt == 0:
+	# 		self.frame.PopupEvent("Cliveden control is local (Cliff")
+	# 		return False
+	#
+	# 	return District.PerformSignalAction(self, sig, callon=callon)
+	#
+	# def DoSignalLeverAction(self, signame, state, callon, silent=1, source=None):
+	# 	controlOpt = self.frame.cliffControl
+	# 	if source == "ctc":
+	# 		if controlOpt in [0, 1]:
+	# 			self.frame.PopupEvent("Cliveden control is local (Cliff)")
+	# 			return False
+	#
+	# 	return District.DoSignalLeverAction(self, signame, state, callon, silent, source)
+	#
+	# def DoTurnoutLeverAction(self, turnout, state, force=False, source=None):
+	# 	controlOpt = self.frame.cliffControl
+	# 	if source == "ctc":
+	# 		if controlOpt in [0, 1]:
+	# 			self.frame.PopupEvent("Cliveden control is local (Cliff)")
+	# 			return False
+	#
+	# 	return District.DoTurnoutLeverAction(self, turnout, state, force, source)
 
 	def DetermineRoute(self, blocks):
 		self.FindTurnoutCombinations(blocks, ["CSw9", "CSw13"])

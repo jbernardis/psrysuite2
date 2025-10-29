@@ -282,6 +282,28 @@ class HTTPServer:
 			jstr = json.dumps(snapList)
 			return 200, jstr
 
+		elif verb == "turnoutlock":
+			try:
+				name = cmd["name"][0]
+			except:
+				name = None
+			try:
+				pname = cmd["pname"][0]
+			except:
+				pname = None
+
+			if name is None:
+				logging.info("turnoutlock: turnout name not specified")
+				return 400, "turnoutlock: turnout name not specified"
+
+			rv = self.rr.GetTurnoutLock(name, pname)
+			if rv is None:
+				logging.info("Unknown error retrieving tuyrnout lock")
+				return 400, ""
+
+			jstr = json.dumps(rv)
+			return 200, jstr
+
 		elif verb == "listdir":
 			try:
 				directory = cmd["dir"][0]

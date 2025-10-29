@@ -111,9 +111,11 @@ class Nassau(District):
 			self.rr.AddTurnout("NSw15", self, n, addr, [])
 			self.rr.AddTurnout("NSw17", self, n, addr, [])
 
-			self.rr.AddBlock("N21.W",   self, n, addr, [(2, 0)], True)
-			self.rr.AddBlock("N21",     self, n, addr, [(2, 1)], True)
-			self.rr.AddBlock("N21.E",   self, n, addr, [(2, 2)], True)
+			sbw = self.rr.AddBlock("N21.W",   self, n, addr, [(2, 0)], True)
+			b = self.rr.AddBlock("N21",     self, n, addr, [(2, 1)], True)
+			sbe = self.rr.AddBlock("N21.E",   self, n, addr, [(2, 2)], True)
+			b.AddStoppingBlocks([sbw, sbe])
+
 			self.rr.AddBlock("NWOSTY",  self, n, addr, [(2, 3)], False)
 			self.rr.AddBlock("NWOSCY",  self, n, addr, [(2, 4)], False)
 			self.rr.AddBlock("NWOSW",   self, n, addr, [(2, 5)], False)
@@ -505,15 +507,15 @@ class Nassau(District):
 
 	def ControlRestrictedMessage(self):
 		if self.control == 0:
-			return "Control is Local"
+			return "Massau Control is Local"
 		elif self.control == 1:
-			return "Dispatcher controls main line"
+			return "Dispatcher controls main line only"
 		else:
 			return "Dispatcher controls Nassau Tower"
 
 	def ControlRestrictedSignal(self, signm):
-		logging.debug("Check for signal %s not in list %s, control = %d" % (signm, self.fleetedSignals[self.control], self.control))
-		return signm not in self.fleetedSignals[self.control]
+		# logging.debug("Check for signal %s not in list %s, control = %d" % (signm, self.fleetedSignals[self.control], self.control))
+		return False  # signm not in self.fleetedSignals[self.control]
 
 	def UpdateControlOption(self):
 		self.lastControl = self.control
@@ -585,7 +587,7 @@ class Nassau(District):
 	def Released(self, _):
 		return self.released
 		
-	def GetControlOption(self):
+	def GetControlOption(self, reset=True):
 		if self.control == 2:  # dispatcher ALL control - ignore all signal levers
 			skiplist = ["N14", "N16", "N18", "N24", "N26", "N20", "N28"]
 			resumelist = []
@@ -608,5 +610,6 @@ class Nassau(District):
 			else:
 				resumelist = []
 
-		self.lastControl = self.control
+		if reset:
+			self.lastControl = self.control
 		return skiplist, resumelist

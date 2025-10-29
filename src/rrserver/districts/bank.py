@@ -51,15 +51,22 @@ class Bank(District):
 			self.rr.AddHandswitch("CSw19",  self, n, addr, [(0, 6), (0, 7)], "B21")
 			self.rr.AddTurnoutPosition("CSw17",  self, n, addr, [(1, 0), (1, 1)])
 				
-			self.rr.AddBlock("B20",   self, n, addr, [(1, 2)], True)
-			self.rr.AddBlock("B20.E", self, n, addr, [(1, 3)], True)
+			b = self.rr.AddBlock("B20",   self, n, addr, [(1, 2)], True)
+			sbe = self.rr.AddBlock("B20.E", self, n, addr, [(1, 3)], True)
+			b.AddStoppingBlocks([sbe])
+
 			self.rr.AddBlock("BOSWW", self, n, addr, [(1, 4)], False)
 			self.rr.AddBlock("BOSWE", self, n, addr, [(1, 5)], False)
-			self.rr.AddBlock("B11.W", self, n, addr, [(1, 6)], False)
-			self.rr.AddBlock("B11",   self, n, addr, [(1, 7)], False)
-			self.rr.AddBlock("B21.W", self, n, addr, [(2, 0)], True)
-			self.rr.AddBlock("B21",   self, n, addr, [(2, 1)], True)
-			self.rr.AddBlock("B21.E", self, n, addr, [(2, 2)], True)
+
+			sbw = self.rr.AddBlock("B11.W", self, n, addr, [(1, 6)], False)
+			b = self.rr.AddBlock("B11",   self, n, addr, [(1, 7)], False)
+			b.AddStoppingBlocks([sbw])
+
+			sbw = self.rr.AddBlock("B21.W", self, n, addr, [(2, 0)], True)
+			b = self.rr.AddBlock("B21",   self, n, addr, [(2, 1)], True)
+			sbe = self.rr.AddBlock("B21.E", self, n, addr, [(2, 2)], True)
+			b.AddStoppingBlocks([sbe, sbw])
+
 			self.rr.AddBlock("BOSE",  self, n, addr, [(2, 3)], True)
 
 			self.rr.AddBreaker("CBBank",         self, n, addr, [(2, 4)])

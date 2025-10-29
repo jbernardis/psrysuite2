@@ -224,7 +224,7 @@ class District:
 		return None, None
 
 	def SignalClick(self, sig, callon=False, silent=False):
-		self.frame.Request({"signalclick": {"name": sig.GetName(), "callon": callon == 1}})
+		self.frame.Request({"signalclick": {"name": sig.GetName(), "callon": 1 if callon else 0}})
 		# currentMovement = sig.GetAspect() != 0  # does the CURRENT signal status allow movement
 		# signm = sig.GetName()
 		# rt, osblk = self.FindRoute(sig)
@@ -318,7 +318,7 @@ class District:
 		currentDirection = sig.GetEast()
 		if currentDirection != osblk.GetEast() and osblk.IsCleared():
 			if not silent:
-				self.frame.PopupEvent("Block %s is cleared in opposite direction" % osblk.GetRouteDesignator())
+				self.frame.PopupEvent("Block %s is cleared in opposite direction9" % osblk.GetRouteDesignator())
 			logging.debug("Unable to calculate aspect: Block %s is cleared in opposite direction" % osblk.GetName())
 			return None
 		
@@ -636,7 +636,7 @@ class District:
 
 		return 0b000  # stop as default
 
-	def PerformHandSwitchAction(self, hs, nv=None):
+	def HandSwitchClick(self, hs, nv=None):
 		if nv and nv == hs.GetValue():
 			return
 
