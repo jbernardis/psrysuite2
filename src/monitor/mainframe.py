@@ -1692,9 +1692,11 @@ class MainFrame(wx.Frame):
 			self.blockOsMap = BlockOSMap(self.rrServer)
 
 		if self.settings.rrserver.simulation:
-			b = self.iobits["blocks"]
-			
-			bl = [bn for bn in b.keys()]
+			bl = []
+			for bn, binfo in self.iobits["blocks"].items():
+				bits = binfo['occupancy'][0]
+				if len(bits) > 0:
+					bl.append(bn)
 
 			self.blockList = sorted(bl, key=self.BuildBlockKey)
 			self.chBlock.SetItems(self.blockList)

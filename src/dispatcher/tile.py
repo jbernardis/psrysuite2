@@ -150,10 +150,10 @@ class SlipSwitchTile:
 		if blkstat == "U":
 			if disabled:
 				try:
-					return bmps["yellow"]
+					return bmps["yellow-dis"]
 				except KeyError:
 					pass
-			return bmps["red"]
+			return bmps["yellow"]
 
 		if blkstat == "C":
 			if disabled:

@@ -11,8 +11,8 @@ class Krulish (District):
 	def __init__(self, name, frame, screen):
 		District.__init__(self, name, frame, screen)
 
-	def DoSignalAction(self, sig, aspect, frozenaspect=None, callon=False):
-		District.DoSignalAction(self, sig, aspect, frozenaspect=frozenaspect, callon=callon)
+	def SetAspect(self, sig, aspect, refresh=False):
+		District.SetAspect(self, sig, aspect, refresh)
 		signm = sig.GetName()
 
 		if signm == "N10W":
@@ -40,9 +40,9 @@ class Krulish (District):
 				bmp = self.misctiles["indicator"].getBmp(None, "green")
 			self.frame.DrawTile(self.screen, (124, 24), bmp)
 			
-		if signm in ["K2R", "K4R", "K8R"]:
-			self.CheckBlockSignals("N11", "N11W", False)
-			self.CheckBlockSignals("N21", "N21W", False)
+		# if signm in ["K2R", "K4R", "K8R"]:
+		# 	self.CheckBlockSignals("N11", "N11W", False)
+		# 	self.CheckBlockSignals("N21", "N21W", False)
 	
 	def DoBlockAction(self, blk, blockend, state):
 		blknm = blk.GetName()

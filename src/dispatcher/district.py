@@ -507,16 +507,13 @@ class District:
 	def anyTurnoutLocked(self, toList):
 		rv = False
 		self.lockedList = []
-		logging.debug("================================== anyTurnoutLocked")
 		for toname, stat in toList:
 			turnout = self.turnouts[toname]
 			tostat = "N" if turnout.IsNormal() else "R"
-			logging.debug("To: %s, %s <=> %s  (%s)" % (toname, stat, tostat, turnout.IsLocked()))
 			if turnout.IsLocked() and tostat != stat:
 				self.lockedList.append(toname)
 				rv = True
 
-		logging.debug("================================= end - rv = %s" % str(rv))
 		return rv
 
 	@staticmethod
@@ -653,8 +650,6 @@ class District:
 
 		self.frame.Request({"handswitch": {"name": hs.GetName(), "status": stat}})
 
-	# The Do... routines handle requests that come in from the dispatch server.  The 3 objects of interest for
-	# these requests are blocks, signals, and turnouts
 	def DoBlockAction(self, blk, blockend, state):
 		bname = blk.GetName()
 		if blk.IsOS() and blk.route is None:
@@ -682,209 +677,7 @@ class District:
 
 		self.frame.Request({"turnout": {"name": turnout.GetName(), "status": state, "force": force}})
 
-	def DoSignalAction(self, sig, aspect, frozenaspect=None, callon=False):
-		signm = sig.GetName()
-		atype = sig.GetAspectType()
-		sig.SetFrozenAspect(frozenaspect)
-
-		if callon:
-			sig.SetAspect(aspect, refresh=True, callon=True)
-			return
-
-		osblock = None
-		rname = None
-		for blknm, siglist in self.frame.ossignals.items():
-			if signm in siglist:
-				osblock = self.frame.blocks[blknm]
-				if osblock.route is None:
-					continue
-				
-				rname = osblock.GetRouteName()
-				if sig.IsPossibleRoute(blknm, rname):
-					break
-		else:
-			if aspect != 0:
-				logging.info("DoSignalAction returning because no possible routes")
-				return
-
-		if osblock is None:
-			logging.info("DoSignalAction returning because unable to identify os block")
-			return
-
-		if aspect < 0:
-			if rname is None:
-				aspect = None
-			else:
-				aspect = self.CalculateAspect(sig, osblock, self.frame.routes[rname], silent=True)
-
-			#  report calculated aspect back to the server
-			if aspect is None:
-				aspect = sig.GetAspect()
-				logging.debug("Calculated aspect of None whan given aspect -1.  signal/aspect = {%s/%s" % (sig.GetName(), aspect))
-				
-			self.frame.Request({"signal": {"name": signm, "aspect": aspect, "aspecttype": atype}})
-
-		if sig.GetAspect() == aspect:
-			# no change necessary
-			return
-
-		# all checking was done on the sending side, so this is a valid request - just do it
-		if aspect != STOP:
-			osblock.SetEast(sig.GetEast())
-
-		sig.SetAspect(aspect, refresh=True)
-		
-		exitBlkNm = osblock.GetExitBlock()
-		entryBlkNm = osblock.GetEntryBlock()
-		exitBlk  = self.frame.GetBlockByName(exitBlkNm)
-		#  entryBlk = self.frame.GetBlockByName(entryBlkNm)
-
-		if aspect != 0:
-			osblock.SetEntrySignal(sig)
-			osblock.SetCleared(True, refresh=True)
-			self.frame.CheckTrainsInBlock(entryBlkNm, sig)
-		else:
-			entrySig = osblock.GetEntrySignal()
-			if entrySig is not None:
-				if sig.GetName() == entrySig.GetName():
-					osblock.SetCleared(False, refresh=True)
-					self.frame.CheckTrainsInBlock(entryBlkNm, sig)
-
-		if osblock.IsBusy() and aspect == STOP:
-			return
-
-		if aspect != 0:
-			if CrossingEastWestBoundary(osblock, exitBlk):
-				nd = not sig.GetEast()
-			else:
-				nd = sig.GetEast()
-				
-			exitBlk.SetEast(nd)
-
-		exitBlk.SetCleared(aspect != STOP, refresh=True)
-
-		self.LockTurnoutsForSignal(osblock.GetName(), sig, aspect != STOP)
-
-		if exitBlk.GetBlockType() == OVERSWITCH:
-			rt = exitBlk.GetRoute()
-			if rt:
-				tolist = rt.GetLockTurnouts()
-				self.LockTurnouts(signm, tolist, aspect != STOP)
-				
-		self.EvaluateDistrictLocks(sig)
-		self.EvaluatePreviousSignals(sig)
-		
-	def EvaluatePreviousSignals(self, sig):
-		if not self.frame.IsDispatcher():
-			return
-		
-		if self.dbg.showaspectcalculation:
-			self.frame.DebugMessage("Evaluating prior signals for signal %s" % sig.GetName())
-		rt, osblk = self.FindRoute(sig)
-		if osblk is None:
-			if self.dbg.showaspectcalculation:
-				self.frame.DebugMessage("No OS block identified")
-			return
-		
-		# we're going backwards, so look in that same direction
-		currentDirection = not sig.GetEast()
-		if self.dbg.showaspectcalculation:
-			self.frame.DebugMessage("Starting in direction %s" % ("east" if currentDirection else "west"))
-		exitBlkNm = rt.GetExitBlock(reverse=currentDirection != osblk.GetEast())
-
-		try:
-			exitBlk = self.frame.blocks[exitBlkNm]
-		except KeyError:
-			return
-
-		if self.dbg.showaspectcalculation:
-			self.frame.DebugMessage("Now looking at previous block %s" % exitBlkNm)
-
-		if CrossingEastWestBoundary(osblk, exitBlk):
-			currentDirection = not currentDirection
-			if self.dbg.showaspectcalculation:
-				self.frame.DebugMessage("Changing direction %s because of E/W boundary" % ("east" if currentDirection else "west"))
-
-		nb = exitBlk.NextBlock(reverse=currentDirection != exitBlk.GetEast())
-		if nb is None:
-			if self.dbg.showaspectcalculation:
-				self.frame.DebugMessage("No next OS block identified")
-			return
-		
-		nbName = nb.GetName()
-		if nb.GetBlockType() != OVERSWITCH:
-			if self.dbg.showaspectcalculation:
-				self.frame.DebugMessage("Next block is not an OS block - returning")
-			return
-
-		rt = nb.GetRoute()
-		if rt is None:
-			if self.dbg.showaspectcalculation:
-				self.frame.DebugMessage("OS block %s does not have a route - returning" % nbName)
-			return
-		
-		if CrossingEastWestBoundary(nb, exitBlk):
-			currentDirection = not currentDirection
-			if self.dbg.showaspectcalculation:
-				self.frame.DebugMessage("Changing direction %s because of E/W boundary" % ("east" if currentDirection else "west"))
-
-		sigs = rt.GetSignals()
-		ep = rt.GetEndPoints()
-		if len(sigs) != 2 or len(ep) != 2:
-			logging.error("signals and or endpoints for route %s != 2" % rt.GetName())
-			return 
-		
-		if exitBlkNm not in ep:
-			if self.dbg.showaspectcalculation:
-				self.frame.DebugMessage("unknown exit block: %s - returnins" % exitBlkNm)
-			return
-		
-		if exitBlkNm == ep[0]:
-			sigNm = sigs[1]
-		elif exitBlkNm == ep[1]:
-			sigNm = sigs[0]
-		else:
-			self.frame.DebugMessage("Unable to identify signal for block %s" % exitBlkNm)
-			return
-
-		if self.dbg.showaspectcalculation:
-			self.frame.DebugMessage("Considering signal %s" % sigNm)
-
-		try:
-			psig = self.frame.signals[sigNm]
-		except KeyError:
-			return
-		
-		# we're not going to change signals that are stopped, so end this here
-		currentAspect = psig.GetAspect()
-		if currentAspect == 0:
-			if self.dbg.showaspectcalculation:
-				self.frame.DebugMessage("Signal %s is Stopped - finished" % sigNm)
-			return
-		
-		if sigNm.startswith("P"):
-			# skip anything to do with Port - we don't control it
-			if self.dbg.showaspectcalculation:
-				self.frame.DebugMessage("Ignoring Port signals")
-			return
-
-		# stop if the aspect is unchanged or can't be calculated
-		newAspect = self.CalculateAspect(psig, nb, rt, silent=True)
-		if newAspect is None or newAspect == currentAspect:
-			if self.dbg.showaspectcalculation:
-				if newAspect is None:
-					self.frame.DebugMessage("Unable to calculate a new aspect for signal %s" % sigNm)
-				else:
-					self.frame.DebugMessage("Aspect for signal %s is unchanged - finished" % sigNm)
-			return
-		aspectType = psig.GetAspectType() 
-	
-		self.frame.Request({"signal": {"name": sigNm, "aspect": newAspect, "aspecttype": aspectType, "callon": 0}})
-
-		if self.dbg.showaspectcalculation:
-			self.frame.DebugMessage("Calculated new aspect for signal %s = %s" % (psig.GetName(), newAspect))
-		
-	def EvaluateDistrictLocks(self, sig, ossLocks=None):
+	def SetAspect(self, signal, aspect, refresh):
 		pass
 
 	def DoSignalLeverAction(self, signame, state, callon, silent=1, source=None):

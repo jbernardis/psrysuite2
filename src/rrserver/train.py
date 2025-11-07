@@ -12,9 +12,21 @@ class Train:
 		self.loco = None
 		self.engineer = None
 		self.blocks = []
+		self.lastAspect = None
+		self.lastAspectType = None
+		self.stopped = False
+		self.atc = False
+		self.ar = False
+		self.templateTrain = None
+		self.signal = None
 
 	def IsIdentified(self):
 		return self.rname is not None
+
+	def SetStopped(self, flag):
+		rc = flag != self.stopped  # True indicates a value was changed
+		self.stopped = flag
+		return rc
 
 	def Name(self):
 		return self.iname if self.rname is None else self.rname
@@ -26,7 +38,16 @@ class Train:
 		self.roster = roster
 		self.rname = name
 
+	def SetSignal(self, sig):
+		self.signal = sig
+
+	def Signal(self):
+		return self.signal
+
 	def IsEast(self):
+		return self.East()
+
+	def East(self):
 		return self.east
 
 	def SetEast(self, east):
@@ -38,11 +59,33 @@ class Train:
 	def SetEngineer(self, e):
 		self.engineer = e
 
+	def SetTemplateTrain(self, tn):
+		self.templateTrain = tn
+
+	def TemplateTrains(self):
+		return self.templateTrain
+
 	def Loco(self):
 		return self.loco
 
 	def SetLoco(self, l):
 		self.loco = l
+
+	def SetATC(self, atc):
+		self.atc = atc
+
+	def ATC(self):
+		return self.atc
+
+	def SetAR(self, ar):
+		self.ar = ar
+
+	def AR(self):
+		return self.ar
+
+	def SetLastAspect(self, aspect, aspectType):
+		self.lastAspect = aspect
+		self.lastAspectType = aspectType
 
 	def Blocks(self):
 		return self.blocks
@@ -54,6 +97,12 @@ class Train:
 			self.blocks = [blk] + self.blocks
 		else:
 			self.blocks.append(blk)
+
+	def ReverseBlocks(self):
+		self.blocks = list(reversed(self.blocks))
+
+	def BlockCount(self):
+		return len(self.blocks)
 
 	def RemoveBlock(self, rblk):
 		logging.debug("we want to remove block %s from train %s" % (rblk.Name(), self.Name()))
@@ -75,7 +124,13 @@ class Train:
 			"east": self.east,
 			"loco": self.loco,
 			"engineer": self.engineer,
-			"blocks": [b.Name() for b in self.blocks]
+			"blocks": [b.Name() for b in self.blocks],
+			"stopped": self.stopped,
+			"atc": self.atc,
+			"ar": self.ar,
+			"signal": self.signal.Name(),
+			"aspect": self.lastAspect,
+			"aspecttype": self.lastAspectType
 		}
 		return {"train": [parms]}
 

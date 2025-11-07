@@ -47,14 +47,6 @@ class Bank (District):
 
 		District.TurnoutClick(self, turnout, force=force)
 
-	def PerformSignalAction(self, sig, callon=False, silent=False):
-		controlOpt = self.frame.cliffControl
-		if controlOpt == 0:  # bank local control
-			self.frame.PopupEvent("Bank control is local (Cliff)")
-			return False
-
-		return District.PerformSignalAction(self, sig, callon=callon)
-
 	def DoSignalLeverAction(self, signame, state, callon, silent=1, source=None):
 		controlOpt = self.frame.cliffControl
 		if source == "ctc":

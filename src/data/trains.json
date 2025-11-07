@@ -178,7 +178,7 @@
         1
       ]
     ],
-    "route": null
+    "template": null
   },
   "20Y": {
     "block": null,
@@ -359,7 +359,7 @@
         1
       ]
     ],
-    "route": null
+    "template": null
   },
   "50Y": {
     "block": null,
@@ -540,7 +540,7 @@
         1
       ]
     ],
-    "route": null
+    "template": null
   },
   "HEX": {
     "block": null,
@@ -634,7 +634,7 @@
         11
       ]
     ],
-    "route": null
+    "template": null
   },
   "HWX": {
     "block": null,
@@ -728,7 +728,7 @@
         11
       ]
     ],
-    "route": null
+    "template": null
   },
   "PBCX": {
     "block": null,
@@ -830,7 +830,7 @@
         11
       ]
     ],
-    "route": null
+    "template": null
   },
   "YDCF": {
     "block": null,
@@ -1035,7 +1035,7 @@
         11
       ]
     ],
-    "route": null
+    "template": null
   },
   "20C": {
     "block": null,
@@ -1240,7 +1240,7 @@
         11
       ]
     ],
-    "route": null
+    "template": null
   },
   "50C": {
     "block": null,
@@ -1445,7 +1445,7 @@
         11
       ]
     ],
-    "route": null
+    "template": null
   },
   "EL": {
     "tracker": [],
@@ -1453,7 +1453,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": null,
+    "template": null,
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -1463,7 +1463,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": false,
+    "eastbound": true,
     "startblock": "H23",
     "startsubblock": null,
     "time": 5000,
@@ -1508,7 +1508,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": null,
+    "template": null,
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -1563,7 +1563,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "20C",
+    "template": "20C",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -1585,7 +1585,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "20C",
+    "template": "20C",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -1607,7 +1607,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "20C",
+    "template": "20C",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -1629,7 +1629,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "20C",
+    "template": "20C",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -1651,7 +1651,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "20C",
+    "template": "20C",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -1673,7 +1673,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "20C",
+    "template": "20C",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -1695,7 +1695,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "20C",
+    "template": "20C",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -1717,7 +1717,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "20C",
+    "template": "20C",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -1739,7 +1739,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "20C",
+    "template": "20C",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -1761,7 +1761,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "20Y",
+    "template": "20Y",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -1771,7 +1771,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -1783,7 +1783,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "20Y",
+    "template": "20Y",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -1793,7 +1793,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -1805,7 +1805,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "20Y",
+    "template": "20Y",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -1815,7 +1815,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -1827,7 +1827,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "20Y",
+    "template": "20Y",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -1837,7 +1837,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -1849,7 +1849,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "20Y",
+    "template": "20Y",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -1859,7 +1859,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -1871,7 +1871,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "20Y",
+    "template": "20Y",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -1881,7 +1881,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -1893,7 +1893,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "20Y",
+    "template": "20Y",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -1903,7 +1903,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -1915,7 +1915,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "20Y",
+    "template": "20Y",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -1925,7 +1925,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -1937,7 +1937,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "20Y",
+    "template": "20Y",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -1947,7 +1947,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -1959,7 +1959,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "50C",
+    "template": "50C",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -1981,7 +1981,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "50C",
+    "template": "50C",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2003,7 +2003,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "50C",
+    "template": "50C",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2025,7 +2025,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "50C",
+    "template": "50C",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2047,7 +2047,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "50C",
+    "template": "50C",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2069,7 +2069,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "50C",
+    "template": "50C",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2091,7 +2091,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "50C",
+    "template": "50C",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2113,7 +2113,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "50C",
+    "template": "50C",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2135,7 +2135,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "50C",
+    "template": "50C",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2157,7 +2157,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "50Y",
+    "template": "50Y",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2167,7 +2167,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -2179,7 +2179,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "50Y",
+    "template": "50Y",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2189,7 +2189,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -2201,7 +2201,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "50Y",
+    "template": "50Y",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2211,7 +2211,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -2223,7 +2223,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "50Y",
+    "template": "50Y",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2233,7 +2233,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -2245,7 +2245,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "50Y",
+    "template": "50Y",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2255,7 +2255,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -2267,7 +2267,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "50Y",
+    "template": "50Y",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2277,7 +2277,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -2289,7 +2289,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "50Y",
+    "template": "50Y",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2299,7 +2299,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -2311,7 +2311,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "50Y",
+    "template": "50Y",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2321,7 +2321,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -2333,7 +2333,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "50Y",
+    "template": "50Y",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2343,7 +2343,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -2355,7 +2355,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "EL",
+    "template": "EL",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2377,7 +2377,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "WL",
+    "template": "WL",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2387,7 +2387,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -2399,7 +2399,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "EL",
+    "template": "EL",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2421,7 +2421,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "WL",
+    "template": "WL",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2431,7 +2431,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -2443,7 +2443,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "EL",
+    "template": "EL",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2465,7 +2465,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "WL",
+    "template": "WL",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2475,7 +2475,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -2487,7 +2487,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "EL",
+    "template": "EL",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2509,7 +2509,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "WL",
+    "template": "WL",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2519,7 +2519,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -2531,7 +2531,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "EL",
+    "template": "EL",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2553,7 +2553,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "WL",
+    "template": "WL",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2563,7 +2563,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -2575,7 +2575,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "EL",
+    "template": "EL",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2597,7 +2597,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "WL",
+    "template": "WL",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2607,7 +2607,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -2619,7 +2619,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "EL",
+    "template": "EL",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2641,7 +2641,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "WL",
+    "template": "WL",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2651,7 +2651,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -2663,7 +2663,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "EL",
+    "template": "EL",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2685,7 +2685,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "WL",
+    "template": "WL",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2695,7 +2695,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,
@@ -2707,7 +2707,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "EL",
+    "template": "EL",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2729,7 +2729,7 @@
     "cutoff": false,
     "desc": null,
     "loco": null,
-    "route": "WL",
+    "template": "WL",
     "normalloco": null,
     "origin": {
       "loc": null,
@@ -2739,7 +2739,7 @@
       "loc": null,
       "track": null
     },
-    "eastbound": true,
+    "eastbound": false,
     "startblock": null,
     "startsubblock": null,
     "time": 5000,

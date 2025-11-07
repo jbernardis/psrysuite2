@@ -61,6 +61,9 @@ class Block:
 	def SetOS(self, osblk):
 		self.osblk = osblk
 
+	def OS(self):
+		return self.osblk
+
 	def Name(self):
 		return self.name
 
@@ -77,7 +80,7 @@ class Block:
 		return INPUT_BLOCK
 
 	def IsOS(self):
-		return False
+		return self.osblk is not None
 
 	def IsNullBlock(self):
 		return self.district is None
@@ -129,8 +132,16 @@ class Block:
 		return self.mainBlock.GetStatus()
 
 	def NextBlock(self, reverse=False):
-		e = self.nextBlockEast
-		w = self.nextBlockWest
+		east = self.east and not reversed
+		if self.osblk is not None:
+			return self.osblk.NextBlock(reverse=reverse)
+
+		if self.mainBlock is not None:
+			return self.mainBlock.NextBlock(reverse=reverse)
+
+		if self.stoppedBlock is not None:  # this is a stopping block
+			return self.stoppedBlock.NextBlock(reverse=reverse)
+
 		if self.east:
 			return self.nextBlockWest if reverse else self.nextBlockEast
 		else:
@@ -143,7 +154,6 @@ class Block:
 			self.mainBlock.SetTrain(tr)
 
 	def RemoveFromTrain(self):
-		logging.debug("removing train %s from block %s" % ("None" if self.train is None else self.train.Name(), self.Name()))
 		if self.train is None:
 			return None
 
@@ -249,9 +259,6 @@ class Block:
 		self.east = self.normalEast
 	
 	def SetStatus(self, stat):
-		if self.name == "N20":
-			logging.debug("===================================== setting N20 status to %s" % stat)
-			traceback.print_stack()
 		if self.status == stat:
 			return False
 
@@ -268,11 +275,9 @@ class Block:
 	def SetRoute(self, rtName, blks, sigs):
 		bnames = ["NONE" if bn is None else bn.Name() for bn in blks]
 		snames = ["NONE" if sn is None else sn.Name() for sn in sigs]
-		print("OS %s set route to %s sigs = %s, blocks = %s" % (self.Name(), rtName, str(snames), str(bnames)))
 		self.route = rtName
 
 	def DeriveOccupancyFromSubs(self):
-		logging.debug("derive occupancy from subs: %s" % self.name)
 		if len(self.subBlocks) > 0:
 			# this is the main block - get occupied status from subblocks
 			occ = []
@@ -292,8 +297,6 @@ class Block:
 				ov = "E"
 
 			rc = ov != self.status
-			if self.name == "N20":
-				logging.debug("===================================== derived N20 status to %s" % ov)
 			self.status = ov
 			return rc
 		return False
@@ -305,8 +308,6 @@ class Block:
 		if self.status == "C":
 			return False
 
-		if self.name == "N20":
-			logging.debug("----set N20 clear")
 		self.status = "C"
 		return True
 		
@@ -453,6 +454,9 @@ class OSBlock:
 
 	def IsOS(self):
 		return True
+
+	def OS(self):
+		return self
 
 	def IsCleared(self):
 		return self.block.IsCleared()
@@ -932,10 +936,10 @@ class Signal:
 		self.frozenaspect = fa
 		
 	def GetAspectType(self):
-		return self.aspectType
+		return self.AspectType()
 
 	def AspectType(self):
-		return self.GetAspectType()
+		return self.aspectType
 		
 	def Aspect(self):
 		return self.aspect
@@ -1172,6 +1176,9 @@ class Turnout:
 
 	def SetPairedTurnout(self, pname):
 		self.pairedTurnout = pname
+
+	def PairedName(self):
+		return self.pairedTurnout
 		
 	def dump(self):
 		addr = "None" if self.address is None else ("%x" % self.address)
@@ -1290,6 +1297,10 @@ class Turnout:
 
 	def LockBits(self):
 		return self.lockBits
+
+	def ClearLock(self):
+		self.locked = False
+		self.lockers = []
 	
 	def Lock(self, lockFlag, locker):
 		action = "Locking" if lockFlag else "Unlocking"

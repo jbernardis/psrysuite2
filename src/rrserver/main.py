@@ -253,7 +253,8 @@ class ServerMain:
 			
 			# "settrain":		self.DoSetTrain,
 			# "deletetrain":	self.DoDeleteTrain,
-			# "renametrain":	self.DoRenameTrain,
+			"modifytrain":	self.DoModifyTrain,
+			"trainreverse":	self.DoTrainReverse,
 			# "trainsignal":	self.DoTrainSignal,
 			# "movetrain":	self.DoMoveTrain,
 			# "removetrain":	self.DoRemoveTrain,
@@ -267,7 +268,7 @@ class ServerMain:
 			"siglever":		self.DoSigLever,
 			# "sigleverled":	self.DoSigLeverLED,
 			"turnoutclick":  	self.DoTurnoutClick,
-			# "turnoutlock":	self.DoTurnoutLock,
+			"clearlocks":	self.DoClearLocks,
 			# "turnoutlever":	self.DoTurnoutLever,
 			# "setroute": 	self.DoSetRoute,
 			"nxbutton":		self.DoNXButton,
@@ -275,7 +276,7 @@ class ServerMain:
 			# "blockdirs":	self.DoBlockDirs,
 			# "blockclear":	self.DoBlockClear,
 			# "indicator":	self.DoIndicator,
-			# "relay":		self.DoRelay,
+			"setrelay":		self.DoSetRelay,
 			"handswitch":	self.DoHandSwitch,
 			# "districtlock":	self.DoDistrictLock,
 			
@@ -474,28 +475,10 @@ class ServerMain:
 		else:
 			logging.error("NX button without entry&exit/button parameters")
 		
-	def DoTurnoutLock(self, cmd):
-		try:
-			swname = cmd["name"][0]
-		except KeyError:
-			swname = None
+	def DoClearLocks(self, cmd):
+		logging.debug("clear locks command: %s" % str(cmd))
+		self.rr.ClearTurnoutLocks(cmd["turnouts"])
 
-		try:
-			status = int(cmd["status"][0])
-		except KeyError:
-			status = None
-
-		try:
-			locker = cmd["locker"][0]
-		except KeyError:
-			locker = None
-
-		if swname is None or status is None:
-			logging.error("turnout lock command without name and/or status paremeter")
-			return
-
-		self.rr.SetTurnoutLock(swname, status, locker)
-			
 	def DoHandSwitch(self, cmd):
 		try:
 			hsname = cmd["name"][0]
@@ -570,41 +553,23 @@ class ServerMain:
 		resp = {"indicator": [{ "name": indname, "value": value}]}
 		self.socketServer.sendToAll(resp)
 
-	def DoRelay(self, cmd):
+	def DoSetRelay(self, cmd):
 		try:
-			block = cmd["block"][0]
+			name = cmd["name"][0]
 		except KeyError:
-			block = None
+			name = None
 
 		try:
-			status = int(cmd["state"][0])
+			flag = int(cmd["flag"][0])
 		except KeyError:
-			status = None
+			flag = None
 
-		if block is None or status is None:
-			logging.error("relay command without block and/or state paremeter")
+		if name is None or flag is None:
+			logging.error("set relay command without name and/or flag paremeter")
 			return
 
-		try:
-			direction = cmd["direction"][0]
-		except KeyError:
-			direction = "unknown"
-
-		try:
-			silent = int(cmd["silent"][0])
-		except KeyError:
-			silent = 0
-
-		try:
-			train = cmd["train"][0]
-		except KeyError:
-			train = "??"
-
-		relay = block + ".srel"
-		resp = {"relay": [{ "name": relay, "state": status, "direction": direction, "train": train, "silent": silent}]}
-		self.socketServer.sendToAll(resp)
-
-		self.rr.SetRelay(relay, status)
+		logging.debug("set stopping relay %s %d" % (name, flag))
+		self.rr.SetRelay(name+".srel", flag)
 		
 	def DoClock(self, cmd):
 		try:
@@ -1060,41 +1025,71 @@ class ServerMain:
 			self.socketServer.sendToOne(skt, addr, {"dumptrains": ""})
 		return self.trainList.GetTrainList()
 
-	def DoRenameTrain(self, cmd):
+	def DoModifyTrain(self, cmd):
 		try:
-			oname = cmd["oldname"][0]
+			iname = cmd["iname"][0]
 		except (IndexError, KeyError):
-			oname = None
+			iname = None
 		try:
-			oloco = cmd["oldloco"][0]
+			name = cmd["name"][0]
 		except (IndexError, KeyError):
-			oloco = None
+			name = None
 		try:
-			oroute = cmd["oldroute"][0]
+			loco = cmd["loco"][0]
 		except (IndexError, KeyError):
-			oroute = None
+			loco = None
 		try:
-			nname = cmd["newname"][0]
+			template = cmd["template"][0]
 		except (IndexError, KeyError):
-			nname = None
+			template = None
 		try:
-			nloco = cmd["newloco"][0]
+			engineer = cmd["engineer"][0]
 		except (IndexError, KeyError):
-			nloco = None
+			engineer = None
 		try:
-			nroute = cmd["newroute"][0]
+			atc = cmd["atc"][0] == 1
 		except (IndexError, KeyError):
-			nroute = None
+			atc = None
+		try:
+			ar = cmd["ar"][0] == 1
+		except (IndexError, KeyError):
+			ar = None
 		try:
 			east = cmd["east"][0] == "1"
 		except (IndexError, KeyError):
 			east = None
 
-		if self.trainList.RenameTrain(oname, nname, oloco, nloco, oroute, nroute, east):
-			for cmd in self.trainList.GetSetTrainCmds(nname, nameonly=True):
-				self.socketServer.sendToAll(cmd)
+		tr = self.rr.GetTrain(iname)
+		if tr is None:
+			self.rr.Alert("Unable to find train %s" % iname)
+			return
 
-	def DoCheckTrains(self, cnd):				
+		if name is not None:
+			tr.SetName(name)
+
+		tr.SetLoco(loco)
+		tr.SetTemplateTrain(template)
+		tr.SetEngineer(engineer)
+		tr.SetATC(atc)
+		tr.SetAR(ar)
+		tr.SetEast(east)
+
+		self.rr.RailroadEvent(tr.GetEventMessage())
+
+	def DoTrainReverse(self, cmd):
+		logging.debug("Train reverse: %s" % str(cmd))
+		try:
+			iname = cmd["train"][0]
+		except (IndexError, KeyError):
+			iname = None
+
+		if iname is None:
+			logging.debug("Reverse train without a train id")
+			return
+
+		self.rr.ReverseTrain(iname)
+
+	def DoCheckTrains(self, cmd):
 		addrList = self.clientList.GetFunctionAddress("DISPATCH") + self.clientList.GetFunctionAddress("SATELLITE")
 		for addr, skt in addrList:
 			self.socketServer.sendToOne(skt, addr, {"checktrains": {}})

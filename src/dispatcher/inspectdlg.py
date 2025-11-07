@@ -183,7 +183,7 @@ class InspectDlg(wx.Dialog):
 
     def OnBTurnoutLocks(self, _):
         lks = self.parent.GetTurnoutLocks()
-        toList = sorted([x for x in lks if len(lks[x]) != 0])
+        toList = ["%s: %s" % (x, ", ".join(lks[x])) for x in sorted(lks.keys())]
         if len(toList) == 0:
             dlg = wx.MessageDialog(self, "No turnouts are presently locked",
                 "Turnout Locks",
@@ -210,11 +210,18 @@ class InspectDlg(wx.Dialog):
         if len(toNames) == 0:
             return
 
-        for tonm in toNames:
-            self.parent.turnouts[tonm].ClearLocks()
-            self.parent.turnouts[tonm].Draw()
+        tl = []
+        for t in toNames:
+            try:
+                tx = t.index(":")
+            except ValueError:
+                tx = None
+            if tx is not None:
+                tl.append(t[:tx])
 
-        dlg = wx.MessageDialog(self, "Unlocked Turnouts:\n%s" % ", ".join(toNames),
+        self.parent.ClearLocks(tl)
+
+        dlg = wx.MessageDialog(self, "Requested Turnout(s) Unlock:\n%s" % ", ".join(tl),
             "Turnout Locks",
             wx.OK | wx.ICON_INFORMATION)
         dlg.ShowModal()

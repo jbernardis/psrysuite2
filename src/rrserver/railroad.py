@@ -323,37 +323,37 @@ class Railroad:
 
 		# self.AuditRoutes()
 
-	def AuditRoutes(self):
-		for osblknm, osblk in self.osblocks.items():
-			east = osblk.East()
-			logging.debug("==========================================")
-			logging.debug("determine initial route for OS %s(%s)" % (osblknm, east))
-			ar = osblk.ActiveRoute()
-			if ar is None:
-				logging.debug("  OS %s - NO active route.  Potential routes:")
-				for rt in osblk.Routes():
-					logging.debug("    %s" % str(rt))
-			else:
-				logging.debug("  Active Route: %s" % osblk.ActiveRouteName())
-				for ep in ar.EndPoints():
-					if ep is None:
-						logging.debug("    End point is NONE")
-					else:
-						epeast = ep.East()
-						logging.debug("    End point: %s(%s)" % (ep.Name(), epeast))
-						nbe = ep.NextBlock(False)
-						nben = "None" if nbe is None else nbe.Name()
-						nbw = ep.NextBlock(True)
-						nbwn = "None" if nbw is None else nbw.Name()
-						logging.debug("      nbe: %s" % nben)
-						logging.debug("      nbw: %s" % nbwn)
-						if osblknm not in [nben, nbwn]:
-							logging.debug("Block %s does not point back to the proper OS %s  <==============================" % (ep.Name(), osblknm))
-
-	def SetDebugFlag(self,	showaspectcalculation = False, blockoccupancy = False, identifytrain = False):
-		self.debug.showaspectcalculation = showaspectcalculation
-		self.debug.blockoccupancy = blockoccupancy
-		self.debug.identifytrain = identifytrain
+	# def AuditRoutes(self):
+	# 	for osblknm, osblk in self.osblocks.items():
+	# 		east = osblk.East()
+	# 		logging.debug("==========================================")
+	# 		logging.debug("determine initial route for OS %s(%s)" % (osblknm, east))
+	# 		ar = osblk.ActiveRoute()
+	# 		if ar is None:
+	# 			logging.debug("  OS %s - NO active route.  Potential routes:")
+	# 			for rt in osblk.Routes():
+	# 				logging.debug("    %s" % str(rt))
+	# 		else:
+	# 			logging.debug("  Active Route: %s" % osblk.ActiveRouteName())
+	# 			for ep in ar.EndPoints():
+	# 				if ep is None:
+	# 					logging.debug("    End point is NONE")
+	# 				else:
+	# 					epeast = ep.East()
+	# 					logging.debug("    End point: %s(%s)" % (ep.Name(), epeast))
+	# 					nbe = ep.NextBlock(False)
+	# 					nben = "None" if nbe is None else nbe.Name()
+	# 					nbw = ep.NextBlock(True)
+	# 					nbwn = "None" if nbw is None else nbw.Name()
+	# 					logging.debug("      nbe: %s" % nben)
+	# 					logging.debug("      nbw: %s" % nbwn)
+	# 					if osblknm not in [nben, nbwn]:
+	# 						logging.debug("Block %s does not point back to the proper OS %s  <==============================" % (ep.Name(), osblknm))
+	#
+	# def SetDebugFlag(self,	showaspectcalculation = False, blockoccupancy = False, identifytrain = False):
+	# 	self.debug.showaspectcalculation = showaspectcalculation
+	# 	self.debug.blockoccupancy = blockoccupancy
+	# 	self.debug.identifytrain = identifytrain
 
 	def GetNodeStatuses(self):
 		retval = []
@@ -425,75 +425,75 @@ class Railroad:
 
 	def DumpN20(self):
 		return self.blocks["N20"].GetStatus()
-			
-	def OccupyBlock(self, blknm, state):
-		'''
-		this method is solely for simulation - to set a block as occupied or not
-		'''
-		try:
-			blist = [ self.blocks[blknm] ]
-		except KeyError:
-			try:
-				blist = [self.GetBlock(x) for x in self.subBlocks[blknm]]
-			except KeyError:
-				logging.warning("Ignoring occupy command - unknown block name: %s" % blknm)
-				return
-
-		newstate = 1 if state != 0 else 0
-		for blk in blist:
-			if len(blk.Bits()) > 0:
-				vbyte, vbit = blk.Bits()[0]
-				blk.node.SetInputBit(vbyte, vbit, newstate)
-			else:
-				'''
-				block has sub blocks - occupy all of them as per state
-				'''
-				sbl = blk.SubBlocks()
-				for sb in sbl:
-					if len(sb.Bits()) > 0:
-						vbyte, vbit = sb.Bits()[0]
-						sb.node.SetInputBit(vbyte, vbit, newstate)
-		
-	def SetTurnoutPos(self, tonm, normal):
-		'''
-		this method is for simulation - to set a turnout to normal or reverse position - this is also used for handswitches
-		'''
-		try:
-			tout = self.turnouts[tonm]
-		except KeyError:
-			try:
-				tout = self.handswitches[tonm]
-
-			except KeyError:			
-				logging.warning("Ignoring turnoutpos command - unknown turnoutname: %s" % tonm)
-				return
-	
-		pos = tout.Position()
-		if pos is None:
-			logging.warning("Turnout definition does not have position - ignoring turnoutpos command")
-			return 
-		
-		bits, district, node, addr = pos
-		node.SetInputBit(bits[0][0], bits[0][1], 1 if normal else 0)
-		node.SetInputBit(bits[1][0], bits[1][1], 0 if normal else 1)
-			
-	def SetBreaker(self, brkrnm, state):
-		'''
-		this method is solely for simulation - to set a breaker as on or not
-		'''
-		try:
-			brkr = self.breakers[brkrnm]
-		except KeyError:
-			logging.warning("Ignoring breaker command - unknown breaker name: %s" % brkrnm)
-			return
-		
-		try:
-			vbyte, vbit = brkr.Bits()[0]
-		except IndexError:
-			logging.warning("Breaker definition incomplete - ignoring breaker command")
-			return 
-
-		brkr.node.SetInputBit(vbyte, vbit, 1 if state == 0 else 0)
+	#
+	# def OccupyBlock(self, blknm, state):
+	# 	'''
+	# 	this method is solely for simulation - to set a block as occupied or not
+	# 	'''
+	# 	try:
+	# 		blist = [ self.blocks[blknm] ]
+	# 	except KeyError:
+	# 		try:
+	# 			blist = [self.GetBlock(x) for x in self.subBlocks[blknm]]
+	# 		except KeyError:
+	# 			logging.warning("Ignoring occupy command - unknown block name: %s" % blknm)
+	# 			return
+	#
+	# 	newstate = 1 if state != 0 else 0
+	# 	for blk in blist:
+	# 		if len(blk.Bits()) > 0:
+	# 			vbyte, vbit = blk.Bits()[0]
+	# 			blk.node.SetInputBit(vbyte, vbit, newstate)
+	# 		else:
+	# 			'''
+	# 			block has sub blocks - occupy all of them as per state
+	# 			'''
+	# 			sbl = blk.SubBlocks()
+	# 			for sb in sbl:
+	# 				if len(sb.Bits()) > 0:
+	# 					vbyte, vbit = sb.Bits()[0]
+	# 					sb.node.SetInputBit(vbyte, vbit, newstate)
+	#
+	# def SetTurnoutPos(self, tonm, normal):
+	# 	'''
+	# 	this method is for simulation - to set a turnout to normal or reverse position - this is also used for handswitches
+	# 	'''
+	# 	try:
+	# 		tout = self.turnouts[tonm]
+	# 	except KeyError:
+	# 		try:
+	# 			tout = self.handswitches[tonm]
+	#
+	# 		except KeyError:
+	# 			logging.warning("Ignoring turnoutpos command - unknown turnoutname: %s" % tonm)
+	# 			return
+	#
+	# 	pos = tout.Position()
+	# 	if pos is None:
+	# 		logging.warning("Turnout definition does not have position - ignoring turnoutpos command")
+	# 		return
+	#
+	# 	bits, district, node, addr = pos
+	# 	node.SetInputBit(bits[0][0], bits[0][1], 1 if normal else 0)
+	# 	node.SetInputBit(bits[1][0], bits[1][1], 0 if normal else 1)
+	#
+	# def SetBreaker(self, brkrnm, state):
+	# 	'''
+	# 	this method is solely for simulation - to set a breaker as on or not
+	# 	'''
+	# 	try:
+	# 		brkr = self.breakers[brkrnm]
+	# 	except KeyError:
+	# 		logging.warning("Ignoring breaker command - unknown breaker name: %s" % brkrnm)
+	# 		return
+	#
+	# 	try:
+	# 		vbyte, vbit = brkr.Bits()[0]
+	# 	except IndexError:
+	# 		logging.warning("Breaker definition incomplete - ignoring breaker command")
+	# 		return
+	#
+	# 	brkr.node.SetInputBit(vbyte, vbit, 1 if state == 0 else 0)
 		
 	def SetInputBit(self, distName, vbyte, vbit, val):
 		pass
@@ -542,14 +542,19 @@ class Railroad:
 			r = self.stopRelays[relayname]
 		except KeyError:
 			logging.warning("Ignoring stoprelay command - unknown relay: %s" % relayname)
-			return
+			return False
+
+		# rc indicates whether or not the value was changed
+		rc = r.IsActivated() != (state != 0)
 
 		bits = r.Bits()
 		if len(bits) > 0:		
 			vbyte, vbit = bits[0]
 			r.node.SetOutputBit(vbyte, vbit, 1 if state != 0 else 0)
 			r.Activate(state != 0)
-		
+
+		return rc
+
 	def GetRouteIn(self, rtnm):
 		try:
 			return self.routesIn[rtnm]
@@ -591,7 +596,6 @@ class Railroad:
 			rte.node.SetInputBit(bt[0][0], bt[0][1], 0)
 
 	def SignalClick(self, signm, callon=False):
-		logging.debug("======================================in signal %s click, callon = %s" % (signm, callon))
 		try:
 			sig = self.signals[signm]
 		except KeyError:
@@ -602,9 +606,7 @@ class Railroad:
 		if not district.SignalClick(sig, callon):
 			return
 
-		currentAspect = 0
-		if sig is not None:
-			currentAspect = sig.Aspect()
+		currentAspect = sig.Aspect()
 
 		if sig.District().ControlRestrictedSignal(signm):
 			self.Alert(sig.District().ControlRestrictedMessage())
@@ -615,28 +617,46 @@ class Railroad:
 			return
 
 		msgs = []
+		moving = currentAspect != 0  # Are we requesting a stop signal?
 		try:
-			moving = currentAspect != 0  # Are we requesting a stop signal?
 			aspect = self.CalculateAspect(sig, osName, moving, callon, None, silent=False)
 			if aspect is None:
 				return
-
-			msgs.extend(self.ApplyAspect(aspect, sig, osName, callon))
-			msgs.extend(sig.GetEventMessages())
 
 		except Exception as e:
 			logging.warning("Exception %s in calc aspect %s" % (str(e), signm))
 			return
 
+		msgs.extend(self.ApplyAspect(aspect, sig, osName, callon))
+		msgs.extend(sig.GetEventMessages())
 		for m in msgs:
 			self.RailroadEvent(m)
 
 		district.EvaluateDistrictLocks(sig, None)
 		self.EvaluatePreviousSignals(sig)
 
+		# finally, check if this signal triggers or clears a stopping relay
+		if signm not in self.sigToSbMap:
+			logging.info("Signal does not control stopping block")
+		else:
+			blk, east = self.sigToSbMap[signm]
+			sbName = blk.Name() + (".E" if east else ".W")
+			sb = self.blocks[sbName]
+			relayName = blk.Name() + ".srel"
+			tr = sb.Train()
+			if sb.IsOccupied() and aspect == 0:
+				if tr is not None:
+					tr.SetStopped(True)
+					self.RailroadEvent((tr.GetEventMessage()))
+				self.SetRelay(relayName, 1)
+			else:
+				self.SetRelay(relayName, 0)
+				if tr is not None:
+					tr.SetStopped(False)
+					self.RailroadEvent((tr.GetEventMessage()))
+
 	def DetermineSignalOS(self, signm):
 		osList = (self.sigToOSMap[signm])
-		logging.debug("oslist = %s" % str(osList))
 		for osblk in osList:
 			osName = osblk.Name()
 
@@ -648,13 +668,12 @@ class Railroad:
 			return None
 
 	def TurnoutClick(self, toname, status):
-		#  TODO: Need to do some checking here to make sure the route is not busy
 		tout = self.turnouts.get(toname, None)
 		if tout is None:
 			return
 
 		if tout.IsLocked() or tout.IsDisabled():
-			self.Alert("Turnout %s is locked" % toname)
+			self.Alert("Turnout %s is locked (%s)" % (toname, str(tout.Lockers())))
 			return
 
 		self.SetOutPulseTo(toname, status)
@@ -663,7 +682,7 @@ class Railroad:
 		try:
 			turnout = self.turnouts[toname]
 		except KeyError:
-			logging.warning("Unknown turnout: %s" % toname)
+			logging.error("Unknown turnout: %s" % toname)
 			return		
 			
 		Nval = 0 if state == "R" else 1
@@ -835,7 +854,6 @@ class Railroad:
 
 	def SetOSRoute(self, blknm, rtname, ends, signals):
 		self.osRoutes[blknm] = [rtname, ends, signals]
-		print("OS Route: %s: Route %s  Turnouts: %s  Signals: %s" % (blknm, rtname, ends, signals))
 
 	def GetOSRoutes(self):
 		return self.osRoutes
@@ -864,25 +882,16 @@ class Railroad:
 			return
 
 		blk.SetDirection(direction == "E")
-		#
-		# if blk.SetDirection(direction == "E"):
-		# 	self.RailroadEvent(blk.GetEventMessage(direction=True))
 
 	def SetBlockClear(self, blknm, clear):
-		if blknm in ["N20", "S11"]:
-			logging.debug("==================================Set Block Clear %s" % blknm)
 		try:
 			blk = self.blocks[blknm]
 		except KeyError:
 			logging.warning("ignoring block clear - unknown block: %s" % blknm)
-			logging.debug("Block not found")
 			return
 
 		blk.SetCleared(clear)
-		#
-		# if blk.SetCleared(clear):
-		# 	self.RailroadEvent(blk.GetEventMessage(clear=True))
-		
+
 	def SetDistrictLock(self, name, value):
 		if self.districtLock[name] == value:
 			return False
@@ -894,21 +903,17 @@ class Railroad:
 
 	def FindRoute(self, sig):
 		signm = sig.Name()
-		# print("find route for signal %s" % signm)
-		# print("possible routes: %s" % json.dumps(sig.possibleRoutes))
 		for osblknm, osblk in self.osblocks.items():
 			ar = osblk.ActiveRoute()
 			if ar is None:
 				continue
 
-			# print("block, sigs = %s %s" % (blknm, str(siglist)))
 			if signm in ar.signals:
 				rname = osblk.ActiveRouteName()
 
 				rt = self.routes[rname]
 				return rt, osblk
 
-		# print("no route found")
 		return None, None
 
 	def AddBlock(self, name, district, node, address, bits, east):
@@ -1325,38 +1330,25 @@ class Railroad:
 
 		return result
 
-	def GetTurnoutLock(self, name, pairedname):
-		try:
-			tout = self.turnouts[name]
-		except KeyError:
-			tout = None
+	def GetTurnoutLocks(self):
+		result = {}
+		for trnm, trn in self.turnouts.items():
+			if trn.IsLocked():
+				result[trnm] = trn.Lockers()
 
-		try:
-			ptout = self.turnouts[pairedname]
-		except KeyError:
-			ptout = None
+		return result
 
-		if tout is None:
-			mlocked = False
-			mlockers = []
-		else:
-			mlocked = tout.IsLocked()
-			mlockers = tout.Lockers()
+	def ClearTurnoutLocks(self, tnlist):
+		for tn in tnlist:
+			try:
+				trn = self.turnouts[tn]
+			except KeyError:
+				logging.debug("Ignoring request to clear lock on unknown turnlout: %s" % tn)
+				trn = None
 
-		if ptout is None:
-			plocked = False
-			plockers = []
-		else:
-			plocked = ptout.IsLocked()
-			plockers = ptout.Lockers()
-
-		if tout is None and ptout is None:
-			return {"turnoutlock": {"message": "turnout %s not found" % name}}
-
-		locked = mlocked or plocked
-		lockers = list(set(mlockers + plockers))
-
-		return {"turnoutlock": {"name": name, "locked": locked, "lockers": lockers}}
+			if trn is not None:
+				trn.ClearLock()
+				self.RailroadEvent({"lockturnout": [{"name": tn, "lock": False}]})
 
 	def GetTurnout(self, tonm):
 		try:
@@ -1608,7 +1600,10 @@ class Railroad:
 			# remove any pending detection loss
 			self.pendingDetectionLoss.Remove(objName)
 
-			if obj.osblk is not None:
+			lastAspect = None
+			lastAspectType = None
+
+			if obj.IsOS():
 				# we've entered an OS block - turn the entry signal back to red and record the signal aspect and exit
 				# for future fleeting if fleeting is enabled for the signal
 				rte = obj.osblk.ActiveRoute()
@@ -1619,24 +1614,20 @@ class Railroad:
 					exbn = "None" if blkExit is None else blkExit.Name()
 
 					if sig is not None and blkExit is not None and sig.Aspect() != 0 and sig.Fleeted():
-						self.Alert("Recording PFA for %s: %s %s" % (sigEnt, obj.osblk.Name(), obj.osblk.ActiveRouteName()))
 						self.PendingFleetActions[exbn] = [sig, obj.osblk, obj.osblk.ActiveRouteName()]
-					else:
-						self.Alert("not recorded, sig = %s" % ("None" if sig is None else sig.Name()))
-						self.Alert("exit block = %s" % exbn)
-						if sig is not None:
-							self.Alert("aspect: %s  fleeted: %s" % (sig.Aspect(), sig.Fleeted()))
 
-					sig.SetAspect(0)
-					self.RailroadEvent((sig.GetEventMessage()))
+					if sig is not None:
+						lastAspect = sig.Aspect()
+						lastAspectType = sig.AspectType()
+						sig.SetAspect(0)
+						obj.osblk.LockRoute(False, sig.Name())
+						self.RailroadEvent((sig.GetEventMessage()))
 
-				if obj.IsSubBlock() and obj.MainHasTrain():
-					obj.SetTrain(obj.MainBlockTrain())
-					obj.SetStatus(obj.MainBlockStatus())
-				return
+			if obj.IsSubBlock() and obj.MainHasTrain():
+				obj.SetTrain(obj.MainBlockTrain())
+				obj.SetStatus(obj.MainBlockStatus())
 
 			# entry into a non-OS block
-			self.Alert("checking block %s" % objName)
 			if objName in ["S11.E", "S21.E", "N10.W", "N20.W"]:
 				self.CheckShoreTunnelSignals(obj, objName)
 
@@ -1648,108 +1639,150 @@ class Railroad:
 				else:
 					tr.SetEast(obj.IsEast())  # unknown trains take on the block direction
 				tr.AddBlock(obj, rear)
+				if not rear:
+					tr.SetLastAspect(lastAspect, lastAspectType)
 				obj.SetTrain(tr)
 				obj.SetEast(tr.IsEast())
+
+				if not rear:  # if we're movng forward, determine the trains controlling signal
+					sig = self.DetermineTrainSignal(tr, obj)
+					if sig is not None:
+						tr.SetSignal(sig)
+
 				self.RailroadEvent(obj.GetEventMessage())
 				self.RailroadEvent(tr.GetEventMessage())
 
-			obj.UpdateIndicators()
+				# now lock the active route's turnouts on behalf of the train
+				if obj.osblk is not None:
+					locks = obj.osblk.LockRoute(True, tr.IName())
+					for sw, flag in locks:
+						self.RailroadEvent({"lockturnout": [{"name": sw.Name(), "lock": flag}]})
 
-			# check if this is a stopping section
-			if objName.endswith(".E") or objName.endswith(".W"):
-				self.CheckStoppingSection(obj, objName)
+				obj.UpdateIndicators()
 
-
+				self.CheckStoppingSection(tr)
 
 		# otherwise, this is a detection loss - add it to pending, but only if we are currently occupied
 		else:
-			logging.debug("detection loss")
 			if obj.IsOccupied():
-				logging.debug("adding to pending detection loss list")
 				self.pendingDetectionLoss.Add(objName, obj)
 			else:
 				self.DetectionLoss(obj)
 
-	def CheckStoppingSection(self, blk, blkNm):
-		# TODO
-		# I also need SB logic when a signal changed to red (to activate the sb) or red to non-red (to deactivate the sb)
-		blockend = blkNm[-1]
-		block = blkNm[:-2]
+	def DetermineTrainSignal(self, tr, blk):
+		if blk.IsOS():
+			ar = blk.OS().ActiveRoute()
+			if ar is None:
+				logging.debug("OS %s has no active route" % blk.Name())
+				return None
+			sigNm = ar.EntrySignal()
+			sig = self.signals.get(sigNm, None)
+			if sig is None:
+				logging.debug("Unable to identify signal")
+			return sig
 
-		occupied = blk.IsOccupied()
-		self.Alert("Block %s occupied %s" % (blkNm, occupied))
-
-		east = blockend == "E"
-		self.Alert("comparing %s with %s" % (east, blk.IsEast()))
-		if east != blk.IsEast():
-			self.Alert("Don't need to consider block %s because the block is movong in the opposite direction" % blkNm)
-			return
-
-		try:
-			sigw, sige = self.sbToSigMap[block]
-		except KeyError:
-			self.Alert("Block %s not found in map" % block)
-			return
-
-		sig = sige if east else sigw
-		if sig is None:
-			return
-
-		self.Alert("We need to look at aspect of signal %s" % str(sig.Name()))
-		srName = block + ".srel"
-		if sig.Aspect() == 0:
-			self.Alert("We need to %sactivate stopping relay for block %s" % ("" if occupied else "de", block))
-			self.SetRelay(srName, 1 if occupied else 0)
 		else:
-			self.Alert("We need to set/assert that stopping block for block %s is unactive" % block)
-			self.SetRelay(srName, 0)
+			nb = blk.NextBlock()
+			if not nb.IsOS():
+				logging.debug("Block %s should have been an OS" % nb.Name())
+				return None
+			ar = nb.OS().ActiveRoute()
+			if ar is None:
+				logging.debug("OS %s has no active route" % nb.Name())
+				return None
+			sigNm = ar.EntrySignal()
+			sig = self.signals.get(sigNm, None)
+			if sig is None:
+				logging.debug("Unable to identify signal")
+			return sig
+
+	def CheckStoppingSection(self, tr):
+		if tr.BlockCount() < 1:
+			return
+		blocks = [b for b in list(reversed(tr.Blocks()))]
+		bnList = [b.Name() for b in blocks]
+		blkNm = bnList[0]
+		blk = blocks[0]
+
+		baseName = None
+
+		if blkNm.endswith(".E") or blkNm.endswith(".W"):
+			east = blkNm.endswith(".E")
+			if east == blk.IsEast():
+				blockend = blkNm[-1]
+				block = blkNm[:-2]
+				baseName = block
+				occupied = blk.IsOccupied()
+				try:
+					sigw, sige = self.sbToSigMap[block]
+				except KeyError:
+					sigw = None
+					sige = None
+
+				sig = sige if east else sigw
+				if sig is not None:
+					srName = block + ".srel"
+					if sig.Aspect() == 0:
+						if tr is not None:
+							tr.SetStopped(occupied)
+							self.RailroadEvent(tr.GetEventMessage())
+						rc = self.SetRelay(srName, 1 if occupied else 0)
+						if rc and occupied:
+							self.Alert("Stop Relay Activated: %s at signal %s, %s Train %s" %
+									(blkNm, sig.Name(), "Eastbound" if tr.IsEast() else "Westbound", tr.Name()))
+					else:
+						if tr is not None:
+							tr.SetStopped(False)
+							self.RailroadEvent(tr.GetEventMessage())
+						self.SetRelay(srName, 0)
+		else:
+			tr.SetStopped(False)
+			self.RailroadEvent(tr.GetEventMessage())
+
+		# now step through the train, turning off any stopping blocks we encounter
+		for blkNm, blk in zip(bnList[1:], blocks[1:]):
+			if blkNm.endswith(".E") or blkNm.endswith(".W"):
+				block = blkNm[:-2]
+				# turn not turn off a stopping section for the same block that we turned it on for above
+				if block != baseName:
+					srName = block + ".srel"
+					self.SetRelay(srName, 0)
 
 	def CheckShoreTunnelSignals(self, obj, objName):
 		exbn = obj.MainBlockName()
 		exitBlk = self.blocks[exbn]
-		self.Alert("CSTS main block = %s" % exbn)
 
 		if objName == "S11.E" and not obj.IsEast():
-			self.Alert("case 1 ")
 			sig = self.signals["N10W"]
 			osName = self.DetermineSignalOS("N10W")
 			osBlk = self.osblocks[osName]
-			self.Alert("OS: %s" % osName)
-			self.Alert("%s" % sig.Fleeted())
-			self.Alert("%d" % sig.Aspect())
 			if sig.Aspect() != 0 and sig.Fleeted():
 				self.PendingFleetActions[exbn] = [sig, osBlk, None]
 				sig.SetAspect(0)
 				self.RailroadEvent((sig.GetEventMessage()))
 
 		elif objName == "S21.E" and not obj.IsEast():
-			self.Alert("case 2")
 			sig = self.signals["N20W"]
 			osName = self.DetermineSignalOS("N20W")
 			osBlk = self.osblocks[osName]
-			self.Alert("OS: %s" % osName)
 			if sig.Aspect() != 0 and sig.Fleeted():
 				self.PendingFleetActions[exbn] = [sig, osBlk, None]
 				sig.SetAspect(0)
 				self.RailroadEvent((sig.GetEventMessage()))
 
 		elif objName == "N10.W" and obj.IsEast():
-			self.Alert("case 3")
 			sig = self.signals["S11E"]
 			osName = self.DetermineSignalOS("S11E")
 			osBlk = self.osblocks[osName]
-			self.Alert("OS: %s" % osName)
 			if sig.Aspect() != 0 and sig.Fleeted():
 				self.PendingFleetActions[exbn] = [sig, osBlk, None]
 				sig.SetAspect(0)
 				self.RailroadEvent((sig.GetEventMessage()))
 
 		elif objName == "N20.W" and obj.IsEast():
-			self.Alert("case 4")
 			sig = self.signals["S21E"]
 			osName = self.DetermineSignalOS("S21E")
 			osBlk = self.osblocks[osName]
-			self.Alert("OS: %s" % osName)
 			if sig.Aspect() != 0 and sig.Fleeted():
 				self.PendingFleetActions[exbn] = [sig, osBlk, None]
 				sig.SetAspect(0)
@@ -1757,6 +1790,9 @@ class Railroad:
 
 	def DetectionLoss(self, obj):
 		tr = obj.RemoveFromTrain()
+		if tr is None: # this only happens on the initial out/in exchange
+			return
+
 		if obj.SetStatus("E"):
 			self.RailroadEvent(obj.GetEventMessage())
 			if tr is not None:
@@ -1768,9 +1804,14 @@ class Railroad:
 			obj.UpdateIndicators()
 			self.CheckFleetTriggers(obj)
 
-		objName = obj.Name()
-		if objName.endswith(".E") or objName.endswith(".W"):
-			self.CheckStoppingSection(obj, objName)
+			objName = obj.Name()
+			self.CheckStoppingSection(tr)
+
+			# now unlock the active route's turnouts on behalf of the train
+			if obj.osblk is not None and tr is not None:
+				locks = obj.osblk.LockRoute(False, tr.IName())
+				for sw, flag in locks:
+					self.RailroadEvent({"lockturnout": [{"name": sw.Name(), "lock": flag}]})
 
 	def CheckFleetTriggers(self, blk):
 		if blk.IsCompletelyEmpty():
@@ -1790,6 +1831,46 @@ class Railroad:
 					msgs.extend(sig.GetEventMessages())
 					for m in msgs:
 						self.RailroadEvent(m)
+
+	def ReverseTrain(self, iname):
+		tr = self.trains.get(iname, None)
+		if tr is None:
+			logging.debug("Attempt to reverse unknown train: %s" % iname)
+			return
+
+		# deactivate any stopping relay that this train curfrently has triggerred
+		if tr.BlockCount() == 0:
+			logging.error("Train %s has 0 blocks" % tr.Name())
+			return
+
+		firstBlock = tr.Blocks()[-1]
+		bn = firstBlock.Name()
+		if bn.endswith(".E") or bn.endswith(".W"):
+			srName = bn[:-2] + ".srel"
+			self.SetRelay(srName, 0)
+			logging.debug("Stopping relay %s deactivated" % srName)
+
+		nd = not tr.East()
+		tr.SetEast(nd)
+
+		tr.ReverseBlocks()
+		bl = tr.Blocks()
+		firstBlock = bl[-1]
+		msgs = []
+		for b in bl:
+			b.SetEast(nd)
+			msgs.append(b.GetEventMessage())
+
+		sig = self.DetermineTrainSignal(tr, firstBlock)
+		tr.SetSignal(sig)
+
+		self.CheckStoppingSection(tr)
+
+		msgs.append(tr.GetEventMessage())
+
+		for m in msgs:
+			self.RailroadEvent(m)
+
 
 	def RailroadEvents(self, elist):
 		for e in elist:
@@ -1929,14 +2010,12 @@ class Railroad:
 			sigMatch = None
 
 		if sigMatch is None:
-			self.Alert("Unable to determine route for lever %s" % sigBaseNm, locale=locale)
 			return None, []
 		else:
 			osblk = self.osblocks[osName]
 			rtName = osblk.ActiveRouteName()
 			if rtName is None:
 				self.Alert("No Route Available for signal %s" % sigBaseNm, locale=locale)
-				logging.debug("no active route for os %s - not setting signal %s" % (osName, leverName))
 				return None, []
 
 			try:
@@ -1953,7 +2032,7 @@ class Railroad:
 				aspect = self.CalculateAspect(sig, osName, moving, callon, locale, silent=False)
 				if aspect is not None:
 					msgs.extend(self.ApplyAspect(aspect, sig, osName, callon))
-					logging.debug("calculated aspect for %s = %d" % (sigMatch, aspect))
+					logging.info("calculated aspect for %s = %d" % (sigMatch, aspect))
 					msgs.extend(sig.GetEventMessages())
 
 			except Exception as e:
@@ -1965,7 +2044,6 @@ class Railroad:
 			return aspect, msgs
 
 	def CalculateAspect(self, sig, osName, moving, callon, locale, silent=False):
-		self.Alert("Calculate aspect osname = %s" % osName)
 		osblk = self.osblocks[osName]
 		blk = osblk.Block()
 		rtName = osblk.ActiveRouteName()
@@ -2028,27 +2106,17 @@ class Railroad:
 			logging.debug("we crossed a EW boundary between %s and %s" % (osblk.Name(), exitBlk.Name()))
 			currentDirection = not currentDirection
 
-		logging.debug("exit block, direction = %s, %s <=> %s" % (exitBlk.Name(), exitBlk.East(), currentDirection))
-		logging.debug("about to call nextblock for block %s, currentdirection = %s, blk direction = %s" % (exitBlk.Name(), currentDirection, exitBlk.East()))
 		nb = exitBlk.NextBlock(reverse=currentDirection != osblk.East())
-		logging.debug("Setting EAST of exit block %s to %s" % (exitBlk.Name(), currentDirection))
 		exitBlk.SetEast(currentDirection)
-		logging.debug("next block returned %s" % ("None" if nb is None else nb.Name()))
 		if nb:
 			nbName = nb.Name()
 			if CrossingEastWestBoundary(nb, exitBlk):
-				logging.debug("change of direction to %s" % currentDirection)
 				currentDirection = not currentDirection
-			# nb.SetEast(currentDirection)
-			logging.debug("Changing direction of block %s to %s" % (nbName, currentDirection))
-			logging.debug("next block 1 = %s" % nbName)
 
 			nbStatus = nb.GetStatus()
 			nbRType = nb.RouteType(reverse=currentDirection != nb.East())
 			nbRtName = nb.ActiveRouteName()
 			# # try to go one more block, skipping past an OS block
-
-			logging.debug("nbstatus = %s nbRType = %s  nbRtName = %s" % (nbStatus, nbRType, nbRtName))
 
 			nxb = nb.ExitBlock(reverse=currentDirection != nb.East())
 			if nxb is None:
@@ -2056,15 +2124,11 @@ class Railroad:
 				nnb = None
 			else:
 				nxbNm = nxb.Name()
-				logging.debug("next block 2 = %s" % nxbNm)
 
 				if CrossingEastWestBoundary(nb, nxb):
 					currentDirection = not currentDirection
 
-				# nxb.SetEast(currentDirection)
-				logging.debug("Changing direction of block %s to %s" % (nxbNm, currentDirection))
 				nnb = nxb.NextBlock(reverse=currentDirection != nxb.East())
-				logging.debug("nnb = %s" % ("None" if nnb is None else nnb.Name()))
 
 			if nnb:
 				nnbClear = nnb.IsCleared()
@@ -2073,7 +2137,6 @@ class Railroad:
 				nnbClear = False
 				nnbName = None
 		else:
-			logging.debug("no bext block identified")
 			nxbNm = None
 			nbStatus = None
 			nbName = None
@@ -2095,37 +2158,25 @@ class Railroad:
 			self.Alert("NNB: %s  NNBC: %s" % (nnbName, nnbClear))
 			self.Alert("Aspect = %s (%x)" % (aspectname(aspect, aType), aspect))
 
-		logging.debug(
-			"Calculated aspect = %s   aspect type = %s route type = %s next block status = %s next block route type = %s next next block clear = %s" %
-			(aspectname(aspect, aType), aspecttype(aType), routetype(rType), statusname(nbStatus), routetype(nbRType), nnbClear))
-
 		return aspect
 
 	def ApplyAspect(self, aspect, sig, osName, callon):
 		signame = sig.Name()
 		wasCallon = sig.IsCallon()
-		logging.debug("wascallon: %s" % wasCallon)
 		osblk = self.osblocks[osName]
 		blk = self.blocks[osName]
 		exitBlk = osblk.ActiveRoute().ExitBlock(reverse=sig.East() != blk.IsEast())
 		ebList = exitBlk.GetAllBlocks()
-		logging.debug("setting signal %s to aspect %s %s" % (signame, aspect, callon))
 		sig.SetAspect(aspect, callon=callon)
 		tlock = []
 		if aspect == 0:
-			logging.debug("new aspect is 0")
 			if not wasCallon:
-				logging.debug("not wascallon")
 				for eb in ebList:
-					logging.debug("set block %s to E" % eb.Name())
 					if not eb.IsOccupied():
-						logging.debug("yes")
 						eb.SetStatus("E")
 						# eb.Reset()
 				if not osblk.IsOccupied():
-					logging.debug("set OS %s to E" % osblk.Name())
 					osblk.SetStatus("E")
-					# osblk.Reset()
 					tlock.extend(osblk.LockRoute(False, sig.Name()))
 		else:
 			if not callon:
@@ -2143,13 +2194,16 @@ class Railroad:
 
 		msgs = osblk.Block().GetEventMessages()
 		for eb in ebList:
-			self.Alert("Messages for nblock %s" % eb.Name())
-			ml = eb.GetEventMessages()
-			for m in ml:
-				self.Alert(str(m))
-			self.Alert("-------------")
 			msgs.extend(eb.GetEventMessages())
 		msgs.extend(lockmsg)
+
+		# see if any trains are impacted by changes to this signal
+		for trid, tr in self.trains.items():
+			tsig = tr.Signal()
+			if tsig is not None:
+				if signame == tsig.Name():
+					msgs.append(tr.GetEventMessage())
+
 		return msgs
 
 	@staticmethod
@@ -2566,6 +2620,9 @@ class Railroad:
 		tr.SetEast(blk.IsEast())
 		self.trains[tr.IName()] = tr
 		return tr, False
+
+	def GetTrain(self, iname):
+		return self.trains.get(iname, None)
 
 	def CheckEWCross(self, tr, blk, blkn):
 		if CrossingEastWestBoundary(blk, blkn):

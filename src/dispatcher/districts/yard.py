@@ -80,14 +80,6 @@ class Yard (District):
 			"YSw1", "YSw3", "YSw7", "YSw9", "YSw11", "YSw17", "YSw19", "YSw21", "YSw23", "YSw25",
 			"YSw27", "YSw29", "YSw33", "YSw113", "YSw115", "YSw116", "YSw131", "YSw132", "YSw134"])
 
-	def PerformSignalAction(self, sig, callon=False, silent=False):
-		controlOpt = self.frame.yardControl
-		if controlOpt == 0:  # Yard local control
-			self.frame.PopupEvent("Yard control is local")
-			return False
-
-		return District.PerformSignalAction(self, sig, callon=callon, silent=silent)
-			
 	def SetUpRoute(self, osblk, route):
 		controlOpt = self.frame.yardControl
 		if controlOpt == 0:  # Yard local control

@@ -514,15 +514,15 @@ class MainUnit:
 		logging.info("end of queued requests")
 		
 	def DumpQueuedRequests(self):
-		logging.info("Number of OSes with requests: %d" % len(self.OSQueue))
+		logging.debug("Number of OSes with requests: %d" % len(self.OSQueue))
 		for osNm in self.OSQueue:
 			logging.info("OS: %s" % osNm)
 			self.OSQueue[osNm].DumpQueue()
-			logging.info("===================================")
-		logging.info("Done with dump of queues")
+			logging.debug("===================================")
+		logging.debug("Done with dump of queues")
 
 	def DeleteQueuedRequests(self, train):
-		logging.info("deleting queued request for train %s" % train)
+		logging.debug("deleting queued request for train %s" % train)
 		oslist = list(self.OSQueue.keys())
 		for osNm in oslist:
 			newQ = Fifo()
@@ -536,7 +536,7 @@ class MainUnit:
 			self.OSQueue[osNm] = newQ
 
 	def Request(self, req):
-		logging.info("Outgoing request: %s" % json.dumps(req))
+		logging.debug("Outgoing request: %s" % json.dumps(req))
 		self.rrServer.SendRequest(req)
 
 

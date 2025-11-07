@@ -12,36 +12,6 @@ class Shore (District):
 	def __init__(self, name, frame, screen):
 		District.__init__(self, name, frame, screen)
 
-	def PerformSignalAction(self, sig, callon=False, silent=False):
-		signm = sig.GetName()
-		osblk = self.blocks["SOSHF"]
-		if signm not in ["S8L", "S8R"]:
-			if not callon:
-				if signm in ["S12R", "S12LA", "S12LB", "S12LC", "S4R", "S4LA", "S4LB", "S4LC"]:
-					if osblk.IsBusy():
-						self.ReportOSBusy(osblk.GetRouteDesignator())
-						return False
-			return District.PerformSignalAction(self, sig, callon=callon)
-
-		aspect = sig.GetAspect()
-		signm = sig.GetName()
-		movement = aspect == 0  # do we want the signal to allow movement
-		if movement:
-			if osblk.IsBusy() or self.blocks["SOSW"].IsBusy() or self.blocks["SOSE"].IsBusy():
-				self.ReportOSBusy(osblk.GetRouteDesignator())
-				return False
-			aspect = restrictedaspect(sig.GetAspectType())
-		else:  # stopping
-			esig = osblk.GetEntrySignal()	
-			if esig is not None and esig.GetName() != signm:
-				self.frame.PopupEvent("Incorrect signal")
-				return False
-			aspect = STOP
-
-		self.frame.Request({"signal": {"name": signm, "aspect": aspect, "aspecttype": sig.GetAspectType()}})
-		sig.SetLock(osblk.GetName(), 0 if aspect == 0 else 1)
-		return True
-
 	def DoSignalAction(self, sig, aspect, frozenaspect=None, callon=False):
 		if not callon:
 			signm = sig.GetName()

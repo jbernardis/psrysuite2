@@ -104,6 +104,9 @@ class Signal:
 		self.frame.DrawTile(self.screen, self.pos, bmp) 
 
 	def GetAspect(self):
+		return self.Aspect()
+
+	def Aspect(self):
 		return self.aspect
 	
 	def SetMutexSignals(self, mutexList):

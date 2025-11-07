@@ -10,30 +10,31 @@ BUTTONSIZE = (120, 40)
 
 
 class EditTrainDlg(wx.Dialog):
-	def __init__(self, parent, train, block, locos, trains, engineers, existingTrains, atcFlag, arFlag, dispatcherFlag, lostTrains, trainHistory, preloadedTrains, dx, dy):
+	def __init__(self, parent, train, block, locos, trainRoster, engineers, activeTrains, atcFlag, arFlag, dispatcherFlag, lostTrains, trainHistory, preloadedTrains, dx, dy):
 		wx.Dialog.__init__(self, parent, wx.ID_ANY, "Edit Train Details", pos=(dx, dy))
 		self.parent = parent
 		self.Bind(wx.EVT_CLOSE, self.onCancel)
 
 		self.train = train
-		self.existingTrains = existingTrains		
+		self.activeTrains = activeTrains
 		self.atcFlag = atcFlag
 		self.arFlag = arFlag
 
 		vsz = wx.BoxSizer(wx.VERTICAL)
 		vsz.AddSpacer(20)
 
-		name, loco = train.GetNameAndLoco()
+		name = train.Name()
+		loco = train.Loco()
 		self.name = name
-		atc = train.IsOnATC()
-		ar = train.IsOnAR()
+		atc = train.ATC()
+		ar = train.AR()
 		self.block = block
 		
-		self.startingEast = train.GetEast()
-		self.chosenRoute = train.GetChosenRoute()
+		self.startingEast = train.IsEast()
+		self.templateTrain = train.TemplateTrain()
 
 		self.locos = locos
-		self.trains = trains
+		self.trainRoster = trainRoster
 		self.noEngineer = "<none>"
 		self.engineers = [self.noEngineer] + sorted(engineers)
 		self.lostTrains = lostTrains
@@ -41,8 +42,8 @@ class EditTrainDlg(wx.Dialog):
 		self.preloadedTrains = preloadedTrains
 		
 		locoList  = sorted(list(locos.keys()), key=self.BuildLocoKey)
-		self.trainList = sorted(list(trains.keys()))
-		self.trainsWithSeq = [k for k in self.trainList if "sequence" in self.trains[k] and len(self.trains[k]["sequence"]) > 0 and self.trains[k]["route"] is None]
+		self.trainList = sorted(list(trainRoster.keys()))
+		self.trainsWithSeq = [k for k in self.trainList if "sequence" in self.trainRoster[k] and len(self.trainRoster[k]["sequence"]) > 0 and self.trainRoster[k]["template"] is None]
 
 		font = wx.Font(wx.Font(16, wx.FONTFAMILY_TELETYPE, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, faceName="Monospace"))
 
@@ -55,14 +56,14 @@ class EditTrainDlg(wx.Dialog):
 
 		self.cbAssignRoute = wx.CheckBox(self, wx.ID_ANY, "Route")
 		self.cbAssignRoute.SetFont(font)
-		self.cbAssignRoute.SetValue(self.chosenRoute is not None)
+		self.cbAssignRoute.SetValue(self.templateTrain is not None)
 
 		self.cbRoute = wx.ComboBox(self, wx.ID_ANY, name,
 					choices=self.trainsWithSeq,
 					style=wx.CB_DROPDOWN | wx.CB_READONLY, size=(120, -1))
 		self.cbRoute.SetFont(font)
 		try:
-			idx = self.trainsWithSeq.index(self.chosenRoute)
+			idx = self.trainsWithSeq.index(self.templateTrain)
 		except ValueError:
 			idx = 0
 		self.cbRoute.SetSelection(idx)
@@ -86,7 +87,7 @@ class EditTrainDlg(wx.Dialog):
 		self.Bind(wx.EVT_COMBOBOX, self.OnLocoChoice, self.cbLocoID)
 		self.Bind(wx.EVT_TEXT, self.OnLocoText, self.cbLocoID)
 
-		self.chosenEngineer = train.GetEngineer()
+		self.chosenEngineer = train.Engineer()
 		if self.chosenEngineer is None:
 			self.chosenEngineer = self.noEngineer
 			
@@ -149,6 +150,12 @@ class EditTrainDlg(wx.Dialog):
 		hsz.Add(self.bClearEng)
 		vszl.Add(hsz)
 
+		vszl.AddSpacer(10)
+
+		self.stDirection = wx.StaticText(self, wx.ID_ANY, "Eastbound" if train.IsEast() else "Westbound")
+		self.stDirection.SetFont(font)
+		vszl.Add(self.stDirection)
+
 		vszr = wx.BoxSizer(wx.VERTICAL)
 
 		if lostCt > 0:
@@ -168,7 +175,7 @@ class EditTrainDlg(wx.Dialog):
 
 		vsz.Add(hsz)
 
-		vsz.AddSpacer(20)
+		vsz.AddSpacer(10)
 		self.cbATC = None
 		if self.atcFlag or self.arFlag:
 			hsz = wx.BoxSizer(wx.HORIZONTAL)
@@ -263,11 +270,15 @@ class EditTrainDlg(wx.Dialog):
 
 	def OnTrainChoice(self, evt):
 		self.chosenTrain = evt.GetString()
-		if self.chosenTrain in self.trains:
-			tr = self.trains[self.chosenTrain]
+		logging.debug("Train choice: %s" % self.chosenTrain)
+		if self.chosenTrain in self.trainRoster:
+			logging.debug("It's in the roster")
+			tr = self.trainRoster[self.chosenTrain]
 			self.startingEast = tr["eastbound"]
+			logging.debug("and it's starting direction os %s" % str(self.startingEast))
 		else:
 			self.startingEast = None
+			logging.debug("It's NOT in the roster")
 
 		self.ShowTrainLocoDesc()
 
@@ -283,14 +294,14 @@ class EditTrainDlg(wx.Dialog):
 	def OnAssignRoute(self, _):
 		if self.cbAssignRoute.IsChecked():
 			self.cbRoute.Enable(True)
-			self.chosenRoute = self.trainsWithSeq[0]
+			self.templateTrain = self.trainsWithSeq[0]
 			self.cbRoute.SetSelection(0)
 		else:
 			self.cbRoute.Enable(False)
-			self.chosenRoute = None
+			self.templateTrain = None
 
 	def OnRouteChoice(self, evt):
-		self.chosenRoute = evt.GetString()
+		self.templateTrain = evt.GetString()
 		self.ShowTrainLocoDesc()
 
 	def OnEngChoice(self, evt):
@@ -408,11 +419,11 @@ class EditTrainDlg(wx.Dialog):
 
 					if idx >= 0:
 						self.cbAssignRoute.SetValue(True)
-						self.chosenRoute = self.trainsWithSeq[idx]
+						self.templateTrain = self.trainsWithSeq[idx]
 						self.cbRoute.SetSelection(idx)
 					else:
 						self.cbAssignRoute.SetValue(False)
-						self.chosenRoute = None
+						self.templateTrain = None
 						self.cbRoute.SetSelection(0)
 
 			self.ShowTrainLocoDesc()
@@ -423,26 +434,26 @@ class EditTrainDlg(wx.Dialog):
 		else:
 			self.stDescr.SetLabel("")
 			
-		if self.chosenTrain in self.trains:
-			tr = self.trains[self.chosenTrain]
+		if self.chosenTrain in self.trainRoster:
+			tr = self.trainRoster[self.chosenTrain]
 			try:
-				self.chosenRoute = tr["route"]
+				self.templateTrain = tr["template"]
 			except KeyError:
-				self.chosenRoute = None
+				self.templateTrain = None
 
 			try:
-				idx = self.trainsWithSeq.index(self.chosenRoute)
+				idx = self.trainsWithSeq.index(self.templateTrain)
 			except ValueError:
 				idx = -1
 			self.cbRoute.SetSelection(min(idx, 0))
 
 			self.cbAssignRoute.Enable(False)
-			self.cbAssignRoute.SetValue(self.chosenRoute is not None)
+			self.cbAssignRoute.SetValue(self.templateTrain is not None)
 			self.cbRoute.Enable(False)
 			try:
-				tx = self.trainsWithSeq.index(self.chosenRoute)
+				tx = self.trainsWithSeq.index(self.templateTrain)
 			except ValueError:
-				self.chosenRoute = None
+				self.templateTrain = None
 				tx = wx.NOT_FOUND
 
 			self.cbRoute.SetSelection(tx)
@@ -457,8 +468,8 @@ class EditTrainDlg(wx.Dialog):
 		else:
 			self.cbAssignRoute.Enable(True)
 			self.cbRoute.Enable(self.cbAssignRoute.IsChecked())
-			if self.chosenRoute is not None:
-				rtr = self.trains[self.chosenRoute]
+			if self.templateTrain is not None:
+				rtr = self.trains[self.templateTrain]
 				self.ShowRouteDetails(rtr["tracker"])
 				details = "Eastbound" if self.startingEast else "Westbound"
 				if rtr["cutoff"]:
@@ -481,8 +492,8 @@ class EditTrainDlg(wx.Dialog):
 		self.EndModal(wx.ID_CANCEL)
 
 	def onOK(self, _):
-		if self.chosenTrain != self.name and self.chosenTrain in self.existingTrains:
-			blist = self.existingTrains[self.chosenTrain].GetBlockNameList()
+		if self.chosenTrain != self.name and self.chosenTrain in self.activeTrains:
+			blist = self.activeTrains[self.chosenTrain].GetBlockNameList()
 			if len(blist) > 0:
 				plural = "s\n" if len(blist) > 1 else " "
 				bstr = ", ".join(blist)
@@ -510,8 +521,8 @@ class EditTrainDlg(wx.Dialog):
 				mdlg.Destroy()
 
 		if self.cbAssignRoute.IsChecked():
-			if self.chosenRoute is not None:
-				if self.startingEast != self.trains[self.chosenRoute]["eastbound"]:
+			if self.templateTrain is not None:
+				if self.startingEast != self.trainRoster[self.templateTrain]["eastbound"]:
 					mdlg = wx.MessageDialog(self,  'Route is in the opposite direction from the train.\nPress "Yes" to proceed',
 									'Opposite Directions',
 									wx.YES_NO | wx.NO_DEFAULT | wx.ICON_WARNING)
@@ -530,7 +541,7 @@ class EditTrainDlg(wx.Dialog):
 		if e == self.noEngineer:
 			e = None
 		if self.cbAssignRoute.IsChecked():
-			r = self.chosenRoute
+			r = self.templateTrain
 		else:
 			r = None
 			
@@ -541,20 +552,36 @@ class EditTrainDlg(wx.Dialog):
 
 
 class SortTrainBlocksDlg(wx.Dialog):
-	def __init__(self, parent, tr):
+	def __init__(self, parent, tr, blocks):
 		wx.Dialog.__init__(self, parent, wx.ID_ANY, "")
 		self.parent = parent
+		self.rrblocks = blocks
 		self.Bind(wx.EVT_CLOSE, self.onCancel)
 
 		self.modified = False
-		self.titleText = "Reorder Blocks for Train %s" % tr.GetName()
+		self.titleText = "Reorder Blocks for Train %s" % tr.Name()
 		self.SetTitleText()
 
 		textFont = wx.Font(wx.Font(12, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, faceName="Arial"))
 		stFont = wx.Font(wx.Font(12, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, faceName="Arial"))
 
-		self.blocks = [t for t in reversed(tr.GetBlockNameList())]
-		self.dmap = tr.GetDesignatorMap()
+		self.dmap = {}
+		self.blocks = []
+		for bn in reversed(tr.Blocks()):
+			blk = self.rrblocks.get(bn, None)
+			if blk is None:
+				bdesig = bn
+			else:
+				bn = blk.GetName()
+				bdesig = blk.GetRouteDesignator()
+
+			if bn == bdesig:
+				self.blocks.append(bn)
+			else:
+				self.blocks.append(bdesig)
+				self.dmap[bdesig] = bn
+
+		self.parent.PopupAdvice("dmap = %s" % str(self.dmap))
 
 		self.lbBlocks = wx.ListBox(self, wx.ID_ANY, choices=self.blocks, size=(160, 200))
 		self.lbBlocks.SetFont(textFont)

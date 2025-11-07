@@ -19,13 +19,6 @@ class Nassau (District):
 		self.wlocks = []
 		self.elocks = []
 
-	def PerformSignalAction(self, sig, callon=False, silent=False):
-		signm = sig.GetName()
-		if not self.CheckControlOption(signm):
-			return False
-
-		return District.PerformSignalAction(self, sig, callon=callon)
-
 	def DoSignalLeverAction(self, signame, state, callon, silent=1, source=None):
 		if source == 'ctc':
 			signm, movement, osblk, route = self.LeverToSigname(signame, state)
@@ -291,7 +284,6 @@ class Nassau (District):
 	def DrawOthers(self, block):
 		blkName = block.GetName()
 		blkStat = block.GetStatus()
-		logging.debug("Draw others for nassau OS %s %s %s" % (blkName, block.GetStatus(), block.IsCleared()))
 		if block.GetBlockType() != OVERSWITCH:
 			return
 
@@ -300,11 +292,9 @@ class Nassau (District):
 			return
 
 		tlist = rte.GetLockTurnouts()
-		logging.debug("Turnouts: %s" % str(tlist))
 
 		for tn in tlist:
 			turnout = self.turnouts[tn]
-			logging.debug("state for turnout %s is %s" % (tn, turnout.GetStatus()))
 			if turnout.GetType() == SLIPSWITCH:
 				state = turnout.GetStatus()[0]
 				scr, pos = turnout.GetPos()

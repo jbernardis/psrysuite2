@@ -279,8 +279,6 @@ class SlipSwitch(Turnout):
 		if blkStat is None:
 			blkStat = self.statusFromBlock
 
-		logging.debug("slip %s draw, blkstat = %s, turnout status = %s" % (self.name, blkStat, str(self.status)))
-			
 		bmp = self.tiles.getBmp(self.status, blkStat, self.routeControlled or self.disabled or self.locked)
 		self.frame.DrawTile(self.screen, self.pos, bmp)
 		self.statusFromBlock = blkStat

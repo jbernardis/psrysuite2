@@ -19,8 +19,6 @@ class Route:
 		self.rtype = [x for x in rtype]
 		self.turnouts = [x.split(":") for x in turnouts]
 		self.signals = [x for x in signals]
-		if self.name.startswith("D"):
-			logging.debug("Defining D route, ends = %s %s" % (blkin, blkout))
 
 	def GetDefinition(self):
 		msg = {
@@ -155,7 +153,22 @@ class Block:
 		self.dbg = self.frame.GetDebugFlags()
 
 	def SetTrain(self, train):
+		logging.debug("in set train for main block")
 		self.train = train
+		if train is None:
+			newStat = "E"
+		else:
+			newStat = "O" if train.IsIdentified() else "U"
+		if self.status != newStat:
+			self.SetStatus(newStat, refresh=True)
+
+	def SetStopSectionTrain(self, train, end):
+		logging.debug("in set ss train for end %s" % end)
+		self.train = train
+		if end == "E" and self.sbEast:
+			self.sbEast.SetStatus("O" if train.IsIdentified() else "U")
+		elif end == "W" and self.sbWest:
+			self.sbWest.SetStatus("O" if train.IsIdentified() else "U")
 
 	def SetEntrySignal(self, esig):
 		self.entrySignal = esig
@@ -730,6 +743,7 @@ class Block:
 							"sbsigeast": None if self.sbSigEast is None else self.sbSigEast,
 							"sbsigwest": None if self.sbSigWest is None else self.sbSigWest}}
 
+
 class StoppingBlock:
 	def __init__(self, block, tiles, eastend):
 		self.block = block
@@ -893,6 +907,9 @@ class StoppingBlock:
 
 	def GetName(self):
 		return self.block.GetName() + "." + ("E" if self.eastend else "W")
+
+	def GetTrain(self):
+		return self.block.GetTrain()
 
 
 class OSProxy:

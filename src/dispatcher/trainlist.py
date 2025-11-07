@@ -1,6 +1,8 @@
 import wx
 import logging
 
+from dispatcher.constants import aspectname, aspecttype
+
 YardBlocks = [
 	"C21", "C31", "C40", "C41", "C42", "C43", "C44", "C50", "C51", "C52", "C53", "C54",
 	"H12", "H22", "H30", "H31", "H32", "H33", "H34", "H40", "H41", "H42", "H43",
@@ -19,135 +21,139 @@ LadderBlocks = [
 profileIndex = ["stop", "slow", "medium", "fast"]
 
 
-class ActiveTrainList:
-	def __init__(self):
-		self.trains = {}
-		self.dlgTrainList = None
-		self.locoMap = {}
-		
-	def RegenerateLocoMap(self):
-		self.locoMap = {tr.GetLoco(): tr for tr in self.trains.values() if tr.GetLoco() != "??"}
-		
-	def AddTrain(self, tr):
-		self.trains[tr.GetName()] = tr
-		self.RegenerateLocoMap()
-		if self.dlgTrainList is not None:
-			self.dlgTrainList.AddTrain(tr)
-
-	def GetTrain(self, trid):
-		try:
-			return self.trains[trid]
-		except KeyError:
-			return None
-			
-	def UpdateTrain(self, trid):
-		if self.dlgTrainList is not None:
-			self.dlgTrainList.UpdateTrain(trid)
-			
-	def UpdateForSignal(self, sig):
-		if sig is None:
-			return
-		
-		if self.dlgTrainList is None:
-			return 
-		
-		signame = sig.GetName()
-		for trid, tr in self.trains.items():
-			s, _, _ = tr.GetSignal()
-			if s and s.GetName() == signame:
-				self.dlgTrainList.UpdateTrain(trid)
-			
-	def RenameTrain(self, oldName, newName):
-		self.trains[newName] = self.trains[oldName]
-		del(self.trains[oldName])
-		self.RegenerateLocoMap()
-		if self.dlgTrainList is not None:
-			self.dlgTrainList.RenameTrain(oldName, newName)
-			
-	def RemoveTrain(self, trid):
-		del(self.trains[trid])
-		self.RegenerateLocoMap()
-		if self.dlgTrainList is not None:
-			self.dlgTrainList.RemoveTrain(trid)
-			
-	def RemoveAllTrains(self):
-		self.trains = {}
-		self.RegenerateLocoMap()
-		if self.dlgTrainList is not None:
-			self.dlgTrainList.RemoveAllTrains()
-
-	def GetAllTrains(self):
-		if self.dlgTrainList is None:
-			dlgTrains= {}
-		else:
-			dlgTrains = self.dlgTrainList.GetTrainListControl()
-		return self.trains, dlgTrains
-			
-	def SetLoco(self, tr, loco):
-		tr.SetLoco(loco)
-		self.RegenerateLocoMap()
-			
-	def FindTrainByLoco(self, loco):
-		try:
-			return self.locoMap[loco]
-		except:
-			return None
-
-	def ShowTrainList(self, parent):
-		if self.dlgTrainList is None:
-			self.dlgTrainList = ActiveTrainsDlg(parent, self.HideTrainList)
-			for tr in self.trains.values():
-				self.dlgTrainList.AddTrain(tr)
-				
-			self.dlgTrainList.Show()
-		else:
-			self.dlgTrainList.Raise()
-	
-	def HideTrainList(self):
-		if self.dlgTrainList is not None:
-			self.dlgTrainList.Destroy()
-			self.dlgTrainList = None
-			
-	def RefreshTrain(self, trid):
-		if self.dlgTrainList is not None:
-			self.dlgTrainList.RefreshTrain(trid)
-			
-	def ticker(self):
-		refresh = False
-		for tr in self.trains.values():
-			if tr.AddTime(1):
-				refresh = True
-		if refresh and self.dlgTrainList is not None:
-			self.dlgTrainList.RefreshAll()
-			
-	def GetTrainTimes(self):
-		trains = []
-		times = []
-		for trid, tr in self.trains.items():
-			tm = tr.GetTime()
-			if tm is None:
-				tm = -1
-			trains.append(trid)
-			times.append(tm)
-		return trains, times
-			
-	def forSnapshot(self):
-		result = {}
-		for trid, tr in self.trains.items():
-			if not trid.startswith("??"):
-				result[trid] = tr.forSnapshot()
-		
-		return result
-			
-	def dump(self):
-		for tr in self.trains:
-			self.trains[tr].dump()
-		
+# class ActiveTrainList:
+# 	def __init__(self):
+# 		self.trains = {}
+# 		self.dlgTrainList = None
+# 		self.locoMap = {}
+#
+# 	def RegenerateLocoMap(self):
+# 		self.locoMap = {tr.GetLoco(): tr for tr in self.trains.values() if tr.GetLoco() != "??"}
+#
+# 	def AddTrain(self, tr):
+# 		self.trains[tr.GetName()] = tr
+# 		self.RegenerateLocoMap()
+# 		if self.dlgTrainList is not None:
+# 			self.dlgTrainList.AddTrain(tr)
+#
+# 	def GetTrain(self, trid):
+# 		try:
+# 			return self.trains[trid]
+# 		except KeyError:
+# 			return None
+#
+# 	def UpdateTrain(self, trid):
+# 		if self.dlgTrainList is not None:
+# 			self.dlgTrainList.UpdateTrain(trid)
+#
+# 	def UpdateForSignal(self, sig):
+# 		if sig is None:
+# 			return
+#
+# 		if self.dlgTrainList is None:
+# 			return
+#
+# 		signame = sig.GetName()
+# 		for trid, tr in self.trains.items():
+# 			s, _, _ = tr.GetSignal()
+# 			if s and s.GetName() == signame:
+# 				self.dlgTrainList.UpdateTrain(trid)
+#
+# 	def RenameTrain(self, oldName, newName):
+# 		self.trains[newName] = self.trains[oldName]
+# 		del(self.trains[oldName])
+# 		self.RegenerateLocoMap()
+# 		if self.dlgTrainList is not None:
+# 			self.dlgTrainList.RenameTrain(oldName, newName)
+#
+# 	def RemoveTrain(self, trid):
+# 		del(self.trains[trid])
+# 		self.RegenerateLocoMap()
+# 		if self.dlgTrainList is not None:
+# 			self.dlgTrainList.RemoveTrain(trid)
+#
+# 	def RemoveAllTrains(self):
+# 		self.trains = {}
+# 		self.RegenerateLocoMap()
+# 		if self.dlgTrainList is not None:
+# 			self.dlgTrainList.RemoveAllTrains()
+#
+# 	def GetAllTrains(self):
+# 		if self.dlgTrainList is None:
+# 			dlgTrains= {}
+# 		else:
+# 			dlgTrains = self.dlgTrainList.GetTrainListControl()
+# 		return self.trains, dlgTrains
+#
+# 	def SetLoco(self, tr, loco):
+# 		tr.SetLoco(loco)
+# 		self.RegenerateLocoMap()
+#
+# 	def FindTrainByLoco(self, loco):
+# 		try:
+# 			return self.locoMap[loco]
+# 		except:
+# 			return None
+#
+# 	def ShowTrainList(self, parent):
+# 		if self.dlgTrainList is None:
+# 			self.dlgTrainList = ActiveTrainsDlg(parent, self.HideTrainList)
+# 			for tr in self.trains.values():
+# 				self.dlgTrainList.AddTrain(tr)
+#
+# 			self.dlgTrainList.Show()
+# 		else:
+# 			self.dlgTrainList.Raise()
+#
+# 	def HideTrainList(self):
+# 		if self.dlgTrainList is not None:
+# 			self.dlgTrainList.Destroy()
+# 			self.dlgTrainList = None
+#
+# 	def RefreshTrain(self, trid):
+# 		if self.dlgTrainList is not None:
+# 			self.dlgTrainList.RefreshTrain(trid)
+#
+# 	def ticker(self):
+# 		refresh = False
+# 		for tr in self.trains.values():
+# 			if tr.AddTime(1):
+# 				refresh = True
+# 		if refresh and self.dlgTrainList is not None:
+# 			self.dlgTrainList.RefreshAll()
+#
+# 	def GetTrainTimes(self):
+# 		trains = []
+# 		times = []
+# 		for trid, tr in self.trains.items():
+# 			tm = tr.GetTime()
+# 			if tm is None:
+# 				tm = -1
+# 			trains.append(trid)
+# 			times.append(tm)
+# 		return trains, times
+#
+# 	def forSnapshot(self):
+# 		result = {}
+# 		for trid, tr in self.trains.items():
+# 			if not trid.startswith("??"):
+# 				result[trid] = tr.forSnapshot()
+#
+# 		return result
+#
+# 	def dump(self):
+# 		for tr in self.trains:
+# 			self.trains[tr].dump()
+#
 
 class ActiveTrainsDlg(wx.Dialog):
-	def __init__(self, parent, dlgExit):
-		wx.Dialog.__init__(self, parent, wx.ID_ANY, "Active Trains", size=(1500, 1000), style=wx.RESIZE_BORDER|wx.CAPTION|wx.CLOSE_BOX)
+	def __init__(self, parent, trains):
+		wx.Dialog.__init__(self, parent, wx.ID_ANY, "Active Trains", size=(1500, 1000), style=wx.RESIZE_BORDER|wx.CAPTION|wx.CLOSE_BOX|wx.STAY_ON_TOP)
 		self.parent = parent
+		self.trains = trains
+		self.signals = None
+		self.blocks = None
+		self.roster = None
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
 		self.Bind(wx.EVT_SIZE, self.OnResize)
 		self.Bind(wx.EVT_IDLE,self.OnIdle)
@@ -164,7 +170,7 @@ class ActiveTrainsDlg(wx.Dialog):
 		self.resized = False
 		self.shiftKey = False
 
-		self.dlgExit = dlgExit
+		# self.dlgExit = dlgExit
 
 		vsz = wx.BoxSizer(wx.VERTICAL)	   
 		vsz.AddSpacer(10)
@@ -244,9 +250,41 @@ class ActiveTrainsDlg(wx.Dialog):
 		self.Fit()
 		self.CenterOnScreen()
 
+	def SetSignals(self, sl):
+		self.signals = sl
+
+	def SetBlocks(self, bl):
+		self.blocks = bl
+
+	def SetRoster(self, roster):
+		self.roster = roster
+		self.trCtl.SetRoster(roster)
+
 	def GetTrainListControl(self):
 		return self.trCtl.GetTrainListControl()
-		
+
+	def ticker(self):
+		pass
+
+	def GetSignalAspect(self, sn):
+		sig = self.signals.get(sn, None)
+		if sig is None:
+			return None, None
+
+		return sig.Aspect(), sig.GetAspectName()
+
+	def GetBlockNames(self, bnl):
+		result = []
+		for bn in bnl:
+			blk = self.blocks.get(bn, None)
+			if blk is None:
+				logging.error("Unable to find block %s in train block list" % bn)
+				result.append(bn)
+			else:
+				result.append(blk.GetRouteDesignator())
+
+		return ", ".join(result)
+
 	def ClickLeft(self, evt):
 		pos = evt.GetPosition()
 		idxitem = self.trCtl.HitTest(pos)
@@ -320,8 +358,8 @@ class ActiveTrainsDlg(wx.Dialog):
 	def AddTrain(self, tr):
 		self.trCtl.AddTrain(tr)
 		
-	def UpdateTrain(self, trid):
-		self.trCtl.UpdateTrain(trid)
+	def UpdateTrain(self, tr):
+		self.trCtl.UpdateTrain(tr)
 		
 	def RefreshTrain(self, trid):
 		self.trCtl.UpdateTrain(trid)
@@ -349,13 +387,14 @@ class ActiveTrainsDlg(wx.Dialog):
 		self.trCtl.ChangeSize(self.GetSize())
 
 	def OnClose(self, _):
-		self.dlgExit()
+		self.Hide()
 
 
 class TrainListCtrl(wx.ListCtrl):
 	def __init__(self, parent, dccsnifferenabled, height=160):
 		wx.ListCtrl.__init__(self, parent, wx.ID_ANY, size=(1366, height), style=wx.LC_REPORT + wx.LC_VIRTUAL + wx.LC_SINGLE_SEL)
 		self.parent = parent
+		self.roster = None
 		self.trains = {}
 		self.order = []
 		self.filtered = []
@@ -400,6 +439,9 @@ class TrainListCtrl(wx.ListCtrl):
 	def ChangeSize(self, sz):
 		self.SetSize(sz[0]-56, sz[1]-84)
 		self.SetColumnWidth(9, sz[0]-966-56)
+
+	def SetRoster(self, roster):
+		self.roster = roster
 		
 	def AddTrain(self, tr):
 		nm = tr.GetName()
@@ -444,18 +486,17 @@ class TrainListCtrl(wx.ListCtrl):
 		if len(self.filtered) > 0:
 			self.RefreshItems(0, len(self.filtered)-1)
 		
-	def UpdateTrain(self, trid):
-		try:
-			tr = self.trains[trid]
-		except KeyError:
-			logging.warning("Attempt to update a non-existent train: %s" % trid)
-			return 
-		
-		if tr.GetBlockCount() == 0:
-			self.RemoveTrain(trid)
+	def UpdateTrain(self, tr):
+		iname = tr.IName()
+		if iname not in self.trains:
+			self.trains[iname] = tr
+			self.order.append(iname)
+
+		if tr.BlockCount() == 0:
+			self.RemoveTrain(iname)
 		else:
-			self.filterTrains()	
-			self.SetItemCount(len(self.filtered))	
+			self.filterTrains()
+			self.SetItemCount(len(self.filtered))
 			if len(self.filtered) > 0:
 				self.RefreshItems(0, len(self.filtered)-1)
 			
@@ -556,7 +597,7 @@ class TrainListCtrl(wx.ListCtrl):
 	def suppressed(self, trid):
 		tr = self.trains[trid]
 		if self.suppressYards:
-			blkNms = tr.GetBlockNameList()
+			blkNms = tr.Blocks()
 			allYard = True # assume all blocks are yard tracks
 			for bn in blkNms:
 				if bn not in YardBlocks:
@@ -574,8 +615,7 @@ class TrainListCtrl(wx.ListCtrl):
 		
 		if self.suppressNonAssigned and tr.GetEngineer() is None:
 			return True
-		
-		
+
 		if self.suppressNonATC and not tr.IsOnATC():
 			return True
 					
@@ -594,43 +634,50 @@ class TrainListCtrl(wx.ListCtrl):
 		tr = self.trains[trid]
 		
 		if col == 0:
-			return tr.GetName()
+			return tr.Name()
 		
 		elif col == 1:
-			return "E" if tr.GetEast() else "W"
+			return "E" if tr.IsEast() else "W"
 		
 		elif col == 2:
-			return tr.GetLoco()
+			return tr.Loco()
 		
 		elif col == 3:
-			nm = "ATC" if tr.IsOnATC() else tr.GetEngineer()
+			nm = "ATC" if tr.ATC() else tr.Engineer()
 			return "" if nm is None else nm
 		
 		elif col == 4:
-			return u"\u2713" if tr.IsOnATC() else " "
+			return u"\u2713" if tr.ATC() else " "
 		
 		elif col == 5:
-			return u"\u2713" if tr.IsOnAR() else " "
+			return u"\u2713" if tr.AR() else " "
 		
 		elif col == 6:
-			return u"\u2713" if tr.GetSBActive() else " "
+			return u"\u2713" if tr.Stopped() else " "
 		
 		elif col == 7:
-			sig, aspect, frozenAspect = tr.GetSignal()
-			if sig is None:
+			sn = tr.Signal()
+			if sn is None:
 				return ""
-			resp = sig.GetName()
-			if frozenAspect is not None:
-				aspect = frozenAspect
-				flag = "*"
-			else:
-				flag = ""
 
-			if aspect is not None:
-				resp += ":%s%s" % (flag, sig.GetAspectName(aspect=aspect))
-			return resp 
-		
+			aspect, aspectType = tr.Aspect()
+			if aspect is None:
+				aspect, aspectName = self.parent.GetSignalAspect(sn)
+				if aspect is None:
+					return ""
+
+				return "%s : %s" % (sn, aspectName)
+			else:
+				an = aspectname(aspect, aspectType)
+				atn = aspecttype(aspectType)
+				logging.debug("AN = (%s)" % an)
+				logging.debug("ATN = (%s)" % atn)
+				return "%s : *%s (%s)" % (sn, an, atn)
+
 		elif col == 8:
+			return "Thr"
+
+		elif col == 88:
 			throttle = tr.GetThrottle()
 			if throttle is None:
 				throttle = ""
@@ -657,9 +704,13 @@ class TrainListCtrl(wx.ListCtrl):
 			return "%s - %d" % (throttle, limit) if self.dccsnifferenabled else "%d" % limit
 		
 		elif col == 9:
-			return ", ".join(reversed(tr.GetBlockNameList()))
+			bl = self.parent.GetBlockNames(reversed(tr.Blocks()))
+			return bl
 		
 		elif col == 10:
+			return "time"
+
+		elif col == 1010:
 			t = tr.GetTime()
 			if t is None:
 				return ""

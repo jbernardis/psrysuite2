@@ -217,7 +217,7 @@ class TrackDiagram(wx.Panel):
 				elif tinfo[3]:
 					txt = "A "
 				else:
-					txt="R "
+					txt=" R"
 				dc.DrawText(txt, x, y)
 				x += dc.GetTextExtent(txt)[0]
 

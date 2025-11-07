@@ -53,6 +53,13 @@ class Train:
 		self.loco = loco
 		self.engineer = engineer
 		self.roster = None
+		self.stopped = False
+		self.aspect = None
+		self.aspectType = None
+		self.atc = False
+		self.ar = False
+		self.signal = None
+		self.templateTrain = None
 
 		self.blocks = []
 
@@ -61,6 +68,15 @@ class Train:
 			return self.rname
 
 		return self.iname
+
+	def IName(self):
+		return self.iname
+
+	def RName(self):
+		return self.rname
+
+	def IsIdentified(self):
+		return self.rname is not None
 
 	def Loco(self):
 		if self.loco is None:
@@ -83,9 +99,49 @@ class Train:
 	def SetEngineer(self, engineer):
 		self.engineer = engineer
 
+	def Engineer(self):
+		return self.engineer
+
+	def SetSignal(self, sn):
+		self.signal = sn
+
+	def Signal(self):
+		return self.signal
+
 	def SetRoster(self, rname, roster):
 		self.rname = rname
 		self.roster = roster
+
+	def SetTemplateTrain(self, tn):
+		self.templateTrain = tn
+
+	def TemplateTrain(self):
+		return self.templateTrain
+
+	def SetStopped(self, flag):
+		self.stopped = flag
+
+	def Stopped(self):
+		return self.stopped
+
+	def SetATC(self, flag):
+		self.atc = flag
+
+	def ATC(self):
+		return self.atc
+
+	def SetAR(self, flag):
+		self.ar = flag
+
+	def AR(self):
+		return self.ar
+
+	def SetAspect(self, aspect, aspecttype):
+		self.aspect = aspect
+		self.aspectType = aspecttype
+
+	def Aspect(self):
+		return self.aspect, self.aspectType
 
 	def SetBlocks(self, blocks):
 		delblocks = [bn for bn in self.blocks if bn not in blocks]
@@ -95,6 +151,9 @@ class Train:
 
 	def Blocks(self):
 		return self.blocks
+
+	def BlockCount(self):
+		return len(self.blocks)
 	#
 # class Train:
 # 	tx = 0

@@ -89,33 +89,6 @@ class Cliveden (District):
 			return
 
 		District.TurnoutClick(self, turnout, force=force)
-	#
-	# def PerformSignalAction(self, sig, callon=False, silent=False):
-	# 	signame = sig.GetName()
-	# 	controlOpt = self.frame.cliffControl
-	# 	if (controlOpt == 1 and signame not in ["C14RA", "C14RB", "C14L"]) or controlOpt == 0:
-	# 		self.frame.PopupEvent("Cliveden control is local (Cliff")
-	# 		return False
-	#
-	# 	return District.PerformSignalAction(self, sig, callon=callon)
-	#
-	# def DoSignalLeverAction(self, signame, state, callon, silent=1, source=None):
-	# 	controlOpt = self.frame.cliffControl
-	# 	if source == "ctc":
-	# 		if controlOpt in [0, 1]:
-	# 			self.frame.PopupEvent("Cliveden control is local (Cliff)")
-	# 			return False
-	#
-	# 	return District.DoSignalLeverAction(self, signame, state, callon, silent, source)
-	#
-	# def DoTurnoutLeverAction(self, turnout, state, force=False, source=None):
-	# 	controlOpt = self.frame.cliffControl
-	# 	if source == "ctc":
-	# 		if controlOpt in [0, 1]:
-	# 			self.frame.PopupEvent("Cliveden control is local (Cliff)")
-	# 			return False
-	#
-	# 	return District.DoTurnoutLeverAction(self, turnout, state, force, source)
 
 	def DetermineRoute(self, blocks):
 		self.FindTurnoutCombinations(blocks, ["CSw9", "CSw13"])
