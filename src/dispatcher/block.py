@@ -153,7 +153,6 @@ class Block:
 		self.dbg = self.frame.GetDebugFlags()
 
 	def SetTrain(self, train):
-		logging.debug("in set train for main block")
 		self.train = train
 		if train is None:
 			newStat = "E"
@@ -163,7 +162,6 @@ class Block:
 			self.SetStatus(newStat, refresh=True)
 
 	def SetStopSectionTrain(self, train, end):
-		logging.debug("in set ss train for end %s" % end)
 		self.train = train
 		if end == "E" and self.sbEast:
 			self.sbEast.SetStatus("O" if train.IsIdentified() else "U")
@@ -454,7 +452,7 @@ class Block:
 
 		self.status = state
 
-		if self.status == "E":
+		if self.status == "E" and self.AllUnoccupied():
 			self.Reset()
 
 		if refresh:
@@ -466,6 +464,9 @@ class Block:
 			logging.warning("Stopping block %s not defined for block %s" % (blockend, self.GetName()))
 			return
 		b.SetStatus(state, refresh)
+		if state == "E" and self.AllUnoccupied():
+			self.Reset()
+
 		if refresh:
 			self.Draw()
 
@@ -478,26 +479,14 @@ class Block:
 		if refresh:
 			self.Draw()
 
-	def CheckAllUnoccupied(self):
+	def AllUnoccupied(self):
 		if self.IsOccupied():
-			return
+			return False
 		if self.sbEast and self.sbEast.IsOccupied():
-			return
+			return False
 		if self.sbWest and self.sbWest.IsOccupied():
-			return
-		# all unoccupied - clean up
-		if self.frame.IsDispatcher():
-			self.frame.Request({"settrain": {"blocks": [self.GetName()], "name": None, "loco": None}})
-
-		self.train = None
-		self.EvaluateStoppingSections()
-		if self.type == OVERSWITCH and self.entrySignal is not None:
-			signm = self.entrySignal.GetName()
-			atype = self.entrySignal.GetAspectType()
-			self.frame.Request({"signal": {"name": signm, "aspect": STOP, "aspecttype": atype}})
-			self.entrySignal.SetLock(self.GetName(), 0)
-
-		self.frame.DoFleetPending(self)
+			return False
+		return True
 
 	def GetStoppingSections(self):
 		return self.sbWest, self.sbEast

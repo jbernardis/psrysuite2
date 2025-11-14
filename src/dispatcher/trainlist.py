@@ -170,8 +170,6 @@ class ActiveTrainsDlg(wx.Dialog):
 		self.resized = False
 		self.shiftKey = False
 
-		# self.dlgExit = dlgExit
-
 		vsz = wx.BoxSizer(wx.VERTICAL)	   
 		vsz.AddSpacer(10)
 		
@@ -278,7 +276,6 @@ class ActiveTrainsDlg(wx.Dialog):
 		for bn in bnl:
 			blk = self.blocks.get(bn, None)
 			if blk is None:
-				logging.error("Unable to find block %s in train block list" % bn)
 				result.append(bn)
 			else:
 				result.append(blk.GetRouteDesignator())
@@ -293,7 +290,8 @@ class ActiveTrainsDlg(wx.Dialog):
 			return
 
 		idx = idxitem[0]
-		self.EditTrain(idx)
+		tr = self.trCtl.GetActiveTrain(idx)
+		self.parent.EditTrain(tr, None)
 		evt.Skip()
 		
 	def ClickRight(self, evt):
@@ -307,11 +305,6 @@ class ActiveTrainsDlg(wx.Dialog):
 		tr = self.trCtl.GetActiveTrain(idx)
 		self.parent.PopupTrainMenu(self, tr, None, pos)
 		evt.Skip()
-		
-	def EditTrain(self, idx):
-		tr = self.trCtl.GetActiveTrain(idx)
-		blk = tr.FrontBlock()
-		self.parent.EditTrain(tr, blk)
 
 	def GetLocoInfo(self, loco):
 		return self.parent.GetLocoInfo(loco)

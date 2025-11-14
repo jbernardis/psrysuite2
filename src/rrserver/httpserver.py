@@ -3,9 +3,8 @@ from threading import Thread
 from socketserver import ThreadingMixIn 
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse, parse_qs
-from datetime import datetime
-from os import listdir
-from os.path import isfile, join
+
+from rrserver.railroad import GetSnapList
 
 import json
 import os
@@ -48,10 +47,8 @@ class Handler(BaseHTTPRequestHandler):
 
 	def do_POST(self):
 		app = self.server.getApp()
-		snapVersionLimit = app.GetSnapshotLimit()
 		err = False
 		content_length = None
-		filename = ""
 		try:
 			content_length = int(self.headers['Content-Length'])
 		except KeyError:
@@ -74,31 +71,12 @@ class Handler(BaseHTTPRequestHandler):
 			directory = "data"
 
 		if not err:
-			savingSnapshot = False
-			if filename == "snapshot.json":
-				savingSnapshot = True
-				folder = os.path.join(os.getcwd(), directory, "snapshots")
-				os.makedirs(folder, exist_ok=True)
-				n = datetime.now()
-				ts = "%4d%02d%02d-%02d%02d%02d" % (n.year, n.month, n.day, n.hour, n.minute, n.second)
-				filename = "snapshot" + ts + ".json"
-				fn = os.path.join(folder, filename)
-			else:
-				folder = os.path.join(os.getcwd(), directory)
-				fn = os.path.join(folder, filename)
+			folder = os.path.join(os.getcwd(), directory)
+			fn = os.path.join(folder, filename)
 
 			trdata = json.loads(self.rfile.read(content_length))
 			with open(fn, "w") as jfp:
 				json.dump(trdata, jfp, indent=2)
-
-			if savingSnapshot:
-				#  get rid of excess versions of the snapshot files
-				snapList = sorted([f for f in listdir(folder) if isfile(join(folder, f))])
-				if len(snapList) > snapVersionLimit:
-					dellist = snapList[:(len(snapList)-snapVersionLimit)]
-					for fn in dellist:
-						fqn = os.path.join(folder, fn)
-						os.unlink(fqn)
 
 			self.send_response(200)
 			self.send_header("Content-type", "text/plain")
@@ -142,6 +120,7 @@ class ThreadingHTTPServer(ThreadingMixIn, HTTPServer):
 	def shut_down(self):
 		self.haltServer = True
 
+
 class HTTPServer:
 	def __init__(self, ip, port, cbCommand, main, railroad):
 		self.server = ThreadingHTTPServer((ip, port), Handler)
@@ -158,12 +137,6 @@ class HTTPServer:
 
 	def getServer(self):
 		return self.server
-
-	def SetSnapshotLimit(self, limit):
-		self.snapShotLimit = limit
-
-	def GetSnapshotLimit(self):
-		return self.snapShotLimit
 
 	def dispatch(self, cmd):
 		verb = cmd["cmd"][0]
@@ -256,29 +229,16 @@ class HTTPServer:
 			jstr = json.dumps(j)
 			logging.info("Returning %d bytes" % len(jstr))
 			return 200, jstr
-		
-		elif verb == "getsnapshot":
-			filename = cmd["filename"][0]
-			fn = os.path.join(os.getcwd(), "data", "snapshots", filename)
-			logging.info("Retrieving snapshot information from file (%s)" % fn)
-			try:
-				with open(fn, "r") as jfp:
-					j = json.load(jfp)
-			except FileNotFoundError:
-				logging.info("File not found")
-				return 400, "File Not Found"
-			
-			except:
-				logging.info("Unknown error")
-				return 400, "Unknown error encountered"
-			
-			jstr = json.dumps(j)
-			logging.info("Returning %d bytes" % len(jstr))
-			return 200, jstr
+
+		elif verb == "savesnapshot":
+			logging.debug("HTTP Server - savesnapshot")
+			fn = self.rr.SaveSnapshot()
+			return 200, "Snapshot saved to file %s" % fn
 
 		elif verb == "snaplist":
-			folder = os.path.join(os.getcwd(), "data", "snapshots")
-			snapList = sorted([f for f in listdir(folder) if isfile(join(folder, f))])
+			logging.debug("http server snaplist")
+			snapList = GetSnapList()
+			logging.debug("returning %s" % json.dumps(snapList))
 			jstr = json.dumps(snapList)
 			return 200, jstr
 
@@ -391,7 +351,7 @@ class HTTPServer:
 				return 400, str(e)
 
 		elif verb == "activetrains":
-			tl = self.main.GetTrainList()
+			tl = self.rr.GetActiveTrainList()
 			if tl is None:
 				logging.info("Unknown error")
 				return 400, "Unable to retrieve train list"

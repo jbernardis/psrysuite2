@@ -1,4 +1,5 @@
 import logging
+from dispatcher.constants import aspectname, aspecttype
 
 
 class Train:
@@ -28,11 +29,23 @@ class Train:
 		self.stopped = flag
 		return rc
 
+	def Stopped(self):
+		return self.stopped
+
 	def Name(self):
 		return self.iname if self.rname is None else self.rname
 
+	def SetRoster(self, roster):
+		self.roster = roster
+
 	def IName(self):
 		return self.iname
+
+	def RName(self):
+		return self.rname
+
+	def Roster(self):
+		return self.roster
 
 	def SetName(self, name, roster=None):
 		self.roster = roster
@@ -51,6 +64,9 @@ class Train:
 		return self.east
 
 	def SetEast(self, east):
+		if east is None:
+			return
+
 		self.east = east
 
 	def Engineer(self):
@@ -62,7 +78,7 @@ class Train:
 	def SetTemplateTrain(self, tn):
 		self.templateTrain = tn
 
-	def TemplateTrains(self):
+	def TemplateTrain(self):
 		return self.templateTrain
 
 	def Loco(self):
@@ -72,12 +88,18 @@ class Train:
 		self.loco = l
 
 	def SetATC(self, atc):
+		if atc is None:
+			return
+
 		self.atc = atc
 
 	def ATC(self):
 		return self.atc
 
 	def SetAR(self, ar):
+		if ar is None:
+			return
+
 		self.ar = ar
 
 	def AR(self):
@@ -86,6 +108,14 @@ class Train:
 	def SetLastAspect(self, aspect, aspectType):
 		self.lastAspect = aspect
 		self.lastAspectType = aspectType
+		logging.debug("%s set lastaspect to %s and lastaspecttype to %s" % (self.iname, aspect, aspectType))
+
+	def AspectName(self):
+		logging.debug("%s aspectname lastaspect to %s and lastaspecttype to %s" % (self.iname, self.lastAspect, self.lastAspectType))
+		if self.lastAspect is None or self.lastAspectType is None:
+			return None
+
+		return "%s (%s)" % (aspectname(self.lastAspect, self.lastAspectType), aspecttype(self.lastAspectType))
 
 	def Blocks(self):
 		return self.blocks
@@ -104,12 +134,11 @@ class Train:
 	def BlockCount(self):
 		return len(self.blocks)
 
+	def ClearBlocks(self):
+		self.blocks = []
+
 	def RemoveBlock(self, rblk):
-		logging.debug("we want to remove block %s from train %s" % (rblk.Name(), self.Name()))
-		logging.debug("before train blocks = %s" % ", ".join([blk.Name() for blk in self.blocks]))
-		# rblk.SetTrain(None)
 		self.blocks = [blk for blk in self.blocks if blk.Name() != rblk.Name()]
-		logging.debug("after train blocks = %s" % ", ".join([blk.Name() for blk in self.blocks]))
 
 	@classmethod
 	def NextName(cls):

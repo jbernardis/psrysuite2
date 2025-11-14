@@ -2,7 +2,7 @@ import logging
 import traceback
 
 from rrserver.constants import INPUT_BLOCK, INPUT_BREAKER, INPUT_SIGNALLEVER, INPUT_ROUTEIN, INPUT_HANDSWITCH, INPUT_TURNOUTPOS
-from dispatcher.constants import RegAspects
+from dispatcher.constants import RegAspects, aspectname, aspecttype
 
 
 def formatRouteDesignator(rtName):
@@ -36,6 +36,13 @@ class Block:
 		self.nextBlockWest = None
 		self.handswitches = []
 		self.train = None
+
+	def DumpSubs(self):
+		if self.mainBlock is None:
+			logging.debug("Main block %s Status %s train %s" % (self.Name(), self.status, "NONE" if self.train is None else self.train.Name()))
+			for sb in self.subBlocks:
+				logging.debug("  sub block %s Status %s train %s" % (sb.Name(), sb.GetStatus(),
+																	"NONE" if sb.train is None else sb.train.Name()))
 
 	def GetAllBlocks(self):
 		if self.stoppedBlock is not None:
@@ -105,6 +112,9 @@ class Block:
 	def IsSubBlock(self):
 		return self.mainBlock is not None
 
+	def IsMasterBlock(self):
+		return len(self.subBlocks) > 0
+
 	def MainBlockName(self):
 		if self.stoppedBlock is not None:
 			return self.stoppedBlock.Name()
@@ -149,7 +159,6 @@ class Block:
 
 	def SetTrain(self, tr):
 		self.train = tr
-		logging.debug("Setting train to %s for block %s" % ("None" if tr is None else tr.Name(), self.Name()))
 		if self.mainBlock is not None:
 			self.mainBlock.SetTrain(tr)
 
@@ -573,9 +582,6 @@ class OSBlock:
 		return rc
 
 	def GetEventMessages(self):
-		if self.activeRoute is None:
-			return None
-
 		return [{"setroute": [{"os": self.Name(), "route": self.activeRouteName}]}]
 
 
@@ -940,6 +946,10 @@ class Signal:
 
 	def AspectType(self):
 		return self.aspectType
+
+	def AspectName(self):
+		return "%s (%s)" % (aspectname(self.aspect, self.aspectType), aspecttype(self.aspectType))
+
 		
 	def Aspect(self):
 		return self.aspect

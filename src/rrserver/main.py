@@ -1,4 +1,6 @@
 import os, sys
+
+
 cmdFolder = os.getcwd()
 if cmdFolder not in sys.path:
 	sys.path.insert(0, cmdFolder)
@@ -66,7 +68,7 @@ from rrserver.clientlist import ClientList
 from rrserver.trainlist import TrainList
 from rrserver.dccserver import DCCHTTPServer
 
-#from dispatcher.constants import RegAspects
+# from dispatcher.constants import RegAspects
 
 
 class ServerMain:
@@ -88,6 +90,7 @@ class ServerMain:
 		self.firstInterval = True
 		self.clockStatus = 2
 		self.busInterval = settings.rrserver.businterval
+		self.snapshotLoaded = False
 		
 		self.cmdQ = queue.Queue()
 
@@ -120,7 +123,6 @@ class ServerMain:
 			self.Shutdown()
 			
 		logging.info("HTTP Server created")
-		self.dispServer.SetSnapshotLimit(settings.rrserver.snapshotlimit)
 
 		logging.info("Starting Socket server at address: %s:%d" % (self.ip, settings.socketport))
 		self.socketServer = SktServer(self.ip, settings.socketport, self.socketEventReceipt)
@@ -137,6 +139,7 @@ class ServerMain:
 			
 		if continueInit:
 			self.rr.Initialize()
+			self.rr.SetSnapshotLimit(settings.rrserver.snapshotlimit)
 		else:
 			self.queueCmd({"cmd": ["failedstart"]})
 
@@ -172,6 +175,11 @@ class ServerMain:
 		self.cmdQ.put(cmd)
 
 	def NewClient(self, cmd):
+		if not self.snapshotLoaded:
+			if settings.rrserver.autoloadsnapshot:
+				self.rr.LoadSnapshot(None)
+			self.snapshotLoaded = True
+
 		addr = cmd["addr"]
 		skt = cmd["socket"]
 		sid = cmd["SID"]
@@ -213,7 +221,6 @@ class ServerMain:
 		for m in self.rr.GetCurrentValues():
 			self.socketServer.sendToOne(skt, addr, m)
 
-		logging.debug("++++++++ startint refresh client: %s" % self.rr.DumpN20())
 		for opt, val in self.rr.GetControlOptions().items():
 			m = {"control": [{"name": opt, "value": val}]}
 			self.socketServer.sendToOne(skt, addr, m)
@@ -237,7 +244,19 @@ class ServerMain:
 	def dispCommandReceipt(self, cmd): # thread context
 		#logging.info("HTTP Event: %s" % str(cmd))
 		self.cmdQ.put(cmd)
-		
+
+	def Alert(self, msg, locale=None):
+		msg = {"alert": {"msg": msg}}
+		if locale is not None:
+			msg["alert"]["locale"] = locale
+		self.socketServer.sendToAll(msg)
+
+	def Advice(self, msg, locale=None):
+		msg = {"advice": {"msg": msg}}
+		if locale is not None:
+			msg["advice"]["locale"] = locale
+		self.socketServer.sendToAll(msg)
+
 	def CreateDispatchTable(self):					
 		self.dispatch = {
 			"interval": 	self.DoInterval,
@@ -255,7 +274,10 @@ class ServerMain:
 			# "deletetrain":	self.DoDeleteTrain,
 			"modifytrain":	self.DoModifyTrain,
 			"trainreverse":	self.DoTrainReverse,
-			# "trainsignal":	self.DoTrainSignal,
+			"trainreorder":	self.DoTrainReorder,
+			"trainsplit":	self.DoTrainSplit,
+			"trainmerge":	self.DoTrainMerge,
+			"trainswap":	self.DoTrainSwap,
 			# "movetrain":	self.DoMoveTrain,
 			# "removetrain":	self.DoRemoveTrain,
 			# "traincomplete":		self.DoTrainComplete,
@@ -290,10 +312,11 @@ class ServerMain:
 			# "atc":			self.DoATC,
 			# "atcstatus":	self.DoATCStatus,
 
+			"loadsnapshot":	self.DoLoadSnapshot,
+
 			"debug":		self.DoDebug,
 			"debugflags":	self.DoDebugFlags,
 			"simulate": 	self.DoSimulate,
-			"dumptrains":	self.DoDumpTrains,
 			"ignore": 		self.DoIgnore,
 
 			"dccspeed":		self.DoDCCSpeed,
@@ -1018,12 +1041,6 @@ class ServerMain:
 		
 		resp = {"assigntrain": [p]}
 		self.socketServer.sendToAll(resp)
-		
-	def GetTrainList(self):
-		addrList = self.clientList.GetFunctionAddress("DISPATCH") + self.clientList.GetFunctionAddress("SATELLITE")
-		for addr, skt in addrList:
-			self.socketServer.sendToOne(skt, addr, {"dumptrains": ""})
-		return self.trainList.GetTrainList()
 
 	def DoModifyTrain(self, cmd):
 		try:
@@ -1061,11 +1078,11 @@ class ServerMain:
 
 		tr = self.rr.GetTrain(iname)
 		if tr is None:
-			self.rr.Alert("Unable to find train %s" % iname)
 			return
 
 		if name is not None:
-			tr.SetName(name)
+			roster = self.rr.GetTrainRoster(name)
+			tr.SetName(name, roster)
 
 		tr.SetLoco(loco)
 		tr.SetTemplateTrain(template)
@@ -1074,10 +1091,32 @@ class ServerMain:
 		tr.SetAR(ar)
 		tr.SetEast(east)
 
+		# change the status of all blocks to reflect the potentially new train id information
+		blkStat = "O" if tr.IsIdentified() else "U"
+		for blk in tr.Blocks():
+			if blk.IsMasterBlock():
+				# the only legitimate transition here is "U" to "O" or "O" to "U"
+				changed = False
+				for sb in blk.SubBlocks():
+					if sb.GetStatus() in ["O", "U"]:
+						if sb.SetStatus(blkStat):
+							if settings.debug.blockoccupancy:
+								self.rr.Alert("changed status of subblock %s to %s" % (sb.Name(), blkStat))
+							changed = True
+				if changed:
+					if settings.debug.blockoccupancy:
+						self.rr.Alert("After subblocks, status of main block %s is now %s" % (blk.Name(), blk.GetStatus()))
+					self.rr.RailroadEvent(blk.GetEventMessage())
+
+			else:
+				if blk.SetStatus(blkStat):
+					if settings.debug.blockoccupancy:
+						self.rr.Alert("changed status of block %s to %s" % (blk.Name(), blkStat))
+					self.rr.RailroadEvent(blk.GetEventMessage())
+
 		self.rr.RailroadEvent(tr.GetEventMessage())
 
 	def DoTrainReverse(self, cmd):
-		logging.debug("Train reverse: %s" % str(cmd))
 		try:
 			iname = cmd["train"][0]
 		except (IndexError, KeyError):
@@ -1088,6 +1127,80 @@ class ServerMain:
 			return
 
 		self.rr.ReverseTrain(iname)
+
+	def DoTrainReorder(self, cmd):
+		try:
+			iname = cmd["train"][0]
+		except (IndexError, KeyError):
+			iname = None
+
+		try:
+			blocks = cmd["blocks"]
+		except KeyError:
+			blocks = None
+
+		if iname is None:
+			logging.debug("Reorder train without a train id")
+			return
+
+		if blocks is None:
+			logging.debug("Reorder train without blocks list")
+
+		self.rr.ReorderTrain(iname, blocks)
+
+	def DoTrainSplit(self, cmd):
+		try:
+			iname = cmd["train"][0]
+		except (IndexError, KeyError):
+			iname = None
+
+		try:
+			blocks = cmd["blocks"]
+		except KeyError:
+			blocks = None
+
+		if iname is None:
+			logging.debug("Split train without a train id")
+			return
+
+		if blocks is None:
+			logging.debug("Split train without blocks list")
+
+		self.rr.SplitTrain(iname, blocks)
+
+	def DoTrainMerge(self, cmd):
+		try:
+			train = cmd["train"][0]
+		except (IndexError, KeyError):
+			train = None
+
+		try:
+			mergetrain = cmd["mergetrain"][0]
+		except KeyError:
+			mergetrain = None
+
+		if train is None or mergetrain is None:
+			logging.debug("Train merge requires 2 trains")
+			return
+
+		self.rr.MergeTrains(train, mergetrain)
+
+	def DoTrainSwap(self, cmd):
+		try:
+			train = cmd["train"][0]
+		except (IndexError, KeyError):
+			train = None
+
+		try:
+			swaptrain = cmd["swaptrain"][0]
+		except KeyError:
+			swaptrain = None
+
+		if train is None or swaptrain is None:
+			logging.debug("Train swap requires 2 trains")
+			return
+
+		self.rr.SwapTrains(train, swaptrain)
 
 	def DoCheckTrains(self, cmd):
 		addrList = self.clientList.GetFunctionAddress("DISPATCH") + self.clientList.GetFunctionAddress("SATELLITE")
@@ -1126,7 +1239,12 @@ class ServerMain:
 		addrList = self.clientList.GetFunctionAddress("DISPATCH") + self.clientList.GetFunctionAddress("SATELLITE")
 		for addr, skt in addrList:
 			self.socketServer.sendToOne(skt, addr, {"alert": cmd})
-				
+
+	def DoLoadSnapshot(self, cmd):
+		filename = cmd["filename"][0]
+		fn = os.path.join(os.getcwd(), "data", "snapshots", filename)
+		self.rr.LoadSnapshot(filename)
+
 	def DoServer(self, cmd):
 		try:
 			action = cmd["action"][0]

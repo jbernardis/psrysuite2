@@ -60,6 +60,8 @@ class Train:
 		self.ar = False
 		self.signal = None
 		self.templateTrain = None
+		self.pinpoint = False
+		self.misrouted = False
 
 		self.blocks = []
 
@@ -152,9 +154,28 @@ class Train:
 	def Blocks(self):
 		return self.blocks
 
+	def FrontBlock(self):
+		if self.BlockCount() == 0:
+			return None
+
+		return self.blocks[-1]
+
 	def BlockCount(self):
 		return len(self.blocks)
-	#
+
+	def SetPinpoint(self, flag=True):
+		if self.pinpoint == flag:
+			return False
+		self.pinpoint = flag
+		return True
+
+	def PinPoint(self):
+		return self.pinpoint
+
+	def MisRouted(self):
+		return self.misrouted
+
+#
 # class Train:
 # 	tx = 0
 #

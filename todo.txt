@@ -6,37 +6,23 @@ Hyde power buttons
 
 add locales to event/advice messages - all, None, locale only
 
-get turnout lockers from rrserver ?? for what
-
-block locking
-
 block signals
 
 
 trains - all things
-    active trains
-    routing dislog box
-    edit dialog box
-    separating roster from active trains
-    high light routes
-    context menu
-        split
-        merge
-        reorder
-        reverse
-        hilight route
+    active trains - still need throttle, time, and filters
+    edit dialog box (verify display of tracker info)
 
 to be fixed in monitor:
     move trains
     neutralize all signals
-    scripting/recording
 
 inspection dialog
     log level
     debug flags
         block occupancy
     os proxies
-    noder status
+    node status
     Sig levers
     train audit
     siding locks
@@ -46,6 +32,25 @@ inspection dialog
  global actions
     oss locking
     unlock all sidings
+
+cliff release button???
+
+lost trains
+preloaded
+history
+
+ snapshots
+    take
+    restore
+
+ save trains
+ save locos
+ load trains
+ load locos
+ clear trains  -  do we even need these?????
+
+
+ Reloading data - trains, engineers, locos, etc
 
 
 

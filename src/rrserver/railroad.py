@@ -2,7 +2,9 @@ import logging
 import re
 import os
 import json
-
+from datetime import datetime
+from os import listdir
+from os.path import isfile, join
 
 from rrserver.districts.yard import Yard
 from rrserver.districts.latham import Latham
@@ -47,6 +49,11 @@ def CrossingEastWestBoundary(osblk, blk):
 	blkNm = blk.Name()
 	osNm = osblk.Name()
 	return [osNm, blkNm] in EWCrossoverPoints or [blkNm, osNm] in EWCrossoverPoints
+
+
+def GetSnapList():
+	folder = os.path.join(os.getcwd(), "data", "snapshots")
+	return sorted([f for f in listdir(folder) if isfile(join(folder, f))])
 
 
 class Railroad:
@@ -110,7 +117,11 @@ class Railroad:
 		self.enableSendIO = True
 		self.osslocks = True
 
+		self.breakerCycleDelay = 10  # how many cycles to wait before recording breaker trips
+
 		self.addrList = []
+
+		self.snapshotLimit = 5
 
 		# load in the train roster
 		fn = os.path.join(os.getcwd(), "data", "trains.json")
@@ -321,6 +332,8 @@ class Railroad:
 		except Exception as e:
 			logging.info("Error %s saving io bits file" % str(e))
 
+		self.RecordBreakerTrip(None)  # create a new empty breaker trip report file
+
 		# self.AuditRoutes()
 
 	# def AuditRoutes(self):
@@ -418,6 +431,106 @@ class Railroad:
 		logging.debug("End of initialize: N20 status = %s" % self.DumpN20())
 
 		return True
+
+	def SetSnapshotLimit(self, limit):
+		self.snapshotLimit = limit
+
+	def LoadSnapshot(self, fn):
+		snapList = GetSnapList()
+		if len(snapList) == 0:
+			logging.info("No snapshot files to load - skipping")
+			return
+
+		if fn is None:
+			snapFile = snapList[-1]
+		elif fn in snapList:
+			snapFile = fn
+		else:
+			logging.error("Unknown snapshot file: %s - skipping" % fn)
+			return
+
+		logging.debug("snaplist = %s" % str(snapList))
+		logging.info("Loading snapshot %s" % snapFile)
+
+		fn = os.path.join(os.getcwd(), "data", "snapshots", snapFile)
+
+		try:
+			with open(fn, "r") as jfp:
+				j = json.load(jfp)
+		except FileNotFoundError:
+			logging.info("Snapshot file %s not found" % fn)
+			return
+
+		except Exception as e:
+			logging.info("Unknown error loading snapshot %s - %s" % (fn, str(e)))
+			return
+
+		jstr = json.dumps(j, indent=2)
+		logging.info("Snapshot data: %s" % jstr)
+
+		trainsFound = {}
+		for trid, trinfo in j.items():
+			logging.info("Train %s" % trid)
+
+			firstBlock = True
+			for bn in trinfo["blocks"]:
+				blk = self.GetBlock(bn)
+				if blk is None:
+					self.Alert("Train %s from snapshot, block %s unknown" % (trid, bn))
+				elif not blk.IsOccupied():
+					self.Alert("Train %s from snapshot, block %s is unoccupied" % (trid, bn))
+				else:
+					tr = blk.Train()
+					# this is OK - found a block with the correct train
+					if firstBlock:
+						# change the train's name unless it's still using the internal name
+						if trid != tr.IName():
+							tr.SetName(trid, self.GetTrainRoster(trid))
+						else:
+							# assert no roster if we are still using internal name
+							tr.SetRoster(None)
+						tr.SetLoco(trinfo["loco"])
+						tr.SetEast(trinfo["east"])
+						firstBlock = False
+
+					if tr.Name() != trid:
+						self.Alert("Train in block %s is in a different train: %s != %s" % (bn, trid, tr.Name()))
+					else:
+						if tr.IName() not in trainsFound:
+							trainsFound[tr.IName()] = tr
+
+		for tr in trainsFound.values():
+			self.RailroadEvent(tr.GetEventMessage())
+
+	def SaveSnapshot(self):
+		logging.debug("Railroad save snapshot")
+		folder = os.path.join(os.getcwd(), "data", "snapshots")
+		os.makedirs(folder, exist_ok=True)
+		n = datetime.now()
+		ts = "%4d%02d%02d-%02d%02d%02d" % (n.year, n.month, n.day, n.hour, n.minute, n.second)
+		filename = "snapshot" + ts + ".json"
+		fn = os.path.join(folder, filename)
+
+		tlist = self.GetActiveTrainList()
+		trains = {}
+		for trid, trinfo in tlist.items():
+			trains[trid] = {
+				"name": trid,
+				"loco": trinfo["loco"],
+				"east": trinfo["east"],
+				"blocks": trinfo["blocks"],
+			}
+		with open(fn, "w") as jfp:
+			json.dump(trains, jfp, indent=2)
+
+		#  get rid of excess versions of the snapshot files
+		snapList = sorted([f for f in listdir(folder) if isfile(join(folder, f))])
+		if len(snapList) > self.snapshotLimit:
+			dellist = snapList[:(len(snapList) - self.snapshotLimit)]
+			for fn in dellist:
+				fqn = os.path.join(folder, fn)
+				os.unlink(fqn)
+		return filename
 
 	def DelayedStartup(self):
 		for d in self.districts.values():
@@ -588,6 +701,9 @@ class Railroad:
 			
 		bt = rt.Bits()
 		rt.node.SetInputBit(bt[0][0], bt[0][1], 1)
+
+	def GetTrainRoster(self, trid):
+		return self.trainRoster.get(trid, None)
 		
 	def ClearAllRoutes(self, rtList):
 		for rtenm in rtList:
@@ -1276,6 +1392,12 @@ class Railroad:
 			m = {"fleet": [{ "name": signm, "value": flag}]}
 			yield m
 
+		# finally, send the trains
+		for tr in self.trains.values():
+			m = tr.GetEventMessage()
+			if m is not None:
+				yield m
+
 	def PlaceTrain(self, blknm):
 		try:
 			blk = self.blocks[blknm]
@@ -1422,6 +1544,9 @@ class Railroad:
 
 		self.ExamineInputs()
 
+		if self.breakerCycleDelay > 0:
+			self.breakerCycleDelay -= 1
+
 	def UpdateDistrictTurnoutLocksByNode(self, districtName, released, addressList):
 		for t in self.turnouts.values():
 			if t.district is None:
@@ -1440,8 +1565,7 @@ class Railroad:
 
 	def UpdateIgnoreList(self):
 		self.ignoredBlocks = self.settings.rrserver.ignoredblocks
-		logging.info("railroad ignore blocks list: %s" % str(self.ignoredBlocks))
-		
+
 	def ExamineInputs(self):
 		for addr, district, node in self.addrList:
 			skiplist, resumelist = district.GetControlOption()
@@ -1490,6 +1614,7 @@ class Railroad:
 								obj.district.TurnoutLeverChange(obj)
 
 				elif objType == INPUT_BREAKER:
+					self.RecordBreakerTrip(obj)
 					if obj.SetStatus(newval == 1):
 						if obj.HasProxy():
 							# use the proxy to show updated breaker status
@@ -1592,8 +1717,12 @@ class Railroad:
 					self.ProcessSignalLever(obj, obj.node)
 
 	def InputBlock(self, district, obj, objName, newval):
+		if self.settings.debug.blockoccupancy:
+			self.Alert("Input block change: %s:%s" % (objName, newval))
+
 		if objName.split(".")[0] in self.ignoredBlocks:
-			logging.info("Ignoring block %s as per ignore list" % objName)
+			if self.settings.debug.blockoccupancy:
+				self.Alert("Ignoring block %s as per ignore list" % objName)
 			return
 
 		if newval != 0:  # if block has changed to occupied
@@ -1606,6 +1735,8 @@ class Railroad:
 			if obj.IsOS():
 				# we've entered an OS block - turn the entry signal back to red and record the signal aspect and exit
 				# for future fleeting if fleeting is enabled for the signal
+				if self.settings.debug.blockoccupancy:
+					self.Alert("This is an OS block - determine any necessary fleet action")
 				rte = obj.osblk.ActiveRoute()
 				if rte is not None:
 					sigEnt = rte.EntrySignal()
@@ -1614,6 +1745,8 @@ class Railroad:
 					exbn = "None" if blkExit is None else blkExit.Name()
 
 					if sig is not None and blkExit is not None and sig.Aspect() != 0 and sig.Fleeted():
+						if self.settings.debug.blockoccupancy:
+							self.Alert("Pending fleet action: %s %s %s" % (sigEnt, obj.osblk.Name(), obj.osblk.ActiveRouteName()))
 						self.PendingFleetActions[exbn] = [sig, obj.osblk, obj.osblk.ActiveRouteName()]
 
 					if sig is not None:
@@ -1623,9 +1756,15 @@ class Railroad:
 						obj.osblk.LockRoute(False, sig.Name())
 						self.RailroadEvent((sig.GetEventMessage()))
 
+			if self.settings.debug.blockoccupancy:
+				self.Alert("Block: %s is subblock: %s main has train: %s" % (objName, obj.IsSubBlock(), obj.MainHasTrain()))
+
 			if obj.IsSubBlock() and obj.MainHasTrain():
-				obj.SetTrain(obj.MainBlockTrain())
+				tr = obj.MainBlockTrain()
+				obj.SetTrain(tr)
 				obj.SetStatus(obj.MainBlockStatus())
+				obj.SetEast(tr.IsEast())
+				return
 
 			# entry into a non-OS block
 			if objName in ["S11.E", "S21.E", "N10.W", "N20.W"]:
@@ -1633,8 +1772,13 @@ class Railroad:
 
 			if obj.SetStatus("U"):
 				tr, rear = self.IdentifyTrain(obj)
+				if self.settings.debug.blockoccupancy:
+					self.Alert("Identified train as %s" % tr.Name())
+
 				if tr.IsIdentified():
 					obj.SetStatus("O")
+					if self.settings.debug.blockoccupancy:
+						self.Alert("This train is known - status set to occupied")
 					obj.SetEast(tr.IsEast())  # blocks take on the direction of known trains
 				else:
 					tr.SetEast(obj.IsEast())  # unknown trains take on the block direction
@@ -1665,6 +1809,8 @@ class Railroad:
 		# otherwise, this is a detection loss - add it to pending, but only if we are currently occupied
 		else:
 			if obj.IsOccupied():
+				if self.settings.debug.blockoccupancy:
+					self.Alert("Recording pending detection loss for block %s" % objName)
 				self.pendingDetectionLoss.Add(objName, obj)
 			else:
 				self.DetectionLoss(obj)
@@ -1789,16 +1935,22 @@ class Railroad:
 				self.RailroadEvent((sig.GetEventMessage()))
 
 	def DetectionLoss(self, obj):
+		if self.settings.debug.blockoccupancy:
+			self.Alert("detection loss: %s" % obj.Name())
 		tr = obj.RemoveFromTrain()
 		if tr is None: # this only happens on the initial out/in exchange
 			return
 
 		if obj.SetStatus("E"):
+			if self.settings.debug.blockoccupancy:
+				self.Alert("Block marked as empty")
 			self.RailroadEvent(obj.GetEventMessage())
 			if tr is not None:
 				self.RailroadEvent(tr.GetEventMessage())
 
 				if len(tr.Blocks()) == 0:
+					if self.settings.debug.blockoccupancy:
+						self.Alert("Train now has no blocks - deleting")
 					self.DeleteTrain(tr)
 
 			obj.UpdateIndicators()
@@ -1838,11 +1990,11 @@ class Railroad:
 			logging.debug("Attempt to reverse unknown train: %s" % iname)
 			return
 
-		# deactivate any stopping relay that this train curfrently has triggerred
 		if tr.BlockCount() == 0:
 			logging.error("Train %s has 0 blocks" % tr.Name())
 			return
 
+		# deactivate any stopping relay that this train curfrently has triggerred
 		firstBlock = tr.Blocks()[-1]
 		bn = firstBlock.Name()
 		if bn.endswith(".E") or bn.endswith(".W"):
@@ -1853,14 +2005,15 @@ class Railroad:
 		nd = not tr.East()
 		tr.SetEast(nd)
 
+		# now reverse the block ordering, and then reverse each block
 		tr.ReverseBlocks()
 		bl = tr.Blocks()
-		firstBlock = bl[-1]
 		msgs = []
 		for b in bl:
 			b.SetEast(nd)
 			msgs.append(b.GetEventMessage())
 
+		firstBlock = tr.Blocks()[0]
 		sig = self.DetermineTrainSignal(tr, firstBlock)
 		tr.SetSignal(sig)
 
@@ -1871,6 +2024,221 @@ class Railroad:
 		for m in msgs:
 			self.RailroadEvent(m)
 
+	def ReorderTrain(self, iname, blocks):
+		tr = self.trains.get(iname, None)
+		if tr is None:
+			logging.error("Attempt to reorder unknown train: %s" % iname)
+			return
+
+		if tr.BlockCount() == 0:
+			logging.error("Train %s has 0 blocks" % tr.Name())
+			return
+
+		# deactivate any stopping relay that this train curfrently has triggerred
+		firstBlock = tr.Blocks()[-1]
+		bn = firstBlock.Name()
+		if bn.endswith(".E") or bn.endswith(".W"):
+			srName = bn[:-2] + ".srel"
+			self.SetRelay(srName, 0)
+			logging.debug("Stopping relay %s deactivated" % srName)
+
+		# build a dictionary of the current blocks
+		blockMap = {}
+		for blk in tr.Blocks():
+			blockMap[blk.Name()] = blk
+
+		tr.ClearBlocks()
+		for bn in blocks:
+			blk = blockMap.get(bn, None)
+			if blk is None:
+				self.Alert("Block %s is not currently in the train - ignoring")
+			else:
+				tr.AddBlock(blockMap[bn], False)
+
+		firstBlock = tr.Blocks()[0]
+		sig = self.DetermineTrainSignal(tr, firstBlock)
+		tr.SetSignal(sig)
+
+		self.CheckStoppingSection(tr)
+
+		self.RailroadEvent(tr.GetEventMessage())
+
+	def SplitTrain(self, iname, blocks):
+		if self.settings.debug.blockoccupancy:
+			self.Alert("Got split train %s: %s" % (iname, ", ".join(blocks)))
+		tr = self.trains.get(iname, None)
+		if tr is None:
+			logging.error("attempt to split unknown train: %s" % iname)
+			return
+
+		if tr.BlockCount() <= 1:
+			logging.error("Train %s has too few blocks (%d) to split" % (tr.Name(), tr.BlockCount()))
+			return
+
+		# deactivate any stopping relay that this train curfrently has triggerred
+		firstBlock = tr.Blocks()[-1]
+		bn = firstBlock.Name()
+		if bn.endswith(".E") or bn.endswith(".W"):
+			srName = bn[:-2] + ".srel"
+			self.SetRelay(srName, 0)
+			if self.settings.debug.blockoccupancy:
+				self.Alert("Stopping relay %s deactivated" % srName)
+
+		# build a dictionary of the current blocks
+		blockMap = {}
+		for blk in tr.Blocks():
+			blockMap[blk.Name()] = blk
+
+		if self.settings.debug.blockoccupancy:
+			self.Alert("Blocks currently in train: %s" % (", ".join(blockMap.keys())))
+
+		remainingBlocks = []
+		splitBlocks = []
+
+		for bn, blk in blockMap.items():
+			if bn.endswith(".E") or bn.endswith(".W"):
+				lbn = bn[:-2]
+			else:
+				lbn = bn
+			if lbn in blocks:
+				splitBlocks.append(blk)
+			else:
+				remainingBlocks.append(blk)
+
+		if self.settings.debug.blockoccupancy:
+			self.Alert("Blocks remaining with train: %s" % (", ".join([b.Name() for b in remainingBlocks])))
+			self.Alert("Blocks split to  new  train: %s" % (", ".join([b.Name() for b in splitBlocks])))
+
+		# create a new train
+		newTr = Train()
+		# a new train takes on the direction of the original train
+		tr.SetEast(tr.IsEast())
+		self.trains[tr.IName()] = tr
+
+		# remove all split blocks from the old train and add them to the new train
+		msgs = []
+		for blk in splitBlocks:
+			if blk.IsMasterBlock():
+				blk.RemoveFromTrain()
+				for sb in blk.SubBlocks():
+					if sb.Train() is not None:
+						sb.RemoveFromTrain()
+						sb.SetTrain(newTr)
+						sb.SetStatus("U")
+				newTr.AddBlock(blk, False)
+				msgs.append(blk.GetEventMessage())
+			else:
+				blk.RemoveFromTrain()
+
+				newTr.AddBlock(blk, False)
+				blk.SetTrain(newTr)
+				blk.SetStatus("U")  # The new train is unidentified
+				msgs.append(blk.GetEventMessage())
+
+		# determine each trains current signal, and check if it triggers a stopping section:
+		firstBlock = tr.Blocks()[0]
+		sig = self.DetermineTrainSignal(tr, firstBlock)
+		tr.SetSignal(sig)
+		self.CheckStoppingSection(tr)
+
+		firstBlock = newTr.Blocks()[0]
+		sig = self.DetermineTrainSignal(newTr, firstBlock)
+		newTr.SetSignal(sig)
+		self.CheckStoppingSection(newTr)
+
+		self.RailroadEvents(msgs)
+		self.RailroadEvent(tr.GetEventMessage())
+		self.RailroadEvent(newTr.GetEventMessage())
+
+	def SwapTrains(self, train, swaptrain):
+		if self.settings.debug.blockoccupancy:
+			self.Alert("Got swap train %s + %s" % (train, swaptrain))
+		tr1= self.trains.get(train, None)
+		if tr1 is None:
+			logging.error("attempt to swap unknown train: %s" % train)
+			return
+
+		tr2 = self.trains.get(swaptrain, None)
+		if tr2 is None:
+			logging.error("attempt to swap unknown train: %s" % swaptrain)
+			return
+
+		rname1 = tr1.RName()
+		roster1 = tr1.Roster()
+		template1 = tr1.TemplateTrain()
+
+		rname2 = tr2.RName()
+		roster2 = tr2.Roster()
+		template2 = tr2.TemplateTrain()
+
+		tr1.SetName(rname2, roster2)
+		tr1.SetTemplateTrain(template2)
+		if roster2 is not None:
+			tr1.SetEast(roster2["eastbound"])
+
+		tr2.SetName(rname1, roster1)
+		tr2.SetTemplateTrain(template1)
+		if roster1 is not None:
+			tr2.SetEast(roster1["eastbound"])
+
+		self.RailroadEvent(tr1.GetEventMessage())
+		self.RailroadEvent(tr2.GetEventMessage())
+
+	def MergeTrains(self, train, mergetrain):
+		if self.settings.debug.blockoccupancy:
+			self.Alert("Got merge train %s + %s" % (train, mergetrain))
+		tr = self.trains.get(train, None)
+		if tr is None:
+			logging.error("attempt to merge unknown train: %s" % train)
+			return
+
+		tr2 = self.trains.get(mergetrain, None)
+		if tr2 is None:
+			logging.error("attempt to merge unknown train: %s" % mergetrain)
+			return
+
+		# deactivate any stopping relay that the mergetrain curfrently has triggerred
+		firstBlock = tr2.Blocks()[-1]
+		bn = firstBlock.Name()
+		if bn.endswith(".E") or bn.endswith(".W"):
+			srName = bn[:-2] + ".srel"
+			self.SetRelay(srName, 0)
+			if self.settings.debug.blockoccupancy:
+				self.Alert("Stopping relay %s deactivated" % srName)
+
+		# remove all blocks from the merge train and add them to the main train
+		msgs = []
+		blkStat = "O" if tr.IsIdentified() else "U"
+		blkDir = tr.IsEast()
+		for blk in reversed(tr2.Blocks()):
+			if blk.IsMasterBlock():
+				blk.RemoveFromTrain()
+				for sb in blk.SubBlocks():
+					if sb.Train() is not None:
+						sb.RemoveFromTrain()
+						sb.SetEast(blkDir)  # assert direction is the same as main train
+						sb.SetTrain(tr)
+						sb.SetStatus(blkStat)
+				blk.SetEast(blkDir)  # Assert direction of block
+				tr.AddBlock(blk, True)
+				msgs.append(blk.GetEventMessage())
+			else:
+				blk.RemoveFromTrain()
+
+				tr.AddBlock(blk, True)
+				blk.SetEast(blkDir)  # Assert direction of block
+				blk.SetTrain(tr)
+				blk.SetStatus(blkStat)  # The new train is unidentified
+				msgs.append(blk.GetEventMessage())
+
+		# the front of the train hasn't changed - so no stopping block calculation need be done
+
+		self.RailroadEvents(msgs)
+		self.RailroadEvent(tr.GetEventMessage())
+		self.RailroadEvent(tr2.GetEventMessage())
+
+		# train 2 can now be deleted
+		del(self.trains[mergetrain])
 
 	def RailroadEvents(self, elist):
 		for e in elist:
@@ -2624,12 +2992,55 @@ class Railroad:
 	def GetTrain(self, iname):
 		return self.trains.get(iname, None)
 
+	def GetActiveTrainList(self):
+		result = {}
+		for trid, tr in self.trains.items():
+			name = tr.Name()
+			sig = tr.Signal()
+			asp = tr.AspectName()
+			if asp is None:
+				asp = sig.AspectName()
+			result[name] = {
+				"iname": tr.IName(),
+				"loco": tr.Loco(),
+				"east": tr.IsEast(),
+				"engineer": tr.Engineer(),
+				"blocks": [b.Name() for b in tr.Blocks()],
+				"signal": None if sig is None else sig.Name(),
+				"aspect": asp,
+				"stopped": tr.Stopped(),
+				"atc": tr.ATC(),
+				"ar": tr.AR(),
+			}
+
+		return result
+
 	def CheckEWCross(self, tr, blk, blkn):
 		if CrossingEastWestBoundary(blk, blkn):
 			if self.debug.identifytrain:
 				self.Alert("Train %s crossed an E/W boundary - reversing train direction" % tr.Name())
 			tr.SetEast(not tr.GetEast())
 			# self.frame.Request({"renametrain": {"oldname": tr.GetName(), "newname": tr.GetName(), "east": "1" if tr.GetEast() else "0"}})
+
+	def RecordBreakerTrip(self, brkr):
+		ofn = os.path.join(os.getcwd(), "output", "breaker.jtxt")
+		if brkr is None:
+			with open(ofn, "w") as ofp:
+				pass
+			logging.info("Breaker log file initialized")
+			return
+
+		if self.breakerCycleDelay > 0:
+			return
+
+		with open(ofn, "a") as ofp:
+			brkr = {"breaker": brkr.Name()}
+			n = datetime.now()
+			ts = "%4d%02d%02d-%02d%02d%02d" % (n.year, n.month, n.day, n.hour, n.minute, n.second)
+			brkr["timestamp"] = ts
+			brkr["trains"] = self.GetActiveTrainList()
+			ofp.write("%s\n\n" % json.dumps(brkr, indent=2))
+
 
 class PendingDetectionLoss:
 	def __init__(self, railroad):

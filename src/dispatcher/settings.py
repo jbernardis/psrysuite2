@@ -55,6 +55,7 @@ class Settings:
 		self.rrserver.ioerrorthreshold = 5
 		self.rrserver.pendingdetectionlosscycles = 2
 		self.rrserver.ignoredblocks = []
+		self.rrserver.autoloadsnapshot = True
 		if self.cfg.has_section(section):
 			for opt, value in self.cfg.items(section):
 				if opt == 'simulation':
@@ -86,6 +87,9 @@ class Settings:
 
 				elif opt == "snapshotlimit":
 					self.rrserver.snapshotlimit = int(value)
+
+				elif opt == 'autoloadsnapshot':
+					self.rrserver.autoloadsnapshot = parseBoolean(value, True)
 
 				elif opt == "ignoredblocks":
 					self.rrserver.ignoredblocks = [x.strip() for x in value.split(",")]
@@ -160,7 +164,6 @@ class Settings:
 		self.dispatcher.matrixturnoutdelay = 2
 		self.dispatcher.notifyinvalidblocks = True
 		self.dispatcher.notifyincorrectroute = True
-		self.dispatcher.autoloadsnapshot = True
 		if self.cfg.has_section(section):
 			for opt, value in self.cfg.items(section):
 				if opt == 'dispatch':
@@ -199,9 +202,6 @@ class Settings:
 
 				elif opt == 'notifyincorrectroute':
 					self.dispatcher.notifyincorrectroute = parseBoolean(value, True)
-
-				elif opt == 'autoloadsnapshot':
-					self.dispatcher.autoloadsnapshot = parseBoolean(value, True)
 
 		else:
 			print("Missing %s section - assuming defaults" % section)
@@ -413,6 +413,7 @@ class Settings:
 		self.cfg.set(section, "pendingdetectionlosscycles", "%d" % self.rrserver.pendingdetectionlosscycles)
 		self.cfg.set(section, "ignoredblocks", ", ".join(self.rrserver.ignoredblocks))
 		self.cfg.set(section, "snapshotlimit", "%d" % self.rrserver.snapshotlimit)
+		self.cfg.set(section, "autoloadsnapshot", "True" if self.rrserver.autoloadsnapshot else "False")
 
 		section = "dccsniffer"
 		try:
@@ -451,7 +452,6 @@ class Settings:
 		self.cfg.set(section, "matrixturnoutdelay",   "%d" % self.dispatcher.matrixturnoutdelay)
 		self.cfg.set(section, "notifyinvalidblocks", "True" if self.dispatcher.notifyinvalidblocks else "False")
 		self.cfg.set(section, "notifyincorrectroute", "True" if self.dispatcher.notifyincorrectroute else "False")
-		self.cfg.set(section, "autoloadsnapshot", "True" if self.dispatcher.autoloadsnapshot else "False")
 
 		section = "display"
 		try:

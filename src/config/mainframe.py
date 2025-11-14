@@ -164,6 +164,12 @@ class MainFrame(wx.Frame):
 
 		boxsizer.AddSpacer(10)
 
+		self.cbAutoLoadSnap = wx.CheckBox(commBox, wx.ID_ANY, "Autoload latest snapshot")
+		boxsizer.Add(self.cbAutoLoadSnap, 0, wx.LEFT, 40)
+		self.cbAutoLoadSnap.SetValue(self.settings.rrserver.autoloadsnapshot)
+
+		boxsizer.AddSpacer(10)
+
 		commBox.SetSizer(boxsizer)
 		
 		vszrl.Add(commBox, 0, wx.EXPAND)
@@ -221,12 +227,6 @@ class MainFrame(wx.Frame):
 		self.cbPrecheckSnapshot = wx.CheckBox(dispBox, wx.ID_ANY, "Precheck \"Take Snapshot\" on exit")
 		boxsizer.Add(self.cbPrecheckSnapshot, 0, wx.LEFT, 40)
 		self.cbPrecheckSnapshot.SetValue(self.settings.dispatcher.prechecksnapshot)
-
-		boxsizer.AddSpacer(10)
-
-		self.cbAutoLoadSnap = wx.CheckBox(dispBox, wx.ID_ANY, "Autoload latest snapshot")
-		boxsizer.Add(self.cbAutoLoadSnap, 0, wx.LEFT, 40)
-		self.cbAutoLoadSnap.SetValue(self.settings.dispatcher.autoloadsnapshot)
 
 		boxsizer.AddSpacer(10)
 
@@ -565,11 +565,11 @@ class MainFrame(wx.Frame):
 		self.settings.dispatcher.precheckshutdownserver = self.cbPrecheckShutdownServer.IsChecked()
 		self.settings.dispatcher.prechecksnapshot = self.cbPrecheckSnapshot.IsChecked()
 		self.settings.dispatcher.prechecksavelogs = self.cbPrecheckSaveLogs.IsChecked()
-		self.settings.dispatcher.autoloadsnapshot = self.cbAutoLoadSnap.IsChecked()
 
 		self.settings.rrserver.rrtty = self.teRRComPort.GetValue()
 		self.settings.rrserver.dcctty = self.teDCCComPort.GetValue()
 		self.settings.rrserver.snapshotlimit = int(self.teSnapshotLimit.GetValue())
+		self.settings.rrserver.autoloadsnapshot = self.cbAutoLoadSnap.IsChecked()
 
 		self.settings.dccsniffer.tty = self.teSnifferComPort.GetValue()
 		self.settings.dccsniffer.enable = self.cbSnifferEnable.IsChecked()

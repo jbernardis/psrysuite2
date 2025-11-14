@@ -1,4 +1,6 @@
 import wx
+import json
+
 
 class TrainsDlg(wx.Dialog):
     def __init__(self, parent, dlgExit, rrServer):
@@ -80,6 +82,8 @@ class TrainsListCtrl(wx.ListCtrl):
         
     def RefreshTrains(self):       
         self.trains = self.rrServer.Get("activetrains", {})
+        j = json.dumps(self.trains, indent=2)
+        print(j, flush=True)
         self.trainNames = sorted(self.trains.keys())
         self.RefreshAll()
  

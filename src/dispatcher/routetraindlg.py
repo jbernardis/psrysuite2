@@ -1,4 +1,6 @@
 import wx
+import logging
+
 from dispatcher.constants import BlockName
 from dispatcher.block import formatRouteDesignator
 from dispatcher.trainlist import YardBlocks
@@ -13,14 +15,16 @@ HILITEOFF = "Hilite OFF"
 
 
 class RouteTrainDlg(wx.Dialog):
-	def __init__(self, parent, train, rtName, trinfo, isDispatcher):
+	def __init__(self, parent, train, trinfo, template, isDispatcher, blocks):
 		wx.Dialog.__init__(self, parent, wx.ID_ANY, "")
 		self.parent = parent
 		self.train = train
-		self.rtName = rtName
-		self.trainName = train.GetName()
+		self.template = template
+		# loco = train.Loco()
+		self.trainName = train.Name()
 		self.trinfo = trinfo
 		self.isDispatcher = isDispatcher
+		self.blocks = blocks
 		self.sequence = trinfo["sequence"]
 		self.Bind(wx.EVT_CLOSE, self.onClose)
 		self.hilited = False
@@ -40,19 +44,18 @@ class RouteTrainDlg(wx.Dialog):
 		self.goodOSs = [formatRouteDesignator(step["route"]) for step in self.sequence]
 		self.startingBlock = trinfo["startblock"]
 
+		logging.debug("template train = (%s)" % self.template)
+
 		vsz = wx.BoxSizer(wx.VERTICAL)
 
-		name, loco = train.GetNameAndLoco()
-		self.name = name
-		
 		hsz = wx.BoxSizer(wx.HORIZONTAL)
 		st = wx.StaticText(self, wx.ID_ANY, "Train:")
 		st.SetFont(self.font)
 		hsz.Add(st, 0, wx.ALIGN_CENTER_VERTICAL)
 		hsz.AddSpacer(10)
-		trstr = train.GetName()
-		if rtName is not None:
-			trstr += " (%s)" % rtName
+		trstr = self.trainName
+		if self.template is not None:
+			trstr += " (%s)" % str(self.template)
 		st = wx.StaticText(self, wx.ID_ANY, trstr)
 		st.SetFont(self.fontTrainID)
 		hsz.Add(st)
@@ -63,7 +66,7 @@ class RouteTrainDlg(wx.Dialog):
 		st.SetFont(self.font)
 		hsz.Add(st, 0, wx.ALIGN_CENTER_VERTICAL)
 		hsz.AddSpacer(10)
-		engineer = train.GetEngineer()
+		engineer = train.Engineer()
 		if engineer is None:
 			engineer = "(None)"
 		st = wx.StaticText(self, wx.ID_ANY, engineer)
@@ -147,15 +150,16 @@ class RouteTrainDlg(wx.Dialog):
 			return
 
 		rc, alreadyset, msg = self.parent.SetRouteThruOS(self.sequence[sx]["os"], self.sequence[sx]["route"], self.sequence[sx]["block"], self.sequence[sx]["signal"])
+		logging.debug("back from setroute: %s %s %s" % (rc, alreadyset, msg))
 		
 		if not rc or (rc and msg is not None):
 			self.parent.PopupAdvice(msg)
-
-		if rc:
-			if alreadyset:
-				self.parent.SetRouteSignal(self.sequence[sx]["os"], self.sequence[sx]["route"], "", self.sequence[sx]["signal"])
-			else:
-				self.parent.DelaySignalRequest(self.sequence[sx]["signal"], self.sequence[sx]["os"], self.sequence[sx]["route"], 5)
+		#
+		# if rc:
+		# 	if alreadyset:
+		# 		self.parent.SetRouteSignal(self.sequence[sx]["os"], self.sequence[sx]["route"], "", self.sequence[sx]["signal"])
+		# 	else:
+		# 		self.parent.DelaySignalRequest(self.sequence[sx]["signal"], self.sequence[sx]["os"], self.sequence[sx]["route"], 5)
 
 	def OnBSignal(self, _):
 		if self.lastStepx is None:
@@ -172,7 +176,7 @@ class RouteTrainDlg(wx.Dialog):
 
 	def OnBHiLite(self, _):
 		if self.hilited:
-			self.parent.ClearHighlitedRoute(self.name)
+			self.parent.ClearHighlitedRoute(self.trainName)
 			self.hilited = False
 			self.bHilite.SetLabel(HILITEON)
 		else:
@@ -183,7 +187,7 @@ class RouteTrainDlg(wx.Dialog):
 
 			self.hilited = True
 			self.bHilite.SetLabel(HILITEOFF)
-			self.parent.SetHighlitedRoute(self.name, routeTiles)
+			self.parent.SetHighlitedRoute(self.trainName, routeTiles)
 
 	def ClearHiliteFlag(self):
 		self.hilited = False
@@ -196,20 +200,14 @@ class RouteTrainDlg(wx.Dialog):
 		self.DetermineTrainPosition()
 		
 	def DetermineTrainPosition(self):
-		newTr = self.parent.GetTrainObject(self.trainName)
-		if newTr is None:
-			self.ClearArrow(self.lastStepx)
-			self.msg.SetLabel("")
-			return
-
-		if self.train != newTr:
-			self.train = newTr
-
-		fb = self.train.FrontBlock()
+		fbn = self.train.FrontBlock()
+		if fbn.endswith(".E") or fbn.endswith(".W"):
+			fbn = fbn[:-2]
+		fb = self.blocks.get(fbn, None)
 
 		if fb is None:
 			self.ClearArrow(self.lastStepx)
-			self.msg.SetLabel("")
+			self.msg.SetLabel("Train is in an unknown block: %s" % fbn)
 			return
 
 		fbn = fb.GetRouteDesignator()
@@ -229,7 +227,7 @@ class RouteTrainDlg(wx.Dialog):
 
 		if stepx is None:
 			if fb.GetName() not in YardBlocks:
-				self.msg.SetLabel("Train is in unexpected block")
+				self.msg.SetLabel("Train is in unexpected block: %s" % fbn)
 
 			if self.isDispatcher:
 				self.bRoute.Enable(False)
@@ -262,7 +260,7 @@ class RouteTrainDlg(wx.Dialog):
 		self.bmps[sx].SetBitmap(self.bmpClear)
 		
 	def onClose(self, _):
-		self.parent.CloseRouteTrainDlg(self.name)
+		self.parent.CloseRouteTrainDlg(self.trainName)
 		
 	def AddHeaders(self):
 		sigst = wx.StaticText(self, wx.ID_ANY, "Signal", size=(COLSIG, -1))

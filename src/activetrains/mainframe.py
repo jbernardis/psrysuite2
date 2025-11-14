@@ -14,7 +14,6 @@ from dispatcher.rrserver import RRServer
 from dispatcher.constants import aspectname, aspecttype, aspectprofileindex, RegAspects, REPLACE
 from dispatcher.block import formatRouteDesignator
 
-
 (DeliveryEvent, EVT_DELIVERY) = wx.lib.newevent.NewEvent() 
 (DisconnectEvent, EVT_DISCONNECT) = wx.lib.newevent.NewEvent() 
 
@@ -109,7 +108,7 @@ class MainFrame(wx.Frame):
 		self.sessionid = None
 		self.subscribed = False
 		
-		self.activeTrains = ActiveTrainList()
+		# self.activeTrains = ActiveTrainList()
 		self.trains = {}
 		self.trainList = {}
 		self.blocks = {}
