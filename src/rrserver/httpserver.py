@@ -194,6 +194,24 @@ class HTTPServer:
 			logging.info("Returning %d bytes" % len(jstr))
 			return 200, jstr
 
+		elif verb == "getsubblocks":
+			fn = os.path.join(os.getcwd(), "data", "subblocks.json")
+			logging.info("Retrieving subblock information from file (%s)" % fn)
+			try:
+				with open(fn, "r") as jfp:
+					j = json.load(jfp)
+			except FileNotFoundError:
+				logging.info("File not found")
+				return 400, "File Not Found"
+
+			except:
+				logging.info("Unknown error")
+				return 400, "Unknown error encountered"
+
+			jstr = json.dumps(j)
+			logging.info("Returning %d bytes" % len(jstr))
+			return 200, jstr
+
 		elif verb == "getiobits":
 			fn = os.path.join(os.getcwd(), "data", "iobits.json")
 			logging.info("Retrieving I/O Bit information from file (%s)" % fn)
@@ -232,8 +250,8 @@ class HTTPServer:
 
 		elif verb == "savesnapshot":
 			logging.debug("HTTP Server - savesnapshot")
-			fn = self.rr.SaveSnapshot()
-			return 200, "Snapshot saved to file %s" % fn
+			msg = self.rr.SaveSnapshot()
+			return 200, msg
 
 		elif verb == "snaplist":
 			logging.debug("http server snaplist")

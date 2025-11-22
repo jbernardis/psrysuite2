@@ -54,7 +54,7 @@ class EditTrainDlg(wx.Dialog):
 					style=wx.CB_DROPDOWN | wx.TE_PROCESS_ENTER, size=(120, -1))
 		self.cbTrainID.SetFont(font)
 
-		self.cbAssignRoute = wx.CheckBox(self, wx.ID_ANY, "Route")
+		self.cbAssignRoute = wx.CheckBox(self, wx.ID_ANY, "Template")
 		self.cbAssignRoute.SetFont(font)
 		self.cbAssignRoute.SetValue(self.templateTrain is not None)
 
@@ -270,15 +270,11 @@ class EditTrainDlg(wx.Dialog):
 
 	def OnTrainChoice(self, evt):
 		self.chosenTrain = evt.GetString()
-		logging.debug("Train choice: %s" % self.chosenTrain)
 		if self.chosenTrain in self.trainRoster:
-			logging.debug("It's in the roster")
 			tr = self.trainRoster[self.chosenTrain]
 			self.startingEast = tr["eastbound"]
-			logging.debug("and it's starting direction os %s" % str(self.startingEast))
 		else:
 			self.startingEast = None
-			logging.debug("It's NOT in the roster")
 
 		self.ShowTrainLocoDesc()
 
@@ -335,8 +331,8 @@ class EditTrainDlg(wx.Dialog):
 			self.parent.PopupEvent("Unable to identify lost train")
 			return
 
-		loco, engineer, east, _, route = tr
-		self.FillInTrainFields(trname, loco, engineer, east, route)
+		loco, engineer, east, _ = tr
+		self.FillInTrainFields(trname, loco, engineer, east)
 
 	def OnBTrainHistory(self, _):
 		trname = ""
@@ -357,8 +353,7 @@ class EditTrainDlg(wx.Dialog):
 		loco = tr["loco"]
 		engineer = tr["engineer"]
 		east = tr["east"]
-		route = tr["route"]
-		self.FillInTrainFields(trname, loco, engineer, east, route)
+		self.FillInTrainFields(trname, loco, engineer, east)
 
 	def OnBPreloadedTrains(self, _):
 		tr = None
@@ -371,9 +366,9 @@ class EditTrainDlg(wx.Dialog):
 		if rc != wx.ID_OK:
 			return
 
-		self.FillInTrainFields(tr["name"], tr["loco"], None, tr["east"], tr["route"])
+		self.FillInTrainFields(tr["name"], tr["loco"], None, tr["east"])
 
-	def FillInTrainFields(self, trname, loco, engineer, east, route):
+	def FillInTrainFields(self, trname, loco, engineer, east):
 		rc = wx.ID_YES
 		if east != self.startingEast:
 			mdlg = wx.MessageDialog(self, 'Trains are moving in opposite directions.\nPress "Yes" to proceed',
@@ -387,45 +382,7 @@ class EditTrainDlg(wx.Dialog):
 			self.cbTrainID.SetValue(trname)
 			self.cbLocoID.SetValue(loco)
 			self.cbEngineer.SetValue(self.noEngineer if engineer is None or engineer == "None" else engineer)
-
-			if route is None:
-				self.cbAssignRoute.SetValue(False)
-				self.cbRoute.SetSelection(0)
-				self.cbAssignRoute.Enable(trname not in self.trains)
-				self.cbRoute.Enable(trname not in self.trains)
-			else:
-				if trname in self.trains:
-					mdlg = wx.MessageDialog(self, "Route cannot be set for a known train: %s\nIgnoring" % trname,
-											'Known Train', wx.OK | wx.ICON_ERROR)
-					mdlg.ShowModal()
-					mdlg.Destroy()
-
-					self.cbAssignRoute.SetValue(False)
-					self.cbRoute.SetSelection(0)
-					self.cbAssignRoute.Enable(False)
-					self.cbRoute.Enable(False)
-
-				else:
-					self.cbAssignRoute.Enable(True)
-					self.cbRoute.Enable(True)
-
-					try:
-						idx = self.trainsWithSeq.index(route)
-					except ValueError:
-						mdlg = wx.MessageDialog(self, "Route is set to unknown train: %s\nIgnoring" % route, 'Unknown Route Train', wx.OK | wx.ICON_ERROR)
-						mdlg.ShowModal()
-						mdlg.Destroy()
-						idx = -1
-
-					if idx >= 0:
-						self.cbAssignRoute.SetValue(True)
-						self.templateTrain = self.trainsWithSeq[idx]
-						self.cbRoute.SetSelection(idx)
-					else:
-						self.cbAssignRoute.SetValue(False)
-						self.templateTrain = None
-						self.cbRoute.SetSelection(0)
-
+			self.stDirection.SetLabel("Eastbound" if self.startingEast else "Westbound")
 			self.ShowTrainLocoDesc()
 
 	def ShowTrainLocoDesc(self):

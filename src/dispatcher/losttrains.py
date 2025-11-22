@@ -13,16 +13,16 @@ class LostTrains:
 		self.branchLineE = None
 		self.dbg = self.frame.GetDebugFlags()
 
-	def Add(self, train, loco, engineer, east, block, route):
+	def Add(self, train, loco, engineer, east, block):
 		if train.startswith("??"):
 			return False
 
 		if block == "F10":  # and not east:
-			self.branchLineW = (train, loco, engineer, east, block, route)
+			self.branchLineW = (train, loco, engineer, east, block)
 			if self.dbg.identifytrain:
 				self.frame.DebugMessage("Recording train %s as branch line west" % train)
 		elif block == "R10":  # and east:
-			self.branchLineE = (train, loco, engineer, east, block, route)
+			self.branchLineE = (train, loco, engineer, east, block)
 			if self.dbg.identifytrain:
 				self.frame.DebugMessage("Recording train %s as branch line east" % train)
 		# elif block == "F10" and self.dbg.identifytrain:
@@ -30,7 +30,7 @@ class LostTrains:
 		# elif block == "R10" and self.dbg.identifytrain:
 		# 	self.frame.DebugMessage("NOT recording train %s as branch line east because of opposite direction" % train)
 
-		self.trains[train] = (loco, engineer, east, block, route)
+		self.trains[train] = (loco, engineer, east, block)
 		return True
 
 	def GetBranchLineTrain(self, blknm, east):
@@ -77,7 +77,7 @@ class LostTrains:
 		return self.trains[tid]
 	
 	def GetList(self):
-		return [(train, info[0], info[1], info[2], info[3], info[4]) for train, info in self.trains.items()]
+		return [(train, info[0], info[1], info[2], info[3]) for train, info in self.trains.items()]
 	
 	def Count(self):
 		return len(self.trains)
@@ -246,13 +246,11 @@ class LostTrainsCtrl(wx.ListCtrl):
 		self.InsertColumn(2, "Loco")
 		self.InsertColumn(3, "Engineer")
 		self.InsertColumn(4, "Block")
-		self.InsertColumn(5, "Route")
 		self.SetColumnWidth(0, 100)
-		self.SetColumnWidth(1, 80)
-		self.SetColumnWidth(2, 80)
-		self.SetColumnWidth(3, 80)
-		self.SetColumnWidth(4, 80)
-		self.SetColumnWidth(5, 80)
+		self.SetColumnWidth(1, 100)
+		self.SetColumnWidth(2, 100)
+		self.SetColumnWidth(3, 120)
+		self.SetColumnWidth(4, 100)
 
 		self.SetItemCount(0)
 		self.selected = None
@@ -369,9 +367,6 @@ class LostTrainsCtrl(wx.ListCtrl):
 		elif col == 4:
 			return "" if tr[4] is None else tr[4]
 
-		elif col == 5:
-			return "" if tr[5] is None else tr[5]
-
 	def OnGetItemAttr(self, item):
 		if item % 2 == 1:
 			return self.attr2
@@ -400,7 +395,7 @@ class LostTrainsRecoveryDlg(wx.Dialog):
 		vsz.AddSpacer(20)
 		
 		vszl = wx.BoxSizer(wx.VERTICAL)
-		st = wx.StaticText(self, wx.ID_ANY, 'Train / Dir / Loco / Engineer / Block / Route')
+		st = wx.StaticText(self, wx.ID_ANY, 'Train / Dir / Loco / Engineer / Block')
 		vszl.Add(st, 0, wx.ALIGN_CENTER_HORIZONTAL)
 		
 		vszl.AddSpacer(10)
@@ -507,7 +502,7 @@ class LostTrainsRecoveryDlg(wx.Dialog):
 		
 	def DetermineChoices(self):
 		self.trainNames = [t[0] for t in self.lostTrains]
-		return ["%s / %s / %s / %s / %s / %s" % (t[0], "E" if t[3] else "W", t[1], t[2], t[4], t[5]) for t in self.lostTrains]
+		return ["%s / %s / %s / %s / %s" % (t[0], "E" if t[3] else "W", t[1], t[2], t[4]) for t in self.lostTrains]
 	
 	def ApplyBlockFilter(self, blocks):
 		for idx in range(len(self.lostTrains)):

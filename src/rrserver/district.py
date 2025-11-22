@@ -21,6 +21,9 @@ class District:
 		for nd in self.nodes.values():
 			nd.OutIn()
 
+	def BlockOccupancyChange(self, rr, obj, val):
+		pass
+
 	def CheckTurnoutLocks(self, turnouts):
 		print("in default checkswitchlocks")
 		return []

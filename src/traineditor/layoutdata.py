@@ -1,5 +1,6 @@
 import json
 
+
 class LayoutData:
 	def __init__(self, rrserver):
 		self.layout = rrserver.Get("getlayout", {})

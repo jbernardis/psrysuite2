@@ -534,8 +534,8 @@ class TrainListCtrl(wx.ListCtrl):
 			self.suppressNonAssigned = False
 			self.suppressNonAssignedAndKnown = False
 
-		self.filterTrains()	
-		self.SetItemCount(len(self.filtered))	
+		self.filterTrains()
+		self.SetItemCount(len(self.filtered))
 		if len(self.filtered) > 0:
 			self.RefreshItems(0, len(self.filtered)-1)
 		
@@ -580,15 +580,18 @@ class TrainListCtrl(wx.ListCtrl):
 		for trid in sorted(self.order, key=self.BuildTrainKey):
 			if not self.suppressed(trid):
 				self.filtered.append(trid)
-				
+
 	def BuildTrainKey(self, trid):
-		if trid.startswith("??"):
-			return "ZZ%s" % trid
+		tr = self.trains[trid]
+		nm = tr.Name()
+		if nm.startswith("??"):
+			return "ZZ%s" % nm
 		else:
-			return "AA%s" % trid
+			return "AA%s" % nm
 
 	def suppressed(self, trid):
 		tr = self.trains[trid]
+		nm = tr.Name()
 		if self.suppressYards:
 			blkNms = tr.Blocks()
 			allYard = True # assume all blocks are yard tracks
@@ -600,16 +603,16 @@ class TrainListCtrl(wx.ListCtrl):
 				return True
 			
 		if self.suppressNonAssignedAndKnown:
-			if not trid.startswith("??") and tr.GetEngineer() is None:
+			if not nm.startswith("??") and tr.Engineer() is None:
 				return True
 			
-		if self.suppressUnknown and trid.startswith("??"):
+		if self.suppressUnknown and nm.startswith("??"):
 			return True
 		
-		if self.suppressNonAssigned and tr.GetEngineer() is None:
+		if self.suppressNonAssigned and tr.Engineer() is None:
 			return True
 
-		if self.suppressNonATC and not tr.IsOnATC():
+		if self.suppressNonATC and not tr.ATC():
 			return True
 					
 		return False
@@ -653,7 +656,7 @@ class TrainListCtrl(wx.ListCtrl):
 			if sn is None:
 				return ""
 
-			aspect, aspectType = tr.Aspect()
+			aspect, aspectType, pastSignal = tr.Aspect()
 			if aspect is None:
 				aspect, aspectName = self.parent.GetSignalAspect(sn)
 				if aspect is None:
@@ -663,9 +666,7 @@ class TrainListCtrl(wx.ListCtrl):
 			else:
 				an = aspectname(aspect, aspectType)
 				atn = aspecttype(aspectType)
-				logging.debug("AN = (%s)" % an)
-				logging.debug("ATN = (%s)" % atn)
-				return "%s : *%s (%s)" % (sn, an, atn)
+				return "%s : %s%s (%s)" % (sn, "*" if pastSignal else "", an, atn)
 
 		elif col == 8:
 			return "Thr"
@@ -711,6 +712,8 @@ class TrainListCtrl(wx.ListCtrl):
 			mins = int(t / 60)
 			secs = t % 60
 			return "%2d:%02d" % (mins, secs)
+
+		return ""
 
 	def OnGetItemAttr(self, item):	
 		if item % 2 == 1:

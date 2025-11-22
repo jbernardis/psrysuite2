@@ -21,8 +21,6 @@ from dispatcher.districts.cliff import Cliff
 from dispatcher.districts.port import Port
 
 from dispatcher.constants import HyYdPt, LaKr, NaCl, screensList
-
-from ctcmanager.ctcmanager import CTCManager
 import logging
 
 class PSRYFrame(MainFrame):
@@ -102,15 +100,6 @@ class PSRYFrame(MainFrame):
 			totalw = self.diagramWidth
 			self.centerOffset = 0
 
-		if self.IsDispatcherOrSatellite():
-			self.CTCManager = CTCManager(self, self.settings, self.diagrams)
-			for screen, fg, pos, bmp in self.CTCManager.GetBitmaps():
-				offset = self.diagrams[screen].offset
-				self.panels[screen].DrawCTCBitmap(fg, pos[0], pos[1], offset, bmp)
-			for label, font, screen, lblx, lbly in self.CTCManager.GetLabels():
-				offset = self.diagrams[screen].offset
-				self.panels[screen].DrawCTCLabel(lblx, lbly, offset, font, label)
-
 		self.ToasterSetup()
 
 		if self.settings.display.showcameras:
@@ -149,31 +138,6 @@ class PSRYFrame(MainFrame):
 		self.bCheckTrains.SetToolTip("Check trains for continuity and for locomotive number uniqueness")
 		self.bCheckTrains.Enable(False)
 
-		self.bLoadTrains = wx.Button(self, wx.ID_ANY, "Load Train IDs", pos=(self.centerOffset + 1950, 15), size=BTNDIM)
-		self.bLoadTrains.Enable(False)
-		self.Bind(wx.EVT_BUTTON, self.OnBLoadTrains, self.bLoadTrains)
-		self.bLoadTrains.SetToolTip("Load train IDs from a file")
-
-		self.bSaveTrains = wx.Button(self, wx.ID_ANY, "Save Train IDs", pos=(self.centerOffset + 1950, 45), size=BTNDIM)
-		self.bSaveTrains.Enable(False)
-		self.Bind(wx.EVT_BUTTON, self.OnBSaveTrains, self.bSaveTrains)
-		self.bSaveTrains.SetToolTip("Save train IDs to a file")
-
-		self.bClearTrains = wx.Button(self, wx.ID_ANY, "Clear Train IDs", pos=(self.centerOffset + 1950, 75), size=BTNDIM)
-		self.bClearTrains.Enable(False)
-		self.Bind(wx.EVT_BUTTON, self.OnBClearTrains, self.bClearTrains)
-		self.bClearTrains.SetToolTip("Repolace train IDs from active trains with temporary names")
-
-		self.bLoadLocos = wx.Button(self, wx.ID_ANY, "Load Loco #s", pos=(self.centerOffset + 2050, 15), size=BTNDIM)
-		self.Bind(wx.EVT_BUTTON, self.OnBLoadLocos, self.bLoadLocos)
-		self.bLoadLocos.Enable(False)
-		self.bLoadLocos.SetToolTip("Load locomotive IDs from a file")
-
-		self.bSaveLocos = wx.Button(self, wx.ID_ANY, "Save Loco #s", pos=(self.centerOffset + 2050, 45), size=BTNDIM)
-		self.Bind(wx.EVT_BUTTON, self.OnBSaveLocos, self.bSaveLocos)
-		self.bSaveLocos.Enable(False)
-		self.bSaveLocos.SetToolTip("Save locomotive IDs to a file")
-
 		self.bActiveTrains = wx.Button(self, wx.ID_ANY, "Active Trains", pos=(self.centerOffset + 250, 45), size=BTNDIM)
 		self.Bind(wx.EVT_BUTTON, self.OnBActiveTrains, self.bActiveTrains)
 		self.bActiveTrains.SetToolTip("Show the active train window")
@@ -185,11 +149,6 @@ class PSRYFrame(MainFrame):
 		self.bLostTrains.Enable(False)
 
 		if not self.IsDispatcherOrSatellite():
-			self.bLoadTrains.Hide()
-			self.bLoadLocos.Hide()
-			self.bSaveTrains.Hide()
-			self.bSaveLocos.Hide()
-			self.bClearTrains.Hide()
 			self.bEditTrains.Hide()
 			self.bLostTrains.Hide()
 

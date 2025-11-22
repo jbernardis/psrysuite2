@@ -4,6 +4,7 @@ from rrserver.district import District
 from rrserver.constants import  KRULISH
 from rrserver.node import Node
 
+
 class Krulish(District):
 	def __init__(self, rr, name, settings):
 		District.__init__(self, rr, name, settings)
@@ -66,6 +67,26 @@ class Krulish(District):
 			# virtual blocks
 			self.rr.AddBlock("KOSN10S11", self, n, addr, [], False)
 			self.rr.AddBlock("KOSN20S21", self, n, addr, [], True)
+
+	def BlockOccupancyChange(self, rr, obj, val):
+		exbn = obj.MainBlockName()
+		if obj.Name() == "N10.W" and obj.IsEast():
+			sig = rr.GetSignal("S11E")
+			osName = rr.DetermineSignalOS("S11E")
+			osBlk = rr.GetOSBlock[osName]
+			if sig.Aspect() != 0 and sig.Fleeted():
+				rr.AddPendingFleetAction(exbn, sig, osBlk, None)
+				sig.SetAspect(0)
+				rr.RailroadEvent((sig.GetEventMessage()))
+
+		elif obj.Name() == "N20.W" and obj.IsEast():
+			sig = rr.GetSignal("S21E")
+			osName = rr.DetermineSignalOS("S21E")
+			osBlk = rr.GetOSBlock(osName)
+			if sig.Aspect() != 0 and sig.Fleeted():
+				rr.AddPendingFleetAction(exbn, sig, osBlk, None)
+				sig.SetAspect(0)
+				rr.RailroadEvent((sig.GetEventMessage()))
 
 	def CheckTurnoutLocks(self, turnouts):
 		changes = []

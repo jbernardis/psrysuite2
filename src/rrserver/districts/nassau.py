@@ -505,6 +505,9 @@ class Nassau(District):
 
 		return "NWOSCY"
 
+	def BlockOccupancyChange(self, rr, obj, val):
+		pass
+
 	def ControlRestrictedMessage(self):
 		if self.control == 0:
 			return "Massau Control is Local"

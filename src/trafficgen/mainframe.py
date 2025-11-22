@@ -16,12 +16,14 @@ from trafficgen.scrlist import ScriptListCtrl
 from trafficgen.trainparmdlg import TrainParmDlg
 
 from trafficgen.train import Trains
+from trafficgen.layoutdata import LayoutData
 
-from traineditor.layoutdata import LayoutData
 from traineditor.generators import GenerateSim
 
 (DeliveryEvent, EVT_DELIVERY) = wx.lib.newevent.NewEvent() 
-(DisconnectEvent, EVT_DISCONNECT) = wx.lib.newevent.NewEvent() 
+(DisconnectEvent, EVT_DISCONNECT) = wx.lib.newevent.NewEvent()
+
+ignoredCommands = ["alert", "clock", "lockturnout", "nodestatus", "control", "fleet", "breaker"]
 
 
 class MainFrame(wx.Frame):
@@ -35,13 +37,17 @@ class MainFrame(wx.Frame):
 		self.turnouts = {}
 		self.signals = {}
 		self.routes = {}
+		self.layout = None
 		self.pausedScripts = []
+		self.trains = {}
 		self.listener = None
-		self.ticker = None
 		self.rrServer = None
 		self.selectedScripts = []
 		self.startable = []
-		self.stoppable = []
+		self.running = []
+		self.timerMultiplier = 1
+		self.monitoredBlocks = {}
+		self.monitoredTrains = {}
 
 		icon = wx.Icon()
 		icon.CopyFromBitmap(wx.Bitmap(os.path.join(os.getcwd(), "icons", "trafficgen.ico"), wx.BITMAP_TYPE_ANY))
@@ -115,7 +121,17 @@ class MainFrame(wx.Frame):
 		self.Fit()
 		self.Layout()
 
+		self.timerInterval = 500
+
+		self.timer = wx.Timer(self)
+		self.Bind(wx.EVT_TIMER, self.Ticker)
+
 		wx.CallAfter(self.Initialize)
+
+	def Ticker(self, _):
+		for scr in self.running:
+			script = self.scripts[scr]
+			script.Ticker()
 
 	def ShowTitle(self):
 		titleString = self.title
@@ -131,33 +147,6 @@ class MainFrame(wx.Frame):
 
 		self.rrServer = RRServer()
 		self.rrServer.SetServerAddress(self.settings.ipaddr, self.settings.serverport)
-		self.layout = LayoutData(self.rrServer)
-
-		retries = 0
-		while not self.layout.IsConnected() and retries < 5:
-			retries += 1
-			logging.debug("Failed connection with server - retrying after %d second delay" % retries)
-			print("Failed connection with server - retrying after %d second delay" % retries)
-			time.sleep(retries)
-			self.layout = LayoutData(self.rrServer)
-
-		if not self.layout.IsConnected():
-			logging.error("Unable to connect with railroad server")
-		elif retries > 0:
-			logging.debug("Successfully connected with railroad server after %d retries" % retries)
-
-		self.ClearDataStructures()
-
-		self.trains = Trains(self.rrServer)
-			
-		for tr in self.trains:
-			trid, script = GenerateSim(tr, self.layout)
-
-			s = Script(self, script, trid, self.cbComplete)
-			self.scripts[trid] = s
-
-		for trid in sorted(self.scripts.keys()):
-			self.scriptList.AddScript(self.scripts[trid])
 
 	def reportSelection(self):
 		selectedScripts = self.scriptList.GetChecked()
@@ -169,7 +158,7 @@ class MainFrame(wx.Frame):
 		haveStartable = len(self.startable) > 0 and self.subscribed
 		self.bStart.Enable(haveStartable)
 		self.bClear.Enable(haveStartable)
-		self.bStop.Enable(len(self.stoppable) > 0 and self.subscribed)
+		self.bStop.Enable(len(self.running) > 0 and self.subscribed)
 
 	def ClearDataStructures(self):
 		self.blocks = {}
@@ -240,17 +229,18 @@ class MainFrame(wx.Frame):
 			script.SetTimeMultiple(p[2])
 			script.SetTrainLen(p[3])
 			script.Execute()
+			self.running.append(scr)
+
 		self.scriptList.ClearChecks()
 		self.startable = []
-		self.stoppable = []
 		self.enableButtons()
 
 	def OnStop(self, _):
-		for scr in self.stoppable:
+		for scr in self.running:
 			self.scripts[scr].Stop()
 		self.scriptList.ClearChecks()
 		self.startable = []
-		self.stoppable = []
+		self.running = []
 		self.enableButtons()
 
 	def OnClear(self, _):
@@ -261,9 +251,12 @@ class MainFrame(wx.Frame):
 		self.stoppable = []
 		self.enableButtons()
 
-	def cbComplete(self, scrName):
-			self.Request({"traincomplete": {"train": scrName}})
-	
+	def ScriptComplete(self, scrName):
+		try:
+			del(self.running[scrName])
+		except:
+			pass
+
 	def PauseScript(self, script):
 		self.pausedScripts.append(script)
 
@@ -317,75 +310,49 @@ class MainFrame(wx.Frame):
 
 	def onDeliveryEvent(self, evt):
 		for cmd, parms in evt.data.items():
+			if cmd in ignoredCommands:
+				continue
+
 			logging.debug("Dispatch: %s: %s" % (cmd, parms))
 			if cmd == "turnout":
 				for p in parms:
 					turnout = p["name"]
 					state = p["state"]
 					self.turnouts[turnout] = state
-				self.CheckResumeScripts()
 
 			elif cmd == "block":
 				for p in parms:
 					block = p["name"]
 					state = p["state"]
-					if block in self.blocks:
-						self.blocks[block][0] = state
-					else:
-						self.blocks[block] = [ state, 'E']
-				self.CheckResumeScripts()
+					self.blocks[block] = state
 
-			elif cmd == "blockdir":
+			elif cmd == "showaspect":
 				for p in parms:
-					block = p["block"]
-					direction = p["dir"]
-					if block in self.blocks:
-						self.blocks[block][1] = direction
-					else:
-						self.blocks[block] = [ 0, direction]
-				self.CheckResumeScripts()
-					
-			elif cmd == "signal":
-				for p in parms:
-					sigName = p["name"]
+					sigName = p["signal"]
 					aspect = p["aspect"]
 					self.signals[sigName] = aspect
-				self.CheckResumeScripts()
 
 			elif cmd == "setroute":
 				for p in parms:
-					blknm = p["block"]
+					blknm = p["os"]
 					rte = p["route"]
-					try:
-						ends = [None if e == "-" else e for e in p["ends"]]
-					except KeyError:
-						ends = None
-					self.routes[blknm] = [rte, ends]
-				self.CheckResumeScripts()
-											
-			elif cmd == "handswitch":
-				for p in parms:
-					hsName = p["name"]
-					state = p["state"]
-						
-			elif cmd == "indicator":
-				for p in parms:
-					iName = p["name"]
-					value = int(p["value"])
+					self.routes[blknm] = rte
 
-			elif cmd == "breaker":
+			elif cmd == "train":
 				for p in parms:
-					name = p["name"]
-					val = p["value"]
-
-			elif cmd == "settrain":
-				blocks = parms["blocks"]
-				name = parms["name"]
-				loco = parms["loco"]
-				try:
-					east = parms["east"]
-				except KeyError:
-					east = True
+					iname = p["iname"]
+					rname = p["rname"]
+					east = p["east"]
+					loco = p["loco"]
+					blocks = p["blocks"]
+					signal = p["signal"]
+					aspect = p["aspect"]
+					for bn in blocks:
+						if bn in self.monitoredBlocks:
+							self.monitoredBlocks[bn].ReportTrainInBlock(iname, p)
+							del(self.monitoredBlocks[bn])
+					if iname in self.monitoredTrains:
+						self.monitoredTrains[iname].ReportTrain(iname, p)
 
 			elif cmd == "sessionID":
 				self.sessionid = int(parms)
@@ -394,10 +361,39 @@ class MainFrame(wx.Frame):
 				self.Request({"refresh": {"SID": self.sessionid}})
 
 			elif cmd == "end":
-				if parms["type"] == "layout":
-					self.Request({"refresh": {"SID": self.sessionid, "type": "trains"}})
-				elif parms["type"] == "trains":
-					pass
+				self.trains = Trains(self.rrServer)
+				self.layout = LayoutData(self.rrServer)
+
+				for tr in self.trains:
+					scr = Script(self, tr, self.layout, self.timerInterval)
+					self.scriptList.AddScript(scr)
+					self.scripts[scr.GetName()] = scr
+
+				self.timer.Start(self.timerInterval)
+
+			else:
+				logging.debug("Ignoring unknown command: %s %s" % (cmd, str(parms)))
+
+	def GetSignalAspect(self, signm):
+		try:
+			return self.signals[signm]
+		except KeyError:
+			return 0
+
+	def GetOSRoute(self, osnm):
+		try:
+			return self.routes[osnm]
+		except KeyError:
+			return None
+
+	def MonitorBlock(self, blknm, script):
+		self.monitoredBlocks[blknm] = script
+
+	def MonitorTrain(self, iname, script):
+		self.monitoredTrains[iname] = script
+
+	def RefreshStatus(self, scrName):
+		self.scriptList.refreshScript(scrName)
 
 	def raiseDisconnectEvent(self): # thread context
 		evt = DisconnectEvent()

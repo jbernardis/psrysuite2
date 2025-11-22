@@ -13,8 +13,9 @@ class Train:
 		self.loco = None
 		self.engineer = None
 		self.blocks = []
-		self.lastAspect = None
-		self.lastAspectType = None
+		self.aspect = None
+		self.aspectType = None
+		self.pastSignal = False
 		self.stopped = False
 		self.atc = False
 		self.ar = False
@@ -52,7 +53,27 @@ class Train:
 		self.rname = name
 
 	def SetSignal(self, sig):
+		# first remove the train from its old controlling signal
+		if self.signal is not None:
+			tr = self.signal.Train()
+			if tr is not None and tr.Name() == self.Name():
+				self.signal.SetTrain(None)
+
 		self.signal = sig
+		logging.debug("Train %s, signal %s set aspect to %d/%d" % (self.Name(), sig.Name(), sig.Aspect(), sig.AspectType()))
+		self.aspect = sig.Aspect()
+		self.aspectType = sig.AspectType()
+		self.pastSignal = False
+
+		sig.SetTrain(self)
+
+	def SetAspect(self, aspect, aspectType, force=False):
+		if force or not self.pastSignal:
+			self.aspect = aspect
+			self.aspectType = aspectType
+
+	def PassSignal(self, flag=True):
+		self.pastSignal = flag
 
 	def Signal(self):
 		return self.signal
@@ -105,17 +126,11 @@ class Train:
 	def AR(self):
 		return self.ar
 
-	def SetLastAspect(self, aspect, aspectType):
-		self.lastAspect = aspect
-		self.lastAspectType = aspectType
-		logging.debug("%s set lastaspect to %s and lastaspecttype to %s" % (self.iname, aspect, aspectType))
-
 	def AspectName(self):
-		logging.debug("%s aspectname lastaspect to %s and lastaspecttype to %s" % (self.iname, self.lastAspect, self.lastAspectType))
-		if self.lastAspect is None or self.lastAspectType is None:
+		if self.aspect is None or self.aspectType is None:
 			return None
 
-		return "%s (%s)" % (aspectname(self.lastAspect, self.lastAspectType), aspecttype(self.lastAspectType))
+		return "%s (%s)" % (aspectname(self.aspect, self.aspectType), aspecttype(self.aspectType))
 
 	def Blocks(self):
 		return self.blocks
@@ -157,9 +172,10 @@ class Train:
 			"stopped": self.stopped,
 			"atc": self.atc,
 			"ar": self.ar,
-			"signal": self.signal.Name(),
-			"aspect": self.lastAspect,
-			"aspecttype": self.lastAspectType
+			"signal": None if self.signal is None else self.signal.Name(),
+			"aspect": self.aspect,
+			"aspecttype": self.aspectType,
+			"pastsignal": self.pastSignal
 		}
 		return {"train": [parms]}
 

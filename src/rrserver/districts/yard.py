@@ -43,9 +43,10 @@ class Yard(District):
 			self.rr.AddTurnoutPosition("YSw1", self, n, addr, [(0, 0), (0, 1)])
 			self.rr.AddTurnoutPosition("YSw3", self, n, addr, [(0, 2), (0, 3)])
 			
-			self.rr.AddBlock("Y21.W",   self, n, addr, [(0, 4)], True)
-			self.rr.AddBlock("Y21",     self, n, addr, [(0, 5)], True)
-			self.rr.AddBlock("Y21.E",   self, n, addr, [(0, 6)], True)
+			sbw = self.rr.AddBlock("Y21.W",   self, n, addr, [(0, 4)], True)
+			b = self.rr.AddBlock("Y21",     self, n, addr, [(0, 5)], True)
+			sbe = self.rr.AddBlock("Y21.E",   self, n, addr, [(0, 6)], True)
+			b.AddStoppingBlocks([sbe, sbw])
 			self.rr.AddBlock("YOSCJW",  self, n, addr, [(0, 7)], False) #  CJOS1	
 			self.rr.AddBlock("YOSCJE",  self, n, addr, [(1, 0)], True) #  CJOS2
 			sbw = self.rr.AddBlock("L10.W",   self, n, addr, [(1, 1)], False)

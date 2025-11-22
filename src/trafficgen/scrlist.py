@@ -25,7 +25,7 @@ class ScriptListCtrl(wx.ListCtrl):
 		self.imgIndex = []
 		self.selected = None
 
-		self.InsertColumn(0, "Script")
+		self.InsertColumn(0, "Train")
 		self.InsertColumn(1, "Status")
 		self.SetColumnWidth(0, 80)
 		self.SetColumnWidth(1, 400)
@@ -76,6 +76,12 @@ class ScriptListCtrl(wx.ListCtrl):
 		if self.GetItemCount() > 0:
 			self.RefreshItems(0, self.GetItemCount()-1)
 
+	def refreshScript(self, scrName):
+		for i in range(len(self.scripts)):
+			scr = self.scripts[i]
+			if scr.GetName() == scrName:
+				self.RefreshItem(i)
+
 	def setSelection(self, tx):
 		self.selected = tx;
 		if tx is not None:
@@ -113,6 +119,8 @@ class ScriptListCtrl(wx.ListCtrl):
 			return scr.GetName()
 		elif col == 1:
 			return scr.GetStatus()
+
+		return ""
 
 	def OnGetItemAttr(self, item):
 		if item % 2 == 1:

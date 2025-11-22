@@ -170,8 +170,7 @@ class ManagePreloadedDlg(wx.Dialog):
 			"name": trname,
 			"loco": "",
 			"east": True,
-			"block": "",
-			"route": None
+			"block": ""
 		}
 		self.pl.add(tr)
 
@@ -256,12 +255,10 @@ class PreloadedListCtrl(wx.ListCtrl):
 		self.InsertColumn(1, "Dir")
 		self.InsertColumn(2, "Loco")
 		self.InsertColumn(3, "Block")
-		self.InsertColumn(4, "Route")
 		self.SetColumnWidth(0, 80)
 		self.SetColumnWidth(1, 80)
 		self.SetColumnWidth(2, 80)
 		self.SetColumnWidth(3, 80)
-		self.SetColumnWidth(4, 80)
 
 		self.SetItemCount(0)
 		self.selected = None
@@ -350,9 +347,6 @@ class PreloadedListCtrl(wx.ListCtrl):
 
 		elif col == 3:
 			return "" if tr["block"] is None else tr["block"]
-
-		elif col == 4:
-			return "" if tr["route"] is None else tr["route"]
 
 	def OnGetItemAttr(self, item):
 		if item % 2 == 1:

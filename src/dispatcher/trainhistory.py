@@ -20,11 +20,11 @@ class TrainHistory:
 		return self.settings.display.showunknownhistory
 
 	def Update(self, tr):
-		trid = tr.GetName()
+		trid = tr.Name()
 		if trid not in self.trainIds:
 			self.trainIds.append(trid)
 
-		self.history[trid] = {"name": trid, "loco": tr.GetLoco(), "engineer": tr.GetEngineer(), "east": tr.GetEast(), "block": tr.GetBlockOrderList(), "route": tr.GetChosenRoute()}
+		self.history[trid] = {"name": trid, "loco": tr.Loco(), "engineer": tr.Engineer(), "east": tr.East(), "block": tr.Blocks()}
 
 	def UpdateEngineer(self, trid, eng):
 		if trid not in self.trainIds:
@@ -165,7 +165,7 @@ class TrainHistoryCtrl(wx.ListCtrl):
 		elif n > 20:
 			n = 20
 		ht = n * 24 + 50
-		wx.ListCtrl.__init__(self, parent, wx.ID_ANY, size=(916, ht), style=wx.LC_REPORT + wx.LC_VIRTUAL)
+		wx.ListCtrl.__init__(self, parent, wx.ID_ANY, size=(800, ht), style=wx.LC_REPORT + wx.LC_VIRTUAL)
 		self.parent = parent
 		self.trainHistory = trainHistory
 		self.trains = self.trainHistory.GetTrains()
@@ -192,8 +192,6 @@ class TrainHistoryCtrl(wx.ListCtrl):
 		self.SetColumnWidth(3, 160)
 		self.InsertColumn(4, "Blocks")
 		self.SetColumnWidth(4, 400)
-		self.InsertColumn(5, "Route")
-		self.SetColumnWidth(5, 80)
 		self.SetItemCount(len(self.trains))
 
 	def GetTrainName(self, tx):
@@ -252,12 +250,6 @@ class TrainHistoryCtrl(wx.ListCtrl):
 				else:
 					return tr["block"][-1]
 
-			elif self.sortColumn == 5:  # route
-				if tr["route"] is None:
-					return "ZZZZZZZZ"
-				else:
-					return tr["route"]
-
 	def OnColClick(self, evt):
 		self.sortColumn = evt.GetColumn()
 		self.sortReverse = False
@@ -288,9 +280,6 @@ class TrainHistoryCtrl(wx.ListCtrl):
 
 		elif col == 4:
 			return ", ".join(reversed(tr["block"]))
-
-		elif col == 5:
-			return "" if tr["route"] is None else tr["route"]
 
 		return "unknown column: %d" % item
 

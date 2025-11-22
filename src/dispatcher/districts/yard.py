@@ -422,6 +422,7 @@ class Yard (District):
 				(self.tiles["horiznc"],        self.screen, (120, 11), False),
 			],
 			False)
+		self.blocks["YOSEJW"].AddTrainLoc(self.screen, (125, 4))
 
 		self.blocks["YOSEJE"] = OverSwitch(self, self.frame, "YOSEJE", 
 			[
@@ -440,6 +441,7 @@ class Yard (District):
 				(self.tiles["horiz"],          self.screen, (119, 13), False),
 			],
 			True)
+		self.blocks["YOSEJE"].AddTrainLoc(self.screen, (125, 6))
 
 		self.blocks["YOSCJE"] = OverSwitch(self, self.frame, "YOSCJE", 
 			[
@@ -451,6 +453,7 @@ class Yard (District):
 				(self.tiles["turnrightleft"], self.screen, (135, 15), True),
 			],
 			True)
+		self.blocks["YOSCJE"].AddTrainLoc(self.screen, (134, 6))
 
 		self.blocks["YOSCJW"] = OverSwitch(self, self.frame, "YOSCJW", 
 			[
@@ -466,6 +469,7 @@ class Yard (District):
 				(self.tiles["turnrightleft"], self.screen, (135, 15), True),
 			],
 			False)
+		self.blocks["YOSCJW"].AddTrainLoc(self.screen, (134, 4))
 
 		self.blocks["YOSKL2"] = OverSwitch(self, self.frame, "YOSKL2", 
 			[
@@ -487,6 +491,7 @@ class Yard (District):
 				(self.tiles["diagleft"],      self.screen, (99, 14), False),
 			],
 			False)
+		self.blocks["YOSKL2"].AddTrainLoc(self.screen, (116, 4))
 
 		self.blocks["YOSKL3"] = OverSwitch(self, self.frame, "YOSKL3", 
 			[
@@ -500,6 +505,7 @@ class Yard (District):
 				(self.tiles["horiznc"],       self.screen, (104, 11), False),
 			],
 			False)
+		self.blocks["YOSKL3"].AddTrainLoc(self.screen, (116, 2))
 
 		self.blocks["YOSKL1"] = OverSwitch(self, self.frame, "YOSKL1", 
 			[
@@ -521,6 +527,7 @@ class Yard (District):
 				(self.tiles["diagleft"],      self.screen, (99, 14), False),
 			],
 			True)
+		self.blocks["YOSKL1"].AddTrainLoc(self.screen, (116, 6))
 
 		self.blocks["YOSKL4"] = OverSwitch(self, self.frame, "YOSKL4", 
 			[
@@ -531,6 +538,7 @@ class Yard (District):
 				(self.tiles["turnrightleft"], self.screen, (87, 15), False),
 			],
 			True)
+		self.blocks["YOSKL4"].AddTrainLoc(self.screen, (81, 17))
 
 		self.blocks["YOSWYW"] = OverSwitch(self, self.frame, "YOSWYW",
 			[

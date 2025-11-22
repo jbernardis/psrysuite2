@@ -175,6 +175,7 @@ class ServerMain:
 		self.cmdQ.put(cmd)
 
 	def NewClient(self, cmd):
+		logging.debug("new client")
 		if not self.snapshotLoaded:
 			if settings.rrserver.autoloadsnapshot:
 				self.rr.LoadSnapshot(None)
@@ -278,6 +279,7 @@ class ServerMain:
 			"trainsplit":	self.DoTrainSplit,
 			"trainmerge":	self.DoTrainMerge,
 			"trainswap":	self.DoTrainSwap,
+			"trainmove":	self.DoTrainMove,
 			# "movetrain":	self.DoMoveTrain,
 			# "removetrain":	self.DoRemoveTrain,
 			# "traincomplete":		self.DoTrainComplete,
@@ -424,17 +426,13 @@ class ServerMain:
 			signame = None
 		try:
 			callon = int(cmd["callon"][0]) == 1
-		except:
+		except (IndexError, KeyError):
 			callon = False
 
 		if signame is None:
 			logging.error("Signal command without name parameter")
 			return
 	
-		# if aspectType is not None:
-		# 	self.rr.SetAspect(signame, aspect, frozenaspect, callon, aspectType=aspectType)
-		# else:
-		# 	self.rr.SetAspect(signame, aspect, frozenaspect, callon)
 		self.rr.SignalClick(signame, callon=callon)
 
 	def DoSignalLock(self, cmd):			
@@ -1105,14 +1103,14 @@ class ServerMain:
 							changed = True
 				if changed:
 					if settings.debug.blockoccupancy:
-						self.rr.Alert("After subblocks, status of main block %s is now %s" % (blk.Name(), blk.GetStatus()))
-					self.rr.RailroadEvent(blk.GetEventMessage())
+						self.rr.Alert("After subblock changes, status of main block %s is now %s" % (blk.Name(), blk.GetStatus()))
+				self.rr.RailroadEvent(blk.GetEventMessage())
 
 			else:
 				if blk.SetStatus(blkStat):
 					if settings.debug.blockoccupancy:
 						self.rr.Alert("changed status of block %s to %s" % (blk.Name(), blkStat))
-					self.rr.RailroadEvent(blk.GetEventMessage())
+				self.rr.RailroadEvent(blk.GetEventMessage())
 
 		self.rr.RailroadEvent(tr.GetEventMessage())
 
@@ -1201,6 +1199,38 @@ class ServerMain:
 			return
 
 		self.rr.SwapTrains(train, swaptrain)
+
+	def DoTrainMove(self, cmd):
+		try:
+			train = cmd["train"][0]
+		except (IndexError, KeyError):
+			train = None
+
+		try:
+			fn = int(cmd["forward"][0])
+		except (IndexError, KeyError):
+			fn = 1
+
+		try:
+			rn = int(cmd["rear"][0])
+		except (IndexError, KeyError):
+			rn = 1
+
+		try:
+			ronly = int(cmd["rearonly"][0])
+		except (IndexError, KeyError):
+			ronly = 0
+
+		if train is None:
+			logging.debug("Train move with no train specified")
+			return
+
+		# if rearonly, disregard the forward and bring up rear flags
+		if ronly != 0:
+			fn = 0
+			rn = 0
+
+		self.rr.MoveTrain(train, True if fn != 0 else False, True if rn != 0 else False, True if ronly != 0 else False)
 
 	def DoCheckTrains(self, cmd):
 		addrList = self.clientList.GetFunctionAddress("DISPATCH") + self.clientList.GetFunctionAddress("SATELLITE")

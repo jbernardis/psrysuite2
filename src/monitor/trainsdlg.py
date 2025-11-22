@@ -125,7 +125,7 @@ class TrainsListCtrl(wx.ListCtrl):
                 aspect = tr["aspect"]
             except KeyError:
                 aspect = ""
-            return "" if aspect is None else ("0x%x" % aspect)
+            return "" if aspect is None else aspect
         
         else:
             try:

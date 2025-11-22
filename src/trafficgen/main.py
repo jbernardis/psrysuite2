@@ -5,11 +5,11 @@ cmdFolder = os.getcwd()
 if cmdFolder not in sys.path:
 	sys.path.insert(0, cmdFolder)
 
-ofp = open(os.path.join(os.getcwd(), "output", "trafficgen.out"), "w")
-efp = open(os.path.join(os.getcwd(), "output", "trafficgen.err"), "w")
-
-sys.stdout = ofp
-sys.stderr = efp
+# ofp = open(os.path.join(os.getcwd(), "output", "trafficgen.out"), "w")
+# efp = open(os.path.join(os.getcwd(), "output", "trafficgen.err"), "w")
+#
+# sys.stdout = ofp
+# sys.stderr = efp
 
 import logging
 logging.basicConfig(filename=os.path.join(os.getcwd(), "logs", "trafficgen.log"), filemode='w', format='%(asctime)s %(message)s', level=logging.DEBUG)

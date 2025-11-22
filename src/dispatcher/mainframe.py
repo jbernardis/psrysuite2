@@ -86,6 +86,8 @@ WIDTHADJUST = 0 if sys.platform.lower() == "win32" else 56
 class MainFrame(wx.Frame):
 	def __init__(self, settings):
 		wx.Frame.__init__(self, None, size=(900, 800), style=wx.DEFAULT_FRAME_STYLE)
+		self.Bind(wx.EVT_CLOSE, self.OnClose)
+
 		self.settings = settings
 
 		self.title = None
@@ -115,11 +117,6 @@ class MainFrame(wx.Frame):
 		self.scrn = None
 		self.bLostTrains = None
 		self.bActiveTrains = None
-		self.bSaveLocos = None
-		self.bLoadLocos = None
-		self.bClearTrains = None
-		self.bSaveTrains = None
-		self.bLoadTrains = None
 		self.bCheckTrains = None
 		self.bEditTrains = None
 		self.bThrottle = None
@@ -155,9 +152,7 @@ class MainFrame(wx.Frame):
 		self.procATC = None
 		self.OSSLocks = True
 		self.sidingsUnlocked = False
-		self.CTCManager = None
-		self.CTCVisible = False
-		
+
 		self.shift = False
 		self.shiftXOffset = 0
 		self.shiftYOffset = 0
@@ -288,14 +283,6 @@ class MainFrame(wx.Frame):
 						self.dlgInspect.Raise()
 
 		elif kcd == wx.WXK_F2:
-			if self.IsDispatcherOrSatellite():
-				if self.CTCManager is not None:
-					self.CTCVisible = not self.CTCVisible
-					for dp in self.panels.values():
-						dp.ShowCTC(self.CTCVisible)
-					self.CTCManager.SetVisible(self.CTCVisible)
-
-		elif kcd == wx.WXK_F3:
 			if self.IsDispatcherOrSatellite():
 				if not self.subscribed:
 					self.PopupEvent("Not connected to server")
@@ -962,47 +949,47 @@ class MainFrame(wx.Frame):
 				else:
 					nfltct += 1
 			checkbox.SetValue(nfltct == 0)
-
-	def DrawCameras(self):
-		cams = {LaKr: [
-			[(242, 32), self.bitmaps.cameras.lakr.cam7],
-			[(464, 32), self.bitmaps.cameras.lakr.cam8],
-			[(768, 32), self.bitmaps.cameras.lakr.cam9],
-			[(890, 32), self.bitmaps.cameras.lakr.cam10],
-			[(972, 32), self.bitmaps.cameras.lakr.cam12],
-			[(1186, 32), self.bitmaps.cameras.lakr.cam3],
-			[(1424, 32), self.bitmaps.cameras.lakr.cam4],
-			[(1634, 32), self.bitmaps.cameras.lakr.cam13],
-			[(1884, 32), self.bitmaps.cameras.lakr.cam14],
-			[(2152, 32), self.bitmaps.cameras.lakr.cam15],
-			[(2198, 32), self.bitmaps.cameras.lakr.cam16],
-			[(2362, 32), self.bitmaps.cameras.lakr.cam9],
-			[(2416, 32), self.bitmaps.cameras.lakr.cam10],
-		], HyYdPt: [
-			[(282, 72), self.bitmaps.cameras.hyydpt.cam15],
-			[(838, 72), self.bitmaps.cameras.hyydpt.cam16],
-			[(904, 576), self.bitmaps.cameras.hyydpt.cam1],
-			[(1732, 32), self.bitmaps.cameras.hyydpt.cam1],
-			[(1830, 32), self.bitmaps.cameras.hyydpt.cam2],
-			[(1970, 32), self.bitmaps.cameras.hyydpt.cam3],
-			[(2090, 32), self.bitmaps.cameras.hyydpt.cam4],
-			[(2272, 236), self.bitmaps.cameras.hyydpt.cam5],
-			[(2292, 444), self.bitmaps.cameras.hyydpt.cam6],
-		], NaCl: [
-			[(364, 28), self.bitmaps.cameras.nacl.cam11],
-			[(670, 28), self.bitmaps.cameras.nacl.cam12],
-			[(918, 28), self.bitmaps.cameras.nacl.cam1],
-			[(998, 28), self.bitmaps.cameras.nacl.cam2],
-			[(1074, 28), self.bitmaps.cameras.nacl.cam3],
-			[(1248, 28), self.bitmaps.cameras.nacl.cam4],
-			[(1442, 28), self.bitmaps.cameras.nacl.cam7],
-			[(2492, 502), self.bitmaps.cameras.nacl.cam8],
-		]}
-
-		for screen in cams:
-			offset = self.diagrams[screen].offset
-			for pos, bmp in cams[screen]:
-				self.panels[screen].DrawFixedBitmap(pos[0], pos[1], offset, bmp)
+	#
+	# def DrawCameras(self):
+	# 	cams = {LaKr: [
+	# 		[(242, 32), self.bitmaps.cameras.lakr.cam7],
+	# 		[(464, 32), self.bitmaps.cameras.lakr.cam8],
+	# 		[(768, 32), self.bitmaps.cameras.lakr.cam9],
+	# 		[(890, 32), self.bitmaps.cameras.lakr.cam10],
+	# 		[(972, 32), self.bitmaps.cameras.lakr.cam12],
+	# 		[(1186, 32), self.bitmaps.cameras.lakr.cam3],
+	# 		[(1424, 32), self.bitmaps.cameras.lakr.cam4],
+	# 		[(1634, 32), self.bitmaps.cameras.lakr.cam13],
+	# 		[(1884, 32), self.bitmaps.cameras.lakr.cam14],
+	# 		[(2152, 32), self.bitmaps.cameras.lakr.cam15],
+	# 		[(2198, 32), self.bitmaps.cameras.lakr.cam16],
+	# 		[(2362, 32), self.bitmaps.cameras.lakr.cam9],
+	# 		[(2416, 32), self.bitmaps.cameras.lakr.cam10],
+	# 	], HyYdPt: [
+	# 		[(282, 72), self.bitmaps.cameras.hyydpt.cam15],
+	# 		[(838, 72), self.bitmaps.cameras.hyydpt.cam16],
+	# 		[(904, 576), self.bitmaps.cameras.hyydpt.cam1],
+	# 		[(1732, 32), self.bitmaps.cameras.hyydpt.cam1],
+	# 		[(1830, 32), self.bitmaps.cameras.hyydpt.cam2],
+	# 		[(1970, 32), self.bitmaps.cameras.hyydpt.cam3],
+	# 		[(2090, 32), self.bitmaps.cameras.hyydpt.cam4],
+	# 		[(2272, 236), self.bitmaps.cameras.hyydpt.cam5],
+	# 		[(2292, 444), self.bitmaps.cameras.hyydpt.cam6],
+	# 	], NaCl: [
+	# 		[(364, 28), self.bitmaps.cameras.nacl.cam11],
+	# 		[(670, 28), self.bitmaps.cameras.nacl.cam12],
+	# 		[(918, 28), self.bitmaps.cameras.nacl.cam1],
+	# 		[(998, 28), self.bitmaps.cameras.nacl.cam2],
+	# 		[(1074, 28), self.bitmaps.cameras.nacl.cam3],
+	# 		[(1248, 28), self.bitmaps.cameras.nacl.cam4],
+	# 		[(1442, 28), self.bitmaps.cameras.nacl.cam7],
+	# 		[(2492, 502), self.bitmaps.cameras.nacl.cam8],
+	# 	]}
+	#
+	# 	for screen in cams:
+	# 		offset = self.diagrams[screen].offset
+	# 		for pos, bmp in cams[screen]:
+	# 			self.panels[screen].DrawFixedBitmap(pos[0], pos[1], offset, bmp)
 
 	def UpdatePositionDisplay(self, x, y, scr):
 		self.xpos.SetValue("%4d" % x)
@@ -1073,7 +1060,7 @@ class MainFrame(wx.Frame):
 
 		self.districts.Initialize()
 
-		# only set up hot spots on the diagram
+		# set up hot spots on the diagram
 		self.turnoutMap = { (t.GetScreen(), t.GetPos()): t for t in self.turnouts.values() if not t.IsRouteControlled() }
 		self.disabledTurnoutMap = { (t.GetScreen(), t.GetPos()): t for t in self.turnouts.values() if t.IsRouteControlled() }
 		self.buttonMap = { (b.GetScreen(), b.GetPos()): b for b in self.buttons.values() }
@@ -1421,9 +1408,6 @@ class MainFrame(wx.Frame):
 
 				return
 
-		if self.CTCManager is not None:
-			self.CTCManager.CheckHotSpots(self.currentScreen, rawpos[0], rawpos[1])
-
 	def PopupTrainMenu(self, owner, tr, blk, menuPos):
 		if owner != self:
 			dpos = owner.GetPosition()  # this is the position of the dialog box that invoked the menu
@@ -1706,22 +1690,6 @@ class MainFrame(wx.Frame):
 
 		self.Request({"trainswap": {"train": self.menuTrain.IName(), "swaptrain": iname}})
 
-		#
-		# trx = self.trains[trxid]
-		# menuRoute = self.menuTrain.GetChosenRoute()
-		# trxRoute = trx.GetChosenRoute()
-		#
-		# tempName = Train.NextName()
-		# self.Request({"renametrain": {"oldname": self.menuTrainID, "newname": tempName, "context": "rename"}})
-		# self.Request({"renametrain": {"oldname": trxid, "newname": self.menuTrainID, "newroute": menuRoute, "context": "rename"}})
-		# self.Request({"renametrain": {"oldname": tempName, "newname": trxid, "newroute": trxRoute, "context": "rename"}})
-		#
-		# self.menuTrain.Draw()
-		# trx.Draw()
-		#
-		# self.activeTrains.UpdateTrain(self.menuTrainID)
-		# self.activeTrains.UpdateTrain(trxid)
-
 	def ShowHilitedRoute(self, tr, trid):
 		r, _ = self.GetTrainRoster(trid)
 		if r is None:
@@ -1787,10 +1755,10 @@ class MainFrame(wx.Frame):
 			del(self.routeTrainDlgs[trainid])
 		if trainid == self.hilitedRoute:
 			self.ClearHighlitedRoute(trainid)
-
-	def GetTrainObject(self, trid):
-		pass
-		# return self.activeTrains.GetTrain(trid)
+	#
+	# def GetTrainObject(self, trid):
+	# 	pass
+	# 	# return self.activeTrains.GetTrain(trid)
 
 	def EnumerateBlockTiles(self, blkname):
 		try:
@@ -1981,12 +1949,12 @@ class MainFrame(wx.Frame):
 		# 		parms.update({"action": "add" if ar else "remove", "train": trainid})
 
 		self.Request({"modifytrain": parms})
+	#
+	# def SendTrainBlockOrder(self, tr):
+	# 	self.Request({"trainblockorder": tr.GetBlockOrder()})
 
-	def SendTrainBlockOrder(self, tr):
-		self.Request({"trainblockorder": tr.GetBlockOrder()})
-
-	def StealTrainID(self, trid):
-		pass
+	# def StealTrainID(self, trid):
+	# 	pass
 		# logging.info("Removing train ID %s" % trid)
 		# tr = self.trains[trid]
 		#
@@ -2018,7 +1986,7 @@ class MainFrame(wx.Frame):
 		# self.activeTrains.AddTrain(newTr)
 
 	def RecoverLostTrains(self):
-		pass
+		self.PopupEvent("Recover lost trains")
 		# ltList = self.lostTrains.GetList()
 		# recoverable = []
 		# for trid, locoid, engineer, east, block, route in ltList:
@@ -2081,31 +2049,31 @@ class MainFrame(wx.Frame):
 			lockstate += "  (%s)" % ", ".join(lockers)
 
 		self.PopupAdvice("%s - %s   %s" % (to.GetName(), state, lockstate), force=True)
-
-	def VerifyTrainID(self, trainid):
-		if trainid is None or trainid.startswith("??"):
-			self.PopupEvent("Train ID is required")
-			return False
-		return True
-
-	def VerifyTrainRoute(self, trainid):
-		if trainid is None:
-			self.PopupEvent("Train ID is required")
-			return False
-
-		tr = self.trains[trainid]
-		hasSequence = ((trainid in self.trainList and len(self.trainList[trainid]["sequence"]) > 0)
-					or (tr.GetChosenRoute() is not None))
-		if not hasSequence:
-			self.PopupEvent("Train does not has a block sequence defined")
-		return hasSequence
-
-	def VerifyLocoID(self, locoid):
-		if locoid is None or locoid.startswith("??"):
-			self.PopupEvent("locomotive ID is required")
-			return False
-		
-		return True
+	#
+	# def VerifyTrainID(self, trainid):
+	# 	if trainid is None or trainid.startswith("??"):
+	# 		self.PopupEvent("Train ID is required")
+	# 		return False
+	# 	return True
+	#
+	# def VerifyTrainRoute(self, trainid):
+	# 	if trainid is None:
+	# 		self.PopupEvent("Train ID is required")
+	# 		return False
+	#
+	# 	tr = self.trains[trainid]
+	# 	hasSequence = ((trainid in self.trainList and len(self.trainList[trainid]["sequence"]) > 0)
+	# 				or (tr.GetChosenRoute() is not None))
+	# 	if not hasSequence:
+	# 		self.PopupEvent("Train does not has a block sequence defined")
+	# 	return hasSequence
+	#
+	# def VerifyLocoID(self, locoid):
+	# 	if locoid is None or locoid.startswith("??"):
+	# 		self.PopupEvent("locomotive ID is required")
+	# 		return False
+	#
+	# 	return True
 	
 	def OnATCAdd(self, _):
 		pass
@@ -2190,48 +2158,48 @@ class MainFrame(wx.Frame):
 	def ClearTrain(self, screen, pos):
 		offset = self.diagrams[screen].offset
 		self.panels[screen].ClearTrain(pos[0], pos[1], offset)
-		
-	def CheckTrainsInBlock(self, blkNm, sig):
-		# either a train is new in a block or the signal at the end of that block has changed.  See what trains are affected
-		blk = self.GetBlockByName(blkNm)
-		if blk is None:
-			logging.info("Bad block name: %s" % blkNm)
-			return 
-
-		btype = blk.GetBlockType()
-		if btype == BLOCK:
-			if sig is None:
-				# identify the signal for this block that matches the block's direction
-				sigNm = blk.GetDirectionSignal()
-				if sigNm is None:
-					# no signal at the end of this block
-					return
-				sig = self.GetSignalByName(sigNm)
-				if sig is None:
-					return
-
-		elif btype == OVERSWITCH:
-			if sig is None:
-				# get the entry signal for this OS block
-				sig = blk.GetEntrySignal()
-				if sig is None:
-					return
-
-		else:
-			# for all other block types
-			return
-
-		# check for trains in the block.  If it is the front of the train, then this signal change applies to that train.
-		for trid, tr in self.trains.items():
-			if tr.FrontInBlock(blkNm):
-				# we found a train
-				ir, cr = self.CheckForIncorrectRoute(tr, sig)
-				if cr is not None:
-					tr.SetMisrouted(ir is not None)
-				tr.SetSignal(sig)
-				# self.activeTrains.UpdateTrain(trid)
-				req = {"trainsignal": { "train": trid, "block": blkNm, "signal": sig.GetName(), "aspect": sig.GetAspect()}}
-				self.Request(req)
+	#
+	# def CheckTrainsInBlock(self, blkNm, sig):
+	# 	# either a train is new in a block or the signal at the end of that block has changed.  See what trains are affected
+	# 	blk = self.GetBlockByName(blkNm)
+	# 	if blk is None:
+	# 		logging.info("Bad block name: %s" % blkNm)
+	# 		return
+	#
+	# 	btype = blk.GetBlockType()
+	# 	if btype == BLOCK:
+	# 		if sig is None:
+	# 			# identify the signal for this block that matches the block's direction
+	# 			sigNm = blk.GetDirectionSignal()
+	# 			if sigNm is None:
+	# 				# no signal at the end of this block
+	# 				return
+	# 			sig = self.GetSignalByName(sigNm)
+	# 			if sig is None:
+	# 				return
+	#
+	# 	elif btype == OVERSWITCH:
+	# 		if sig is None:
+	# 			# get the entry signal for this OS block
+	# 			sig = blk.GetEntrySignal()
+	# 			if sig is None:
+	# 				return
+	#
+	# 	else:
+	# 		# for all other block types
+	# 		return
+	#
+	# 	# check for trains in the block.  If it is the front of the train, then this signal change applies to that train.
+	# 	for trid, tr in self.trains.items():
+	# 		if tr.FrontInBlock(blkNm):
+	# 			# we found a train
+	# 			ir, cr = self.CheckForIncorrectRoute(tr, sig)
+	# 			if cr is not None:
+	# 				tr.SetMisrouted(ir is not None)
+	# 			tr.SetSignal(sig)
+	# 			# self.activeTrains.UpdateTrain(trid)
+	# 			req = {"trainsignal": { "train": trid, "block": blkNm, "signal": sig.GetName(), "aspect": sig.GetAspect()}}
+	# 			self.Request(req)
 				
 	def SwapToScreen(self, screen):
 		if screen == HyYdPt:
@@ -2456,11 +2424,6 @@ class MainFrame(wx.Frame):
 			self.bCheckTrains.Enable(False)
 
 			if self.IsDispatcherOrSatellite():
-				self.bLoadTrains.Enable(False)
-				self.bLoadLocos.Enable(False)
-				self.bSaveTrains.Enable(False)
-				self.bClearTrains.Enable(False)
-				self.bSaveLocos.Enable(False)
 				self.bSnapshot.Enable(False)
 				self.bPreloaded.Enable(False)
 				if self.IsDispatcher():
@@ -2487,12 +2450,7 @@ class MainFrame(wx.Frame):
 			self.bActiveTrains.Enable(True)
 			self.bCheckTrains.Enable(True)
 			if self.IsDispatcherOrSatellite():
-				self.bLoadTrains.Enable(True)
-				self.bLoadLocos.Enable(True)
 				self.bLostTrains.Enable(True)
-				self.bSaveTrains.Enable(True)
-				self.bSaveLocos.Enable(True)
-				self.bClearTrains.Enable(True)
 				self.bSnapshot.Enable(True)
 				self.bPreloaded.Enable(True)
 				if self.IsDispatcher():
@@ -2503,11 +2461,6 @@ class MainFrame(wx.Frame):
 
 			self.RetrieveData()
 			self.preloadedTrains = PreLoadedTrains(self)
-
-			#self.districts.Initialize()
-			#if self.IsDispatcher():
-				#self.SendControlValues()
-				#self.SendSignals()
 
 		self.breakerDisplay.UpdateDisplay()
 		self.ShowTitle()
@@ -2695,9 +2648,6 @@ class MainFrame(wx.Frame):
 				st = "R" if state == "R" else "N"
 				district.DoTurnoutAction(to, st, force=force)
 
-		if self.CTCManager is not None:
-			self.CTCManager.DoCmdTurnout(parms)
-
 	def DoCmdRelay(self, parms):
 		for p in parms:
 			rname = p["name"]
@@ -2746,25 +2696,23 @@ class MainFrame(wx.Frame):
 					self.PopupEvent("Stop Relay: Block %s %s%s Train %s" % (rname, direction, sigmessage, train))
 				else:
 					self.PopupEvent("Stop Relay: Block %s %s%s cleared" % (rname, direction, sigmessage))
-
-	def DoCmdTurnoutLock(self, parms):
-		if self.CTCManager is not None:
-			self.CTCManager.DoCmdTurnoutLock(parms)
-		for p in parms:
-			tonm = p["name"]
-			try:
-				state = int(p["state"])
-			except (KeyError, ValueError):
-				state = 0
-			state = True if state != 0 else False
-
-			try:
-				tout = self.turnouts[tonm]
-			except KeyError:
-				logging.error("turnoutlock: Unable to find turnout %s" % tonm)
-				return
-
-			tout.SetLock(state, refresh=True)
+	#
+	# def DoCmdTurnoutLock(self, parms):
+	# 	for p in parms:
+	# 		tonm = p["name"]
+	# 		try:
+	# 			state = int(p["state"])
+	# 		except (KeyError, ValueError):
+	# 			state = 0
+	# 		state = True if state != 0 else False
+	#
+	# 		try:
+	# 			tout = self.turnouts[tonm]
+	# 		except KeyError:
+	# 			logging.error("turnoutlock: Unable to find turnout %s" % tonm)
+	# 			return
+	#
+	# 		tout.SetLock(state, refresh=True)
 
 	def DoCmdDistrictLock(self, parms):
 		self.PopupEvent("district lock: %s" % str(parms))
@@ -2773,8 +2721,6 @@ class MainFrame(wx.Frame):
 				self.dlocks[lname].DoDistrictLocks(lname, lvalue)
 
 	def DoCmdLockTurnout(self, parms):
-		if self.CTCManager is not None:
-			self.CTCManager.DoCmdTurnoutLock(parms)
 		for p in parms:
 			try:
 				tonm = p["name"]
@@ -2796,39 +2742,39 @@ class MainFrame(wx.Frame):
 				return
 
 			tout.SetLock(lock, refresh=True)
-
-	def DoCmdTurnoutLever(self, parms):
-		for p in parms:
-			try:
-				turnout = p["name"]
-			except KeyError:
-				turnout = None
-			try:
-				state = p["state"]
-			except KeyError:
-				state = None
-			try:
-				force = p["force"]
-			except:
-				force = False
-
-			if turnout is None or state is None:
-				logging.error("Turnout lever command missing turnout name and/or state")
-				return
-
-			try:
-				tout = self.turnouts[turnout]
-			except KeyError:
-				tout = None
-
-			try:
-				source = p["source"]
-			except KeyError:
-				source = None
-
-			if tout is not None and state != tout.GetStatus():
-				district = tout.GetDistrict()
-				district.DoTurnoutLeverAction(tout, state, force=force, source=source)
+	#
+	# def DoCmdTurnoutLever(self, parms):
+	# 	for p in parms:
+	# 		try:
+	# 			turnout = p["name"]
+	# 		except KeyError:
+	# 			turnout = None
+	# 		try:
+	# 			state = p["state"]
+	# 		except KeyError:
+	# 			state = None
+	# 		try:
+	# 			force = p["force"]
+	# 		except:
+	# 			force = False
+	#
+	# 		if turnout is None or state is None:
+	# 			logging.error("Turnout lever command missing turnout name and/or state")
+	# 			return
+	#
+	# 		try:
+	# 			tout = self.turnouts[turnout]
+	# 		except KeyError:
+	# 			tout = None
+	#
+	# 		try:
+	# 			source = p["source"]
+	# 		except KeyError:
+	# 			source = None
+	#
+	# 		if tout is not None and state != tout.GetStatus():
+	# 			district = tout.GetDistrict()
+	# 			district.DoTurnoutLeverAction(tout, state, force=force, source=source)
 
 	def DoCmdFleet(self, parms):
 		for p in parms:
@@ -2899,7 +2845,6 @@ class MainFrame(wx.Frame):
 			else:
 				blk.SetStopSectionStatus(state, blockend)
 
-
 			blk.Draw()
 
 			# if state == "C":
@@ -2928,35 +2873,35 @@ class MainFrame(wx.Frame):
 			# if blk.GetStatus(blockend) != state:
 			# 	district = blk.GetDistrict()
 			# 	district.DoBlockAction(blk, blockend, state)
-
-	def DoCmdBlockDir(self, parms):
-		for p in parms:
-			try:
-				block = p["block"]
-			except:
-				logging.error("Blockdir command without block parameter")
-				return
-			try:
-				direction = p["dir"] == 'E'
-			except KeyError:
-				direction = True  # east
-				logging.debug("default path in blockdir")
-
-			logging.debug("Inbound Blockdir %s %s" % (block, direction))
-			blk = None
-			try:
-				blk = self.blocks[block]
-				blockend = None
-			except KeyError:
-				if block.endswith(".E") or block.endswith(".W"):
-					blockend = block[-1]
-					block = block[:-2]
-					try:
-						blk = self.blocks[block]
-					except KeyError:
-						blk = None
-			if blk is not None:
-				blk.SetEast(direction, broadcast=False)
+	#
+	# def DoCmdBlockDir(self, parms):
+	# 	for p in parms:
+	# 		try:
+	# 			block = p["block"]
+	# 		except:
+	# 			logging.error("Blockdir command without block parameter")
+	# 			return
+	# 		try:
+	# 			direction = p["dir"] == 'E'
+	# 		except KeyError:
+	# 			direction = True  # east
+	# 			logging.debug("default path in blockdir")
+	#
+	# 		logging.debug("Inbound Blockdir %s %s" % (block, direction))
+	# 		blk = None
+	# 		try:
+	# 			blk = self.blocks[block]
+	# 			blockend = None
+	# 		except KeyError:
+	# 			if block.endswith(".E") or block.endswith(".W"):
+	# 				blockend = block[-1]
+	# 				block = block[:-2]
+	# 				try:
+	# 					blk = self.blocks[block]
+	# 				except KeyError:
+	# 					blk = None
+	# 		if blk is not None:
+	# 			blk.SetEast(direction, broadcast=False)
 
 	def DoCmdSetRoute(self, parms):
 		for p in parms:
@@ -3012,9 +2957,6 @@ class MainFrame(wx.Frame):
 				sig.SetAspect(aspect, refresh=True)
 				sig.GetDistrict().SetAspect(sig, aspect, refresh=True)
 
-		if self.CTCManager is not None:
-			self.CTCManager.DoCmdSignal(parms)
-
 	def DoCmdSignal(self, parms):
 		for p in parms:
 			try:
@@ -3049,69 +2991,66 @@ class MainFrame(wx.Frame):
 				district = sig.GetDistrict()
 				district.DoSignalAction(sig, aspect, frozenaspect=frozenaspect, callon=callon)
 				# self.activeTrains.UpdateForSignal(sig)
-
-		if self.CTCManager is not None:
-			self.CTCManager.DoCmdSignal(parms)
-
-	def DoCmdSigLever(self, parms):
-		if self.IsDispatcher():
-			for p in parms:
-				try:
-					signame = p["name"]
-				except KeyError:
-					signame = None
-				try:
-					state = p["state"]
-				except KeyError:
-					state = None
-
-				if signame is None or state is None:
-					logging.error("Signal lever command without signal and/or state command")
-					return
-
-				try:
-					callon = int(p["callon"])
-				except (KeyError, ValueError):
-					callon = 0
-				try:
-					silent = int(p["silent"])
-				except (KeyError, ValueError):
-					silent = 1
-
-				try:
-					source = p["source"]
-				except KeyError:
-					source = None
-
-				district = self.GetSignalLeverDistrict(signame)
-				if district is None:
-					# unable to find district for signal lever
-					return
-				district.DoSignalLeverAction(signame, state, callon=callon, silent=silent, source=source)
-				
-	def DoCmdSignalLock(self, parms):
-		if self.IsDispatcher():
-			return 
-		for p in parms:
-			try:
-				signame = p["name"]
-			except KeyError:
-				signame = None
-
-			try:
-				state = int(p["state"])
-			except:
-				state = None
-			
-			try:
-				sig = self.signals[signame]
-			except:
-				sig = None
-			if sig is None or state is None:
-				logging.error("signal lock command without signal name and/or state parameters")
-				return 
-			
-			sig.SetLock(None, state == 1)
+	#
+	# def DoCmdSigLever(self, parms):
+	# 	if self.IsDispatcher():
+	# 		for p in parms:
+	# 			try:
+	# 				signame = p["name"]
+	# 			except KeyError:
+	# 				signame = None
+	# 			try:
+	# 				state = p["state"]
+	# 			except KeyError:
+	# 				state = None
+	#
+	# 			if signame is None or state is None:
+	# 				logging.error("Signal lever command without signal and/or state command")
+	# 				return
+	#
+	# 			try:
+	# 				callon = int(p["callon"])
+	# 			except (KeyError, ValueError):
+	# 				callon = 0
+	# 			try:
+	# 				silent = int(p["silent"])
+	# 			except (KeyError, ValueError):
+	# 				silent = 1
+	#
+	# 			try:
+	# 				source = p["source"]
+	# 			except KeyError:
+	# 				source = None
+	#
+	# 			district = self.GetSignalLeverDistrict(signame)
+	# 			if district is None:
+	# 				# unable to find district for signal lever
+	# 				return
+	# 			district.DoSignalLeverAction(signame, state, callon=callon, silent=silent, source=source)
+	#
+	# def DoCmdSignalLock(self, parms):
+	# 	if self.IsDispatcher():
+	# 		return
+	# 	for p in parms:
+	# 		try:
+	# 			signame = p["name"]
+	# 		except KeyError:
+	# 			signame = None
+	#
+	# 		try:
+	# 			state = int(p["state"])
+	# 		except:
+	# 			state = None
+	#
+	# 		try:
+	# 			sig = self.signals[signame]
+	# 		except:
+	# 			sig = None
+	# 		if sig is None or state is None:
+	# 			logging.error("signal lock command without signal name and/or state parameters")
+	# 			return
+	#
+	# 		sig.SetLock(None, state == 1)
 
 	def DoCmdHandSwitch(self, parms):				
 		for p in parms:
@@ -3141,32 +3080,32 @@ class MainFrame(wx.Frame):
 			if state != hs.GetValue():
 				district = hs.GetDistrict()
 				district.DoHandSwitchAction(hs, state)
-						
-	def DoCmdIndicator(self, parms):
-		for p in parms:
-			try:
-				iName = p["name"]
-			except KeyError:
-				iName = None
-			try:
-				value = int(p["value"])
-			except KeyError:
-				value = None
-
-			if iName is None or value is None:
-				logging.error("Indicator command without name and/or value parameters")
-				return
-			
-			try:
-				ind = self.indicators[iName]
-			except:
-				ind = None
-
-			if ind is not None:
-				district = ind.GetDistrict()
-				district.DoIndicatorAction(ind, value)
-			else:
-				logging.error("Unknown indicator name: %s" % iName)
+	#
+	# def DoCmdIndicator(self, parms):
+	# 	for p in parms:
+	# 		try:
+	# 			iName = p["name"]
+	# 		except KeyError:
+	# 			iName = None
+	# 		try:
+	# 			value = int(p["value"])
+	# 		except KeyError:
+	# 			value = None
+	#
+	# 		if iName is None or value is None:
+	# 			logging.error("Indicator command without name and/or value parameters")
+	# 			return
+	#
+	# 		try:
+	# 			ind = self.indicators[iName]
+	# 		except:
+	# 			ind = None
+	#
+	# 		if ind is not None:
+	# 			district = ind.GetDistrict()
+	# 			district.DoIndicatorAction(ind, value)
+	# 		else:
+	# 			logging.error("Unknown indicator name: %s" % iName)
 
 	def DoCmdBreaker(self, parms):
 		for p in parms:
@@ -3195,61 +3134,61 @@ class MainFrame(wx.Frame):
 				if val != ind.GetValue():
 					ind.SetValue(val, silent=True)
 
-	def DoCmdTrainSignal(self, parms):							
-		try:
-			trid = parms["train"]
-		except KeyError:
-			trid = None
-		try:
-			signm = parms["signal"]
-		except KeyError:
-			signm = None
-		try:
-			blknm = parms["block"]
-		except KeyError:
-			blknm = None
-
-		if trid is None or signm is None:
-			logging.error("Train signal command without train and/or signal command")
-			return
-
-		try:
-			tr = self.trains[trid]
-		except:
-			tr = None
-			
-		try:
-			sig = self.signals[signm]
-		except:
-			sig  = None
-
-		try:
-			blk = self.blocks[blknm]
-		except:
-			blk  = None
-
-		if tr is None:
-			logging.error("Unknown train: %s" % trid)
-			return
-
-		if sig is None:
-			logging.error("Unknown signal %s" % signm)
-			return
-
-		curSig = tr.GetSignal()[0]
-		if curSig is not None:
-			curSigNm = curSig.GetName()
-			if curSigNm is not None and curSigNm != signm:
-				# we are changing the signal on the train - clear out the stopping sections on the old signal
-				blk = curSig.GetGuardBlock()
-				if blk is not None:
-					blk.ClearStoppingSections()
-
-		ir, cr = self.CheckForIncorrectRoute(tr, sig)
-		if cr is not None:
-			tr.SetMisrouted(ir is not None)
-		tr.SetSignal(sig)
-		# self.activeTrains.UpdateTrain(trid)
+	# def DoCmdTrainSignal(self, parms):
+	# 	try:
+	# 		trid = parms["train"]
+	# 	except KeyError:
+	# 		trid = None
+	# 	try:
+	# 		signm = parms["signal"]
+	# 	except KeyError:
+	# 		signm = None
+	# 	try:
+	# 		blknm = parms["block"]
+	# 	except KeyError:
+	# 		blknm = None
+	#
+	# 	if trid is None or signm is None:
+	# 		logging.error("Train signal command without train and/or signal command")
+	# 		return
+	#
+	# 	try:
+	# 		tr = self.trains[trid]
+	# 	except:
+	# 		tr = None
+	#
+	# 	try:
+	# 		sig = self.signals[signm]
+	# 	except:
+	# 		sig  = None
+	#
+	# 	try:
+	# 		blk = self.blocks[blknm]
+	# 	except:
+	# 		blk  = None
+	#
+	# 	if tr is None:
+	# 		logging.error("Unknown train: %s" % trid)
+	# 		return
+	#
+	# 	if sig is None:
+	# 		logging.error("Unknown signal %s" % signm)
+	# 		return
+	#
+	# 	curSig = tr.GetSignal()[0]
+	# 	if curSig is not None:
+	# 		curSigNm = curSig.GetName()
+	# 		if curSigNm is not None and curSigNm != signm:
+	# 			# we are changing the signal on the train - clear out the stopping sections on the old signal
+	# 			blk = curSig.GetGuardBlock()
+	# 			if blk is not None:
+	# 				blk.ClearStoppingSections()
+	#
+	# 	ir, cr = self.CheckForIncorrectRoute(tr, sig)
+	# 	if cr is not None:
+	# 		tr.SetMisrouted(ir is not None)
+	# 	tr.SetSignal(sig)
+	# 	# self.activeTrains.UpdateTrain(trid)
 
 	def CheckForIncorrectRoute(self, tr, sig, ignoreunchangedsignal=False, silent=False):
 		if tr is None or sig is None:
@@ -3607,22 +3546,22 @@ class MainFrame(wx.Frame):
 	# 				self.SendTrainBlockOrder(tr)
 	# 			self.activeTrains.UpdateTrain(trid)
 
-	def AssertBlockDirections(self, tr):
-		order = list(reversed(tr.GetBlockOrderList()))
-		if len(order) <= 1:
-			return
-
-		lastBlock = order[0]
-		lastBlk = self.blocks[lastBlock]
-		direction = tr.GetEast()
-		for block in order[1:]:
-			blk = self.blocks[block]
-			if CrossingEastWestBoundary(blk, lastBlk):
-				direction = not direction
-			blk.SetEast(direction)
-
-			lastBlock = block
-			lastBlk = blk
+	# def AssertBlockDirections(self, tr):
+	# 	order = list(reversed(tr.GetBlockOrderList()))
+	# 	if len(order) <= 1:
+	# 		return
+	#
+	# 	lastBlock = order[0]
+	# 	lastBlk = self.blocks[lastBlock]
+	# 	direction = tr.GetEast()
+	# 	for block in order[1:]:
+	# 		blk = self.blocks[block]
+	# 		if CrossingEastWestBoundary(blk, lastBlk):
+	# 			direction = not direction
+	# 		blk.SetEast(direction)
+	#
+	# 		lastBlock = block
+	# 		lastBlk = blk
 	#
 	# def DoCmdTrainComplete(self, parms):
 	# 	for p in parms:
@@ -3757,6 +3696,11 @@ class MainFrame(wx.Frame):
 		except KeyError:
 			aspectType = None
 
+		try:
+			pastSignal = parms[0]["pastsignal"]
+		except KeyError:
+			pastSignal = False
+
 		if iname is None:
 			logging.error("Received a train command without an internal name - ignoring")
 			return
@@ -3766,8 +3710,7 @@ class MainFrame(wx.Frame):
 			self.trains[iname] = tr
 		else:
 			tr = self.trains[iname]
-		if rname is not None:
-			tr.SetRName(rname)
+		tr.SetRName(rname)
 		tr.SetEast(east)
 		tr.SetLoco(loco)
 		tr.SetEngineer(engineer)
@@ -3778,18 +3721,22 @@ class MainFrame(wx.Frame):
 				tr.SetRoster(rname, self.trainRoster[rname])
 			else:
 				tr.SetRoster(rname, None)
+		else:
+			tr.SetRoster(rname, None)
 
 		tr.SetStopped(stopped)
 		tr.SetATC(atc)
 		tr.SetAR(ar)
 		tr.SetSignal(signal)
-		tr.SetAspect(aspect, aspectType)
+		tr.SetAspect(aspect, aspectType, pastSignal)
 
 		d, n = tr.SetBlocks(blocks)
 		for bn in blocks:
 			blk = self.blocks.get(bn, None)
 			if blk is not None:
 				blk.SetTrain(tr)
+				blk.SetEast(east)
+				blk.Draw()
 			else:
 				if bn.endswith(".E") or bn.endswith(".W"):
 					blockend = bn[-1]
@@ -3799,6 +3746,8 @@ class MainFrame(wx.Frame):
 						state = "O" if tr.IsIdentified() else "U"
 						blk.SetStopSectionStatus(state, blockend, refresh=True)
 						blk.SetStopSectionTrain(tr, blockend)
+						blk.SetEast(east)
+						blk.Draw()
 
 		# for the blocks that are no longer part of this train, clear out the train information,
 		# but only if there isn't another train that has moved into the block
@@ -3860,11 +3809,13 @@ class MainFrame(wx.Frame):
 
 		self.DrawTrain(tr, dblocks)
 		self.activeTrainsDlg.UpdateTrain(tr)
+		self.trainHistory.Update(tr)
 		if len(tr.Blocks()) > 0:
 			self.UpdateRouteDialog(tr.Name())
 		else:
 			self.PopupEvent("Train %s lost detection in block %s" % (tr.Name(), d[0]))
 			self.CloseRouteTrainDlg(tr.Name())
+			self.lostTrains.Add(tr.Name(), tr.Loco(), tr.Engineer(), tr.East(), d[0])
 			# TODO - Add this train to lost trains and history
 			del(self.trains[iname])
 
@@ -3979,32 +3930,32 @@ class MainFrame(wx.Frame):
 		self.SendDebugFlags()
 
 		self.initializing = False
-
-	def DoCmdTrainBlockOrder(self, parms):
-		for p in parms:
-			try:
-				trid = p["name"]
-			except KeyError:
-				trid = None
-			try:
-				blocks = p["blocks"]
-			except KeyError:
-				blocks = []
-			try:
-				east = p["east"].startswith("T")
-			except (IndexError, KeyError):
-				east = None
-
-			try:
-				tr = self.trains[trid]
-			except:
-				tr = None
-
-			if tr is not None:
-				tr.SetEast(east)
-				tr.SetBlockOrder(blocks)
-				tr.ValidateStoppingSections()
-				# self.activeTrains.UpdateTrain(trid)
+	#
+	# def DoCmdTrainBlockOrder(self, parms):
+	# 	for p in parms:
+	# 		try:
+	# 			trid = p["name"]
+	# 		except KeyError:
+	# 			trid = None
+	# 		try:
+	# 			blocks = p["blocks"]
+	# 		except KeyError:
+	# 			blocks = []
+	# 		try:
+	# 			east = p["east"].startswith("T")
+	# 		except (IndexError, KeyError):
+	# 			east = None
+	#
+	# 		try:
+	# 			tr = self.trains[trid]
+	# 		except:
+	# 			tr = None
+	#
+	# 		if tr is not None:
+	# 			tr.SetEast(east)
+	# 			tr.SetBlockOrder(blocks)
+	# 			tr.ValidateStoppingSections()
+	# 			# self.activeTrains.UpdateTrain(trid)
 	#
 	# def DoCmdTrainTimesRequest(self, parms):
 	# 	trains, times = self.activeTrains.GetTrainTimes()
@@ -4197,14 +4148,6 @@ class MainFrame(wx.Frame):
 		else:
 			logging.info("disallowing command %s from non dispatcher" % command)
 
-	def UpdateCTCBitmaps(self, bmps):
-		for screen, fg, pos, bmp in bmps:
-			offset = self.diagrams[screen].offset
-			self.panels[screen].DrawCTCBitmap(fg, pos[0], pos[1], offset, bmp)
-
-	def CheckCTCCompleted(self, ms, cb):
-		wx.CallLater(ms, cb)
-
 	def CommandAllowed(self, cmd):
 		if self.IsDispatcher():
 			return True
@@ -4217,19 +4160,19 @@ class MainFrame(wx.Frame):
 	def Get(self, cmd, parms):
 		return self.rrServer.Get(cmd, parms)
 
-	def SendBlockDirRequests(self):
-		bdirs = []
-		for b in self.blocks.values():
-			bdirs.append({ "block": b.GetName(), "dir": "E" if b.GetEast() else "W"})
-			sbw, sbe = b.GetStoppingSections()
-			for sb in [sbw, sbe]:
-				if sb:
-					bdirs.append({ "block": sb.GetName(), "dir": "E" if b.GetEast() else "W"})
-			if len(bdirs) >= 10:
-				self.Request({"blockdirs": { "data": json.dumps(bdirs)}})
-				bdirs = []
-		if len(bdirs) > 0:
-			self.Request({"blockdirs": { "data": json.dumps(bdirs)}})
+	# def SendBlockDirRequests(self):
+	# 	bdirs = []
+	# 	for b in self.blocks.values():
+	# 		bdirs.append({ "block": b.GetName(), "dir": "E" if b.GetEast() else "W"})
+	# 		sbw, sbe = b.GetStoppingSections()
+	# 		for sb in [sbw, sbe]:
+	# 			if sb:
+	# 				bdirs.append({ "block": sb.GetName(), "dir": "E" if b.GetEast() else "W"})
+	# 		if len(bdirs) >= 10:
+	# 			self.Request({"blockdirs": { "data": json.dumps(bdirs)}})
+	# 			bdirs = []
+	# 	if len(bdirs) > 0:
+	# 		self.Request({"blockdirs": { "data": json.dumps(bdirs)}})
 
 	def BuildLayoutFile(self):
 		data = {
@@ -4266,11 +4209,6 @@ class MainFrame(wx.Frame):
 		self.subscribed = False
 		self.bSubscribe.SetLabel("Connect")
 		self.bRefresh.Enable(False)
-		self.bLoadTrains.Enable(False)
-		self.bLoadLocos.Enable(False)
-		self.bSaveTrains.Enable(False)
-		self.bClearTrains.Enable(False)
-		self.bSaveLocos.Enable(False)
 		if self.IsDispatcher():
 			self.cbAutoRouter.Enable(False)
 			self.cbATC.Enable(False)
@@ -4287,9 +4225,6 @@ class MainFrame(wx.Frame):
 		
 		self.ShowTitle()
 
-	def OnBSaveTrains(self, _):
-		self.SaveTrains()
-		
 	def OnBCheckTrains(self, _):
 		self.CheckTrains()
 
@@ -4298,97 +4233,97 @@ class MainFrame(wx.Frame):
 		# self.activeTrains.RemoveAllTrains()
 		# for tr in self.trains.values():
 		# 	self.activeTrains.AddTrain(tr)
-
-	def OnBClearTrains(self, _):
-		pass
-		# dlg = wx.MessageDialog(self, 'This clears all train IDs.  Are you sure you want to continue?\nPress "Yes" to confirm,\nor "No" to cancel.',
-		# 		'Clear Train IDs', wx.YES_NO | wx.ICON_WARNING)
-		# rc = dlg.ShowModal()
-		# dlg.Destroy()
-		# if rc != wx.ID_YES:
-		# 	return
-		#
-		# newnames = []
-		# for trid, tr in self.trains.items():
-		# 	oldname = trid
-		# 	newname = Train.NextName()
-		# 	tr.SetName(newname)
-		# 	self.activeTrains.RenameTrain(oldname, newname)
-		# 	newnames.append([oldname, newname])
-		# 	self.Request({"renametrain": { "oldname": oldname, "newname": newname, "context": "cleartrains"}}) #, "oldloco": oldLoco, "newloco": locoid}})
-		#
-		# for oname, nname in newnames:
-		# 	tr = self.trains[oname]
-		# 	del(self.trains[oname])
-		# 	self.trains[nname] = tr
-		
-	def SaveTrains(self):
-		if not self.CheckTrainsContiguous(True):
-			return 
-		
-		dlg = ChooseItemDlg(self, True, True, self.rrServer)
-		dlg.CenterOnScreen()
-		rc = dlg.ShowModal()
-		if rc == wx.ID_OK:
-			file, directory = dlg.GetFile()
-			
-		dlg.Destroy()
-		if rc != wx.ID_OK:
-			return 
-		
-		if file is None:
-			return
-
-		trDict = {}
-		for trid, tr in self.trains.items():
-			if not trid.startswith("??"):
-				trDict[trid] = tr.GetBlockNameList()
-		self.rrServer.Post(file, directory, trDict)
-
-		if len(trDict) == 1:
-			plural = ""
-		else:
-			plural = "s"			
-		self.PopupEvent("%d train%s saved to file %s" % (len(trDict), plural, file))
-
-	def OnBLoadTrains(self, _):
-		dlg = ChooseItemDlg(self, True, False, self.rrServer)
-		dlg.CenterOnScreen()
-		rc = dlg.ShowModal()
-		if rc == wx.ID_OK:
-			file, directory = dlg.GetFile()
-			locations, allLocations = dlg.GetLocations()
-			
-		dlg.Destroy()
-		if rc != wx.ID_OK:
-			return 
-		
-		if file is None:
-			return
-		
-		trDict = self.rrServer.Get("getfile", {"file": file, "dir": directory})
-		if trDict is None:
-			return
-			
-		if len(trDict) == 1:
-			plural = ""
-		else:
-			plural = "s"			
-		self.PopupEvent("%d train%s loaded from file %s" % (len(trDict), plural, file))
-
-		for tid, blist in trDict.items():
-			for bname in blist:
-				blk = self.blocks[bname]
-				if blk and self.BlockIncluded(locations, allLocations, bname):
-					if blk.IsOccupied():
-						tr = blk.GetTrain()
-						oldName, _ = tr.GetNameAndLoco()
-						self.Request({"renametrain": { "oldname": oldName, "newname": tid, "east": 1 if tr.GetEast() else 0}})
-					else:
-						self.PopupEvent("Block %s not occupied, expecting train %s" % (bname, tid))
-						
-		self.Request({"checktrains": {}}) # this command will invoke the CheckTrains method after all the renaming has been done
-		
+	#
+	# def OnBClearTrains(self, _):
+	# 	pass
+	# 	# dlg = wx.MessageDialog(self, 'This clears all train IDs.  Are you sure you want to continue?\nPress "Yes" to confirm,\nor "No" to cancel.',
+	# 	# 		'Clear Train IDs', wx.YES_NO | wx.ICON_WARNING)
+	# 	# rc = dlg.ShowModal()
+	# 	# dlg.Destroy()
+	# 	# if rc != wx.ID_YES:
+	# 	# 	return
+	# 	#
+	# 	# newnames = []
+	# 	# for trid, tr in self.trains.items():
+	# 	# 	oldname = trid
+	# 	# 	newname = Train.NextName()
+	# 	# 	tr.SetName(newname)
+	# 	# 	self.activeTrains.RenameTrain(oldname, newname)
+	# 	# 	newnames.append([oldname, newname])
+	# 	# 	self.Request({"renametrain": { "oldname": oldname, "newname": newname, "context": "cleartrains"}}) #, "oldloco": oldLoco, "newloco": locoid}})
+	# 	#
+	# 	# for oname, nname in newnames:
+	# 	# 	tr = self.trains[oname]
+	# 	# 	del(self.trains[oname])
+	# 	# 	self.trains[nname] = tr
+	#
+	# def SaveTrains(self):
+	# 	if not self.CheckTrainsContiguous(True):
+	# 		return
+	#
+	# 	dlg = ChooseItemDlg(self, True, True, self.rrServer)
+	# 	dlg.CenterOnScreen()
+	# 	rc = dlg.ShowModal()
+	# 	if rc == wx.ID_OK:
+	# 		file, directory = dlg.GetFile()
+	#
+	# 	dlg.Destroy()
+	# 	if rc != wx.ID_OK:
+	# 		return
+	#
+	# 	if file is None:
+	# 		return
+	#
+	# 	trDict = {}
+	# 	for trid, tr in self.trains.items():
+	# 		if not trid.startswith("??"):
+	# 			trDict[trid] = tr.GetBlockNameList()
+	# 	self.rrServer.Post(file, directory, trDict)
+	#
+	# 	if len(trDict) == 1:
+	# 		plural = ""
+	# 	else:
+	# 		plural = "s"
+	# 	self.PopupEvent("%d train%s saved to file %s" % (len(trDict), plural, file))
+	#
+	# def OnBLoadTrains(self, _):
+	# 	dlg = ChooseItemDlg(self, True, False, self.rrServer)
+	# 	dlg.CenterOnScreen()
+	# 	rc = dlg.ShowModal()
+	# 	if rc == wx.ID_OK:
+	# 		file, directory = dlg.GetFile()
+	# 		locations, allLocations = dlg.GetLocations()
+	#
+	# 	dlg.Destroy()
+	# 	if rc != wx.ID_OK:
+	# 		return
+	#
+	# 	if file is None:
+	# 		return
+	#
+	# 	trDict = self.rrServer.Get("getfile", {"file": file, "dir": directory})
+	# 	if trDict is None:
+	# 		return
+	#
+	# 	if len(trDict) == 1:
+	# 		plural = ""
+	# 	else:
+	# 		plural = "s"
+	# 	self.PopupEvent("%d train%s loaded from file %s" % (len(trDict), plural, file))
+	#
+	# 	for tid, blist in trDict.items():
+	# 		for bname in blist:
+	# 			blk = self.blocks[bname]
+	# 			if blk and self.BlockIncluded(locations, allLocations, bname):
+	# 				if blk.IsOccupied():
+	# 					tr = blk.GetTrain()
+	# 					oldName, _ = tr.GetNameAndLoco()
+	# 					self.Request({"renametrain": { "oldname": oldName, "newname": tid, "east": 1 if tr.GetEast() else 0}})
+	# 				else:
+	# 					self.PopupEvent("Block %s not occupied, expecting train %s" % (bname, tid))
+	#
+	# 	self.Request({"checktrains": {}}) # this command will invoke the CheckTrains method after all the renaming has been done
+	#
 	def CheckTrains(self):
 		rc1 = self.CheckTrainsContiguous()
 		rc2 = self.CheckLocosUnique()
@@ -4532,88 +4467,85 @@ class MainFrame(wx.Frame):
 		dlg.Destroy()
 
 		return False
-
-	def OnBSaveLocos(self, _):
-		self.SaveLocos()
-		
-	def SaveLocos(self):
-		if not self.CheckLocosUnique(True):
-			return 
-		
-		dlg = ChooseItemDlg(self, False, True, self.rrServer)
-		dlg.CenterOnScreen()
-		rc = dlg.ShowModal()
-		if rc == wx.ID_OK:
-			file, directory = dlg.GetFile()
-			
-		dlg.Destroy()
-		if rc != wx.ID_OK:
-			return 
-		
-		if file is None:
-			return
-
-		locoDict = {}
-		for _, tr in self.trains.items():
-			loco = tr.GetLoco()
-			if loco is not None and not loco.startswith("??"):
-				locoDict[loco] = tr.GetBlockNameList()
-
-		self.rrServer.Post(file, directory, locoDict)
-			
-		if len(locoDict) == 1:
-			plural = ""
-		else:
-			plural = "s"			
-		self.PopupEvent("%d locomotive%s saved to file %s" % (len(locoDict), plural, file))
-
-	def OnBLoadLocos(self, _):
-		dlg = ChooseItemDlg(self, False, False, self.rrServer)
-		dlg.CenterOnScreen()
-		rc = dlg.ShowModal()
-		if rc == wx.ID_OK:
-			file, directory = dlg.GetFile()
-			locations, allLocations = dlg.GetLocations()
-			
-		dlg.Destroy()
-		if rc != wx.ID_OK:
-			return 
-		
-		if file is None:
-			return
-
-		locoDict = self.rrServer.Get("getfile", {"file": file, "dir": directory})
-		if locoDict is None:
-			return
-
-		if len(locoDict) == 1:
-			plural = ""
-		else:
-			plural = "s"			
-		self.PopupEvent("%d locomotive%s loaded from file %s" % (len(locoDict), plural, file))
-
-		for lid, blist in locoDict.items():
-			for bname in blist:
-				blk = self.blocks[bname]
-				if blk and self.BlockIncluded(locations, allLocations, bname):
-					if blk.IsOccupied():
-						tr = blk.GetTrain()
-						oldName, oldLoco = tr.GetNameAndLoco()
-						self.Request({"renametrain": { "oldname": oldName, "newname": oldName, "oldloco": oldLoco, "newloco": lid, "east": 1 if tr.GetEast() else 0}})
-					else:
-						self.PopupEvent("Block %s not occupied, expecting locomotive %s" % (bname, lid))
-						
-		self.Request({"checktrains": {}}) # this command will invoke the CheckTrains method after all the renaming has been done
-
-	def BlockIncluded(self, locations, allLocations, bname):
-		blocation = bname[0]
-		if blocation in locations:
-			return True
-		
-		if blocation not in allLocations and "*" in locations:
-			return True
-		
-		return False
+	#
+	# def SaveLocos(self):
+	# 	if not self.CheckLocosUnique(True):
+	# 		return
+	#
+	# 	dlg = ChooseItemDlg(self, False, True, self.rrServer)
+	# 	dlg.CenterOnScreen()
+	# 	rc = dlg.ShowModal()
+	# 	if rc == wx.ID_OK:
+	# 		file, directory = dlg.GetFile()
+	#
+	# 	dlg.Destroy()
+	# 	if rc != wx.ID_OK:
+	# 		return
+	#
+	# 	if file is None:
+	# 		return
+	#
+	# 	locoDict = {}
+	# 	for _, tr in self.trains.items():
+	# 		loco = tr.GetLoco()
+	# 		if loco is not None and not loco.startswith("??"):
+	# 			locoDict[loco] = tr.GetBlockNameList()
+	#
+	# 	self.rrServer.Post(file, directory, locoDict)
+	#
+	# 	if len(locoDict) == 1:
+	# 		plural = ""
+	# 	else:
+	# 		plural = "s"
+	# 	self.PopupEvent("%d locomotive%s saved to file %s" % (len(locoDict), plural, file))
+	#
+	# def OnBLoadLocos(self, _):
+	# 	dlg = ChooseItemDlg(self, False, False, self.rrServer)
+	# 	dlg.CenterOnScreen()
+	# 	rc = dlg.ShowModal()
+	# 	if rc == wx.ID_OK:
+	# 		file, directory = dlg.GetFile()
+	# 		locations, allLocations = dlg.GetLocations()
+	#
+	# 	dlg.Destroy()
+	# 	if rc != wx.ID_OK:
+	# 		return
+	#
+	# 	if file is None:
+	# 		return
+	#
+	# 	locoDict = self.rrServer.Get("getfile", {"file": file, "dir": directory})
+	# 	if locoDict is None:
+	# 		return
+	#
+	# 	if len(locoDict) == 1:
+	# 		plural = ""
+	# 	else:
+	# 		plural = "s"
+	# 	self.PopupEvent("%d locomotive%s loaded from file %s" % (len(locoDict), plural, file))
+	#
+	# 	for lid, blist in locoDict.items():
+	# 		for bname in blist:
+	# 			blk = self.blocks[bname]
+	# 			if blk and self.BlockIncluded(locations, allLocations, bname):
+	# 				if blk.IsOccupied():
+	# 					tr = blk.GetTrain()
+	# 					oldName, oldLoco = tr.GetNameAndLoco()
+	# 					self.Request({"renametrain": { "oldname": oldName, "newname": oldName, "oldloco": oldLoco, "newloco": lid, "east": 1 if tr.GetEast() else 0}})
+	# 				else:
+	# 					self.PopupEvent("Block %s not occupied, expecting locomotive %s" % (bname, lid))
+	#
+	# 	self.Request({"checktrains": {}}) # this command will invoke the CheckTrains method after all the renaming has been done
+	#
+	# def BlockIncluded(self, locations, allLocations, bname):
+	# 	blocation = bname[0]
+	# 	if blocation in locations:
+	# 		return True
+	#
+	# 	if blocation not in allLocations and "*" in locations:
+	# 		return True
+	#
+	# 	return False
 	
 	def OnClose(self, _):
 		self.CloseProgram()
@@ -4752,7 +4684,7 @@ class ConfirmBranchLineTrainDlg(wx.Dialog):
 
 class ExitDlg (wx.Dialog):
 	def __init__(self, parent, isDispatcher):
-		wx.Dialog.__init__(self, parent, wx.ID_ANY, "Exit Dialog")
+		wx.Dialog.__init__(self, parent, wx.ID_ANY, "Exit Dialog", style=wx.CAPTION|wx.CLOSE_BOX|wx.STAY_ON_TOP)
 		self.parent = parent
 		self.isDispatcher = isDispatcher
 		self.Bind(wx.EVT_CLOSE, self.onCancel)
@@ -4770,17 +4702,10 @@ class ExitDlg (wx.Dialog):
 
 		if self.parent.IsDispatcherOrSatellite():
 			if self.parent.subscribed:
-				self.bTrains = wx.Button(self, wx.ID_ANY, "Save Trains")
-				self.bLocos  = wx.Button(self, wx.ID_ANY, "Save Locos")
 				self.cbSnapshot  = wx.CheckBox(self, wx.ID_ANY, "Take Snapshot")
 				self.cbSnapshot.SetValue(self.parent.settings.dispatcher.prechecksnapshot)
-				self.Bind(wx.EVT_BUTTON, self.onSaveTrains, self.bTrains)
-				self.Bind(wx.EVT_BUTTON, self.onSaveLocos, self.bLocos)
 				self.hasSnapshot = True
 
-				vsz.Add(self.bTrains, 0, wx.ALIGN_CENTER)
-				vsz.AddSpacer(10)
-				vsz.Add(self.bLocos, 0, wx.ALIGN_CENTER)
 				vsz.AddSpacer(20)
 				vsz.Add(self.cbSnapshot, 0, wx.ALIGN_CENTER)
 				vsz.AddSpacer(10)
@@ -4827,12 +4752,6 @@ class ExitDlg (wx.Dialog):
 		self.Layout()
 		self.Fit()
 		self.bOK.SetFocus()
-
-	def onSaveTrains(self, _):
-		self.parent.SaveTrains()
-
-	def onSaveLocos(self, _):
-		self.parent.SaveLocos()
 
 	def GetResults(self):
 		rvSnap = self.hasSnapshot and self.cbSnapshot.GetValue()

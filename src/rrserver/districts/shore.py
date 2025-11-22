@@ -178,6 +178,17 @@ class Shore(District):
 			b = self.rr.AddBlock("H11",    self, n, HYDEJCT, [(1, 7)], False)
 			b.AddStoppingBlocks([sbw])
 
+	def BlockOccupancyChange(self, rr, obj, val):
+		exbn = obj.MainBlockName()
+		if obj.Name() == "S11.E" and not obj.IsEast():
+			sig = rr.GetSignal("N10W")
+			osName = rr.DetermineSignalOS("N10W")
+			osBlk = rr.GetOSBlock(osName)
+			if sig.Aspect() != 0 and sig.Fleeted():
+				rr.AddPendingFleetAction(exbn, sig, osBlk, None)
+				sig.SetAspect(0)
+				rr.RailroadEvent((sig.GetEventMessage()))
+
 	def CheckTurnoutLocks(self, turnouts):
 		changes = []
 		s3 = turnouts["SSw3"].IsNormal()

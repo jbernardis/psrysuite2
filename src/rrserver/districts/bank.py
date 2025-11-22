@@ -56,7 +56,7 @@ class Bank(District):
 			b.AddStoppingBlocks([sbe])
 
 			self.rr.AddBlock("BOSWW", self, n, addr, [(1, 4)], False)
-			self.rr.AddBlock("BOSWE", self, n, addr, [(1, 5)], False)
+			self.rr.AddBlock("BOSWE", self, n, addr, [(1, 5)], True)
 
 			sbw = self.rr.AddBlock("B11.W", self, n, addr, [(1, 6)], False)
 			b = self.rr.AddBlock("B11",   self, n, addr, [(1, 7)], False)

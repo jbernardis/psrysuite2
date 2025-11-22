@@ -59,3 +59,23 @@ INPUT_HANDSWITCH = 3
 INPUT_SIGNALLEVER = 4
 INPUT_ROUTEIN = 5
 INPUT_BREAKER = 6
+
+
+EWCrossoverPoints = [
+    ["COSSHE", "C20"],
+    ["YOSCJE", "P50"],
+    ["YOSCJW", "P50"],
+    ["POSSJ1", "P30"],
+    ["SOSE",   "P32"],
+    ["SOSW",   "P32"],
+    ["YOSKL4", "Y30"],
+    ["YOSWYW", "Y87"],
+]
+
+
+def CrossingEastWestBoundary(osblk, blk):
+    if osblk is None or blk is None:
+        return False
+    blkNm = blk.Name()
+    osNm = osblk.Name()
+    return [osNm, blkNm] in EWCrossoverPoints or [blkNm, osNm] in EWCrossoverPoints

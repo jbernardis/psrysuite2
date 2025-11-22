@@ -56,6 +56,7 @@ class Train:
 		self.stopped = False
 		self.aspect = None
 		self.aspectType = None
+		self.pastSignal = False
 		self.atc = False
 		self.ar = False
 		self.signal = None
@@ -93,6 +94,9 @@ class Train:
 		self.east = east
 
 	def IsEast(self):
+		return self.east
+
+	def East(self):
 		return self.east
 
 	def SetLoco(self, loco):
@@ -138,12 +142,14 @@ class Train:
 	def AR(self):
 		return self.ar
 
-	def SetAspect(self, aspect, aspecttype):
+	def SetAspect(self, aspect, aspecttype, pastSignal=None):
 		self.aspect = aspect
 		self.aspectType = aspecttype
+		if pastSignal is not None:
+			self.pastSignal = pastSignal
 
 	def Aspect(self):
-		return self.aspect, self.aspectType
+		return self.aspect, self.aspectType, self.pastSignal
 
 	def SetBlocks(self, blocks):
 		delblocks = [bn for bn in self.blocks if bn not in blocks]

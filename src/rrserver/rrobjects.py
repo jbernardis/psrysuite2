@@ -1,7 +1,7 @@
 import logging
 import traceback
 
-from rrserver.constants import INPUT_BLOCK, INPUT_BREAKER, INPUT_SIGNALLEVER, INPUT_ROUTEIN, INPUT_HANDSWITCH, INPUT_TURNOUTPOS
+from rrserver.constants import INPUT_BLOCK, INPUT_BREAKER, INPUT_SIGNALLEVER, INPUT_ROUTEIN, INPUT_HANDSWITCH, INPUT_TURNOUTPOS, CrossingEastWestBoundary
 from dispatcher.constants import RegAspects, aspectname, aspecttype
 
 
@@ -24,7 +24,7 @@ class Block:
 		self.osblk = None
 		self.bits = []
 		self.cleared = False
-		self.status = "E"    # E = Empty, C = Cl;eared, O = Occupied, U = Occupied by unknown train
+		self.status = "E"    # E = Empty, C = Cleared, O = Occupied, U = Occupied by unknown train
 		self.indicators = []
 		self.mainBlock = None
 		self.mainBlockName = None
@@ -36,6 +36,18 @@ class Block:
 		self.nextBlockWest = None
 		self.handswitches = []
 		self.train = None
+
+	def Dump(self):
+		logging.debug("===== dump of block %s" % self.name)
+		logging.debug("East: %s/%s" % (self.east, self.normalEast))
+		logging.debug("Osblk: %s" % ("None" if self.osblk is None else self.osblk.Name()))
+		logging.debug("Main block: %s %s" % (str(self.mainBlock), str(self.mainBlockName)))
+		logging.debug("Sub Blocks: %s" % ", ".join([s.Name() for s in self.subBlocks]))
+		logging.debug("Stopping Blocks: %s" % ", ".join(["None" if s is None else s.Name() for s in self.stoppingBlocks]))
+		logging.debug("Stopped block: %s" % ("None" if self.stoppedBlock is None else self.stoppedBlock.Name()))
+		logging.debug("Next East: %s" % ("None" if self.nextBlockEast is None else self.nextBlockEast.Name()))
+		logging.debug("Next West: %s" % ("None" if self.nextBlockWest is None else self.nextBlockWest.Name()))
+		logging.debug("===============================================")
 
 	def DumpSubs(self):
 		if self.mainBlock is None:
@@ -49,8 +61,6 @@ class Block:
 			return self.stoppedBlock.GetAllBlocks()
 
 		blocks = [self] + [sb for sb in self.stoppingBlocks if sb is not None]
-		logging.debug("Returning block list: %s" % str([b.Name() for b in blocks]))
-		logging.debug("length stoppingBlocks = %d" % len(self.stoppingBlocks))
 		return blocks
 
 	def toJson(self):
@@ -70,6 +80,9 @@ class Block:
 
 	def OS(self):
 		return self.osblk
+
+	def Block(self):
+		return self
 
 	def Name(self):
 		return self.name
@@ -144,7 +157,7 @@ class Block:
 	def NextBlock(self, reverse=False):
 		east = self.east and not reversed
 		if self.osblk is not None:
-			return self.osblk.NextBlock(reverse=reverse)
+			return self.osblk.ExitBlock(reverse=reverse)
 
 		if self.mainBlock is not None:
 			return self.mainBlock.NextBlock(reverse=reverse)
@@ -217,9 +230,12 @@ class Block:
 			
 	def StoppingBlocks(self):
 		return self.stoppingBlocks
-		
+
 	def SetStoppedBlock(self, blk):
 		self.stoppedBlock = blk
+
+	def StoppedBlock(self):
+		return self.stoppedBlock
 
 	def IsCompletelyEmpty(self):
 		if self.stoppedBlock is not None:
@@ -343,46 +359,76 @@ class Block:
 
 	def NextDetectionSectionWest(self):
 		if self.osblk is not None:
-			return self.osblk.NextDetectionSectionWest()
-
-		if self.mainBlock is not None:
-			return self.mainBlock.NextDetectionSectionWest()
-
-		if self.stoppedBlock is None:  # this is a main block
-			if self.stoppingBlocks[SBWEST] is not None:
-				return self.stoppingBlocks[SBWEST]
+			if self.osblk.IsReversed():
+				blk = self.osblk.NextDetectionSectionEast()
 			else:
-				return self.GetNextWest()
-		elif self.name.endswith(".E"):  # this is an east end stopping section
-			return self.stoppedBlock
-		elif self.name.endswith(".W"):  # this is the west side stopping block
-			return self.stoppedBlock.GetNextWest()
+				blk = self.osblk.NextDetectionSectionWest()
 
-		# this should never happen, but just return the next physical block
-		return self.GetNextWest()
+		elif self.mainBlock is not None:
+			blk = self.mainBlock.NextDetectionSectionWest()
+
+		elif self.stoppedBlock is None:  # this is a main block
+			if self.stoppingBlocks[SBWEST] is not None:
+				blk = self.stoppingBlocks[SBWEST]
+			else:
+				blk = self.GetNextWest()
+		elif self.name.endswith(".E"):  # this is an east end stopping section
+			blk = self.stoppedBlock
+		elif self.name.endswith(".W"):  # this is the west side stopping block
+			blk = self.stoppedBlock.GetNextWest()
+
+		else:
+			# this should never happen, but just return the next physical block
+			blk = self.GetNextWest()
+
+		if blk is None:
+			self.Dump()
+			return None
+
+		if blk.Name() in ["KOSN10S11", "KOSN20S21"]:
+			blk = blk.NextDetectionSectionWest()
+
+		if blk is None:
+			return None
+
+		return blk
 
 	def SetNextEast(self, blk):
 		self.nextBlockEast = blk
 
 	def NextDetectionSectionEast(self):
 		if self.osblk is not None:
-			return self.osblk.NextDetectionSectionEast()
-
-		if self.mainBlock is not None:
-			return self.mainBlock.NextDetectionSectionEast()
-
-		if self.stoppedBlock is None:  # this is a main block
-			if self.stoppingBlocks[SBEAST] is not None:
-				return self.stoppingBlocks[SBEAST]
+			if self.osblk.IsReversed():
+				blk = self.osblk.NextDetectionSectionWest()
 			else:
-				return self.GetNextEast()
-		elif self.name.endswith(".W"):  # this is a west end stopping section
-			return self.stoppedBlock
-		elif self.name.endswith(".E"):  # this is the east side stopping block
-			return self.stoppedBlock.GetNextEast()
+				blk = self.osblk.NextDetectionSectionEast()
 
-		# this should never happen, but just return the next physical block
-		return self.GetNextEast()
+		elif self.mainBlock is not None:
+			blk = self.mainBlock.NextDetectionSectionEast()
+
+		elif self.stoppedBlock is None:  # this is a main block
+			if self.stoppingBlocks[SBEAST] is not None:
+				blk = self.stoppingBlocks[SBEAST]
+			else:
+				blk = self.GetNextEast()
+		elif self.name.endswith(".W"):  # this is a west end stopping section
+			blk = self.stoppedBlock
+		elif self.name.endswith(".E"):  # this is the east side stopping block
+			blk = self.stoppedBlock.GetNextEast()
+
+		else:
+			# this should never happen, but just return the next physical block
+			blk = self.GetNextEast()
+
+		if blk is None:
+			return None
+
+		if blk.Name() in ["KOSN10S11", "KOSN20S21"]:
+			blk = blk.NextDetectionSectionEast()
+
+		if blk is None:
+			return None
+		return blk
 
 	def GetNextEast(self):
 		return self.nextBlockEast
@@ -440,6 +486,9 @@ class OSBlock:
 	def Block(self):
 		return self.block
 
+	def District(self):
+		return self.block.District()
+
 	def Train(self):
 		return self.block.Train()
 
@@ -466,6 +515,12 @@ class OSBlock:
 
 	def OS(self):
 		return self
+
+	def StoppedBlock(self):
+		return None
+
+	def IsSubBlock(self):
+		return False
 
 	def IsCleared(self):
 		return self.block.IsCleared()
@@ -528,18 +583,28 @@ class OSBlock:
 			return None
 
 		blk = self.activeRoute.NextBlockWest()
-		# if this block has an east stop section, send that as the next block instead
-		sbeast = blk.StoppingBlocks()[SBEAST]
-		return blk if sbeast is None else sbeast
+		if blk is None:
+			return None
+
+		sbx = SBWEST if CrossingEastWestBoundary(self, blk) else SBEAST
+		if self.IsReversed():
+			sbx = SBEAST if sbx == SBWEST else SBWEST
+		sb = blk.StoppingBlocks()[sbx]
+		return blk if sb is None else sb
 
 	def NextDetectionSectionEast(self):
 		if self.activeRoute is None:
 			return None
 
 		blk = self.activeRoute.NextBlockEast()
-		# if this block has a west stop section, send that as the next block instead
-		sbwest = blk.StoppingBlocks()[SBWEST]
-		return blk if sbwest is None else sbwest
+		if blk is None:
+			return None
+
+		sbx = SBEAST if CrossingEastWestBoundary(self, blk) else SBWEST
+		if self.IsReversed():
+			sbx = SBEAST if sbx == SBWEST else SBWEST
+		sb = blk.StoppingBlocks()[sbx]
+		return blk if sb is None else sb
 
 	def ActiveRoute(self):
 		return self.activeRoute
@@ -573,11 +638,37 @@ class OSBlock:
 		ar = self.activeRoute
 		nxtEast = ar.NextBlockEast()
 		if nxtEast is not None:
-			nxtEast.SetNextWest(self)
+			if CrossingEastWestBoundary(nxtEast, self):
+				nxtEast.SetNextEast(self)
+				if nxtEast.Name() == "P50":
+					nxtEast.Dump()
+					for sb in nxtEast.StoppingBlocks():
+						if sb is not None:
+							sb.Dump()
+			else:
+				nxtEast.SetNextWest(self)
+				if nxtEast.Name() == "P50":
+					nxtEast.Dump()
+					for sb in nxtEast.StoppingBlocks():
+						if sb is not None:
+							sb.Dump()
 
 		nxtWest = ar.NextBlockWest()
 		if nxtWest is not None:
-			nxtWest.SetNextEast(self)
+			if CrossingEastWestBoundary(nxtWest, self):
+				nxtWest.SetNextWest(self)
+				if nxtWest.Name() == "P50":
+					nxtWest.Dump()
+					for sb in nxtWest.StoppingBlocks():
+						if sb is not None:
+							sb.Dump()
+			else:
+				nxtWest.SetNextEast(self)
+				if nxtWest.Name() == "P50":
+					nxtWest.Dump()
+					for sb in nxtWest.StoppingBlocks():
+						if sb is not None:
+							sb.Dump()
 
 		return rc
 
@@ -594,6 +685,14 @@ class Route:
 		self.signals = [s for s in signals]
 		self.ends = [x for x in ends]
 		self.rtype = [x for x in rtype]
+
+	def Dump(self):
+		logging.debug("Dump of route %s" % self.name)
+		logging.debug("Direction = %s" % self.osblk.East())
+		logging.debug("OS Reversed: %s" % self.osblk.IsReversed())
+		logging.debug("Ends = %s %s" % (self.ends[0].Name(), self.ends[1].Name()))
+		logging.debug("exit block: %s" % self.ExitBlock().Name())
+		logging.debug("---------------------------------------------------------------")
 
 	def SetOS(self, osblk):
 		self.osblk = osblk
@@ -887,6 +986,7 @@ class Signal:
 		self.east = True
 		self.callon = False
 		self.fleeted = False
+		self.train = None
 
 	def IsNullSignal(self):
 		return self.district is None
@@ -950,7 +1050,6 @@ class Signal:
 	def AspectName(self):
 		return "%s (%s)" % (aspectname(self.aspect, self.aspectType), aspecttype(self.aspectType))
 
-		
 	def Aspect(self):
 		return self.aspect
 	
@@ -968,6 +1067,12 @@ class Signal:
 
 	def Fleeted(self):
 		return self.fleeted
+
+	def SetTrain(self, tr):
+		self.train = tr
+
+	def Train(self):
+		return self.train
 
 	def District(self):
 		return self.district

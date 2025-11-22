@@ -3,59 +3,74 @@ import logging
 import time
 
 
-class Script (wx.Frame):
-	def __init__(self, parent, script, scriptName, cbCompletion):
-		wx.Frame.__init__(self, parent, style=wx.DEFAULT_FRAME_STYLE)
+class Script:
+	def __init__(self, frame, tr, layout, timerInterval):
+		self.frame = frame
+		self.train = tr
+		self.layout = layout
 		self.timer = None
+		self.timerInterval = timerInterval
+		self.paused = False
 		self.sx = None
-		self.parent = parent
-		self.script = script
-		self.scriptName = scriptName
-		self.cbCompletion = cbCompletion
-		self.executionCompleted = False
-		self.stopped = False
-		self.error = False
-		self.waitingFor = ""
-		self.tm = 1 # time multiple
-
-		self.pauseSignal = None
-		self.pauseBlock = None
-		self.pauseRoute = None
-		self.pauseOSBlk = None
-
+		self.loco = ""
+		self.tm = 1.0
+		self.trainlen = 2  # 2 is the minimum train length
+		self.executionCompleted = True
+		self.stopped = True
+		self.initial = True
 		self.occupiedBlocks = []
-		self.trainlen = None
-		
-		self.loco = self.GetLoco()
+		self.awaitingOS = None
+		self.awaitingRte = None
+		self.awaitingSignal = None
+		self.blocks = ""
 
-		self.Bind(wx.EVT_TIMER, self.onTicker)
-		self.ticker = wx.Timer(self)
+		startBlock = tr.GetStartBlock()
+		subblks = self.layout.GetSubBlocks(startBlock)
+		self.script = [{"start": subblks, "time": tr.GetStartBlockTime()}]
+
+		blocks = []
+		sbe, sbw = self.layout.GetStopBlocks(startBlock)
+		if tr.IsEast():
+			if sbe is not None:
+				blocks.append(sbe)
+		else:
+			if sbw is not None:
+				blocks.append(sbw)
+
+		if len(blocks) > 0:
+			self.script.append({"blocks": blocks, "time": tr.GetStartBlockTime()})
+
+		for step in tr.GetSteps():
+			self.script.append({"os": step["os"], "route": step["route"], "signal": step["signal"], "time": step["time"]})
+			block = step["block"]
+			sbe, sbw = self.layout.GetStopBlocks(block)
+			subblks = self.layout.GetSubBlocks(block)
+
+			blocks = []
+			if tr.IsEast():
+				if sbw is not None:
+					blocks.append([sbw])
+			else:
+				if sbe is not None:
+					blocks.append([sbe])
+			blocks.append(subblks)
+			if tr.IsEast():
+				if sbe is not None:
+					blocks.append([sbe])
+			else:
+				if sbw is not None:
+					blocks.append([sbw])
+			for b in blocks:
+				self.script.append({"blocks": b, "time": step["time"]})
 
 	def GetName(self):
-		return self.scriptName
+		return self.train.GetTrainID()
 	
 	def GetLoco(self):
-		for step in self.script:
-			cmd, params = list(step.items())[0]
-			if cmd == "placetrain":
-				try:
-					loco = params["loco"]
-					return loco
-				except:
-					return None
-		return None
+		return self.loco
 	
 	def SetLoco(self, loco):
-		for step in self.script:
-			cmd, params = list(step.items())[0]
-			if cmd == "placetrain":
-				try:
-					params["loco"] = loco
-					self.loco = loco
-					return True
-				except:
-					return False
-		return False
+		self.loco = loco
 	
 	def SetTimeMultiple(self, tm):
 		self.tm = tm
@@ -70,45 +85,50 @@ class Script (wx.Frame):
 		self.trainlen = tlen
 
 	def GetStatus(self):
-		stat = "Loco %s  " % self.loco
+		stat = []
+		if self.initial:
+			return "ready"
+
 		if self.stopped:
-			return stat + "Stopped"
-		elif self.executionCompleted:
-			return stat + "Completed"
-		elif self.sx is None:
-			return "Ready"
-		else:
-			sx = self.sx - 1
-			if sx < 0:
-				sx = 0
-			step = self.script[sx]
-			cmd, params = list(step.items())[0]
-			if cmd in ["placetrain", "movetrain"]:
-				return stat + ("Block: %s" % params["block"])
-			elif cmd == "waitfor":
-				return stat + ("Waiting for: %s" % self.waitingFor)
+			return "Stopped"
+
+		if self.awaitingSignal is not None:
+			stat.append("Waiting for signal " + self.awaitingSignal)
+
+		if self.awaitingOS is not None:
+			stat.append("Waiting for Route " + self.awaitingOS + ":" + self.awaitingRte)
+
+		if len(stat) == 0:
+			if self.IsRunning():
+				return "Running  (" + self.blocks + ")"
+			elif self.sx is None:
+				return "Completed"
 			else:
-				return stat + ("Step %d" % sx)
+				return "??"
+		else:
+			return ", ".join(stat)
 
 	def Execute(self):
-		if self.script is None:
-			self.markCompleted(withError=True)
+		if self.IsRunning():
+			print("Script is already running")
 			return
 
-		self.sx = 0
+		self.sx = -1
 		self.timer = 0
 		self.executionCompleted = False
 		self.stopped = False
-		self.error = False
+		self.initial = False
+
+		self.frame.RefreshStatus(self.GetName())
 
 		self.run()
 
 	def markCompleted(self, withError=False):
 		self.error = withError
 		self.sx = None
-		self.tm = 1
+
 		self.executionCompleted = True
-		self.cbCompletion(self.scriptName)
+		self.frame.ScriptComplete(self.GetName())
 
 	def Stop(self):
 		self.stopped = True
@@ -118,138 +138,96 @@ class Script (wx.Frame):
 		return self.sx is not None and not self.stopped and not self.executionCompleted
 
 	def run(self):
-		while not self.stopped:
-			try:
-				step = self.script[self.sx]
-			except IndexError:
-				self.markCompleted()
-				while len(self.occupiedBlocks) > 1:
-					self.parent.Request({"removetrain": {"block": self.occupiedBlocks[0]}})
-					del(self.occupiedBlocks[0])
+		if self.executionCompleted:
+			return
+
+		if self.paused:
+			step = self.script[self.sx]
+			self.paused = self.CheckSignalAndRoute(step["os"], step["route"], step["signal"])
+			if self.paused:
 				return
+			self.CompleteOSAction()
+			self.BringUpRear()
+			return
 
-			self.sx += 1
-			cmd, params = list(step.items())[0]
-			if cmd == "placetrain":
-				try:
-					block = params["block"]
-					name = params["name"]
-					loco = params["loco"]
-				except KeyError:
-					self.markCompleted(withError=True)
-					return
+		if self.timer > 0:
+			self.timer -= self.timerInterval
 
-				try:
-					subblock = params["subblock"]
-				except KeyError:
-					subblock = block
+		if self.timer > 0:
+			# we haven't reached the next interval yet, just return
+			return
 
-				try:
-					direction = params["dir"] == "E"
-				except KeyError:
-					direction = True
+		self.sx += 1
+		if self.sx >= len(self.script):
+			self.BringUpRear(1)  # close up the train to a single block
+			self.markCompleted()
+			return
 
-				if self.trainlen is None:
-					try:
-						self.trainlen = int(params["length"])
-					except KeyError:
-						self.trainlen = 3
-
-				try:
-					duration = int(params["time"])
-				except KeyError:
-					duration = 1000
-
-				#if direction is not None:
-					#self.parent.Request({"blockdir": { "block": block, "dir": direction}})
-				req = {"movetrain": {"block": subblock}}
-				self.parent.Request(req)
-
-				time.sleep(0.500)
-				
-				req = {"settrain": {"blocks": [block], "name": name, "loco": loco, "east": "1" if direction else "0"}}
-				self.parent.Request(req)
-				self.ticker.StartOnce(duration * self.tm)
-
-				self.AddToOccupiedBlocks(subblock)
+		step = self.script[self.sx]
+		if "start" in step:
+			blk = step["start"][0]
+			self.occupiedBlocks.append(step["start"])
+			self.frame.MonitorBlock(blk, self)
+			self.layout.OccupyBlock(step["start"])
+			self.timer = step["time"] * self.tm
+		elif "blocks" in step:
+			self.occupiedBlocks.append(step["blocks"])
+			self.layout.OccupyBlock(step["blocks"])
+			self.timer = step["time"] * self.tm
+		elif "os" in step:
+			# {'os': 'BOSWE', 'route': 'BRtB20B21', 'signal': 'C24L', 'time': 5000}
+			self.paused = self.CheckSignalAndRoute(step["os"], step["route"], step["signal"])
+			if self.paused:
 				return
+			self.CompleteOSAction()
+		else:
+			self.markCompleted(withError=True)
 
-			elif cmd == "movetrain":
-				try:
-					block = params["block"]
-				except KeyError:
-					self.markCompleted(withError=True)
-					return
+		self.BringUpRear()
 
-				try:
-					duration = int(params["time"])
-				except KeyError:
-					duration = 1000
+	def BringUpRear(self, trlen=None):
+		if trlen is None:
+			trlen = self.trainlen
+		while len(self.occupiedBlocks) > trlen:
+			self.layout.OccupyBlock(self.occupiedBlocks[0], occupy=False)
+			self.occupiedBlocks = self.occupiedBlocks[1:]
 
-				self.parent.Request({"movetrain": {"block": block}})
-				self.ticker.StartOnce(duration * self.tm)
-				self.AddToOccupiedBlocks(block)
-				return
-
-			elif cmd == "wait":
-				self.ticker.StartOnce(params["duration"]*self.tm)
-				return
-
-			elif cmd == "waitfor":
-				self.pauseSignal = self.pauseBlock = self.pauseRoute = self.pauseOSBlk = None
-				if "signal" in params:
-					self.pauseSignal = params["signal"]
-				if "block" in params:
-					self.pauseBlock = params["block"]
-				if "route" in params:
-					self.pauseRoute = params["route"]
-					self.pauseOSBlk = params["os"]
-				if self.CheckPause():  # a return of True indicates we are blocked
-					self.parent.PauseScript(self)
-					return
-			
-			else:
-				logging.error("Unknown command in trafficgen script: (%s) - ignoring" % cmd)
-
-	def AddToOccupiedBlocks(self, bn):
-		self.occupiedBlocks.append(bn)
-		while len(self.occupiedBlocks) > self.trainlen:
-			self.parent.Request({"removetrain": {"block": self.occupiedBlocks[0]}})
-			del(self.occupiedBlocks[0])
-
-	def RemoveTrain(self):
-		for b in self.occupiedBlocks:
-			self.parent.Request({"removetrain": {"block": b}})
-		self.occupiedBlocks = []
-		self.sx = None
-		self.stopped = False
-		self.executionCompleted = False
-
-
-	def Resume(self):
-		logging.debug("resumption of script %s" % self.GetName())
-		self.run()
-
-	def onTicker(self, _):
-		self.run()
-
-	def CheckPause(self):
+	def CheckSignalAndRoute(self, osblk, rte, signm):
 		rv = False
-		w = []
-		if self.pauseSignal:
-			if self.parent.SignalAspect(self.pauseSignal) == 0:
-				w.append("Signal %s" % self.pauseSignal)
-				rv = True  # paused because signal is red
+		refresh = osblk != self.awaitingOS or rte != self.awaitingRte or signm != self.awaitingSignal
 
-		if self.pauseBlock:
-			if self.parent.BlockOccupied(self.pauseBlock):
-				rv = True   # paused because block is occupied
-				w.append("Block(s) occupied %s" % str(self.pauseBlock))
+		if self.frame.GetOSRoute(osblk) != rte:
+			self.awaitingOS = osblk
+			self.awaitingRte = rte
+			rv = True
+		else:
+			self.awaitingOS = None
+			self.awaitingRte = None
 
-		if self.pauseRoute and self.pauseOSBlk:
-			if self.parent.NotOSRoute(self.pauseOSBlk, self.pauseRoute):
-				rv = True  # paused because wrong route is selected
-				w.append("OS/Route %s/%s" % (self.pauseOSBlk, self.pauseRoute))
+		if self.frame.GetSignalAspect(signm) == 0:
+			self.awaitingSignal = signm
+			rv = True
+		else:
+			self.awaitingSignal = None
 
-		self.waitingFor = ", ".join(w)
+		if refresh:
+			self.frame.RefreshStatus(self.GetName())
 		return rv
+
+	def CompleteOSAction(self):
+		step = self.script[self.sx]
+		self.occupiedBlocks.append([step["os"]])
+		self.layout.OccupyBlock([step["os"]])
+		self.timer = step["time"] * self.tm
+
+	def ReportTrainInBlock(self, trid, parms):
+
+		self.layout.ModifyTrain(trid, self.GetName(), parms["east"], self.loco)
+		self.frame.MonitorTrain(trid, self)
+
+	def ReportTrain(self, trid, parms):
+		self.blocks = ", ".join(reversed(parms["blocks"]))
+		self.frame.RefreshStatus(self.GetName())
+
+	def Ticker(self):
+		self.run()

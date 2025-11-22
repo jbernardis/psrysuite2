@@ -8,6 +8,11 @@ class TrainParmDlg(wx.Dialog):
 		self.SetTitle("Edit Starting Trains Parameters")
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
 
+		for t, tinfo in trainlist.items():
+			print("%s: %s" % (t, str(tinfo)))
+		print("=======================================", flush=True)
+
+
 		vsz = wx.BoxSizer(wx.VERTICAL)
 		vsz.AddSpacer(20)
 
@@ -133,7 +138,10 @@ class ParmListCtrl(wx.ListCtrl):
 
 	def OnGetItemText(self, item, col):
 		tr = self.trains[item]
-		return str(tr[col])
+		if col == 2:
+			return "%5.1f" % tr[2]
+		else:
+			return str(tr[col])
 
 	def OnGetItemAttr(self, item):
 		if item % 2 == 1:
@@ -172,8 +180,8 @@ class SingleTrainDlg(wx.Dialog):
 		st = wx.StaticText(self, wx.ID_ANY, "Time Multiple:", size=(100, -1))
 		hsz.Add(st)
 		hsz.AddSpacer(10)	
-		self.scTime = wx.SpinCtrl(self, -1, "%d" % self.tm)
-		self.scTime.SetRange(1,10)
+
+		self.scTime = wx.SpinCtrlDouble(self, wx.ID_ANY, min=0.2, max=2, initial=self.tm, inc=0.05)
 		self.scTime.SetValue(self.tm)
 		hsz.Add(self.scTime)
 		vsz.Add(hsz)

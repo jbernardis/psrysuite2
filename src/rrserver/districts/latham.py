@@ -146,6 +146,17 @@ class Latham(District):
 			sbe = self.rr.AddBlock("N25.E",    self, n, addr, [(2, 5)], False)
 			b.AddStoppingBlocks([sbe, sbw])
 
+	def BlockOccupancyChange(self, rr, obj, val):
+		exbn = obj.MainBlockName()
+		if obj.Name() == "S21.E" and not obj.IsEast():
+			sig = rr.GetSignal("N20W")
+			osName = rr.DetermineSignalOS("N20W")
+			osBlk = rr.GetOSBlock(osName)
+			if sig.Aspect() != 0 and sig.Fleeted():
+				rr.AddPendingFleetAction(exbn, sig, osBlk, None)
+				sig.SetAspect(0)
+				rr.RailroadEvent((sig.GetEventMessage()))
+
 	def DelayedStartup(self):
 		District.DelayedStartup(self)
 		

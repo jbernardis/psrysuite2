@@ -1,3 +1,17 @@
+debug identification of controlling signal
+when the aspect changes on a signal that is controlling a train, that train needs to be updated to the displays
+
+block signals
+
+Traffic Gen
+
+ATC
+AR
+
+
+Layout of buttons - move individual snapshot buttons onto main display
+
+
 remove excessive debugging
 
 
@@ -6,21 +20,16 @@ Hyde power buttons
 
 add locales to event/advice messages - all, None, locale only
 
-block signals
-
 
 trains - all things
-    active trains - still need throttle, time, and filters
+    active trains - still need throttle, time
     edit dialog box (verify display of tracker info)
 
 to be fixed in monitor:
-    move trains
     neutralize all signals
 
 inspection dialog
     log level
-    debug flags
-        block occupancy
     os proxies
     node status
     Sig levers
@@ -35,20 +44,7 @@ inspection dialog
 
 cliff release button???
 
-lost trains
-preloaded
-history
-
- snapshots
-    take
-    restore
-
- save trains
- save locos
- load trains
- load locos
- clear trains  -  do we even need these?????
-
+manage preloaded dialog
 
  Reloading data - trains, engineers, locos, etc
 

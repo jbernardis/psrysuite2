@@ -5,6 +5,7 @@ import json
 import sys
 
 import re
+import logging
 
 from monitor.getbitsdlg import GetBitsDlg
 from monitor.setinputbitsdlg import SetInputBitsDlg
@@ -705,29 +706,11 @@ class MainFrame(wx.Frame):
 			dlg.Destroy()
 			return
 
-		self.trains = self.rrServer.Get("activetrains", {})
-		self.UpdateBlocks()
-		nb, eb, msg = self.IdentifyNextBlock(self.trains[self.trainNames[tx]])
-		rear = self.cbRear.IsChecked()
+		tr = self.trains[self.trainNames[tx]]
+		rear = 1 if self.cbRear.IsChecked() else 0
+		fwd = 1 if self.cbForward.IsChecked() else 0
 
-		if nb is None:
-			dlg = wx.MessageDialog(self, "Unable to determine next block",
-				msg, wx.OK | wx.ICON_INFORMATION)
-			dlg.ShowModal()
-			dlg.Destroy()
-			return
-		else:
-			self.Request({"simulate": {"action": "occupy", "block": nb, "state": 1}})
-			self.blockOccupied[nb] = True
-
-			if rear:
-				self.Request({"simulate": {"action": "occupy", "block": eb, "state": 0}})
-				self.blockOccupied[eb] = False
-
-	def UpdateBlocks(self):
-		blocks = self.rrServer.Get("getblocks", {})
-		for bname, binfo in blocks.items():
-			self.blockOccupied[bname] = binfo.get("occupied", 0) == 1
+		self.Request({"trainmove": {"train": tr["iname"], "forward": fwd, "rear": rear}})
 
 	def OnRear(self, _):
 		tx = self.chTrain.GetSelection()
@@ -738,27 +721,8 @@ class MainFrame(wx.Frame):
 			dlg.Destroy()
 			return
 
-		self.trains = self.rrServer.Get("activetrains", {})
 		tr = self.trains[self.trainNames[tx]]
-		order = self.ExpandTrainBlockList(tr)
-		if order is None:
-			dlg = wx.MessageDialog(self,
-					"Train %s does not occupy any blocks" % self.trainNames[tx],
-					"Train occupies no blocks", wx.OK | wx.ICON_INFORMATION)
-			dlg.ShowModal()
-			dlg.Destroy()
-			return
-
-		east = tr["east"]
-		moveEast = east	if self.cbForward.IsChecked() else not east
-
-		if moveEast:
-			endBlock = order[-1 if east else 0]
-		else:
-			endBlock = order[0 if east else -1]
-
-		self.Request({"simulate": {"action": "occupy", "block": endBlock, "state": 0}})
-		self.blockOccupied[endBlock] = False
+		self.Request({"trainmove": {"train": tr["iname"], "rearonly": 1}})
 
 	def OnRefreshTrains(self, _):
 		self.trains = self.rrServer.Get("activetrains", {})
@@ -766,125 +730,125 @@ class MainFrame(wx.Frame):
 		self.chTrain.SetItems(self.trainNames)
 		self.chTrain.SetSelection(wx.NOT_FOUND if len(self.trainNames) == 0 else 0)
 
-	def IdentifyNextBlock(self, tr):
-		self.layout = LayoutData(self.rrServer)
-		print("identify next block for train %s east %s" % (str(tr), tr["east"]))
-		blocks = list(reversed(tr["blockorder"]))
-		print("initial list of blocks: %s" % str(blocks))
-		if len(blocks) == 0:
-			return None, None, "Train does not occupy any blocks"
-
-		east = tr["east"]
-		moveEast = east	if self.cbForward.IsChecked() else not east
-		print("moving east: %s" % str(moveEast))
-
-		order = self.ExpandTrainBlockList(tr)
-		if order is None:
-			return None, None, "Train does not occupy any blocks"
-
-		print("expanded list of blocks: %s" % str(order))
-
-		if moveEast:
-			startBlock = order[0 if east else -1]
-			endBlock = order[-1 if east else 0]
-		else:
-			startBlock = order[-1 if east else 0]
-			endBlock = order[0 if east else -1]
-
-		print("start block %s end block %s" % (startBlock, endBlock))
-
-		if startBlock.endswith(".W") and moveEast:
-			return startBlock[:-2], endBlock, ""
-
-		elif startBlock.endswith(".E") and not moveEast:
-			return startBlock[:-2], endBlock, ""
-
-		elif startBlock.endswith(".W") or startBlock.endswith(".E"):
-			startBlock = startBlock[:-2]
-
-		else:
-			sbe, sbw = self.layout.GetStopBlocks(startBlock)
-			if moveEast:
-				if sbe and not self.BlockOccupied(sbe):
-					return sbe, endBlock, ""
-			else:
-				if sbw and not self.BlockOccupied(sbw):
-					return sbw, endBlock, ""
-
-		availableBlocks = self.GetAvailableBlocks(startBlock, moveEast)
-		print("available blocks returned: %s" % str(availableBlocks))
-		routes = self.rrServer.Get("getroutes", {})
-		print("routes: %s" % str(routes))
-		if len(availableBlocks) == 0:  # This is an OS we are looking at
-			print("we are inside an OS looking for the next block")
-			try:
-				rt = routes[startBlock]
-			except KeyError:
-				rt = None
-
-			print("current route through OS = %s" % rt)
-
-			# this is the list of blocks in the direction we are headed
-			dirBlocks = self.blockOsMap.GetBlockList(startBlock, moveEast)
-			print("dirblocks from %s = %s" % (startBlock, str(dirBlocks)))
-			if rt:
-				discarded = []
-				ends = rt[1]
-				for end in ends:
-					print("look to see if %s is in (%s)" % (end, str(dirBlocks)))
-					if end not in dirBlocks:
-						print("discarding %s" % end)
-						discarded.append(end)
-				nends = [e for e in ends if e not in discarded]
-				if len(nends) == 0:
-					return None, None, "All possible endpoints eliminated for block %s: %s" % (startBlock, str(ends))
-				if len(nends) > 1:
-					return None, None, "Multiple endpoints remain for block %s: %s" % (startBlock, str(nends))
-
-				nb = nends[0]
-				if CrossingEastWestBoundary(startBlock, nb):
-					moveEast = not moveEast
-					tr["east"] = not tr["east"]
-
-				sbe, sbw = self.layout.GetStopBlocks(nb)
-				if moveEast and sbw:
-					nb = sbw
-				elif not moveEast and sbe:
-					nb = sbe
-				print("returning blocks start: %s   end: %s" % (nb, endBlock))
-				return nb, endBlock, ""
-
-		print("we are past all of the OS logic")
-		bl = []
-		for ab, sig, osb, rte in availableBlocks:
-			r = routes[osb][0]
-			print("looking for a match for os %s route %s <=> %s" % (osb, rte, r))
-			if r == rte:
-				if osb == "KOSN10S11":
-					if moveEast:
-						osb = "N10.W"
-					else:
-						osb = "S11.E"
-				elif osb == "KOSN20S21":
-					if moveEast:
-						osb = "N20.W"
-					else:
-						osb = "S21.E"
-
-				print("adding %s to prospects" % osb)
-				bl.append(osb)
-			else:
-				print("skipping os %s because of route %s != %s" % (osb, r, rte))
-
-		print("final list of blocks: %s" % str(bl))
-		if len(bl) == 0:
-			return None, None, "Unable to identify next block"
-
-		if len(bl) > 1:
-			return None, None, "Multiple next blocks to choose from: %s" % ", ".join(bl)
-
-		print("returning blocks start: %s  end: %s" % (bl[0], endBlock))
-		return bl[0], endBlock, ""
+	# def IdentifyNextBlock(self, tr):
+	# 	self.layout = LayoutData(self.rrServer)
+	# 	print("identify next block for train %s east %s" % (str(tr), tr["east"]))
+	# 	blocks = list(reversed(tr["blockorder"]))
+	# 	print("initial list of blocks: %s" % str(blocks))
+	# 	if len(blocks) == 0:
+	# 		return None, None, "Train does not occupy any blocks"
+	#
+	# 	east = tr["east"]
+	# 	moveEast = east	if self.cbForward.IsChecked() else not east
+	# 	print("moving east: %s" % str(moveEast))
+	#
+	# 	order = self.ExpandTrainBlockList(tr)
+	# 	if order is None:
+	# 		return None, None, "Train does not occupy any blocks"
+	#
+	# 	print("expanded list of blocks: %s" % str(order))
+	#
+	# 	if moveEast:
+	# 		startBlock = order[0 if east else -1]
+	# 		endBlock = order[-1 if east else 0]
+	# 	else:
+	# 		startBlock = order[-1 if east else 0]
+	# 		endBlock = order[0 if east else -1]
+	#
+	# 	print("start block %s end block %s" % (startBlock, endBlock))
+	#
+	# 	if startBlock.endswith(".W") and moveEast:
+	# 		return startBlock[:-2], endBlock, ""
+	#
+	# 	elif startBlock.endswith(".E") and not moveEast:
+	# 		return startBlock[:-2], endBlock, ""
+	#
+	# 	elif startBlock.endswith(".W") or startBlock.endswith(".E"):
+	# 		startBlock = startBlock[:-2]
+	#
+	# 	else:
+	# 		sbe, sbw = self.layout.GetStopBlocks(startBlock)
+	# 		if moveEast:
+	# 			if sbe and not self.BlockOccupied(sbe):
+	# 				return sbe, endBlock, ""
+	# 		else:
+	# 			if sbw and not self.BlockOccupied(sbw):
+	# 				return sbw, endBlock, ""
+	#
+	# 	availableBlocks = self.GetAvailableBlocks(startBlock, moveEast)
+	# 	print("available blocks returned: %s" % str(availableBlocks))
+	# 	routes = self.rrServer.Get("getroutes", {})
+	# 	print("routes: %s" % str(routes))
+	# 	if len(availableBlocks) == 0:  # This is an OS we are looking at
+	# 		print("we are inside an OS looking for the next block")
+	# 		try:
+	# 			rt = routes[startBlock]
+	# 		except KeyError:
+	# 			rt = None
+	#
+	# 		print("current route through OS = %s" % rt)
+	#
+	# 		# this is the list of blocks in the direction we are headed
+	# 		dirBlocks = self.blockOsMap.GetBlockList(startBlock, moveEast)
+	# 		print("dirblocks from %s = %s" % (startBlock, str(dirBlocks)))
+	# 		if rt:
+	# 			discarded = []
+	# 			ends = rt[1]
+	# 			for end in ends:
+	# 				print("look to see if %s is in (%s)" % (end, str(dirBlocks)))
+	# 				if end not in dirBlocks:
+	# 					print("discarding %s" % end)
+	# 					discarded.append(end)
+	# 			nends = [e for e in ends if e not in discarded]
+	# 			if len(nends) == 0:
+	# 				return None, None, "All possible endpoints eliminated for block %s: %s" % (startBlock, str(ends))
+	# 			if len(nends) > 1:
+	# 				return None, None, "Multiple endpoints remain for block %s: %s" % (startBlock, str(nends))
+	#
+	# 			nb = nends[0]
+	# 			if CrossingEastWestBoundary(startBlock, nb):
+	# 				moveEast = not moveEast
+	# 				tr["east"] = not tr["east"]
+	#
+	# 			sbe, sbw = self.layout.GetStopBlocks(nb)
+	# 			if moveEast and sbw:
+	# 				nb = sbw
+	# 			elif not moveEast and sbe:
+	# 				nb = sbe
+	# 			print("returning blocks start: %s   end: %s" % (nb, endBlock))
+	# 			return nb, endBlock, ""
+	#
+	# 	print("we are past all of the OS logic")
+	# 	bl = []
+	# 	for ab, sig, osb, rte in availableBlocks:
+	# 		r = routes[osb][0]
+	# 		print("looking for a match for os %s route %s <=> %s" % (osb, rte, r))
+	# 		if r == rte:
+	# 			if osb == "KOSN10S11":
+	# 				if moveEast:
+	# 					osb = "N10.W"
+	# 				else:
+	# 					osb = "S11.E"
+	# 			elif osb == "KOSN20S21":
+	# 				if moveEast:
+	# 					osb = "N20.W"
+	# 				else:
+	# 					osb = "S21.E"
+	#
+	# 			print("adding %s to prospects" % osb)
+	# 			bl.append(osb)
+	# 		else:
+	# 			print("skipping os %s because of route %s != %s" % (osb, r, rte))
+	#
+	# 	print("final list of blocks: %s" % str(bl))
+	# 	if len(bl) == 0:
+	# 		return None, None, "Unable to identify next block"
+	#
+	# 	if len(bl) > 1:
+	# 		return None, None, "Multiple next blocks to choose from: %s" % ", ".join(bl)
+	#
+	# 	print("returning blocks start: %s  end: %s" % (bl[0], endBlock))
+	# 	return bl[0], endBlock, ""
 
 	def ExpandTrainBlockList(self, tr):
 		blocks = list(reversed(tr["blockorder"]))
@@ -973,6 +937,16 @@ class MainFrame(wx.Frame):
 	def OnClearBreakers(self, _):
 		self.ClearAllBreakers()
 
+	def SetInitialConditions(self):
+		self.ClearAllBreakers()
+		# set nassau coach yard to track A
+		bi = self.iobits["routesin"]["NSw60A"]["status"]
+		if len(bi[0]) > 0:
+			byte = bi[0][0][0]
+			bit = bi[0][0][1]
+			nodeaddress = bi[1]
+			self.Request({"setinbit": {"address": "0x%x" % nodeaddress, "byte": [byte], "bit": [bit], "value": [1]}})
+
 	def ClearAllBreakers(self):
 		script = []
 		for bname in self.iobits["breakers"].keys():
@@ -984,6 +958,7 @@ class MainFrame(wx.Frame):
 			bit = bi[0][0][1]
 			nodeaddress = bi[1]
 			script.append({"setinbit": {"address": "0x%x" % nodeaddress, "byte": [byte], "bit": [bit], "value": [1]}})
+
 
 		for s in script:
 			self.Request(s)
@@ -1738,7 +1713,7 @@ class MainFrame(wx.Frame):
 			self.chHSUnlock.SetSelection(0)
 
 			if self.connected:
-				self.ClearAllBreakers()
+				self.SetInitialConditions()
 
 		self.EnableButtons(self.connected)			
 		return self.connected
