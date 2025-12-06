@@ -14,7 +14,7 @@ class Krulish (District):
 	def SetAspect(self, sig, aspect, refresh=False):
 		District.SetAspect(self, sig, aspect, refresh)
 		signm = sig.GetName()
-		self.frame.PopupAlert("In krulish set aspect")
+		self.frame.PopupEvent("In krulish set aspect")
 
 		if signm == "N10W":
 			if aspect == 0:
@@ -42,7 +42,7 @@ class Krulish (District):
 			self.frame.DrawTile(self.screen, (124, 24), bmp)
 			
 		if signm in ["K2R", "K4R", "K8R"]:
-			self.frame.PopupAlert("its one of those signals")
+			self.frame.PopupEvent("its one of those signals")
 		# 	self.CheckBlockSignals("N11", "N11W", False)
 		# 	self.CheckBlockSignals("N21", "N21W", False)
 	

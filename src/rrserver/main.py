@@ -240,7 +240,10 @@ class ServerMain:
 		self.socketServer.sendToOne(skt, addr, {"end": {"type": "trains"}})
 
 	def rrEventReceipt(self, cmd):
-		self.socketServer.sendToAll(cmd)
+		try:
+			self.socketServer.sendToAll(cmd)
+		except AttributeError:
+			pass
 
 	def dispCommandReceipt(self, cmd): # thread context
 		#logging.info("HTTP Event: %s" % str(cmd))
@@ -428,10 +431,28 @@ class ServerMain:
 			callon = int(cmd["callon"][0]) == 1
 		except (IndexError, KeyError):
 			callon = False
+		try:
+			wantedaspect = int(cmd["wantedaspect"][0])
+		except (IndexError, KeyError):
+			wantedaspect = None
 
 		if signame is None:
 			logging.error("Signal command without name parameter")
 			return
+
+		if wantedaspect is not None:
+			# do nothing if the current aspect is what we want
+			sig = self.rr.GetSignal(signame)
+			if sig is None:
+				logging.error("Signal command with unknown signal: %s" % signame)
+				return
+
+			a = sig.Aspect()
+			if wantedaspect == 0 and a == 0:
+				return
+			if wantedaspect != 0 and a != 0:
+				return
+
 	
 		self.rr.SignalClick(signame, callon=callon)
 

@@ -25,7 +25,6 @@ class District:
 		pass
 
 	def CheckTurnoutLocks(self, turnouts):
-		print("in default checkswitchlocks")
 		return []
 
 	def EvaluateDistrictLocks(self, sig, ossLocks=None):

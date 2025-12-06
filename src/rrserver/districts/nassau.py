@@ -4,6 +4,7 @@ from rrserver.district import District
 from rrserver.constants import  NASSAUW, NASSAUE, NASSAUNX
 from rrserver.node import Node
 
+
 class Nassau(District):
 	def __init__(self, rr, name, settings):
 		District.__init__(self, rr, name, settings)
@@ -364,39 +365,28 @@ class Nassau(District):
 			return [], []
 
 	def EvaluateDistrictLocks(self, sig, ossLocks=None):
-		logging.debug("enter evaluate district locks - Nassau")
 		rt, osblk = self.rr.FindRoute(sig)
 		osblknm = osblk.Name()
-		logging.debug("Route: %s osblk: %s" % (str(rt), osblknm))
 
 		if osblknm in self.NWBlocks:
-			logging.debug("os in W: %s" % str(self.NWBlocks))
 			lock = [False, False, False, False]
 			for blknm in self.NWBlocks:
-				logging.debug("inner loop for block %s" % blknm)
 				blk = self.rr.blocks[blknm]
 				osblk = self.rr.osblocks[blknm]
 				rt = osblk.ActiveRoute()
 				if rt is None:
-					logging.debug("active route is None")
 					continue
 				sigs = rt.Signals()
 				bLock = [False, False, False, False]
-				if blk.IsCleared():
-					logging.debug("block is cleared")
+				if blk.IsCleared() or blk.IsOccupied():
 					for s in sigs:
-						logging.debug("considering signal %s" % str(s))
 						if s.startswith("N20"):
-							logging.debug("N20 true")
 							bLock[0] = True
 						elif s.startswith("N18"):
-							logging.debug("N18 true")
 							bLock[1] = True
 						elif s.startswith("N16"):
-							logging.debug("N16 true")
 							bLock[2] = True
 						elif s.startswith("N14"):
-							logging.debug("N14 true")
 							bLock[3] = True
 					if bLock[0] and bLock[3]:
 						bLock[1] = bLock[2] = True
@@ -405,7 +395,6 @@ class Nassau(District):
 					elif bLock[1] and bLock[3]:
 						bLock[2] = True
 				lock = [a or b for a, b in zip(lock, bLock)]
-				logging.debug("lock = %s" % str(lock))
 
 			lv = [1 if x else 0 for x in lock]
 			self.rr.SetDistrictLock("NWSL", lv)
@@ -420,7 +409,7 @@ class Nassau(District):
 					continue
 				sigs = rt.Signals()
 				bLock = [False, False, False]
-				if blk.IsCleared():
+				if blk.IsCleared() or blk.IsOccupied():
 					for s in sigs:
 						if s.startswith("N28"):
 							bLock[0] = True

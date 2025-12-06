@@ -22,7 +22,7 @@ class Nassau (District):
 	def SetAspect(self, sig, aspect, refresh=False):
 		District.SetAspect(self, sig, aspect, refresh)
 		signm = sig.GetName()
-		self.frame.PopupAlert("In nassau set aspect %s" % signm)
+		self.frame.PopupEvent("In nassau set aspect %s" % signm)
 
 	def DoSignalLeverAction(self, signame, state, callon, silent=1, source=None):
 		if source == 'ctc':
@@ -208,7 +208,6 @@ class Nassau (District):
 		return False
 
 	def SignalClick(self, sig, callon=False, silent=False):
-		self.frame.PopupEvent("Nassau signal click")
 		controlOpt = self.frame.nassauControl
 		if controlOpt == 0:  # nassau local control
 			self.frame.PopupEvent("Nassau control is local")

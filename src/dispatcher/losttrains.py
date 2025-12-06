@@ -69,7 +69,12 @@ class LostTrains:
 			return False
 			
 		return True
-	
+
+	def Clear(self):
+		self.trains = {}
+		self.branchLineW = None
+		self.branchLineE = None
+
 	def GetTrain(self, tid):
 		if tid is None or tid not in self.trains:
 			return None
@@ -469,16 +474,27 @@ class LostTrainsRecoveryDlg(wx.Dialog):
 		hsz.Add(vszr, 1)
 		
 		vsz.Add(hsz, 0, wx.ALIGN_CENTER_HORIZONTAL)
-		
-		vsz.AddSpacer(30)
-		
+
+		vsz.AddSpacer(10)
+
 		hsz = wx.BoxSizer(wx.HORIZONTAL)
-		
+
+		self.bClear = wx.Button(self, wx.ID_ANY, "Clear", size=BSIZE)
+		self.bClear.SetToolTip("Clear ALL lost trains and exit")
+		self.Bind(wx.EVT_BUTTON, self.OnBClear, self.bClear)
+		hsz.Add(self.bClear)
+
+		vsz.Add(hsz, 0, wx.ALIGN_CENTER_HORIZONTAL)
+
+		vsz.AddSpacer(20)
+
+		hsz = wx.BoxSizer(wx.HORIZONTAL)
+
 		self.bOK = wx.Button(self, wx.ID_ANY, "OK", size=BSIZE)
 		self.bOK.SetToolTip("Recover the selected trains")
-		self.Bind(wx.EVT_BUTTON, self.OnBOK, self.bOK)		
+		self.Bind(wx.EVT_BUTTON, self.OnBOK, self.bOK)
 		hsz.Add(self.bOK)
-		
+
 		hsz.AddSpacer(20)
 		
 		self.bCancel = wx.Button(self, wx.ID_ANY, "Cancel", size=BSIZE)
@@ -518,9 +534,11 @@ class LostTrainsRecoveryDlg(wx.Dialog):
 		n = len(checkedItems)
 		if n == 0:
 			self.bOK.Enable(False)
+			self.bClear.Enable(False)
 		else:
 			self.bOK.Enable(True)
-			
+			self.bClear.Enable(True)
+
 	def OnBAll(self, _):
 		self.ch.SetCheckedItems(range(len(self.choices)))
 		self.bOK.Enable(True)
@@ -546,6 +564,16 @@ class LostTrainsRecoveryDlg(wx.Dialog):
 		
 	def OnBWaterman(self, _):
 		self.ApplyBlockFilter(["Y81", "Y82", "Y83", "Y84"])
+
+	def OnBClear(self, _):
+		dlg = wx.MessageDialog(self, 'This clears all lost trains.  Are you sure you want to continue?\nPress "Yes" to confirm,\nor "No" to cancel.',
+				'Clear Lost Trains', wx.YES_NO | wx.ICON_WARNING)
+		rc = dlg.ShowModal()
+		dlg.Destroy()
+		if rc != wx.ID_YES:
+			return
+
+		self.EndModal(wx.ID_CLEAR)
 		
 	def OnBOK(self, _):
 		self.EndModal(wx.ID_OK)

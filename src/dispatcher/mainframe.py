@@ -148,6 +148,7 @@ class MainFrame(wx.Frame):
 		self.subscribed = False
 		self.ATCEnabled = False
 		self.AREnabled = False
+		self.ARProc = None
 		self.pidATC	= None
 		self.procATC = None
 		self.OSSLocks = True
@@ -777,10 +778,18 @@ class MainFrame(wx.Frame):
 	def OnCBAutoRouter(self, evt):
 		self.AREnabled = self.cbAutoRouter.IsChecked()
 		if self.AREnabled:
-			rqStatus = "on"
+			ARExec = os.path.join(os.getcwd(), "autorouter", "main.py")
+			self.ARProc = Popen([sys.executable, ARExec])
+
+			logging.info("Autorouter started as PID %d" % self.ARProc.pid)
 		else:
-			rqStatus = "off"
-		self.Request({"autorouter": { "status": rqStatus}})
+			if self.ARProc is not None:
+				try:
+					self.ARProc.kill()
+				except:
+					pass
+
+			self.ARProc = None
 
 	def OnCBATC(self, evt):
 		# ATC must run on the same machine as this dispatcher because it has a windowing interface
@@ -1489,7 +1498,7 @@ class MainFrame(wx.Frame):
 
 		if self.IsDispatcher():
 			if self.ATCEnabled:
-				if tr.IsOnATC():
+				if tr.ATC():
 					menu.AppendSeparator()
 
 					itm = wx.MenuItem(menu, MENU_ATC_REMOVE, "Remove from ATC")
@@ -1513,7 +1522,7 @@ class MainFrame(wx.Frame):
 			if self.AREnabled:
 				menu.AppendSeparator()
 
-				if tr.IsOnAR():
+				if tr.AR():
 					itm = wx.MenuItem(menu, MENU_AR_REMOVE, "Remove from Auto Router")
 					itm.SetFont(self.menuFont)
 					menu.Append(itm)
@@ -1940,6 +1949,8 @@ class MainFrame(wx.Frame):
 
 		parms = {"iname": tr.IName(), "name": trainid, "loco": locoid, "template": templateTrain, "east": "1" if east else "0", "engineer": engineer}
 
+		self.Request({"modifytrain": parms})
+
 		# if self.IsDispatcher() and atc != oldATC:
 		# 	if self.VerifyTrainID(trainid) and self.VerifyLocoID(locoid):
 		# 		parms.update({"action": "add" if atc else "remove", "train": trainid, "loco": locoid})
@@ -1947,8 +1958,6 @@ class MainFrame(wx.Frame):
 		# if self.IsDispatcher() and ar != oldAR:
 		# 	if self.VerifyTrainRoute(trainid):
 		# 		parms.update({"action": "add" if ar else "remove", "train": trainid})
-
-		self.Request({"modifytrain": parms})
 	#
 	# def SendTrainBlockOrder(self, tr):
 	# 	self.Request({"trainblockorder": tr.GetBlockOrder()})
@@ -1986,41 +1995,47 @@ class MainFrame(wx.Frame):
 		# self.activeTrains.AddTrain(newTr)
 
 	def RecoverLostTrains(self):
-		self.PopupEvent("Recover lost trains")
-		# ltList = self.lostTrains.GetList()
-		# recoverable = []
-		# for trid, locoid, engineer, east, block, route in ltList:
-		# 	if self.blocks[block].HasUnknownTrain():
-		# 		recoverable.append([trid, locoid, engineer, east, block, route])
-		#
-		# if len(recoverable) == 0:
-		# 	self.PopupAdvice("No trains to recover")
-		# 	return
-		#
-		# dlg = LostTrainsRecoveryDlg(self, recoverable)
-		# rc = dlg.ShowModal()
-		# if rc == wx.ID_OK:
-		# 	torecover = dlg.GetResult()
-		#
-		# dlg.Destroy()
-		# if rc != wx.ID_OK:
-		# 	return
-		#
-		# for trid, locoid, engineer, east, block, route in torecover:
-		# 	if self.blocks[block].HasUnknownTrain():
-		# 		tr = self.blocks[block].GetTrain()
-		# 		oldName, oldLoco = tr.GetNameAndLoco()
-		# 		oldRoute = tr.GetChosenRoute()
-		# 		self.PopupAdvice("Recovering train %s/%s in block %s.  Assign to %s" % (trid, locoid, block, engineer))
-		# 		self.Request({"renametrain": { "oldname": oldName, "newname": trid, "oldloco": oldLoco, "newloco": locoid, "oldroute": oldRoute, "newroute": route, "east": "1" if east else "0", "context": "recover"}})
-		#
-		# 		tr.SetEngineer(engineer)
-		# 		self.activeTrains.UpdateTrain(trid)
-		# 		parms = {"train": trid, "reassign": 0, "engineer": engineer}
-		# 		req = {"assigntrain": parms}
-		# 		self.Request(req)
-		#
-		# 		self.lostTrains.Remove(trid)
+		ltList = self.lostTrains.GetList()
+		recoverable = []
+		torecover = []
+		for trid, locoid, engineer, east, block in ltList:
+			if self.blocks[block].HasUnknownTrain():
+				recoverable.append([trid, locoid, engineer, east, block])
+
+		if len(recoverable) == 0:
+			self.PopupAdvice("No trains to recover")
+			return 
+				
+		dlg = LostTrainsRecoveryDlg(self, recoverable)
+		rc = dlg.ShowModal()
+		if rc == wx.ID_OK:
+			torecover = dlg.GetResult()
+
+		dlg.Destroy()
+
+		if rc == wx.ID_CLEAR:
+			self.lostTrains.Clear()
+			return
+
+		if rc != wx.ID_OK:
+			return 
+		
+		for trid, locoid, engineer, east, block in torecover:
+			if self.blocks[block].HasUnknownTrain():
+				tr = self.blocks[block].GetTrain()
+				iname = tr.IName()  # iname comes from the "unknown" train we are replacing
+				if trid in self.trainRoster:
+					try:
+						template = self.trainRoster[trid]["template"]
+					except KeyError:
+						template = None
+				else:
+					template = None
+				trname = trid + ("" if template is None else ("("+template+")"))
+				self.PopupAdvice("Recovering train %s loco %s in block %s.  Assign to %s" % (trname, locoid, block, engineer))
+				parms = {"iname": tr.IName(), "name": trid, "loco": locoid, "template": template, "east": east, "engineer": engineer}
+				self.Request({"modifytrain": parms})
+				self.lostTrains.Remove(trid)
 						
 	def ShowTurnoutInfo(self, to):
 		if to.GetType() == SLIPSWITCH:
@@ -2715,7 +2730,6 @@ class MainFrame(wx.Frame):
 	# 		tout.SetLock(state, refresh=True)
 
 	def DoCmdDistrictLock(self, parms):
-		self.PopupEvent("district lock: %s" % str(parms))
 		for lname, lvalue in parms.items():
 			if lname in self.dlocks:
 				self.dlocks[lname].DoDistrictLocks(lname, lvalue)
@@ -4575,6 +4589,12 @@ class MainFrame(wx.Frame):
 			self.listener.join()
 		except:
 			pass
+
+		if self.ARProc:
+			try:
+				self.ARProc.kill()
+			except:
+				pass
 		
 		if killServer:
 			try:

@@ -281,6 +281,7 @@ class Block:
 		return self.east != self.normalEast
 
 	def Reset(self):
+		logging.debug("+++++++Resetting block %s" % self.Name())
 		self.east = self.normalEast
 	
 	def SetStatus(self, stat):
@@ -352,6 +353,9 @@ class Block:
 		return self.IsOccupied() or self.IsCleared()
 
 	def SetNextWest(self, blk):
+		if self.name == "B10":
+			logging.debug("Setting Next West of B10 to %s" % ("None" if blk is None else blk.Name()))
+
 		self.nextBlockWest = blk
 
 	def GetNextWest(self):
@@ -394,6 +398,9 @@ class Block:
 		return blk
 
 	def SetNextEast(self, blk):
+		if self.name == "B10":
+			logging.debug("Setting Next East of B10 to %s" % ("None" if blk is None else blk.Name()))
+			logging.debug("block direction: %s" % self.east)
 		self.nextBlockEast = blk
 
 	def NextDetectionSectionEast(self):
@@ -635,41 +642,55 @@ class OSBlock:
 		self.activeRoute = rt
 		self.activeRouteName = rt.Name()
 		# each of the two ends of the route need to point back to this OS block
-		ar = self.activeRoute
-		nxtEast = ar.NextBlockEast()
-		if nxtEast is not None:
-			if CrossingEastWestBoundary(nxtEast, self):
-				nxtEast.SetNextEast(self)
-				if nxtEast.Name() == "P50":
-					nxtEast.Dump()
-					for sb in nxtEast.StoppingBlocks():
-						if sb is not None:
-							sb.Dump()
-			else:
-				nxtEast.SetNextWest(self)
-				if nxtEast.Name() == "P50":
-					nxtEast.Dump()
-					for sb in nxtEast.StoppingBlocks():
-						if sb is not None:
-							sb.Dump()
-
-		nxtWest = ar.NextBlockWest()
-		if nxtWest is not None:
-			if CrossingEastWestBoundary(nxtWest, self):
-				nxtWest.SetNextWest(self)
-				if nxtWest.Name() == "P50":
-					nxtWest.Dump()
-					for sb in nxtWest.StoppingBlocks():
-						if sb is not None:
-							sb.Dump()
-			else:
-				nxtWest.SetNextEast(self)
-				if nxtWest.Name() == "P50":
-					nxtWest.Dump()
-					for sb in nxtWest.StoppingBlocks():
-						if sb is not None:
-							sb.Dump()
-
+		# ar = self.activeRoute
+		# nxtEast = ar.NextBlockEast()
+		# if dbg:
+		# 	logging.debug("nxtEast = %s" % ("None" if nxtEast is None else nxtEast.Name()))
+		# if nxtEast is not None:
+		# 	if CrossingEastWestBoundary(nxtEast, self):
+		# 		if dbg:
+		# 			logging.debug("CEW: settings next east of %s to %s" % (nxtEast.Name(), self.Name()))
+		# 		nxtEast.SetNextEast(self)
+		# 		if nxtEast.Name() == "P50":
+		# 			nxtEast.Dump()
+		# 			for sb in nxtEast.StoppingBlocks():
+		# 				if sb is not None:
+		# 					sb.Dump()
+		# 	else:
+		# 		if dbg:
+		# 			logging.debug("settings next west of %s to %s" % (nxtEast.Name(), self.Name()))
+		# 		nxtEast.SetNextWest(self)
+		# 		if nxtEast.Name() == "P50":
+		# 			nxtEast.Dump()
+		# 			for sb in nxtEast.StoppingBlocks():
+		# 				if sb is not None:
+		# 					sb.Dump()
+		#
+		# nxtWest = ar.NextBlockWest()
+		# if dbg:
+		# 	logging.debug("nxtWest = %s" % ("None" if nxtWest is None else nxtWest.Name()))
+		# if nxtWest is not None:
+		# 	if CrossingEastWestBoundary(nxtWest, self):
+		# 		if dbg:
+		# 			logging.debug("CEW: settings next west of %s to %s" % (nxtWest.Name(), self.Name()))
+		# 		nxtWest.SetNextWest(self)
+		# 		if nxtWest.Name() == "P50":
+		# 			nxtWest.Dump()
+		# 			for sb in nxtWest.StoppingBlocks():
+		# 				if sb is not None:
+		# 					sb.Dump()
+		# 	else:
+		# 		if dbg:
+		# 			logging.debug("settings next east of %s to %s" % (nxtWest.Name(), self.Name()))
+		# 		nxtWest.SetNextEast(self)
+		# 		if nxtWest.Name() == "P50":
+		# 			nxtWest.Dump()
+		# 			for sb in nxtWest.StoppingBlocks():
+		# 				if sb is not None:
+		# 					sb.Dump()
+		# if dbg:
+		# 	logging.debug("=================================================================")
+		#
 		return rc
 
 	def GetEventMessages(self):

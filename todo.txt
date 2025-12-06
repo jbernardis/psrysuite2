@@ -1,12 +1,12 @@
-debug identification of controlling signal
-when the aspect changes on a signal that is controlling a train, that train needs to be updated to the displays
-
 block signals
 
 Traffic Gen
 
 ATC
+
 AR
+    handle special condition that signal S8R and S8L can block OSes SOSE and SOSW
+    display something in the status field
 
 
 Layout of buttons - move individual snapshot buttons onto main display

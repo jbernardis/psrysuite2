@@ -111,11 +111,9 @@ class Railroad:
 			with open(fn, "r") as jfp:
 				self.trainRoster = json.load(jfp)
 		except FileNotFoundError:
-			print("Unable to open train roster file %s" % fn)
 			logging.fatal("Unable to open train roster file %s" % fn)
 			exit(1)
 
-		print(json.dumps(self.trainRoster, indent=4))
 		self.trains = {}
 
 		for dclass, name in self.districtList:
@@ -140,7 +138,6 @@ class Railroad:
 			j = None
 
 		if j is None:
-			print("Unable to load layout information")
 			logging.fatal("Unable to load layout file")
 			exit(1)
 
@@ -222,9 +219,6 @@ class Railroad:
 			self.routes[rtName] = r
 			osBlock.AddRoute(r)
 
-		for osBlock in self.osblocks.values():
-			osBlock.DetermineActiveRoute(self.turnouts)
-
 		for sn, siginfo in self.loSignals.items():
 			try:
 				s = self.signals[sn]
@@ -237,6 +231,12 @@ class Railroad:
 
 			except KeyError:
 				logging.debug("Unable to find signal %s" % sn)
+
+		for osBlock in self.osblocks.values():
+			osBlock.DetermineActiveRoute(self.turnouts)
+			self.ConfigureOS(osBlock)
+
+		# self.ShowLinkages()
 
 		self.sbToSigMap = {}
 		self.sigToSbMap = {}
@@ -348,6 +348,18 @@ class Railroad:
 	# 	self.debug.showaspectcalculation = showaspectcalculation
 	# 	self.debug.blockoccupancy = blockoccupancy
 	# 	self.debug.identifytrain = identifytrain
+
+	def ShowLinkages(self):
+		print("Block linkage")
+		for bn in sorted(list(self.blocks.keys())):
+			blk = self.blocks[bn]
+			nwest = blk.GetNextWest()
+			nwname = "None" if nwest is None else nwest.Name()
+			neast = blk.GetNextEast()
+			nename = "None" if neast is None else neast.Name()
+
+			print("%s  <=====  %s =====>  %s" % (nwname, blk.Name(), nename))
+		print("End of block linkages ============================", flush=True)
 
 	def GetNodeStatuses(self):
 		retval = []
@@ -707,9 +719,11 @@ class Railroad:
 
 		osName = self.DetermineSignalOS(signm)
 		if osName is None:
+			self.Alert("osname is none")
 			return
 
 		msgs = []
+		osb = self.blocks[osName].OS()
 		moving = currentAspect != 0  # Are we requesting a stop signal?
 		try:
 			aspect = self.CalculateAspect(sig, osName, moving, callon, None, silent=False)
@@ -724,6 +738,13 @@ class Railroad:
 		msgs.extend(sig.GetEventMessages())
 		for m in msgs:
 			self.RailroadEvent(m)
+
+		self.ConfigureOS(osb)
+
+		# ne = osb.NextDetectionSectionEast()
+		# nw = osb.NextDetectionSectionWest()
+		# self.Alert("Next West: %s" % ("None" if nw is None else nw.Name()))
+		# self.Alert("Next East: %s" % ("None" if ne is None else ne.Name()))
 
 		district.EvaluateDistrictLocks(sig, None)
 		self.EvaluatePreviousSignals(sig)
@@ -1952,11 +1973,19 @@ class Railroad:
 			objName = obj.Name()
 			self.CheckStoppingSection(tr)
 
-			# now unlock the active route's turnouts on behalf of the train
+			reversedBlk = obj.IsReversed()
+
+			# now unlock the active route's turnouts on behalf of the train and clear up district locks if any
 			if obj.OS() is not None and tr is not None:
 				locks = obj.OS().LockRoute(False, tr.IName())
 				for sw, flag in locks:
 					self.RailroadEvent({"lockturnout": [{"name": sw.Name(), "lock": flag}]})
+
+				at = obj.OS().ActiveRoute()
+				sigNames = at.Signals()
+				sn = sigNames[1 if reversedBlk else 0]
+				sig = self.signals[sn]
+				district.EvaluateDistrictLocks(sig)
 
 	def CheckFleetTriggers(self, blk):
 		if blk.IsCompletelyEmpty():
@@ -2332,6 +2361,7 @@ class Railroad:
 			return result
 
 		if osBlk.DetermineActiveRoute(self.turnouts):
+			self.ConfigureOS(osBlk)
 			msgs = osBlk.GetEventMessages()
 			if msgs is not None:
 				result.extend(msgs)
@@ -2345,6 +2375,51 @@ class Railroad:
 							result.append({"lockturnout": [{"name": sw, "lock": flag}]})
 
 		return result
+
+	def ConfigureOS(self, osblk):
+		ar = osblk.ActiveRoute()
+		osblk.Reset()
+		if ar is None:
+			return
+
+		sbzip = list(zip(ar.Signals(), ar.EndPoints()))
+		if len(sbzip) != 2:
+			return
+
+		entrySn = sbzip[0][0]
+		entryBlk = sbzip[0][1]
+		for sn, blk in sbzip:
+			sig = self.signals[sn]
+			if sig.Aspect() != 0:
+				entrySn = sn
+				entryBlk = blk
+				break
+
+		reverseBlk = entrySn != sbzip[0][0]
+		exitSn = sbzip[0 if reverseBlk else 1][0]
+		exitBlk = sbzip[0 if reverseBlk else 1][1]
+
+		entrySig = self.signals[entrySn]
+		routeDir = entrySig.East()  # the route direction is from entry to exit, so it's based entirely on the signal
+
+		if reverseBlk:
+			# we are traversing exit to entry - reverse the block direction
+			osblk.SetEast(not osblk.IsEast())
+
+		if routeDir:
+			osblk.Block().SetNextWest(entryBlk)
+			if entryBlk is not None:
+				entryBlk.SetNextEast(osblk)
+			osblk.Block().SetNextEast(exitBlk)
+			if exitBlk is not None:
+				exitBlk.SetNextWest(osblk)
+		else:
+			osblk.Block().SetNextWest(exitBlk)
+			if exitBlk is not None:
+				exitBlk.SetNextEast(osblk)
+			osblk.Block().SetNextEast(entryBlk)
+			if entryBlk is not None:
+				entryBlk.SetNextWest(osblk)
 
 	def ProcessSignalLever(self, obj, node):
 		objName = obj.Name()
@@ -2470,6 +2545,7 @@ class Railroad:
 
 		signame = sig.Name()
 
+		logging.debug("checking is occupied on block %s" % ("None" if blk is None else blk.Name()))
 		if blk.IsOccupied():
 			if not silent:
 				self.Alert("Block %s is busy" % osblk.RouteDesignator(), locale=sig.District().Locale())
@@ -2486,24 +2562,25 @@ class Railroad:
 		exitBlk = rt.ExitBlock(reverse=currentDirection != blk.IsEast())
 		rType = rt.RouteType(reverse=currentDirection != blk.IsEast())
 
-		if exitBlk.IsOccupied():
-			if not silent:
-				self.Alert("Block %s is busy" % exitBlk.RouteDesignator(), locale=sig.District().Locale())
-			logging.debug("Unable to calculate aspect: Block %s is busy" % exitBlk.Name())
-			return None
-
-		if exitBlk.IsCleared():
-			if exitBlk.East() != currentDirection:
+		if exitBlk is not None:
+			if exitBlk.IsOccupied():
 				if not silent:
-					self.Alert("Block %s is cleared in opposite direction" % exitBlk.RouteDesignator(), locale=sig.District().Locale())
-				logging.debug("Unable to calculate aspect: Block %s cleared in opposite direction" % exitBlk.Name())
+					self.Alert("Block %s is busy" % exitBlk.RouteDesignator(), locale=sig.District().Locale())
+				logging.debug("Unable to calculate aspect: Block %s is busy" % exitBlk.Name())
 				return None
 
-		if exitBlk.AreHandSwitchesUnlocked():
-			if not silent:
-				self.Alert("Block %s has a siding unlocked" % exitBlk.RouteDesignator())
-			logging.debug("Unable to calculate aspect: Block %s has a siding unlocked" % exitBlk.Name())
-			return None
+			if exitBlk.IsCleared():
+				if exitBlk.East() != currentDirection:
+					if not silent:
+						self.Alert("Block %s is cleared in opposite direction" % exitBlk.RouteDesignator(), locale=sig.District().Locale())
+					logging.debug("Unable to calculate aspect: Block %s cleared in opposite direction" % exitBlk.Name())
+					return None
+
+			if exitBlk.AreHandSwitchesUnlocked():
+				if not silent:
+					self.Alert("Block %s has a siding unlocked" % exitBlk.RouteDesignator())
+				logging.debug("Unable to calculate aspect: Block %s has a siding unlocked" % exitBlk.Name())
+				return None
 
 		if currentDirection != osblk.IsEast():
 			osblk.SetEast(currentDirection)
@@ -2513,39 +2590,49 @@ class Railroad:
 			logging.debug("we crossed a EW boundary between %s and %s" % (osblk.Name(), exitBlk.Name()))
 			currentDirection = not currentDirection
 
-		exitBlk.SetEast(currentDirection)
-		nb = exitBlk.NextBlock(reverse=currentDirection != osblk.East())
-		if nb:
-			nbName = nb.Name()
-			if CrossingEastWestBoundary(nb, exitBlk):
-				currentDirection = not currentDirection
-
-			nbStatus = nb.GetStatus()
-
-			nbRType = nb.RouteType(reverse=currentDirection != nb.East())
-
-			nbRtName = nb.ActiveRouteName()
-			# # try to go one more block, skipping past an OS block
-
-			nxb = nb.ExitBlock(reverse=currentDirection != nb.East())
-			if nxb is None:
-				nxbNm = None
-				nnb = None
-			else:
-				nxbNm = nxb.Name()
-
-				if CrossingEastWestBoundary(nb, nxb):
+		if exitBlk is not None:
+			exitBlk.SetEast(currentDirection)
+			nb = exitBlk.NextBlock(reverse=currentDirection != osblk.East())
+			if nb:
+				nbName = nb.Name()
+				if CrossingEastWestBoundary(nb, exitBlk):
 					currentDirection = not currentDirection
 
-				nnb = nxb.NextBlock(reverse=currentDirection != nxb.East())
+				nbStatus = nb.GetStatus()
 
-			if nnb:
-				nnbClear = nnb.IsCleared()
-				nnbName = nnb.Name()
+				nbRType = nb.RouteType(reverse=currentDirection != nb.East())
+
+				nbRtName = nb.ActiveRouteName()
+				# # try to go one more block, skipping past an OS block
+
+				nxb = nb.ExitBlock(reverse=currentDirection != nb.East())
+				if nxb is None:
+					nxbNm = None
+					nnb = None
+				else:
+					nxbNm = nxb.Name()
+
+					if CrossingEastWestBoundary(nb, nxb):
+						currentDirection = not currentDirection
+
+					nnb = nxb.NextBlock(reverse=currentDirection != nxb.East())
+
+				if nnb:
+					nnbClear = nnb.IsCleared()
+					nnbName = nnb.Name()
+				else:
+					nnbClear = False
+					nnbName = None
 			else:
+				nxbNm = None
+				nbStatus = None
+				nbName = None
+				nbRType = None
+				nbRtName = None
 				nnbClear = False
 				nnbName = None
 		else:
+			rType = RESTRICTING
 			nxbNm = None
 			nbStatus = None
 			nbName = None
@@ -2558,9 +2645,11 @@ class Railroad:
 		aspect = self.GetAspect(aType, rType, nbStatus, nbRType, nnbClear)
 
 		if self.debug.showaspectcalculation:
+			ebName = "None" if exitBlk is None else exitBlk.Name()
+
 			self.Alert("======== New aspect calculation ========")
 			self.Alert("OS: %s Route: %s  Sig: %s" % (osblk.Name(), rt.Name(), sig.Name()))
-			self.Alert("exit block name = %s   RT: %s" % (exitBlk.Name(), routetype(rType)))
+			self.Alert("exit block name = %s   RT: %s" % (ebName, routetype(rType)))
 			self.Alert("NB: %s Status: %s  NRT: %s" % (nbName, statusname(nbStatus), routetype(nbRType)))
 			self.Alert("Next route = %s" % nbRtName)
 			self.Alert("next exit block = %s" % nxbNm)
@@ -2576,8 +2665,7 @@ class Railroad:
 		blk = self.blocks[osName]
 
 		exitBlk = osblk.ActiveRoute().ExitBlock(reverse=sig.East() != blk.IsEast())
-		self.Alert("Exit block is %s, sigeast is %s blkeast is %s" % (exitBlk.Name(), sig.East(), blk.IsEast()))
-		ebList = exitBlk.GetAllBlocks()
+		ebList = [] if exitBlk is None else exitBlk.GetAllBlocks()
 		sig.SetAspect(aspect, callon=callon)
 		tlock = []
 		if aspect == 0:
@@ -3235,7 +3323,7 @@ class Railroad:
 			name = tr.Name()
 			sig = tr.Signal()
 			asp = tr.AspectName()
-			if asp is None:
+			if asp is None and sig is not None:
 				asp = sig.AspectName()
 			result[name] = {
 				"iname": tr.IName(),
