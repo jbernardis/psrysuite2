@@ -37,7 +37,7 @@ from dispatcher.listener import Listener
 from dispatcher.rrserver import RRServer
 
 from dispatcher.edittraindlg import EditTrainDlg, SortTrainBlocksDlg
-from dispatcher.choicedlgs import ChooseItemDlg, ChooseBlocksDlg, ChooseSnapshotActionDlg, ChooseTrainDlg, ChooseSnapshotDlg
+from dispatcher.choicedlgs import ChooseItemDlg, ChooseBlocksDlg, ChooseTrainDlg, ChooseSnapshotDlg
 from traineditor.preloaded.managepreloaded import ManagePreloadedDlg
 
 MENU_ATC_REMOVE    = 900
@@ -80,6 +80,7 @@ class ScreenDiagram:
 
 
 BTNDIM = (80, 23) if sys.platform.lower() == "win32" else (100, 23)
+SSBTNDIM = (92, 23) if sys.platform.lower() == "win32" else (115, 23)
 WIDTHADJUST = 0 if sys.platform.lower() == "win32" else 56
 
 
@@ -127,13 +128,15 @@ class MainFrame(wx.Frame):
 		self.c13Control = 0
 		self.stNassauControl = None
 		self.stYardControl = None
-		self.bSnapshot = None
+		self.bTakeSnapshot = None
+		self.bChooseSnapshot = None
+		self.bLatestSnapshot = None
 		self.bPreloaded = None
 		self.initializing = True
 
 		self.cbToD = None
-		self.cbAutoRouter = None
-		self.cbATC = None
+		self.bAutoRouter = None
+		self.bATC = None
 		self.cbOSSLocks = None
 		self.cbSidingsUnlocked = None
 		self.menuTrain = None
@@ -146,11 +149,8 @@ class MainFrame(wx.Frame):
 		self.sessionid = None
 		self.sessionName = "Name"
 		self.subscribed = False
-		self.ATCEnabled = False
-		self.AREnabled = False
 		self.ARProc = None
-		self.pidATC	= None
-		self.procATC = None
+		self.ATCProc = None
 		self.OSSLocks = True
 		self.sidingsUnlocked = False
 
@@ -357,9 +357,6 @@ class MainFrame(wx.Frame):
 		
 		self.shiftXOffset = -self.centerOffset
 		self.shiftYOffset = 0
-		
-		if self.ATCEnabled:
-			self.Request({"atc": { "action": "reset"}})
 
 	def OnBResetClock(self, _):
 		self.tickerCount = 0
@@ -775,38 +772,39 @@ class MainFrame(wx.Frame):
 		self.SendOSSLocks()
 		self.SendSidingsUnlocked()
 
-	def OnCBAutoRouter(self, evt):
-		self.AREnabled = self.cbAutoRouter.IsChecked()
-		if self.AREnabled:
+	def OnBAutoRouter(self, evt):
+		if self.ARProc is not None and self.ARProc.poll() is not None:
+			# subprocess has terminated - start a new one
+			self.ARProc = None
+
+		if self.ARProc is None:
 			ARExec = os.path.join(os.getcwd(), "autorouter", "main.py")
 			self.ARProc = Popen([sys.executable, ARExec])
 
 			logging.info("Autorouter started as PID %d" % self.ARProc.pid)
 		else:
-			if self.ARProc is not None:
-				try:
-					self.ARProc.kill()
-				except:
-					pass
+			self.Request({"autorouter": {"action": "show"}})
 
-			self.ARProc = None
+	def OnBATC(self, evt):
+		if self.ATCProc is not None and self.ATCProc.poll() is not None:
+			# subprocess has terminated - start a new one
+			self.ATCProc = None
 
-	def OnCBATC(self, evt):
-		# ATC must run on the same machine as this dispatcher because it has a windowing interface
-		self.ATCEnabled = self.cbATC.IsChecked()
-		if self.ATCEnabled:
-			if self.procATC is None or self.procATC.poll() is not None:
-				atcExec = os.path.join(os.getcwd(), "atc", "main.py")
-				self.procATC = Popen([sys.executable, atcExec])
-				self.pidATC = self.procATC.pid
-				logging.debug("atc server started as PID %d" % self.pidATC)
-				self.pendingATCShowCmd = {"atc": {"action": ["show"], "x": 1560, "y": 0}}
-				wx.CallLater(750, self.sendPendingATCShow)
-			else:
-				self.Request( {"atc": {"action": ["show"]}})
+		if self.ATCProc is None:
+			ATCExec = os.path.join(os.getcwd(), "atc", "main.py")
+			self.ATCProc = Popen([sys.executable, ATCExec])
 
+			logging.info("ATC Server started as PID %d" % self.ATCProc.pid)
 		else:
-			self.Request({"atc": { "action": "hide"}})
+			self.PopupAdvice("Send a message to the ATC process to show itself")
+
+		# 		self.pendingATCShowCmd = {"atc": {"action": ["show"], "x": 1560, "y": 0}}
+		# 		wx.CallLater(750, self.sendPendingATCShow)
+		# 	else:
+		# 		self.Request( {"atc": {"action": ["show"]}})
+		#
+		# else:
+		# 	self.Request({"atc": { "action": "hide"}})
 
 	def OnCBOSSLocks(self, evt):
 		self.SendOSSLocks()
@@ -1496,43 +1494,6 @@ class MainFrame(wx.Frame):
 		menu.Append(itm)
 		self.Bind(wx.EVT_MENU, self.OnTrainLocate, id=MENU_TRAIN_LOCATE)
 
-		if self.IsDispatcher():
-			if self.ATCEnabled:
-				if tr.ATC():
-					menu.AppendSeparator()
-
-					itm = wx.MenuItem(menu, MENU_ATC_REMOVE, "Remove from ATC")
-					itm.SetFont(self.menuFont)
-					menu.Append(itm)
-					self.Bind(wx.EVT_MENU, self.OnATCRemove, id=MENU_ATC_REMOVE)
-					itm = wx.MenuItem(menu, MENU_ATC_STOP, "ATC Stop/Resume Train")
-					itm.SetFont(self.menuFont)
-					menu.Append(itm)
-					self.Bind(wx.EVT_MENU, self.OnATCStop, id=MENU_ATC_STOP)
-				else:
-					loco = tr.GetLoco()
-					if loco != "??":
-						menu.AppendSeparator()
-
-						itm = wx.MenuItem(menu, MENU_ATC_ADD, "Add to ATC")
-						itm.SetFont(self.menuFont)
-						menu.Append(itm)
-						self.Bind(wx.EVT_MENU, self.OnATCAdd, id=MENU_ATC_ADD)
-
-			if self.AREnabled:
-				menu.AppendSeparator()
-
-				if tr.AR():
-					itm = wx.MenuItem(menu, MENU_AR_REMOVE, "Remove from Auto Router")
-					itm.SetFont(self.menuFont)
-					menu.Append(itm)
-					self.Bind(wx.EVT_MENU, self.OnARRemove, id=MENU_AR_REMOVE)
-				else:
-					itm = wx.MenuItem(menu, MENU_AR_ADD, "Add to Auto Router")
-					itm.SetFont(self.menuFont)
-					menu.Append(itm)
-					self.Bind(wx.EVT_MENU, self.OnARAdd, id=MENU_AR_ADD)
-
 		self.PopupMenu(menu, pos)
 
 		menu.Destroy()
@@ -1933,14 +1894,11 @@ class MainFrame(wx.Frame):
 			dlgx = self.centerw - 500 - self.centerOffset
 			dlgy = self.totalh - 660
 			dlg = EditTrainDlg(self, tr, blk, self.locoList, self.trainRoster, self.engineerList, self.trains,
-						self.IsDispatcher() and self.ATCEnabled,
-						self.IsDispatcher() and self.AREnabled,
-						self.IsDispatcherOrSatellite(),
 						self.lostTrains, self.trainHistory, self.preloadedTrains, dlgx, dlgy)
 			rc = dlg.ShowModal()
 			east = tr.IsEast()
 			if rc == wx.ID_OK:
-				trainid, locoid, engineer, atc, ar, east, templateTrain = dlg.GetResults()
+				trainid, locoid, engineer, east, templateTrain = dlg.GetResults()
 
 			dlg.Destroy()
 
@@ -2378,15 +2336,14 @@ class MainFrame(wx.Frame):
 			self.preloadedTrains.Reload()
 			self.PopupEvent("Preloaded trains reloaded")
 
-	def OnBSnapshot(self, _):
-		dlg = ChooseSnapshotActionDlg(self)	
-		rc = dlg.ShowModal()
-		dlg.Destroy()
-		if rc == wx.ID_SAVE:
-			self.TakeSnapshot()
-							
-		elif rc in [wx.ID_OPEN, wx.ID_SELECTALL]: # restore from snapshot
-			self.LoadSnapshot(rc)
+	def OnBTakeSnapshot(self, _):
+		self.TakeSnapshot()
+
+	def OnBChooseSnapshot(self, _):
+		self.LoadSnapshot(True)
+
+	def OnBLatestSnapshot(self, _):
+		self.LoadSnapshot(False)
 
 	def LoadSnapshot(self, ldType, silent=False):
 		snapList = self.Get("snaplist", {})
@@ -2400,7 +2357,7 @@ class MainFrame(wx.Frame):
 		blks = [x for x in self.blocks.values() if x.IsOccupied()]
 		blkNames = [b.GetName() for b in blks]
 
-		if ldType == wx.ID_SELECTALL:
+		if ldType:
 			dlg = ChooseSnapshotDlg(self, snapList)
 			rc = dlg.ShowModal()
 			sf = dlg.GetResults()
@@ -2439,11 +2396,13 @@ class MainFrame(wx.Frame):
 			self.bCheckTrains.Enable(False)
 
 			if self.IsDispatcherOrSatellite():
-				self.bSnapshot.Enable(False)
+				self.bTakeSnapshot.Enable(False)
+				self.bChooseSnapshot.Enable(False)
+				self.bLatestSnapshot.Enable(False)
 				self.bPreloaded.Enable(False)
 				if self.IsDispatcher():
-					self.cbAutoRouter.Enable(False)
-					self.cbATC.Enable(False)
+					self.bAutoRouter.Enable(False)
+					self.bATC.Enable(False)
 					self.cbOSSLocks.Enable(False)
 					self.cbSidingsUnlocked.Enable(False)
 			else:
@@ -2466,11 +2425,13 @@ class MainFrame(wx.Frame):
 			self.bCheckTrains.Enable(True)
 			if self.IsDispatcherOrSatellite():
 				self.bLostTrains.Enable(True)
-				self.bSnapshot.Enable(True)
+				self.bTakeSnapshot.Enable(True)
+				self.bChooseSnapshot.Enable(True)
+				self.bLatestSnapshot.Enable(True)
 				self.bPreloaded.Enable(True)
 				if self.IsDispatcher():
-					self.cbAutoRouter.Enable(True)
-					self.cbATC.Enable(True)
+					self.bAutoRouter.Enable(True)
+					self.bATC.Enable(True)
 					self.cbOSSLocks.Enable(True)
 					self.cbSidingsUnlocked.Enable(True)
 
@@ -2585,7 +2546,7 @@ class MainFrame(wx.Frame):
 			"signal":			self.DoCmdSignal,
 			# "siglever":			self.DoCmdSigLever,
 			"handswitch":		self.DoCmdHandSwitch,
-			# "indicator":		self.DoCmdIndicator,
+			"indicator":		self.DoCmdIndicator,
 			"breaker":			self.DoCmdBreaker,
 			"districtlock":		self.DoCmdDistrictLock,
 			"train":			self.DoCmdTrain,
@@ -3094,32 +3055,32 @@ class MainFrame(wx.Frame):
 			if state != hs.GetValue():
 				district = hs.GetDistrict()
 				district.DoHandSwitchAction(hs, state)
-	#
-	# def DoCmdIndicator(self, parms):
-	# 	for p in parms:
-	# 		try:
-	# 			iName = p["name"]
-	# 		except KeyError:
-	# 			iName = None
-	# 		try:
-	# 			value = int(p["value"])
-	# 		except KeyError:
-	# 			value = None
-	#
-	# 		if iName is None or value is None:
-	# 			logging.error("Indicator command without name and/or value parameters")
-	# 			return
-	#
-	# 		try:
-	# 			ind = self.indicators[iName]
-	# 		except:
-	# 			ind = None
-	#
-	# 		if ind is not None:
-	# 			district = ind.GetDistrict()
-	# 			district.DoIndicatorAction(ind, value)
-	# 		else:
-	# 			logging.error("Unknown indicator name: %s" % iName)
+
+	def DoCmdIndicator(self, parms):
+		for p in parms:
+			try:
+				iName = p["name"]
+			except KeyError:
+				iName = None
+			try:
+				value = int(p["value"])
+			except KeyError:
+				value = None
+
+			if iName is None or value is None:
+				logging.error("Indicator command without name and/or value parameters")
+				return
+
+			try:
+				ind = self.indicators[iName]
+			except:
+				ind = None
+
+			if ind is not None:
+				district = ind.GetDistrict()
+				district.DoIndicatorAction(ind, value)
+			else:
+				logging.error("Unknown indicator name: %s" % iName)
 
 	def DoCmdBreaker(self, parms):
 		for p in parms:
@@ -4224,8 +4185,8 @@ class MainFrame(wx.Frame):
 		self.bSubscribe.SetLabel("Connect")
 		self.bRefresh.Enable(False)
 		if self.IsDispatcher():
-			self.cbAutoRouter.Enable(False)
-			self.cbATC.Enable(False)
+			self.bAutoRouter.Enable(False)
+			self.bATC.Enable(False)
 			self.cbOSSLocks.Enable(False)
 			self.cbSidingsUnlocked.Enable(False)
 		logging.info("Server socket closed")
@@ -4595,7 +4556,13 @@ class MainFrame(wx.Frame):
 				self.ARProc.kill()
 			except:
 				pass
-		
+
+		if self.ATCProc:
+			try:
+				self.ATCProc.kill()
+			except:
+				pass
+
 		if killServer:
 			try:
 				self.rrServer.SendRequest({"quit": {}})

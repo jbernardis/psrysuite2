@@ -10,15 +10,13 @@ BUTTONSIZE = (120, 40)
 
 
 class EditTrainDlg(wx.Dialog):
-	def __init__(self, parent, train, block, locos, trainRoster, engineers, activeTrains, atcFlag, arFlag, dispatcherFlag, lostTrains, trainHistory, preloadedTrains, dx, dy):
+	def __init__(self, parent, train, block, locos, trainRoster, engineers, activeTrains, lostTrains, trainHistory, preloadedTrains, dx, dy):
 		wx.Dialog.__init__(self, parent, wx.ID_ANY, "Edit Train Details", pos=(dx, dy))
 		self.parent = parent
 		self.Bind(wx.EVT_CLOSE, self.onCancel)
 
 		self.train = train
 		self.activeTrains = activeTrains
-		self.atcFlag = atcFlag
-		self.arFlag = arFlag
 
 		vsz = wx.BoxSizer(wx.VERTICAL)
 		vsz.AddSpacer(20)
@@ -26,8 +24,6 @@ class EditTrainDlg(wx.Dialog):
 		name = train.Name()
 		loco = train.Loco()
 		self.name = name
-		atc = train.ATC()
-		ar = train.AR()
 		self.block = block
 		
 		self.startingEast = train.IsEast()
@@ -176,29 +172,7 @@ class EditTrainDlg(wx.Dialog):
 		vsz.Add(hsz)
 
 		vsz.AddSpacer(10)
-		self.cbATC = None
-		if self.atcFlag or self.arFlag:
-			hsz = wx.BoxSizer(wx.HORIZONTAL)
-			
-			if self.atcFlag:
-				self.cbATC = wx.CheckBox(self, wx.ID_ANY, "ATC")
-				self.cbATC.SetFont(font)
-				self.cbATC.SetValue(atc)
-				hsz.Add(self.cbATC)
-				self.cbATC.Enable(self.chosenLoco != "??")
-				
-			if self.atcFlag and self.arFlag:
-				hsz.AddSpacer(20)
-	
-			if self.arFlag:
-				self.cbAR = wx.CheckBox(self, wx.ID_ANY, "Auto Router")
-				self.cbAR.SetFont(font)
-				self.cbAR.SetValue(ar)
-				hsz.Add(self.cbAR)
-				
-			vsz.AddSpacer(20)
-			vsz.Add(hsz, 0, wx.ALIGN_CENTER_HORIZONTAL)
-		
+
 		vsz.AddSpacer(20)
 		self.stDescr = wx.StaticText(self, wx.ID_ANY, "", size=(600, -1))
 		self.stDescr.SetFont(font)		
@@ -252,8 +226,6 @@ class EditTrainDlg(wx.Dialog):
 		
 	def OnLocoChoice(self, evt):
 		self.chosenLoco = evt.GetString()
-		if self.cbATC is not None:
-			self.cbATC.Enable(self.chosenLoco != "??")
 		self.ShowTrainLocoDesc()
 
 	def OnLocoText(self, evt):
@@ -263,8 +235,6 @@ class EditTrainDlg(wx.Dialog):
 		self.cbLocoID.SetInsertionPoint(pos)
 			
 		self.chosenLoco = lid
-		if self.cbATC is not None:
-			self.cbATC.Enable(self.chosenLoco != "??")
 		self.ShowTrainLocoDesc()
 		evt.Skip()
 
@@ -501,11 +471,8 @@ class EditTrainDlg(wx.Dialog):
 			r = self.templateTrain
 		else:
 			r = None
-			
-		atc = False if not self.atcFlag else self.cbATC.GetValue()
-		ar = False if not self.arFlag else self.cbAR.GetValue()
 
-		return t, l, e, atc, ar, self.startingEast, r
+		return t, l, e, self.startingEast, r
 
 
 class SortTrainBlocksDlg(wx.Dialog):

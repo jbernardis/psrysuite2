@@ -364,7 +364,7 @@ class MainFrame(wx.Frame):
 				self.trains = Trains(self.rrServer)
 				self.layout = LayoutData(self.rrServer)
 
-				for tr in self.trains:
+				for tr in sorted(self.trains, key=lambda t: t.GetTrainID()):
 					scr = Script(self, tr, self.layout, self.timerInterval)
 					self.scriptList.AddScript(scr)
 					self.scripts[scr.GetName()] = scr

@@ -14,7 +14,6 @@ class Krulish (District):
 	def SetAspect(self, sig, aspect, refresh=False):
 		District.SetAspect(self, sig, aspect, refresh)
 		signm = sig.GetName()
-		self.frame.PopupEvent("In krulish set aspect")
 
 		if signm == "N10W":
 			if aspect == 0:
@@ -41,32 +40,27 @@ class Krulish (District):
 				bmp = self.misctiles["indicator"].getBmp(None, "green")
 			self.frame.DrawTile(self.screen, (124, 24), bmp)
 			
-		if signm in ["K2R", "K4R", "K8R"]:
-			self.frame.PopupEvent("its one of those signals")
-		# 	self.CheckBlockSignals("N11", "N11W", False)
-		# 	self.CheckBlockSignals("N21", "N21W", False)
-	
-	def DoBlockAction(self, blk, blockend, state):
-		blknm = blk.GetName()
-		if blknm == "N20" and blockend == "W" and self.blocks["KOSN20S21"].GetEast():
-			District.DoBlockAction(self, self.blocks["KOSN20S21"], None, state)
-		elif blknm == "N10" and blockend == "W" and self.blocks["KOSN10S11"].GetEast():
-			District.DoBlockAction(self, self.blocks["KOSN10S11"], None, state)
-
-		District.DoBlockAction(self, blk, blockend, state)
-
-		if blknm == "N11":
-			self.CheckBlockSignals("N11", "N11W", False)
-
-	def DetermineRoute(self, blocks):
-		s3 = 'N' if self.turnouts["KSw3"].IsNormal() else 'R'
-		s5 = 'N' if self.turnouts["KSw5"].IsNormal() else 'R'
-		self.turnouts["KSw3"].SetLock(s5 == 'R', refresh=True)
-		self.turnouts["KSw3b"].SetLock(s5 == 'R', refresh=True)
-		self.turnouts["KSw5"].SetLock(s3 == 'R', refresh=True)
-		self.turnouts["KSw5b"].SetLock(s3 == 'R', refresh=True)
-
-		self.FindTurnoutCombinations(blocks, ["KSw1", "KSw3", "KSw5", "KSw7"])
+	# def DoBlockAction(self, blk, blockend, state):
+	# 	blknm = blk.GetName()
+	# 	if blknm == "N20" and blockend == "W" and self.blocks["KOSN20S21"].GetEast():
+	# 		District.DoBlockAction(self, self.blocks["KOSN20S21"], None, state)
+	# 	elif blknm == "N10" and blockend == "W" and self.blocks["KOSN10S11"].GetEast():
+	# 		District.DoBlockAction(self, self.blocks["KOSN10S11"], None, state)
+	#
+	# 	District.DoBlockAction(self, blk, blockend, state)
+	#
+	# 	if blknm == "N11":
+	# 		self.CheckBlockSignals("N11", "N11W", False)
+	#
+	# def DetermineRoute(self, blocks):
+	# 	s3 = 'N' if self.turnouts["KSw3"].IsNormal() else 'R'
+	# 	s5 = 'N' if self.turnouts["KSw5"].IsNormal() else 'R'
+	# 	self.turnouts["KSw3"].SetLock(s5 == 'R', refresh=True)
+	# 	self.turnouts["KSw3b"].SetLock(s5 == 'R', refresh=True)
+	# 	self.turnouts["KSw5"].SetLock(s3 == 'R', refresh=True)
+	# 	self.turnouts["KSw5b"].SetLock(s3 == 'R', refresh=True)
+	#
+	# 	self.FindTurnoutCombinations(blocks, ["KSw1", "KSw3", "KSw5", "KSw7"])
 
 	def DefineBlocks(self):
 		self.blocks = {}

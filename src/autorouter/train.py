@@ -11,7 +11,7 @@ class Train:
 		self.startsubblock = None
 		self.startblocktime = 5000
 		self.normalLoco = None
-		
+
 	def SetDirection(self, direction):
 		self.east = direction
 		
@@ -53,7 +53,7 @@ class Train:
 		
 	def GetNormalLoco(self):
 		return self.normalLoco
-	
+
 	def ToJSON(self):
 		return {"eastbound": self.east, "startblock": self.startblock, "startsubblock": self.startsubblock, "time": self.startblocktime, "sequence": self.steps}
 
@@ -103,44 +103,44 @@ class Trains:
 		nx = self._nx_
 		self._nx_ += 1
 		return self.trainlist[nx]
-		
-	def Save(self):
-		try:
-			with open(self.fn, "r") as jfp:
-				TrainsJson = json.load(jfp)
-		except:
-			TrainsJson = {}
-
-		delList = []
-		for tid in TrainsJson:
-			if tid not in self.trainmap:
-				delList.append(tid)
-				
-		for tid in delList:
-			TrainsJson[tid]["sequence"] = []
-			TrainsJson[tid]["startblock"] = None
-			TrainsJson[tid]["startsubblock"] = None
-			TrainsJson[tid]["time"] = None
-			
-		for tr in self.trainlist:
-			tid = tr.GetTrainID()
-			if tid not in TrainsJson:
-				# put in default values for all of the traintracker fields
-				TrainsJson[tid] = {
-					"tracker": [],
-					"block": None,
-					"cutoff": False,
-					"desc": None,
-					"loco": None,
-					"normalloco": None,
-					"origin": { "loc": None, "track": None },
-					"terminus": { "loc": None, "track": None }
-					}
-			
-			TrainsJson[tid].update(tr.ToJSON())
-			
-		with open(self.fn, "w") as jfp:
-			json.dump(TrainsJson, jfp, sort_keys=True, indent=2)
+	#
+	# def Save(self):
+	# 	try:
+	# 		with open(self.fn, "r") as jfp:
+	# 			TrainsJson = json.load(jfp)
+	# 	except:
+	# 		TrainsJson = {}
+	#
+	# 	delList = []
+	# 	for tid in TrainsJson:
+	# 		if tid not in self.trainmap:
+	# 			delList.append(tid)
+	#
+	# 	for tid in delList:
+	# 		TrainsJson[tid]["sequence"] = []
+	# 		TrainsJson[tid]["startblock"] = None
+	# 		TrainsJson[tid]["startsubblock"] = None
+	# 		TrainsJson[tid]["time"] = None
+	#
+	# 	for tr in self.trainlist:
+	# 		tid = tr.GetTrainID()
+	# 		if tid not in TrainsJson:
+	# 			# put in default values for all of the traintracker fields
+	# 			TrainsJson[tid] = {
+	# 				"tracker": [],
+	# 				"block": None,
+	# 				"cutoff": False,
+	# 				"desc": None,
+	# 				"loco": None,
+	# 				"normalloco": None,
+	# 				"origin": { "loc": None, "track": None },
+	# 				"terminus": { "loc": None, "track": None }
+	# 				}
+	#
+	# 		TrainsJson[tid].update(tr.ToJSON())
+	#
+	# 	with open(self.fn, "w") as jfp:
+	# 		json.dump(TrainsJson, jfp, sort_keys=True, indent=2)
 		
 	def GetTrainList(self):
 		return [tr.GetTrainID() for tr in self.trainlist]

@@ -3,7 +3,7 @@ import wx.lib.newevent
 from wx.lib.gizmos.ledctrl import LEDNumberCtrl
 
 import os
-from dispatcher.mainframe import MainFrame, ScreenDiagram, BTNDIM
+from dispatcher.mainframe import MainFrame, ScreenDiagram, BTNDIM, SSBTNDIM
 from dispatcher.bitmaps import BitMaps
 from dispatcher.trackdiagram import TrackDiagram
 
@@ -22,6 +22,7 @@ from dispatcher.districts.port import Port
 
 from dispatcher.constants import HyYdPt, LaKr, NaCl, screensList
 import logging
+
 
 class PSRYFrame(MainFrame):
 	def __init__(self, settings):
@@ -194,17 +195,26 @@ class PSRYFrame(MainFrame):
 			self.cbSidingsUnlocked.SetValue(self.sidingsUnlocked)
 			self.cbSidingsUnlocked.Enable(False)
 
-			self.cbAutoRouter = wx.CheckBox(self, wx.ID_ANY, "Auto-Router", pos=(self.centerOffset + 670, 25))
-			self.Bind(wx.EVT_CHECKBOX, self.OnCBAutoRouter, self.cbAutoRouter)
-			self.cbAutoRouter.Enable(False)
-			self.cbATC = wx.CheckBox(self, wx.ID_ANY, "Automatic Train Control", pos=(self.centerOffset + 670, 50))
-			self.Bind(wx.EVT_CHECKBOX, self.OnCBATC, self.cbATC)
-			self.cbATC.Enable(False)
+			self.bAutoRouter = wx.Button(self, wx.ID_ANY, "Auto Router", pos=(self.centerOffset + 350, 15), size=BTNDIM)
+			self.bAutoRouter.Enable(False)
+			self.Bind(wx.EVT_BUTTON, self.OnBAutoRouter, self.bAutoRouter)
+
+			self.bATC = wx.Button(self, wx.ID_ANY, "ATC", pos=(self.centerOffset + 350, 45), size=BTNDIM)
+			self.bATC.Enable(False)
+			self.Bind(wx.EVT_BUTTON, self.OnBATC, self.bATC)
 
 		if self.IsDispatcherOrSatellite():
-			self.bSnapshot = wx.Button(self, wx.ID_ANY, "Snapshot", pos=(self.centerOffset + 2050, 75), size=BTNDIM)
-			self.bSnapshot.Enable(False)
-			self.Bind(wx.EVT_BUTTON, self.OnBSnapshot, self.bSnapshot)
+			self.bTakeSnapshot = wx.Button(self, wx.ID_ANY, "Take Snapshot", pos=(self.centerOffset + 2040, 15), size=SSBTNDIM)
+			self.bTakeSnapshot.Enable(False)
+			self.Bind(wx.EVT_BUTTON, self.OnBTakeSnapshot, self.bTakeSnapshot)
+
+			self.bChooseSnapshot = wx.Button(self, wx.ID_ANY, "Restore Selected", pos=(self.centerOffset + 2040, 45), size=SSBTNDIM)
+			self.bChooseSnapshot.Enable(False)
+			self.Bind(wx.EVT_BUTTON, self.OnBChooseSnapshot, self.bChooseSnapshot)
+
+			self.bLatestSnapshot = wx.Button(self, wx.ID_ANY, "Restore Latest", pos=(self.centerOffset + 2040, 75), size=SSBTNDIM)
+			self.bLatestSnapshot.Enable(False)
+			self.Bind(wx.EVT_BUTTON, self.OnBLatestSnapshot, self.bLatestSnapshot)
 
 			self.bPreloaded = wx.Button(self, wx.ID_ANY, "Preloaded", pos=(self.centerOffset + 2150, 15), size=BTNDIM)
 			self.bPreloaded.Enable(False)

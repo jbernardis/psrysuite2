@@ -1,22 +1,14 @@
-block signals
 
-Traffic Gen
+ATC:
+    way to actually kill the ATC process
 
-ATC
+    work out message to ATC to show/hide, always on top checkbox
 
-AR
-    handle special condition that signal S8R and S8L can block OSes SOSE and SOSW
-    display something in the status field
-
-
-Layout of buttons - move individual snapshot buttons onto main display
+    Control of processes.  Press a button it starts if stored PID is Nont or if poll() does not return None.  Else it sends a message to the process to un-hide itself.  Make sure to kill the processes on termination
 
 
 remove excessive debugging
 
-
-
-Hyde power buttons
 
 add locales to event/advice messages - all, None, locale only
 
@@ -38,15 +30,9 @@ inspection dialog
     reset blocks
     ignore blocks
 
- global actions
-    oss locking
-    unlock all sidings
-
-cliff release button???
-
 manage preloaded dialog
 
- Reloading data - trains, engineers, locos, etc
+Reloading data - trains, engineers, locos, etc
 
 
 
@@ -61,7 +47,5 @@ Test with multiple displays
 Make sure that cliffdisplay still works.
 
 Other tools:
-    AR
     ATC
     DCC
-    Traffic Gen

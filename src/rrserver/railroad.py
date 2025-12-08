@@ -21,7 +21,7 @@ from rrserver.districts.port import Port
 from rrserver.train import Train
 
 from rrserver.constants import INPUT_BLOCK, INPUT_TURNOUTPOS, INPUT_BREAKER, INPUT_SIGNALLEVER, \
-	INPUT_HANDSWITCH, INPUT_ROUTEIN, nodeNames, CrossingEastWestBoundary
+	INPUT_HANDSWITCH, INPUT_ROUTEIN, nodeNames, CrossingEastWestBoundary, CLIFF
 
 from rrserver.rrobjects import Block, OSBlock, Route, StopRelay, Signal, SignalLever, RouteIn, Turnout, \
 			OutNXButton, Handswitch, Breaker, Indicator, ODevice, Lock
@@ -121,6 +121,10 @@ class Railroad:
 			self.districts[name] = dclass(self, name, self.settings)
 			self.nodes[name] = self.districts[name].GetNodes()
 			self.addrList.extend([[addr, self.districts[name], node] for addr, node, in self.districts[name].GetNodes().items()])
+
+		# the cliveden and bank nodes need access to the release switch which is on the CLIFF panel
+		self.districts["Cliveden"].SetNodeReference(CLIFF, self.nodes["Cliff"][CLIFF])
+		self.districts["Bank"].SetNodeReference(CLIFF, self.nodes["Cliff"][CLIFF])
 
 		for hsnm, hs in self.handswitches.items():
 			hs.ResolveBlock(self.blocks)
@@ -741,11 +745,6 @@ class Railroad:
 
 		self.ConfigureOS(osb)
 
-		# ne = osb.NextDetectionSectionEast()
-		# nw = osb.NextDetectionSectionWest()
-		# self.Alert("Next West: %s" % ("None" if nw is None else nw.Name()))
-		# self.Alert("Next East: %s" % ("None" if ne is None else ne.Name()))
-
 		district.EvaluateDistrictLocks(sig, None)
 		self.EvaluatePreviousSignals(sig)
 
@@ -755,7 +754,7 @@ class Railroad:
 			tr.SetAspect(sig.Aspect(), sig.AspectType())
 			self.RailroadEvent((tr.GetEventMessage()))
 
-		# finally, check if this signal triggers or clears a stopping relay
+		# check if this signal triggers or clears a stopping relay
 		if signm not in self.sigToSbMap:
 			logging.info("Signal does not control stopping block")
 		else:
@@ -774,6 +773,13 @@ class Railroad:
 				if tr is not None:
 					tr.SetStopped(False)
 					self.RailroadEvent((tr.GetEventMessage()))
+
+		# see if this signal triggers any block signals
+		if signm in ["K2R", "K4R", "K8R", "N14LA", "N14LB", "N14LC", "N14LD", "N16L", "N18LA", "N18LB", "N20L"]:
+			self.CheckBlockSignals("N11", "N11W", False)
+			self.CheckBlockSignals("N21", "N21W", False)
+		elif signm in ["C18R", "C22R", "C24R", "C22L", "C24L"]:
+			self.CheckBlockSignalsAdv("B20", "B21", "B20E", True)
 
 	def DetermineSignalOS(self, signm):
 		osList = (self.sigToOSMap[signm])
@@ -1386,6 +1392,11 @@ class Railroad:
 				if m is not None:
 					yield m
 
+		for i in self.indicators.values():
+			m = i.GetEventMessage()
+			if m is not None:
+				yield m
+
 		for osnm, osblk in self.osblocks.items():
 			activeRouteName = osblk.ActiveRouteName()
 			if activeRouteName is not None:
@@ -1776,9 +1787,6 @@ class Railroad:
 				obj.SetEast(tr.IsEast())
 				return
 
-			# see if there are any district-specific tasks to do
-			district.BlockOccupancyChange(self, obj, 1)
-
 			obj.SetStatus("U")  # Mark the block as occupied unonown and then try to identify the train
 			tr, rear = self.IdentifyTrain(obj)
 			if self.settings.debug.blockoccupancy:
@@ -1814,6 +1822,9 @@ class Railroad:
 			obj.UpdateIndicators()
 
 			self.CheckStoppingSection(tr)
+
+			# see if there are any district-specific tasks to do
+			district.BlockOccupancyChange(self, obj, 1)
 
 		# otherwise, this is a detection loss - add it to pending, but only if we are currently occupied
 		else:
@@ -1953,8 +1964,6 @@ class Railroad:
 		if tr is None: # this only happens on the initial out/in exchange
 			return
 
-		district.BlockOccupancyChange(self, obj, 0)
-
 		if obj.SetStatus("E"):
 			if self.settings.debug.blockoccupancy:
 				self.Alert("Block marked as empty")
@@ -1986,6 +1995,8 @@ class Railroad:
 				sn = sigNames[1 if reversedBlk else 0]
 				sig = self.signals[sn]
 				district.EvaluateDistrictLocks(sig)
+
+		district.BlockOccupancyChange(self, obj, 0)
 
 	def CheckFleetTriggers(self, blk):
 		if blk.IsCompletelyEmpty():
@@ -3339,6 +3350,101 @@ class Railroad:
 			}
 
 		return result
+
+	def CheckBlockSignals(self, blkNm, sigNm, blkEast):
+		blk = self.blocks[blkNm]
+		clear = blk.IsCleared()
+		sig = self.signals[sigNm]
+		atype = sig.GetAspectType()
+
+		east = blk.IsEast()
+		if east == blkEast:
+			blkNxt = blk.GetNextEast() if blkEast else blk.GetNextWest()
+		else:
+			blkNxt = blk.GetNestWest() if blkEast else blk.GetNextEast()
+
+		if blkNxt is None:
+			nxtclr = False
+			nxtrte = None
+
+		else:
+			nxtclr = blkNxt.IsCleared()
+			rt = blkNxt.ActiveRoute()
+			if rt is None:
+				nxtrte = None
+			else:
+				nxtrte = rt.RouteType()
+
+		if east != blkEast:
+			aspect = 0
+		elif clear and nxtclr and (nxtrte == MAIN):
+			aspect = 0b011  # clear
+		elif clear and nxtclr and (nxtrte == DIVERGING):
+			aspect = 0b010  # approach medium
+		elif clear and nxtclr and (nxtrte == SLOW):
+			aspect = 0b110  # approach slow
+		elif clear and not nxtclr:
+			aspect = 0b001  # approach
+		else:
+			aspect = 0  # stop
+
+		if sig.SetAspect(aspect):
+			self.RailroadEvent(sig.GetEventMessage())
+
+	def CheckBlockSignalsAdv(self, blkNm, blkNxtNm, sigNm, blkEast):
+		blk = self.blocks[blkNm]
+		clear = blk.IsCleared()  # is the first block cleared
+		sig = self.signals[sigNm]
+		atype = sig.GetAspectType()
+
+		# now let's look at the OS to determine if it's cleared and what type of route is set up through it
+		east = blk.IsEast()
+
+		if east == blkEast:
+			blkNxt = blk.GetNextEast() if blkEast else blk.GetNextWest()
+		else:
+			blkNxt = blk.GetNextWest() if blkEast else blk.GetNextEast()
+
+		if blkNxt is None:
+			nxtclr = False
+			nxtrte = None
+
+		else:
+			nxtclr = blkNxt.IsCleared()
+			rt = blkNxt.ActiveRoute()
+			if rt is None:
+				nxtrte = None
+			else:
+				nxtrte = rt.RouteType() # get next route type
+
+		# now consider the block beyond the OS (as identified in a parameter) for clear and route type
+		try:
+			blknxt = self.blocks[blkNxtNm]
+		except KeyError:
+			nxtclradv = False
+			nxtEast = None
+		else:
+			nxtEast = blknxt.IsEast()
+			if nxtEast != blkEast:
+				nxtclradv = False
+			else:
+				nxtclradv = blknxt.IsCleared()
+
+		if east != blkEast or nxtEast != blkEast:
+			aspect = 0  # blocks going in opposite directions - just stop
+		elif clear and nxtclr and (nxtrte == MAIN) and nxtclradv:
+			aspect = 0b011  # clear
+		elif clear and nxtclr and (nxtrte == MAIN) and (not nxtclradv):
+			aspect = 0b110  # advance approach
+		elif clear and nxtclr and (nxtrte == DIVERGING):
+			aspect = 0b010  # approach medium
+		elif clear and not nxtclr:
+			aspect = 0b001  # approach
+		else:
+			aspect = 0  # stop
+
+		if sig.SetAspect(aspect):
+			self.RailroadEvent(sig.GetEventMessage())
 
 	def CheckEWCross(self, tr, blk, blkn):
 		s = blk.StoppedBlock()

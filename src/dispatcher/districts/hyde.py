@@ -16,9 +16,9 @@ class Hyde (District):
 	def Initialize(self):
 		District.Initialize(self)
 
-		self.buttons["HydeWestPower"].TurnOn(refresh=True)
-		self.buttons["HydeEastPower"].TurnOn(refresh=True)
-		self.buttons["H30Power"].TurnOn(refresh=True)
+		for b in ["HydeEastPower", "HydeWestPower", "H30Power"]:
+			self.buttons[b].TurnOn(refresh=True)
+			self.indicators[b].SetValue(1, force=True, silent=True)
 
 	def OnConnect(self):
 		District.OnConnect(self)
@@ -38,6 +38,7 @@ class Hyde (District):
 			onFlag = self.buttons[bname].IsOn()
 			nv = 0 if onFlag else 1
 			self.indicators[bname].SetValue(nv)
+			self.frame.PopupAdvice("Button %s %s" % (bname, nv))
 			return
 
 		rtname = self.buttonToRoute[bname]

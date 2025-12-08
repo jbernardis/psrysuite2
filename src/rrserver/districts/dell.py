@@ -190,5 +190,6 @@ class Dell(District):
 		if sig.Aspect() != aspect:
 			naspect = 2 if aspect == 3 else aspect
 			self.rr.SetAspect("R10W", naspect)
+			self.rr.RailroadEvent(sig.GetEventMessage())
 
 		District.OutIn(self)

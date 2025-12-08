@@ -511,7 +511,7 @@ class Cliff(District):
 
 		# release controls if requested by operator or if osslocks are turned off by dispatcher			
 		self.released = rlReq or not ossLocks
-			
+
 		self.rr.UpdateDistrictTurnoutLocks(self.name, self.released)
 		
 		District.OutIn(self)

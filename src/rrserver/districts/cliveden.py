@@ -1,18 +1,21 @@
 import logging
 
 from rrserver.district import District
-from rrserver.constants import CLIVEDEN
+from rrserver.constants import CLIVEDEN, CLIFF
 from rrserver.node import Node
+
 
 class Cliveden(District):
 	def __init__(self, rr, name, settings):
 		District.__init__(self, rr, name, settings)
 		self.rr = rr
 		self.name = name
+		self.released = False
 		self.nodeAddresses = [ CLIVEDEN ]
 		self.nodes = {
 			CLIVEDEN:  Node(self, rr, CLIVEDEN,  4, settings)
 		}
+		self.cliffNode = None
 
 		addr = CLIVEDEN
 		with self.nodes[addr] as n:
@@ -97,5 +100,23 @@ class Cliveden(District):
 					# if we change the state of the breaker, notify everyone
 					self.rr.RailroadEvent(cbrkr.GetEventMessage())
 
+	def SetNodeReference(self, addr, node):
+		# the cliveden node needs information from the cliff panel - the release bit
+		if addr == CLIFF:
+			self.cliffNode = node
+
 	def Locale(self):
 		return "cliff"
+
+	def OutIn(self):
+		rlReq = self.cliffNode.GetInputBit(6, 3)
+
+		ossLocks = self.rr.GetControlOption("osslocks") == 1
+
+		# release controls if requested by operator or if osslocks are turned off by dispatcher
+		self.released = rlReq or not ossLocks
+
+		self.rr.UpdateDistrictTurnoutLocks(self.name, self.released)
+
+		District.OutIn(self)
+

@@ -495,7 +495,11 @@ class Nassau(District):
 		return "NWOSCY"
 
 	def BlockOccupancyChange(self, rr, obj, val):
-		pass
+		bname = obj.Name()
+		if bname == "N11":
+			self.rr.CheckBlockSignals("N11", "N11W", False)
+		elif bname == "N21":
+			self.rr.CheckBlockSignals("N21", "N21W", False)
 
 	def ControlRestrictedMessage(self):
 		if self.control == 0:

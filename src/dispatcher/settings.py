@@ -255,7 +255,6 @@ class Settings:
 		self.activetrains.lines = 4     
 		self.activetrains.suppressyards = True
 		self.activetrains.suppressunknown = False
-		self.activetrains.onlyatc = False
 		self.activetrains.onlyassigned = False
 		self.activetrains.onlyassignedorunknown = False
 		if self.cfg.has_section(section):
@@ -274,8 +273,6 @@ class Settings:
 				elif opt == 'onlyassigned':
 					self.activetrains.onlyassigned = parseBoolean(value, False)
 
-				elif opt == 'onlyatc':
-					self.activetrains.onlyatc = parseBoolean(value, False)
 		else:
 			print("Missing %s section - assuming defaults" % section)
 
@@ -286,18 +283,13 @@ class Settings:
 		ct += 1 if self.activetrains.suppressunknown else 0
 		ct += 1 if self.activetrains.onlyassignedorunknown else 0
 		ct += 1 if self.activetrains.onlyassigned else 0
-		ct += 1 if self.activetrains.onlyatc else 0
 		if ct > 1:
 			if self.activetrains.onlyassignedorunknown:
 				self.activetrains.suppressunknown = False
 				self.activetrains.onlyassigned = False
-				self.activetrains.onlyatc = False
 			elif self.activetrains.onlyassigned:
 				self.activetrains.suppressunknown = False
-				self.activetrains.onlyatc = False
-			elif self.activetrains.suppressunknown:
-				self.activetrains.onlyatc = False				
-				
+
 		self.debug = Debug()
 		if self.cfg.has_section("debug"):
 			for opt, value in self.cfg.items("debug"):
@@ -475,7 +467,6 @@ class Settings:
 		self.cfg.set(section, "lines", "%d" % self.activetrains.lines)
 		self.cfg.set(section, "suppressyards", "True" if self.activetrains.suppressyards else "False")
 		self.cfg.set(section, "suppressunknown", "True" if self.activetrains.suppressunknown else "False")
-		self.cfg.set(section, "onlyatc", "True" if self.activetrains.onlyatc else "False")
 		self.cfg.set(section, "onlyassigned", "True" if self.activetrains.onlyassigned else "False")
 		self.cfg.set(section, "onlyassignedorunknown", "True" if self.activetrains.onlyassignedorunknown else "False")
 

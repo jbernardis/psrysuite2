@@ -302,7 +302,7 @@ class ServerMain:
 			# "blockdir":		self.DoBlockDir,
 			# "blockdirs":	self.DoBlockDirs,
 			# "blockclear":	self.DoBlockClear,
-			# "indicator":	self.DoIndicator,
+			"indicator":	self.DoIndicator,
 			"setrelay":		self.DoSetRelay,
 			"handswitch":	self.DoHandSwitch,
 			# "districtlock":	self.DoDistrictLock,
@@ -312,7 +312,7 @@ class ServerMain:
 			"alert":		self.DoAlert,
 			"server":		self.DoServer,
 			
-			# "autorouter":	self.DoAutorouter,
+			"autorouter":	self.DoAutorouter,
 			# "ar":			self.DoAR,
 			# "atc":			self.DoATC,
 			# "atcstatus":	self.DoATCStatus,
@@ -592,7 +592,7 @@ class ServerMain:
 
 		self.rr.SetIndicator(indname, value == 1)
 		# indicator information is always echoed to all listeners
-		resp = {"indicator": [{ "name": indname, "value": value}]}
+		resp = {"indicator": [{"name": indname, "value": value}]}
 		self.socketServer.sendToAll(resp)
 
 	def DoSetRelay(self, cmd):
@@ -1380,29 +1380,10 @@ class ServerMain:
 		for addr, _ in addrList:
 			self.socketServer.deleteSocket(addr)
 
-	def DoAutorouter(self, cmd): # start/kill autorouter process
-		try:
-			stat = cmd["status"][0]
-		except KeyError:
-			stat = None
-
-		if stat is None:
-			logging.error("autorouter command without status parameter")
-			return
-
-		if stat == "on":
-			if not self.clientList.HasFunction("AR"):
-				arExec = os.path.join(os.getcwd(), "autorouter", "main.py")
-				self.pidAR = Popen([sys.executable, arExec]).pid
-				logging.debug("autorouter started as PID %d" % self.pidAR)
-		else:
-			self.deleteClients(["AR"])
-			self.pidAR = None
-			
-	def DoAR(self, cmd): # forward autorouter messages to all AR cliebts
-		addrList = self.clientList.GetFunctionAddress("AR") + self.clientList.GetFunctionAddress("DISPLAY") + self.clientList.GetFunctionAddress("SATELLITE")
+	def DoAutorouter(self, cmd): # pass a message through to the AR process
+		addrList = self.clientList.GetFunctionAddress("AUTOROUTER")
 		for addr, skt in addrList:
-			self.socketServer.sendToOne(skt, addr, {"ar": cmd})
+			self.socketServer.sendToOne(skt, addr, {"autorouter": cmd})
 
 	def DoATC(self, cmd):
 		addrList = self.clientList.GetFunctionAddress("ATC") + self.clientList.GetFunctionAddress("DISPLAY") + self.clientList.GetFunctionAddress("SATELLITE")

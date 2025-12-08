@@ -130,7 +130,7 @@ class TrainListCtrl(wx.ListCtrl):
 		if col == 0:
 			return tr["rname"]
 		elif col == 1:
-			return ""
+			return tr["status"]
 
 		return ""
 

@@ -22,7 +22,6 @@ class Nassau (District):
 	def SetAspect(self, sig, aspect, refresh=False):
 		District.SetAspect(self, sig, aspect, refresh)
 		signm = sig.GetName()
-		self.frame.PopupEvent("In nassau set aspect %s" % signm)
 
 	def DoSignalLeverAction(self, signame, state, callon, silent=1, source=None):
 		if source == 'ctc':

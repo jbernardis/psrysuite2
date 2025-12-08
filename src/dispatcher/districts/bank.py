@@ -12,7 +12,7 @@ class Bank (District):
 	def __init__(self, name, frame, screen):
 		District.__init__(self, name, frame, screen)
 		self.C13Queue = self.frame.C13Queue
-		
+
 	def HandSwitchClick(self, hs, nv=None):
 		controlOpt = self.frame.cliffControl
 		if controlOpt == 0:  # cliff local control or limited to bank/cliveden (handled in those districts)

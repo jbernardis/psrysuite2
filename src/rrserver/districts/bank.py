@@ -1,7 +1,7 @@
 import logging
 
 from rrserver.district import District
-from rrserver.constants import BANK
+from rrserver.constants import BANK, CLIFF
 from rrserver.node import Node
 
 
@@ -10,6 +10,8 @@ class Bank(District):
 		District.__init__(self, rr, name, settings)
 		self.rr = rr
 		self.name = name
+		self.cliffNode = None
+		self.released = False
 		self.nodeAddresses = [ BANK ]
 		self.nodes = {
 			BANK:  Node(self, rr, BANK,  4, settings)
@@ -86,16 +88,38 @@ class Bank(District):
 			hsb = self.rr.GetHandswitch("CSw21b")
 			if hsname == "CSw21a":
 				locked = hsa.IsLocked()
-				hsb.Lock(locked)
+				hsb.Unlock(not locked)
 				self.rr.RailroadEvent(hsb.GetEventMessage(lock=True))
 			else:
 				locked = hsb.IsLocked()
-				hsa.Lock(locked)
+				hsa.Unlock(not locked)
 				self.rr.RailroadEvent(hsa.GetEventMessage(lock=True))
 			
 			hs = self.rr.GetHandswitch("CSw21ab")
-			if hs.Lock(locked):
+			if hs.Unlock(not locked):
 				hs.UpdateIndicators()
 
 	def Locale(self):
 		return "cliff"
+
+	def BlockOccupancyChange(self, rr, obj, val):
+		bname = obj.Name()
+		if bname in ["B20", "B21"]:
+			self.rr.CheckBlockSignalsAdv("B20", "B21", "B20E", True)
+
+	def SetNodeReference(self, addr, node):
+		# the bank node needs information from the cliff panel - the release bit
+		if addr == CLIFF:
+			self.cliffNode = node
+
+	def OutIn(self):
+		rlReq = self.cliffNode.GetInputBit(6, 3)
+
+		ossLocks = self.rr.GetControlOption("osslocks") == 1
+
+		# release controls if requested by operator or if osslocks are turned off by dispatcher
+		self.released = rlReq or not ossLocks
+
+		self.rr.UpdateDistrictTurnoutLocks(self.name, self.released)
+
+		District.OutIn(self)

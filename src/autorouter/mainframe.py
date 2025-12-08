@@ -68,7 +68,7 @@ osButtons = {
 
 class MainFrame(wx.Frame):
 	def __init__(self, cmdFolder):
-		wx.Frame.__init__(self, None, style=wx.DEFAULT_FRAME_STYLE)
+		wx.Frame.__init__(self, None, style=wx.STAY_ON_TOP | wx.CAPTION | wx.RESIZE_BORDER | wx.CLOSE_BOX)
 		self.sessionid = None
 		self.subscribed = False
 		self.settings = Settings()
@@ -165,6 +165,16 @@ class MainFrame(wx.Frame):
 
 		wx.CallAfter(self.Initialize)
 
+	def MoveToTop(self):
+		st = self.GetWindowStyle()
+
+		st |= wx.STAY_ON_TOP
+
+		# st &= ~wx.STAY_ON_TOP
+
+		self.SetWindowStyle(st)
+		self.Show()
+
 	def Ticker(self, _):
 		self.CheckQueuedRequests()
 
@@ -190,6 +200,8 @@ class MainFrame(wx.Frame):
 		self.rrServer = RRServer()
 		self.rrServer.SetServerAddress(self.settings.ipaddr, self.settings.serverport)
 
+		wx.CallLater(2000, self.ConnectServer)
+
 	def reportSelection(self):
 		selectedTrains = self.controlledList.GetChecked()
 		self.bDel.Enable(len(selectedTrains) > 0)
@@ -212,28 +224,34 @@ class MainFrame(wx.Frame):
 
 	def OnSubscribe(self, _):
 		if self.subscribed:
-			self.listener.kill()
-			self.listener.join()
-			self.listener = None
-			self.subscribed = False
-			self.sessionid = None
-			self.bSubscribe.SetLabel("Connect")
-			# self.bRefresh.Enable(False)
-			self.enableButtons()
-			self.ClearDataStructures()
+			self.DisconnectServer()
 		else:
-			self.listener = Listener(self, self.settings.ipaddr, self.settings.socketport)
-			if not self.listener.connect():
-				logging.error("Unable to establish connection with server")
-				self.listener = None
-				return
+			self.ConnectServer()
 
-			self.listener.start()
-			self.subscribed = True
-			self.bSubscribe.SetLabel("Disconnect")
-			# self.bRefresh.Enable(True)
-			self.enableButtons()
+	def ConnectServer(self):
+		self.listener = Listener(self, self.settings.ipaddr, self.settings.socketport)
+		if not self.listener.connect():
+			logging.error("Unable to establish connection with server")
+			self.listener = None
+			return
 
+		self.listener.start()
+		self.subscribed = True
+		self.bSubscribe.SetLabel("Disconnect")
+		# self.bRefresh.Enable(True)
+		self.enableButtons()
+		self.ShowTitle()
+
+	def DisconnectServer(self):
+		self.listener.kill()
+		self.listener.join()
+		self.listener = None
+		self.subscribed = False
+		self.sessionid = None
+		self.bSubscribe.SetLabel("Connect")
+		# self.bRefresh.Enable(False)
+		self.enableButtons()
+		self.ClearDataStructures()
 		self.ShowTitle()
 
 	def OnAvailableChoice(self, _):
@@ -249,6 +267,7 @@ class MainFrame(wx.Frame):
 		for i in il:
 			trid = self.lbAvailable.GetString(i)
 			self.controlledTrains[trid] = self.availableTrains[trid]
+			self.controlledTrains[trid]["status"] = ""
 			self.controlledList.AddTrain(self.controlledTrains[trid])
 			del self.availableTrains[trid]
 			self.AnalyzeTrain(trid)
@@ -311,7 +330,16 @@ class MainFrame(wx.Frame):
 				continue
 
 			logging.debug("Dispatch: %s: %s" % (cmd, parms))
-			if cmd == "turnout":
+			if cmd == "autorouter":
+				action = parms["action"][0]
+				logging.debug("AR Action: (%s)" % action)
+				if action == "show":
+					if self.IsShown():
+						self.Hide()
+					else:
+						self.MoveToTop()
+
+			elif cmd == "turnout":
 				for p in parms:
 					turnout = p["name"]
 					state = p["state"]
@@ -433,13 +461,17 @@ class MainFrame(wx.Frame):
 		except ValueError:
 			# it could be in an OS in which case nothing needs to be done
 			if currentBlock in osSeq:
+				tr["status"] = ""
+				self.controlledList.refreshTrain(trid)
 				return
 
-			print("Train % is in unexpected block: %s" % (trid, currentBlock))
+			tr["status"] = "Train % is in unexpected block: %s" % (trid, currentBlock)
+			self.controlledList.refreshTrain(trid)
 			return
 
 		if idx >= len(signalSeq):
-			print("Train has reached it's destination")
+			tr["status"] = "Completed"
+			self.controlledList.refreshTrain(trid)
 			return
 
 		wantedOS = osSeq[idx]
@@ -469,6 +501,8 @@ class MainFrame(wx.Frame):
 				# request the signal and proceed
 				self.Request({"signalclick": {"name": wantedSignal, "wantedaspect": 1, "callon": 0}})
 			# otherwise we have the correct route and a permissive signal - just proceed
+			tr["status"] = ""
+			self.controlledList.refreshTrain(trid)
 			return
 
 		# otherwise the route is wrong.  Since this takes time to set up, we need to enqueue the request
@@ -476,10 +510,14 @@ class MainFrame(wx.Frame):
 		print("%s" % str(rt))
 		if rt is None:
 			logging.error("Unable to find route %s" % wantedRoute)
+			tr["status"] = "Unable to find route %s/%s" % (wantedOS, wantedRoute)
+			self.controlledList.refreshTrain(trid)
 			return
 
 		toList = rt["turnouts"]
-		self.requestQueue.append(RouteRequect(wantedOS, wantedRoute, toList, wantedSignal))
+		tr["status"] = "Waiting for route %s/%s" % (wantedOS, wantedRoute)
+		self.requestQueue.append(RouteRequest(wantedOS, wantedRoute, toList, wantedSignal))
+		self.controlledList.refreshTrain(trid)
 
 	def ProcessRouteRequest(self, req):
 		# see if we need to set the route
@@ -550,6 +588,12 @@ class MainFrame(wx.Frame):
 		self.ShowTitle()
 
 	def OnClose(self, evt):
+		if not wx.GetKeyState(wx.WXK_SHIFT):
+			self.Hide()
+		else:
+			self.Kill()
+
+	def Kill(self):
 		try:
 			self.listener.kill()
 			self.listener.join()
@@ -558,7 +602,7 @@ class MainFrame(wx.Frame):
 		self.Destroy()
 
 
-class RouteRequect:
+class RouteRequest:
 	def __init__(self, osName, route, tolist, signal):
 		self.osName = osName
 		self.route = route

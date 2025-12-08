@@ -281,7 +281,6 @@ class Block:
 		return self.east != self.normalEast
 
 	def Reset(self):
-		logging.debug("+++++++Resetting block %s" % self.Name())
 		self.east = self.normalEast
 	
 	def SetStatus(self, stat):
@@ -1425,7 +1424,7 @@ class Turnout:
 		if self.lockBits is None:
 			return
 		bits, district, node, addr = self.lockBits
-		
+
 		newLockBit = 0 if release else 1 if self.locked else 0
 		if newLockBit != self.lockBitValue:
 			node.SetOutputBit(bits[0][0], bits[0][1], newLockBit)
@@ -1626,9 +1625,12 @@ class Handswitch:
 		
 		self.unlocked = unlocked
 		return True
-		
+
 	def IsUnlocked(self):
 		return self.unlocked
+
+	def IsLocked(self):
+		return not self.unlocked
 
 	def ForBitMap(self):
 		indicators = [[ind[3], ind[2], ind[4]] for ind in self.indicators]

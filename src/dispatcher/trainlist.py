@@ -161,7 +161,6 @@ class ActiveTrainsDlg(wx.Dialog):
 		self.settings = parent.settings
 		self.suppressYards =   self.settings.activetrains.suppressyards
 		self.suppressUnknown = self.settings.activetrains.suppressunknown
-		self.suppressNonATC =  self.settings.activetrains.onlyatc
 		self.suppressNonAssigned =  self.settings.activetrains.onlyassigned
 		self.suppressNonAssignedAndKnown = self.settings.activetrains.onlyassignedorunknown
 
@@ -203,13 +202,6 @@ class ActiveTrainsDlg(wx.Dialog):
 		self.Bind(wx.EVT_CHECKBOX, self.OnSuppressNonAssigned, self.cbAssignedOnly)
 		hsz.Add(self.cbAssignedOnly)
 
-		hsz.AddSpacer(30)
-
-		self.cbATCOnly = wx.CheckBox(self, wx.ID_ANY, "Show only ATC Trains")
-		self.cbATCOnly.SetValue(self.suppressNonATC)
-		self.Bind(wx.EVT_CHECKBOX, self.OnSuppressNonATC, self.cbATCOnly)
-		hsz.Add(self.cbATCOnly)
-
 		hsz.AddSpacer(60)
 
 		self.bRebuild = wx.Button(self, wx.ID_ANY, "Rebuild")
@@ -239,7 +231,6 @@ class ActiveTrainsDlg(wx.Dialog):
 		self.trCtl.SetSuppressYardTracks(self.suppressYards)
 		
 		self.trCtl.SetSuppressUnknown(self.suppressUnknown)
-		self.trCtl.SetSuppressNonATC(self.suppressNonATC)
 		self.trCtl.SetSuppressNonAssigned(self.suppressNonAssigned)
 		self.trCtl.SetSuppressNonAssignedAndKnown(self.suppressNonAssignedAndKnown)
 
@@ -312,21 +303,12 @@ class ActiveTrainsDlg(wx.Dialog):
 	def OnSuppressYard(self, _):
 		flag = self.cbYardTracks.GetValue()
 		self.trCtl.SetSuppressYardTracks(flag)
-		
-	def OnSuppressNonATC(self, _):
-		flag = self.cbATCOnly.GetValue()
-		if flag:
-			self.cbUnknown.SetValue(False)
-			self.cbAssignedOnly.SetValue(False)
-			self.cbAssignedOrUnknown.SetValue(False)
-		self.trCtl.SetSuppressNonATC(flag)
 
 	def OnSuppressNonAssignedAndKnown(self, _):
 		flag = self.cbAssignedOrUnknown.GetValue()
 		if flag:
 			self.cbUnknown.SetValue(False)
 			self.cbAssignedOnly.SetValue(False)
-			self.cbATCOnly.SetValue(False)
 		self.trCtl.SetSuppressNonAssignedAndKnown(flag)
 		
 	def OnSuppressUnknown(self, _):
@@ -334,7 +316,6 @@ class ActiveTrainsDlg(wx.Dialog):
 		if flag:
 			self.cbAssignedOrUnknown.SetValue(False)
 			self.cbAssignedOnly.SetValue(False)
-			self.cbATCOnly.SetValue(False)
 		self.trCtl.SetSuppressUnknown(flag)
 		
 	def OnSuppressNonAssigned(self, _):
@@ -342,7 +323,6 @@ class ActiveTrainsDlg(wx.Dialog):
 		if flag:
 			self.cbAssignedOrUnknown.SetValue(False)
 			self.cbUnknown.SetValue(False)
-			self.cbATCOnly.SetValue(False)
 		self.trCtl.SetSuppressNonAssigned(flag)
 
 	def onBRebuild(self, _):
@@ -385,7 +365,7 @@ class ActiveTrainsDlg(wx.Dialog):
 
 class TrainListCtrl(wx.ListCtrl):
 	def __init__(self, parent, dccsnifferenabled, height=160):
-		wx.ListCtrl.__init__(self, parent, wx.ID_ANY, size=(1366, height), style=wx.LC_REPORT + wx.LC_VIRTUAL + wx.LC_SINGLE_SEL)
+		wx.ListCtrl.__init__(self, parent, wx.ID_ANY, size=(1276, height), style=wx.LC_REPORT + wx.LC_VIRTUAL + wx.LC_SINGLE_SEL)
 		self.parent = parent
 		self.roster = None
 		self.trains = {}
@@ -412,26 +392,22 @@ class TrainListCtrl(wx.ListCtrl):
 		self.InsertColumn(2, "Loco")
 		self.SetColumnWidth(2, 80)
 		self.InsertColumn(3, "Engineer")
-		self.SetColumnWidth(3, 100)
-		self.InsertColumn(4, "ATC")
+		self.SetColumnWidth(3, 110)
+		self.InsertColumn(4, "SB")
 		self.SetColumnWidth(4, 50)
-		self.InsertColumn(5, "AR")
-		self.SetColumnWidth(5, 50)
-		self.InsertColumn(6, "SB")
-		self.SetColumnWidth(6, 50)
-		self.InsertColumn(7, "Signal")
-		self.SetColumnWidth(7, 300)
-		self.InsertColumn(8, "Throttle" if self.dccsnifferenabled else "Limit")
-		self.SetColumnWidth(8, 100)
-		self.InsertColumn(9, "Blocks")
-		self.SetColumnWidth(9, 400)
-		self.InsertColumn(10, "Time")
-		self.SetColumnWidth(10, 80)
+		self.InsertColumn(5, "Signal")
+		self.SetColumnWidth(5, 300)
+		self.InsertColumn(6, "Throttle" if self.dccsnifferenabled else "Limit")
+		self.SetColumnWidth(6, 100)
+		self.InsertColumn(7, "Blocks")
+		self.SetColumnWidth(7, 400)
+		self.InsertColumn(8, "Time")
+		self.SetColumnWidth(8, 80)
 		self.SetItemCount(0)
 		
 	def ChangeSize(self, sz):
 		self.SetSize(sz[0]-56, sz[1]-84)
-		self.SetColumnWidth(9, sz[0]-966-56)
+		self.SetColumnWidth(7, sz[0]-876-56)
 
 	def SetRoster(self, roster):
 		self.roster = roster
@@ -530,7 +506,6 @@ class TrainListCtrl(wx.ListCtrl):
 	def SetSuppressUnknown(self, flag):
 		self.suppressUnknown = flag
 		if flag:
-			self.suppressNonATC = False
 			self.suppressNonAssigned = False
 			self.suppressNonAssignedAndKnown = False
 
@@ -555,7 +530,6 @@ class TrainListCtrl(wx.ListCtrl):
 		self.suppressNonAssigned = flag
 		if flag:
 			self.suppressUnknown = False
-			self.suppressNonATC = False
 			self.suppressNonAssignedAndKnown = False
 
 		self.filterTrains()	
@@ -567,7 +541,6 @@ class TrainListCtrl(wx.ListCtrl):
 		self.suppressNonAssignedAndKnown = flag
 		if flag:
 			self.suppressUnknown = False
-			self.suppressNonATC = False
 			self.suppressNonAssigned = False
 
 		self.filterTrains()	
@@ -612,9 +585,6 @@ class TrainListCtrl(wx.ListCtrl):
 		if self.suppressNonAssigned and tr.Engineer() is None:
 			return True
 
-		if self.suppressNonATC and not tr.ATC():
-			return True
-					
 		return False
 	
 	def GetActiveTrain(self, index):
@@ -639,19 +609,13 @@ class TrainListCtrl(wx.ListCtrl):
 			return tr.Loco()
 		
 		elif col == 3:
-			nm = "ATC" if tr.ATC() else tr.Engineer()
+			nm = tr.Engineer()
 			return "" if nm is None else nm
 		
 		elif col == 4:
-			return u"\u2713" if tr.ATC() else " "
-		
-		elif col == 5:
-			return u"\u2713" if tr.AR() else " "
-		
-		elif col == 6:
 			return u"\u2713" if tr.Stopped() else " "
 		
-		elif col == 7:
+		elif col == 5:
 			sn = tr.Signal()
 			if sn is None:
 				return ""
@@ -668,7 +632,7 @@ class TrainListCtrl(wx.ListCtrl):
 				atn = aspecttype(aspectType)
 				return "%s : %s%s (%s)" % (sn, "*" if pastSignal else "", an, atn)
 
-		elif col == 8:
+		elif col == 6:
 			return "Thr"
 
 		elif col == 88:
@@ -697,11 +661,11 @@ class TrainListCtrl(wx.ListCtrl):
 
 			return "%s - %d" % (throttle, limit) if self.dccsnifferenabled else "%d" % limit
 		
-		elif col == 9:
+		elif col == 7:
 			bl = self.parent.GetBlockNames(reversed(tr.Blocks()))
 			return bl
 		
-		elif col == 10:
+		elif col == 8:
 			return "time"
 
 		elif col == 1010:
