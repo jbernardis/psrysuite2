@@ -1,5 +1,6 @@
 import os
 import wx
+import qrcode
 
 from traineditor.engineers.engineers import Engineers
 
@@ -46,13 +47,21 @@ class ManageEngineersDlg(wx.Dialog):
 		self.Bind(wx.EVT_BUTTON, self.bAddEngPressed, self.bAddEng)
 		
 		sz.AddSpacer(20)
-		
+
 		self.bDelEng = wx.Button(self, wx.ID_ANY, "Delete", size=BTNSZ)
 		self.bDelEng.SetFont(btnFont)
 		self.bDelEng.SetToolTip("Delete the selected engineer")
 		sz.Add(self.bDelEng)
 		self.Bind(wx.EVT_BUTTON, self.bDelEngPressed, self.bDelEng)
 		self.bDelEng.Enable(False)
+
+		sz.AddSpacer(20)
+
+		self.bGenQR = wx.Button(self, wx.ID_ANY, "QR Codes", size=BTNSZ)
+		self.bGenQR.SetFont(btnFont)
+		self.bGenQR.SetToolTip("Generate QR codes for engineers")
+		sz.Add(self.bGenQR)
+		self.Bind(wx.EVT_BUTTON, self.bGenQRPressed, self.bGenQR)
 
 		sz.AddSpacer(20)
 		hsz.Add(sz, 0, wx.ALIGN_CENTER_VERTICAL)
@@ -159,6 +168,31 @@ class ManageEngineersDlg(wx.Dialog):
 		if sx >= len(self.engineers):
 			sx = len(self.engineers) -1
 		self.lbEngineers.SetSelection(sx)		
+
+	def bGenQRPressed(self, _):
+		ct = 0
+		for e in self.eng.getEngineerList():
+			self.EngQRCode(e)
+			ct += 1
+
+		dlg = wx.MessageDialog(self, "QR Codes generated for %d engineers" % ct, 'QRCodes generated', wx.OK | wx.ICON_INFORMATION)
+		dlg.ShowModal()
+		dlg.Destroy()
+
+	def EngQRCode(self, eng):
+		qr = qrcode.QRCode(
+			version=1,
+			error_correction=qrcode.constants.ERROR_CORRECT_L,
+			box_size=3,
+			border=4,
+		)
+		qr.add_data("ENGINEER: %s" % eng)
+		qr.make(fit=True)
+		img = qr.make_image(fill_color="black", back_color="white")
+		# img = qrcode.make('TRAIN: CFYD')
+		type(img)  # qrcode.image.pil.PilImage
+		fn = os.path.join(os.getcwd(), "qrcodes", "engineer_%s.png" % eng)
+		img.save(fn)
 
 	def bSavePressed(self, _):
 		self.eng.save()

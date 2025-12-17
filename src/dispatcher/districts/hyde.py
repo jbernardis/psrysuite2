@@ -13,20 +13,6 @@ class Hyde (District):
 	def __init__(self, name, frame, screen):
 		District.__init__(self, name, frame, screen)
 
-	def Initialize(self):
-		District.Initialize(self)
-
-		for b in ["HydeEastPower", "HydeWestPower", "H30Power"]:
-			self.buttons[b].TurnOn(refresh=True)
-			self.indicators[b].SetValue(1, force=True, silent=True)
-
-	def OnConnect(self):
-		District.OnConnect(self)
-
-		for bname in ["HydeEastPower", "HydeWestPower", "H30Power"]:
-			onFlag = 1 if self.buttons[bname].IsOn() else 0
-			self.indicators[bname].SetValue(onFlag, force=True)
-
 	def DetermineRoute(self, blocks):
 		self.FindTurnoutCombinations(blocks, [
 			"HSw1", "HSw3", "HSw5", "HSw7", "HSw9", "HSw11", "HSw13", "HSw15",
@@ -38,7 +24,6 @@ class Hyde (District):
 			onFlag = self.buttons[bname].IsOn()
 			nv = 0 if onFlag else 1
 			self.indicators[bname].SetValue(nv)
-			self.frame.PopupAdvice("Button %s %s" % (bname, nv))
 			return
 
 		rtname = self.buttonToRoute[bname]
@@ -60,6 +45,8 @@ class Hyde (District):
 		if iName in self.buttons:
 			btn = self.buttons[iName]
 			btn.TurnOn(flag=(val == 1), refresh=True)
+			if iName in ["HydeEastPower", "HydeWestPower", "H30Power"]:
+				self.indicators[iName].SetValue(val)
 
 	def DefineBlocks(self):
 		self.blocks = {}

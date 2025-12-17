@@ -176,6 +176,12 @@ class HTTPServer:
 			logging.info("Returning %d bytes" % len(jstr))
 			return 200, jstr
 
+		elif verb == "audittrains":
+			audit = self.rr.AuditTrains()
+			jstr = json.dumps(audit)
+			logging.info("Returning %d bytes" % len(jstr))
+			return 200, jstr
+
 		elif verb == "getlayout":
 			fn = os.path.join(os.getcwd(), "data", "layout.json")
 			logging.info("Retrieving layout information from file (%s)" % fn)
@@ -264,6 +270,24 @@ class HTTPServer:
 			rv = self.rr.GetTurnoutLocks()
 			if rv is None:
 				logging.info("Unknown error retrieving turnout locks")
+				return 400, ""
+
+			jstr = json.dumps(rv)
+			return 200, jstr
+
+		elif verb == "signallevers":
+			rv = self.rr.GetSignalLevers()
+			if rv is None:
+				logging.info("Unknown error retrieving signal levers")
+				return 400, ""
+
+			jstr = json.dumps(rv)
+			return 200, jstr
+
+		elif verb == "osproxies":
+			rv = self.rr.GetOSProxyInfo()
+			if rv is None:
+				logging.info("Unknown error retrieving os proxies")
 				return 400, ""
 
 			jstr = json.dumps(rv)

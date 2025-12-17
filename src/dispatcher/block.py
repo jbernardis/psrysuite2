@@ -309,7 +309,8 @@ class Block:
 			return 
 		
 		self.SetEast(self.defaultEast)
-		self.cleared = False
+		self.SetCleared(False)
+		self.SetStatus("E")
 		self.SetLastEntered(None)
 
 	def SetNextBlockEast(self, blk):
@@ -451,6 +452,7 @@ class Block:
 			return
 
 		self.status = state
+		self.SetCleared(flag=state == "C")
 
 		if self.status == "E" and self.AllUnoccupied():
 			self.Reset()
@@ -905,7 +907,7 @@ class OSProxy:
 	def __init__(self, district, name):
 		self.district = district
 		self.name = name
-		self.status = "E:"
+		self.status = "E"
 		self.routes = {}
 		self.osList = ()
 		
@@ -923,6 +925,9 @@ class OSProxy:
 		
 	def IsOccupied(self):
 		return self.status in ["O", "U"]
+
+	def GetRoutes(self):
+		return self.routes.keys()
 		
 	def AddRoute(self, route):
 		self.routes[route.GetName()] = route

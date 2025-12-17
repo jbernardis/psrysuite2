@@ -103,8 +103,6 @@ class MainFrame(wx.Frame):
 
 		hsz.AddSpacer(20)
 		hsz.Add(self.bSubscribe)
-		# hsz.AddSpacer(20)
-		# hsz.Add(self.bRefresh)
 		hsz.AddSpacer(20)
 
 		vsz.Add(hsz)
@@ -206,13 +204,6 @@ class MainFrame(wx.Frame):
 		selectedTrains = self.controlledList.GetChecked()
 		self.bDel.Enable(len(selectedTrains) > 0)
 
-	def enableButtons(self):
-		pass
-		# haveStartable = len(self.startable) > 0 and self.subscribed
-		# self.bStart.Enable(haveStartable)
-		# self.bClear.Enable(haveStartable)
-		# self.bStop.Enable(len(self.running) > 0 and self.subscribed)
-
 	def ClearDataStructures(self):
 		self.blocks = {}
 		self.turnouts = {}
@@ -238,8 +229,6 @@ class MainFrame(wx.Frame):
 		self.listener.start()
 		self.subscribed = True
 		self.bSubscribe.SetLabel("Disconnect")
-		# self.bRefresh.Enable(True)
-		self.enableButtons()
 		self.ShowTitle()
 
 	def DisconnectServer(self):
@@ -249,8 +238,6 @@ class MainFrame(wx.Frame):
 		self.subscribed = False
 		self.sessionid = None
 		self.bSubscribe.SetLabel("Connect")
-		# self.bRefresh.Enable(False)
-		self.enableButtons()
 		self.ClearDataStructures()
 		self.ShowTitle()
 
@@ -369,7 +356,6 @@ class MainFrame(wx.Frame):
 				self.CheckQueuedRequests()
 
 			elif cmd == "lockturnout":
-				lockturnout: [{'name': 'LSw15', 'lock': False}]
 				for p in parms:
 					tonm = p["name"]
 					lock = p["lock"]
@@ -588,7 +574,7 @@ class MainFrame(wx.Frame):
 		self.ShowTitle()
 
 	def OnClose(self, evt):
-		if not wx.GetKeyState(wx.WXK_SHIFT):
+		if self.subscribed:
 			self.Hide()
 		else:
 			self.Kill()

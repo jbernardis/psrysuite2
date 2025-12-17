@@ -813,6 +813,9 @@ class District:
 	def DefineDistrictLocks(self):
 		return {}
 
+	def EvaluateDistrictLocks(self, sig, ossLocks=False):
+		return
+
 	def ReportBlockBusy(self, blknm):
 		self.frame.PopupEvent("Block %s is busy" % blknm)
 
@@ -957,7 +960,8 @@ class Districts:
 			blocksigs.update(bsl)
 			ossigs.update(osl)
 			routes.update(rtl)
-			osProxies.update(ospr)
+			# osProxies.update(ospr)
+			osProxies[t.GetName()] = ospr
 
 		return sigs, blocksigs, ossigs, routes, osProxies
 

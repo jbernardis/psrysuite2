@@ -1,4 +1,5 @@
 import os
+import sys
 import logging
 import json
 
@@ -7,29 +8,41 @@ from dispatcher.constants import aspectprofileindex
 
 
 class DCCRemote:
-	def __init__(self, server):
+	def __init__(self, server, blocks, turnouts, signals, routes, roster):
 		self.server = server
+		self.blocks = blocks
+		self.turnouts = turnouts
+		self.signals = signals
+		self.routes = routes
+		self.roster = roster
+
 		self.initialized = False
 		self.locos = []
 		self.profiles = {}
 		self.defaultProfile = {
-				    "start": 0,
-				    "slow": 10,
-				    "medium": 58,
-				    "fast": 80,
-				    "acc": 1,
-				    "dec": 1
-				  }
-		
+			"start": 0,
+			"slow": 10,
+			"medium": 58,
+			"fast": 80,
+			"acc": 1,
+			"dec": 1
+		}
+		self.selectedLoco = None
+
 	def Initialize(self, locos):
 		if locos is None:
 			self.profiles = {}
 		else:
-			self.profiles = {loco: locos[loco]["prof"] for loco in locos}	
+			self.profiles = {loco: locos[loco]["prof"] for loco in locos}
+		self.initialized = True
 		return True
 		
 	def LocoCount(self):
+		print("Loco Count returning %d" % len(self.locos), file=sys.stderr)
 		return len(self.locos)
+
+	def ExamineLocos(self):
+		for loco in self.locos
 	
 	def HasTrain(self, trn):
 		for l in self.locos:
@@ -76,6 +89,8 @@ class DCCRemote:
 			self.locos.append(l)
 			l.SetProfiler(self.Profiler)
 			self.selectedLoco = l
+			print("Adding loco %s to locolist" % loco, file=sys.stderr)
+			print("loco count = %d" % len(self.locos), file=sys.stderr)
 
 		l = self.selectedLoco
 		if assertValues:			
@@ -181,7 +196,6 @@ class DCCRemote:
 			
 		return None
 
-		
 	def GetDCCLocos(self):
 		return self.locos
 

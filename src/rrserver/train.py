@@ -1,5 +1,5 @@
 import logging
-from dispatcher.constants import aspectname, aspecttype
+from dispatcher.constants import aspectname, aspecttype, RegAspects
 
 
 class Train:
@@ -17,8 +17,6 @@ class Train:
 		self.aspectType = None
 		self.pastSignal = False
 		self.stopped = False
-		self.atc = False
-		self.ar = False
 		self.templateTrain = None
 		self.signal = None
 
@@ -60,12 +58,17 @@ class Train:
 				self.signal.SetTrain(None)
 
 		self.signal = sig
-		logging.debug("Train %s, signal %s set aspect to %d/%d" % (self.Name(), sig.Name(), sig.Aspect(), sig.AspectType()))
-		self.aspect = sig.Aspect()
-		self.aspectType = sig.AspectType()
-		self.pastSignal = False
-
-		sig.SetTrain(self)
+		if sig is None:
+			logging.debug("Train %s, signal set to None" % self.Name())
+			self.aspect = 0
+			self.aspectType = RegAspects
+			self.pastSignal = False
+		else:
+			logging.debug("Train %s, signal %s set aspect to %d/%d" % (self.Name(), sig.Name(), sig.Aspect(), sig.AspectType()))
+			self.aspect = sig.Aspect()
+			self.aspectType = sig.AspectType()
+			self.pastSignal = False
+			sig.SetTrain(self)
 
 	def SetAspect(self, aspect, aspectType, force=False):
 		if force or not self.pastSignal:
@@ -107,24 +110,6 @@ class Train:
 
 	def SetLoco(self, l):
 		self.loco = l
-
-	def SetATC(self, atc):
-		if atc is None:
-			return
-
-		self.atc = atc
-
-	def ATC(self):
-		return self.atc
-
-	def SetAR(self, ar):
-		if ar is None:
-			return
-
-		self.ar = ar
-
-	def AR(self):
-		return self.ar
 
 	def AspectName(self):
 		if self.aspect is None or self.aspectType is None:
@@ -170,8 +155,6 @@ class Train:
 			"engineer": self.engineer,
 			"blocks": [b.Name() for b in self.blocks],
 			"stopped": self.stopped,
-			"atc": self.atc,
-			"ar": self.ar,
 			"signal": None if self.signal is None else self.signal.Name(),
 			"aspect": self.aspect,
 			"aspecttype": self.aspectType,

@@ -7,11 +7,10 @@ class LayoutData:
 		if self.layout is None:
 			self.RRConnected = False
 			return
-
+		self.subblocks = rrserver.Get("getsubblocks", {})
 		self.RRConnected = True
 
 		self.routes = self.layout["routes"]
-		self.subblocks = self.layout["subblocks"]
 		self.crossovers = self.layout["crossover"]
 
 		self.block2route = {}

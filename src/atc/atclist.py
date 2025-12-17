@@ -5,12 +5,13 @@ import logging
 ONVAL = "1"
 OFFVAL = "0"
 
+
 class ATCListCtrl(wx.ListCtrl):
 	def __init__(self, parent, cmdFolder):
 		self.parent = parent
 		
 		wx.ListCtrl.__init__(
-			self, parent, wx.ID_ANY, size=(310, 110),
+			self, parent, wx.ID_ANY, size=(290, 110),
 			style=wx.LC_REPORT|wx.LC_VIRTUAL|wx.LC_VRULES|wx.LC_SINGLE_SEL) #|wx.LC_NO_HEADER)
 
 		self.Bind(wx.EVT_LIST_ITEM_SELECTED, self.OnItemSelected)
@@ -18,25 +19,22 @@ class ATCListCtrl(wx.ListCtrl):
 		self.Bind(wx.EVT_LIST_ITEM_DESELECTED, self.OnItemDeselected)
 		self.Bind(wx.EVT_LIST_CACHE_HINT, self.OnItemHint)
 		
-
 #		self.Bind(wx.EVT_LIST_ITEM_RIGHT_CLICK, self.onRightClick, self)
 
 		self.InsertColumn(0, "")
 		self.InsertColumn(1, "Train")
 		self.InsertColumn(2, "Loco")
 		self.InsertColumn(3, "Spd")
-		self.InsertColumn(4, "Dir")
-		self.InsertColumn(5, "L")
-		self.InsertColumn(6, "H")
-		self.InsertColumn(7, "B")
+		self.InsertColumn(4, "L")
+		self.InsertColumn(5, "H")
+		self.InsertColumn(6, "B")
 		self.SetColumnWidth(0, 30)
 		self.SetColumnWidth(1, 60)
 		self.SetColumnWidth(2, 60)
 		self.SetColumnWidth(3, 40)
-		self.SetColumnWidth(4, 40)
+		self.SetColumnWidth(4, 20)
 		self.SetColumnWidth(5, 20)
 		self.SetColumnWidth(6, 20)
-		self.SetColumnWidth(7, 20)
 		
 		self.loadImages(os.path.join(cmdFolder, "images"))
 		self.il = wx.ImageList(24, 24)
@@ -85,7 +83,7 @@ class ATCListCtrl(wx.ListCtrl):
 		self.pngSigRedRed = png
 		
 	def AddTrain(self, tr):
-		nm = tr.GetName()
+		nm = tr["rname"]
 		if nm in self.trainNames:
 			return 
 		
@@ -142,21 +140,17 @@ class ATCListCtrl(wx.ListCtrl):
 		self.RefreshItem(idx)
 	
 	def ClearAll(self):
-		self.SetItemCount = 0
+		self.SetItemCount(0)
 		self.trainNames = []
 		self.trains = {}
-		self.RefreshItem(0)
+		self.RefreshItem(None)
 			
 	def setSelection(self, tx, dclick=False):
 		self.selected = tx;
 		if tx is not None:
 			self.Select(tx)
 			
-		if dclick:
-			pass
-			#self.parent.reportDoubleClick(tx)
-		else:
-			self.parent.ReportSelection(None if tx is None else self.trainNames[tx])
+		self.parent.ReportSelection(None if tx is None else self.trainNames[tx])
 		
 	def ChangeSize(self, sz):
 		self.SetSize(self.startWidth, sz[1]-60)
@@ -177,12 +171,11 @@ class ATCListCtrl(wx.ListCtrl):
 	def OnGetItemImage(self, item):
 		nm = self.trainNames[item]
 		dccl = self.trains[nm]
-		aspect = dccl.GetGoverningAspect()
-		forced = dccl.GetForcedStop()
-		
-		if forced:
+		aspect = dccl["aspect"]
+
+		if dccl["forcedstop"]:
 			return self.idxRedRed
-		
+
 		if aspect == 0:
 			return self.idxRed
 		
@@ -202,17 +195,15 @@ class ATCListCtrl(wx.ListCtrl):
 		elif col == 1:
 			return nm
 		elif col == 2:
-			return dccl.GetLoco()
+			return dccl["loco"]
 		elif col == 3:
-			return "%3d" % dccl.GetSpeed()
+			return "%3d" % dccl["speed"]
 		elif col == 4:
-			return "Rev" if dccl.GetDirection() == "R" else "Fwd"
+			return ONVAL if dccl["headlight"] else OFFVAL
 		elif col == 5:
-			return ONVAL if dccl.GetHeadlight() else OFFVAL
+			return ONVAL if dccl["horn"] else OFFVAL
 		elif col == 6:
-			return ONVAL if dccl.GetHorn() else OFFVAL
-		elif col == 7:
-			return ONVAL if dccl.GetBell() else OFFVAL
+			return ONVAL if dccl["bell"] else OFFVAL
 		else:
 			return "?"
 

@@ -328,6 +328,20 @@ class MainFrame(wx.Frame):
 		logging.debug("sending message: %s" % str(msg))
 		self.Request(msg)
 
+	def SendLogLevel(self, lvl):
+		logging.getLogger().setLevel(lvl)
+
+		msg = {"loglevel": {"level": lvl}}
+		logging.debug("sending message: %s" % str(msg))
+		self.Request(msg)
+
+		dlg = wx.MessageDialog(self, "Logging Level has been set to %s" % lvl,
+							"Logging Level Changed",
+							wx.OK | wx.ICON_INFORMATION)
+		dlg.CenterOnScreen()
+		dlg.ShowModal()
+		dlg.Destroy()
+
 	def CloseInspect(self):
 		self.dlgInspect.Destroy()
 		self.dlgInspect = None
@@ -2229,20 +2243,7 @@ class MainFrame(wx.Frame):
 					w.Show()
 					
 	def GetOSProxyInfo(self):
-		counts = {}
-		pnames = {}
-		osnames = {}
-		for pn, p in self.osProxies.items():
-			rn, occ, osname = p.Evaluate()
-			if rn and occ:
-				counts[rn] = counts.get(rn, 0) + 1
-				osnames[rn] = osname
-				if rn in pnames:
-					pnames[rn].append(pn)
-				else:
-					pnames[rn] = [pn]
-
-		return {rn: {"count": counts[rn], "os": osnames[rn], "segments": pnames[rn]} for rn in counts.keys()}
+		return self.Get("osproxies", {})
 
 	def GetHandswitchInfo(self):
 		hsinfo = {hsname.split(".")[0]: self.handswitches[hsname].GetValue() for hsname in self.handswitches}
@@ -3063,12 +3064,12 @@ class MainFrame(wx.Frame):
 			except KeyError:
 				iName = None
 			try:
-				value = int(p["value"])
+				value = int(p["state"])
 			except KeyError:
 				value = None
 
 			if iName is None or value is None:
-				logging.error("Indicator command without name and/or value parameters")
+				logging.error("Indicator command without name and/or state parameters")
 				return
 
 			try:
@@ -3727,60 +3728,58 @@ class MainFrame(wx.Frame):
 		# for the blocks that are no longer part of this train, clear out the train information,
 		# but only if there isn't another train that has moved into the block
 		if self.settings.debug.blockoccupancy:
-			self.PopupAdvice("Blocks being removed from train %s: %s" % (tr.Name(), ", ".join(d)))
+			self.PopupEvent("Blocks being removed from train %s: %s" % (tr.Name(), ", ".join(d)))
 		dblocks = []
 		for bn in d:
 			blk = self.blocks.get(bn, None)
-			if self.settings.debug.blockoccupancy:
-				self.PopupAdvice("Block %s ==========================================" % bn)
 			if blk is not None:
 				btr = blk.GetTrain()
 				if btr is None or btr.IName() == iname:
 					if self.settings.debug.blockoccupancy:
-						self.PopupAdvice("Reset this portion of the block %s back to empty/no trains" % bn)
+						self.PopupEvent("Reset this portion of the block %s back to empty/no trains" % bn)
 					blk.SetStatus("E")
 					if blk.AllUnoccupied():
 						if self.settings.debug.blockoccupancy:
-							self.PopupAdvice("The block is completely unoccupied - reset it")
+							self.PopupEvent("The block is completely unoccupied - reset it")
 						blk.SetTrain(None)
 						dblocks.append(bn)  # this block needs to be cleared
 					else:
 						if self.settings.debug.blockoccupancy:
-							self.PopupAdvice("There's still a train in another section of this block - do nothing else")
+							self.PopupEvent("There's still a train in another section of this block - do nothing else")
 
 				else:
 					if self.settings.debug.blockoccupancy:
-						self.PopupAdvice("This block now holds another train or is already empty - do nothing")
+						self.PopupEvent("This block now holds another train or is already empty - do nothing")
 			else:
 				if self.settings.debug.blockoccupancy:
-					self.PopupAdvice("We couldn't find that block, see if we have a stopping section")
+					self.PopupEvent("We couldn't find that block, see if we have a stopping section")
 				if bn.endswith(".E") or bn.endswith(".W"):
 					sbn = bn[:-2]
 					blockend = sbn[-1]
 					if self.settings.debug.blockoccupancy:
-						self.PopupAdvice("Stopping section %s - trying base block %s" % (blockend, sbn))
+						self.PopupEvent("Stopping section %s - trying base block %s" % (blockend, sbn))
 					blk = self.blocks.get(sbn, None)
 					if blk is not None:
 						btr = blk.GetTrain()
 						if btr is None or btr.IName() == iname:
 							# this is the same train, but we need to make sure the entire block is unoccupied
 							if self.settings.debug.blockoccupancy:
-								self.PopupAdvice("Reset this portion of the block %s back to empty/no trains" % bn)
+								self.PopupEvent("Reset this portion of the block %s back to empty/no trains" % bn)
 							blk.SetStopSectionStatus("E", blockend)  # set the stopping section to empty
 							if blk.AllUnoccupied():
 								if self.settings.debug.blockoccupancy:
-									self.PopupAdvice("The block is completely unoccupied - reset it")
+									self.PopupEvent("The block is completely unoccupied - reset it")
 								blk.SetTrain(None)
 								dblocks.append(sbn)
 							else:
 								if self.settings.debug.blockoccupancy:
-									self.PopupAdvice("There's still a train in another section of this block - do nothing else")
+									self.PopupEvent("There's still a train in another section of this block - do nothing else")
 						else:
 							if self.settings.debug.blockoccupancy:
-								self.PopupAdvice("This block now holds another train or is already empty - do nothing")
+								self.PopupEvent("This block now holds another train or is already empty - do nothing")
 
 		if self.settings.debug.blockoccupancy:
-			self.PopupAdvice("End of block removal/reset")
+			self.PopupEvent("End of block removal/reset")
 
 		self.DrawTrain(tr, dblocks)
 		self.activeTrainsDlg.UpdateTrain(tr)
@@ -4152,6 +4151,7 @@ class MainFrame(wx.Frame):
 	def BuildLayoutFile(self):
 		data = {
 			"blocks": self.GetBlocks(),
+			"osproxies": self.GetOSProxies(),
 			"routes": self.GetRoutes(),
 			"signals": self.GetSignals(),
 			"crossover": self.GetCrossoverPoints()
@@ -4163,6 +4163,16 @@ class MainFrame(wx.Frame):
 		for b in self.blocks.values():
 			blocks.update(b.GetDefinition())
 		return blocks
+
+	def GetOSProxies(self):
+		proxies = {}
+		for distr, pl in self.osProxies.items():
+			for pn, px in pl.items():
+				if distr not in proxies:
+					proxies[distr] = {}
+				proxies[distr][pn] = list(px.GetRoutes())
+
+		return proxies
 
 	def GetRoutes(self):
 		routes = {}

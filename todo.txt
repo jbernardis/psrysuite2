@@ -1,14 +1,27 @@
+wrong signal identified in block N25, and it is not recalculated when changing train direction
 
 ATC:
     way to actually kill the ATC process
 
     work out message to ATC to show/hide, always on top checkbox
 
-    Control of processes.  Press a button it starts if stored PID is Nont or if poll() does not return None.  Else it sends a message to the process to un-hide itself.  Make sure to kill the processes on termination
+    Control of processes.  Press a button it starts if stored PID is None or if poll() does not return None.  Else it sends a message to the process to un-hide itself.  Make sure to kill the processes on termination
+
+Generation of report for locomotive cards, engineer cards.
+
+incorporation of locomotive photographs
+
+Adding schedule into trains database to save train sequences
+
+Program to scan train/loco/engineer into and to send assigntrain command to server.
+
+train database editor - merge tracker and sequences better, only have east on one page - rename tracker as train card information
 
 
-remove excessive debugging
 
+Check the needed polarity for H30.srel/H30Power
+
+Block P50 directionality and train movement is not working - I think it works with the manual moving from monitor - this might be isolated to AR
 
 add locales to event/advice messages - all, None, locale only
 
@@ -21,19 +34,14 @@ to be fixed in monitor:
     neutralize all signals
 
 inspection dialog
-    log level
-    os proxies
-    node status
-    Sig levers
-    train audit
-    siding locks
-    reset blocks
     ignore blocks
 
 manage preloaded dialog
 
 Reloading data - trains, engineers, locos, etc
 
+
+remove excessive debugging
 
 
 Rip out ALL dead code

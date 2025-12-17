@@ -277,6 +277,7 @@ class ServerMain:
 			# "settrain":		self.DoSetTrain,
 			# "deletetrain":	self.DoDeleteTrain,
 			"modifytrain":	self.DoModifyTrain,
+			"assigntrain":	self.DoAssignTrain,
 			"trainreverse":	self.DoTrainReverse,
 			"trainreorder":	self.DoTrainReorder,
 			"trainsplit":	self.DoTrainSplit,
@@ -305,6 +306,7 @@ class ServerMain:
 			"indicator":	self.DoIndicator,
 			"setrelay":		self.DoSetRelay,
 			"handswitch":	self.DoHandSwitch,
+			"resetblocks":	self.DoResetBlocks,
 			# "districtlock":	self.DoDistrictLock,
 			
 			"close":		self.DoClose,			
@@ -328,9 +330,9 @@ class ServerMain:
 			"dccspeeds": 	self.DoDCCSpeeds,
 
 			"quit":			self.DoQuit,
-			"delayedstartup":
-							self.DelayedStartup,
+			"delayedstartup": self.DelayedStartup,
 			"reopen":		self.DoReopen,
+			"loglevel":		self.DoCmdLogLevel,
 			"enablenode":	self.DoEnableNode
 		}
 
@@ -381,7 +383,7 @@ class ServerMain:
 		
 		self.rr.OutIn()
 		if self.firstInterval:
-			self.DelayedStartup(None)
+			#self.DelayedStartup(None)
 			logging.debug("After first out/in: %s" % self.rr.DumpN20())
 			self.firstInterval = False
 
@@ -591,9 +593,6 @@ class ServerMain:
 			return
 
 		self.rr.SetIndicator(indname, value == 1)
-		# indicator information is always echoed to all listeners
-		resp = {"indicator": [{"name": indname, "value": value}]}
-		self.socketServer.sendToAll(resp)
 
 	def DoSetRelay(self, cmd):
 		try:
@@ -777,7 +776,7 @@ class ServerMain:
 			return
 
 		self.rr.SetDistrictLock(name, [int(v) for v in value])
-			
+
 	def DoControl(self, cmd):
 		try:
 			name = cmd["name"][0]
@@ -801,7 +800,17 @@ class ServerMain:
 		
 	def DoQuit(self, _):
 		self.Shutdown()
-		
+
+	def DoCmdLogLevel(self, cmd):
+		try:
+			lvl = int(cmd["level"][0])
+		except (KeyError, ValueError):
+			logging.debug("log level missing from loglevel command")
+			lvl = None
+
+		if lvl is not None:
+			logging.getLogger().setLevel(lvl)
+
 	def DoReopen(self, _):
 		self.DoBusReopen()
 		
@@ -894,6 +903,15 @@ class ServerMain:
 			return
 
 		self.rr.SetBlockClear(block, clear == "1")
+
+	def DoResetBlocks(self, cmd):
+		try:
+			bl = cmd["blocks"]
+		except KeyError:
+			logging.error("resetblocks command with no block list")
+			return
+
+		self.rr.ResetBlocks(bl)
 		
 	def DoRefresh(self, cmd):
 		try:
@@ -1048,19 +1066,6 @@ class ServerMain:
 		resp = {"traincomplete": [p]}
 		self.socketServer.sendToAll(resp)
 
-	def DoAssignTrain(self, cmd):
-		p = {tag: cmd[tag][0] for tag in cmd if tag != "cmd"}
-		train = p["train"]	
-		try:
-			engineer = p["engineer"]
-		except KeyError:
-			engineer = None
-			
-		self.trainList.UpdateEngineer(train, engineer)
-		
-		resp = {"assigntrain": [p]}
-		self.socketServer.sendToAll(resp)
-
 	def DoModifyTrain(self, cmd):
 		try:
 			iname = cmd["iname"][0]
@@ -1083,14 +1088,6 @@ class ServerMain:
 		except (IndexError, KeyError):
 			engineer = None
 		try:
-			atc = cmd["atc"][0] == 1
-		except (IndexError, KeyError):
-			atc = None
-		try:
-			ar = cmd["ar"][0] == 1
-		except (IndexError, KeyError):
-			ar = None
-		try:
 			east = cmd["east"][0] == "1"
 		except (IndexError, KeyError):
 			east = None
@@ -1106,10 +1103,41 @@ class ServerMain:
 		tr.SetLoco(loco)
 		tr.SetTemplateTrain(template)
 		tr.SetEngineer(engineer)
-		tr.SetATC(atc)
-		tr.SetAR(ar)
 		tr.SetEast(east)
 
+		self.UpdateTrainBlocks(tr)
+
+	def DoAssignTrain(self, cmd):
+		try:
+			name = cmd["name"][0]
+		except (IndexError, KeyError):
+			name = None
+		try:
+			loco = cmd["loco"][0]
+		except (IndexError, KeyError):
+			loco = None
+		try:
+			engineer = cmd["engineer"][0]
+		except (IndexError, KeyError):
+			engineer = None
+
+		tr = self.rr.GetTrainByName(name)
+		if tr is None:
+			logging.error("Unable to find train %s by name" % name)
+			return
+
+		if name is not None:
+			roster = self.rr.GetTrainRoster(name)
+			tr.SetName(name, roster)
+
+		if loco is not None:
+			tr.SetLoco(loco)
+		if engineer is not None:
+			tr.SetEngineer(engineer)
+
+		self.UpdateTrainBlocks(tr)
+
+	def UpdateTrainBlocks(self, tr):
 		# change the status of all blocks to reflect the potentially new train id information
 		blkStat = "O" if tr.IsIdentified() else "U"
 		for blk in tr.Blocks():
@@ -1406,7 +1434,7 @@ class ServerMain:
 				self.delay -= 1
 				if self.delay <= 0:
 					self.delay = None
-					# self.cmdQ.put({"cmd": ["delayedstartup"]})
+					self.cmdQ.put({"cmd": ["delayedstartup"]})
 					
 	def ServeForever(self):
 		logging.info("serve forever starting")

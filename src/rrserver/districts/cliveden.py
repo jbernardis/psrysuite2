@@ -29,7 +29,7 @@ class Cliveden(District):
 			self.rr.AddSignal("C12R",  self, n, addr, [(2, 0), (2, 1), (2, 2)])
 			self.rr.AddSignal("C10R",  self, n, addr, [(2, 3), (2, 4), (2, 5)])
 
-			self.rr.AddHandswitchInd("CSw11", self, n, addr, [(2, 6)])
+			self.rr.AddHandswitchInd("CSw11", self, n, addr, [(2, 6)], inverted=True)
 			
 			self.rr.AddTurnout("CSw13", self, n, addr, [(2, 7), (3, 0)])
 			self.rr.AddTurnout("CSw9",  self, n, addr, [(3, 1), (3, 6)]) # bit 3:2 is bad

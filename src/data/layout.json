@@ -1282,6 +1282,435 @@
       "sbsigwest": null
     }
   },
+  "osproxies": {
+    "Yard": {
+      "YOSCJW": [
+        "YRtY11L10",
+        "YRtY11L20",
+        "YRtY11P50"
+      ],
+      "YOSCJE": [
+        "YRtY21L20",
+        "YRtY21P50",
+        "YRtY11L20",
+        "YRtY11P50"
+      ],
+      "YOSEJW": [
+        "YRtY10Y11",
+        "YRtY10Y21",
+        "YRtY87Y11",
+        "YRtY87Y21",
+        "YRtY30Y11",
+        "YRtY30Y21"
+      ],
+      "YOSEJE": [
+        "YRtY20Y21",
+        "YRtY30Y21",
+        "YRtY87Y21",
+        "YRtY10Y21"
+      ],
+      "YOSKL1": [
+        "YRtY20Y50",
+        "YRtY20Y51",
+        "YRtY20Y52",
+        "YRtY20Y53",
+        "YRtY20Y70",
+        "YRtY10Y70",
+        "YRtY10Y50",
+        "YRtY10Y51"
+      ],
+      "YOSKL2": [
+        "YRtY10Y50",
+        "YRtY10Y51",
+        "YRtY10Y52",
+        "YRtY10Y53",
+        "YRtY10Y70",
+        "YRtY20Y52",
+        "YRtY20Y53"
+      ],
+      "YOSKL3": [
+        "YRtY10Y60",
+        "YRtY20Y60"
+      ]
+    },
+    "Latham": {
+      "LOSLAW": [
+        "LRtL10L11",
+        "LRtL20L11",
+        "LRtP11L11",
+        "LRtP21L11",
+        "LRtL10L21",
+        "LRtL10L31"
+      ],
+      "LOSLAM": [
+        "LRtL10L21",
+        "LRtL20L21",
+        "LRtP11L21",
+        "LRtP21L21",
+        "LRtP11L11",
+        "LRtP11L31",
+        "LRtL20L11",
+        "LRtL20L31",
+        "LRtL10L31",
+        "LRtP21L11"
+      ],
+      "LOSLAE": [
+        "LRtL10L31",
+        "LRtL20L31",
+        "LRtP11L31",
+        "LRtP21L31",
+        "LRtP21L21",
+        "LRtP21L11"
+      ],
+      "LOSCAW": [
+        "LRtL11D10",
+        "LRtL21D10"
+      ],
+      "LOSCAM": [
+        "LRtL21D10",
+        "LRtL21D20"
+      ],
+      "LOSCAE": [
+        "LRtL21D20",
+        "LRtL31D20"
+      ]
+    },
+    "Dell": {
+      "DOSFOE": [
+        "DRtD21S20",
+        "DRtD21S10"
+      ],
+      "DOSFOW": [
+        "DRtD11S10",
+        "DRtD21S10"
+      ],
+      "DOSVJE": [
+        "DRtH13D21",
+        "DRtD10D21",
+        "DRtD20D21",
+        "DRtH23D21",
+        "DRtD20D11",
+        "DRtH23D11"
+      ],
+      "DOSVJW": [
+        "DRtH13D11",
+        "DRtD10D11",
+        "DRtD20D11",
+        "DRtH23D11",
+        "DRtH13D21",
+        "DRtD10D21"
+      ]
+    },
+    "Shore": {
+      "SOSE": [
+        "SRtS20S21",
+        "SRtS20S11",
+        "SRtS20H30",
+        "SRtS20H10",
+        "SRtS20H20",
+        "SRtS20P32",
+        "SRtS10S21",
+        "SRtS10H20",
+        "SRtS10P32"
+      ],
+      "SOSW": [
+        "SRtS10S21",
+        "SRtS10S11",
+        "SRtS10H30",
+        "SRtS10H10",
+        "SRtS10H20",
+        "SRtS10P32",
+        "SRtS20S11",
+        "SRtS20H30",
+        "SRtS20H10"
+      ],
+      "SOSHJE": [
+        "SRtP42H11",
+        "SRtP42H21",
+        "SRtP42H40",
+        "SRtP42N25"
+      ],
+      "SOSHJM": [
+        "SRtH20H11",
+        "SRtH20H21",
+        "SRtH20H40",
+        "SRtP42H21",
+        "SRtP42H40",
+        "SRtP42H11"
+      ],
+      "SOSHJW": [
+        "SRtH10H11",
+        "SRtH20H11",
+        "SRtP42H11"
+      ]
+    },
+    "Krulish": {
+      "KOSW": [
+        "KRtN10K10",
+        "KRtN10N11",
+        "KRtN10N21",
+        "KRtN25K10",
+        "KRtN25N11"
+      ],
+      "KOSM": [
+        "KRtN25K10",
+        "KRtN25N21",
+        "KRtN25N11",
+        "KRtN10N21"
+      ],
+      "KOSE": [
+        "KRtN10N21",
+        "KRtN20N21",
+        "KRtN25N21"
+      ]
+    },
+    "Nassau": {
+      "NWOSCY": [
+        "NRtN60N31",
+        "NRtN60N32",
+        "NRtN60W10",
+        "NRtN60N12",
+        "NRtN60N22",
+        "NRtN60N41",
+        "NRtN60N42",
+        "NRtN60W20",
+        "NRtN11W10",
+        "NRtN11N32",
+        "NRtN11N31",
+        "NRtN21W10",
+        "NRtN21N31",
+        "NRtN21N32"
+      ],
+      "NWOSW": [
+        "NRtN11N31",
+        "NRtN11N32",
+        "NRtN11W10",
+        "NRtN11N12",
+        "NRtN11N22",
+        "NRtN11N41",
+        "NRtN11N42",
+        "NRtN11W20",
+        "NRtN21W10",
+        "NRtN21N31",
+        "NRtN21N32",
+        "NRtN21N12",
+        "NRtN60N12",
+        "NRtN60N22",
+        "NRtN60N41",
+        "NRtN60N42",
+        "NRtN60W20"
+      ],
+      "NWOSE": [
+        "NRtN21N31",
+        "NRtN21N32",
+        "NRtN21W10",
+        "NRtN21N12",
+        "NRtN21N22",
+        "NRtN21N41",
+        "NRtN21N42",
+        "NRtN21W20",
+        "NRtN60N22",
+        "NRtN60N41",
+        "NRtN60N42",
+        "NRtN60W20",
+        "NRtN11N22",
+        "NRtN11N41",
+        "NRtN11N42",
+        "NRtN11W20"
+      ],
+      "NWOSTY": [
+        "NRtT12W10",
+        "NRtN60W10",
+        "NRtN11W10",
+        "NRtN21W10"
+      ],
+      "NEOSRH": [
+        "NRtR10W11",
+        "NRtR10N32",
+        "NRtR10N31",
+        "NRtR10N12",
+        "NRtR10N22",
+        "NRtR10N41",
+        "NRtR10N42",
+        "NRtR10W20",
+        "NRtB10W11",
+        "NRtB20W11"
+      ],
+      "NEOSW": [
+        "NRtB10W11",
+        "NRtB10N32",
+        "NRtB10N31",
+        "NRtB10N12",
+        "NRtB10N22",
+        "NRtB10N41",
+        "NRtB10N42",
+        "NRtB10W20",
+        "NRtR10N32",
+        "NRtR10N31",
+        "NRtR10N12",
+        "NRtR10N22",
+        "NRtR10N41",
+        "NRtR10N42",
+        "NRtR10W20",
+        "NRtB20W11",
+        "NRtB20N32",
+        "NRtB20N31",
+        "NRtB20N12"
+      ],
+      "NEOSE": [
+        "NRtB20W11",
+        "NRtB20N32",
+        "NRtB20N31",
+        "NRtB20N12",
+        "NRtB20N22",
+        "NRtB20N41",
+        "NRtB20N42",
+        "NRtB20W20",
+        "NRtR10N22",
+        "NRtR10N41",
+        "NRtR10N42",
+        "NRtR10W20",
+        "NRtB10N22",
+        "NRtB10N41",
+        "NRtB10N42",
+        "NRtB10W20"
+      ]
+    },
+    "Bank": {
+      "BOSWW": [
+        "BRtB10B21",
+        "BRtB10B11"
+      ],
+      "BOSWE": [
+        "BRtB10B21",
+        "BRtB20B21"
+      ]
+    },
+    "Cliveden": {
+      "COSCLEW": [
+        "CRtC23C22",
+        "CRtC23C11"
+      ],
+      "COSCLEE": [
+        "CRtC12C11",
+        "CRtC23C11"
+      ]
+    },
+    "Hyde": {
+      "HOSWW": [
+        "HRtH11H12",
+        "HRtH11H31",
+        "HRtH11H32",
+        "HRtH11H33",
+        "HRtH11H34"
+      ],
+      "HOSWW2": [
+        "HRtH11H31",
+        "HRtH30H31"
+      ]
+    },
+    "Port": {
+      "POSCJ1": [
+        "PRtP31P32",
+        "PRtP31P42",
+        "PRtP41P32"
+      ],
+      "POSCJ2": [
+        "PRtP41P32",
+        "PRtP41P42",
+        "PRtP31P42"
+      ],
+      "POSSJ1": [
+        "PRtP30P31",
+        "PRtP30P41",
+        "PRtP40P31"
+      ],
+      "POSSJ2": [
+        "PRtP40P41",
+        "PRtP40P31",
+        "PRtP30P41"
+      ],
+      "POSPJ1": [
+        "PRtV11P50",
+        "PRtP60P50",
+        "PRtP61P50",
+        "PRtP10P50",
+        "PRtV11P11",
+        "PRtP60P11",
+        "PRtP61P11",
+        "PRtP10P11",
+        "PRtP20P50",
+        "PRtP20P11",
+        "PRtP30P50",
+        "PRtP30P11"
+      ],
+      "POSPJ2": [
+        "PRtP20P50",
+        "PRtP20P11",
+        "PRtP30P50",
+        "PRtP30P11",
+        "PRtP20P21",
+        "PRtP30P21"
+      ],
+      "POSSP1": [
+        "PRtP7V10",
+        "PRtP7P60",
+        "PRtP7P61",
+        "PRtP7P20",
+        "PRtP7P10"
+      ],
+      "POSSP2": [
+        "PRtP7P10",
+        "PRtP6P10",
+        "PRtP5P10",
+        "PRtP4P10",
+        "PRtP3P10",
+        "PRtP2P10",
+        "PRtP1P10",
+        "PRtP6P20",
+        "PRtP5P20"
+      ],
+      "POSSP3": [
+        "PRtP7P20",
+        "PRtP6P20",
+        "PRtP5P20",
+        "PRtP4P20",
+        "PRtP3P20",
+        "PRtP2P20",
+        "PRtP1P20",
+        "PRtP4P10"
+      ],
+      "POSSP4": [
+        "PRtP3P62",
+        "PRtP3P63",
+        "PRtP3P64",
+        "PRtP2P62",
+        "PRtP2P63",
+        "PRtP2P64",
+        "PRtP1P62",
+        "PRtP1P63",
+        "PRtP1P64",
+        "PRtP3P10",
+        "PRtP3P20",
+        "PRtP3P40"
+      ],
+      "POSSP5": [
+        "PRtP3P40",
+        "PRtP2P40",
+        "PRtP1P40",
+        "PRtP1P62",
+        "PRtP1P63",
+        "PRtP1P64",
+        "PRtP1P10",
+        "PRtP1P20",
+        "PRtP2P62",
+        "PRtP2P63",
+        "PRtP2P64",
+        "PRtP2P10",
+        "PRtP2P20"
+      ]
+    }
+  },
   "routes": {
     "YRtY11L10": {
       "os": "YOSCJW",

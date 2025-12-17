@@ -148,6 +148,7 @@ class Railroad:
 		self.loRoutes = j["routes"]
 		self.loBlocks = j["blocks"]
 		self.loSignals = j["signals"]
+		self.loOSProxies = j["osproxies"]
 
 		# build the subblock table
 		self.subBlocks = {}
@@ -222,6 +223,16 @@ class Railroad:
 			r = Route(rtName, osBlock, toList, sigList, endBlocks, rt["type"])
 			self.routes[rtName] = r
 			osBlock.AddRoute(r)
+
+		self.osProxies = {}
+		for distr, dpl in self.loOSProxies.items():
+			for osNm in dpl:
+				px = OSProxy(osNm)
+				for rteNm in dpl[osNm]:
+					px.AddRoute(rteNm, self.routes[rteNm])
+				if distr not in self.osProxies:
+					self.osProxies[distr] = {}
+				self.osProxies[distr][osNm] = px
 
 		for sn, siginfo in self.loSignals.items():
 			try:
@@ -528,6 +539,9 @@ class Railroad:
 	def DelayedStartup(self):
 		for d in self.districts.values():
 			d.DelayedStartup()
+		self.SetIndicator("HydeEastPower", True)
+		self.SetIndicator("HydeWestPower", True)
+		self.SetIndicator("H30Power", True)
 
 	def DumpN20(self):
 		return self.blocks["N20"].GetStatus()
@@ -604,7 +618,7 @@ class Railroad:
 	def SetInputBit(self, distName, vbyte, vbit, val):
 		pass
 
-	def SetIndicator(self, indname, state):
+	def SetIndicator(self, indname, state, silent=False):
 		'''
 		turn an indicator on/off
 		'''
@@ -622,6 +636,9 @@ class Railroad:
 		if len(bits) > 0:
 			vbyte, vbit = bits[0]
 			ind.node.SetOutputBit(vbyte, vbit, 1 if state else 0)
+
+		if not silent:
+			self.RailroadEvent(ind.GetEventMessage())
 		return True
 
 	def SetODevice(self, odname, state):
@@ -654,10 +671,10 @@ class Railroad:
 		rc = r.IsActivated() != (state != 0)
 
 		bits = r.Bits()
-		if len(bits) > 0:		
+		if len(bits) > 0:
 			vbyte, vbit = bits[0]
 			r.node.SetOutputBit(vbyte, vbit, 1 if state != 0 else 0)
-			r.Activate(state != 0)
+		r.Activate(state != 0)
 
 		return rc
 
@@ -1018,6 +1035,20 @@ class Railroad:
 
 		blk.SetCleared(clear)
 
+	def ResetBlocks(self, bl):
+		for bn in bl:
+			try:
+				blk = self.blocks[bn]
+			except KeyError:
+				blk = None
+
+			if blk is None:
+				logging.error("Unknown block in resetblocks command: %s" % bn)
+			else:
+				blk.Reset()
+				blk.SetStatus("E")
+				self.RailroadEvent(blk.GetEventMessage())
+
 	def SetDistrictLock(self, name, value):
 		if self.districtLock[name] == value:
 			return False
@@ -1370,7 +1401,7 @@ class Railroad:
 		'''
 		set turnouts/routes/blocks BEFORE signals
 		'''					
-		for l in [self.blocks, self.turnouts, self.signals]:  # , self.signalLevers, self.stopRelays]:
+		for l in [self.blocks, self.turnouts, self.signals, self.indicators]:  # , self.signalLevers, self.stopRelays]:
 			for s in l.values():
 				mlist = s.GetEventMessages()
 				if mlist is not None:
@@ -1742,12 +1773,26 @@ class Railroad:
 
 	def InputBlock(self, district, obj, objName, newval):
 		if self.settings.debug.blockoccupancy:
-			self.Alert("Input block change: %s:%s" % (objName, newval))
+			self.Alert("Input block change: %s:%s   %s" % (objName, newval, str(obj)))
 
 		if objName.split(".")[0] in self.ignoredBlocks:
 			if self.settings.debug.blockoccupancy:
 				self.Alert("Ignoring block %s as per ignore list" % objName)
 			return
+
+		dname = district.Name()
+		if dname in self.loOSProxies and objName in self.loOSProxies[dname]:
+			logging.debug("Block %s is a proxy" % objName)
+			if self.settings.debug.blockoccupancy:
+				self.Alert("Block %s is a proxy" % objName)
+			b = self.CheckOSProxies(dname, objName, newval!=0)
+			if self.settings.debug.blockoccupancy:
+				self.Alert("return from checkOSProxies = %s" % str(b))
+			if b is None:
+				return
+
+			objName = b
+			obj = self.blocks[objName]
 
 		if newval != 0:  # if block has changed to occupied
 			# remove any pending detection loss
@@ -1848,7 +1893,12 @@ class Railroad:
 			return sig
 
 		else:
+			dbg = blk.Name() == "N25"
+			if dbg:
+				self.Alert("Determining signal for train %s" % tr.Name())
 			nb = blk.NextBlock()
+			if dbg:
+				self.Alert("Next Block is %s" % ("None" if nb is None else nb.Name()))
 			if nb is None:
 				logging.info("Moving into a terminal track - no signal here")
 				return None
@@ -1961,8 +2011,8 @@ class Railroad:
 		if self.settings.debug.blockoccupancy:
 			self.Alert("detection loss: %s" % obj.Name())
 		tr = obj.RemoveFromTrain()
-		if tr is None: # this only happens on the initial out/in exchange
-			return
+		# if tr is None: # this only happens on the initial out/in exchange
+		# 	return
 
 		if obj.SetStatus("E"):
 			if self.settings.debug.blockoccupancy:
@@ -1980,7 +2030,14 @@ class Railroad:
 			self.CheckFleetTriggers(obj)
 
 			objName = obj.Name()
-			self.CheckStoppingSection(tr)
+			# check if the vacated block is a stopping section in the direction of the main block,
+			# clear the stopping relay if so
+			if (objName.endswith(".W") and not obj.East()) or (objName.endswith(".E") and obj.East()):
+				relayName = objName[:-2] + ".srel"
+				self.SetRelay(relayName, False)
+
+			if tr is not None:
+				self.CheckStoppingSection(tr)
 
 			reversedBlk = obj.IsReversed()
 
@@ -1991,10 +2048,11 @@ class Railroad:
 					self.RailroadEvent({"lockturnout": [{"name": sw.Name(), "lock": flag}]})
 
 				at = obj.OS().ActiveRoute()
-				sigNames = at.Signals()
-				sn = sigNames[1 if reversedBlk else 0]
-				sig = self.signals[sn]
-				district.EvaluateDistrictLocks(sig)
+				if at is not None:
+					sigNames = at.Signals()
+					sn = sigNames[1 if reversedBlk else 0]
+					sig = self.signals[sn]
+					district.EvaluateDistrictLocks(sig)
 
 		district.BlockOccupancyChange(self, obj, 0)
 
@@ -3328,6 +3386,13 @@ class Railroad:
 	def GetTrain(self, iname):
 		return self.trains.get(iname, None)
 
+	def GetTrainByName(self, name):
+		for tr in self.trains.values():
+			if tr.Name() == name:
+				return tr
+
+		return None
+
 	def GetActiveTrainList(self):
 		result = {}
 		for trid, tr in self.trains.items():
@@ -3344,12 +3409,66 @@ class Railroad:
 				"blocks": [b.Name() for b in tr.Blocks()],
 				"signal": None if sig is None else sig.Name(),
 				"aspect": asp,
-				"stopped": tr.Stopped(),
-				"atc": tr.ATC(),
-				"ar": tr.AR(),
+				"stopped": tr.Stopped()
 			}
 
 		return result
+
+	def AuditTrains(self):
+		msgs = []
+		mismatches = 0
+		msgs.append("Train Audit Results")
+
+		msgs.append("")
+		msgs.append("Trains -> Blocks:")
+		msgs.append("")
+		for trid, tr in self.trains.items():
+			trName = tr.Name()
+			msgs.append("Train %s:" % trName)
+			for blk in tr.Blocks():
+				blkTrain = blk.Train()
+				blkTrName = "None" if blkTrain is None else blkTrain.Name()
+				if trName != blkTrName:
+					marker = "  <<<<"
+					mismatches += 1
+				else:
+					marker = ""
+				msgs.append("              Block %s -> Train %s %s" % (blk.RouteDesignator(), blkTrName, marker))
+			msgs.append("")
+
+		msgs.append("")
+		if mismatches == 0:
+			msgs.append("Train to Block: ALL OK")
+		else:
+			msgs.append("Train to Block: %d mismatches" % mismatches)
+
+		msgs.append("")
+		msgs.append("----------------------------------")
+		msgs.append("")
+		msgs.append("Blocks -> Trains:")
+		msgs.append("")
+		mismatches = 0
+
+		for bname, blk in self.blocks.items():
+			tr = blk.Train()
+			if tr is None:
+				continue
+			msgs.append("Block %s:" % bname)
+			blkNames = [blk.Name() for blk in tr.Blocks()]
+			if bname in blkNames:
+				marker = ""
+			else:
+				marker = "  <<<<"
+				mismatches += 1
+			msgs.append("       Train %s -> %s %s" % (tr.Name(), str(blkNames), marker))
+
+		msgs.append("")
+		if mismatches == 0:
+			msgs.append("Blocks to Trains: ALL OK")
+		else:
+			msgs.append("Blocks to Trains: %d mismatches" % mismatches)
+
+		return msgs
 
 	def CheckBlockSignals(self, blkNm, sigNm, blkEast):
 		blk = self.blocks[blkNm]
@@ -3475,6 +3594,82 @@ class Railroad:
 			brkr["trains"] = self.GetActiveTrainList()
 			ofp.write("%s\n\n" % json.dumps(brkr, indent=2))
 
+	def CheckOSProxies(self, district, block, state):
+		if block not in self.osProxies[district]:
+			return block
+
+		if state == self.osProxies[district][block].Status():
+			return None
+
+		preCounts = self.GetOSProxyCounts(district)
+		if self.debug.blockoccupancy:
+			self.Alert("PreCounts for %s: %s" % (block, str(preCounts)))
+
+		self.osProxies[district][block].SetStatus(state)
+		postCounts = self.GetOSProxyCounts(district)
+		logging.debug("PostCounts for %s: %s" % (block, str(postCounts)))
+		if self.debug.blockoccupancy:
+			self.Alert("PostCounts for %s: %s" % (block, str(postCounts)))
+
+		for rn in preCounts:
+			# there SHOULD only be a single route, MAX, that changes
+			if postCounts[rn] > preCounts[rn] == 0:
+				if self.debug.blockoccupancy:
+					self.Alert("%s is the first OS section to be occupied for route %s-%s" %
+											(block, self.routes[rn].OSName(), rn))
+				return self.routes[rn].OSName()
+
+			elif postCounts[rn] == 0 and preCounts[rn] > 0:
+				if self.debug.blockoccupancy:
+					self.Alert("%s is the last OS section to be unoccupied for route %s-%s" %
+											(block, self.routes[rn].OSName(), rn))
+				return self.routes[rn].OSName()
+
+			elif postCounts[rn] != preCounts[rn]:
+				if self.debug.blockoccupancy:
+					self.Alert("%s: count changed from %d to %d for route %s-%s" %
+											(block, preCounts[rn], postCounts[rn], self.routes[rn].OSName(), rn))
+
+		# no differences - just absorb the block command
+		return None
+
+	def GetOSProxyCounts(self, district):
+		counts = {}
+		for pn, prx in self.osProxies[district].items():
+			for osb in prx.osList:
+				rte = osb.ActiveRoute()
+				if rte is not None:
+					if prx.HasRoute(rte.Name()):  # and self.IsAligned(rte):
+						counts[rte.Name()] = counts.get(rte.Name(), 0) + (1 if prx.IsOccupied() else 0)
+
+		return counts
+
+	def IsAligned(self, rte):
+		toList = rte.GetSetTurnouts()
+		for to, pos in toList:
+			tout = self.turnouts[to]
+			if pos == 'N' and not tout.IsNormal():
+				return False
+
+		return True
+
+	def GetOSProxyInfo(self):
+		counts = {}
+		pnames = {}
+		osnames = {}
+		for distr, dpl in self.osProxies.items():
+			for pn, px in dpl.items():
+				rn, occ, osname = px.Evaluate()
+				if rn and occ:
+					counts[rn] = counts.get(rn, 0) + 1
+					osnames[rn] = osname
+					if rn in pnames:
+						pnames[rn].append(pn)
+					else:
+						pnames[rn] = [pn]
+
+		return {rn: {"count": counts[rn], "os": osnames[rn], "segments": pnames[rn]} for rn in counts.keys()}
+
 
 class PendingDetectionLoss:
 	def __init__(self, railroad):
@@ -3532,5 +3727,42 @@ class PulseCounter:
 
 		self.node.SetOutputBit(self.vbyte, self.vbit, sendBit)
 		return True
+
+
+class OSProxy:
+	def __init__(self, blkName):
+		self.blkName = blkName
+		self.routes = []
+		self.osList = set()
+		self.status = False
+
+	def AddRoute(self, rteName, rte):
+		self.routes.append(rteName)
+		self.osList.add(rte.OS())
+
+	def Status(self):
+		return self.status
+
+	def SetStatus(self, stat):
+		self.status = stat
+
+	def IsOccupied(self):
+		return self.status
+
+	def HasRoute(self, rtnm):
+		return rtnm in self.routes
+
+	def Evaluate(self):
+		routeName = None
+		osName = None
+		for osb in self.osList:
+			rtname = osb.ActiveRouteName()
+			if rtname is not None:
+				if rtname in self.routes:
+					routeName = rtname
+					osName = osb.Name()
+
+		return routeName, self.status, osName
+
 
 

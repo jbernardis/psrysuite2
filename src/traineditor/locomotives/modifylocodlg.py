@@ -1,10 +1,12 @@
 import wx
+
 		
 class ModifyLocoDlg(wx.Dialog):
 	def __init__(self, parent, locoid, locoinfo):
 		self.parent = parent
 		self.locoid = locoid
 		self.locoinfo = locoinfo
+		self.lidx = int(locoid)
 		
 		wx.Dialog.__init__(self, self.parent, style=wx.DEFAULT_FRAME_STYLE)
 		self.modified = False
@@ -14,6 +16,11 @@ class ModifyLocoDlg(wx.Dialog):
 
 		self.title = "Modify Locomotive %s" % self.locoid
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
+
+		self.cbShortAddress = wx.CheckBox(self, wx.ID_ANY, "Short Address")
+		self.Bind(wx.EVT_CHECKBOX, self.OnCBShortAddress, self.cbShortAddress)
+		self.cbShortAddress.SetFont(textFontBold)
+		self.cbShortAddress.Enable(self.lidx <= 127)
 
 		self.teDesc = wx.TextCtrl(self, wx.ID_ANY, "", size=(300, -1))
 		self.Bind(wx.EVT_TEXT, self.OnDescText, self.teDesc)
@@ -56,7 +63,17 @@ class ModifyLocoDlg(wx.Dialog):
 
 		vsz = wx.BoxSizer(wx.VERTICAL)
 		vsz.AddSpacer(20)
-		
+
+		st = wx.StaticText(self, wx.ID_ANY, "", size=(150, -1), style=wx.ALIGN_RIGHT)
+		st.SetFont(textFontBold)
+		hsz = wx.BoxSizer(wx.HORIZONTAL)
+		hsz.AddSpacer(20)
+		hsz.Add(st, 0, wx.TOP, 5)
+		hsz.AddSpacer(5)
+		hsz.Add(self.cbShortAddress)
+		vsz.Add(hsz)
+		vsz.AddSpacer(20)
+
 		st = wx.StaticText(self, wx.ID_ANY, "Description:", size=(150, -1), style=wx.ALIGN_RIGHT)
 		st.SetFont(textFontBold)
 		hsz = wx.BoxSizer(wx.HORIZONTAL)
@@ -160,7 +177,8 @@ class ModifyLocoDlg(wx.Dialog):
 		if dvalue is None:
 			dvalue = ""
 		self.teDesc.SetValue(dvalue)
-		
+
+		self.cbShortAddress.SetValue(self.locoinfo["short"])
 		self.scStart.SetValue(self.locoinfo["prof"]["start"])
 		self.scApproach.SetValue(self.locoinfo["prof"]["slow"])
 		self.scMedium.SetValue(self.locoinfo["prof"]["medium"])
@@ -175,21 +193,27 @@ class ModifyLocoDlg(wx.Dialog):
 		
 	def OnSpin(self, _):
 		self.SetModified()
+
+	def OnCBShortAddress(self, _):
+		self.SetModified()
 				
 	def SetModified(self, flag=True):
 		self.modified = flag
 		self.ShowTitle()
-				
+
 	def GetResults(self):
-		loco = {}
-		loco["desc"] = self.teDesc.GetValue()
-		loco["prof"] = {}
-		loco["prof"]["start"] = self.scStart.GetValue()
-		loco["prof"]["slow"] = self.scApproach.GetValue()
-		loco["prof"]["medium"] = self.scMedium.GetValue()
-		loco["prof"]["fast"] = self.scFast.GetValue()
-		loco["prof"]["acc"] = self.scAcc.GetValue()
-		loco["prof"]["dec"] = self.scDec.GetValue()	
+		loco = {
+			"desc": self.teDesc.GetValue(),
+			"short": self.cbShortAddress.GetValue(),
+			"prof": {
+				"start": self.scStart.GetValue(),
+				"slow": self.scApproach.GetValue(),
+				"medium": self.scMedium.GetValue(),
+				"fast": self.scFast.GetValue(),
+				"acc": self.scAcc.GetValue(),
+				"dec": self.scDec.GetValue()
+			}
+		}
 		return loco
 
 	def OnClose(self, _):

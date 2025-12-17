@@ -1,4 +1,6 @@
 import wx
+import os
+import qrcode
 import utilities.HTML as HTML
 from traineditor.reports import Report
 from traineditor.trntracker.choosetrains import ChooseTrainsDlg
@@ -48,11 +50,14 @@ class TrainCardsReport (Report):
 		css.addElement(".row", {"margin-left": "-5px", "margin-right": "-5px", "height": "107mm"})
 		css.addElement(".column", {"float": "left", "width": "136mm", "padding": "1px"})
 		css.addElement(".row::after", {"content": '""', "clear": "both", "display": "table"})
+		css.addElement("tr.qrrow", {"height": "15mm"})
 		css.addElement("table", {"border-collapse": "collapse", "border-spacing": "0", "width": "100%", "height": "106mm", "font-family": '"Times New Roman", Times, serif', "font-size": "16px"})
 		css.addElement("td.trainid", {"width": "36.4%", "padding-left": "50px", "padding-top": "10px", "font-size": "28px", "font-weight": "bold"})
+		css.addElement("td.qr", {"width": "36.4%", "padding-left": "150px"})
 		css.addElement("td.firstcol", {"width": "36.4%", "padding-left": "50px"})
 		css.addElement("td.secondcol", {"width": "10%"})
 		css.addElement("tr.datarow", {"height": "5mm"})
+		css.addElement("tr.descrow", {"height": "5mm"})
 		css.addElement("td", {"text-align": "left", "padding-left": "6px"})
 		css.addElement("td.cardnumber", {"text-align": "right", "padding-right": "50px"})
 		
@@ -65,11 +70,13 @@ class TrainCardsReport (Report):
 
 		tx = 0
 		for tid in sch.getSchedule():
+			self.TrainQRCode(tid)
 			cards.append(self.formatTrainCard(tid, roster[tid], "%d" % (tx+1)))
 			tx += 1
 			
 		tx = 0
 		for tid in sch.getExtras():
+			self.TrainQRCode(tid)
 			cn = chr(ord('A') + tx)
 			cards.append(self.formatTrainCard(tid, roster[tid], cn))
 			tx += 1
@@ -97,13 +104,30 @@ class TrainCardsReport (Report):
 
 		self.openBrowser("Train Cards", html)
 
+	def TrainQRCode(self, tid):
+		qr = qrcode.QRCode(
+			version=1,
+			error_correction=qrcode.constants.ERROR_CORRECT_L,
+			box_size=3,
+			border=4,
+		)
+		qr.add_data("TRAIN: %s" % tid)
+		qr.make(fit=True)
+		img = qr.make_image(fill_color="black", back_color="white")
+		# img = qrcode.make('TRAIN: CFYD')
+		type(img)  # qrcode.image.pil.PilImage
+		fn = os.path.join(os.getcwd(), "qrcodes", "train_%s.png" % tid)
+		img.save(fn)
+
 	def formatTrainCard(self, tid, tinfo, tx):
-		trainIdRow = HTML.tr({}, HTML.td({"class": "trainid"}, tid), HTML.td())
+		fn = os.path.join("qrcodes", "train_%s.png" % tid)
+		img = HTML.img({"src": fn})
+		trainIdRow = HTML.tr({}, HTML.td({"class": "trainid", "colspan": "2"}, tid), HTML.td({"class": "qr"}, img))
 		emptyRow = HTML.tr({"class": "datarow"}, HTML.td({}, HTML.nbsp()))
 		descr = "%sbound %s" % ("East" if tinfo["eastbound"] else "West", tinfo["desc"])
 		if tinfo["cutoff"]:
 			descr += " (via cutoff)"
-		descRow = HTML.tr({}, HTML.td({"class": "firstcol", "colspan": "3"}, descr))
+		descRow = HTML.tr({"class": "descrow"}, HTML.td({"class": "firstcol", "colspan": "3"}, descr))
 		cardNumberRow = HTML.tr({}, HTML.td({}, ""), HTML.td({}, ""), HTML.td({"class": "cardnumber"}, tx))
 
 		stepRows = []
@@ -128,6 +152,8 @@ class TrainCardsReport (Report):
 		)
 		
 		return HTML.div({"class": "column"}, table)
+
+
 #===============================================================================
 # 	
 # 

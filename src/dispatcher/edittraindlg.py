@@ -56,7 +56,7 @@ class EditTrainDlg(wx.Dialog):
 
 		self.cbRoute = wx.ComboBox(self, wx.ID_ANY, name,
 					choices=self.trainsWithSeq,
-					style=wx.CB_DROPDOWN | wx.CB_READONLY, size=(120, -1))
+					style=wx.CB_DROPDOWN | wx.CB_READONLY, size=(160, -1))
 		self.cbRoute.SetFont(font)
 		try:
 			idx = self.trainsWithSeq.index(self.templateTrain)
@@ -77,7 +77,7 @@ class EditTrainDlg(wx.Dialog):
 		lblLoco.SetFont(font)
 		self.cbLocoID = wx.ComboBox(self, wx.ID_ANY, loco,
 					choices=locoList,
-					style=wx.CB_DROPDOWN | wx.TE_PROCESS_ENTER, size=(120, -1))
+					style=wx.CB_DROPDOWN | wx.TE_PROCESS_ENTER, size=(160, -1))
 		self.cbLocoID.SetFont(font)
 		
 		self.Bind(wx.EVT_COMBOBOX, self.OnLocoChoice, self.cbLocoID)
@@ -94,7 +94,7 @@ class EditTrainDlg(wx.Dialog):
 		lblEngineer.SetFont(font)
 		self.cbEngineer = wx.ComboBox(self, wx.ID_ANY, self.chosenEngineer,
 					choices=self.engineers,
-					style=wx.CB_DROPDOWN | wx.TE_PROCESS_ENTER, size=(120, -1))
+					style=wx.CB_DROPDOWN | wx.TE_PROCESS_ENTER, size=(160, -1))
 		self.cbEngineer.SetFont(font)
 		
 		self.Bind(wx.EVT_COMBOBOX, self.OnEngChoice, self.cbEngineer)

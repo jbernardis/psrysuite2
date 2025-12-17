@@ -1,7 +1,7 @@
 import json
 import os
 
-from dispatcher.train import CopyTrainReferences
+# from dispatcher.train import CopyTrainReferences
 
 class Train:
 	def __init__(self, tid):
@@ -67,11 +67,11 @@ class Train:
 
 
 class Trains:
-	def __init__(self, rrserver, copyrefs=False):
+	def __init__(self, rrserver):
 		self.RRServer = rrserver
 		TrainsJson = rrserver.Get("gettrains", {})
-		if copyrefs:
-			CopyTrainReferences(TrainsJson)
+		# if copyrefs:
+		# 	CopyTrainReferences(TrainsJson)
 
 		self.trainlist = []
 		self.trainmap = {}

@@ -1,12 +1,32 @@
 import wx
+import os
+import qrcode
 
 from traineditor.locomotives.locomotives import Locomotives
 from traineditor.locomotives.modifylocodlg import ModifyLocoDlg
 from traineditor.locomotives.locoreport import LocosReport
+from traineditor.locomotives.lococards import LocoCards
+
 
 BTNSZ = (120, 46)
 
 defaultProfile = {'acc': 1, 'dec': 1, 'fast': 80, 'medium': 58, 'slow': 10, 'start': 0}
+
+
+def LocoQRCode(loco):
+	qr = qrcode.QRCode(
+		version=1,
+		error_correction=qrcode.constants.ERROR_CORRECT_L,
+		box_size=3,
+		border=4,
+	)
+	qr.add_data("LOCOMOTIVE: %s" % loco)
+	qr.make(fit=True)
+	img = qr.make_image(fill_color="black", back_color="white")
+	# img = qrcode.make('TRAIN: CFYD')
+	type(img)  # qrcode.image.pil.PilImage
+	fn = os.path.join(os.getcwd(), "qrcodes", "locomotive_%s.png" % loco)
+	img.save(fn)
 
 
 class ManageLocosDlg(wx.Dialog):
@@ -21,6 +41,9 @@ class ManageLocosDlg(wx.Dialog):
 		self.modified = None
 		self.selectedLx = None
 		self.selectedLoco = None
+		self.locoObj = None
+		self.locoOrder = None
+		self.locos = None
 
 		self.SetModified(False)
 	
@@ -28,7 +51,7 @@ class ManageLocosDlg(wx.Dialog):
 			
 		textFont = wx.Font(wx.Font(12, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, faceName="Arial"))
 		
-		hsizer=wx.BoxSizer(wx.HORIZONTAL)
+		hsizer = wx.BoxSizer(wx.HORIZONTAL)
 		vsizer = wx.BoxSizer(wx.VERTICAL)
 		vsizer.AddSpacer(20)
 		
@@ -76,16 +99,29 @@ class ManageLocosDlg(wx.Dialog):
 		self.bRevert.SetToolTip("Revert to the most recently saved version of the locomotive list")
 		self.Bind(wx.EVT_BUTTON, self.bRevertPressed, self.bRevert)
 		btnSizer.Add(self.bRevert)
-		
+
 		btnSizer.AddSpacer(30)
-		
+
+		self.bQRCodes = wx.Button(self, wx.ID_ANY, "QR Codes", size=BTNSZ)
+		self.bQRCodes.SetToolTip("Generate QR codes")
+		self.Bind(wx.EVT_BUTTON, self.bQRCodesPressed, self.bQRCodes)
+		btnSizer.Add(self.bQRCodes)
+
+		btnSizer.AddSpacer(30)
+
 		self.bPrint = wx.Button(self, wx.ID_ANY, "Print", size=BTNSZ)
 		self.bPrint.SetToolTip("Print a report of the locomotive information")
 		self.Bind(wx.EVT_BUTTON, self.bPrintPressed, self.bPrint)
 		self.bPrint.Enable(self.browser is not None)
 		btnSizer.Add(self.bPrint)
+		btnSizer.AddSpacer(30)
 
-		
+		self.bLocoCards = wx.Button(self, wx.ID_ANY, "Loco Cards", size=BTNSZ)
+		self.bLocoCards.SetToolTip("Print locomotive cards")
+		self.Bind(wx.EVT_BUTTON, self.bLocoCardsPressed, self.bLocoCards)
+		self.bLocoCards.Enable(self.browser is not None)
+		btnSizer.Add(self.bLocoCards)
+
 		btnSizer.AddSpacer(30)
 		
 		self.bExit = wx.Button(self, wx.ID_ANY, "Exit", size=BTNSZ)
@@ -107,9 +143,8 @@ class ManageLocosDlg(wx.Dialog):
 		
 		self.SetSizer(hsizer)
 		self.Layout()
-		self.Fit();
+		self.Fit()
 
-		
 	def setTitle(self):
 		title = self.titleString
 		
@@ -121,6 +156,7 @@ class ManageLocosDlg(wx.Dialog):
 	def bAddPressed(self, _):
 		dlg = wx.TextEntryDialog(self, 'Enter Locomotive ID', 'Loco ID', '')
 		rc = dlg.ShowModal()
+		locoID = None
 		if rc == wx.ID_OK:
 			locoID = dlg.GetValue()
 
@@ -157,7 +193,21 @@ class ManageLocosDlg(wx.Dialog):
 	def bPrintPressed(self, _):
 		rpt = LocosReport(self, self.browser)
 		rpt.LocosReport(self.locos)
-		
+
+	def bLocoCardsPressed(self, _):
+		rpt = LocoCards(self, self.browser)
+		rpt.LocoCards(self.locos)
+
+	def bQRCodesPressed(self, _):
+		ct = 0
+		for l in self.locoOrder:
+			LocoQRCode(l)
+			ct += 1
+
+		dlg = wx.MessageDialog(self, "QR Codes generated for %d locomotives" % ct, 'QRCodes generated', wx.OK | wx.ICON_INFORMATION)
+		dlg.ShowModal()
+		dlg.Destroy()
+
 	def reportSelection(self, lx, doubleclick=False):
 		self.bDel.Enable(lx is not None)
 		self.selectedLx = lx
@@ -175,6 +225,7 @@ class ManageLocosDlg(wx.Dialog):
 		dlg = ModifyLocoDlg(self, sl, self.locoList.getLocoInfo(sl))
 		rc = dlg.ShowModal()
 
+		loco = None
 		if rc == wx.ID_OK:
 			loco = dlg.GetResults()
 			
@@ -251,28 +302,32 @@ class ManageLocosDlg(wx.Dialog):
 class LocoList(wx.ListCtrl):
 	def __init__(self, parent):
 		self.parent = parent
-		
+		self.locos = None
+		self.locoOrder = None
+
 		wx.ListCtrl.__init__(
-			self, parent, wx.ID_ANY, size=(810, 240),
-			style=wx.LC_REPORT|wx.LC_VIRTUAL|wx.LC_VRULES|wx.LC_SINGLE_SEL
+			self, parent, wx.ID_ANY, size=(850, 240),
+			style=wx.LC_REPORT | wx.LC_VIRTUAL | wx.LC_VRULES | wx.LC_SINGLE_SEL
 			)
 
 		self.InsertColumn(0, "Loco")
-		self.InsertColumn(1, "Description")
-		self.InsertColumn(2, "Start")
-		self.InsertColumn(3, "Appr")
-		self.InsertColumn(4, "Med")
-		self.InsertColumn(5, "Fast")
-		self.InsertColumn(6, "Acc")
-		self.InsertColumn(7, "Dec")
+		self.InsertColumn(1, "Sh")
+		self.InsertColumn(2, "Description")
+		self.InsertColumn(3, "Start")
+		self.InsertColumn(4, "Appr")
+		self.InsertColumn(5, "Med")
+		self.InsertColumn(6, "Fast")
+		self.InsertColumn(7, "Acc")
+		self.InsertColumn(8, "Dec")
 		self.SetColumnWidth(0, 60)
-		self.SetColumnWidth(1, 360)
-		self.SetColumnWidth(2, 60)
+		self.SetColumnWidth(1, 40)
+		self.SetColumnWidth(2, 360)
 		self.SetColumnWidth(3, 60)
 		self.SetColumnWidth(4, 60)
 		self.SetColumnWidth(5, 60)
 		self.SetColumnWidth(6, 60)
 		self.SetColumnWidth(7, 60)
+		self.SetColumnWidth(8, 60)
 
 		self.SetItemCount(0)
 		self.selected = None
@@ -302,7 +357,7 @@ class LocoList(wx.ListCtrl):
 		if self.selected < 0 or self.selected >= self.GetItemCount():
 			return None
 		
-		return self.order[self.selected]
+		return self.locoOrder[self.selected]
 	
 	def getLocoOrder(self):
 		return [l for l in self.locoOrder]
@@ -314,22 +369,20 @@ class LocoList(wx.ListCtrl):
 			return None
 			
 	def setSelection(self, tx, doubleclick=False):
-		self.selected = tx;
+		self.selected = tx
 		if tx is not None:
 			self.Select(tx)
 			
 		self.parent.reportSelection(tx, doubleclick=doubleclick)
-		
-	def buildSortKey(self, lid):
-		return int(lid)
-		
+
 	def add(self, lid):
-		lo = sorted(self.locoOrder + [lid], key=self.buildSortKey)
+		lo = sorted(self.locoOrder + [lid], key=lambda x: int(x))
 		lx = lo.index(lid)
 		self.locoOrder = lo
 		self.locos[lid] = {}
 		self.locos[lid]["desc"] = None
 		self.locos[lid]["prof"] = {k: defaultProfile[k] for k in defaultProfile.keys()}
+		self.locos[lid]["short"] = False
 		ct = len(self.locoOrder)
 		self.SetItemCount(ct)
 		if ct > 0:
@@ -373,10 +426,10 @@ class LocoList(wx.ListCtrl):
 	def OnItemActivated(self, event):
 		self.setSelection(event.Index, doubleclick=True)
 
-	def OnItemDeselected(self, evt):
+	def OnItemDeselected(self, _):
 		self.setSelection(None)
 
-	def OnItemHint(self, evt):
+	def OnItemHint(self, _):
 		if self.GetFirstSelected() == -1:
 			self.setSelection(None)
 
@@ -388,21 +441,28 @@ class LocoList(wx.ListCtrl):
 		if col == 0:
 			return lid
 		elif col == 1:
+			try:
+				rv = "x" if self.locos[lid]["short"] else " "
+			except KeyError:
+				self.locos[lid]["short"] = False
+				rv = " "
+			return rv
+		elif col == 2:
 			rv = self.locos[lid]["desc"]
 			if rv is None:
 				rv = ""
 			return rv
-		elif col == 2: # start speed
+		elif col == 3:  # start speed
 			return "%d" % self.locos[lid]["prof"]["start"]
-		elif col == 3: # approach/slow speed
+		elif col == 4:  # approach/slow speed
 			return "%d" % self.locos[lid]["prof"]["slow"]
-		elif col == 4: # medium speed
+		elif col == 5:  # medium speed
 			return "%d" % self.locos[lid]["prof"]["medium"]
-		elif col == 5: # fast/max speed
+		elif col == 6:  # fast/max speed
 			return "%d" % self.locos[lid]["prof"]["fast"]
-		elif col == 6: # acceleration step
+		elif col == 7:  # acceleration step
 			return "%d" % self.locos[lid]["prof"]["acc"]
-		elif col == 7: # deceleration step
+		else:  # col == 8 deceleration step
 			return "%d" % self.locos[lid]["prof"]["dec"]
 
 	def OnGetItemAttr(self, item):

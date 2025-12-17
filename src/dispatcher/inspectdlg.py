@@ -1,5 +1,5 @@
 import wx  
-import os     
+import json
 import logging
 
 BSIZE = (120, 40)
@@ -65,9 +65,9 @@ class InspectDlg(wx.Dialog):
 
         btnszr2.AddSpacer(10)
 
-        bAuditTrBlks = wx.Button(self, wx.ID_ANY, "Audit Trains\nin Blocks", size=BSIZE)
-        self.Bind(wx.EVT_BUTTON, self.OnBAuditTrainsInBlocks, bAuditTrBlks)
-        btnszr2.Add(bAuditTrBlks)
+        bAuditTrains = wx.Button(self, wx.ID_ANY, "Audit Trains", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBAuditTrains, bAuditTrains)
+        btnszr2.Add(bAuditTrains)
 
         btnszr2.AddSpacer(20)
 
@@ -110,7 +110,9 @@ class InspectDlg(wx.Dialog):
         dlg = LogLevelDlg(self)
         rc = dlg.ShowModal()
         if rc == wx.ID_OK:
-            dlg.ApplyResults()
+            lvl = dlg.GetResults()
+            self.parent.SendLogLevel(lvl)
+
         dlg.Destroy()
 
     def OnBDebug(self, _):
@@ -251,122 +253,8 @@ class InspectDlg(wx.Dialog):
         else:
             return " ? " + callon
 
-    def OnBAuditTrainsInBlocks(self, _):
-        messages = []
-        blkTrainMap = {}
-        for bname, blk in self.parent.blocks.items():
-            if blk.IsOccupied():
-                # we should retain the block ID if it is occupied and there is no train identified.  In this case,
-                # the block should be set as unoccupied in a way that propagates to the server
-                blkTrainMap[bname] = blk.GetTrain()
-
-        if len(blkTrainMap) > 0:
-            messages.append("Occupied Blocks")
-            for bname, tr in blkTrainMap.items():
-                trnm = None if tr is None else tr.GetName()
-                blk = self.parent.blocks[bname]
-                rtname = blk.GetRouteDesignator()
-                messages.append("Block %s  occupied by %s" % (rtname, str(trnm)))
-            messages.append("---")
-
-        trlist = list(self.parent.trains.keys())
-        activetrains, ctltrains = self.parent.activeTrains.GetAllTrains()
-        atrlist = list(activetrains.keys())
-        alllist = list(set(trlist+atrlist))
-
-        trBlkMap = {}
-        messages.append("Train List")
-        for tname in alllist:
-            if tname in trlist:
-                tr = self.parent.trains[tname]
-                if tname in atrlist:
-                    tx = "All,Act"
-                else:
-                    tx = "All"
-            elif tname in atrlist:
-                tr = activetrains[tname]
-                tx = "Act"
-            else:
-                tr = None
-                tx = "None"
-
-            if tr:
-                blist = tr.GetBlockList()
-                bnlist = reversed(tr.GetBlockNameList())
-            else:
-                blist = []
-                bnlist = []
-
-            trBlkMap[tname] = [bn for bn in blist]
-            messages.append(("Train %s(%s) occupies blocks %s" % (tname, tx, ", ".join(bnlist))))
-
-        messages.append("---")
-
-        messages.append("Audit by Block")
-        errs = False
-        for bname, tr in blkTrainMap.items():
-            tname = None if tr is None else tr.GetName()
-            if tr is None:
-                messages.append("  Block %s: train is none" % bname)
-                errs = True
-            elif tname not in trBlkMap:
-                errs = True
-                messages.append("  Train %s referenced by block %s does not exist in the block's train list" % (tname, bname))
-            elif bname not in trBlkMap[tname]:
-                errs = True
-                messages.append("  Block %s referenced by train %s is not in that train's block list" % (bname, tname))
-            else:
-                #everything is OK - do nothing
-                pass
-
-        if not errs:
-            messages.append("  All OK")
-        messages.append("---")
-
-        errs = False
-        messages.append("Audit by Train")
-        for tname, bnlist in trBlkMap.items():
-            for bname in bnlist:
-                t = blkTrainMap[bname]
-                trname = None if t is None else t.GetName()
-                if bname not in blkTrainMap:
-                    errs = True
-                    messages.append("  Block %s referenced by train %s is not occupied" % (bname, tname))
-                elif trname is None:
-                    errs = True
-                    messages.append("  Block %s, train is None" % bname)
-                elif tname != trname:
-                    errs = True
-                    messages.append("  Train %s references block %s, but that block's occupant is %s" % (tname, bname, trname))
-                else:
-                    # everything is OK - do nothing
-                    pass
-
-        if not errs:
-            messages.append("  All OK")
-        messages.append("---")
-
-        messages.append("Audit Active Trains vs Train List")
-        tronly = [t for t in trlist if t not in atrlist]
-        atronly = [t for t in atrlist if t not in trlist]
-        if len(tronly) > 0:
-            messages.append("  Trains in main list but not in active list: %s" % ", ".join(tronly))
-        if len(atronly) > 0:
-            messages.append("  Trains in active list but not in main list: %s" % ", ".join(atronly))
-        if len(tronly) == 0 and len(atronly) == 0:
-            messages.append("  All OK")
-
-        messages.append("---")
-
-        if len(ctltrains) == 0:
-            messages.append("Active Train List control is not instantiated")
-        else:
-            messages.append("Active Trains Control:")
-            messages.append("All trains: %s (%d)" % (", ".join(ctltrains["trains"]), ctltrains["trainct"]))
-            messages.append("Ordered trains: %s (%d)" % (", ".join(ctltrains["order"]), ctltrains["orderct"]))
-            messages.append("Filtered trains: %s (%d)" % (", ".join(ctltrains["filter"]), ctltrains["filterct"]))
-
-        messages.append("---")
+    def OnBAuditTrains(self, _):
+        messages = self.parent.Get("audittrains", {})
 
         logging.debug("********** Train/Block Audit Start **********")
         for ml in messages:
@@ -414,9 +302,7 @@ class InspectDlg(wx.Dialog):
         if rc != wx.ID_OK:
             return
 
-        for bn in resetList:
-            blk = self.parent.blocks[bn]
-            blk.RemoveClearStatus()
+        self.parent.Request({"resetblocks": {"blocks": resetList}})
 
     def OnBIgnoreBlks(self, _):
         ignoreIndices = []
@@ -641,16 +527,9 @@ class LogLevelDlg(wx.Dialog):
     def OnCancel(self, _):
         self.EndModal(wx.ID_CANCEL)
 
-    def ApplyResults(self):
+    def GetResults(self):
         lvl = self.rbMode.GetSelection()
-        logging.getLogger().setLevel(self.logLevelValues[lvl])
-
-        dlg = wx.MessageDialog(self, "Logging Level has been set to %s" % self.logLevels[lvl],
-                               "Logging Level Changed",
-                               wx.OK | wx.ICON_INFORMATION)
-        dlg.CenterOnScreen()
-        dlg.ShowModal()
-        dlg.Destroy()
+        return self.logLevelValues[lvl]
 
 
 class ListDlg(wx.Dialog):
@@ -662,7 +541,7 @@ class ListDlg(wx.Dialog):
 
         vszr = wx.BoxSizer(wx.VERTICAL)
 
-        font = wx.Font(wx.Font(14, wx.FONTFAMILY_TELETYPE, wx.NORMAL, wx.BOLD, faceName="Monospace"))
+        font = wx.Font(wx.Font(14, wx.FONTFAMILY_TELETYPE, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, faceName="Monospace"))
 
         lb = wx.ListBox(self, wx.ID_ANY, choices=data, size=sz, style=wx.LC_REPORT)
         lb.SetFont(font)

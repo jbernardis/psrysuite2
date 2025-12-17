@@ -88,6 +88,9 @@ class Block:
 		return self.name
 
 	def RouteDesignator(self):
+		if self.osblk:
+			return self.osblk.RouteDesignator()
+
 		return self.name
 
 	def Address(self):
@@ -218,7 +221,14 @@ class Block:
 			return None
 
 		return {self.Name(): [b.Name() for b in self.subBlocks]}
-		
+	#
+	# def GetStopRelayName(self):
+	# 	if self.stoppedBlock is None:
+	# 		return None
+	#
+	# 	# TODO: now we know we are in a stopping section, only return the relay name if both ends of the block are empty
+	# 	return self.StoppedBlock().Name() + ".srel"
+
 	def AddStoppingBlocks(self, sbl):
 		for sb in sbl:
 			if sb.Name().endswith(".E"):
@@ -525,6 +535,9 @@ class OSBlock:
 	def StoppedBlock(self):
 		return None
 
+	def GetStopRelayName(self):
+		return None
+
 	def IsSubBlock(self):
 		return False
 
@@ -717,6 +730,12 @@ class Route:
 	def SetOS(self, osblk):
 		self.osblk = osblk
 
+	def OS(self):
+		return self.osblk
+
+	def OSName(self):
+		return None if self.osblk is None else self.osblk.Name()
+
 	def Name(self):
 		return self.name
 
@@ -806,6 +825,7 @@ class StopRelay:
 		self.node = node
 		self.address = address
 		self.activated = False
+		self.bits = []
 		
 	def SetBits(self, bits):
 		self.bits = bits
@@ -814,6 +834,7 @@ class StopRelay:
 		return self.bits
 		
 	def Activate(self, flag):
+		logging.debug("Setting stop relay %s to %s" % (self.name, flag))
 		self.activated = flag
 		
 	def IsActivated(self):
@@ -929,13 +950,18 @@ class Indicator:
 		return self.bits
 		
 	def SetOn(self, flag):
+		if self.name == "HydeEastPower":
+			logging.debug("========================Setting indicator to %s" % flag)
 		self.status = flag
 		
 	def IsOn(self):
 		return self.status
 	
 	def GetEventMessage(self):
-		return {"indicator": [{ "name": self.name, "state": 1 if self.status else 0}]}
+		return {"indicator": [{"name": self.name, "state": 1 if self.status else 0}]}
+
+	def GetEventMessages(self):
+		return [self.GetEventMessage()]
 
 
 class ODevice:

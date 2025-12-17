@@ -67,7 +67,7 @@ class Nassau (District):
 		self.frame.PopupEvent("Nassau control is main only")
 		return False
 
-	def EvaluateDistrictLocks(self, sig, ossLocks=None):
+	def EvaluateDistrictLocks(self, sig, ossLocks=False):
 		if sig is None:
 			'''
 			the osslocks setting has changed.  If it's false, all locks should be cleared,

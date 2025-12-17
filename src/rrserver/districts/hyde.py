@@ -127,7 +127,6 @@ class Hyde(District):
 			["H22E", "H43E", "H42E", "H41E", "H40E"]
 		]
 
-		
 		addr = HYDE
 		with self.nodes[addr] as n:
 			# outputs

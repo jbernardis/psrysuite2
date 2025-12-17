@@ -285,7 +285,7 @@ class Shore(District):
 			self.rr.SetAspect("F10D", 1 if F10D else 0)
 
 		# handle the merging of h30Power and H30 stop relay			
-		H30power = self.rr.GetIndicator("H30Power").IsOn() and not self.rr.GetStopRelay("H30")
+		H30power = self.rr.GetIndicator("H30Power").IsOn() and not self.rr.GetStopRelay("H30.srel").IsActivated()
 		if H30power != self.H30power:
 			self.H30power = H30power
 			self.nodes[SHORE].SetOutputBit(6, 0, 1 if H30power else 0)

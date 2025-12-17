@@ -38,7 +38,7 @@ class Cliff(District):
 			self.rr.AddSignal("C4RD", self, n, addr, [(2, 1)])
 			self.rr.AddSignal("C4L",  self, n, addr, [(2, 2), (2, 3), (2, 4)])
 
-			self.rr.AddHandswitchInd("CSw3", self, n, addr, [(2, 5)])
+			self.rr.AddHandswitchInd("CSw3", self, n, addr, [(2, 5)], inverted=True)
 			
 			# virtual turnouts - these are managed by the CLIFF panel - no output bits
 			self.rr.AddTurnout("CSw31", self, n, addr, [])
