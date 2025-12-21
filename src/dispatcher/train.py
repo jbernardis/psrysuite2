@@ -46,11 +46,12 @@ from dispatcher.constants import REAR
 # 		tl[trid]["route"] = route
 
 class Train:
-	def __init__(self, iname, rname, east, loco, engineer):
+	def __init__(self, iname, rname, east, loco, engineer, short=False):
 		self.iname = iname
 		self.rname = rname
 		self.east = east
 		self.loco = loco
+		self.short = False
 		self.engineer = engineer
 		self.roster = None
 		self.stopped = False
@@ -87,6 +88,12 @@ class Train:
 		else:
 			return self.loco
 
+	def FullLoco(self):
+		if self.loco is None:
+			return "??"
+		else:
+			return self.loco + ("(sh)" if self.short else "")
+
 	def SetRName(self, rname):
 		self.rname = rname
 
@@ -99,8 +106,9 @@ class Train:
 	def East(self):
 		return self.east
 
-	def SetLoco(self, loco):
+	def SetLoco(self, loco, short=False):
 		self.loco = loco
+		self.short = short
 
 	def SetEngineer(self, engineer):
 		self.engineer = engineer

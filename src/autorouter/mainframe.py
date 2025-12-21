@@ -516,7 +516,7 @@ class MainFrame(wx.Frame):
 			if al + ar != 0:
 				return False
 
-		currentRoute = self.routes[osName]
+		currentRoute = self.routes.get(osName, None)
 		if currentRoute != route:
 			try:
 				nxb = osButtons[osName][route]

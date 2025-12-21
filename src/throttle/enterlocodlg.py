@@ -65,7 +65,6 @@ class EnterLocoDlg(wx.Dialog):
 		self.chosenLoco = evt.GetString()
 		evt.Skip()
 
-
 	def OnCancel(self, _):
 		self.EndModal(wx.ID_CANCEL)
 
@@ -73,4 +72,11 @@ class EnterLocoDlg(wx.Dialog):
 		self.EndModal(wx.ID_OK)
 
 	def GetResults(self):
-		return self.chosenLoco
+		l = self.chosenLoco
+		if l.endswith("(sh)"):
+			l = l[:-4]
+			short = True
+		else:
+			short = False
+
+		return l, short

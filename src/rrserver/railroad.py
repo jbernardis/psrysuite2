@@ -86,6 +86,7 @@ class Railroad:
 		self.loBlocks = {}
 		self.to2osMap = {}
 		self.lastValues = {}
+		self.block2SigMap = {}
 
 		self.pulsedOutputs = {} 
 		self.topulselen = self.settings.rrserver.topulselen
@@ -169,6 +170,7 @@ class Railroad:
 		self.sigToOSMap = {}
 		self.to2osMap = {}
 		self.routes = {}
+		self.block2SigMap = {}
 		for rtName, rt in self.loRoutes.items():
 			osBlockName = rt["os"]
 
@@ -223,6 +225,15 @@ class Railroad:
 			r = Route(rtName, osBlock, toList, sigList, endBlocks, rt["type"])
 			self.routes[rtName] = r
 			osBlock.AddRoute(r)
+			for bn, sn in zip(rt["ends"], rt["signals"]):
+				if bn in self.block2SigMap:
+					if sn not in self.block2SigMap[bn]:
+						self.block2SigMap[bn].append(sn)
+				else:
+					self.block2SigMap[bn] = [sn]
+
+		for bn, sigs in self.block2SigMap.items():
+			logging.debug("%s => %s" % (bn, str(sigs)))
 
 		self.osProxies = {}
 		for distr, dpl in self.loOSProxies.items():
@@ -1886,30 +1897,45 @@ class Railroad:
 			if ar is None:
 				logging.debug("OS %s has no active route" % blk.Name())
 				return None
+
 			sigNm = ar.EntrySignal()
 			sig = self.signals.get(sigNm, None)
 			if sig is None:
 				logging.debug("Unable to identify signal")
+
 			return sig
 
 		else:
-			dbg = blk.Name() == "N25"
-			if dbg:
-				self.Alert("Determining signal for train %s" % tr.Name())
 			nb = blk.NextBlock()
-			if dbg:
-				self.Alert("Next Block is %s" % ("None" if nb is None else nb.Name()))
 			if nb is None:
-				logging.info("Moving into a terminal track - no signal here")
+				try:
+					sigList = self.block2SigMap[blk.Name()]
+				except KeyError:
+					logging.info("Moving into a terminal track - no signal here")
+					return None
+
+				for sn in sigList:
+					sig = self.signals[sn]
+					if sig.East() == tr.East():
+						return sig
+
 				return None
+
 			if not nb.IsOS():
 				logging.debug("Block %s should have been an OS" % nb.Name())
 				return None
+
 			ar = nb.OS().ActiveRoute()
 			if ar is None:
 				logging.debug("OS %s has no active route" % nb.Name())
 				return None
-			sigNm = ar.EntrySignal()
+
+			ar.Dump()
+
+			if tr.East() == ar.East():
+				sigNm = ar.EntrySignal()
+			else:
+				sigNm = ar.ExitSignal()
 			sig = self.signals.get(sigNm, None)
 			if sig is None:
 				logging.debug("Unable to identify signal")
@@ -2293,6 +2319,9 @@ class Railroad:
 			if forward:
 				blk = blocks[0]
 				nb = blk.NextDetectionSectionEast() if tr.East() else blk.NextDetectionSectionWest()
+				if nb is None:
+					self.Alert("No block to move into")
+					return
 				if nb.Name() in ["KOSN10S11", "KOSN20S21"]:
 					nb = nb.NextDetectionSectionEast() if tr.East() else nb.NextDetectionSectionWest()
 				if nb is not None:  # make sure we point to the Block, not the OSBlock
@@ -2301,6 +2330,9 @@ class Railroad:
 			else:
 				blk = blocks[-1]
 				nb = blk.NextDetectionSectionWest() if tr.East() else blk.NextDetectionSectionEast()
+				if nb is None:
+					self.Alert("No block to move into")
+					return
 				if nb.Name() in ["KOSN10S11", "KOSN20S21"]:
 					nb = nb.NextDetectionSectionWest() if tr.East() else nb.NextDetectionSectionEast()
 				if nb is not None:  # make sure we point to the Block, not the OSBlock

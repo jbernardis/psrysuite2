@@ -14,15 +14,20 @@ REVERSE = 0x03
 
 MAXTRIES = 3
 
-def formatLocoID(lid):
-	lidhi = (lid >> 8) | 0xc0
+
+def formatLocoID(lid, short):
+	# sanity
+	if lid > 127:
+		short = False
+	lidhi = (lid >> 8) if short else ((lid >> 8) | 0xc0)
 	lidlo = lid % 256
 	return [lidhi, lidlo]
+
 
 class Loco:
 	def __init__(self, lid):
 		self.locoid = lid
-		self.dpeed = 0
+		self.speed = 0
 		self.direction = FORWARD
 		self.headlight = False
 		self.horn = False
@@ -61,6 +66,7 @@ class Loco:
 	def GetHeadlight(self):
 		return self.headlight
 
+
 class DCCHandler(BaseHTTPRequestHandler):
 	def do_GET(self):
 		app = self.server.getApp()
@@ -93,6 +99,7 @@ class DCCHandler(BaseHTTPRequestHandler):
 			self.end_headers()
 			self.wfile.write(body)
 
+
 class DCCThreadingHTTPServer(ThreadingMixIn, HTTPServer):
 	def serve_dcc(self):
 		self.haltServer = False
@@ -111,6 +118,7 @@ class DCCThreadingHTTPServer(ThreadingMixIn, HTTPServer):
 
 	def shut_down(self):
 		self.haltServer = True
+
 
 class DCCHTTPServer:
 	def __init__(self, ip, port, tty):
@@ -172,11 +180,17 @@ class DCCHTTPServer:
 				locoid = int(cmdString["loco"][0])
 			except:
 				locoid = None
-				
+
 			if locoid is None:
 				logging.error("unable to parse locomotive ID: %s" % cmdString["loco"][0])
 				return
-				
+
+			try:
+				short = int(cmdString["short"][0])
+			except:
+				short = 0
+			short = True if short != 0 else False
+
 			try:
 				speed = int(cmdString["speed"][0])
 			except:
@@ -187,7 +201,7 @@ class DCCHTTPServer:
 			except:
 				direction = None
 				
-			self.SetSpeedAndDirection(locoid, speed, direction)
+			self.SetSpeedAndDirection(locoid, short, speed, direction)
 		
 		elif cmd == "function":
 			try:
@@ -198,7 +212,13 @@ class DCCHTTPServer:
 			if locoid is None:
 				logging.error("unable to parse locomotive ID: %s" % cmdString["loco"][0])
 				return
-				
+
+			try:
+				short = int(cmdString["short"][0])
+			except:
+				short = 0
+			short = True if short != 0 else False
+
 			try:
 				headlight = int(cmdString["light"][0])
 			except:
@@ -214,9 +234,9 @@ class DCCHTTPServer:
 			except:
 				bell = None
 				
-			self.SetFunction(locoid, headlight, horn, bell)
+			self.SetFunction(locoid, short, headlight, horn, bell)
 						
-	def SetSpeedAndDirection(self, lid, speed=None, direction=None):
+	def SetSpeedAndDirection(self, lid, short, speed=None, direction=None):
 		try:
 			loco = self.locos[lid]
 		except KeyError:
@@ -232,11 +252,11 @@ class DCCHTTPServer:
 		speed = loco.GetSpeed()
 		direction = loco.GetDirection()
 		
-		outb = [ 0xa2 ] + formatLocoID(lid) + [ direction, speed if speed > 4 else 0 ]
+		outb = [ 0xa2 ] + formatLocoID(lid, short) + [ direction, speed if speed > 4 else 0 ]
 		
 		self.SendDCC(outb)
 		
-	def SetFunction(self, lid, headlight=None, horn=None, bell=None):
+	def SetFunction(self, lid, short, headlight=None, horn=None, bell=None):
 		try:
 			loco = self.locos[lid]
 		except KeyError:
@@ -244,13 +264,13 @@ class DCCHTTPServer:
 			self.locos[lid] = loco
 			
 		if headlight is not None:
-			loco.SetHeadlight(headlight == 1)
+			loco.SetHeadlight(headlight != 0)
 			
 		if horn is not None:
-			loco.SetHorn(horn == 1)
+			loco.SetHorn(horn != 0)
 			
 		if bell is not None:
-			loco.SetBell(bell == 1)
+			loco.SetBell(bell != 0)
 			
 		function = 0
 		if loco.GetBell():
@@ -262,7 +282,7 @@ class DCCHTTPServer:
 		if loco.GetHeadlight():
 			function += 0x10
 
-		outb = [ 0xa2 ] + formatLocoID(lid) + [ 0x07, function & 0xff ]
+		outb = [ 0xa2 ] + formatLocoID(lid, short) + [ 0x07, function & 0xff ]
 
 		self.SendDCC(outb)
 		

@@ -2,39 +2,42 @@ import wx
 import os
 import logging
 
-ONVAL = "1"
-OFFVAL = "0"
+ONVAL = u"\u2713"
+OFFVAL = " "
 
 
 class ATCListCtrl(wx.ListCtrl):
 	def __init__(self, parent, cmdFolder):
 		self.parent = parent
+		self.selected = None
 		
 		wx.ListCtrl.__init__(
-			self, parent, wx.ID_ANY, size=(290, 110),
-			style=wx.LC_REPORT|wx.LC_VIRTUAL|wx.LC_VRULES|wx.LC_SINGLE_SEL) #|wx.LC_NO_HEADER)
+			self, parent, wx.ID_ANY, size=(490, 110),
+			style=wx.LC_REPORT|wx.LC_VIRTUAL|wx.LC_VRULES|wx.LC_SINGLE_SEL)
 
 		self.Bind(wx.EVT_LIST_ITEM_SELECTED, self.OnItemSelected)
 		self.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnItemActivated)
 		self.Bind(wx.EVT_LIST_ITEM_DESELECTED, self.OnItemDeselected)
 		self.Bind(wx.EVT_LIST_CACHE_HINT, self.OnItemHint)
-		
-#		self.Bind(wx.EVT_LIST_ITEM_RIGHT_CLICK, self.onRightClick, self)
 
 		self.InsertColumn(0, "")
 		self.InsertColumn(1, "Train")
 		self.InsertColumn(2, "Loco")
 		self.InsertColumn(3, "Spd")
-		self.InsertColumn(4, "L")
-		self.InsertColumn(5, "H")
-		self.InsertColumn(6, "B")
+		self.InsertColumn(4, "Tgt")
+		self.InsertColumn(5, "L")
+		self.InsertColumn(6, "H")
+		self.InsertColumn(7, "B")
+		self.InsertColumn(8, "Status")
 		self.SetColumnWidth(0, 30)
 		self.SetColumnWidth(1, 60)
 		self.SetColumnWidth(2, 60)
 		self.SetColumnWidth(3, 40)
-		self.SetColumnWidth(4, 20)
+		self.SetColumnWidth(4, 40)
 		self.SetColumnWidth(5, 20)
 		self.SetColumnWidth(6, 20)
+		self.SetColumnWidth(7, 20)
+		self.SetColumnWidth(8, 200)
 		
 		self.loadImages(os.path.join(cmdFolder, "images"))
 		self.il = wx.ImageList(24, 24)
@@ -129,12 +132,11 @@ class ATCListCtrl(wx.ListCtrl):
 		self.trains[tr.GetName()] = tr
 		self.RefreshItem(idx)
 		
-	def RefreshTrain(self, tr):
-		nm = tr.GetName()
-		if nm not in self.trainNames:
+	def RefreshTrain(self, tn):
+		if tn not in self.trainNames:
 			return 
 		try:
-			idx = self.trainNames.index(nm)
+			idx = self.trainNames.index(tn)
 		except ValueError:
 			return 
 		self.RefreshItem(idx)
@@ -143,10 +145,9 @@ class ATCListCtrl(wx.ListCtrl):
 		self.SetItemCount(0)
 		self.trainNames = []
 		self.trains = {}
-		self.RefreshItem(None)
-			
+
 	def setSelection(self, tx, dclick=False):
-		self.selected = tx;
+		self.selected = tx
 		if tx is not None:
 			self.Select(tx)
 			
@@ -189,21 +190,25 @@ class ATCListCtrl(wx.ListCtrl):
 
 	def OnGetItemText(self, item, col):
 		nm = self.trainNames[item]
-		dccl = self.trains[nm]
+		tr = self.trains[nm]
 		if col == 0:
 			return "AA"
 		elif col == 1:
 			return nm
 		elif col == 2:
-			return dccl["loco"]
+			return tr["loco"] + "(sh)" if tr["short"] else ""
 		elif col == 3:
-			return "%3d" % dccl["speed"]
+			return "%3d" % tr["speed"]
 		elif col == 4:
-			return ONVAL if dccl["headlight"] else OFFVAL
+			return "%3d" % tr["target"]
 		elif col == 5:
-			return ONVAL if dccl["horn"] else OFFVAL
+			return ONVAL if tr["headlight"] else OFFVAL
 		elif col == 6:
-			return ONVAL if dccl["bell"] else OFFVAL
+			return ONVAL if tr["horn"] else OFFVAL
+		elif col == 7:
+			return ONVAL if tr["bell"] else OFFVAL
+		elif col == 8:
+			return tr["status"]
 		else:
 			return "?"
 

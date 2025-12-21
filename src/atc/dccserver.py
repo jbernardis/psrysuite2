@@ -1,5 +1,8 @@
+import sys
+
 import requests
 import logging
+
 
 class DCCServer(object):
 	def __init__(self):
@@ -12,6 +15,7 @@ class DCCServer(object):
 		for cmd, parms in req.items():
 			try:
 				logging.info("sending to dcc server: %s %s" % (cmd, str(parms)))
+				print("sending to dcc server: %s %s" % (cmd, str(parms)), file=sys.stderr)
 				requests.get(self.ipAddr + "/" + cmd, params=parms, timeout=0.1)
 			except:
 				logging.error("Unable to send request  is dcc server running?")

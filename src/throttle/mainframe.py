@@ -13,6 +13,7 @@ BTNDIM = (32, 32)
 BTNDIM2 = (48, 48)
 BTNDIM3 = (144, 48)
 
+
 class MainFrame(wx.Frame):
 	def __init__(self):
 		wx.Frame.__init__(self, None, style=wx.DEFAULT_FRAME_STYLE | wx.STAY_ON_TOP)
@@ -25,7 +26,8 @@ class MainFrame(wx.Frame):
 	
 		self.selectedLoco = None
 		self.selectedLid = 0
-		
+		self.selectedLocoShort = False
+
 		self.loadImages(os.path.join(os.getcwd(), "images"))
 		self.settings = Settings()
 
@@ -83,7 +85,7 @@ class MainFrame(wx.Frame):
 		
 		hszr = wx.BoxSizer(wx.HORIZONTAL)
 		hszr.Add(self.stLoco)
-		hszr.AddSpacer(20)
+		hszr.AddSpacer(40)
 		hszr.Add(self.stDirection)
 		vszr.Add(hszr, 0, wx.ALIGN_CENTER_HORIZONTAL)
 		
@@ -166,7 +168,8 @@ class MainFrame(wx.Frame):
 		if locos is None:
 			print("Unable to retrieve locos")
 			locos = {}
-		self.locoList = sorted(list(locos.keys()), key=self.BuildLocoKey)
+		l  = sorted(list(locos.keys()), key=self.BuildLocoKey)
+		self.locoList = [lid + ("(sh)" if locos[lid]["short"] else "") for lid in l]
 
 	def ObCbStayOnTop(self, _):
 		flag = self.cbStayOnTop.GetValue()		
@@ -257,7 +260,6 @@ class MainFrame(wx.Frame):
 		png.SetMask(mask)
 		self.pngEStop = png
 
-
 	def UpdateSpeed(self, speed):
 		self.knbSpeed.SetValue(speed)
 		self.ledSpeed.SetValue("%d" % speed)
@@ -329,8 +331,10 @@ class MainFrame(wx.Frame):
 	def OnBSelect(self, _):
 		dlg = EnterLocoDlg(self, self.locoList)
 		rc = dlg.ShowModal()
+		nlid = ""
+		short = False
 		if rc == wx.ID_OK:
-			nlid = dlg.GetResults()
+			nlid, short = dlg.GetResults()
 			
 		dlg.Destroy()
 		if rc != wx.ID_OK:
@@ -339,16 +343,17 @@ class MainFrame(wx.Frame):
 			lid = int(nlid)
 		except ValueError:
 			return 
-		
+
+		self.selectedLocoShort = short
 		if lid == 0:
 			self.selectedLid = 0
 			self.selectedLoco = None
 		else:
 			self.selectedLid = lid
-			self.selectedLoco = self.dccRemote.SelectLoco(lid, True)
+			self.selectedLoco = self.dccRemote.SelectLoco(lid, short, True)
 		
 		self.EnableControls()
-		self.stLoco.SetLabel("%4d" % lid)
+		self.stLoco.SetLabel("%4d%s" % (lid, "s" if short else ""))
 		if self.selectedLoco:
 			speed = self.selectedLoco.GetSpeed()
 			self.knbSpeed.SetValue(speed)

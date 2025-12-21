@@ -6,34 +6,30 @@ cmdFolder = os.getcwd()
 if cmdFolder not in sys.path:
 	sys.path.insert(0, cmdFolder)
 
-# ofp = open(os.path.join(os.getcwd(), "output", "atc.out"), "w")
-# efp = open(os.path.join(os.getcwd(), "output", "atc.err"), "w")
-#
-# sys.stdout = ofp
-# sys.stderr = efp
+ofp = open(os.path.join(os.getcwd(), "output", "atc.out"), "w")
+efp = open(os.path.join(os.getcwd(), "output", "atc.err"), "w")
+
+sys.stdout = ofp
+sys.stderr = efp
 
 import logging
 logging.basicConfig(filename=os.path.join(os.getcwd(), "logs", "atc.log"), filemode='w', format='%(asctime)s %(message)s', level=logging.DEBUG)
 
 import json
 
-from dispatcher.constants import RegAspects
+from dispatcher.constants import aspectprofileindex
 from dispatcher.settings import Settings
 
-from atc.turnout import Turnout
-from atc.signal import Signal
 from atc.block import Block
-from atc.overswitch import OverSwitch
 from atc.train import Trains
-from atc.route import Route
-from atc.generatescripts import GenerateScripts
 from atc.layoutdata import LayoutData
 
-#from atc.dccremote import DCCRemote
 from atc.atclist import ATCListCtrl
 from atc.listener import Listener
 from atc.rrserver import RRServer
 from atc.dccserver import DCCServer
+from atc.blockdelay import BlockDelay
+from atc.dccremote import DCCRemote
 
 (DeliveryEvent, EVT_DELIVERY) = wx.lib.newevent.NewEvent()
 (DisconnectEvent, EVT_DISCONNECT) = wx.lib.newevent.NewEvent()
@@ -46,6 +42,10 @@ defaultProfile = {
 	"acc": 1,
 	"dec": 1
 }
+
+TRAIN_CONTROLLED = 1
+TRAIN_SHUTTINGDOWN = 2
+TRAIN_ENDOFROUTE = 3
 
 
 class MainFrame(wx.Frame):
@@ -60,6 +60,7 @@ class MainFrame(wx.Frame):
 		self.sessionid = None
 		self.settings = Settings()
 		self.initialized = False
+		self.subscribed = False
 
 		self.blocks = {}
 		self.turnouts = {}
@@ -75,15 +76,15 @@ class MainFrame(wx.Frame):
 		self.rrServer = None
 		self.dccServer = None
 		self.ticker = None
-		# self.dccRemote = None
-
+		self.dccRemote = None
+		self.blockDelay = None
 		self.selectedTrain = None
 		
 		self.LoadImages(os.path.join(cmdFolder, "images"))
 		
 		logging.info("psry atc server starting")
 
-		self.SetTitle("PSRY ATC Server")
+		self.title = "PSRY ATC Server"
 		
 		self.atcList = ATCListCtrl(self, os.getcwd())
 
@@ -104,14 +105,14 @@ class MainFrame(wx.Frame):
 
 		btnsz = wx.BoxSizer(wx.VERTICAL)
 
-		self.bAdd = wx.Button(self, wx.ID_ANY, ">>")
+		self.bAdd = wx.Button(self, wx.ID_ANY, ">>", size=(25, 33))
 		self.Bind(wx.EVT_BUTTON, self.OnBAdd, self.bAdd)
 		self.bAdd.Enable(False)
 		btnsz.Add(self.bAdd)
 
 		btnsz.AddSpacer(40)
 
-		self.bDel = wx.Button(self, wx.ID_ANY, "<<")
+		self.bDel = wx.Button(self, wx.ID_ANY, "<<", size=(25, 33))
 		self.Bind(wx.EVT_BUTTON, self.OnBDel, self.bDel)
 		self.bDel.Enable(False)
 		btnsz.Add(self.bDel)
@@ -139,27 +140,27 @@ class MainFrame(wx.Frame):
 		self.bBell.SetToolTip("Bell On/Off")
 		self.Bind(wx.EVT_BUTTON, self.OnBBell, self.bBell)
 		btnszr.Add(self.bBell)
+		btnszr.AddSpacer(20)
 		
-		hsz.Add(btnszr)
-		hsz.AddSpacer(5)
-		
-		btnszr = wx.BoxSizer(wx.VERTICAL)
 		self.bStop = wx.BitmapButton(self, wx.ID_ANY, self.imageStop, size=(32, 32))
 		self.bStop.SetToolTip("Force stop")
 		self.Bind(wx.EVT_BUTTON, self.OnBStop, self.bStop)
 		btnszr.Add(self.bStop)
-		btnszr.AddSpacer(5)
-		
-		self.bAtcOff = wx.BitmapButton(self, wx.ID_ANY, self.imageAtcOff, size=(32, 32))
-		self.bAtcOff.SetToolTip("Remove From ATC")
-		self.Bind(wx.EVT_BUTTON, self.OnBAtcOff, self.bAtcOff)
-		btnszr.Add(self.bAtcOff)
-		
+
 		hsz.Add(btnszr)
 		hsz.AddSpacer(5)
 		
 		vsz = wx.BoxSizer(wx.VERTICAL)
 		vsz.AddSpacer(5)
+
+		consz = wx.BoxSizer(wx.HORIZONTAL)
+		consz.AddSpacer(10)
+		self.bConnect = wx.Button(self, wx.ID_ANY, "Connect",  size=(96, 24))
+		self.Bind(wx.EVT_BUTTON, self.OnBConnect, self.bConnect)
+		consz.Add(self.bConnect)
+		vsz.Add(consz)
+		vsz.AddSpacer(5)
+
 		vsz.Add(hsz)
 		vsz.AddSpacer(5)
 
@@ -177,45 +178,58 @@ class MainFrame(wx.Frame):
 		mask = wx.Mask(png, wx.BLUE)
 		png.SetMask(mask)
 		self.imageLight = png
-		
+
+		png = wx.Image(os.path.join(imgFolder, "headlight_on.png"), wx.BITMAP_TYPE_PNG).ConvertToBitmap()
+		mask = wx.Mask(png, wx.BLUE)
+		png.SetMask(mask)
+		self.imageLightOn = png
+
 		png = wx.Image(os.path.join(imgFolder, "horn.png"), wx.BITMAP_TYPE_PNG).ConvertToBitmap()
 		mask = wx.Mask(png, wx.BLUE)
 		png.SetMask(mask)
 		self.imageHorn = png
-		
+
+		png = wx.Image(os.path.join(imgFolder, "horn_on.png"), wx.BITMAP_TYPE_PNG).ConvertToBitmap()
+		mask = wx.Mask(png, wx.BLUE)
+		png.SetMask(mask)
+		self.imageHornOn = png
+
 		png = wx.Image(os.path.join(imgFolder, "bell.png"), wx.BITMAP_TYPE_PNG).ConvertToBitmap()
 		mask = wx.Mask(png, wx.BLUE)
 		png.SetMask(mask)
 		self.imageBell = png
-		
-		png = wx.Image(os.path.join(imgFolder, "stop.png"), wx.BITMAP_TYPE_PNG).ConvertToBitmap()
+
+		png = wx.Image(os.path.join(imgFolder, "bell_on.png"), wx.BITMAP_TYPE_PNG).ConvertToBitmap()
+		mask = wx.Mask(png, wx.BLUE)
+		png.SetMask(mask)
+		self.imageBellOn = png
+
+		png = wx.Image(os.path.join(imgFolder, "atlRed.png"), wx.BITMAP_TYPE_PNG).ConvertToBitmap()
 		mask = wx.Mask(png, wx.BLUE)
 		png.SetMask(mask)
 		self.imageStop = png
-		
-		png = wx.Image(os.path.join(imgFolder, "atcoff.png"), wx.BITMAP_TYPE_PNG).ConvertToBitmap()
+
+		png = wx.Image(os.path.join(imgFolder, "atlGreen.png"), wx.BITMAP_TYPE_PNG).ConvertToBitmap()
 		mask = wx.Mask(png, wx.BLUE)
 		png.SetMask(mask)
-		self.imageAtcOff = png
+		self.imageResume = png
 
-	def Initialize(self):
-		logging.info("enter initialize")
+	def ShowTitle(self):
+		titleString = self.title
+		if self.subscribed and self.sessionid is not None:
+			titleString += ("  -  Session ID %d" % self.sessionid)
+		self.SetTitle(titleString)
 
-		self.rrServer = RRServer()
-		self.rrServer.SetServerAddress(self.settings.ipaddr, self.settings.serverport)
+	def OnBConnect(self, _):
+		if self.subscribed:
+			self.DisconnectServer()
+		else:
+			self.ConnectServer()
 
-		# load the layout information
-		if not self.GetLayoutInformation():
-			return
-
-		self.blocks["KOSN10S11"] = Block(self, "KOSN10S11", 0, 'W', True)
-		self.blocks["KOSN20S21"] = Block(self, "KOSN20S21", 0, 'E', True)
-
-		self.ticker = wx.Timer(self)
-
+	def ConnectServer(self):
 		self.dccServer = DCCServer()
 		self.dccServer.SetServerAddress(self.settings.ipaddr, self.settings.dccserverport)
-		# self.dccRemote = DCCRemote(self.dccServer, self.blocks, self.turnouts, self.signals, self.routes, self.roster)
+		self.dccRemote = DCCRemote(self.dccServer)
 
 		self.listener = Listener(self, self.settings.ipaddr, self.settings.socketport)
 		if not self.listener.connect():
@@ -223,6 +237,47 @@ class MainFrame(wx.Frame):
 			self.listener = None
 			return
 		self.listener.start()
+		self.subscribed = True
+		self.bConnect.SetLabel("Disconnect")
+		self.ShowTitle()
+
+	def DisconnectServer(self):
+		self.dccServer = None
+		self.dccRemote = None
+		self.listener.kill()
+		self.listener.join()
+		self.listener = None
+		self.subscribed = False
+		self.sessionid = None
+		self.bConnect.SetLabel("Connect")
+		try:
+			self.ticker.Stop()
+		except:
+			pass
+
+		self.atcList.ClearAll()
+		self.availableTrains = {}
+		self.controlledTrains = {}
+		self.lbAvailable.SetItems([])
+		self.ShowTitle()
+
+	def Initialize(self):
+		self.ShowTitle()
+		self.rrServer = RRServer()
+		self.rrServer.SetServerAddress(self.settings.ipaddr, self.settings.serverport)
+
+		# load the layout information
+		if not self.GetLayoutInformation():
+			return
+
+		self.blockDelay = BlockDelay(self.rrServer)
+
+		self.blocks["KOSN10S11"] = Block(self, "KOSN10S11", 0, 'W', True)
+		self.blocks["KOSN20S21"] = Block(self, "KOSN20S21", 0, 'E', True)
+
+		self.ticker = wx.Timer(self)
+
+		self.ConnectServer()
 
 		self.initialized = True
 
@@ -257,8 +312,6 @@ class MainFrame(wx.Frame):
 			logging.error("Unable to retrieve locos")
 			self.locos = {}
 
-		# self.dccRemote.Initialize(self.locos)
-
 		return True
 
 	def OnTickerEvent(self, _):
@@ -266,81 +319,142 @@ class MainFrame(wx.Frame):
 			return
 
 		for trid, tr in self.controlledTrains.items():
-			target = self.CalculateTarget(trid, tr)
-			if target is not None:
-				tr["target"] = target
+			if tr["state"] != TRAIN_ENDOFROUTE:
+				if self.EvaluateTrain(trid, tr):
+					if tr["step"] is not None:
+						self.ApplyStep(trid, tr)
 
-	def CalculateTarget(self, trid, tr):
-		print("looking at train %s" % trid)
-		print("Signal %s, aspect=%d" % (tr["signal"], self.signals[tr["signal"]]))
+				self.atcList.RefreshTrain(trid)
+
+	def EvaluateTrain(self, trid, tr):
 		leadBlock = tr["blocks"][-1]
-		print("lead block = %s" % leadBlock)
-		inOs = False
-		try:
-			idx = tr["script"]["blocks"].index(leadBlock)
-		except ValueError:
+		if leadBlock.endswith(".E") or leadBlock.endswith(".W"):
+			leadBlock = leadBlock[:-2]
+
+		# don't change anything if there is a delay
+		if tr["delay"] > 0:
+			tr["delay"] -= 1
+			tr["status"] = "Delay %d" % tr["delay"]
+			return True
+
+		if tr["forcedstop"]:
+			if tr["speed"] != 0:
+				tr["status"] = "Forced stop"
+			tr["state"] = TRAIN_CONTROLLED
+			tr["start"] = 0
+			tr["target"] = 0
+			tr["step"] = -tr["speed"]
+			return True
+
+		self.followRoute = True
+		if self.followRoute:
+			inOs = False
 			try:
-				idx = tr["script"]["oses"].index(leadBlock)
-				inOs = True
+				idx = tr["script"]["blocks"].index(leadBlock)
 			except ValueError:
-				# Alert train is in unknown block - but only do it once
-				return 0  # we can't identify the block - stop the train
+				try:
+					idx = tr["script"]["oses"].index(leadBlock)
+					inOs = True
+				except ValueError:
+					tr["status"] = "Unknown block: %s" % leadBlock
+					tr["state"] = TRAIN_SHUTTINGDOWN
+					tr["start"] = 0
+					tr["target"] = 0
+					tr["step"] = -10
+					return True
+
+		else:
+			inOs = leadBlock in self.routes
 
 		# while in an OS, the governing signal is 0, so do not change the target until we enter the next block
 		if not inOs:
+			# make sure the OS ahead is set to the right route
+			if self.followRoute:
+				try:
+					osn = tr["script"]["oses"][idx]
+				except IndexError:
+					tr["status"] = "End of train route"
+					tr["state"] = TRAIN_SHUTTINGDOWN
+					tr["start"] = 0
+					tr["target"] = 0
+					tr["step"] = -10
+					return True
+
+				osrte = self.routes.get(osn, None)
+				if osrte != tr["script"]["routes"][idx]:
+					tr["status"] = "OS %s incorrect route" % osn
+					tr["start"] = 0
+					tr["target"] = 0
+					tr["step"] = -10
+					return True
+
 			aspect = self.signals.get(tr["signal"], None)
 			aspectType = tr["aspecttype"]
-			print("Signals: %s <=> %s" % (tr["signal"], tr["script"]["signals"][idx]))
+			tr["start"], tr["target"], tr["step"] = self.GetSpeedTarget(tr, aspect, aspectType)
+			if tr["target"] == 0:
+				tr["status"] = "Signal %s" % tr["signal"]
+			elif tr["speed"] == tr["target"]:
+				tr["status"] = "At target speed"
+			elif tr["step"] > 0:
+				tr["status"] = "Accelerating"
+			elif tr["step"] < 0:
+				tr["status"] = "Decelerating"
+			else:
+				tr["status"] = ""
+		return True
 
+	def ApplyStep(self, trid, tr):
+		step = tr["step"]
+		start = tr["start"]
+		target = tr["target"]
 
-	# 	gs, _ = dccl.GetGoverningSignal()
-		# 	aspect = 0  # assume STOP
-		# 	aspectType = RegAspects
-		#
-		# 	if dccl.HasCompleted():
-		# 		logging.info("Train %s has completed" % dccl.GetTrain())
-		# 		aspect = 0 # we've reached the terminus - we should stop
-		#
-		# 	elif gs is None:
-		# 		logging.info("governing signal is None")
-		# 		# we are moving into terminus block - move slowly
-		# 		aspect = 4 # restricting
-		#
-		# 	elif "signal" in gs:
-		# 		signame = gs["signal"]
-		# 		logging.info("Governing signal is %s" % signame)
-		# 		if signame in self.signals:
-		# 			aspect, aspectType = self.signals[signame].GetAspect()
-		# 			logging.info("Retrieved aspect = %s" % str(aspect))
-		#
-		# 		if "os" in gs and "route" in gs and aspect != 0:
-		# 			overswitch = gs["os"]
-		# 			route = gs["route"]
-		# 			logging.info("Wanted os/route is %s/%s, active route is %s" % (overswitch, route, self.osList[overswitch].GetActiveRouteName()))
-		# 			if overswitch in self.osList and self.osList[overswitch].GetActiveRouteName() != route:
-		# 				# either we don't know that OS or its not set to the needed route
-		# 				logging.info("setting aspect to 0")
-		# 				aspect = 0
-		# 				aspectType = RegAspects
-		#
-		# 	else:
-		# 		logging.error("Unable to interpret governing signal %s" % str(gs))
-		#
-		# 	logging.info("Using aspect %d/%d" % (aspect, aspectType))
-		# 	dccl.SetGoverningAspect(aspect, aspectType)
-		# 	dccl.SetPendingStop(dccl.GetGoverningAspect() == 0)
-		#
-		# 	self.dccRemote.SelectLoco(dccl.GetLoco())
-		#
-		# 	speed = self.dccRemote.ApplySpeedStep() #step)
-		# 	if speed == 0 and dccl.HasCompleted():
-		# 		self.atcList.DelTrain(dccl)
-		# 		loco = dccl.GetLoco()
-		# 		train = dccl.GetTrain()
-		# 		self.dccRemote.DropLoco(loco)
-		# 		self.RRRequest({"atcstatus": {"action": "complete", "train": train}})
-		# 	else:
-		# 		self.atcList.RefreshTrain(dccl)
+		speed = tr["speed"]
+
+		if speed == target:
+			return
+
+		if step > 0 and start > speed:
+			tr["speed"] = start
+			self.dccRemote.SetSpeed(tr["loco"], short=tr["short"], speed=tr["speed"])
+		elif step == 0:
+			tr["status"] = "At target speed"
+		else:
+			speed += step
+			tr["speed"] = speed
+			if (step > 0 and speed >= target) or (step < 0 and speed <= target):
+				tr["speed"] = target
+				if tr["state"] == TRAIN_SHUTTINGDOWN:
+					tr["state"] = TRAIN_ENDOFROUTE
+					tr["status"] = "End of train route"
+				else:
+					tr["status"] = "At target speed"
+			self.dccRemote.SetSpeed(tr["loco"], short=tr["short"], speed=tr["speed"])
+
+		# self.atcList.RefreshTrain(trid)
+
+	def GetSpeedTarget(self, tr, aspect, aspectType):
+		profile = tr["prof"]
+		speed = tr["speed"]
+
+		idx = aspectprofileindex(aspect, aspectType)
+		if idx == 0:  # stop
+			return 0, 0, 0 if speed == 0 else -10
+
+		if idx == 1:  # restricting
+			target = profile["slow"]
+		elif idx == 2:  # approach
+			target = profile["medium"]
+		else:  # clear
+			target = profile["fast"]
+
+		start = profile["start"]
+
+		if target > speed:
+			return start, target, profile["acc"]
+		elif target < speed:
+			return start, target, -profile["dec"]
+		else:
+			return start, target, 0
 
 	def raiseDeliveryEvent(self, data): # thread context
 		try:
@@ -398,14 +512,36 @@ class MainFrame(wx.Frame):
 						continue
 
 					if rname in self.controlledTrains:
-						print("Updating train %s:%s" % (rname, str(self.controlledTrains[rname])), file=sys.stderr)
-						print("with %s" % str(p), file=sys.stderr)
-						print("           Result:%s" % str(self.controlledTrains[rname]), file=sys.stderr)
+						tr = self.controlledTrains[rname]
+						preBlocks = [b for b in tr["blocks"]]
 						self.controlledTrains[rname].update(p)
 						if len(p["blocks"]) == 0:
 							# remove the train from the controlled list
 							self.atcList.DelTrainByName(rname)
 							del self.controlledTrains[rname]
+
+						# determine if we've moved into a new block and if it has a delay before
+						# we start paying attention to the signal at the other end.  Direction
+						# affects delay - a westbound train in a west end stop section should have
+						# no delay, but that same train in an east end stop section should be delayed.
+						# the delay allows some time for the route to be setup before we start stopping the train
+						newBlocks = [b for b in p["blocks"] if b not in preBlocks]
+						leadBlock = tr["blocks"][-1]
+						# Don't delay processing if:
+						#  1) the new blocks list is empty
+						#  2) the train is already stopped or (target is 0 and step is negative)
+						# otherwise, refer to the block delay table to get the time.  The time is
+						# in intervals which is currently 0.5 seconds
+						if len(newBlocks) == 0:
+							continue
+						if tr["speed"] == 0:
+							continue
+						if tr["target"] == 0 and tr["step"] < 0:
+							continue
+
+						newDelay = self.blockDelay.GetBlockDelay(leadBlock, tr["east"])
+						if newDelay > tr["delay"]:
+							tr["delay"] = newDelay
 
 					elif len(p["blocks"]) > 0:
 						if rname not in self.availableTrains:
@@ -428,57 +564,9 @@ class MainFrame(wx.Frame):
 								self.lbAvailable.SetSelection(wx.NOT_FOUND)
 								self.bAdd.Enable(False)
 
-
-
-
-
-					# iname = p["iname"]
-					# rname = p["rname"]
-					# logging.debug("p = %s" % str(p))
-					# name = iname if rname is None or rname.strip() == "" else rname
-					# if name in self.controlledTrains:
-					# 	self.updateTrain(name, p)
-					# elif name not in self.availableTrains:
-					# 	self.availableTrains.append(name)
-					# 	self.lbAvailable.SetItems(self.availableTrains)
-					# roster = self.roster.GetTrainById(rname)
-					# if rname is None or roster is None:
-					# 	logging.debug("skipping train %s because it is unknown" % iname)
-					# 	continue
-					#
-					# if rname in self.controlledTrains:
-					# 	self.controlledTrains[rname].update(p)
-					# 	if len(p["blocks"]) == 0:
-					# 		# remove the train from the controlled list
-					# 		self.controlledList.RemoveTrain(rname)
-					# 		del self.controlledTrains[rname]
-					# 	else:
-					# 		# see if we need to change anything for this train
-					# 		self.AnalyzeTrain(rname)
-					#
-					# elif len(p["blocks"]) > 0:
-					# 	if rname not in self.availableTrains:
-					# 		self.availableTrains[rname] = p
-					# 		choices = sorted(self.availableTrains.keys())
-					# 		self.lbAvailable.SetItems(choices)
-					# 		self.lbAvailable.SetSelection(0)
-					# 		self.bAdd.Enable(True)
-					# 	else:
-					# 		self.availableTrains[rname].update(p)
-					# else:
-					# 	if rname in self.availableTrains:
-					# 		del self.availableTrains[rname]
-					# 		choices = sorted(self.availableTrains.keys())
-					# 		self.lbAvailable.SetItems(choices)
-					# 		if len(choices) > 0:
-					# 			self.lbAvailable.SetSelection(0)
-					# 			self.bAdd.Enable(True)
-					# 		else:
-					# 			self.lbAvailable.SetSelection(wx.NOT_FOUND)
-					# 			self.bAdd.Enable(False)
-
 			elif cmd == "sessionID":
 				self.sessionid = int(parms)
+				self.ShowTitle()
 				logging.info("session ID %d" % self.sessionid)
 
 				# associate our session id with the ATC function
@@ -487,8 +575,7 @@ class MainFrame(wx.Frame):
 				self.RRRequest({"refresh": {"SID": self.sessionid}})
 
 			elif cmd == "end":
-				print("starting timer", file=sys.stderr)
-				self.ticker.Start(2000)  # 500)
+				self.ticker.Start(500)
 				pass
 
 			elif cmd in ["disconnect", "exit"]:
@@ -512,30 +599,28 @@ class MainFrame(wx.Frame):
 			trid = self.lbAvailable.GetString(i)
 			loco = self.availableTrains[trid]["loco"]
 			self.controlledTrains[trid] = self.availableTrains[trid]
+			self.controlledTrains[trid]["delay"] = 0
 			self.controlledTrains[trid]["forcedstop"] = False
+			self.controlledTrains[trid]["state"] = TRAIN_CONTROLLED
+			self.controlledTrains[trid]["status"] = ""
 			self.controlledTrains[trid]["speed"] = 0
 			self.controlledTrains[trid]["target"] = 0
+			self.controlledTrains[trid]["step"] = 0
 			self.controlledTrains[trid]["headlight"] = False
 			self.controlledTrains[trid]["horn"] = False
 			self.controlledTrains[trid]["bell"] = False
+			self.controlledTrains[trid]["forcedstop"] = False
 			self.controlledTrains[trid]["prof"] = self.locos[loco].get("prof", defaultProfile)
+			short = self.locos[loco]["short"]
+			self.controlledTrains[trid]["short"] = short
 
 			roster = self.roster.GetTrainById(trid)
-			print("%s" % str(roster))
-			print("start block = %s" % roster.GetStartBlock())
 			steps = roster.GetSteps()
-			for s in steps:
-				print("Step: %s" % str(s))
 
-			blockSeq = [roster.GetStartBlock()] + [s["block"] for s in roster.GetSteps()]
-			signalSeq = [s["signal"] for s in roster.GetSteps()]
-			osSeq = [s["os"] for s in roster.GetSteps()]
-			rteSeq = [s["route"] for s in roster.GetSteps()]
-
-			print("Arrays:")
-			for j in range(len(rteSeq)):
-				print("%d:  %s  %s  %s  %s" % (j, blockSeq[j], signalSeq[j], osSeq[j], rteSeq[j]))
-			print("after loop", flush=True)
+			blockSeq = [roster.GetStartBlock()] + [s["block"] for s in steps]
+			signalSeq = [s["signal"] for s in steps]
+			osSeq = [s["os"] for s in steps]
+			rteSeq = [s["route"] for s in steps]
 
 			currentBlock = self.controlledTrains[trid]["blocks"][-1]
 			if currentBlock.endswith(".E") or currentBlock.endswith(".W"):
@@ -556,11 +641,13 @@ class MainFrame(wx.Frame):
 				"routes": rteSeq
 			}
 			self.controlledTrains[trid]["index"] = idx
+			tr = self.controlledTrains[trid]
+			self.dccRemote.SetSpeed(tr["loco"], short=tr["short"], speed=0)
 
 			self.atcList.AddTrain(self.controlledTrains[trid])
-			print("train %s: %s" % (trid, self.controlledTrains[trid]))
-			print("loco %s: %s" % (loco, str(self.locos[loco])), file=sys.stderr)
 			del self.availableTrains[trid]
+
+			self.RRRequest({"assigntrain": {"name": trid, "engineer": "ATC"}})
 
 		choices = sorted(self.availableTrains.keys())
 		self.lbAvailable.SetItems(choices)
@@ -572,7 +659,21 @@ class MainFrame(wx.Frame):
 			self.bAdd.Enable(True)
 
 	def OnBDel(self, _):
-		pass
+		if self.selectedTrain is None:
+			return
+		trid = self.selectedTrain
+
+		self.RRRequest({"assigntrain": {"name": trid, "engineer": "-"}})
+		self.atcList.DelTrainByName(trid)
+		tr = self.controlledTrains[trid]
+		self.availableTrains[trid] = tr
+		del self.controlledTrains[trid]
+
+		choices = sorted(self.availableTrains.keys())
+		self.lbAvailable.SetItems(choices)
+		self.lbAvailable.SetSelection(0)
+		self.bAdd.Enable(True)
+		self.dccRemote.SetSpeed(tr["loco"], short=tr["short"], speed=0)
 
 	def OnAvailableChoice(self, _):
 		pass
@@ -586,97 +687,83 @@ class MainFrame(wx.Frame):
 		wx.PostEvent(self, evt)
 
 	def OnDisconnectEvent(self, _):
-		try:
-			self.StopAllLocos()
-		except:
-			pass
-		
-		self.kill()
-		
+		self.DisconnectServer()
+
 	def ReportSelection(self, trnm):
 		flag = trnm is not None
 		self.selectedTrain = trnm
-		self.EnableButtons(flag)			
+		self.EnableButtons(flag)
+		if trnm is None:
+			self.bLight.SetBitmap(self.imageLight)
+			self.bHorn.SetBitmap(self.imageHorn)
+			self.bBell.SetBitmap(self.imageBell)
+			self.bStop.SetBitmap(self.imageStop)
+			self.bStop.SetToolTip("Force stop")
+			self.bDel.Enable(False)
+
+		else:
+			tr = self.controlledTrains[trnm]
+			self.bLight.SetBitmap(self.imageLightOn if tr["headlight"] else self.imageLight)
+			self.bHorn.SetBitmap(self.imageHornOn if tr["horn"] else self.imageHorn)
+			self.bBell.SetBitmap(self.imageBellOn if tr["bell"] else self.imageBell)
+			self.bStop.SetBitmap(self.imageResume if tr["forcedstop"] else self.imageStop)
+			self.bStop.SetToolTip("Resume from forced stop" if tr["forcedstop"] else "Force stop")
+			self.bDel.Enable(True)
 
 	def EnableButtons(self, flag):
 		self.bLight.Enable(flag)
 		self.bHorn.Enable(flag)
 		self.bBell.Enable(flag)
 		self.bStop.Enable(flag)
-		self.bAtcOff.Enable(flag)
-		
+
 	def OnBLight(self, _):
-		pass
-		# dccl = self.selectedDCCL
-		# if dccl is None:
-		# 	return
-		#
-		# light = dccl.GetHeadlight()
-		#
-		# self.dccRemote.SelectLoco(dccl.GetLoco())
-		# self.dccRemote.SetFunction(headlight=not light)
-		# self.atcList.RefreshTrain(dccl)
-		
+		tr = self.controlledTrains.get(self.selectedTrain, None)
+		if tr is None:
+			return
+
+		light = not tr["headlight"]
+		tr["headlight"] = light
+
+		self.dccRemote.SetFunction(tr["loco"], short=tr["short"], headlight=light)
+		self.atcList.RefreshTrain(self.selectedTrain)
+		self.bLight.SetBitmap(self.imageLightOn if light else self.imageLight)
+
 	def OnBHorn(self, _):
-		pass
-		# dccl = self.selectedDCCL
-		# if dccl is None:
-		# 	return
-		#
-		# horn = dccl.GetHorn()
-		#
-		# self.dccRemote.SelectLoco(dccl.GetLoco())
-		# self.dccRemote.SetFunction(horn=not horn)
-		# self.atcList.RefreshTrain(dccl)
+		tr = self.controlledTrains.get(self.selectedTrain, None)
+		if tr is None:
+			return
+
+		horn = not tr["horn"]
+		tr["horn"] = horn
+
+		self.dccRemote.SetFunction(tr["loco"], short=tr["short"], horn=horn)
+		self.atcList.RefreshTrain(self.selectedTrain)
+		self.bHorn.SetBitmap(self.imageHornOn if horn else self.imageHorn)
 		
 	def OnBBell(self, _):
-		pass
-		# dccl = self.selectedDCCL
-		# if dccl is None:
-		# 	return
-		#
-		# bell = dccl.GetBell()
-		#
-		# self.dccRemote.SelectLoco(dccl.GetLoco())
-		# self.dccRemote.SetFunction(bell=not bell)
-		# self.atcList.RefreshTrain(dccl)
-		
+		tr = self.controlledTrains.get(self.selectedTrain, None)
+		if tr is None:
+			return
+
+		bell = not tr["bell"]
+		tr["bell"] = bell
+
+		self.dccRemote.SetFunction(tr["loco"], short=tr["short"], bell=bell)
+		self.atcList.RefreshTrain(self.selectedTrain)
+		self.bBell.SetBitmap(self.imageBellOn if bell else self.imageBell)
+
 	def OnBStop(self, _):
-		pass
-		# dccl = self.selectedDCCL
-		# if dccl is None:
-		# 	return
-		#
-		# self.dccRemote.SelectLoco(dccl.GetLoco())
-		# dccl.SetForcedStop(not dccl.GetForcedStop())
-		# self.atcList.RefreshTrain(dccl)
-		
-	def OnBAtcOff(self, _):
-		pass
-		# dccl = self.selectedDCCL
-		# if dccl is None:
-		# 	return
-		#
-		# train = dccl.GetTrain()
-		#
-		# dlg = wx.MessageDialog(None, "Are you sure you want to remove Train %s from ATC?" % train,
-		# 					'Remove Train from ATC?',
-		# 					wx.YES_NO | wx.NO_DEFAULT | wx.ICON_QUESTION)
-		# dlg.Centre()
-		# rc = dlg.ShowModal()
-		# dlg.Destroy()
-		#
-		# if rc == wx.ID_NO:
-		# 	return
-		#
-		# self.atcList.DelTrain(dccl)
-		# loco = dccl.GetLoco()
-		# self.dccRemote.DropLoco(loco)
-		# if self.dccRemote.LocoCount() == 0:
-		# 	self.EnableButtons(False)
-		#
-		# self.RRRequest({"atcstatus": {"action": "remove", "train": train}})
-		
+		tr = self.controlledTrains.get(self.selectedTrain, None)
+		if tr is None:
+			return
+
+		stop = not tr["forcedstop"]
+		tr["forcedstop"] = stop
+
+		self.atcList.RefreshTrain(self.selectedTrain)
+		self.bStop.SetBitmap(self.imageResume if stop else self.imageStop)
+		self.bStop.SetToolTip("Resume from forced stop" if stop else "Force stop")
+
 	def OnResize(self, evt):
 		self.resized = True
 		
@@ -691,8 +778,10 @@ class MainFrame(wx.Frame):
 		self.SetSize(sz)
 		
 	def OnClose(self, evt):
-		self.kill()
-		return
+		if self.subscribed:
+			self.Hide()
+		else:
+			self.kill()
 		
 	def kill(self):
 		try:

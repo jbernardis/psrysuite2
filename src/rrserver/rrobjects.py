@@ -733,6 +733,9 @@ class Route:
 	def OS(self):
 		return self.osblk
 
+	def East(self):
+		return self.osblk.East()
+
 	def OSName(self):
 		return None if self.osblk is None else self.osblk.Name()
 

@@ -1,201 +1,55 @@
-import os
-import sys
 import logging
-import json
 
-from atc.dccloco import DCCLoco, FORWARD, REVERSE
-from dispatcher.constants import aspectprofileindex
+FORWARD = 'F'
+REVERSE = 'R'
 
 
 class DCCRemote:
-	def __init__(self, server, blocks, turnouts, signals, routes, roster):
+	def __init__(self, server):
 		self.server = server
-		self.blocks = blocks
-		self.turnouts = turnouts
-		self.signals = signals
-		self.routes = routes
-		self.roster = roster
 
-		self.initialized = False
-		self.locos = []
-		self.profiles = {}
-		self.defaultProfile = {
-			"start": 0,
-			"slow": 10,
-			"medium": 58,
-			"fast": 80,
-			"acc": 1,
-			"dec": 1
-		}
-		self.selectedLoco = None
-
-	def Initialize(self, locos):
-		if locos is None:
-			self.profiles = {}
-		else:
-			self.profiles = {loco: locos[loco]["prof"] for loco in locos}
-		self.initialized = True
-		return True
+	def SetSpeed(self, loco, short=False, speed=0):
+		self.SetSpeedAndDirection(loco, short=short, speed=speed)
 		
-	def LocoCount(self):
-		print("Loco Count returning %d" % len(self.locos), file=sys.stderr)
-		return len(self.locos)
-
-	def ExamineLocos(self):
-		for loco in self.locos
-	
-	def HasTrain(self, trn):
-		for l in self.locos:
-			if l.GetTrain() == trn:
-				return True
-			
-		return False
-	
-	def Profiler(self, loco, aspect, aspectType, speed):
-		if loco in self.profiles:
-			profile = self.profiles[loco]
-		else:
-			logging.info("loco %s not in profiles - using default profile %s" % (str(loco), type(loco)))
-			profile = self.defaultProfile
-
-		idx = aspectprofileindex(aspect, aspectType)			
-		if idx == 0:  #stop
-			return 0, 0, 0 if speed == 0 else -10
-		
-		if idx == 1: # restricting
-			target = profile["slow"]
-		elif idx == 2: # approach
-			target = profile["medium"]
-		else: # clear
-			target = profile["fast"]
-			
-		start = profile["start"]
-		
-		if target > speed:
-			return start, target, profile["acc"]
-		elif target < speed:
-			return start, target, -profile["dec"]
-		else:
-			return start, target, 0
-		
-	def SelectLoco(self, loco, assertValues=False):
-		for l in self.locos:
-			if l.GetLoco() == loco:
-				self.selectedLoco = l
-				break
-			
-		else:
-			l = DCCLoco(None, loco)
-			self.locos.append(l)
-			l.SetProfiler(self.Profiler)
-			self.selectedLoco = l
-			print("Adding loco %s to locolist" % loco, file=sys.stderr)
-			print("loco count = %d" % len(self.locos), file=sys.stderr)
-
-		l = self.selectedLoco
-		if assertValues:			
-			self.SetSpeedAndDirection(nspeed=l.GetSpeed(), ndir=l.GetDirection(), assertValues=True)
-			self.SetFunction(headlight=l.GetHeadlight(), horn=l.GetHorn(), bell=l.GetBell(), assertValues=True)
-		return l
-	
-	def StopAll(self):
-		saveSelectedLoco = self.selectedLoco
-		for l in self.locos:
-			self.selectedLoco = l
-			self.SetSpeed(0, assertValues=True)
-			
-		self.selectedLoco = saveSelectedLoco
-		
-	def ClearSelection(self):
-		self.selectedLoco = None
-		
-	def DropLoco(self, loco):
-		self.locos = [l for l in self.locos if l.GetLoco() != loco]
-		
-	def ApplySpeedStep(self):
-		if self.selectedLoco is None:
-			return 
-		
-		step = self.selectedLoco.GetSpeedStep()
-		
-		nspeed = self.selectedLoco.GetSpeed() + step
-		if nspeed < 0:
-			nspeed = 0
-		self.SetSpeedAndDirection(nspeed)
-		return nspeed
-		
-	def SetSpeed(self, nspeed, assertValues=False):
-		self.SetSpeedAndDirection(nspeed=nspeed, assertValues=assertValues)
-		
-	def SetDirection(self, ndir, assertValues = False):
-		self.SetSpeedAndDirection(ndir=ndir, assertValues=assertValues)
+	def SetDirection(self, loco, short=False, direction=FORWARD):
+		self.SetSpeedAndDirection(loco, short=short, direction=direction)
 						
-	def SetSpeedAndDirection(self, nspeed=None, ndir=None, assertValues=False):
-		if self.selectedLoco is None:
-			return 
+	def SetSpeedAndDirection(self, loco, short=False, speed=None, direction=None):
+		if speed is not None:
+			if speed < 0 or speed > 128:
+				logging.warning("speed value is out of range - %d - setting to 0" % speed)
+				speed = 0
 
-		ospeed = self.selectedLoco.GetSpeed()		
-		if nspeed is not None:
-			if nspeed < 0 or nspeed > 128:
-				# speed value is out of range - ignore the request
-				return
-			
-			self.selectedLoco.SetSpeed(nspeed)
+		if direction is not None:
+			if direction not in [FORWARD, REVERSE]:
+				logging.warning("invalid value for direction - %s - using FORWARD" % direction)
+				direction = FORWARD
 
-		odirection = self.selectedLoco.GetDirection()			
-		if ndir is not None:
-			if ndir not in [FORWARD, REVERSE]:
-				# invalid value for direction - ignore
-				return 
-			
-			self.selectedLoco.SetDirection(ndir)
-		
-		loco = self.selectedLoco.GetLoco()
-		speed = self.selectedLoco.GetSpeed()
-		direction = self.selectedLoco.GetDirection()
-		
-		if (speed != ospeed or direction != odirection) or assertValues:
-			self.server.SendRequest({"throttle": {"loco": loco, "speed": speed, "direction": direction}})
-		
-	def SetFunction(self, headlight=None, horn=None, bell=None, assertValues=False):
-		if self.selectedLoco is None:
-			return 
+		parameters = {"loco": loco, "short": 1 if short else 0}
+		if speed is not None:
+			parameters["speed"] = speed
+		if direction is not None:
+			parameters["direction"] = direction
 
-		oheadlight = self.selectedLoco.GetHeadlight()		
+		self.server.SendRequest({"throttle": parameters})
+		
+	def SetFunction(self, loco, short=False, headlight=None, horn=None, bell=None):
+		parameters = {"loco": loco, "short": 1 if short else 0}
 		if headlight is not None:
-			self.selectedLoco.SetHeadlight(headlight)
-		
-		ohorn = self.selectedLoco.GetHorn()
+			if headlight not in [0, 1]:
+				logging.warning("headlight is not an allowable value - %s - assume 0=off" % headlight)
+				headlight = 0
+			parameters["headlight"] = headlight
 		if horn is not None:
-			self.selectedLoco.SetHorn(horn)
-			
-		obell = self.selectedLoco.GetBell()
+			if horn not in [0, 1]:
+				logging.warning("horn is not an allowable value - %s - assume 0=off" % horn)
+				horn = 0
+			parameters["horn"] = horn
 		if bell is not None:
-			self.selectedLoco.SetBell(bell)
-			
-		bell = self.selectedLoco.GetBell()
-		horn = self.selectedLoco.GetHorn()
-		light = self.selectedLoco.GetHeadlight()
-		
-		loco = self.selectedLoco.GetLoco()
+			if bell not in [0, 1]:
+				logging.warning("bell is not an allowable value - %s - assume 0=off" % bell)
+				bell = 0
+			parameters["bell"] = bell
 
-		if (oheadlight != headlight or ohorn != horn or obell != bell) or assertValues:
-			self.server.SendRequest({"function": {"loco": loco, "bell": 1 if bell else 0, "horn": 1 if horn else 0, "light": 1 if light else 0}})
-		
-	def GetDCCLoco(self, loco):
-		for l in self.locos:
-			if l.GetLoco() == loco:
-				return l
-	
-		return None
-	
-	def GetDCCLocoByTrain(self, train):
-		for l in self.locos:
-			if l.GetTrain() == train:
-				return l
-			
-		return None
-
-	def GetDCCLocos(self):
-		return self.locos
+		self.server.SendRequest({"function": parameters})
 

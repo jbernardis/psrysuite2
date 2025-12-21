@@ -1,13 +1,15 @@
 FORWARD = 'F'
 REVERSE = 'R'
 
+
 class DCCLoco:
-	def __init__(self, train, loco):
+	def __init__(self, train, loco, short):
 		self.loco = loco
 		self.train = train
-		self.direction = FORWARD;
-		self.speed = 0;
-		self.light = False;
+		self.direction = FORWARD
+		self.speed = 0
+		self.short = short
+		self.light = False
 		self.horn = False
 		self.bell = False
 
@@ -18,7 +20,7 @@ class DCCLoco:
 		return self.GetTrain()
 		
 	def GetLoco(self):
-		return self.loco
+		return self.loco, self.short
 	
 	def SetDirection(self, direction):
 		self.direction = direction

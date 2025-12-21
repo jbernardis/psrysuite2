@@ -1,11 +1,11 @@
-wrong signal identified in block N25, and it is not recalculated when changing train direction
 
 ATC:
-    way to actually kill the ATC process
+    should we have the capability to not follow route ?????
 
-    work out message to ATC to show/hide, always on top checkbox
+preloaded trains needs to handle short addresses
+preloaded trains needs some polish
 
-    Control of processes.  Press a button it starts if stored PID is None or if poll() does not return None.  Else it sends a message to the process to un-hide itself.  Make sure to kill the processes on termination
+
 
 Generation of report for locomotive cards, engineer cards.
 
@@ -16,6 +16,7 @@ Adding schedule into trains database to save train sequences
 Program to scan train/loco/engineer into and to send assigntrain command to server.
 
 train database editor - merge tracker and sequences better, only have east on one page - rename tracker as train card information
+need a program under edit data to edit block delays
 
 
 
@@ -28,7 +29,6 @@ add locales to event/advice messages - all, None, locale only
 
 trains - all things
     active trains - still need throttle, time
-    edit dialog box (verify display of tracker info)
 
 to be fixed in monitor:
     neutralize all signals

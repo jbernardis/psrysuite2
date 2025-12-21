@@ -133,6 +133,7 @@ class MainFrame(wx.Frame):
 		self.bLatestSnapshot = None
 		self.bPreloaded = None
 		self.initializing = True
+		self.waitCursor = 0
 
 		self.cbToD = None
 		self.bAutoRouter = None
@@ -174,7 +175,7 @@ class MainFrame(wx.Frame):
 		self.dlgInspect = None
 		self.RNameToINameMap = {}
 
-		self.locoList = []
+		self.locoList = {}
 		self.trainRoster = []
 		self.trainNameMap = {}
 		self.pinpointedTrains = []
@@ -810,15 +811,7 @@ class MainFrame(wx.Frame):
 
 			logging.info("ATC Server started as PID %d" % self.ATCProc.pid)
 		else:
-			self.PopupAdvice("Send a message to the ATC process to show itself")
-
-		# 		self.pendingATCShowCmd = {"atc": {"action": ["show"], "x": 1560, "y": 0}}
-		# 		wx.CallLater(750, self.sendPendingATCShow)
-		# 	else:
-		# 		self.Request( {"atc": {"action": ["show"]}})
-		#
-		# else:
-		# 	self.Request({"atc": { "action": "hide"}})
+			self.Request({"atc": {"action": "show"}})
 
 	def OnCBOSSLocks(self, evt):
 		self.SendOSSLocks()
@@ -1230,7 +1223,12 @@ class MainFrame(wx.Frame):
 		if self.tickerFlag:
 			# call 1sec every other time to simulate a 1-second timer
 			self.onTicker1Sec()
-			
+
+		if self.waitCursor > 0:
+			self.waitCursor -= 1
+			if self.waitCursor == 0:
+				self.SetCursor(wx.Cursor(wx.CURSOR_ARROW))
+
 		self.tickerCount += 1
 		if self.tickerCount == 120:
 			self.tickerCount = 0
@@ -1310,6 +1308,9 @@ class MainFrame(wx.Frame):
 		# ignore screen clicks if not connected
 		if not self.subscribed:
 			return
+
+		self.SetCursor(wx.Cursor(wx.CURSOR_WAIT))
+		self.waitCursor = 2
 
 		#logging.debug("%s click %s %d, %d %s" % ("right" if right else "left", screen, pos[0], pos[1], "shift" if shift else ""))
 		try:
@@ -3686,9 +3687,19 @@ class MainFrame(wx.Frame):
 			self.trains[iname] = tr
 		else:
 			tr = self.trains[iname]
+
+		if loco is None:
+			short = False
+		else:
+			l = self.locoList.get(loco, None)
+			if l is None:
+				short = False
+			else:
+				short = l["short"]
+
 		tr.SetRName(rname)
 		tr.SetEast(east)
-		tr.SetLoco(loco)
+		tr.SetLoco(loco, short)
 		tr.SetEngineer(engineer)
 
 		if rname is not None:

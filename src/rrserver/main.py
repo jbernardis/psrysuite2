@@ -315,9 +315,7 @@ class ServerMain:
 			"server":		self.DoServer,
 			
 			"autorouter":	self.DoAutorouter,
-			# "ar":			self.DoAR,
-			# "atc":			self.DoATC,
-			# "atcstatus":	self.DoATCStatus,
+			"atc":			self.DoATC,
 
 			"loadsnapshot":	self.DoLoadSnapshot,
 
@@ -1103,6 +1101,9 @@ class ServerMain:
 		tr.SetLoco(loco)
 		tr.SetTemplateTrain(template)
 		tr.SetEngineer(engineer)
+		if tr.East() != east:
+			self.rr.ReverseTrain(iname)
+
 		tr.SetEast(east)
 
 		self.UpdateTrainBlocks(tr)
@@ -1133,6 +1134,8 @@ class ServerMain:
 		if loco is not None:
 			tr.SetLoco(loco)
 		if engineer is not None:
+			if engineer == "-":
+				engineer = None
 			tr.SetEngineer(engineer)
 
 		self.UpdateTrainBlocks(tr)
@@ -1417,9 +1420,6 @@ class ServerMain:
 		addrList = self.clientList.GetFunctionAddress("ATC") + self.clientList.GetFunctionAddress("DISPLAY") + self.clientList.GetFunctionAddress("SATELLITE")
 		for addr, skt in addrList:
 			self.socketServer.sendToOne(skt, addr, {"atc": cmd})
-
-	def DoATCStatus(self, cmd):
-		self.socketServer.sendToAll({"atcstatus": cmd})
 
 	def Shutdown(self):
 		logging.info("shutdown requested")

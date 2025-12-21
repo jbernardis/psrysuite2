@@ -37,7 +37,9 @@ class EditTrainDlg(wx.Dialog):
 		self.trainHistory = trainHistory
 		self.preloadedTrains = preloadedTrains
 		
-		locoList  = sorted(list(locos.keys()), key=self.BuildLocoKey)
+		l  = sorted(list(locos.keys()), key=self.BuildLocoKey)
+		locoList = [lid + ("(sh)" if locos[lid]["short"] else "") for lid in l]
+
 		self.trainList = sorted(list(trainRoster.keys()))
 		self.trainsWithSeq = [k for k in self.trainList if "sequence" in self.trainRoster[k] and len(self.trainRoster[k]["sequence"]) > 0 and self.trainRoster[k]["template"] is None]
 
@@ -356,8 +358,12 @@ class EditTrainDlg(wx.Dialog):
 			self.ShowTrainLocoDesc()
 
 	def ShowTrainLocoDesc(self):
-		if self.chosenLoco in self.locos and self.locos[self.chosenLoco]["desc"] is not None:
-			self.stDescr.SetLabel(self.locos[self.chosenLoco]["desc"])
+		l = self.chosenLoco
+		if l.endswith("(sh)"):
+			l = l[:-4]
+
+		if l in self.locos and self.locos[l]["desc"] is not None:
+			self.stDescr.SetLabel(self.locos[l]["desc"])
 		else:
 			self.stDescr.SetLabel("")
 			
@@ -464,6 +470,8 @@ class EditTrainDlg(wx.Dialog):
 	def GetResults(self):
 		t = self.chosenTrain
 		l = self.chosenLoco
+		if l.endswith("(sh)"):
+			l = l[:-4]
 		e = self.chosenEngineer
 		if e == self.noEngineer:
 			e = None

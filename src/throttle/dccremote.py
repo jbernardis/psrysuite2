@@ -1,3 +1,5 @@
+import sys
+
 from throttle.dccloco import DCCLoco, FORWARD, REVERSE
 
 
@@ -18,14 +20,14 @@ class DCCRemote:
 			
 		return False
 		
-	def SelectLoco(self, loco, assertValues=False):
+	def SelectLoco(self, loco, short, assertValues=False):
 		for l in self.locos:
 			if l.GetLoco() == loco:
 				self.selectedLoco = l
 				break
 			
 		else:
-			l = DCCLoco("", loco)
+			l = DCCLoco("", loco, short)
 			self.locos.append(l)
 			self.selectedLoco = l
 
@@ -67,13 +69,13 @@ class DCCRemote:
 			
 			self.selectedLoco.SetDirection(ndir)
 		
-		loco = self.selectedLoco.GetLoco()
+		loco, short = self.selectedLoco.GetLoco()
 		speed = self.selectedLoco.GetSpeed()
 		direction = self.selectedLoco.GetDirection()
 		
 		if (speed != ospeed or direction != odirection) or assertValues:
-			self.server.SendRequest({"throttle": {"loco": loco, "speed": speed, "direction": direction}})
-		
+			self.server.SendRequest({"throttle": {"loco": loco, "short": short, "speed": speed, "direction": direction}})
+
 	def SetFunction(self, headlight=None, horn=None, bell=None, assertValues=False):
 		if self.selectedLoco is None:
 			return 
@@ -94,10 +96,10 @@ class DCCRemote:
 		horn = self.selectedLoco.GetHorn()
 		light = self.selectedLoco.GetHeadlight()
 		
-		loco = self.selectedLoco.GetLoco()
+		loco, short = self.selectedLoco.GetLoco()
 
 		if (oheadlight != headlight) or (ohorn != horn) or (obell != bell) or assertValues:
-			self.server.SendRequest({"function": {"loco": loco, "bell": 1 if bell else 0, "horn": 1 if horn else 0, "light": 1 if light else 0}})
+			self.server.SendRequest({"function": {"loco": loco, "short": short, "bell": 1 if bell else 0, "horn": 1 if horn else 0, "light": 1 if light else 0}})
 		
 	def GetDCCLoco(self, loco):
 		for l in self.locos:

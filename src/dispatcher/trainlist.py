@@ -606,7 +606,7 @@ class TrainListCtrl(wx.ListCtrl):
 			return "E" if tr.IsEast() else "W"
 		
 		elif col == 2:
-			return tr.Loco()
+			return tr.FullLoco()
 		
 		elif col == 3:
 			nm = tr.Engineer()

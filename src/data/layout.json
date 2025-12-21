@@ -2196,12 +2196,12 @@
     "YRtY20Y60": {
       "os": "YOSKL3",
       "ends": [
-        "Y20",
-        "Y60"
+        "Y60",
+        "Y20"
       ],
       "signals": [
-        "Y26R",
-        "Y22L"
+        "Y22L",
+        "Y26R"
       ],
       "turnouts": [
         [
@@ -2481,8 +2481,8 @@
         "Y70"
       ],
       "signals": [
-        "Y40L",
-        "Y40RA"
+        "Y40RA",
+        "Y40L"
       ],
       "turnouts": [
         [
@@ -2506,8 +2506,8 @@
         "Y70"
       ],
       "signals": [
-        "Y40L",
-        "Y40RB"
+        "Y40RB",
+        "Y40L"
       ],
       "turnouts": [
         [
@@ -2535,8 +2535,8 @@
         "Y70"
       ],
       "signals": [
-        "Y40L",
-        "Y40RC"
+        "Y40RC",
+        "Y40L"
       ],
       "turnouts": [
         [
@@ -2564,8 +2564,8 @@
         "Y70"
       ],
       "signals": [
-        "Y40L",
-        "Y40RD"
+        "Y40RD",
+        "Y40L"
       ],
       "turnouts": [
         [
@@ -2585,8 +2585,8 @@
         "Y81"
       ],
       "signals": [
-        "Y42LA",
-        "Y42R"
+        "Y42R",
+        "Y42LA"
       ],
       "turnouts": [
         [
@@ -2610,8 +2610,8 @@
         "Y82"
       ],
       "signals": [
-        "Y42LB",
-        "Y42R"
+        "Y42R",
+        "Y42LB"
       ],
       "turnouts": [
         [
@@ -2639,8 +2639,8 @@
         "Y83"
       ],
       "signals": [
-        "Y42LC",
-        "Y42R"
+        "Y42R",
+        "Y42LC"
       ],
       "turnouts": [
         [
@@ -2668,8 +2668,8 @@
         "Y84"
       ],
       "signals": [
-        "Y42LD",
-        "Y42R"
+        "Y42R",
+        "Y42LD"
       ],
       "turnouts": [
         [
@@ -7812,8 +7812,8 @@
         "P31"
       ],
       "signals": [
-        "PB14L",
-        "PB14R"
+        "PB14R",
+        "PB14L"
       ],
       "turnouts": [
         [
@@ -7837,8 +7837,8 @@
         "P31"
       ],
       "signals": [
-        "PB14L",
-        "PB12R"
+        "PB12R",
+        "PB14L"
       ],
       "turnouts": [
         [
@@ -7862,8 +7862,8 @@
         "P41"
       ],
       "signals": [
-        "PB12L",
-        "PB14R"
+        "PB14R",
+        "PB12L"
       ],
       "turnouts": [
         [
@@ -7887,8 +7887,8 @@
         "P41"
       ],
       "signals": [
-        "PB12L",
-        "PB12R"
+        "PB12R",
+        "PB12L"
       ],
       "turnouts": [
         [
@@ -7912,8 +7912,8 @@
         "P30"
       ],
       "signals": [
-        "PB4L",
-        "PB4R"
+        "PB4R",
+        "PB4L"
       ],
       "turnouts": [
         [
@@ -7937,8 +7937,8 @@
         "P30"
       ],
       "signals": [
-        "PB4L",
-        "PB2R"
+        "PB2R",
+        "PB4L"
       ],
       "turnouts": [
         [
@@ -7962,8 +7962,8 @@
         "P40"
       ],
       "signals": [
-        "PB2L",
-        "PB4R"
+        "PB4R",
+        "PB2L"
       ],
       "turnouts": [
         [
@@ -7987,8 +7987,8 @@
         "P40"
       ],
       "signals": [
-        "PB2L",
-        "PB2R"
+        "PB2R",
+        "PB2L"
       ],
       "turnouts": [
         [
@@ -8284,8 +8284,8 @@
         "P20"
       ],
       "signals": [
-        "PA32RA",
-        "PA34LA"
+        "PA34LA",
+        "PA32RA"
       ],
       "turnouts": [
         [
@@ -8342,8 +8342,8 @@
         "P20"
       ],
       "signals": [
-        "PA32RA",
-        "PA34LB"
+        "PA34LB",
+        "PA32RA"
       ],
       "turnouts": [
         [
@@ -8371,8 +8371,8 @@
         "P30"
       ],
       "signals": [
-        "PA32RB",
-        "PA34LB"
+        "PA34LB",
+        "PA32RB"
       ],
       "turnouts": [
         [
@@ -8425,8 +8425,8 @@
         "P30"
       ],
       "signals": [
-        "PA32RB",
-        "PA32L"
+        "PA32L",
+        "PA32RB"
       ],
       "turnouts": [
         [
