@@ -1,20 +1,12 @@
 [
   {
-    "name": "21Y",
-    "loco": "",
-    "east": false,
-    "block": ""
+    "name": "18",
+    "loco": "47",
+    "east": true
   },
   {
-    "name": "21C",
-    "loco": "",
-    "east": true,
-    "block": ""
-  },
-  {
-    "name": "abc",
-    "loco": "",
-    "east": true,
-    "block": ""
+    "name": "17",
+    "loco": "99",
+    "east": false
   }
 ]

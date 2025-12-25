@@ -1,8 +1,8 @@
 import os
 import wx
 
-from traineditor.preloaded.preloadedtrains import PreLoadedTrains
-from traineditor.preloaded.modifypreloaddlg import ModifyPreloadDlg
+from dispatcher.preloadedtrains import PreLoadedTrains
+from dispatcher.modifypreloaddlg import ModifyPreloadDlg
 
 BTNSZ = (120, 46)
 
@@ -169,8 +169,7 @@ class ManagePreloadedDlg(wx.Dialog):
 		tr = {
 			"name": trname,
 			"loco": "",
-			"east": True,
-			"block": ""
+			"east": True
 		}
 		self.pl.add(tr)
 
@@ -247,18 +246,16 @@ class PreloadedListCtrl(wx.ListCtrl):
 		self.trainMap = {}
 
 		wx.ListCtrl.__init__(
-			self, parent, wx.ID_ANY, size=(420, 240),
+			self, parent, wx.ID_ANY, size=(240, 240),
 			style=wx.LC_REPORT | wx.LC_VIRTUAL | wx.LC_VRULES | wx.LC_SINGLE_SEL
 		)
 
 		self.InsertColumn(0, "Train")
 		self.InsertColumn(1, "Dir")
 		self.InsertColumn(2, "Loco")
-		self.InsertColumn(3, "Block")
 		self.SetColumnWidth(0, 80)
 		self.SetColumnWidth(1, 80)
 		self.SetColumnWidth(2, 80)
-		self.SetColumnWidth(3, 80)
 
 		self.SetItemCount(0)
 		self.selected = None
@@ -344,9 +341,6 @@ class PreloadedListCtrl(wx.ListCtrl):
 
 		elif col == 2:
 			return "" if tr["loco"] is None else tr["loco"]
-
-		elif col == 3:
-			return "" if tr["block"] is None else tr["block"]
 
 	def OnGetItemAttr(self, item):
 		if item % 2 == 1:

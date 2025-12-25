@@ -3,6 +3,7 @@ import wx
 import qrcode
 
 from traineditor.engineers.engineers import Engineers
+from traineditor.engineers.engineercards import EngineerCards
 
 
 wildcardTxt = "TXT file (*.txt)|*.txt|"	 \
@@ -10,15 +11,18 @@ wildcardTxt = "TXT file (*.txt)|*.txt|"	 \
 
 BTNSZ = (120, 46)
 
+
 class ManageEngineersDlg(wx.Dialog):
-	def __init__(self, parent, rrserver):
+	def __init__(self, parent, rrserver, browser):
 		wx.Dialog.__init__(self, parent, wx.ID_ANY, "Manage Engineers")
 		self.parent = parent
 		self.rrserver = rrserver
+		self.browser = browser
 
 		self.titleString = "Manage Engineers"
 		self.Bind(wx.EVT_CLOSE, self.onClose)
-		
+
+		self.modified = False
 	
 		btnFont = wx.Font(wx.Font(10, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, faceName="Arial"))
 		textFont = wx.Font(wx.Font(12, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, faceName="Arial"))
@@ -29,8 +33,7 @@ class ManageEngineersDlg(wx.Dialog):
 		self.lbEngineers = wx.ListBox(self, wx.ID_ANY, choices=self.engineers, size=(160, 200))
 		self.lbEngineers.SetFont(textFont)
 		self.Bind(wx.EVT_LISTBOX, self.onLbActiveSelect, self.lbEngineers)
-		#self.Bind(wx.EVT_LISTBOX_DCLICK, self.bLeftPressed, self.lbEngineers)
-		
+
 		vsz = wx.BoxSizer(wx.VERTICAL)
 		hsz = wx.BoxSizer(wx.HORIZONTAL)
 		hsz.AddSpacer(20)
@@ -62,6 +65,14 @@ class ManageEngineersDlg(wx.Dialog):
 		self.bGenQR.SetToolTip("Generate QR codes for engineers")
 		sz.Add(self.bGenQR)
 		self.Bind(wx.EVT_BUTTON, self.bGenQRPressed, self.bGenQR)
+
+		sz.AddSpacer(20)
+
+		self.bEngCards = wx.Button(self, wx.ID_ANY, "Engineer Cards", size=BTNSZ)
+		self.bEngCards.SetFont(btnFont)
+		self.bEngCards.SetToolTip("Generate Cards for engineers")
+		sz.Add(self.bEngCards)
+		self.Bind(wx.EVT_BUTTON, self.bEngCardsPressed, self.bEngCards)
 
 		sz.AddSpacer(20)
 		hsz.Add(sz, 0, wx.ALIGN_CENTER_VERTICAL)
@@ -193,6 +204,19 @@ class ManageEngineersDlg(wx.Dialog):
 		type(img)  # qrcode.image.pil.PilImage
 		fn = os.path.join(os.getcwd(), "qrcodes", "engineer_%s.png" % eng)
 		img.save(fn)
+
+	def bEngCardsPressed(self, _):
+		rpt = EngineerCards(self, self.browser)
+		missing = rpt.CheckQRFiles(self.engineers)
+		if len(missing) > 0:
+			dlg = wx.MessageDialog(self, "QRCode files missing for %s\nPress \"Yes\" to print anyway\nor \"No\" to cancel" % ", ".join(missing),
+				"QRCode File(s) missing", wx.YES_NO | wx.NO_DEFAULT | wx.ICON_QUESTION)
+			rc = dlg.ShowModal()
+			dlg.Destroy()
+			if rc == wx.ID_NO:
+				return
+
+		rpt.EngineerCards(self.engineers)
 
 	def bSavePressed(self, _):
 		self.eng.save()

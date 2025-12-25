@@ -95,29 +95,29 @@ class Port (District):
 			cb = turnout.GetContainingBlock()
 			if cb is not None:
 				cb.Draw()
-
-	def DoSignalLeverAction(self, signame, state, callon, silent=1, source=None):
-		if signame == "PA32.lvr":
-			signm, movement, osblk, route = self.LeverToSigname(signame, state)
-			if signm is not None and signm.startswith("PA32R"):
-				if route is not None:
-					p32 = "P21" in route.GetEndPoints()
-				else:
-					p32 = False
-
-				signmL4, movementL4, osblkL4, routeL4 = self.LeverToSigname("L4.lvr", state)
-				if routeL4 is not None:
-					p4 = "L31" in routeL4.GetEndPoints()
-				else:
-					p4 = False
-
-				l31empty = not self.frame.blocks["L31"].IsOccupied()
-				osempty = not self.frame.blocks["LOSLAE"].IsOccupied()
-
-				if p4 and p32 and l31empty and osempty:
-					District.DoSignalLeverAction(self, "L4.lvr", state, callon, silent, source)
-
-		return District.DoSignalLeverAction(self, signame, state, callon, silent, source)
+	#
+	# def DoSignalLeverAction(self, signame, state, callon, silent=1, source=None):
+	# 	if signame == "PA32.lvr":
+	# 		signm, movement, osblk, route = self.LeverToSigname(signame, state)
+	# 		if signm is not None and signm.startswith("PA32R"):
+	# 			if route is not None:
+	# 				p32 = "P21" in route.GetEndPoints()
+	# 			else:
+	# 				p32 = False
+	#
+	# 			signmL4, movementL4, osblkL4, routeL4 = self.LeverToSigname("L4.lvr", state)
+	# 			if routeL4 is not None:
+	# 				p4 = "L31" in routeL4.GetEndPoints()
+	# 			else:
+	# 				p4 = False
+	#
+	# 			l31empty = not self.frame.blocks["L31"].IsOccupied()
+	# 			osempty = not self.frame.blocks["LOSLAE"].IsOccupied()
+	#
+	# 			if p4 and p32 and l31empty and osempty:
+	# 				District.DoSignalLeverAction(self, "L4.lvr", state, callon, silent, source)
+	#
+	# 	return District.DoSignalLeverAction(self, signame, state, callon, silent, source)
 
 	def DrawOthers(self, block):
 		if block.GetName() in ["POSSP2", "POSSP3", "POSSP4", "POSSP5"]:

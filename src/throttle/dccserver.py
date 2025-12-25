@@ -10,8 +10,9 @@ class DCCServer(object):
 
 	def SendRequest(self, req):
 		for cmd, parms in req.items():
+			logging.debug("sending to dcc server: %s %s" % (cmd, str(parms)))
 			try:
-				logging.info("sending to dcc server: %s %s" % (cmd, str(parms)))
+				logging.debug("sending to dcc server: %s %s" % (cmd, str(parms)))
 				requests.get(self.ipAddr + "/" + cmd, params=parms, timeout=0.5)
 			except:
 				logging.error("Unable to send request  is dcc server running?")

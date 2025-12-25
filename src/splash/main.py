@@ -2,7 +2,7 @@ import wx
 import os
 
 
-versiondate = "18-Sep-2025"
+versiondate = "23-Dec-2025"
 
 
 class MainFrame(wx.Frame):
@@ -22,7 +22,7 @@ class MainFrame(wx.Frame):
 		vsizer = wx.BoxSizer(wx.VERTICAL)
 		vsizer.AddSpacer(20)
 		
-		st = wx.StaticText(self, wx.ID_ANY, "PSRY SUITE")
+		st = wx.StaticText(self, wx.ID_ANY, "PSRY SUITE 2")
 		st.SetFont(largeFontBold)
 		vsizer.Add(st, 0, wx.ALIGN_CENTER_HORIZONTAL)
 		vsizer.AddSpacer(10)
@@ -67,17 +67,6 @@ class MainFrame(wx.Frame):
 		
 		sta = wx.StaticText(self, wx.ID_ANY, "written by:", size=(200, -1), style=wx.ALIGN_RIGHT)
 		stb = wx.StaticText(self, wx.ID_ANY, "Jeff Bernardis", size=(400, -1))
-		sta.SetFont(textFont)
-		stb.SetFont(textFontBold)
-		hsz = wx.BoxSizer(wx.HORIZONTAL)
-		hsz.Add(sta)
-		hsz.AddSpacer(10)
-		hsz.Add(stb)		
-		vsizer.Add(hsz)
-		vsizer.AddSpacer(20)
-
-		sta = wx.StaticText(self, wx.ID_ANY, "based on:", size=(200, -1), style=wx.ALIGN_RIGHT)
-		stb = wx.StaticText(self, wx.ID_ANY, "Dispatcher 1 written by Geoff Green", size=(400, -1))
 		sta.SetFont(textFont)
 		stb.SetFont(textFontBold)
 		hsz = wx.BoxSizer(wx.HORIZONTAL)

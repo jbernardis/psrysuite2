@@ -11,58 +11,58 @@ from dispatcher.constants import RESTRICTING, MAIN, DIVERGING,  OCCUPIED, CLEARE
 class Shore (District):
 	def __init__(self, name, frame, screen):
 		District.__init__(self, name, frame, screen)
-
-	def DoSignalAction(self, sig, aspect, frozenaspect=None, callon=False):
-		if not callon:
-			signm = sig.GetName()
-			if signm in ["S8L", "S8R"]:
-				osblk = self.blocks["SOSHF"]
-				east = signm == "S8R"
-				osblk.SetEast(east)
-				osblk.SetRoute(self.routes["SRtF10F11"])
-				sig.SetAspect(aspect, refresh=True)
-				if aspect == STOP:
-					osblk.SetEntrySignal(None)
-				else:
-					osblk.SetEntrySignal(sig)
-				osblk.SetCleared(aspect != STOP, refresh=True)
-		
-				if osblk.IsBusy() and aspect == STOP:
-					return
-		
-				exitBlk = self.frame.GetBlockByName("F11" if east else "F10")
-				entryBlk = self.frame.GetBlockByName("F10" if east else "F11")
-				if exitBlk.IsOccupied():
-					return
-		
-				exitBlk.SetEast(east)
-				entryBlk.SetEast(east)
-				exitBlk.SetCleared(aspect != STOP, refresh=True)
-				return
-					
-			elif signm in ["S12R", "S12LA", "S12LB", "S12LC", "S4R", "S4LA", "S4LB", "S4LC"]:
-				if self.blocks["SOSHF"].IsBusy():
-					return
-			
-		District.DoSignalAction(self, sig, aspect, frozenaspect=frozenaspect, callon=callon)
-		self.drawCrossing()
-
-	def DoSignalLeverAction(self, signame, state, callon, silent=1, source=None):
-		if source == "ctc":
-			if signame == "S8.lvr":
-				for osname in ["SOSE", "SOSW"]:
-					osblk = self.blocks[osname]
-					if osblk.IsBusy():
-						self.ReportOSBusy(osblk.GetRouteDesignator())
-						return False
-
-			elif signame in ["S12.lvr", "S4.lvr"]:
-				osblk = self.blocks["SOSHF"]
-				if osblk.IsBusy():
-					self.ReportOSBusy(osblk.GetRouteDesignator())
-					return False
-
-		return District.DoSignalLeverAction(self, signame, state, callon, silent, source)
+	#
+	# def DoSignalAction(self, sig, aspect, frozenaspect=None, callon=False):
+	# 	if not callon:
+	# 		signm = sig.GetName()
+	# 		if signm in ["S8L", "S8R"]:
+	# 			osblk = self.blocks["SOSHF"]
+	# 			east = signm == "S8R"
+	# 			osblk.SetEast(east)
+	# 			osblk.SetRoute(self.routes["SRtF10F11"])
+	# 			sig.SetAspect(aspect, refresh=True)
+	# 			if aspect == STOP:
+	# 				osblk.SetEntrySignal(None)
+	# 			else:
+	# 				osblk.SetEntrySignal(sig)
+	# 			osblk.SetCleared(aspect != STOP, refresh=True)
+	#
+	# 			if osblk.IsBusy() and aspect == STOP:
+	# 				return
+	#
+	# 			exitBlk = self.frame.GetBlockByName("F11" if east else "F10")
+	# 			entryBlk = self.frame.GetBlockByName("F10" if east else "F11")
+	# 			if exitBlk.IsOccupied():
+	# 				return
+	#
+	# 			exitBlk.SetEast(east)
+	# 			entryBlk.SetEast(east)
+	# 			exitBlk.SetCleared(aspect != STOP, refresh=True)
+	# 			return
+	#
+	# 		elif signm in ["S12R", "S12LA", "S12LB", "S12LC", "S4R", "S4LA", "S4LB", "S4LC"]:
+	# 			if self.blocks["SOSHF"].IsBusy():
+	# 				return
+	#
+	# 	District.DoSignalAction(self, sig, aspect, frozenaspect=frozenaspect, callon=callon)
+	# 	self.drawCrossing()
+	#
+	# def DoSignalLeverAction(self, signame, state, callon, silent=1, source=None):
+	# 	if source == "ctc":
+	# 		if signame == "S8.lvr":
+	# 			for osname in ["SOSE", "SOSW"]:
+	# 				osblk = self.blocks[osname]
+	# 				if osblk.IsBusy():
+	# 					self.ReportOSBusy(osblk.GetRouteDesignator())
+	# 					return False
+	#
+	# 		elif signame in ["S12.lvr", "S4.lvr"]:
+	# 			osblk = self.blocks["SOSHF"]
+	# 			if osblk.IsBusy():
+	# 				self.ReportOSBusy(osblk.GetRouteDesignator())
+	# 				return False
+	#
+	# 	return District.DoSignalLeverAction(self, signame, state, callon, silent, source)
 		
 	def DoBlockAction(self, blk, blockend, state):
 		blknm = blk.GetName()

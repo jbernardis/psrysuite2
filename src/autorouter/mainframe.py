@@ -120,25 +120,25 @@ class MainFrame(wx.Frame):
 
 		hsz.Add(cszr)
 
-		hsz.AddSpacer(20)
+		hsz.AddSpacer(5)
 
 		btnsz = wx.BoxSizer(wx.VERTICAL)
 
-		self.bAdd = wx.Button(self, wx.ID_ANY, ">>")
+		self.bAdd = wx.Button(self, wx.ID_ANY, ">>", size=(25, 33))
 		self.Bind(wx.EVT_BUTTON, self.OnBAdd, self.bAdd)
 		self.bAdd.Enable(False)
 		btnsz.Add(self.bAdd)
 
 		btnsz.AddSpacer(40)
 
-		self.bDel = wx.Button(self, wx.ID_ANY, "<<")
+		self.bDel = wx.Button(self, wx.ID_ANY, "<<", size=(25, 33))
 		self.Bind(wx.EVT_BUTTON, self.OnBDel, self.bDel)
 		self.bDel.Enable(False)
 		btnsz.Add(self.bDel)
 
 		hsz.Add(btnsz, 0, wx.ALIGN_CENTER_VERTICAL)
 
-		hsz.AddSpacer(20)
+		hsz.AddSpacer(5)
 
 		cszr = wx.BoxSizer(wx.VERTICAL)
 		cszr.Add(wx.StaticText(self, wx.ID_ANY, "Controlled Trains"))

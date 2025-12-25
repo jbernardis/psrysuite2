@@ -21,14 +21,14 @@ class Bank (District):
 			return
 
 		District.HandSwitchClick(self, hs, nv)
-		
-	def SetUpRoute(self, osblk, route):
-		controlOpt = self.frame.cliffControl
-		if controlOpt == 0:  # bank local control
-			self.frame.PopupEvent("Bank control is local (Cliff)")
-			return
-		
-		District.SetUpRoute(self, osblk, route)
+	#
+	# def SetUpRoute(self, osblk, route):
+	# 	controlOpt = self.frame.cliffControl
+	# 	if controlOpt == 0:  # bank local control
+	# 		self.frame.PopupEvent("Bank control is local (Cliff)")
+	# 		return
+	#
+	# 	District.SetUpRoute(self, osblk, route)
 
 	def SignalClick(self, sig, callon=False, silent=False):
 		controlOpt = self.frame.cliffControl
@@ -47,23 +47,23 @@ class Bank (District):
 
 		District.TurnoutClick(self, turnout, force=force)
 
-	def DoSignalLeverAction(self, signame, state, callon, silent=1, source=None):
-		controlOpt = self.frame.cliffControl
-		if source == "ctc":
-			if controlOpt == 0:
-				self.frame.PopupEvent("Bank control is local (Cliff)")
-				return False
-
-		return District.DoSignalLeverAction(self, signame, state, callon, silent, source)
-
-	def DoTurnoutLeverAction(self, turnout, state, force=False, source=None):
-		controlOpt = self.frame.cliffControl
-		if source == "ctc":
-			if controlOpt == 0:
-				self.frame.PopupEvent("Bank control is local (Cliff)")
-				return False
-
-		return District.DoTurnoutLeverAction(self, turnout, state, force, source)
+	# def DoSignalLeverAction(self, signame, state, callon, silent=1, source=None):
+	# 	controlOpt = self.frame.cliffControl
+	# 	if source == "ctc":
+	# 		if controlOpt == 0:
+	# 			self.frame.PopupEvent("Bank control is local (Cliff)")
+	# 			return False
+	#
+	# 	return District.DoSignalLeverAction(self, signame, state, callon, silent, source)
+	#
+	# def DoTurnoutLeverAction(self, turnout, state, force=False, source=None):
+	# 	controlOpt = self.frame.cliffControl
+	# 	if source == "ctc":
+	# 		if controlOpt == 0:
+	# 			self.frame.PopupEvent("Bank control is local (Cliff)")
+	# 			return False
+	#
+	# 	return District.DoTurnoutLeverAction(self, turnout, state, force, source)
 
 	def DetermineRoute(self, blocks):
 		self.FindTurnoutCombinations(blocks, ["CSw17", "CSw23"])

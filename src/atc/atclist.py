@@ -154,7 +154,7 @@ class ATCListCtrl(wx.ListCtrl):
 		self.parent.ReportSelection(None if tx is None else self.trainNames[tx])
 		
 	def ChangeSize(self, sz):
-		self.SetSize(self.startWidth, sz[1]-60)
+		self.SetSize(self.startWidth, sz[1]-80)
 
 	def OnItemSelected(self, event):
 		self.setSelection(event.Index)

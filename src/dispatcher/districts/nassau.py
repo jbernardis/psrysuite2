@@ -22,19 +22,19 @@ class Nassau (District):
 	def SetAspect(self, sig, aspect, refresh=False):
 		District.SetAspect(self, sig, aspect, refresh)
 		signm = sig.GetName()
-
-	def DoSignalLeverAction(self, signame, state, callon, silent=1, source=None):
-		if source == 'ctc':
-			signm, movement, osblk, route = self.LeverToSigname(signame, state)
-			if signm is None:
-				if silent == 0:
-					self.frame.PopupEvent("No Available Route")
-				return False
-
-			if not self.CheckControlOption(signm):
-				return False
-
-		return District.DoSignalLeverAction(self, signame, state, callon, silent, source)
+	#
+	# def DoSignalLeverAction(self, signame, state, callon, silent=1, source=None):
+	# 	if source == 'ctc':
+	# 		signm, movement, osblk, route = self.LeverToSigname(signame, state)
+	# 		if signm is None:
+	# 			if silent == 0:
+	# 				self.frame.PopupEvent("No Available Route")
+	# 			return False
+	#
+	# 		if not self.CheckControlOption(signm):
+	# 			return False
+	#
+	# 	return District.DoSignalLeverAction(self, signame, state, callon, silent, source)
 
 	def CheckControlOption(self, signm):
 		controlOpt = self.frame.nassauControl
@@ -272,17 +272,17 @@ class Nassau (District):
 			"""
 			updBlk = self.blocks["N60"]
 			updBlk.SetCleared(False, False)
-
-	def DoSignalAction(self, sig, aspect, frozenaspect=None, callon=False):
-		District.DoSignalAction(self, sig, aspect, frozenaspect=frozenaspect, callon=callon)
-		signame = sig.GetName()
-		if signame in ["N14LA", "N14LB", "N14LC", "N14LD", "N16L", "N18LA", "N18LB", "N20L"]:
-			self.CheckBlockSignals("N11", "N11W", False)
-			self.CheckBlockSignals("N21", "N21W", False)
-		elif signame in ["N28R", "N26RA", "N26RB", "N26RC", "N24RA", "N24RB", "N24RC", "N24RD"]:
-			self.CheckBlockSignalsAdv("B20", "B21", "B20E", True)
-		elif signame == "R10W":
-			sig.SetAspect(aspect, refresh=True)
+	#
+	# def DoSignalAction(self, sig, aspect, frozenaspect=None, callon=False):
+	# 	District.DoSignalAction(self, sig, aspect, frozenaspect=frozenaspect, callon=callon)
+	# 	signame = sig.GetName()
+	# 	if signame in ["N14LA", "N14LB", "N14LC", "N14LD", "N16L", "N18LA", "N18LB", "N20L"]:
+	# 		self.CheckBlockSignals("N11", "N11W", False)
+	# 		self.CheckBlockSignals("N21", "N21W", False)
+	# 	elif signame in ["N28R", "N26RA", "N26RB", "N26RC", "N24RA", "N24RB", "N24RC", "N24RD"]:
+	# 		self.CheckBlockSignalsAdv("B20", "B21", "B20E", True)
+	# 	elif signame == "R10W":
+	# 		sig.SetAspect(aspect, refresh=True)
 
 	def DrawOthers(self, block):
 		blkName = block.GetName()

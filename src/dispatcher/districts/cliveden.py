@@ -50,19 +50,19 @@ class Cliveden (District):
 	def ticker(self):
 		self.AutomatedBlockProcess(self.C13Queue)
 		District.ticker(self)
-
-	def SetUpRoute(self, osblk, route):
-		osname = osblk.GetName()
-		controlOpt = self.frame.cliffControl
-		if (controlOpt == 1 and osname != "COSCLW") or controlOpt == 0:
-			if controlOpt == 0:
-				msg = "Cliveden control is local (Cliff)"
-			else:
-				msg = "Dispatcher controls Bank/C13 only"
-			self.frame.PopupEvent(msg)
-			return
-		
-		District.SetUpRoute(self, osblk, route)
+	#
+	# def SetUpRoute(self, osblk, route):
+	# 	osname = osblk.GetName()
+	# 	controlOpt = self.frame.cliffControl
+	# 	if (controlOpt == 1 and osname != "COSCLW") or controlOpt == 0:
+	# 		if controlOpt == 0:
+	# 			msg = "Cliveden control is local (Cliff)"
+	# 		else:
+	# 			msg = "Dispatcher controls Bank/C13 only"
+	# 		self.frame.PopupEvent(msg)
+	# 		return
+	#
+	# 	District.SetUpRoute(self, osblk, route)
 
 	def SignalClick(self, sig, callon=False, silent=False):
 		controlOpt = self.frame.cliffControl

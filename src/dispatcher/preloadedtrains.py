@@ -1,4 +1,11 @@
+import wx
+
 PRELOADFILE = "preloads.json"
+
+
+class PreloadedTrainsDlg(wx.Dialog):
+	def __init__(self, parent, preloadedTrains):
+		wx.Dialog.__init__(self, parent, wx.ID_ANY, "")
 
 
 class PreLoadedTrains:
@@ -53,6 +60,5 @@ class PreLoadedTrains:
 		tr["east"] = trinfo["east"]
 		tr["loco"] = trinfo["loco"]
 		tr["block"] = trinfo["block"]
-		tr["route"] = trinfo["route"]
 		return True
 

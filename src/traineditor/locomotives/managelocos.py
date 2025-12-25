@@ -196,6 +196,23 @@ class ManageLocosDlg(wx.Dialog):
 
 	def bLocoCardsPressed(self, _):
 		rpt = LocoCards(self, self.browser)
+		missingQR = rpt.CheckQRFiles(self.locos)
+		missingPic = rpt.CheckPictureFiles(self.locos)
+		if len(missingQR) + len(missingPic) > 0:
+			msg = []
+			if len(missingQR) > 0:
+				msg.append("QR Files: %s" % ", ".join(missingQR))
+			if len(missingPic) > 0:
+				msg.append("Picture Files: %s" % ", ".join(missingPic))
+			msg.append("Press \"Yes\" to print anyway")
+			msg.append("or \"No\" to cancel")
+			dlg = wx.MessageDialog(self,
+				"\n".join(msg), "QRCode/Picture File(s) missing", wx.YES_NO | wx.NO_DEFAULT | wx.ICON_QUESTION)
+			rc = dlg.ShowModal()
+			dlg.Destroy()
+			if rc == wx.ID_NO:
+				return
+
 		rpt.LocoCards(self.locos)
 
 	def bQRCodesPressed(self, _):

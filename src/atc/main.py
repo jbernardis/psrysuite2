@@ -28,7 +28,7 @@ from atc.atclist import ATCListCtrl
 from atc.listener import Listener
 from atc.rrserver import RRServer
 from atc.dccserver import DCCServer
-from atc.blockdelay import BlockDelay
+from atc.blockdelay import BlockDelay, BlockDelayDlg
 from atc.dccremote import DCCRemote
 
 (DeliveryEvent, EVT_DELIVERY) = wx.lib.newevent.NewEvent()
@@ -153,12 +153,22 @@ class MainFrame(wx.Frame):
 		vsz = wx.BoxSizer(wx.VERTICAL)
 		vsz.AddSpacer(5)
 
-		consz = wx.BoxSizer(wx.HORIZONTAL)
-		consz.AddSpacer(10)
+		btnszr = wx.BoxSizer(wx.HORIZONTAL)
+		btnszr.AddSpacer(10)
+
 		self.bConnect = wx.Button(self, wx.ID_ANY, "Connect",  size=(96, 24))
 		self.Bind(wx.EVT_BUTTON, self.OnBConnect, self.bConnect)
-		consz.Add(self.bConnect)
-		vsz.Add(consz)
+		btnszr.Add(self.bConnect)
+
+		btnszr.AddSpacer(30)
+
+		self.bBlockDelay = wx.Button(self, wx.ID_ANY, "Block Delays",  size=(96, 24))
+		self.Bind(wx.EVT_BUTTON, self.OnBBlockDelay, self.bBlockDelay)
+		btnszr.Add(self.bBlockDelay)
+
+		btnszr.AddSpacer(10)
+
+		vsz.Add(btnszr)
 		vsz.AddSpacer(5)
 
 		vsz.Add(hsz)
@@ -225,6 +235,15 @@ class MainFrame(wx.Frame):
 			self.DisconnectServer()
 		else:
 			self.ConnectServer()
+
+	def OnBBlockDelay(self, _):
+		dlg = BlockDelayDlg(self, self.rrServer, self.blocks)
+		rc = dlg.ShowModal()
+		dlg.Destroy()
+
+		if rc == wx.ID_OK:
+			#  reload the block delay table
+			self.blockDelay = BlockDelay(self.rrServer)
 
 	def ConnectServer(self):
 		self.dccServer = DCCServer()
@@ -539,9 +558,7 @@ class MainFrame(wx.Frame):
 						if tr["target"] == 0 and tr["step"] < 0:
 							continue
 
-						newDelay = self.blockDelay.GetBlockDelay(leadBlock, tr["east"])
-						if newDelay > tr["delay"]:
-							tr["delay"] = newDelay
+						tr["delay"] = self.blockDelay.GetBlockDelay(leadBlock, tr["east"])
 
 					elif len(p["blocks"]) > 0:
 						if rname not in self.availableTrains:

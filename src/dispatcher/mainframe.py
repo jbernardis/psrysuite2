@@ -18,7 +18,6 @@ from dispatcher.train import Train
 from dispatcher.trainlist import ActiveTrainsDlg, YardBlocks, LadderBlocks
 from dispatcher.losttrains import LostTrains, LostTrainsRecoveryDlg
 from dispatcher.trainhistory import TrainHistory
-from dispatcher.preload import PreLoadedTrains
 from dispatcher.routetraindlg import RouteTrainDlg
 from dispatcher.inspectdlg import InspectDlg
 
@@ -38,7 +37,7 @@ from dispatcher.rrserver import RRServer
 
 from dispatcher.edittraindlg import EditTrainDlg, SortTrainBlocksDlg
 from dispatcher.choicedlgs import ChooseItemDlg, ChooseBlocksDlg, ChooseTrainDlg, ChooseSnapshotDlg
-from traineditor.preloaded.managepreloaded import ManagePreloadedDlg
+from dispatcher.managepreloaded import ManagePreloadedDlg
 
 MENU_ATC_REMOVE    = 900
 MENU_ATC_STOP      = 901
@@ -183,7 +182,6 @@ class MainFrame(wx.Frame):
 		self.activeTrainsDlg = ActiveTrainsDlg(self, self.trains)
 		self.lostTrains = LostTrains(self)
 		self.trainHistory = TrainHistory(self, self.settings)
-		self.preloadedTrains = None
 
 		self.nodes = {}
 
@@ -291,7 +289,7 @@ class MainFrame(wx.Frame):
 				else:
 					dlg = wx.MultiChoiceDialog(self,
 							"Items to reload",
-							"Reload Data", ["trains", "preloaded trains", "locomotives", "engineers"])
+							"Reload Data", ["trains", "locomotives", "engineers"])
 
 					rc = dlg.ShowModal()
 					if rc == wx.ID_OK:
@@ -306,10 +304,6 @@ class MainFrame(wx.Frame):
 					dataFlags = [True if i in selections else False for i in range(4)]
 					if dataFlags[0] or dataFlags[2] or dataFlags[3]:
 						self.RetrieveData(report=True, trains=dataFlags[0], locos=dataFlags[2], engineers=dataFlags[3])
-
-					if dataFlags[1]:
-						self.preloadedTrains.Reload()
-						self.PopupEvent("Preloaded trains reloaded")
 
 		else:
 			#self.PopupEvent("Key Code: %d" % kcd)
@@ -1909,7 +1903,7 @@ class MainFrame(wx.Frame):
 			dlgx = self.centerw - 500 - self.centerOffset
 			dlgy = self.totalh - 660
 			dlg = EditTrainDlg(self, tr, blk, self.locoList, self.trainRoster, self.engineerList, self.trains,
-						self.lostTrains, self.trainHistory, self.preloadedTrains, dlgx, dlgy)
+						self.lostTrains, self.trainHistory, self.rrServer, dlgx, dlgy)
 			rc = dlg.ShowModal()
 			east = tr.IsEast()
 			if rc == wx.ID_OK:
@@ -2005,8 +1999,14 @@ class MainFrame(wx.Frame):
 				else:
 					template = None
 				trname = trid + ("" if template is None else ("("+template+")"))
+				if locoid in self.locoList:
+					self.PopupAdvice("Loco %s: %s" % (locoid, self.locoList[locoid]))
+				else:
+					self.PopupAdvice("loco %s not in list" % locoid)
 				self.PopupAdvice("Recovering train %s loco %s in block %s.  Assign to %s" % (trname, locoid, block, engineer))
-				parms = {"iname": tr.IName(), "name": trid, "loco": locoid, "template": template, "east": east, "engineer": engineer}
+				parms = {"iname": tr.IName(), "name": trid, "loco": locoid, "template": template, "east": "1" if east else "0", "engineer": engineer}
+				self.PopupAdvice("Parms: %s" % str(parms))
+
 				self.Request({"modifytrain": parms})
 				self.lostTrains.Remove(trid)
 						
@@ -2334,9 +2334,6 @@ class MainFrame(wx.Frame):
 		dlg = ManagePreloadedDlg(self, self.rrServer)
 		rc = dlg.ShowModal()
 		dlg.Destroy()
-		if rc == wx.ID_OK:
-			self.preloadedTrains.Reload()
-			self.PopupEvent("Preloaded trains reloaded")
 
 	def OnBTakeSnapshot(self, _):
 		self.TakeSnapshot()
@@ -2438,7 +2435,6 @@ class MainFrame(wx.Frame):
 					self.cbSidingsUnlocked.Enable(True)
 
 			self.RetrieveData()
-			self.preloadedTrains = PreLoadedTrains(self)
 
 		self.breakerDisplay.UpdateDisplay()
 		self.ShowTitle()

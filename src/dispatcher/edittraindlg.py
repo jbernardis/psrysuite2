@@ -3,14 +3,14 @@ import logging
 
 from dispatcher.losttrains import LostTrainsDlg
 from dispatcher.trainhistory import TrainHistoryDlg
-from dispatcher.preload import PreloadedTrainsDlg
+from dispatcher.choosepreloaddlg import ChoosePreloadedDlg
 
 MAXSTEPS = 9
 BUTTONSIZE = (120, 40)
 
 
 class EditTrainDlg(wx.Dialog):
-	def __init__(self, parent, train, block, locos, trainRoster, engineers, activeTrains, lostTrains, trainHistory, preloadedTrains, dx, dy):
+	def __init__(self, parent, train, block, locos, trainRoster, engineers, activeTrains, lostTrains, trainHistory, rrserver, dx, dy):
 		wx.Dialog.__init__(self, parent, wx.ID_ANY, "Edit Train Details", pos=(dx, dy))
 		self.parent = parent
 		self.Bind(wx.EVT_CLOSE, self.onCancel)
@@ -35,7 +35,7 @@ class EditTrainDlg(wx.Dialog):
 		self.engineers = [self.noEngineer] + sorted(engineers)
 		self.lostTrains = lostTrains
 		self.trainHistory = trainHistory
-		self.preloadedTrains = preloadedTrains
+		self.rrserver = rrserver
 		
 		l  = sorted(list(locos.keys()), key=self.BuildLocoKey)
 		locoList = [lid + ("(sh)" if locos[lid]["short"] else "") for lid in l]
@@ -113,9 +113,8 @@ class EditTrainDlg(wx.Dialog):
 		self.bTrainHistory = wx.Button(self, wx.ID_ANY, "History", size=BUTTONSIZE)
 		self.Bind(wx.EVT_BUTTON, self.OnBTrainHistory, self.bTrainHistory)
 
-		if len(self.preloadedTrains) > 0:
-			self.bPreloadedTrains = wx.Button(self, wx.ID_ANY, "Preloaded", size=BUTTONSIZE)
-			self.Bind(wx.EVT_BUTTON, self.OnBPreloadedTrains, self.bPreloadedTrains)
+		self.bPreloadedTrains = wx.Button(self, wx.ID_ANY, "Preloaded", size=BUTTONSIZE)
+		self.Bind(wx.EVT_BUTTON, self.OnBPreloadedTrains, self.bPreloadedTrains)
 
 		vszl = wx.BoxSizer(wx.VERTICAL)
 		hsz = wx.BoxSizer(wx.HORIZONTAL)
@@ -162,9 +161,8 @@ class EditTrainDlg(wx.Dialog):
 
 		vszr.Add(self.bTrainHistory)
 
-		if len(self.preloadedTrains) > 0:
-			vszr.AddSpacer(20)
-			vszr.Add(self.bPreloadedTrains)
+		vszr.AddSpacer(20)
+		vszr.Add(self.bPreloadedTrains)
 
 		hsz = wx.BoxSizer(wx.HORIZONTAL)
 		hsz.Add(vszl)
@@ -304,6 +302,7 @@ class EditTrainDlg(wx.Dialog):
 			return
 
 		loco, engineer, east, _ = tr
+		logging.debug("recovering loco %s: %s" % (loco, self.locos[loco]))
 		self.FillInTrainFields(trname, loco, engineer, east)
 
 	def OnBTrainHistory(self, _):
@@ -329,10 +328,10 @@ class EditTrainDlg(wx.Dialog):
 
 	def OnBPreloadedTrains(self, _):
 		tr = None
-		dlg = PreloadedTrainsDlg(self, self.preloadedTrains)
+		dlg = ChoosePreloadedDlg(self, self.rrserver)
 		rc = dlg.ShowModal()
 		if rc == wx.ID_OK:
-			tr = dlg.GetResult()
+			tr = dlg.GetResults()
 
 		dlg.Destroy()
 		if rc != wx.ID_OK:
@@ -352,6 +351,12 @@ class EditTrainDlg(wx.Dialog):
 		if rc == wx.ID_YES:
 			self.startingEast = east
 			self.cbTrainID.SetValue(trname)
+			if loco in self.locos:
+				short = self.locos[loco].get("short", False)
+				if short:
+					loco += "(sh)"
+			else:
+				short = False
 			self.cbLocoID.SetValue(loco)
 			self.cbEngineer.SetValue(self.noEngineer if engineer is None or engineer == "None" else engineer)
 			self.stDirection.SetLabel("Eastbound" if self.startingEast else "Westbound")

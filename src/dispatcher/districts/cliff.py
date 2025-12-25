@@ -25,51 +25,51 @@ class Cliff (District):
 
 		District.HandSwitchClick(self, hs, nv)
 
-	def DoSignalLeverAction(self, signame, state, callon, silent=1, source=None):
-		controlOpt = self.frame.cliffControl
-		if source == "ctc":
-			if controlOpt != 2:  # cliff local control or limited to bank/cliveden (handled in those districts)
-				if controlOpt == 0:
-					msg = "Cliff control is local"
-				else:
-					msg = "Dispatcher control is Bank/Cliveden only"
-				self.frame.PopupEvent(msg)
-				return False
-
-		return District.DoSignalLeverAction(self, signame, state, callon, silent, source)
-
-	def DoTurnoutLeverAction(self, turnout, state, force=False, source=None):
-		controlOpt = self.frame.cliffControl
-		if source == "ctc":
-			if controlOpt != 2:  # cliff local control or limited to bank/cliveden (handled in those districts)
-				if controlOpt == 0:
-					msg = "Cliff control is local"
-				else:
-					msg = "Dispatcher control is Bank/Cliveden only"
-				self.frame.PopupEvent(msg)
-				return False
-
-		return District.DoTurnoutLeverAction(self, turnout, state, force, source)
-
-	def SetUpRoute(self, osblk, route):
-		controlOpt = self.frame.cliffControl
-		if controlOpt == 0:  # Cliff local control
-			self.frame.PopupEvent("Cliff control is local")
-			return
-		
-		if controlOpt == 1:  # Cliff local control
-			self.frame.PopupEvent("Dispatcher control is Bank/Cliveden only")
-			return
-		
-		rtname = route.GetName()
-		
-		if rtname not in self.routeButtons:
-			self.frame.PopupEvent("Unknown route: %s" % rtname)
-			return
-		
-		bname = self.routeButtons[rtname]
-		btn = self.frame.buttons[bname]
-		self.ButtonClick(btn)
+	# def DoSignalLeverAction(self, signame, state, callon, silent=1, source=None):
+	# 	controlOpt = self.frame.cliffControl
+	# 	if source == "ctc":
+	# 		if controlOpt != 2:  # cliff local control or limited to bank/cliveden (handled in those districts)
+	# 			if controlOpt == 0:
+	# 				msg = "Cliff control is local"
+	# 			else:
+	# 				msg = "Dispatcher control is Bank/Cliveden only"
+	# 			self.frame.PopupEvent(msg)
+	# 			return False
+	#
+	# 	return District.DoSignalLeverAction(self, signame, state, callon, silent, source)
+	#
+	# def DoTurnoutLeverAction(self, turnout, state, force=False, source=None):
+	# 	controlOpt = self.frame.cliffControl
+	# 	if source == "ctc":
+	# 		if controlOpt != 2:  # cliff local control or limited to bank/cliveden (handled in those districts)
+	# 			if controlOpt == 0:
+	# 				msg = "Cliff control is local"
+	# 			else:
+	# 				msg = "Dispatcher control is Bank/Cliveden only"
+	# 			self.frame.PopupEvent(msg)
+	# 			return False
+	#
+	# 	return District.DoTurnoutLeverAction(self, turnout, state, force, source)
+	#
+	# def SetUpRoute(self, osblk, route):
+	# 	controlOpt = self.frame.cliffControl
+	# 	if controlOpt == 0:  # Cliff local control
+	# 		self.frame.PopupEvent("Cliff control is local")
+	# 		return
+	#
+	# 	if controlOpt == 1:  # Cliff local control
+	# 		self.frame.PopupEvent("Dispatcher control is Bank/Cliveden only")
+	# 		return
+	#
+	# 	rtname = route.GetName()
+	#
+	# 	if rtname not in self.routeButtons:
+	# 		self.frame.PopupEvent("Unknown route: %s" % rtname)
+	# 		return
+	#
+	# 	bname = self.routeButtons[rtname]
+	# 	btn = self.frame.buttons[bname]
+	# 	self.ButtonClick(btn)
 
 	def SignalClick(self, sig, callon=False, silent=False):
 		controlOpt = self.frame.cliffControl

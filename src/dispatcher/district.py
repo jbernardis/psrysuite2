@@ -188,9 +188,9 @@ class District:
 					
 				first = False
 				self.frame.Request(req)
-				
-	def SetUpRoute(self, osblk, route):
-		self.MatrixTurnoutRequest(route.GetSetTurnouts(), interval=self.matrixturnoutdelay)
+	#
+	# def SetUpRoute(self, osblk, route):
+	# 	self.MatrixTurnoutRequest(route.GetSetTurnouts(), interval=self.matrixturnoutdelay)
 
 	def TurnoutClick(self, turnout, force=False):
 		turnout = turnout.GetControlledBy()
@@ -679,86 +679,86 @@ class District:
 
 	def SetAspect(self, signal, aspect, refresh):
 		pass
-
-	def DoSignalLeverAction(self, signame, state, callon, silent=1, source=None):
-		signm, movement, osblk, route = self.LeverToSigname(signame, state)
-		if signm is None:
-			if silent == 0:
-				self.frame.PopupEvent("No Available Route")
-			self.NeutralizeLeverLED(signame)
-			return
-
-		sig = self.frame.signals[signm]
-		if not sig:
-			if silent == 0:
-				self.frame.PopupEvent("No Available S1gnal")
-			self.NeutralizeLeverLED(signame)
-			return
-		
-		aspectType = sig.GetAspectType()
-
-		if movement:
-			if callon:
-				aspect = restrictedaspect(sig.GetAspectType())
-			else:
-				aspect = self.CalculateAspect(sig, osblk, route)
-				if aspect is None:
-					self.NeutralizeLeverLED(signame)
-					return
-		else:
-			aspect = 0
-
-		self.frame.Request({"signal": {"name": signm, "aspect": aspect, "aspecttype": aspectType, "callon": 1 if callon else 0}})
-	
-		if not callon:
-			sig.SetLock(osblk.GetName(), 0 if aspect == 0 else 1)
-
-	def LeverToSigname(self, signame, state):
-		sigPrefix = signame.split(".")[0]
-		osblknms = self.sigLeverMap[signame]
-		signm = None
-		movement = False
-		osblk = None
-		route = None
-		for osblknm in osblknms:
-			osblk = self.frame.blocks[osblknm]
-			route = osblk.GetRoute()
-
-			if route:
-				sigs = route.GetSignals()
-				sigl = None
-				sigr = None
-				for sig in sigs:
-					if sig.startswith(sigPrefix):
-						if sig[len(sigPrefix)] == "L":
-							sigl = sig
-						elif sig[len(sigPrefix)] == "R":
-							sigr = sig
-
-				if state == "L":
-					if sigl is not None:
-						signm = sigl
-						movement = True   # trying to set to non-stopping aspect
-						break
-				elif state == 'R':
-					if sigr is not None:
-						signm = sigr
-						movement = True   # trying to set to non-stopping aspect
-						break
-				elif state == "N":
-					if sigl is not None:
-						sig = self.frame.signals[sigl]
-						if sig and sig.GetAspect() != 0:
-							signm = sigl
-							movement = False
-							break
-					if sigr is not None:
-						sig = self.frame.signals[sigr]
-						if sig and sig.GetAspect() != 0:
-							signm = sigr
-							movement = False
-							break
-		return signm, movement, osblk, route
+	#
+	# def DoSignalLeverAction(self, signame, state, callon, silent=1, source=None):
+	# 	signm, movement, osblk, route = self.LeverToSigname(signame, state)
+	# 	if signm is None:
+	# 		if silent == 0:
+	# 			self.frame.PopupEvent("No Available Route")
+	# 		self.NeutralizeLeverLED(signame)
+	# 		return
+	#
+	# 	sig = self.frame.signals[signm]
+	# 	if not sig:
+	# 		if silent == 0:
+	# 			self.frame.PopupEvent("No Available S1gnal")
+	# 		self.NeutralizeLeverLED(signame)
+	# 		return
+	#
+	# 	aspectType = sig.GetAspectType()
+	#
+	# 	if movement:
+	# 		if callon:
+	# 			aspect = restrictedaspect(sig.GetAspectType())
+	# 		else:
+	# 			aspect = self.CalculateAspect(sig, osblk, route)
+	# 			if aspect is None:
+	# 				self.NeutralizeLeverLED(signame)
+	# 				return
+	# 	else:
+	# 		aspect = 0
+	#
+	# 	self.frame.Request({"signal": {"name": signm, "aspect": aspect, "aspecttype": aspectType, "callon": 1 if callon else 0}})
+	#
+	# 	if not callon:
+	# 		sig.SetLock(osblk.GetName(), 0 if aspect == 0 else 1)
+	#
+	# def LeverToSigname(self, signame, state):
+	# 	sigPrefix = signame.split(".")[0]
+	# 	osblknms = self.sigLeverMap[signame]
+	# 	signm = None
+	# 	movement = False
+	# 	osblk = None
+	# 	route = None
+	# 	for osblknm in osblknms:
+	# 		osblk = self.frame.blocks[osblknm]
+	# 		route = osblk.GetRoute()
+	#
+	# 		if route:
+	# 			sigs = route.GetSignals()
+	# 			sigl = None
+	# 			sigr = None
+	# 			for sig in sigs:
+	# 				if sig.startswith(sigPrefix):
+	# 					if sig[len(sigPrefix)] == "L":
+	# 						sigl = sig
+	# 					elif sig[len(sigPrefix)] == "R":
+	# 						sigr = sig
+	#
+	# 			if state == "L":
+	# 				if sigl is not None:
+	# 					signm = sigl
+	# 					movement = True   # trying to set to non-stopping aspect
+	# 					break
+	# 			elif state == 'R':
+	# 				if sigr is not None:
+	# 					signm = sigr
+	# 					movement = True   # trying to set to non-stopping aspect
+	# 					break
+	# 			elif state == "N":
+	# 				if sigl is not None:
+	# 					sig = self.frame.signals[sigl]
+	# 					if sig and sig.GetAspect() != 0:
+	# 						signm = sigl
+	# 						movement = False
+	# 						break
+	# 				if sigr is not None:
+	# 					sig = self.frame.signals[sigr]
+	# 					if sig and sig.GetAspect() != 0:
+	# 						signm = sigr
+	# 						movement = False
+	# 						break
+	# 	return signm, movement, osblk, route
 
 	def LockTurnoutsForSignal(self, osblknm, sig, flag):
 		signm = sig.GetName()

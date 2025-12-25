@@ -8,9 +8,7 @@ class ModifyPreloadDlg(wx.Dialog):
 		self.trid = trinfo["name"]
 		self.east = trinfo["east"]
 		self.loco = "" if trinfo["loco"] is None else trinfo["loco"]
-		self.block = "" if trinfo["block"] is None else trinfo["block"]
-		self.route = "" if trinfo["route"] is None else trinfo["route"]
-		
+
 		wx.Dialog.__init__(self, self.parent, style=wx.DEFAULT_FRAME_STYLE)
 		self.modified = False
 		
@@ -34,52 +32,25 @@ class ModifyPreloadDlg(wx.Dialog):
 		self.teLoco.SetFont(textFont)
 		self.Bind(wx.EVT_TEXT, self.OnTextChange, self.teLoco)
 
-		self.teBlock = wx.TextCtrl(self, wx.ID_ANY, self.block)
-		self.teBlock.SetFont(textFont)
-		self.Bind(wx.EVT_TEXT, self.OnTextChange, self.teBlock)
-
-		self.teRoute = wx.TextCtrl(self, wx.ID_ANY, self.route)
-		self.teRoute.SetFont(textFont)
-		self.Bind(wx.EVT_TEXT, self.OnTextChange, self.teRoute)
-
 		vsz = wx.BoxSizer(wx.VERTICAL)
 		vsz.AddSpacer(20)
 		
 		hsz = wx.BoxSizer(wx.HORIZONTAL)
-		hsz.AddSpacer(60)
+		hsz.AddSpacer(120)
 		hsz.Add(self.cbEast)
+		hsz.AddSpacer(120)
 		vsz.Add(hsz)
 		vsz.AddSpacer(20)
 		
-		st = wx.StaticText(self, wx.ID_ANY, "Loco:", size=(60, -1), style=wx.ALIGN_RIGHT)
+		st = wx.StaticText(self, wx.ID_ANY, "Loco:")  # , size=(120, -1), style=wx.ALIGN_RIGHT)
 		st.SetFont(textFontBold)
 		hsz = wx.BoxSizer(wx.HORIZONTAL)
 		hsz.AddSpacer(20)
 		hsz.Add(st, 0)
 		hsz.AddSpacer(5)
 		hsz.Add(self.teLoco)
-		vsz.Add(hsz)
+		vsz.Add(hsz, 0, wx.ALIGN_CENTER_HORIZONTAL)
 		vsz.AddSpacer(20)
-		
-		st = wx.StaticText(self, wx.ID_ANY, "Block:", size=(60, -1), style=wx.ALIGN_RIGHT)
-		st.SetFont(textFontBold)
-		hsz = wx.BoxSizer(wx.HORIZONTAL)
-		hsz.AddSpacer(20)
-		hsz.Add(st, 0)
-		hsz.AddSpacer(5)
-		hsz.Add(self.teBlock)
-		vsz.Add(hsz)
-		vsz.AddSpacer(20)
-		
-		st = wx.StaticText(self, wx.ID_ANY, "Route:", size=(60, -1), style=wx.ALIGN_RIGHT)
-		st.SetFont(textFontBold)
-		hsz = wx.BoxSizer(wx.HORIZONTAL)
-		hsz.AddSpacer(20)
-		hsz.Add(st, 0)
-		hsz.AddSpacer(5)
-		hsz.Add(self.teRoute)
-		vsz.Add(hsz)
-		vsz.AddSpacer(30)
 
 		bsz = wx.BoxSizer(wx.HORIZONTAL)
 		bsz.Add(self.bOK)
@@ -132,20 +103,11 @@ class ModifyPreloadDlg(wx.Dialog):
 		if loco.strip() == "":
 			loco = None
 
-		block = self.teBlock.GetValue()
-		if block.strip() == "":
-			block = None
-
-		route = self.teRoute.GetValue()
-		if route.strip() == "":
-			route = None
 
 		return {
 			"name": self.trid,
 			"east": self.cbEast.GetValue(),
-			"loco": loco,
-			"block": block,
-			"route": route
+			"loco": loco
 		}
 
 	def OnClose(self, _):

@@ -3425,6 +3425,12 @@ class Railroad:
 
 		return None
 
+	def RemoveEngineerFromTrains(self, engineer):
+		for trid, tr in self.trains.items():
+			if tr.Engineer() == engineer:
+				tr.SetEngineer(None)
+				self.RailroadEvent(tr.GetEventMessage())
+
 	def GetActiveTrainList(self):
 		result = {}
 		for trid, tr in self.trains.items():

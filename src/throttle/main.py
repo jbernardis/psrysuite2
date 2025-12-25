@@ -12,6 +12,7 @@ sys.stderr = efp
 
 from throttle.mainframe import MainFrame 
 
+
 class App(wx.App):
 	def OnInit(self):
 		self.frame = MainFrame()

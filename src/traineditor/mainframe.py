@@ -6,7 +6,6 @@ from traineditor.trainsequences.trainblocksequencedlg import TrainBlockSequences
 from traineditor.trntracker.traintrackerdlg import TrainTrackerDlg
 from traineditor.locomotives.managelocos import ManageLocosDlg
 from traineditor.engineers.manageengineers import ManageEngineersDlg
-from traineditor.preloaded.managepreloaded import ManagePreloadedDlg
 from utilities.backup import saveData, restoreData
 
 
@@ -30,9 +29,6 @@ class MainFrame(wx.Frame):
 		self.bTrainTracker = wx.Button(self, wx.ID_ANY, "Edit Train Tracker Data", size=(200, 50))
 		self.Bind(wx.EVT_BUTTON, self.OnBTrainTrackerData, self.bTrainTracker)
 
-		self.bPreloaded = wx.Button(self, wx.ID_ANY, "Edit Preloaded Trains", size=(200, 50))
-		self.Bind(wx.EVT_BUTTON, self.OnBPreLoaded, self.bPreloaded)
-
 		self.bLocos = wx.Button(self, wx.ID_ANY, "Edit Locomotive Data", size=(200, 50))
 		self.Bind(wx.EVT_BUTTON, self.OnBLocos, self.bLocos)
 
@@ -54,8 +50,6 @@ class MainFrame(wx.Frame):
 		vsz.Add(self.bTrainSeq, 0, wx.ALIGN_CENTER_HORIZONTAL)
 		vsz.AddSpacer(20)
 		vsz.Add(self.bTrainTracker, 0, wx.ALIGN_CENTER_HORIZONTAL)
-		vsz.AddSpacer(20)
-		vsz.Add(self.bPreloaded, 0, wx.ALIGN_CENTER_HORIZONTAL)
 		vsz.AddSpacer(20)
 		vsz.Add(self.bLocos, 0, wx.ALIGN_CENTER_HORIZONTAL)
 		vsz.AddSpacer(20)
@@ -92,18 +86,13 @@ class MainFrame(wx.Frame):
 		dlg.ShowModal()
 		dlg.Destroy()
 
-	def OnBPreLoaded(self, _):
-		dlg = ManagePreloadedDlg(self, self.RRServer)
-		dlg.ShowModal()
-		dlg.Destroy()
-		
 	def OnBLocos(self, _):
 		dlg = ManageLocosDlg(self, self.RRServer, self.settings.browser)
 		dlg.ShowModal()
 		dlg.Destroy()
 		
 	def OnBEngineers(self, _):
-		dlg = ManageEngineersDlg(self, self.RRServer)
+		dlg = ManageEngineersDlg(self, self.RRServer, self.settings.browser)
 		dlg.ShowModal()
 		dlg.Destroy()
 

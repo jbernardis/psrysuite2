@@ -1100,12 +1100,15 @@ class ServerMain:
 
 		tr.SetLoco(loco)
 		tr.SetTemplateTrain(template)
+		if engineer is not None and engineer != "ATC":
+			# remove this engineer from any other trains they might be assigned to
+			self.rr.RemoveEngineerFromTrains(engineer)
+
 		tr.SetEngineer(engineer)
 		if tr.East() != east:
 			self.rr.ReverseTrain(iname)
 
 		tr.SetEast(east)
-
 		self.UpdateTrainBlocks(tr)
 
 	def DoAssignTrain(self, cmd):
@@ -1136,6 +1139,10 @@ class ServerMain:
 		if engineer is not None:
 			if engineer == "-":
 				engineer = None
+			if engineer is not None and engineer != "ATC":
+				# remove this engineer from any other trains they might be assigned to
+				self.rr.RemoveEngineerFromTrains(engineer)
+
 			tr.SetEngineer(engineer)
 
 		self.UpdateTrainBlocks(tr)
