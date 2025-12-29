@@ -117,6 +117,20 @@ class Settings:
 		else:
 			print("Missing dccsniffer section - assuming defaults")
 
+		section = "scanner"
+		self.scanner = SNode()
+		self.scanner.tty = "COM6"
+		self.scanner.enable = False
+		if self.cfg.has_section(section):
+			for opt, value in self.cfg.items(section):
+				if opt == 'tty':
+					self.scanner.tty = value
+				elif opt == 'enable':
+					self.scanner.enable = parseBoolean(value, False)
+
+		else:
+			print("Missing scanner section - assuming defaults")
+
 		section = "control"
 		self.control = SNode()
 		self.control.nassau = 2
@@ -412,10 +426,19 @@ class Settings:
 			self.cfg.add_section(section)
 		except configparser.DuplicateSectionError:
 			pass
-		
+
 		self.cfg.set(section, "tty", self.dccsniffer.tty)
 		self.cfg.set(section, "enable", "True" if self.dccsniffer.enable else "False")
 		self.cfg.set(section, "interval", "%d" % self.dccsniffer.interval)
+
+		section = "scanner"
+		try:
+			self.cfg.add_section(section)
+		except configparser.DuplicateSectionError:
+			pass
+
+		self.cfg.set(section, "tty", self.scanner.tty)
+		self.cfg.set(section, "enable", "True" if self.scanner.enable else "False")
 
 		section = "control"
 		try:

@@ -267,6 +267,34 @@ class MainFrame(wx.Frame):
 		vszrm.Add(dispBox, 0, wx.EXPAND)
 		vszrm.AddSpacer(20)
 
+		scannerBox = wx.StaticBox(self, wx.ID_ANY, "QR Code Scanner")
+		topBorder = scannerBox.GetBordersForSizer()[0]
+		boxsizer = wx.BoxSizer(wx.VERTICAL)
+		boxsizer.AddSpacer(topBorder + 10)
+
+		boxsizer.AddSpacer(10)
+
+		hsz = wx.BoxSizer(wx.HORIZONTAL)
+		hsz.AddSpacer(20)
+		hsz.Add(wx.StaticText(scannerBox, wx.ID_ANY, "Scanner COM port: ", size=(130, -1)))
+		self.teScannerComPort = wx.TextCtrl(scannerBox, wx.ID_ANY, "", size=(100, -1))
+		self.teScannerComPort.SetValue(self.settings.scanner.tty)
+		hsz.Add(self.teScannerComPort)
+		hsz.AddSpacer(20)
+		boxsizer.Add(hsz)
+
+		self.cbScannerEnable = wx.CheckBox(scannerBox, wx.ID_ANY, "Enable")
+		boxsizer.Add(self.cbScannerEnable, 0, wx.LEFT, 40)
+		self.cbScannerEnable.SetValue(self.settings.scanner.enable)
+
+		boxsizer.AddSpacer(10)
+
+		scannerBox.SetSizer(boxsizer)
+
+		vszrm.Add(scannerBox, 0, wx.EXPAND)
+
+		vszrm.AddSpacer(20)
+
 		snifferBox = wx.StaticBox(self, wx.ID_ANY, "DCC Sniffer")
 		topBorder = snifferBox.GetBordersForSizer()[0]
 		boxsizer = wx.BoxSizer(wx.VERTICAL)
@@ -317,19 +345,17 @@ class MainFrame(wx.Frame):
 	
 		boxsizer.AddSpacer(10)
 		
-		self.showonly = ["All", "Known", "ATC", "Assigned", "Assigned or Unknown"]	
+		self.showonly = ["All", "Known", "Assigned", "Assigned or Unknown"]
 		self.rbShowOnly = wx.RadioBox(atBox, wx.ID_ANY, "Show Only", choices=self.showonly,
 					majorDimension=1, style=wx.RA_SPECIFY_COLS)
 		boxsizer.Add(self.rbShowOnly, 1, wx.EXPAND | wx.LEFT | wx.RIGHT, 10)
 		ix = 0
 		if self.settings.activetrains.suppressunknown:
 			ix = 1
-		elif self.settings.activetrains.onlyatc:
-			ix = 2
 		elif self.settings.activetrains.onlyassigned:
-			ix = 3
+			ix = 2
 		elif self.settings.activetrains.onlyassignedorunknown:
-			ix = 4
+			ix = 3
 		self.rbShowOnly.SetSelection(ix)
 		
 		boxsizer.AddSpacer(10)
@@ -571,8 +597,12 @@ class MainFrame(wx.Frame):
 		self.settings.rrserver.snapshotlimit = int(self.teSnapshotLimit.GetValue())
 		self.settings.rrserver.autoloadsnapshot = self.cbAutoLoadSnap.IsChecked()
 
+		self.settings.scanner.tty = self.teScannerComPort.GetValue()
+		self.settings.scanner.enable = self.cbScannerEnable.IsChecked()
+
 		self.settings.dccsniffer.tty = self.teSnifferComPort.GetValue()
 		self.settings.dccsniffer.enable = self.cbSnifferEnable.IsChecked()
+		self.settings.dccsniffer.interval = int(self.teInterval.GetValue())
 
 		self.settings.display.showcameras = self.cbShowCameras.IsChecked()		
 		self.settings.display.pages = 1 if self.rbPages.GetSelection() == 0 else 3
@@ -583,16 +613,13 @@ class MainFrame(wx.Frame):
 		self.settings.activetrains.suppressyards = self.cbSuppressYards.IsChecked()		
 		ix = self.rbShowOnly.GetSelection()
 		self.settings.activetrains.suppressunknown = False
-		self.settings.activetrains.onlyatc = False
 		self.settings.activetrains.onlyassigned = False
 		self.settings.activetrains.onlyassignedorunknown = False
 		if ix == 1:
 			self.settings.activetrains.suppressunknown = True
 		elif ix == 2:
-			self.settings.activetrains.onlyatc = True
-		elif ix == 3:
 			self.settings.activetrains.onlyassigned = True
-		elif ix == 4:
+		elif ix == 3:
 			self.settings.activetrains.onlyassignedorunknown = True
 		cv = self.settings.activetrains.lines
 		try:

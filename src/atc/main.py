@@ -600,15 +600,23 @@ class MainFrame(wx.Frame):
 				
 			elif cmd == "atc":
 				action = parms["action"][0]
+				logging.debug("AR Action: %s" % action)
 				
-				if action == "hide":
-					self.Hide()
-
-				elif action == "show":
-					self.Show()
+				if action == "show":
+					if self.IsShown():
+						self.Hide()
+					else:
+						self.MoveToTop()
 
 			else:
 				logging.info("unknown command ignored: %s: %s" % (cmd, parms))
+
+	def MoveToTop(self):
+		st = self.GetWindowStyle()
+		st |= wx.STAY_ON_TOP
+
+		self.SetWindowStyle(st)
+		self.Show()
 
 	def OnBAdd(self, _):
 		il = self.lbAvailable.GetSelections()

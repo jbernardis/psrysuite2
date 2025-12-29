@@ -1,12 +1,12 @@
+verify need/use of all settings variables
 
+use zeroconf to find server instead of settings file
 
 Generation of report for locomotive cards, engineer cards. - basic logic set, need to refine for chosen card format
 
 incorporation of locomotive photographs, description
 
 Adding schedule into trains database to save train sequences
-
-Program to scan train/loco/engineer into and to send assigntrain command to server.
 
 train database editor - merge tracker and sequences better, only have east on one page - rename tracker as train card information
 
@@ -29,7 +29,8 @@ active trains - still need throttle, time (time assigned????? - 60 second granul
 
 
 
-    
+
+automate C13
 
 to be fixed in monitor:
     neutralize all signals

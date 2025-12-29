@@ -165,10 +165,7 @@ class MainFrame(wx.Frame):
 
 	def MoveToTop(self):
 		st = self.GetWindowStyle()
-
 		st |= wx.STAY_ON_TOP
-
-		# st &= ~wx.STAY_ON_TOP
 
 		self.SetWindowStyle(st)
 		self.Show()

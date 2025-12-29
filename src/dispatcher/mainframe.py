@@ -151,6 +151,7 @@ class MainFrame(wx.Frame):
 		self.subscribed = False
 		self.ARProc = None
 		self.ATCProc = None
+		self.ScanProc = None
 		self.OSSLocks = True
 		self.sidingsUnlocked = False
 
@@ -160,6 +161,7 @@ class MainFrame(wx.Frame):
 		
 		self.ToD = True
 		self.timeValue = self.GetToD()
+		self.tickerCount = 0
 		self.clockRunning = False # only applies to non-TOD clock
 		self.clockStatus = 3 # default = ToD
 
@@ -781,6 +783,15 @@ class MainFrame(wx.Frame):
 		self.SendOSSLocks()
 		self.SendSidingsUnlocked()
 
+	def StartScanner(self):
+		interpreter = sys.executable.replace("pythonx.exe", "python.exe")
+		logging.debug("Scanner exeutable = \"%s\"" % interpreter)
+		if self.ScanProc is None:
+			ScanExec = os.path.join(os.getcwd(), "scanner", "main.py")
+			logging.debug("scanner program: \"%s\"" % ScanExec)
+			self.ScanProc = Popen([interpreter, ScanExec])
+			logging.info("Scanner process started as PID %d" % self.ScanProc.pid)
+
 	def OnBAutoRouter(self, evt):
 		if self.ARProc is not None and self.ARProc.poll() is not None:
 			# subprocess has terminated - start a new one
@@ -832,9 +843,9 @@ class MainFrame(wx.Frame):
 				# otherwise, we modify this siding lock
 					
 			self.Request({'handswitch': {'name': sw+'.hand', 'status': 1 if self.sidingsUnlocked else 0}})
-			
-	def sendPendingATCShow(self):
-		self.Request(self.pendingATCShowCmd)
+	#
+	# def sendPendingATCShow(self):
+	# 	self.Request(self.pendingATCShowCmd)
 		
 	def OnRBNassau(self, evt):
 		ctl = evt.GetInt()
@@ -1097,12 +1108,12 @@ class MainFrame(wx.Frame):
 
 	def AddSignalLever(self, slname, district):
 		self.signalLeverMap[slname] = district
-
-	def GetSignalLeverDistrict(self, slname):
-		if slname not in self.signalLeverMap:
-			return None
-
-		return self.signalLeverMap[slname]
+	#
+	# def GetSignalLeverDistrict(self, slname):
+	# 	if slname not in self.signalLeverMap:
+	# 		return None
+	#
+	# 	return self.signalLeverMap[slname]
 
 	def GetTurnoutLocks(self):
 		l = self.rrServer.Get("turnoutlocks", {})
@@ -1532,7 +1543,6 @@ class MainFrame(wx.Frame):
 		self.EditTrain(self.menuTrain, self.menuBlock)
 
 	def OnTrainRoute(self, _):
-		logging.debug("On train route, train = %s (%s)" % (self.menuTrainID, self.menuTrain.TemplateTrain()))
 		# get the roster for the train itself
 		roster, template = self.GetTrainRoster(self.menuTrainID)
 		self.RouteTrain(self.menuTrain, roster, template)
@@ -2063,8 +2073,8 @@ class MainFrame(wx.Frame):
 	#
 	# 	return True
 	
-	def OnATCAdd(self, _):
-		pass
+	# def OnATCAdd(self, _):
+	# 	pass
 		# trainid, locoid = self.menuTrain.GetNameAndLoco()
 		# if self.VerifyTrainID(trainid) and self.VerifyLocoID(locoid):
 		# 	self.menuTrain.SetATC(True)
@@ -2072,8 +2082,8 @@ class MainFrame(wx.Frame):
 		# 	self.Request({"atc": {"action": "add", "train": trainid, "loco": locoid}})
 		# 	self.menuTrain.Draw()
 
-	def OnATCRemove(self, evt):
-		pass
+	# def OnATCRemove(self, evt):
+	# 	pass
 		# trainid, locoid = self.menuTrain.GetNameAndLoco()
 		# if self.VerifyTrainID(trainid) and self.VerifyLocoID(locoid):
 		# 	self.menuTrain.SetATC(False)
@@ -2081,14 +2091,14 @@ class MainFrame(wx.Frame):
 		# 	self.Request({"atc": {"action": "remove", "train": trainid, "loco": locoid}})
 		# 	self.menuTrain.Draw()
 
-	def OnATCStop(self, evt):
-		pass
+	# def OnATCStop(self, evt):
+	# 	pass
 		# trainid, locoid = self.menuTrain.GetNameAndLoco()
 		# if self.VerifyTrainID(trainid) and self.VerifyLocoID(locoid):
 		# 	self.Request({"atc": {"action": "forcestop", "train": trainid, "loco": locoid}})
 		
-	def OnARAdd(self, evt):
-		pass
+	# def OnARAdd(self, evt):
+	# 	pass
 		# trainid = self.menuTrain.GetName()
 		# if self.VerifyTrainRoute(trainid):
 		# 	self.menuTrain.SetAR(True)
@@ -2096,8 +2106,8 @@ class MainFrame(wx.Frame):
 		# 	self.Request({"ar": {"action": "add", "train": trainid}})
 		# 	self.menuTrain.Draw()
 
-	def OnARRemove(self, evt):
-		pass
+	# def OnARRemove(self, evt):
+	# 	pass
 		# trainid = self.menuTrain.GetName()
 		# if self.VerifyTrainRoute(trainid):
 		# 	self.menuTrain.SetAR(False)
@@ -2435,6 +2445,8 @@ class MainFrame(wx.Frame):
 					self.cbSidingsUnlocked.Enable(True)
 
 			self.RetrieveData()
+			if self.settings.scanner.enable:
+				self.StartScanner()
 
 		self.breakerDisplay.UpdateDisplay()
 		self.ShowTitle()
@@ -2895,8 +2907,8 @@ class MainFrame(wx.Frame):
 
 			osBlk.SetRoute(rte)
 
-	def DoCmdBlockClear(self, parms):
-		pass
+	# def DoCmdBlockClear(self, parms):
+	# 	pass
 
 	def DoCmdIgnore(self, parms):
 		try:
@@ -4005,8 +4017,8 @@ class MainFrame(wx.Frame):
 				logging.info("ALERT: %s" % (str(parms)))
 				self.PopupEvent(parms["msg"])
 				
-	def DoCmdAR(self, parms):
-		pass
+	# def DoCmdAR(self, parms):
+	# 	pass
 		# try:
 		# 	trnm = parms["train"][0]
 		# except KeyError:
@@ -4023,8 +4035,8 @@ class MainFrame(wx.Frame):
 		# self.activeTrains.UpdateTrain(trnm)
 		# tr.Draw()
 
-	def DoCmdATC(self, parms):
-		pass
+	# def DoCmdATC(self, parms):
+	# 	pass
 		# try:
 		# 	trnm = parms["train"][0]
 		# except KeyError:
@@ -4042,8 +4054,8 @@ class MainFrame(wx.Frame):
 		# self.activeTrains.UpdateTrain(trnm)
 		# tr.Draw()
 
-	def DoCmdATCStatus(self, parms):
-		pass
+	# def DoCmdATCStatus(self, parms):
+	# 	pass
 		# try:
 		# 	action = parms["action"][0]
 		# except KeyError:
@@ -4113,9 +4125,9 @@ class MainFrame(wx.Frame):
 			wx.PostEvent(self, evt)
 		except RuntimeError:
 			logging.info("Runtime error caught while trying to post disconnect event - not a problem if this is during shutdown")
-
-	def SendAlertRequest(self, msg):
-		self.Request({"alert": {"msg": [msg]}})
+	#
+	# def SendAlertRequest(self, msg):
+	# 	self.Request({"alert": {"msg": [msg]}})
 
 	def Request(self, req, force=False):
 		command = list(req.keys())[0]
@@ -4221,10 +4233,10 @@ class MainFrame(wx.Frame):
 		self.CheckTrains()
 
 	def RebuildActiveTrainList(self):
-		pass
-		# self.activeTrains.RemoveAllTrains()
-		# for tr in self.trains.values():
-		# 	self.activeTrains.AddTrain(tr)
+		self.activeTrainsDlg.RemoveAllTrains()
+		for tr in self.trains.values():
+			self.activeTrainsDlg.UpdateTrain(tr)
+
 	#
 	# def OnBClearTrains(self, _):
 	# 	pass
@@ -4316,6 +4328,7 @@ class MainFrame(wx.Frame):
 	#
 	# 	self.Request({"checktrains": {}}) # this command will invoke the CheckTrains method after all the renaming has been done
 	#
+
 	def CheckTrains(self):
 		rc1 = self.CheckTrainsContiguous()
 		rc2 = self.CheckLocosUnique()
@@ -4577,6 +4590,12 @@ class MainFrame(wx.Frame):
 		if self.ATCProc:
 			try:
 				self.ATCProc.kill()
+			except:
+				pass
+
+		if self.ScanProc:
+			try:
+				self.ScanProc.kill()
 			except:
 				pass
 

@@ -144,6 +144,7 @@ class ServerMain:
 			self.queueCmd({"cmd": ["failedstart"]})
 
 	def DelayedStartup(self, _):
+		logging.debug("RRServer exeutable = \"%s\"" % sys.executable)
 		if not settings.rrserver.simulation:
 			self.rrBus = Bus(settings.rrserver.rrtty)
 			self.rr.setBus(self.rrBus)

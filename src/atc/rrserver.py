@@ -1,6 +1,7 @@
 import requests
 import logging
 
+
 class RRServer(object):
 	def __init__(self):
 		self.ipAddr = None
