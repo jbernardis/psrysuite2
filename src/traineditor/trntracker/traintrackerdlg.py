@@ -99,7 +99,6 @@ class TrainTrackerDlg(wx.Dialog):
 		sz.AddSpacer(5)
 		sz.AddSpacer(5)
 
-
 		hsz = wx.BoxSizer(wx.HORIZONTAL)
 		hsz.Add(labelOrigin)
 		hsz.Add(self.stOrigin)
@@ -921,9 +920,8 @@ class TrainTrackerDlg(wx.Dialog):
 		
 	def bPrintTrainCardsPressed(self, _):
 		rpt = TrainCardsReport(self, self.browser)
-		rpt.TrainCards(self.roster, self.trainList)
+		rpt.TrainCards(self.roster, self.trainList, self.RRServer)
 
-		
 	def bExitPressed(self, _):
 		if self.modified:
 			dlg = wx.MessageDialog(self, 'The train roster has been changed\nPress "Yes" to exit and lose changes,\nor "No" to return and save them.',

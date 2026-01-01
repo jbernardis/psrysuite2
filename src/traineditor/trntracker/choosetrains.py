@@ -1,17 +1,20 @@
 import wx
 import os
-from glob import glob
 from traineditor.trntracker.schedule import Schedule
 
 BTNSZ = (120, 46)
 wildcardJson = "JSON file (*.json)|*.json|"	 \
 				"All files (*.*)|*.*"
-				
+
+
 class ChooseScheduleDlg(wx.Dialog):
 	def __init__(self, parent, schedules, allowentry):
 		wx.Dialog.__init__(self, parent, wx.ID_ANY, "")
 		self.Bind(wx.EVT_CLOSE, self.OnCancel)
-		self.SetTitle("Choose/Enter schedule name")
+		if allowentry:
+			self.SetTitle("Choose/Enter schedule name")
+		else:
+			self.SetTitle("Choose schedule name")
 
 		vszr = wx.BoxSizer(wx.VERTICAL)
 		vszr.AddSpacer(20)
@@ -119,8 +122,9 @@ class ChooseSchedulesDlg(wx.Dialog):
 				
 
 class ChooseTrainsDlg(wx.Dialog):
-	def __init__(self, parent, alltrains):
+	def __init__(self, parent, alltrains, rrserver):
 		wx.Dialog.__init__(self, parent, wx.ID_ANY, "")
+		self.RRServer = rrserver
 		self.Bind(wx.EVT_CLOSE, self.onClose)
 		
 		self.titleString = "Select Train Cards to print"
@@ -239,7 +243,13 @@ class ChooseTrainsDlg(wx.Dialog):
 		btnSizer.Add(self.bLoad)
 
 		btnSizer.AddSpacer(10)
-		
+
+		self.bSave = wx.Button(self, wx.ID_ANY, "Save", size=BTNSZ)
+		self.bSave.SetFont(btnFont)
+		self.bSave.SetToolTip("Save train schedule to a file")
+		self.Bind(wx.EVT_BUTTON, self.bSavePressed, self.bSave)
+		btnSizer.Add(self.bSave)
+
 		btnSizer2 = wx.BoxSizer(wx.HORIZONTAL)
 		
 		self.bOK = wx.Button(self, wx.ID_ANY, "OK", size=BTNSZ)
@@ -272,7 +282,7 @@ class ChooseTrainsDlg(wx.Dialog):
 		self.setButtons()
 		
 	def setTitle(self):
-		title = self.titleString
+		self.SetTitle(self.titleString)
 		
 	def onLbAllSelect(self, _):
 		self.setButtons()
@@ -357,7 +367,6 @@ class ChooseTrainsDlg(wx.Dialog):
 		self.lbSchedule.EnsureVisible(ix)
 		self.lbSchedule.SetSelection(ix)
 		self.setButtons()
-
 
 	def bLeftSchPressed(self, _):
 		ix = self.lbSchedule.GetSelection()
@@ -457,24 +466,28 @@ class ChooseTrainsDlg(wx.Dialog):
 			pass
 
 	def getSchedFiles(self):
-		fxp = os.path.join(self.schedDir, "*.json")
-		return [os.path.splitext(os.path.split(x)[1])[0] for x in glob(fxp)]
-	
+		schedList = self.RRServer.Get("schedlist", {})
+		if len(schedList) == 0:
+			dlg = wx.MessageDialog(self, "No Schedules exist", "File Not Found", wx.OK | wx.ICON_WARNING)
+			dlg.ShowModal()
+			dlg.Destroy()
+			return []
+
+		return [s[:-5] for s in schedList]  # strip off the .json suffix
+
 	def bLoadPressed(self, _):
 		dlg = ChooseScheduleDlg(self, self.getSchedFiles(), False)
 		rc = dlg.ShowModal()
-		if rc == wx.ID_OK:
-			schedNm = dlg.GetValue()
-			
-		dlg.Destroy()
-		
 		if rc != wx.ID_OK:
-			return 		
-		
-		path = os.path.join(os.getcwd(), "data", "schedules", schedNm + ".json")
+			dlg.Destroy()
+			return
+
+		schedNm = dlg.GetValue()
+		dlg.Destroy()
+
 		sched = Schedule()
-		if not sched.load(path):
-			return 
+		if not sched.load(schedNm, self.RRServer):
+			return
 
 		#determine if schedule references trains than are not in alltrains
 		oTrains = sched.getSchedule()
@@ -502,8 +515,35 @@ class ChooseTrainsDlg(wx.Dialog):
 			sched.setNewSchedule(oNew)
 			sched.setNewExtras(eNew)
 
-		self.setArrays(sched)		
+		self.setArrays(sched)
 		self.setTitle()
+
+	def bSavePressed(self, _):
+		schList = self.getSchedFiles()
+		dlg = ChooseScheduleDlg(self, schList, True)
+		rc = dlg.ShowModal()
+		if rc != wx.ID_OK:
+			dlg.Destroy()
+			return
+
+		schedNm = dlg.GetValue()
+		if schedNm in schList:
+			msg = "Schedule %s already exists\nPress \"Yes\" to continue\nPress \"No\" to cancel" % schedNm
+			dlg = wx.MessageDialog(self, msg, "Do you wish to over-write?",	wx.YES_NO | wx.NO_DEFAULT | wx.ICON_WARNING)
+			rc = dlg.ShowModal()
+			dlg.Destroy()
+			if rc != wx.ID_YES:
+				return
+
+		sched = Schedule()
+		sched.setNewSchedule(self.scheduleTrains)
+		sched.setNewExtras(self.extraTrains)
+		sched.save(schedNm, self.RRServer)
+
+		msg = "Schedule %s has been saved with\n%d scheduled trains and\n%d extra trains" % (schedNm, len(self.scheduleTrains), len(self.extraTrains))
+		dlg = wx.MessageDialog(self, msg, "Schedule saved", wx.OK | wx.ICON_INFORMATION)
+		rc = dlg.ShowModal()
+		dlg.Destroy()
 
 	def bOKPressed(self, _):
 		self.EndModal(wx.ID_OK)

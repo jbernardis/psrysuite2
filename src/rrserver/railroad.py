@@ -37,6 +37,11 @@ def GetSnapList():
 	return sorted([f for f in listdir(folder) if isfile(join(folder, f))])
 
 
+def GetScheduleList():
+	folder = os.path.join(os.getcwd(), "data", "schedules")
+	return sorted([f for f in listdir(folder) if isfile(join(folder, f))])
+
+
 class Railroad:
 	def __init__(self, parent, cbEvent, settings):
 		self.parent = parent

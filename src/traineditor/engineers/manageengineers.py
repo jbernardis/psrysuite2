@@ -206,8 +206,20 @@ class ManageEngineersDlg(wx.Dialog):
 		img.save(fn)
 
 	def bEngCardsPressed(self, _):
+		dlg = ChooseEngineersDlg(self, self.engineers)
+		rc = dlg.ShowModal()
+		if rc == wx.ID_CANCEL:
+			dlg.Destroy()
+			return
+
+		elist = dlg.GetResults()
+		dlg.Destroy()
+
+		if len(elist) == 0:
+			return
+
 		rpt = EngineerCards(self, self.browser)
-		missing = rpt.CheckQRFiles(self.engineers)
+		missing = rpt.CheckQRFiles(elist)  # self.engineers)
 		if len(missing) > 0:
 			dlg = wx.MessageDialog(self, "QRCode files missing for %s\nPress \"Yes\" to print anyway\nor \"No\" to cancel" % ", ".join(missing),
 				"QRCode File(s) missing", wx.YES_NO | wx.NO_DEFAULT | wx.ICON_QUESTION)
@@ -216,7 +228,7 @@ class ManageEngineersDlg(wx.Dialog):
 			if rc == wx.ID_NO:
 				return
 
-		rpt.EngineerCards(self.engineers)
+		rpt.EngineerCards(elist)  # self.engineers)
 
 	def bSavePressed(self, _):
 		self.eng.save()
@@ -246,3 +258,98 @@ class ManageEngineersDlg(wx.Dialog):
 				return
 
 		self.EndModal(wx.ID_CANCEL)
+
+
+class ChooseEngineersDlg(wx.Dialog):
+	def __init__(self, parent, engineers):
+		wx.Dialog.__init__(self, parent, wx.ID_ANY, "Choose Engineers")
+		self.parent = parent
+		self.engineers = [e for e in engineers]
+
+		self.Bind(wx.EVT_CLOSE, self.onClose)
+
+		self.modified = False
+
+		btnFont = wx.Font(wx.Font(10, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, faceName="Arial"))
+		textFont = wx.Font(12, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, faceName="Arial")
+
+		self.lbEngineers = wx.CheckListBox(self, wx.ID_ANY, choices=self.engineers, size=(160, 200))
+		self.lbEngineers.SetFont(textFont)
+
+		engsz = wx.BoxSizer(wx.HORIZONTAL)
+		engsz.AddSpacer(20)
+		engsz.Add(self.lbEngineers, 0, wx.ALIGN_CENTER_VERTICAL)
+		engsz.AddSpacer(20)
+
+		ebtnsz = wx.BoxSizer(wx.VERTICAL)
+		self.bAll = wx.Button(self, wx.ID_ANY, "All", size=BTNSZ)
+		self.bAll.SetFont(btnFont)
+		ebtnsz.Add(self.bAll)
+		self.Bind(wx.EVT_BUTTON, self.bAllPressed, self.bAll)
+
+		ebtnsz.AddSpacer(20)
+
+		self.bNone = wx.Button(self, wx.ID_ANY, "None", size=BTNSZ)
+		self.bNone.SetFont(btnFont)
+		ebtnsz.Add(self.bNone)
+		self.Bind(wx.EVT_BUTTON, self.bNonePressed, self.bNone)
+
+		btnsz = wx.BoxSizer(wx.HORIZONTAL)
+		btnsz.AddSpacer(20)
+
+		engsz.Add(ebtnsz, 0, wx.ALIGN_CENTER_VERTICAL)
+		engsz.AddSpacer(20)
+
+		self.bOK = wx.Button(self, wx.ID_ANY, "OK", size=BTNSZ)
+		self.bOK.SetFont(btnFont)
+		btnsz.Add(self.bOK)
+		self.Bind(wx.EVT_BUTTON, self.bOKPressed, self.bOK)
+
+		btnsz.AddSpacer(20)
+
+		self.bCancel = wx.Button(self, wx.ID_ANY, "Cancel", size=BTNSZ)
+		self.bCancel.SetFont(btnFont)
+		btnsz.Add(self.bCancel)
+		self.Bind(wx.EVT_BUTTON, self.bCancelPressed, self.bCancel)
+
+		btnsz.AddSpacer(20)
+
+		vsz = wx.BoxSizer(wx.VERTICAL)
+		vsz.AddSpacer(20)
+		vsz.Add(engsz, 0, wx.ALIGN_CENTER_HORIZONTAL)
+		vsz.AddSpacer(20)
+		vsz.Add(btnsz, 0, wx.ALIGN_CENTER_HORIZONTAL)
+		vsz.AddSpacer(20)
+
+		hsz = wx.BoxSizer(wx.HORIZONTAL)
+		hsz.AddSpacer(20)
+		hsz.Add(vsz)
+		hsz.AddSpacer(20)
+
+		self.SetSizer(hsz)
+		self.Layout()
+		self.Fit()
+
+	def bAllPressed(self, _):
+		for i in range(len(self.engineers)):
+			self.lbEngineers.Check(i, True)
+
+	def bNonePressed(self, _):
+		for i in range(len(self.engineers)):
+			self.lbEngineers.Check(i, False)
+
+	def bOKPressed(self, _):
+		self.EndModal(wx.ID_OK)
+
+	def bCancelPressed(self, _):
+		self.doCancel()
+
+	def onClose(self, _):
+		self.doCancel()
+
+	def doCancel(self):
+		self.EndModal(wx.ID_CANCEL)
+
+	def GetResults(self):
+		return self.lbEngineers.GetCheckedStrings()
+

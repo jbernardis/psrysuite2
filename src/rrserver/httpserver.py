@@ -4,7 +4,7 @@ from socketserver import ThreadingMixIn
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse, parse_qs
 
-from rrserver.railroad import GetSnapList
+from rrserver.railroad import GetSnapList, GetScheduleList
 
 import json
 import os
@@ -264,6 +264,13 @@ class HTTPServer:
 			snapList = GetSnapList()
 			logging.debug("returning %s" % json.dumps(snapList))
 			jstr = json.dumps(snapList)
+			return 200, jstr
+
+		elif verb == "schedlist":
+			logging.debug("http server schedule list")
+			scheduleList = GetScheduleList()
+			logging.debug("returning %s" % json.dumps(scheduleList))
+			jstr = json.dumps(scheduleList)
 			return 200, jstr
 
 		elif verb == "turnoutlocks":

@@ -46,11 +46,15 @@ class Schedule():
 		self.extras = [t for t in nex]
 
 	def save(self, fn, rrserver):
+		if not fn.endswith(".json"):
+			fn += ".json"
 		j = {"schedule": self.schedule, "extras": self.extras}
 		rc = rrserver.Post(fn, os.path.join("data", "schedules"), j)
 		return rc < 400
 
 	def load(self, fn, rrserver):
+		if not fn.endswith(".json"):
+			fn += ".json"
 		j = rrserver.Get("getfile", {"dir": os.path.join("data", "schedules"), "file": fn})
 		if j is None:
 			self.schedule = []

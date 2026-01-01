@@ -7,15 +7,16 @@ from traineditor.trntracker.choosetrains import ChooseTrainsDlg
 
 BTNSZ = (120, 46)
 
+
 class TrainCardsReport (Report):
 	def __init__(self, parent, browser):
 		Report.__init__(self, parent, browser)
 		self.roster = None
 					
-	def TrainCards(self, roster, trainList):	
+	def TrainCards(self, roster, trainList, rrserver):
 		self.roster = roster
 		
-		dlg = ChooseTrainsDlg(self.parent, trainList)
+		dlg = ChooseTrainsDlg(self.parent, trainList, rrserver)
 		rc = dlg.ShowModal()
 		
 		if rc == wx.ID_OK:

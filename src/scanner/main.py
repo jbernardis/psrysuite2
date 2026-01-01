@@ -52,12 +52,19 @@ logging.debug(f"Connected to port: {scannerPort.port}")
 train = None
 loco = None
 engineer = None
+trainScanTime = None
 
 rrServer = RRServer()
 rrServer.SetServerAddress(settings.ipaddr, settings.serverport)
 try:
 	while True:
+
 		scanDataRaw = scannerPort.readline()
+		lastScanTime = int(time.time())
+		if trainScanTime is None:
+			expired = True
+		else:
+			expired = lastScanTime > trainScanTime + 20
 
 		if scanDataRaw:
 			scanData = scanDataRaw.decode('utf-8').strip()
@@ -67,21 +74,23 @@ try:
 				train = scanData[7:].strip()
 				loco = None
 				engineer = None
+				trainScanTime = int(time.time())
 
 			elif scanData.startswith("LOCOMOTIVE: "):
 				loco = scanData[12:].strip()
-				if train is not None:
+				if train is not None and not expired:
 					rrServer.SendRequest({"assigntrain": {"name": train, "loco": loco}})
+					trainScanTime = lastScanTime  # keep the train scan current as long as were scanning other data
 
 			elif scanData.startswith("ENGINEER: "):
 				engineer = scanData[10:].strip()
-				if train is not None:
+				if train is not None and not expired:
 					rrServer.SendRequest({"assigntrain": {"name": train, "engineer": engineer}})
+					trainScanTime = lastScanTime  # keep the train scan current as long as were scanning other data
 
 		time.sleep(0.1)
 
 except Exception as e:
-	print("exception occured: %s" % str(e), flush=True)
 	logging.debug("Exception==> %s <==" % str(e))
 	scannerPort.close()
 
