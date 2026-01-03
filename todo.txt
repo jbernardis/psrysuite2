@@ -1,4 +1,14 @@
 verify need/use of all settings variables - I think some can be removed
+            [control]
+            c13auto = False
+
+            [dispatcher]
+            notifyinvalidblocks = True
+            notifyincorrectroute = True
+
+            [display]
+            showunknownhistory = True
+
 
 
 
@@ -47,10 +57,6 @@ Rip out ALL dead code
 
 
 Try on the actual railroad
-
-Test with multiple displays
-
-Make sure that cliffdisplay still works.
 
 Other tools:
     DCC Sniffer and the handling of throttle information

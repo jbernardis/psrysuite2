@@ -1,6 +1,7 @@
 import logging
 import re
 import os
+import sys
 import json
 from datetime import datetime
 from os import listdir
@@ -204,6 +205,7 @@ class Railroad:
 			blk.SetOS(osBlock)
 
 			for sn in sigList:
+				print("build signal to os map for signal %s" % sn, file=sys.stderr)
 				if sn not in self.sigToOSMap:
 					self.sigToOSMap[sn] = []
 				self.sigToOSMap[sn].append(osBlock)

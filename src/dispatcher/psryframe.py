@@ -103,9 +103,6 @@ class PSRYFrame(MainFrame):
 
 		self.ToasterSetup()
 
-		if self.settings.display.showcameras:
-			self.DrawCameras()
-
 		voffset = topSpace + diagramh + 10
 		self.widgetMap = {HyYdPt: [], LaKr: [], NaCl: []}
 		self.DefineWidgets(voffset)

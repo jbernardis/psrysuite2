@@ -228,7 +228,6 @@ class Settings:
 		self.display = SNode()
 		self.display.name = "Display"
 		self.display.pages = 3
-		self.display.showcameras = False
 		self.display.showevents = False
 		self.display.showadvice = False
 		self.display.showunknownhistory = True
@@ -245,9 +244,6 @@ class Settings:
 						print("Invalid values for pages: %d" % s)
 						s = 3
 					self.display.pages = s
-
-				elif opt == 'showcameras':
-					self.display.showcameras = parseBoolean(value, False)
 
 				elif opt == 'showevents':
 					self.display.showevents = parseBoolean(value, False)
@@ -475,7 +471,6 @@ class Settings:
 			pass
 
 		self.cfg.set(section, "pages",   "%d" % self.display.pages)
-		self.cfg.set(section, "showcameras", "True" if self.display.showcameras else "False")
 		self.cfg.set(section, "showevents", "True" if self.display.showevents else "False")
 		self.cfg.set(section, "showadvice", "True" if self.display.showadvice else "False")
 		self.cfg.set(section, "showunknownhistory", "True" if self.display.showunknownhistory else "False")

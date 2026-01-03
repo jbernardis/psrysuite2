@@ -188,12 +188,6 @@ class MainFrame(wx.Frame):
 
 		boxsizer.AddSpacer(10)
 
-		self.cbShowCameras = wx.CheckBox(dispBox, wx.ID_ANY, "Show Cameras")
-		boxsizer.Add(self.cbShowCameras, 0, wx.LEFT, 40)
-		self.cbShowCameras.SetValue(self.settings.display.showcameras)
-		
-		boxsizer.AddSpacer(10)
-
 		self.rbPages = wx.RadioBox(dispBox, wx.ID_ANY, "Pages", choices=["1", "3"])
 		boxsizer.Add(self.rbPages, 1, wx.EXPAND | wx.LEFT | wx.RIGHT, 10)
 		self.rbPages.SetSelection(0 if self.settings.display.pages == 1 else 1)
@@ -604,7 +598,6 @@ class MainFrame(wx.Frame):
 		self.settings.dccsniffer.enable = self.cbSnifferEnable.IsChecked()
 		self.settings.dccsniffer.interval = int(self.teInterval.GetValue())
 
-		self.settings.display.showcameras = self.cbShowCameras.IsChecked()		
 		self.settings.display.pages = 1 if self.rbPages.GetSelection() == 0 else 3
 		self.settings.display.showevents = self.cbShowEvents.IsChecked()
 		self.settings.display.showadvice = self.cbShowAdvice.IsChecked()

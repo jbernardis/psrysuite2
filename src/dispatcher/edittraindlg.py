@@ -10,13 +10,16 @@ BUTTONSIZE = (120, 40)
 
 
 class EditTrainDlg(wx.Dialog):
-	def __init__(self, parent, train, block, locos, trainRoster, engineers, activeTrains, lostTrains, trainHistory, rrserver, dx, dy):
-		wx.Dialog.__init__(self, parent, wx.ID_ANY, "Edit Train Details", pos=(dx, dy))
+	def __init__(self, parent, train, locos, trainRoster, engineers, activeTrains, lostTrains, trainHistory, rrserver, dx, dy):
+		wx.Dialog.__init__(self, parent, wx.ID_ANY, "Edit Train Details", pos=(dx, dy), style=wx.CAPTION|wx.CLOSE_BOX|wx.STAY_ON_TOP)
 		self.parent = parent
 		self.Bind(wx.EVT_CLOSE, self.onCancel)
 
 		self.train = train
 		self.activeTrains = activeTrains
+		self.activeTrainNameMap = {at.Name(): at.IName() for at in self.activeTrains.values()}
+
+		logging.debug("enter edit train, active train keys = %s" % str(self.activeTrainNameMap))
 
 		vsz = wx.BoxSizer(wx.VERTICAL)
 		vsz.AddSpacer(20)
@@ -24,7 +27,7 @@ class EditTrainDlg(wx.Dialog):
 		name = train.Name()
 		loco = train.Loco()
 		self.name = name
-		self.block = block
+		# self.block = block
 		
 		self.startingEast = train.IsEast()
 		self.templateTrain = train.TemplateTrain()
@@ -430,47 +433,57 @@ class EditTrainDlg(wx.Dialog):
 		self.EndModal(wx.ID_CANCEL)
 
 	def onOK(self, _):
-		if self.chosenTrain != self.name and self.chosenTrain in self.activeTrains:
-			blist = self.activeTrains[self.chosenTrain].GetBlockNameList()
-			if len(blist) > 0:
-				plural = "s\n" if len(blist) > 1 else " "
-				bstr = ", ".join(blist)
+		logging.debug("on ok, name = %s, chosenTrain = %s, in activeTrains = %s" % (self.name, self.chosenTrain, self.chosenTrain in self.activeTrainNameMap))
+		if self.chosenTrain != self.name and self.chosenTrain in self.activeTrainNameMap:
+			iname = self.activeTrainNameMap[self.chosenTrain]
+			blist = self.activeTrains[iname].Blocks()
+			plural = "s\n" if len(blist) > 1 else " "
+			bstr = ", ".join(blist)
+			dlg = wx.MessageDialog(self, "Train %s already exists on the layout\nin block%s%s\n\nPress \"YES\" to cancel the dialog, or \n\"NO\" to remain to make other changes" % (self.chosenTrain, plural, bstr),
+					'Duplicate Train', wx.YES_NO | wx.NO_DEFAULT | wx.ICON_QUESTION)
+			rc = dlg.ShowModal()
+			dlg.Destroy()
+			if rc == wx.ID_YES:
+				self.EndModal(wx.ID_CANCEL)
 
-				adje, adjw = self.block.GetAdjacentBlocks()
-				adjacent = False
-				for adj in adje, adjw:
-					if adj is not None and adj.GetName() in blist:
-						adjacent = True
-						break
+		else:
+			self.lostTrains.Remove(self.chosenTrain)
+			self.EndModal(wx.ID_OK)
 
-				if not adjacent:
-					dlg = wx.MessageDialog(self, "Train %s already exists on the layout in block%s%s\n\nPress \"YES\" to acquire this train ID for THIS train" % (self.chosenTrain, plural, bstr),
-							'Duplicate Train', wx.YES_NO | wx.NO_DEFAULT | wx.ICON_QUESTION)
-					rc = dlg.ShowModal()
-					dlg.Destroy()
-					if rc == wx.ID_YES:
-						self.parent.StealTrainID(self.chosenTrain)
-					else:
-						return
-			else:
-				mdlg = wx.MessageDialog(self,
-							'Train does not exist in any blocks', 'No Blocks', wx.OK | wx.ICON_WARNING)
-				mdlg.ShowModal()
-				mdlg.Destroy()
+		#
+		# 		adje, adjw = self.block.GetAdjacentBlocks()
+		# 		adjacent = False
+		# 		for adj in adje, adjw:
+		# 			if adj is not None and adj.GetName() in blist:
+		# 				adjacent = True
+		# 				break
+		#
+		# 		if not adjacent:
+		# 			dlg = wx.MessageDialog(self, "Train %s already exists on the layout in block%s%s\n\nPress \"YES\" to acquire this train ID for THIS train" % (self.chosenTrain, plural, bstr),
+		# 					'Duplicate Train', wx.YES_NO | wx.NO_DEFAULT | wx.ICON_QUESTION)
+		# 			rc = dlg.ShowModal()
+		# 			dlg.Destroy()
+		# 			if rc == wx.ID_YES:
+		# 				self.parent.StealTrainID(self.chosenTrain)
+		# 			else:
+		# 				return
+		# 	else:
+		# 		mdlg = wx.MessageDialog(self,
+		# 					'Train does not exist in any blocks', 'No Blocks', wx.OK | wx.ICON_WARNING)
+		# 		mdlg.ShowModal()
+		# 		mdlg.Destroy()
+		#
+		# if self.cbAssignRoute.IsChecked():
+		# 	if self.templateTrain is not None:
+		# 		if self.startingEast != self.trainRoster[self.templateTrain]["eastbound"]:
+		# 			mdlg = wx.MessageDialog(self,  'Route is in the opposite direction from the train.\nPress "Yes" to proceed',
+		# 							'Opposite Directions',
+		# 							wx.YES_NO | wx.NO_DEFAULT | wx.ICON_WARNING)
+		# 			rc = mdlg.ShowModal()
+		# 			mdlg.Destroy()
+		# 			if rc != wx.ID_YES:
+		# 				return
 
-		if self.cbAssignRoute.IsChecked():
-			if self.templateTrain is not None:
-				if self.startingEast != self.trainRoster[self.templateTrain]["eastbound"]:
-					mdlg = wx.MessageDialog(self,  'Route is in the opposite direction from the train.\nPress "Yes" to proceed',
-									'Opposite Directions',
-									wx.YES_NO | wx.NO_DEFAULT | wx.ICON_WARNING)
-					rc = mdlg.ShowModal()
-					mdlg.Destroy()
-					if rc != wx.ID_YES:
-						return
-
-		self.lostTrains.Remove(self.chosenTrain)
-		self.EndModal(wx.ID_OK)
 
 	def GetResults(self):
 		t = self.chosenTrain

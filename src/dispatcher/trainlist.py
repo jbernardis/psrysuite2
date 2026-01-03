@@ -157,7 +157,7 @@ class ActiveTrainsDlg(wx.Dialog):
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
 		self.Bind(wx.EVT_SIZE, self.OnResize)
 		self.Bind(wx.EVT_IDLE,self.OnIdle)
-		
+
 		self.settings = parent.settings
 		self.suppressYards =   self.settings.activetrains.suppressyards
 		self.suppressUnknown = self.settings.activetrains.suppressunknown

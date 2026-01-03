@@ -16,7 +16,7 @@ HILITEOFF = "Hilite OFF"
 
 class RouteTrainDlg(wx.Dialog):
 	def __init__(self, parent, train, trinfo, template, isDispatcher, blocks):
-		wx.Dialog.__init__(self, parent, wx.ID_ANY, "")
+		wx.Dialog.__init__(self, parent, wx.ID_ANY, "", style=wx.CAPTION|wx.CLOSE_BOX|wx.STAY_ON_TOP)
 		self.parent = parent
 		self.train = train
 		self.template = template
@@ -261,7 +261,7 @@ class RouteTrainDlg(wx.Dialog):
 		
 	def onClose(self, _):
 		self.parent.CloseRouteTrainDlg(self.trainName)
-		
+
 	def AddHeaders(self):
 		sigst = wx.StaticText(self, wx.ID_ANY, "Signal", size=(COLSIG, -1))
 		sigst.SetFont(self.font)

@@ -66,6 +66,8 @@ class Train:
 		self.misrouted = False
 
 		self.blocks = []
+		self.dblocks = []  # blocks deleted from most recent update
+		self.nblocks = []  # blocks added from the most recent update
 
 	def Name(self):
 		if self.rname is not None:
@@ -160,10 +162,16 @@ class Train:
 		return self.aspect, self.aspectType, self.pastSignal
 
 	def SetBlocks(self, blocks):
-		delblocks = [bn for bn in self.blocks if bn not in blocks]
-		newblocks = [bn for bn in blocks if bn not in self.blocks]
+		self.dblocks = [bn for bn in self.blocks if bn not in blocks]
+		self.nblocks = [bn for bn in blocks if bn not in self.blocks]
 		self.blocks = blocks
-		return delblocks, newblocks
+		return self.dblocks, self.nblocks
+
+	def GetDelBlocks(self):
+		return self.dblocks
+
+	def GetNewBlocks(self):
+		return self.nblocks
 
 	def Blocks(self):
 		return self.blocks

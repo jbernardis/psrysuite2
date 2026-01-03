@@ -3,6 +3,7 @@ import wx.lib.newevent
 from wx.lib.gizmos.ledctrl import LEDNumberCtrl
 
 import os
+import logging
 
 from dispatcher.mainframe import MainFrame, ScreenDiagram, BTNDIM
 from dispatcher.bitmaps import BitMaps
@@ -156,9 +157,6 @@ class CliffFrame(MainFrame):
 
 		self.ToasterSetup()
 
-		# if self.settings.display.showcameras:
-		# 	self.DrawCameras()
-
 		voffset = topSpace + diagramh + 10
 		self.widgetMap = {cliff: [], c13control: []}
 		self.DefineControlDisplay(voffset)
@@ -262,82 +260,53 @@ class CliffFrame(MainFrame):
 			else:
 				self.stC13Control.SetLabel("C13: Automatic")
 
-	def DoCmdSetTrain(self, parms):
-		MainFrame.DoCmdSetTrain(self, parms)
+	def DoCmdTrain(self, parms):
+		MainFrame.DoCmdTrain(self, parms)
 		try:
-			blocks = parms["blocks"]
+			iname = parms[0]["iname"]
+		except KeyError:
+			iname = None
+
+		try:
+			rname = parms[0]["rname"]
+		except KeyError:
+			rname = None
+
+		try:
+			blocks = parms[0]["blocks"]
 		except KeyError:
 			blocks = []
 
-		if len(blocks) == 0:
-			return
-
 		try:
-			name = parms["name"]
-		except KeyError:
-			name = None
-
-		try:
-			east = parms["east"]
+			east = parms[0]["east"]
 		except KeyError:
 			east = None
 
 		try:
-			loco = parms["loco"]
+			loco = parms[0]["loco"]
 		except KeyError:
 			loco = None
 
-		for bn in [b for b in blocks if b in self.nassauTracks.keys()]:
-			self.nassauTracks[bn].SetTrain(name, self.bitmaps.misc.arroweast if east else self.bitmaps.misc.arrowwest)
-			self.nassauTracks[bn].SetLoco(loco)
-			if name is None:
-				self.nassauTracks[bn].SetSignal(self.bitmaps.misc.indicatorr)
+		tr = self.trains[iname]
+		name = tr.Name()
+		delBlocks = tr.GetDelBlocks()
+
+		for nm, trk in self.nassauTracks.items():
+			if nm in blocks:
+				trk.SetTrain(name, self.bitmaps.misc.arroweast if east else self.bitmaps.misc.arrowwest)
+				trk.SetLoco(loco)
+				break
+
+			if nm in delBlocks:
+				trk.SetTrain(None, None)
+				trk.SetLoco(None)
+				break
 
 		self.DrawCustom()
 
-	def DoCmdTrainBlockOrder(self, parms):
-		MainFrame.DoCmdTrainBlockOrder(self, parms)
-		for p in parms:
-			try:
-				trid = p["name"]
-			except KeyError:
-				trid = None
-			try:
-				east = p["east"].startswith("T")
-			except (IndexError, KeyError):
-				east = True
-			try:
-				blocks = p["blocks"]
-			except KeyError:
-				blocks = []
-
-			if trid is None:
-				return
-
-			for bn in [b for b in blocks if b in self.nassauTracks.keys()]:
-				self.nassauTracks[bn].SetTrain(trid, self.bitmaps.misc.arroweast if east else self.bitmaps.misc.arrowwest)
-
-		self.DrawCustom()
-
-	def DoCmdSetRoute(self, parms):
-		MainFrame.DoCmdSetRoute(self, parms)
-		try:
-			bn = parms[0]["block"]
-		except (IndexError, KeyError):
-			bn = None
-		try:
-			ends = parms[0]["ends"]
-		except (IndexError, KeyError):
-			ends = []
-		try:
-			route = parms[0]["route"]
-		except (IndexError, KeyError):
-			route = None
-
-		if bn is None:
-			return
-
+	def DoCmdSet1Route(self, bn, route):
 		if bn not in ["NEOSE", "NEOSW", "NEOSRH"]:
+			MainFrame.DoCmdSet1Route(self, bn, route)
 			return
 
 		if route is None:
@@ -346,62 +315,25 @@ class CliffFrame(MainFrame):
 			elif bn == "NEOSW":
 				self.trackRoutedToBank["B10"] = None
 		else:
+			ends = [route[-6:-3], route[-3:]]
 			if "B10" in ends:
 				self.trackRoutedToBank["B10"] = ends[0] if ends[1] == "B10" else ends[1]
 
 			elif "B20" in ends:
 				self.trackRoutedToBank["B20"] = ends[0] if ends[1] == "B20" else ends[1]
 
-	def DoCmdBlockClear(self, parms):
-		MainFrame.DoCmdBlockClear(self, parms)
-		try:
-			bn = parms[0]["block"]
-		except (IndexError, KeyError):
-			bn = None
-		try:
-			clear = parms[0]["clear"]
-		except (IndexError, KeyError):
-			clear = False
-
-		if bn is None:
-			return
-
-		if bn not in ["B10", "B20"]:
-			return
-
-		try:
-			blk = self.blocks[bn]
-		except KeyError:
-			blk = None
-
-		if blk is None:
-			return
-
-		if clear:
-			blk.SetCleared(cleared=True, refresh=True)
-		else:
-			if not blk.IsOccupied():
-				blk.SetCleared(cleared=False, refresh=True)
-
-	def DoCmdSignal(self, parms):
-		MainFrame.DoCmdSignal(self, parms)
+	def DoCmdShowAspect(self, parms):
+		MainFrame.DoCmdShowAspect(self, parms)
 		changes = False
 		for p in parms:
 			try:
-				sigName = p["name"]
+				sigName = p["signal"]
 			except KeyError:
 				sigName = None
 			try:
 				aspect = p["aspect"]
 			except KeyError:
 				aspect = 0
-			try:
-				frozenaspect = p["frozenaspect"]
-			except KeyError:
-				frozenaspect = None
-
-			if frozenaspect is not None:
-				aspect = frozenaspect
 
 			if sigName is None:
 				continue

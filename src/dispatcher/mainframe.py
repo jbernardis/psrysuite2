@@ -57,7 +57,7 @@ MENU_TRAIN_HILITE  = 918
 (DeliveryEvent, EVT_DELIVERY) = wx.lib.newevent.NewEvent() 
 (DisconnectEvent, EVT_DISCONNECT) = wx.lib.newevent.NewEvent() 
 
-allowedCommands = [ "settrain", "renametrain", "assigntrain", "identify", "refresh", "traintimesrequest", "trainblockorder", "trainsignal", "blockdir", "deletetrain" ]
+allowedCommands = [ "assigntrain", "identify", "refresh", "modifytrain" ]
 disallowedSatelliteCommands = [ "relay" ]
 
 wildcardTrain = "train files (*.trn)|*.trn|"	 \
@@ -141,7 +141,6 @@ class MainFrame(wx.Frame):
 		self.cbSidingsUnlocked = None
 		self.menuTrain = None
 		self.menuTrainID = None
-		self.menuBlock = None
 
 		self.events = None
 		self.advice = None
@@ -968,47 +967,6 @@ class MainFrame(wx.Frame):
 				else:
 					nfltct += 1
 			checkbox.SetValue(nfltct == 0)
-	#
-	# def DrawCameras(self):
-	# 	cams = {LaKr: [
-	# 		[(242, 32), self.bitmaps.cameras.lakr.cam7],
-	# 		[(464, 32), self.bitmaps.cameras.lakr.cam8],
-	# 		[(768, 32), self.bitmaps.cameras.lakr.cam9],
-	# 		[(890, 32), self.bitmaps.cameras.lakr.cam10],
-	# 		[(972, 32), self.bitmaps.cameras.lakr.cam12],
-	# 		[(1186, 32), self.bitmaps.cameras.lakr.cam3],
-	# 		[(1424, 32), self.bitmaps.cameras.lakr.cam4],
-	# 		[(1634, 32), self.bitmaps.cameras.lakr.cam13],
-	# 		[(1884, 32), self.bitmaps.cameras.lakr.cam14],
-	# 		[(2152, 32), self.bitmaps.cameras.lakr.cam15],
-	# 		[(2198, 32), self.bitmaps.cameras.lakr.cam16],
-	# 		[(2362, 32), self.bitmaps.cameras.lakr.cam9],
-	# 		[(2416, 32), self.bitmaps.cameras.lakr.cam10],
-	# 	], HyYdPt: [
-	# 		[(282, 72), self.bitmaps.cameras.hyydpt.cam15],
-	# 		[(838, 72), self.bitmaps.cameras.hyydpt.cam16],
-	# 		[(904, 576), self.bitmaps.cameras.hyydpt.cam1],
-	# 		[(1732, 32), self.bitmaps.cameras.hyydpt.cam1],
-	# 		[(1830, 32), self.bitmaps.cameras.hyydpt.cam2],
-	# 		[(1970, 32), self.bitmaps.cameras.hyydpt.cam3],
-	# 		[(2090, 32), self.bitmaps.cameras.hyydpt.cam4],
-	# 		[(2272, 236), self.bitmaps.cameras.hyydpt.cam5],
-	# 		[(2292, 444), self.bitmaps.cameras.hyydpt.cam6],
-	# 	], NaCl: [
-	# 		[(364, 28), self.bitmaps.cameras.nacl.cam11],
-	# 		[(670, 28), self.bitmaps.cameras.nacl.cam12],
-	# 		[(918, 28), self.bitmaps.cameras.nacl.cam1],
-	# 		[(998, 28), self.bitmaps.cameras.nacl.cam2],
-	# 		[(1074, 28), self.bitmaps.cameras.nacl.cam3],
-	# 		[(1248, 28), self.bitmaps.cameras.nacl.cam4],
-	# 		[(1442, 28), self.bitmaps.cameras.nacl.cam7],
-	# 		[(2492, 502), self.bitmaps.cameras.nacl.cam8],
-	# 	]}
-	#
-	# 	for screen in cams:
-	# 		offset = self.diagrams[screen].offset
-	# 		for pos, bmp in cams[screen]:
-	# 			self.panels[screen].DrawFixedBitmap(pos[0], pos[1], offset, bmp)
 
 	def UpdatePositionDisplay(self, x, y, scr):
 		self.xpos.SetValue("%4d" % x)
@@ -1098,6 +1056,7 @@ class MainFrame(wx.Frame):
 		self.ticker.Start(500)
 		
 		self.splash()
+		#  self.BuildLayoutFile()
 		
 	def splash(self):
 		if self.showSplash:
@@ -1452,14 +1411,6 @@ class MainFrame(wx.Frame):
 		menu = wx.Menu()
 		self.menuTrain = tr
 		self.menuTrainID = trid
-		if blk is None:
-			bn = tr.FrontBlock()
-			blk = self.blocks.get(bn, None)
-			if blk is None:
-				logging.error("Unable to determine front block of train %s" % trid)
-				return
-
-		self.menuBlock = blk
 
 		itm = wx.MenuItem(menu, MENU_TRAIN_EDIT, "Edit train name/loco/engineer")
 		itm.SetFont(self.menuFont)
@@ -1540,7 +1491,7 @@ class MainFrame(wx.Frame):
 		return r['sequence']
 
 	def OnTrainEdit(self, _):
-		self.EditTrain(self.menuTrain, self.menuBlock)
+		self.EditTrain(self.menuTrain, None)
 
 	def OnTrainRoute(self, _):
 		# get the roster for the train itself
@@ -1875,54 +1826,56 @@ class MainFrame(wx.Frame):
 
 	def EditTrain(self, tr, blk):
 		oldName = tr.Name()
-		oldLoco = tr.Loco()
-		oldEngineer = tr.Engineer()
-		oldTemplateTrain = tr.TemplateTrain()
-		oldATC = tr.ATC() if self.IsDispatcher() else False
-		oldAR = tr.AR() if self.IsDispatcher() else False
-		oldEast = tr.IsEast()
+		# oldLoco = tr.Loco()
+		# oldEngineer = tr.Engineer()
+		# oldTemplateTrain = tr.TemplateTrain()
+		# oldEast = tr.IsEast()
 
-		if blk is None:
-			bn = tr.FrontBlock()
-			blk = self.blocks.get(bn, None)
-			if blk is None:
-				logging.error("unable to determine front block of train %s" % tr.IName())
+		# if blk is None:
+		# 	logging.debug("edit train %s with NOne block" % oldName)
+		# 	logging.debug("blocks+ %s" % str(tr.Blocks()))
+		# 	bn = tr.FrontBlock()
+		# 	logging.debug("bn = %s" % bn)
+		# 	logging.debug("%s" % str(list(self.blocks.keys())))
+		# 	blk = self.blocks.get(bn, None)
+		# 	if blk is None:
+		# 		logging.error("unable to determine front block of train %s" % tr.IName())
+		# 		return
+		# 	logging.debug("continuing with block %s" % blk.GetName())
+
+		if blk is not None:
+			blknm = blk.GetName()
+			if blknm in ["R10", "F10"] and oldName.startswith("??"):
+				bl = self.lostTrains.GetBranchLineTrain(blknm, tr.GetEast())
+			else:
+				bl = None
+
+			rc = wx.ID_NO
+			if bl is not None:
+				loc = "Harper's Ferry/James Island" if not bl[3] else "Wilson City"
+				dlg = ConfirmBranchLineTrainDlg(self, bl[0], bl[1], bl[2], loc)
+				dlg.CenterOnScreen()
+				rc = dlg.ShowModal()
+				dlg.Destroy()
+
+			if rc == wx.ID_YES:
+				trainid, locoid, engineer, east, _, templateTrain = bl
+				self.lostTrains.ClearBranchLine(trainid)
 				return
 
-		blknm = blk.GetName()
-		if blknm in ["R10", "F10"] and oldName.startswith("??"):
-			bl = self.lostTrains.GetBranchLineTrain(blknm, tr.GetEast())
-		else:
-			bl = None
+		dlgx = self.centerw - 500 - self.centerOffset
+		dlgy = self.totalh - 660
+		dlg = EditTrainDlg(self, tr, self.locoList, self.trainRoster, self.engineerList, self.trains,
+					self.lostTrains, self.trainHistory, self.rrServer, dlgx, dlgy)
+		rc = dlg.ShowModal()
+		east = tr.IsEast()
+		if rc == wx.ID_OK:
+			trainid, locoid, engineer, east, templateTrain = dlg.GetResults()
 
-		rc = wx.ID_NO
-		if bl is not None:
-			loc = "Harper's Ferry/James Island" if not bl[3] else "Wilson City"
-			dlg = ConfirmBranchLineTrainDlg(self, bl[0], bl[1], bl[2], loc)
-			dlg.CenterOnScreen()
-			rc = dlg.ShowModal()
-			dlg.Destroy()
+		dlg.Destroy()
 
-		if rc == wx.ID_YES:
-			trainid, locoid, engineer, east, _, templateTrain = bl
-			self.lostTrains.ClearBranchLine(trainid)
-			atc = False
-			ar = False
-
-		else:
-			dlgx = self.centerw - 500 - self.centerOffset
-			dlgy = self.totalh - 660
-			dlg = EditTrainDlg(self, tr, blk, self.locoList, self.trainRoster, self.engineerList, self.trains,
-						self.lostTrains, self.trainHistory, self.rrServer, dlgx, dlgy)
-			rc = dlg.ShowModal()
-			east = tr.IsEast()
-			if rc == wx.ID_OK:
-				trainid, locoid, engineer, east, templateTrain = dlg.GetResults()
-
-			dlg.Destroy()
-
-			if rc != wx.ID_OK:
-				return
+		if rc != wx.ID_OK:
+			return
 
 		parms = {"iname": tr.IName(), "name": trainid, "loco": locoid, "template": templateTrain, "east": "1" if east else "0", "engineer": engineer}
 
@@ -2902,10 +2855,13 @@ class MainFrame(wx.Frame):
 				logging.error("setroute command without os parameter")
 				return
 
-			osBlk = self.blocks[osName]
-			rte = None if rtName is None else self.routes[rtName]
+			self.DoCmdSet1Route(osName, rtName)
 
-			osBlk.SetRoute(rte)
+	def DoCmdSet1Route(self, osName, rtName):
+		osBlk = self.blocks[osName]
+		rte = None if rtName is None else self.routes[rtName]
+
+		osBlk.SetRoute(rte)
 
 	# def DoCmdBlockClear(self, parms):
 	# 	pass
@@ -3916,7 +3872,8 @@ class MainFrame(wx.Frame):
 		self.ShowTitle()
 
 	def DoCmdEnd(self, parms):
-		self.BuildLayoutFile()
+		if self.IsDispatcher():
+			self.BuildLayoutFile()
 		self.RefreshComplete()
 
 	def RefreshComplete(self):
@@ -4176,6 +4133,11 @@ class MainFrame(wx.Frame):
 			"crossover": self.GetCrossoverPoints()
 		}
 		self.rrServer.Post("layout.json", "data", data)
+
+		# fn = os.path.join(os.getcwd(), "data", "dlayout.json")
+		# print("writing to %s" % fn, file=sys.stderr)
+		# with open(fn, "w") as jfp:
+		# 	json.dump(data, jfp)
 
 	def GetBlocks(self):
 		blocks = {}
