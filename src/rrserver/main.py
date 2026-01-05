@@ -382,8 +382,7 @@ class ServerMain:
 		
 		self.rr.OutIn()
 		if self.firstInterval:
-			#self.DelayedStartup(None)
-			logging.debug("After first out/in: %s" % self.rr.DumpN20())
+			# self.DelayedStartup(None)
 			self.firstInterval = False
 
 	def DoSigLever(self, cmd):
@@ -454,7 +453,6 @@ class ServerMain:
 			if wantedaspect != 0 and a != 0:
 				return
 
-	
 		self.rr.SignalClick(signame, callon=callon)
 
 	def DoSignalLock(self, cmd):			

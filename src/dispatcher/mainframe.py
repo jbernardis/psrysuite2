@@ -1406,7 +1406,7 @@ class MainFrame(wx.Frame):
 
 		trid = tr.Name()
 		rname = tr.RName()
-		self.menuSequence = self.GetTrainSequence(rname)
+		self.menuSequence = tr.GetSequence()
 
 		menu = wx.Menu()
 		self.menuTrain = tr
@@ -1470,25 +1470,17 @@ class MainFrame(wx.Frame):
 		menu.Destroy()
 
 	def GetTrainRoster(self, rname):
-		if rname is None or rname not in self.trainRoster:
+		if rname is None or (rname not in self.trains and rname not in self.trainNameMap):
 			return None, None
 
-		roster = self.trainRoster[rname]
-		tname = roster.get('template', None)
-		if tname is not None and 'template' in roster and roster['template'] is not None:
-			if tname not in self.trainRoster:
-				logging.error("Template train %s for train %s does not exist" % (tname, rname))
-				return None, None
-			roster = self.trainRoster[tname]
+		tr = self.trains.get(rname, self.trainNameMap.get(rname, None))
+		if tr is None:
+			return None, None
+
+		roster = tr.Roster()
+		tname = tr.TemplateTrain()
 
 		return roster, tname
-
-	def GetTrainSequence(self, rname):
-		r, _ = self.GetTrainRoster(rname)
-		if r is None:
-			return None
-
-		return r['sequence']
 
 	def OnTrainEdit(self, _):
 		self.EditTrain(self.menuTrain, None)
@@ -2553,10 +2545,11 @@ class MainFrame(wx.Frame):
 				logging.error("Unknown command: %s" % cmd)
 
 			else:
-				try:
-					handler(parms)
-				except Exception as e:
-					logging.error("Exception %s handling command %s" % (str(e), cmd))
+				handler(parms)
+				# try:
+				# 	handler(parms)
+				# except Exception as e:
+				# 	logging.error("Exception %s handling command %s" % (str(e), cmd))
 			
 	def DoCmdTurnout(self, parms):
 		for p in parms:
@@ -3588,6 +3581,11 @@ class MainFrame(wx.Frame):
 			rname = None
 
 		try:
+			template = parms[0]["template"]
+		except KeyError:
+			template = None
+
+		try:
 			east = parms[0]["east"]
 		except KeyError:
 			east = True
@@ -3669,11 +3667,26 @@ class MainFrame(wx.Frame):
 		if rname is not None:
 			self.trainNameMap[rname] = tr
 			if rname in self.trainRoster:
+				if template is not None and template != rname:
+					logging.error("Invalid template %s for train %s.  Ignoring" % (template, rname))
+
 				tr.SetRoster(rname, self.trainRoster[rname])
+				tr.SetTemplateTrain(rname)
+
+			elif template is not None:
+				if template in self.trainRoster:
+					tr.SetRoster(rname, self.trainRoster[template])
+					tr.SetTemplateTrain(template)
+				else:
+					logging.error("Unknown template train: %s.  Ignoring." % template)
+					tr.SetRoster(rname, None)
+					tr.SetTemplateTrain(None)
 			else:
 				tr.SetRoster(rname, None)
+				tr.SetTemplateTrain(None)
 		else:
 			tr.SetRoster(rname, None)
+			tr.SetTemplateTrain(None)
 
 		tr.SetStopped(stopped)
 		tr.SetATC(atc)
@@ -4061,12 +4074,12 @@ class MainFrame(wx.Frame):
 		# 	self.activeTrains.UpdateTrain(trnm)
 		#
 		# 	tr.Draw()
+	#
+	# def DoCmdCheckTrains(self, parms):
+	# 	self.CheckTrains()
 					
-	def DoCmdCheckTrains(self, parms):
-		self.CheckTrains()
-					
-	def DoCmdDumpTrains(self, parms):
-		pass
+	# def DoCmdDumpTrains(self, parms):
+	# 	pass
 		# print("===========================dump by trains")
 		# self.activeTrains.dump()
 		# print("===========================dump by block")
@@ -4295,39 +4308,126 @@ class MainFrame(wx.Frame):
 		rc1 = self.CheckTrainsContiguous()
 		rc2 = self.CheckLocosUnique()
 		rc3 = self.CheckBlocksExpected()
-		rc4 = self.CheckCorrectRoute()
-		if rc1 and rc2 and rc3 and rc4:
+		if rc1 and rc2 and rc3:
 			dlg = wx.MessageDialog(self, "All Trains are OK", "All Trains OK", wx.OK | wx.ICON_INFORMATION)
 			dlg.ShowModal()
 			dlg.Destroy()
 		
-	def CheckTrainsContiguous(self, query=False):
-		t = [tr for tr in self.trains.values() if not tr.IsContiguous()]
+	def CheckTrainsContiguous(self):
+		t = [tr for tr in self.trains.values() if not self.IsContiguous(tr)]
 		if len(t) == 0:
 			return True
-		
-		if query:
-			style = wx.YES_NO | wx.NO_DEFAULT | wx.ICON_QUESTION
-		else:
-			style = wx.OK | wx.ICON_WARNING
-		
-		msg = "The following trains are in multiple sections:\n\n" + "\n".join([tr.GetName() for tr in t])
-		if query:
-			msg += "\n\nPress \"YES\" to proceed anyway, or \"NO\" to cancel"
-			
-		dlg = wx.MessageDialog(self, msg, "Non Contiguous Trains", style)
+
+		msg = "The following trains are in multiple sections:\n\n" + "\n".join([tr.Name() for tr in t])
+		dlg = wx.MessageDialog(self, msg, "Non Contiguous Trains", wx.OK | wx.ICON_WARNING)
 		rc = dlg.ShowModal()
 		dlg.Destroy()
-		
-		if query and rc == wx.ID_YES:
-			return True
-		
+
 		return False
-	
+
+	def IsContiguous(self, tr):
+		bnames = list(tr.Blocks())
+		countBlocks = len(bnames)
+		if countBlocks <= 1:
+			# only occupying 1 block - contiguous by default
+			logging.info("is contiguous returning true because countblocks = %d" % countBlocks)
+			return True
+
+		for bx in range(1, len(bnames)):
+			b1 = bnames[bx-1]
+			b2 = bnames[bx]
+
+			if b1.endswith(".E") or b1.endswith(".W"):
+				if b2 == b1[:-2]:
+					continue  # a block is always adjacent to one of its stopping sections
+				else:
+					b1 = b1[:-2]  # strip off the stopping section suffix for next checks
+
+			if b2.endswith(".E") or b2.endswith(".W"):
+				if b1 == b2[:-2]:
+					continue  # a block is always adjacent to one of its stopping sections
+				else:
+					b2 = b2[:-2]  # strip off the stopping section suffix for next checks
+
+			blk = self.blocks.get(b1, None)
+			if blk is None:
+				logging.error("Unknown block name: %s" % b1)
+				return False
+
+			adj1, adj2 = blk.GetAdjacentBlocks()
+			matchb1 = False
+			for ablk in [adj1, adj2]:
+				if ablk is None:
+					# no adjacent block in this direction - assume we're ok
+					matchb1 = True
+				if b2 == ablk.Name():
+					matchb1 = True
+
+			blk = self.blocks.get(b2, None)
+			if blk is None:
+				return False
+
+			adj1, adj2 = blk.GetAdjacentBlocks()
+			matchb2 = False
+			for ablk in [adj1, adj2]:
+				if ablk is None:
+					# no adjacent block in this direction - assume we're ok
+					matchb2 = True
+				if b1 == ablk.Name():
+					matchb2 = True
+
+			if not matchb1 and not matchb2:
+				return False
+
+		return True
+
+		# count1 = 0
+		# count2 = 0
+		# # for each block the train is in, count how many blocks adjacent to that block contain the same train
+		# adjStr = ""
+		# blkAdj = ""
+		# blocks = [self.blocks[bn] for bn in bnames]
+		# for blk in blocks:
+		# 	adje, adjw = blk.GetAdjacentBlocks()
+		# 	adjc = 0
+		# 	blkAdj += "%s: %s,%s  " % (blk.GetName(), "None" if adje is None else adje.GetName(),
+		# 							   "None" if adjw is None else adjw.GetName())
+		# 	for adj in adje, adjw:
+		# 		if adj is None:
+		# 			continue
+		# 		if adj.GetName() in bnames:
+		# 			adjc += 1
+		# 	adjStr += "%s: %s, " % (blk.GetName(), adjc)
+		# 	print(adjStr)
+		#
+		# 	# the count is either 1 (for the blocks at the beginning and the end of the train)
+		# 	# or two for all of the blocks in between
+		# 	if adjc == 1:
+		# 		count1 += 1
+		# 	elif adjc == 2:
+		# 		count2 += 1
+		# 	else:
+		# 		logging.error("block %s in train %s adjacent count = %d" % (blk.GetName(), self.GetName(), adjc))
+		#
+		# # so when we reach here, there MUST be 2 blocks whose adjacent count is 1 - the first and last blocks
+		# # there must also be countBlocks-2 blocks whose count is 2 - this is all the blocks mid train
+		# print("after block loop, counts = %d, %d" % (count1, count2))
+		# if count1 != 2 or count2 != countBlocks - 2:
+		# 	logging.info("=============================================")
+		# 	logging.info(
+		# 		"train %s is non contiguous, blocks=%s c1=%d c2=%d countblocks=%d" % (self.GetName(), str(bnames),
+		# 																			  count1, count2, countBlocks))
+		# 	logging.info(adjStr)
+		# 	logging.info(blkAdj)
+		# 	logging.info("=============================================")
+		# 	return False
+		#
+		# return True
+
 	def CheckLocosUnique(self, query=False):
 		locoMap = {}
 		for trid, tr in self.trains.items():
-			loco = tr.GetLoco()
+			loco = tr.Loco()
 			if loco != "??":
 				if loco in locoMap:
 					locoMap[loco].append(trid)
@@ -4362,26 +4462,31 @@ class MainFrame(wx.Frame):
 
 	def CheckBlocksExpected(self):
 		results = {}
-		for trid, tr in self.trains.items():
-			if trid in self.trainList:
-				try:
-					seq = self.trainList[trid]["sequence"]
-					sb =  self.trainList[trid]["startblock"]
-				except (IndexError, KeyError):
-					try:
-						rtnm = tr.GetChosenRoute()
-						seq = self.trainList[rtnm]["sequence"]
-						sb = self.trainList[rtnm]["startblock"]
-					except (IndexError, KeyError):
-						seq = None
-						sb = None
+		for tr in self.trains.values():
+			trid = tr.Name()
+			roster = tr.Roster()
+			if roster is None:
+				results[trid] = "Train not defined"
+			else:
+				seq = roster.get("sequence", None)
+				sb = roster.get("startblock", None)
 
 				if seq is not None:
 					expectedlist = [sb] + [s["block"] for s in seq] + [formatRouteDesignator(s["route"]) for s in seq] + ValidBlocks
-					trList = [blk.GetRouteDesignator() for blk in tr.GetBlockList().values()]
-					unexpected = [bn for bn in trList if bn not in expectedlist]
+					trList = tr.Blocks()
+					ul = [bn for bn in trList if bn not in expectedlist]
+					unexpected = []
+					for bn in ul:
+						if bn.endswith(".W") or bn.endswith(".E"):
+							blknm = bn[:-2]
+							if blknm not in expectedlist:
+								unexpected.append(bn)
+						else:
+							unexpected.append(bn)
 					if len(unexpected) != 0:
-						results[trid] = [b for b in unexpected]
+						results[trid] = "unexpected blocks: " + ", ".join(unexpected)
+				else:
+					results[trid] = "No sequence defined"
 
 		n = len(results)
 		if n == 0:
@@ -4392,48 +4497,43 @@ class MainFrame(wx.Frame):
 		else:
 			plural = "s are"
 
-		resList = ["%s: %s" % (trid, ", ".join(results[trid])) for trid in results.keys()]
-		msg = ("The following train%s unexpectedly in the indicated block(s):\n\n" % plural) + "\n".join(resList)
+		resList = ["%s: %s" % (trid, results[trid]) for trid in results.keys()]
+		msg = ("Train%s in unexpected blocks(s):\n\n" % plural) + "\n".join(resList)
 
 		dlg = wx.MessageDialog(self, msg, "Trains in unexpected blocks", style=wx.OK | wx.ICON_WARNING)
 		rc = dlg.ShowModal()
 		dlg.Destroy()
 
 		return False
-
-	def CheckCorrectRoute(self):
-		results = {}
-		for trid, tr in self.trains.items():
-			if trid not in self.trainList:
-				continue
-
-			sig, _, _ = tr.GetSignal()
-			if sig is None:
-				continue
-
-			incRt, corRt = self.CheckForIncorrectRoute(tr, sig, ignoreunchangedsignal=True, silent=True)
-			if incRt is not None:
-				results[trid] = [incRt, corRt]
-
-				tr.SetMisrouted(incRt is not None)
-
-		n = len(results)
-		if n == 0:
-			return True
-
-		if n == 1:
-			plural = " is"
-		else:
-			plural = "s are"
-
-		resList = ["%s: %s should be %s" % (tr, results[tr][0], results[tr][1]) for tr in results]
-		msg = ("The following train%s routed incorrectly:\n\n" % plural) + "\n".join(resList)
-
-		dlg = wx.MessageDialog(self, msg, "Trains incorrecrtly routed", style=wx.OK | wx.ICON_WARNING)
-		rc = dlg.ShowModal()
-		dlg.Destroy()
-
-		return False
+	#
+	# def CheckCorrectRoute(self):
+	# 	results = {}
+	# 	for trid, tr in self.trains.items():
+	# 		sig, _, _ = tr.GetSignal()
+	# 		if sig is None:
+	# 			continue
+	#
+	# 		incRt, corRt = self.CheckForIncorrectRoute(tr, sig, ignoreunchangedsignal=True, silent=True)
+	# 		if incRt is not None:
+	# 			results[trid] = [incRt, corRt]
+	#
+	# 	n = len(results)
+	# 	if n == 0:
+	# 		return True
+	#
+	# 	if n == 1:
+	# 		plural = " is"
+	# 	else:
+	# 		plural = "s are"
+	#
+	# 	resList = ["%s: %s should be %s" % (tr, results[tr][0], results[tr][1]) for tr in results]
+	# 	msg = ("The following train%s routed incorrectly:\n\n" % plural) + "\n".join(resList)
+	#
+	# 	dlg = wx.MessageDialog(self, msg, "Trains incorrecrtly routed", style=wx.OK | wx.ICON_WARNING)
+	# 	rc = dlg.ShowModal()
+	# 	dlg.Destroy()
+	#
+	# 	return False
 	#
 	# def SaveLocos(self):
 	# 	if not self.CheckLocosUnique(True):

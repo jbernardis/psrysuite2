@@ -332,10 +332,13 @@ class Block:
 		return self.type
 
 	def GetName(self):
+		return self.Name()
+
+	def Name(self):
 		return self.name
 
 	def GetRouteDesignator(self):
-		return self.name
+		return self.Name()
 	
 	def GetAdjacentBlocks(self):
 		return self.blkEast, self.blkWest

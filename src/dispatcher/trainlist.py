@@ -1,14 +1,15 @@
 import wx
 import logging
+import time
 
-from dispatcher.constants import aspectname, aspecttype
+from dispatcher.constants import aspectname, aspecttype, aspectprofileindex, profileindex
 
 YardBlocks = [
 	"C21", "C31", "C40", "C41", "C42", "C43", "C44", "C50", "C51", "C52", "C53", "C54",
 	"H12", "H22", "H30", "H31", "H32", "H33", "H34", "H40", "H41", "H42", "H43",
 	"N32", "N42",
 	"P1", "P2", "P3", "P4", "P5", "P6", "P7",
-	"Y50", "Y51", "Y52", "Y53", "Y81", "Y82", "Y83", "Y84" ]
+	"Y50", "Y51", "Y52", "Y53", "Y81", "Y82", "Y83", "Y84"]
 
 LadderBlocks = [
 	"COSSHE", "COSSHW",
@@ -17,8 +18,6 @@ LadderBlocks = [
 	"YOSKL1", "YOSKL2", "YOSKL3", "YOSKL4",
 	"POSSP1", "POSSP2", "POSSP3", "POSSP4", "POSSP5"
 ]
-
-profileIndex = ["stop", "slow", "medium", "fast"]
 
 
 # class ActiveTrainList:
@@ -148,7 +147,7 @@ profileIndex = ["stop", "slow", "medium", "fast"]
 
 class ActiveTrainsDlg(wx.Dialog):
 	def __init__(self, parent, trains):
-		wx.Dialog.__init__(self, parent, wx.ID_ANY, "Active Trains", size=(1500, 1000), style=wx.RESIZE_BORDER|wx.CAPTION|wx.CLOSE_BOX|wx.STAY_ON_TOP)
+		wx.Dialog.__init__(self, parent, wx.ID_ANY, "Active Trains", size=(1500, 1000), style=wx.RESIZE_BORDER | wx.CAPTION | wx.CLOSE_BOX | wx.STAY_ON_TOP)
 		self.parent = parent
 		self.trains = trains
 		self.signals = None
@@ -156,18 +155,20 @@ class ActiveTrainsDlg(wx.Dialog):
 		self.roster = None
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
 		self.Bind(wx.EVT_SIZE, self.OnResize)
-		self.Bind(wx.EVT_IDLE,self.OnIdle)
+		self.Bind(wx.EVT_IDLE, self.OnIdle)
 
 		self.settings = parent.settings
-		self.suppressYards =   self.settings.activetrains.suppressyards
+		self.suppressYards = self.settings.activetrains.suppressyards
 		self.suppressUnknown = self.settings.activetrains.suppressunknown
-		self.suppressNonAssigned =  self.settings.activetrains.onlyassigned
+		self.suppressNonAssigned = self.settings.activetrains.onlyassigned
 		self.suppressNonAssignedAndKnown = self.settings.activetrains.onlyassignedorunknown
 
 		self.dccSnifferEnabled = self.settings.dccsniffer.enable
 		
 		self.resized = False
 		self.shiftKey = False
+
+		self.tickCount = 0
 
 		vsz = wx.BoxSizer(wx.VERTICAL)	   
 		vsz.AddSpacer(10)
@@ -253,7 +254,10 @@ class ActiveTrainsDlg(wx.Dialog):
 		return self.trCtl.GetTrainListControl()
 
 	def ticker(self):
-		pass
+		self.tickCount += 1
+		if self.tickCount >= 60:
+			self.tickCount = 0
+			self.trCtl.UpdateTimers()
 
 	def GetSignalAspect(self, sn):
 		sig = self.signals.get(sn, None)
@@ -349,10 +353,10 @@ class ActiveTrainsDlg(wx.Dialog):
 	def RemoveAllTrains(self):
 		self.trCtl.RemoveAllTrains()
 		
-	def OnResize(self, evt):
+	def OnResize(self, _):
 		self.resized = True
 		
-	def OnIdle(self, evt):
+	def OnIdle(self, _):
 		if not self.resized:
 			return 
 		
@@ -372,6 +376,7 @@ class TrainListCtrl(wx.ListCtrl):
 		self.order = []
 		self.filtered = []
 		self.dccsnifferenabled = dccsnifferenabled
+		self.lastTick = int(time.time())
 		
 		self.suppressYards = True
 		self.suppressUnknown = False
@@ -408,6 +413,10 @@ class TrainListCtrl(wx.ListCtrl):
 	def ChangeSize(self, sz):
 		self.SetSize(sz[0]-56, sz[1]-84)
 		self.SetColumnWidth(7, sz[0]-876-56)
+
+	def UpdateTimers(self):
+		self.lastTick = int(time.time())
+		self.RefreshAll()
 
 	def SetRoster(self, roster):
 		self.roster = roster
@@ -448,7 +457,7 @@ class TrainListCtrl(wx.ListCtrl):
 		self.order[tx] = newName
 		
 		self.trains[newName] = self.trains[oldName]
-		del(self.trains[oldName])
+		del self.trains[oldName]
 		
 		self.filterTrains()	
 		self.SetItemCount(len(self.filtered))	
@@ -481,8 +490,8 @@ class TrainListCtrl(wx.ListCtrl):
 		except ValueError:
 			logging.warning("Attempt to delete a non-existent train: %s" % trid)
 			return 
-		del(self.order[tx])
-		del(self.trains[trid])
+		del self.order[tx]
+		del self.trains[trid]
 
 		self.filterTrains()	
 		self.SetItemCount(len(self.filtered))	
@@ -567,7 +576,7 @@ class TrainListCtrl(wx.ListCtrl):
 		nm = tr.Name()
 		if self.suppressYards:
 			blkNms = tr.Blocks()
-			allYard = True # assume all blocks are yard tracks
+			allYard = True  # assume all blocks are yard tracks
 			for bn in blkNms:
 				if bn not in YardBlocks:
 					allYard = False
@@ -590,7 +599,7 @@ class TrainListCtrl(wx.ListCtrl):
 	def GetActiveTrain(self, index):
 		try:
 			trid = self.filtered[index]
-		except:
+		except IndexError:
 			return None
 		
 		return self.trains[trid]
@@ -600,7 +609,12 @@ class TrainListCtrl(wx.ListCtrl):
 		tr = self.trains[trid]
 		
 		if col == 0:
-			return tr.Name()
+			name = tr.Name()
+			template = tr.TemplateTrain()
+			if template is None or template == name:
+				return name
+			else:
+				return "%s(%s)" % (name, template)
 		
 		elif col == 1:
 			return "E" if tr.IsEast() else "W"
@@ -633,29 +647,24 @@ class TrainListCtrl(wx.ListCtrl):
 				return "%s : %s%s (%s)" % (sn, "*" if pastSignal else "", an, atn)
 
 		elif col == 6:
-			return "Thr"
-
-		elif col == 88:
-			throttle = tr.GetThrottle()
+			throttle = tr.Throttle()
 			if throttle is None:
 				throttle = ""
 				
 			if throttle == "":
 				throttle = "<>"
-			
-			sig, asp, fasp = tr.GetSignal()
-			aspect = fasp if fasp is not None else asp
-			if sig is None or aspect is None:
-				throttlelimit = 0
-			else:
-				throttlelimit = sig.GetAspectProfileIndex(aspect)
-			loco = tr.GetLoco()
+
+			aspect, aspectType, pastSignal = tr.Aspect()
+			px = aspectprofileindex(aspect, aspectType)
+			loco = tr.Loco()
+			logging.debug("loco for train %s is %s" % (tr.Name(), str(loco)))
 			locoinfo = self.parent.GetLocoInfo(loco)
 			if locoinfo is None:
-				limit = 0
+				return ""
 			else:
+				logging.debug("locoinfo returned = %s" % str(locoinfo))
 				try:
-					limit = locoinfo["prof"][profileIndex[throttlelimit]]
+					limit = locoinfo["prof"][profileindex[px]]
 				except (IndexError, KeyError):
 					limit = 0
 
@@ -666,16 +675,13 @@ class TrainListCtrl(wx.ListCtrl):
 			return bl
 		
 		elif col == 8:
-			return "time"
-
-		elif col == 1010:
-			t = tr.GetTime()
+			t = tr.AssignTime()
 			if t is None:
 				return ""
 			
-			mins = int(t / 60)
-			secs = t % 60
-			return "%2d:%02d" % (mins, secs)
+			elapsed = self.lastTick - t
+			mins = int(elapsed / 60)
+			return "%3d" % mins
 
 		return ""
 

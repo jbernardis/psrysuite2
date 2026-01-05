@@ -46,6 +46,20 @@ class Train:
 	def Roster(self):
 		return self.roster
 
+	def WantedRoute(self, osname):
+		if self.roster is None:
+			return None
+
+		seq = self.roster.get("sequence", None)
+		if seq is None or len(seq) == 0:
+			return None
+
+		for step in seq:
+			if osname == step["os"]:
+				return step["route"]
+
+		return None
+
 	def SetName(self, name, roster=None):
 		self.roster = roster
 		self.rname = name
@@ -146,11 +160,13 @@ class Train:
 		Train.tx += 1
 		return rv
 
+
 	def GetEventMessage(self):
 		parms = {
 			"iname": self.iname,
 			"rname": self.rname,
 			"east": self.east,
+			"template": self.templateTrain,
 			"loco": self.loco,
 			"engineer": self.engineer,
 			"blocks": [b.Name() for b in self.blocks],
@@ -160,5 +176,6 @@ class Train:
 			"aspecttype": self.aspectType,
 			"pastsignal": self.pastSignal
 		}
+
 		return {"train": [parms]}
 

@@ -1,5 +1,5 @@
 import logging
-import copy
+import time
 
 ST_FWD    = "f"
 ST_FWD128 = "F"
@@ -11,39 +11,20 @@ ST_ESTOP  = "e"
 from dispatcher.constants import REAR
 
 
-# def formatThrottle(speed, speedType):
-# 	speedStr = "%3d" % int(speed)
-#
-# 	if speedType == ST_FWD128:
-# 		return speedStr
-# 	elif speedType == ST_FWD:
-# 		return "%s/28" % speedStr
-# 	elif speedType == ST_REV128:
-# 		return "(%s)" % speedStr
-# 	elif speedType == ST_REV:
-# 		return "(%s/28)" % speedStr
-# 	else:
-# 		return speedStr
-#
-#
-# def CopyTrainReferences(tl):
-# 	copylist = []
-# 	for trid, trinfo in tl.items():
-# 		try:
-# 			route = trinfo["route"]
-# 		except KeyError:
-# 			route = None
-#
-# 		if route is not None:
-# 			if route not in tl:
-# 				logging.debug("removing train %s as the base route for train %s" % (route, trid))
-# 				tl[trid]["route"] = None
-# 			else:
-# 				copylist.append([trid, route])
-#
-# 	for trid, route in copylist:
-# 		tl[trid] = copy.deepcopy(tl[route])
-# 		tl[trid]["route"] = route
+def formatThrottle(speed, speedType):
+	speedStr = "%3d" % int(speed)
+
+	if speedType == ST_FWD128:
+		return speedStr
+	elif speedType == ST_FWD:
+		return "%s/28" % speedStr
+	elif speedType == ST_REV128:
+		return "(%s)" % speedStr
+	elif speedType == ST_REV:
+		return "(%s/28)" % speedStr
+	else:
+		return speedStr
+
 
 class Train:
 	def __init__(self, iname, rname, east, loco, engineer, short=False):
@@ -53,6 +34,7 @@ class Train:
 		self.loco = loco
 		self.short = False
 		self.engineer = engineer
+		self.assignTime = None if engineer is None else int(time.time())
 		self.roster = None
 		self.stopped = False
 		self.aspect = None
@@ -64,6 +46,7 @@ class Train:
 		self.templateTrain = None
 		self.pinpoint = False
 		self.misrouted = False
+		self.throttle = ""
 
 		self.blocks = []
 		self.dblocks = []  # blocks deleted from most recent update
@@ -113,7 +96,14 @@ class Train:
 		self.short = short
 
 	def SetEngineer(self, engineer):
+		if engineer == self.engineer:
+			return
+
 		self.engineer = engineer
+		self.assignTime = None if engineer is None else int(time.time())
+
+	def AssignTime(self):
+		return self.assignTime
 
 	def Engineer(self):
 		return self.engineer
@@ -127,6 +117,15 @@ class Train:
 	def SetRoster(self, rname, roster):
 		self.rname = rname
 		self.roster = roster
+
+	def Roster(self):
+		return self.roster
+
+	def GetSequence(self):
+		if self.roster is None:
+			return None
+
+		return self.roster.get("sequence", None)
 
 	def SetTemplateTrain(self, tn):
 		self.templateTrain = tn
@@ -155,6 +154,7 @@ class Train:
 	def SetAspect(self, aspect, aspecttype, pastSignal=None):
 		self.aspect = aspect
 		self.aspectType = aspecttype
+		logging.debug("set aspect for train %s to %s %s %s" % (self.Name(), aspect, aspecttype, pastSignal))
 		if pastSignal is not None:
 			self.pastSignal = pastSignal
 
@@ -184,6 +184,12 @@ class Train:
 
 	def BlockCount(self):
 		return len(self.blocks)
+
+	def SetThrottle(self, speed, speedtype):
+		self.throttle = formatThrottle(speed, speedtype)
+
+	def Throttle(self):
+		return self.throttle
 
 	def SetPinpoint(self, flag=True):
 		if self.pinpoint == flag:

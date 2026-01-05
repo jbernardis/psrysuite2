@@ -19,8 +19,6 @@ class EditTrainDlg(wx.Dialog):
 		self.activeTrains = activeTrains
 		self.activeTrainNameMap = {at.Name(): at.IName() for at in self.activeTrains.values()}
 
-		logging.debug("enter edit train, active train keys = %s" % str(self.activeTrainNameMap))
-
 		vsz = wx.BoxSizer(wx.VERTICAL)
 		vsz.AddSpacer(20)
 
@@ -410,7 +408,7 @@ class EditTrainDlg(wx.Dialog):
 			self.cbAssignRoute.Enable(True)
 			self.cbRoute.Enable(self.cbAssignRoute.IsChecked())
 			if self.templateTrain is not None:
-				rtr = self.trains[self.templateTrain]
+				rtr = self.trainRoster[self.templateTrain]
 				self.ShowRouteDetails(rtr["tracker"])
 				details = "Eastbound" if self.startingEast else "Westbound"
 				if rtr["cutoff"]:
@@ -433,7 +431,6 @@ class EditTrainDlg(wx.Dialog):
 		self.EndModal(wx.ID_CANCEL)
 
 	def onOK(self, _):
-		logging.debug("on ok, name = %s, chosenTrain = %s, in activeTrains = %s" % (self.name, self.chosenTrain, self.chosenTrain in self.activeTrainNameMap))
 		if self.chosenTrain != self.name and self.chosenTrain in self.activeTrainNameMap:
 			iname = self.activeTrainNameMap[self.chosenTrain]
 			blist = self.activeTrains[iname].Blocks()
@@ -484,7 +481,6 @@ class EditTrainDlg(wx.Dialog):
 		# 			if rc != wx.ID_YES:
 		# 				return
 
-
 	def GetResults(self):
 		t = self.chosenTrain
 		l = self.chosenLoco
@@ -530,8 +526,6 @@ class SortTrainBlocksDlg(wx.Dialog):
 			else:
 				self.blocks.append(bdesig)
 				self.dmap[bdesig] = bn
-
-		self.parent.PopupAdvice("dmap = %s" % str(self.dmap))
 
 		self.lbBlocks = wx.ListBox(self, wx.ID_ANY, choices=self.blocks, size=(160, 200))
 		self.lbBlocks.SetFont(textFont)

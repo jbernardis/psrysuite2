@@ -249,6 +249,9 @@ def aspectprofileindex(aspect, atype):
 		return 0  # Stop
 
 
+profileindex = ["stop", "slow", "medium", "fast"]
+
+
 def restrictedaspect(atype):
 	return 0b10 if atype == SloAspects else 0b100
 

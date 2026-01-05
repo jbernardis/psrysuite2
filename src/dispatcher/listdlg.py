@@ -4,7 +4,7 @@ import os
 
 class ListDlg(wx.Dialog):
     def __init__(self, parent, title, dataList, dlgexit, dataclear):
-        wx.Dialog.__init__(self, parent, style=wx.DEFAULT_FRAME_STYLE)
+        wx.Dialog.__init__(self, parent, style=wx.CAPTION | wx.CLOSE_BOX | wx.STAY_ON_TOP)
         
         self.parent = parent
         self.dlgexit = dlgexit

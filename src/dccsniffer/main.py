@@ -6,10 +6,10 @@ if cmdFolder not in sys.path:
 import time
 import queue
 
-# ofp = open(os.path.join(os.getcwd(), "output", "dccsniffer.out"), "w")
-# efp = open(os.path.join(os.getcwd(), "output", "dccsniffer.err"), "w")
-# sys.stdout = ofp
-# sys.stderr = efp
+ofp = open(os.path.join(os.getcwd(), "output", "dccsniffer.out"), "w")
+efp = open(os.path.join(os.getcwd(), "output", "dccsniffer.err"), "w")
+sys.stdout = ofp
+sys.stderr = efp
 
 import json
 import logging

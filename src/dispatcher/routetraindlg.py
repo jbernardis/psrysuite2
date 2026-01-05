@@ -20,6 +20,7 @@ class RouteTrainDlg(wx.Dialog):
 		self.parent = parent
 		self.train = train
 		self.template = template
+		self.templateTrain = train.TemplateTrain()
 		# loco = train.Loco()
 		self.trainName = train.Name()
 		self.trinfo = trinfo
@@ -54,7 +55,7 @@ class RouteTrainDlg(wx.Dialog):
 		hsz.Add(st, 0, wx.ALIGN_CENTER_VERTICAL)
 		hsz.AddSpacer(10)
 		trstr = self.trainName
-		if self.template is not None:
+		if self.template is not None and self.trainName != self.templateTrain:
 			trstr += " (%s)" % str(self.template)
 		st = wx.StaticText(self, wx.ID_ANY, trstr)
 		st.SetFont(self.fontTrainID)

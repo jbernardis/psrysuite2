@@ -239,9 +239,6 @@ class Railroad:
 				else:
 					self.block2SigMap[bn] = [sn]
 
-		for bn, sigs in self.block2SigMap.items():
-			logging.debug("%s => %s" % (bn, str(sigs)))
-
 		self.osProxies = {}
 		for distr, dpl in self.loOSProxies.items():
 			for osNm in dpl:
@@ -561,8 +558,6 @@ class Railroad:
 		self.SetIndicator("HydeWestPower", True)
 		self.SetIndicator("H30Power", True)
 
-	def DumpN20(self):
-		return self.blocks["N20"].GetStatus()
 	#
 	# def OccupyBlock(self, blknm, state):
 	# 	'''
@@ -783,12 +778,28 @@ class Railroad:
 		district.EvaluateDistrictLocks(sig, None)
 		self.EvaluatePreviousSignals(sig)
 
+		msgs = self.UpdateTrainFromSignal(sig, signm, osb, osName)
+		for m in msgs:
+			self.RailroadEvent(m)
+
+	def UpdateTrainFromSignal(self, sig, signm, osb, osName):
 		# find the train that this signal controls and update it with the new aspect
 		tr = sig.Train()
-		if tr is not None:
-			tr.SetAspect(sig.Aspect(), sig.AspectType())
-			self.RailroadEvent((tr.GetEventMessage()))
+		if tr is None:
+			return []
 
+		aspect = sig.Aspect()
+		tr.SetAspect(aspect, sig.AspectType())
+		self.RailroadEvent((tr.GetEventMessage()))
+		#  Now advise the user that the train is misrouted if necessary
+		if aspect != 0 and self.settings.dispatcher.notifyincorrectroute:
+			wantedRoute = tr.WantedRoute(osName)
+			activeRoute = osb.ActiveRouteName()
+			if wantedRoute is not None and wantedRoute != activeRoute:
+				self.Advice("Train %s: incorrect route beyond signal %s: %s" % (tr.Name(), signm, activeRoute))
+				self.Advice("The correct route is %s" % wantedRoute)
+
+		msgs = []
 		# check if this signal triggers or clears a stopping relay
 		if signm not in self.sigToSbMap:
 			logging.info("Signal does not control stopping block")
@@ -801,13 +812,13 @@ class Railroad:
 			if sb.IsOccupied() and aspect == 0:
 				if tr is not None:
 					tr.SetStopped(True)
-					self.RailroadEvent((tr.GetEventMessage()))
+					msgs.append(tr.GetEventMessage())
 				self.SetRelay(relayName, 1)
 			else:
 				self.SetRelay(relayName, 0)
 				if tr is not None:
 					tr.SetStopped(False)
-					self.RailroadEvent((tr.GetEventMessage()))
+					msgs.append(tr.GetEventMessage())
 
 		# see if this signal triggers any block signals
 		if signm in ["K2R", "K4R", "K8R", "N14LA", "N14LB", "N14LC", "N14LD", "N16L", "N18LA", "N18LB", "N20L"]:
@@ -815,6 +826,8 @@ class Railroad:
 			self.CheckBlockSignals("N21", "N21W", False)
 		elif signm in ["C18R", "C22R", "C24R", "C22L", "C24L"]:
 			self.CheckBlockSignalsAdv("B20", "B21", "B20E", True)
+
+		return msgs
 
 	def DetermineSignalOS(self, signm):
 		osList = (self.sigToOSMap[signm])
@@ -1014,6 +1027,7 @@ class Railroad:
 		sig.SetFleet(flag)
 
 	def SetOSRoute(self, blknm, rtname, ends, signals):
+		self.Alert("set os %s to route %s, ends = %s" % (blknm, rtname, str(ends)))
 		self.osRoutes[blknm] = [rtname, ends, signals]
 
 	def GetOSRoutes(self):
@@ -1800,7 +1814,6 @@ class Railroad:
 
 		dname = district.Name()
 		if dname in self.loOSProxies and objName in self.loOSProxies[dname]:
-			logging.debug("Block %s is a proxy" % objName)
 			if self.settings.debug.blockoccupancy:
 				self.Alert("Block %s is a proxy" % objName)
 			b = self.CheckOSProxies(dname, objName, newval!=0)
@@ -1936,8 +1949,6 @@ class Railroad:
 			if ar is None:
 				logging.debug("OS %s has no active route" % nb.Name())
 				return None
-
-			ar.Dump()
 
 			if tr.East() == ar.East():
 				sigNm = ar.EntrySignal()
@@ -2633,6 +2644,8 @@ class Railroad:
 
 			lever.district.EvaluateDistrictLocks(sig, None)
 			self.EvaluatePreviousSignals(sig)
+			self.Alert("check train for signal %s os %s" % (sigMatch, osName))
+			msgs.extend(self.UpdateTrainFromSignal(sig, sigMatch, osblk, osName))
 			return aspect, msgs
 
 	def CalculateAspect(self, sig, osName, moving, callon, locale, silent=False):

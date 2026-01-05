@@ -4,17 +4,12 @@ verify need/use of all settings variables - I think some can be removed
 
             [dispatcher]
             notifyinvalidblocks = True
-            notifyincorrectroute = True
 
             [display]
             showunknownhistory = True
 
 
-
-
 use zeroconf to find server instead of settings file
-
-
 
 Generation of report for locomotive cards, engineer cards. - basic logic set, need to refine for chosen card format
 
@@ -30,7 +25,7 @@ Block P50 directionality and train movement is not working - I think it works wi
 
 add locales to event/advice messages - all, None, locale only
 
-active trains - still need throttle, time (time assigned????? - 60 second granularity)
+Need to test dcc sniffer logic
 
 
 
@@ -57,6 +52,3 @@ Rip out ALL dead code
 
 
 Try on the actual railroad
-
-Other tools:
-    DCC Sniffer and the handling of throttle information
