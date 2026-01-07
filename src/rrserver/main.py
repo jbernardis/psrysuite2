@@ -144,7 +144,7 @@ class ServerMain:
 			self.queueCmd({"cmd": ["failedstart"]})
 
 	def DelayedStartup(self, _):
-		logging.debug("RRServer exeutable = \"%s\"" % sys.executable)
+		logging.debug("Starting delayed startup")
 		if not settings.rrserver.simulation:
 			self.rrBus = Bus(settings.rrserver.rrtty)
 			self.rr.setBus(self.rrBus)
@@ -155,8 +155,6 @@ class ServerMain:
 				logging.info("started DCC sniffer process as PID %d" % pid)
 			else:
 				logging.info("start DCC sniffer process skipped")
-
-		self.rr.DelayedStartup()
 
 	def StartDCCServer(self):
 		self.DCCServer = DCCHTTPServer(settings.ipaddr, settings.dccserverport, settings.rrserver.dcctty)
@@ -382,7 +380,8 @@ class ServerMain:
 		
 		self.rr.OutIn()
 		if self.firstInterval:
-			# self.DelayedStartup(None)
+			logging.debug("After first interval out/in")
+			self.rr.DelayedStartup()
 			self.firstInterval = False
 
 	def DoSigLever(self, cmd):
@@ -1440,6 +1439,7 @@ class ServerMain:
 				self.delay -= 1
 				if self.delay <= 0:
 					self.delay = None
+					logging.debug("posting delayed startup command<=====================================")
 					self.cmdQ.put({"cmd": ["delayedstartup"]})
 					
 	def ServeForever(self):

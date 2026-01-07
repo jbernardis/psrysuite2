@@ -477,9 +477,9 @@ class Block:
 
 	def SetCleared(self, flag=True, refresh=True):
 		self.cleared = flag
-		if self.sbEast:
+		if self.sbEast and flag:
 			self.sbEast.SetCleared(flag)
-		if self.sbWest:
+		if self.sbWest and flag:
 			self.sbWest.SetCleared(flag)
 		if refresh:
 			self.Draw()
@@ -853,7 +853,6 @@ class StoppingBlock:
 	def Draw(self):
 		self.east = self.block.east
 		stat = "C" if self.cleared else self.status
-		# self.frame.Request({"blockdir": { "block": self.GetName(), "dir": "E" if self.east else "W"}})
 		for t, screen, pos, revflag in self.tiles:
 			bmp = t.getBmp(stat, self.east, revflag)
 			self.frame.DrawTile(screen, pos, bmp)

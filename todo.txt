@@ -27,7 +27,9 @@ add locales to event/advice messages - all, None, locale only
 
 Need to test dcc sniffer logic
 
+seems as if the wrong signal is being assigned to a train if the train is unable to get the signal it really needs westbound into L11, signal L6L is identified if a train is prezsently using that route.  Signal should be L8L
 
+print schedule - train sequence along with origin tower, terminal tower, direction of travel, space for loco, engineer and notes
 
 
 

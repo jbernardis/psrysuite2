@@ -345,7 +345,7 @@ class Railroad:
 
 		self.RecordBreakerTrip(None)  # create a new empty breaker trip report file
 
-		# self.AuditRoutes()
+	# self.AuditRoutes()
 
 	# def AuditRoutes(self):
 	# 	for osblknm, osblk in self.osblocks.items():
@@ -2544,7 +2544,7 @@ class Railroad:
 		objName = obj.Name()
 		locale = obj.District().Locale()
 		bt = obj.Bits()
-		currentBits = self.lastValues.get(objName, [0, 0])
+		clBit, crBit = self.lastValues.get(objName, [0, 0])
 		if len(bt) > 0:
 			rbit, cbit, lbit = node.GetInputBits(bt)
 			if obj.SetLeverState(rbit, cbit, lbit):
@@ -2552,39 +2552,84 @@ class Railroad:
 				aspectR = 0
 
 				# possible values here: rbit is 1, lbit is one, or neither is 1.  Both being 1 is impossible
-				if lbit != 0:
-					left = 1
-					right = 0
-				elif rbit != 0:
-					left = 0
-					right = 1
+				# determine what is transitioning
+				# possibilities here:
+				#   left transitions from 0 to 1 and right is 0 and remains at zero
+				#   left transitions from 0 1o 1 and right transitions from 1 to 0
+				#   right transitions from 0 to 1 and left is 0 and remains at zero
+				#   right transitions from 0 to 1 and left transitions from 1 to 0
+				#   left transitions to 0
+				#   right transitions to 0
+				# all other combinations are impossible
+
+				transitionL0 = False
+				transitionL1 = False
+				transitionR0 = False
+				transitionR1 = False
+				if lbit == 1 and clBit == 0 and rbit == 0 and crBit == 0:
+					transitionL1 = True
+
+				elif lbit == 1 and clBit == 0 and rbit == 0 and crBit == 1:
+					transitionL1 = True
+					transitionR0 = True
+
+				elif lbit == 0 and clBit == 0 and rbit == 1 and crBit == 0:
+					transitionR1 = True
+
+				elif lbit == 0 and clBit == 1 and rbit == 1 and crBit == 0:
+					transitionL0 = True
+					transitionR1 = True
+
+				elif lbit == 0 and clBit == 1:
+					transitionL0 = True
+
+				elif rbit == 0 and crBit == 1:
+					transitionR0 = True
+
 				else:
-					left = 0
-					right = 0
+					logging.debug("unexpected signal transition L:%s -> %s and R:%s -> %s" % (clBit, lbit, crBit, rbit))
 
-				msgsL = []
-				msgsR = []
+				msgs = []
 
-				if left != currentBits[0]:
-					aspectL, msgsL = self.ProcessSignalLeverSide(obj, left, cbit, "L", locale)
+				if transitionL0:
+					aspectL, m = self.ProcessSignalLeverSide(obj, 0, cbit, "L", locale)
+					msgs.extend(m)
 					if aspectL is not None:
 						if objName not in self.lastValues:
-							self.lastValues[objName] = [left, 0]
+							self.lastValues[objName] = [0, 0]
 						else:
-							self.lastValues[objName][0] = left
+							self.lastValues[objName][0] = 0
 
-				if right != currentBits[1]:
-					aspectR, msgsR = self.ProcessSignalLeverSide(obj, right, cbit, "R", locale)
+				if transitionR0:
+					aspectR, m = self.ProcessSignalLeverSide(obj, 0, cbit, "R", locale)
+					msgs.extend(m)
 					if aspectR is not None:
 						if objName not in self.lastValues:
-							self.lastValues[objName] = [0, right]
+							self.lastValues[objName] = [0, 0]
 						else:
-							self.lastValues[objName][1] = right
+							self.lastValues[objName][1] = 0
 
-				if aspectL is not None and aspectR is not None:
-					obj.UpdateLed(aspectR, aspectL)
+				if transitionL1:
+					aspectL, m = self.ProcessSignalLeverSide(obj, 1, cbit, "L", locale)
+					msgs.extend(m)
+					if aspectL is not None:
+						if objName not in self.lastValues:
+							self.lastValues[objName] = [1, 0]
+						else:
+							self.lastValues[objName][0] = 1
 
-				for m in msgsL+msgsR:
+				if transitionR1:
+					aspectR, m = self.ProcessSignalLeverSide(obj, 1, cbit, "R", locale)
+					msgs.extend(m)
+					if aspectR is not None:
+						if objName not in self.lastValues:
+							self.lastValues[objName] = [0, 1]
+						else:
+							self.lastValues[objName][1] = 1
+
+				obj.UpdateLed(aspectR, aspectL)
+
+				for m in msgs:
 					self.RailroadEvent(m)
 
 	def ProcessSignalLeverSide(self, lever, bit, callon, LR, locale):
@@ -2666,7 +2711,6 @@ class Railroad:
 
 		signame = sig.Name()
 
-		logging.debug("checking is occupied on block %s" % ("None" if blk is None else blk.Name()))
 		if blk.IsOccupied():
 			if not silent:
 				self.Alert("Block %s is busy" % osblk.RouteDesignator(), locale=sig.District().Locale())

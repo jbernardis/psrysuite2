@@ -1,5 +1,4 @@
 import logging
-import traceback
 
 from rrserver.constants import (INPUT_BLOCK, INPUT_BREAKER, INPUT_SIGNALLEVER, INPUT_ROUTEIN, INPUT_HANDSWITCH,
 								INPUT_TURNOUTPOS, CrossingEastWestBoundary)
@@ -24,7 +23,7 @@ class Block:
 		self.normalEast = east
 		self.osblk = None
 		self.bits = []
-		self.cleared = False
+		# self.cleared = False
 		self.status = "E"    # E = Empty, C = Cleared, O = Occupied, U = Occupied by unknown train
 		self.indicators = []
 		self.mainBlock = None
@@ -40,6 +39,7 @@ class Block:
 
 	def Dump(self):
 		logging.debug("===== dump of block %s" % self.name)
+		logging.debug("status: %s" % self.status)
 		logging.debug("East: %s/%s" % (self.east, self.normalEast))
 		logging.debug("Osblk: %s" % ("None" if self.osblk is None else self.osblk.Name()))
 		logging.debug("Main block: %s %s" % (str(self.mainBlock), str(self.mainBlockName)))
@@ -65,7 +65,7 @@ class Block:
 		return blocks
 
 	def toJson(self):
-		return {"name": self.name, "east": 1 if self.east else 0, "cleared": 1 if self.cleared else 0, "statue": self.status}
+		return {"name": self.name, "east": 1 if self.east else 0, "status": self.status}
 
 	def ForBitMap(self):
 		indicators = [[ind[3], ind[2]] for ind in self.indicators]
@@ -309,9 +309,8 @@ class Block:
 		return self.status
 
 	def SetRoute(self, rtName, blks, sigs):
-		bnames = ["NONE" if bn is None else bn.Name() for bn in blks]
-		snames = ["NONE" if sn is None else sn.Name() for sn in sigs]
-		logging.debug("Block %s set route to %s" % (self.Name, rtName))
+		# bnames = ["NONE" if bn is None else bn.Name() for bn in blks]
+		# snames = ["NONE" if sn is None else sn.Name() for sn in sigs]
 		self.route = rtName
 
 	def DeriveOccupancyFromSubs(self):
@@ -334,6 +333,7 @@ class Block:
 				ov = "E"
 
 			rc = ov != self.status
+			logging.debug("main block %s derives status %s from subblocks %s" % (self.name, ov, str(occ)))
 			self.status = ov
 			return rc
 		return False
@@ -364,8 +364,6 @@ class Block:
 		return self.IsOccupied() or self.IsCleared()
 
 	def SetNextWest(self, blk):
-		logging.debug("Setting Next West of %s to %s" % (self.Name(), "None" if blk is None else blk.Name()))
-		logging.debug("block direction: %s" % self.east)
 		if CrossingEastWestBoundary(self, blk):
 			self.nextBlockEast = blk
 		else:
@@ -410,8 +408,6 @@ class Block:
 		return blk
 
 	def SetNextEast(self, blk):
-		logging.debug("Setting Next East of %s to %s" % (self.Name(), "None" if blk is None else blk.Name()))
-		logging.debug("block direction: %s" % self.east)
 		if CrossingEastWestBoundary(self, blk):
 			self.nextBlockWest = blk
 		else:
@@ -428,7 +424,6 @@ class Block:
 			blk = self.mainBlock.NextDetectionSectionEast()
 
 		elif self.stoppedBlock is None:
-			logging.debug("getting next east for main block %s" % self.Name())
 			# this is a main block
 			if self.stoppingBlocks[SBEAST] is not None:
 				blk = self.stoppingBlocks[SBEAST]
@@ -437,7 +432,6 @@ class Block:
 		elif self.name.endswith(".W"):  # this is a west end stopping section
 			blk = self.stoppedBlock
 		elif self.name.endswith(".E"):
-			logging.debug("East stopping block - getting next east for main block")# this is the east side stopping block
 			blk = self.stoppedBlock.GetNextEast()
 
 		else:
@@ -455,7 +449,6 @@ class Block:
 		return blk
 
 	def GetNextEast(self):
-		logging.debug("returning %s as next east for block %s" % (str(self.nextBlockEast), self.Name()))
 		return self.nextBlockEast
 
 	def AddIndicator(self, district, node, address, bits):

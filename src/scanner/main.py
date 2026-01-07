@@ -60,14 +60,15 @@ try:
 	while True:
 
 		scanDataRaw = scannerPort.readline()
-		lastScanTime = int(time.time())
-		if trainScanTime is None:
-			expired = True
-		else:
-			expired = lastScanTime > trainScanTime + 20
 
 		if scanDataRaw:
+			lastScanTime = int(time.time())
+			if trainScanTime is None:
+				expired = True
+			else:
+				expired = lastScanTime > trainScanTime + 20
 			scanData = scanDataRaw.decode('utf-8').strip()
+
 			logging.debug("Scanned data: \"%s\"" % scanData)
 
 			if scanData.startswith("TRAIN: "):
