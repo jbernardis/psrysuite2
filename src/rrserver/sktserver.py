@@ -1,10 +1,10 @@
 import logging
 
-import sys
 import threading
 import socket
 import select
 import json
+
 
 class SktServer (threading.Thread):
 	def __init__(self, ip, port, cbEvent):
@@ -30,8 +30,9 @@ class SktServer (threading.Thread):
 
 	def sendToAll(self, msg):
 		with self.socketLock:
-			tl = [x for x in self.sockets]
-		for skt, addr in tl:
+			dl = [x for x in self.sockets]
+
+		for skt, addr in dl:
 			self.sendToOne(skt, addr, msg)
 			
 	def sendToOne(self, skt, addr, msg):		
@@ -56,12 +57,13 @@ class SktServer (threading.Thread):
 				if self.sockets[i][1] == addr:
 					self.cbEvent({"cmd": ["delclient"], "addr": addr})
 					self.sockets[i][0].close()
-					del(self.sockets[i])
+					del self.sockets[i]
 					return
 
 	def run(self):
 		self.isRunning = True
 		addr = (self.ip, self.port)
+		slist = []
 		try:
 			s = socket.create_server(addr)
 		except Exception as e:
@@ -83,7 +85,7 @@ class SktServer (threading.Thread):
 					self.cbEvent({"cmd": ["newclient"], "socket": skt, "addr": addr, "SID": self.sessionID})
 				self.sessionID += 1
 			else:
-				pass #time.sleep(0.0001) # yield to other threads
+				pass  # time.sleep(0.0001) # yield to other threads
 
 		for skt in self.sockets:
 			skt[0].close()

@@ -120,7 +120,10 @@ class Block:
 
 	def GetMainBlock(self):
 		return self if self.mainBlock is None else self.mainBlock
-		
+
+	def MainBlock(self):
+		return self if self.mainBlock is None else self.mainBlock
+
 	def AddSubBlocks(self, blkl):
 		self.subBlocks.extend(blkl)
 		for b in blkl:
@@ -130,6 +133,9 @@ class Block:
 		return self.mainBlock is not None
 
 	def IsMasterBlock(self):
+		return len(self.subBlocks) > 0
+
+	def IsMainBlock(self):
 		return len(self.subBlocks) > 0
 
 	def MainBlockName(self):
@@ -246,7 +252,7 @@ class Block:
 		self.stoppedBlock = blk
 
 	def StoppedBlock(self):
-		return self.stoppedBlock
+		return self if self.stoppedBlock is None else self.stoppedBlock
 
 	def IsCompletelyEmpty(self):
 		if self.stoppedBlock is not None:

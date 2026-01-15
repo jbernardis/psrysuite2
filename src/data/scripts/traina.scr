@@ -1,0 +1,10 @@
+{"setinbit": {"address": "0x42", "byte": [1], "bit": [1], "value": [1]}}
+{"delay": {"ms": 500}}
+{"setinbit": {"address": "0x42", "byte": [0], "bit": [6], "value": [1]}}
+{"delay": {"ms": 500}}
+{"setinbit": {"address": "0x42", "byte": [0], "bit": [4], "value": [1]}}
+{"delay": {"ms": 500}}
+{"setinbit": {"address": "0x41", "byte": [2], "bit": [5], "value": [1]}}
+{"delay": {"ms": 500}}
+{"setinbit": {"address": "0x41", "byte": [2], "bit": [3], "value": [1]}}
+{"delay": {"ms": 500}}

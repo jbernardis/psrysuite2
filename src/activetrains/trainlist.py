@@ -1,100 +1,16 @@
 import wx
 import logging
-from dispatcher.trainlist import TrainListCtrl
+import time
+
+from dispatcher.constants import aspectname, aspecttype, aspectprofileindex, profileindex
 
 YardBlocks = [
 	"C21", "C31", "C40", "C41", "C42", "C43", "C44", "C50", "C51", "C52", "C53", "C54",
 	"H12", "H22", "H30", "H31", "H32", "H33", "H34", "H40", "H41", "H42", "H43",
 	"N32", "N42",
 	"P1", "P2", "P3", "P4", "P5", "P6", "P7",
-	"Y50", "Y51", "Y52", "Y53", "Y81", "Y82", "Y83", "Y84" ]
+	"Y50", "Y51", "Y52", "Y53", "Y81", "Y82", "Y83", "Y84"]
 
-
-class ActiveTrainList:
-	def __init__(self):
-		self.trains = {}
-		self.panelTrainList = None
-		self.locoMap = {}
-		
-	def RegenerateLocoMap(self):
-		self.locoMap = {tr.GetLoco(): tr for tr in self.trains.values() if tr.GetLoco() != "??"}
-		
-	def AddTrain(self, tr):
-		self.trains[tr.GetName()] = tr
-		self.RegenerateLocoMap()
-		if self.panelTrainList is not None:
-			self.panelTrainList.AddTrain(tr)
-			
-	def UpdateTrain(self, trid):
-		if self.panelTrainList is not None:
-			self.panelTrainList.UpdateTrain(trid)
-			
-	def UpdateForSignal(self, sig):
-		if sig is None:
-			return
-		
-		if self.panelTrainList is None:
-			return 
-		
-		signame = sig.GetName()
-		for trid, tr in self.trains.items():
-			s, _, _ = tr.GetSignal()
-			if s and s.GetName() == signame:
-				self.panelTrainList.UpdateTrain(trid)
-			
-	def RenameTrain(self, oldName, newName):
-		self.trains[newName] = self.trains[oldName]
-		del(self.trains[oldName])
-		self.RegenerateLocoMap()
-		if self.panelTrainList is not None:
-			self.panelTrainList.RenameTrain(oldName, newName)
-			
-	def RemoveTrain(self, trid):
-		del(self.trains[trid])
-		self.RegenerateLocoMap()
-		if self.panelTrainList is not None:
-			self.panelTrainList.RemoveTrain(trid)
-			
-	def RemoveAllTrains(self):
-		self.trains = {}
-		self.RegenerateLocoMap()
-		if self.panelTrainList is not None:
-			self.panelTrainList.RemoveAllTrains()
-			
-	def SetLoco(self, tr, loco):
-		tr.SetLoco(loco)
-		self.RegenerateLocoMap()
-			
-	def FindTrainByLoco(self, loco):
-		try:
-			return self.locoMap[loco]
-		except:
-			return None
-			
-	def CreateTrainListPanel(self, parent, lines):
-		if self.panelTrainList is None:
-			self.panelTrainList = ActiveTrainsPanel(parent, lines)
-			for tr in self.trains.values():
-				self.panelTrainList.AddTrain(tr)
-		self.EnableTrainListPanel(False)
-		return self.panelTrainList
-				
-	def EnableTrainListPanel(self, flag=True):
-		if self.panelTrainList is not None:
-			self.panelTrainList.Enable(flag)
-			
-	def RefreshTrain(self, trid):
-		if self.panelTrainList is not None:
-			self.panelTrainList.RefreshTrain(trid)
-			
-	def ticker(self):
-		refresh = False
-		for tr in self.trains.values():
-			if tr.AddTime(1):
-				refresh = True
-		if refresh and self.panelTrainList is not None:
-			self.panelTrainList.RefreshAll()
-		
 
 class ActiveTrainsPanel(wx.Panel):
 	def __init__(self, parent, lines):
@@ -104,7 +20,6 @@ class ActiveTrainsPanel(wx.Panel):
 		self.settings = parent.settings
 		self.suppressYards =   self.settings.activetrains.suppressyards
 		self.suppressUnknown = self.settings.activetrains.suppressunknown
-		self.suppressNonATC =  self.settings.activetrains.onlyatc
 		self.suppressNonAssigned =  self.settings.activetrains.onlyassigned
 		self.suppressNonAssignedAndKnown = self.settings.activetrains.onlyassignedorunknown
 
@@ -148,13 +63,6 @@ class ActiveTrainsPanel(wx.Panel):
 		hsz.Add(self.cbAssignedOnly)
 
 		hsz.AddSpacer(30)
-		
-		self.cbATCOnly = wx.CheckBox(self, wx.ID_ANY, "Show only ATC Trains")
-		self.cbATCOnly.SetValue(self.suppressNonATC)
-		self.Bind(wx.EVT_CHECKBOX, self.OnSuppressNonATC, self.cbATCOnly)
-		hsz.Add(self.cbATCOnly)
-
-		hsz.AddSpacer(30)
 
 		vsz.Add(hsz)
 				
@@ -175,16 +83,17 @@ class ActiveTrainsPanel(wx.Panel):
 		
 		self.trCtl.SetSuppressYardTracks(self.suppressYards)
 		self.trCtl.SetSuppressUnknown(self.suppressUnknown)
-		self.trCtl.SetSuppressNonATC(self.suppressNonATC)
 		self.trCtl.SetSuppressNonAssigned(self.suppressNonAssigned)
 		self.trCtl.SetSuppressNonAssignedAndKnown(self.suppressNonAssignedAndKnown)
 
 		self.SetSizer(vsz)
-		
-		
+
 	def OnResize(self, evt):
 		self.resized = True
 		evt.Skip()
+
+	def SetLocos(self, locos):
+		self.trCtl.SetLocos(locos)
 		
 	def OnIdle(self, evt):
 		if not self.resized:
@@ -196,6 +105,9 @@ class ActiveTrainsPanel(wx.Panel):
 	def DoubleClickTrain(self, evt):
 		tr = self.trCtl.GetActiveTrain(evt.Index)
 		self.parent.TrainSelected(tr)
+
+	def UpdateTimers(self):
+		self.trCtl.UpdateTimers()
 		
 	def GetLocoInfo(self, loco):
 		return self.parent.GetLocoInfo(loco)
@@ -203,21 +115,13 @@ class ActiveTrainsPanel(wx.Panel):
 	def OnSuppressYard(self, _):
 		flag = self.cbYardTracks.GetValue()
 		self.trCtl.SetSuppressYardTracks(flag)
-		
-	def OnSuppressNonATC(self, _):
-		flag = self.cbATCOnly.GetValue()
-		if flag:
-			self.cbUnknown.SetValue(False)
-			self.cbAssignedOrUnknown.SetValue(False)
-			self.cbAssignedOnly.SetValue(False)
-		self.trCtl.SetSuppressNonATC(flag)
 
 	def OnSuppressNonAssignedAndKnown(self, _):
 		flag = self.cbAssignedOrUnknown.GetValue()
 		if flag:
 			self.cbUnknown.SetValue(False)
 			self.cbAssignedOnly.SetValue(False)
-			self.cbATCOnly.SetValue(False)
+
 		self.trCtl.SetSuppressNonAssignedAndKnown(flag)
 		
 	def OnSuppressUnknown(self, _):
@@ -225,7 +129,7 @@ class ActiveTrainsPanel(wx.Panel):
 		if flag:
 			self.cbAssignedOrUnknown.SetValue(False)
 			self.cbAssignedOnly.SetValue(False)
-			self.cbATCOnly.SetValue(False)
+
 		self.trCtl.SetSuppressUnknown(flag)
 		
 	def OnSuppressNonAssigned(self, _):
@@ -233,7 +137,7 @@ class ActiveTrainsPanel(wx.Panel):
 		if flag:
 			self.cbAssignedOrUnknown.SetValue(False)
 			self.cbUnknown.SetValue(False)
-			self.cbATCOnly.SetValue(False)
+
 		self.trCtl.SetSuppressNonAssigned(flag)
 				
 	def AddTrain(self, tr):
@@ -256,3 +160,305 @@ class ActiveTrainsPanel(wx.Panel):
 		
 	def RemoveAllTrains(self):
 		self.trCtl.RemoveAllTrains()
+
+
+class TrainListCtrl(wx.ListCtrl):
+	def __init__(self, parent, dccsnifferenabled, height=160):
+		wx.ListCtrl.__init__(self, parent, wx.ID_ANY, size=(1276, height),
+							 style=wx.LC_REPORT + wx.LC_VIRTUAL + wx.LC_SINGLE_SEL)
+		self.parent = parent
+		self.roster = None
+		self.trains = {}
+		self.locos = {}
+		self.order = []
+		self.filtered = []
+		self.dccsnifferenabled = dccsnifferenabled
+		self.lastTick = int(time.time())
+
+		self.suppressYards = True
+		self.suppressUnknown = False
+		self.suppressNonAssigned = False
+		self.suppressNonAssignedAndKnown = False
+		self.SetFont(
+			wx.Font(wx.Font(16, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, faceName="Arial")))
+
+		self.normalA = wx.ItemAttr()
+		self.normalB = wx.ItemAttr()
+		self.normalA.SetBackgroundColour(wx.Colour(225, 255, 240))
+		self.normalB.SetBackgroundColour(wx.Colour(138, 255, 197))
+
+		self.InsertColumn(0, "Train")
+		self.SetColumnWidth(0, 100)
+		self.InsertColumn(1, "E/W")
+		self.SetColumnWidth(1, 56)
+		self.InsertColumn(2, "Loco")
+		self.SetColumnWidth(2, 80)
+		self.InsertColumn(3, "Engineer")
+		self.SetColumnWidth(3, 110)
+		self.InsertColumn(4, "SB")
+		self.SetColumnWidth(4, 50)
+		self.InsertColumn(5, "Signal")
+		self.SetColumnWidth(5, 300)
+		self.InsertColumn(6, "Throttle" if self.dccsnifferenabled else "Limit")
+		self.SetColumnWidth(6, 100)
+		self.InsertColumn(7, "Blocks")
+		self.SetColumnWidth(7, 400)
+		self.InsertColumn(8, "Time")
+		self.SetColumnWidth(8, 80)
+		self.SetItemCount(0)
+
+	def ChangeSize(self, sz):
+		self.SetSize(sz[0] - 56, sz[1] - 84)
+		self.SetColumnWidth(7, sz[0] - 876 - 56)
+
+	def UpdateTimers(self):
+		self.lastTick = int(time.time())
+		self.RefreshAll()
+
+	def SetRoster(self, roster):
+		self.roster = roster
+
+	def SetLocos(self, locos):
+		self.locos = locos
+
+	def AddTrain(self, tr):
+		logging.debug("Adding train %s" % str(tr))
+		trid = tr["iname"]
+		self.order.append(trid)
+		self.trains[trid] = tr
+		self.filterTrains()
+		self.SetItemCount(len(self.filtered))
+		if len(self.filtered) > 0:
+			self.RefreshItems(0, len(self.filtered) - 1)
+
+	def RenameTrain(self, oldName, newName):
+		try:
+			tx = self.order.index(oldName)
+		except ValueError:
+			logging.warning("Attempt to delete a non-existent train: %s" % oldName)
+			return
+
+		self.order[tx] = newName
+
+		self.trains[newName] = self.trains[oldName]
+		del self.trains[oldName]
+
+		self.filterTrains()
+		self.SetItemCount(len(self.filtered))
+		if len(self.filtered) > 0:
+			self.RefreshItems(0, len(self.filtered) - 1)
+
+	def UpdateTrain(self, tr):
+		iname = tr["iname"]
+		logging.debug("in update train %s: %s" % (iname, str(tr)))
+		if iname not in self.trains:
+			self.trains[iname] = tr
+			self.order.append(iname)
+		else:
+			self.trains[iname] = tr
+
+		if len(tr["blocks"]) == 0:
+			self.RemoveTrain(iname)
+		else:
+			self.filterTrains()
+			self.SetItemCount(len(self.filtered))
+			if len(self.filtered) > 0:
+				self.RefreshItems(0, len(self.filtered) - 1)
+
+	def RefreshAll(self):
+		self.filterTrains()
+		self.SetItemCount(len(self.filtered))
+		if len(self.filtered) > 0:
+			self.RefreshItems(0, len(self.filtered) - 1)
+
+	def RemoveTrain(self, trid):
+		try:
+			tx = self.order.index(trid)
+		except ValueError:
+			logging.warning("Attempt to delete a non-existent train: %s" % trid)
+			return
+		del self.order[tx]
+		del self.trains[trid]
+
+		self.filterTrains()
+		self.SetItemCount(len(self.filtered))
+		if len(self.filtered) > 0:
+			self.RefreshItems(0, len(self.filtered) - 1)
+
+	def RemoveAllTrains(self):
+		self.trains = {}
+		self.order = []
+		self.filtered = []
+		self.SetItemCount(0)
+
+	def SetSuppressYardTracks(self, flag):
+		self.suppressYards = flag
+
+		self.filterTrains()
+		self.SetItemCount(len(self.filtered))
+		if len(self.filtered) > 0:
+			self.RefreshItems(0, len(self.filtered) - 1)
+
+	def SetSuppressUnknown(self, flag):
+		self.suppressUnknown = flag
+		if flag:
+			self.suppressNonAssigned = False
+			self.suppressNonAssignedAndKnown = False
+
+		self.filterTrains()
+		self.SetItemCount(len(self.filtered))
+		if len(self.filtered) > 0:
+			self.RefreshItems(0, len(self.filtered) - 1)
+
+	def SetSuppressNonAssigned(self, flag):
+		self.suppressNonAssigned = flag
+		if flag:
+			self.suppressUnknown = False
+			self.suppressNonAssignedAndKnown = False
+
+		self.filterTrains()
+		self.SetItemCount(len(self.filtered))
+		if len(self.filtered) > 0:
+			self.RefreshItems(0, len(self.filtered) - 1)
+
+	def SetSuppressNonAssignedAndKnown(self, flag):
+		self.suppressNonAssignedAndKnown = flag
+		if flag:
+			self.suppressUnknown = False
+			self.suppressNonAssigned = False
+
+		self.filterTrains()
+		self.SetItemCount(len(self.filtered))
+		if len(self.filtered) > 0:
+			self.RefreshItems(0, len(self.filtered) - 1)
+
+	def filterTrains(self):
+		self.filtered = []
+		for trid in sorted(self.order, key=self.BuildTrainKey):
+			if not self.suppressed(trid):
+				self.filtered.append(trid)
+
+	def BuildTrainKey(self, trid):
+		tr = self.trains[trid]
+		nm = tr["iname"] if tr["rname"] is None else tr["rname"]
+		if nm.startswith("??"):
+			return "ZZ%s" % nm
+		else:
+			return "AA%s" % nm
+
+	def suppressed(self, trid):
+		tr = self.trains[trid]
+		nm = tr["iname"] if tr["rname"] is None else tr["rname"]
+		if self.suppressYards:
+			blkNms = tr["blocks"]
+			allYard = True  # assume all blocks are yard tracks
+			for bn in blkNms:
+				if bn not in YardBlocks:
+					allYard = False
+					break
+			if allYard:
+				return True
+
+		if self.suppressNonAssignedAndKnown:
+			if not nm.startswith("??") and tr["engineer"] is None:
+				return True
+
+		if self.suppressUnknown and nm.startswith("??"):
+			return True
+
+		if self.suppressNonAssigned and tr["engineer"] is None:
+			return True
+
+		return False
+
+	def GetActiveTrain(self, index):
+		try:
+			trid = self.filtered[index]
+		except IndexError:
+			return None
+
+		return self.trains[trid]
+
+	def OnGetItemText(self, item, col):
+		trid = self.filtered[item]
+		tr = self.trains[trid]
+
+		if col == 0:
+			name = tr["iname"] if tr["rname"] is None else tr["rname"]
+			template = tr["template"]
+			if template is None or template == name:
+				return name
+			else:
+				return "%s(%s)" % (name, template)
+
+		elif col == 1:
+			return "E" if tr["east"] else "W"
+
+		elif col == 2:
+			return "" if tr["loco"] is None else tr["loco"]
+
+		elif col == 3:
+			nm = tr["engineer"]
+			return "" if nm is None else nm
+
+		elif col == 4:
+			return u"\u2713" if tr["stopped"] else " "
+
+		elif col == 5:
+			sn = tr["signal"]
+			if sn is None:
+				return ""
+
+			aspect = tr["aspect"]
+			aspectType = tr["aspecttype"]
+			pastSignal = tr["pastsignal"]
+			an = aspectname(aspect, aspectType)
+			atn = aspecttype(aspectType)
+			return "%s : %s%s (%s)" % (sn, "*" if pastSignal else "", an, atn)
+
+		elif col == 6:
+			throttle = tr["throttle"]
+			if throttle is None:
+				throttle = ""
+
+			if throttle == "":
+				throttle = "<>"
+
+			aspect = tr["aspect"]
+			aspectType = tr["aspecttype"]
+			pastSignal = tr["pastsignal"]
+			px = aspectprofileindex(aspect, aspectType)
+			loco = tr["loco"]
+
+			trname = tr["iname"] if tr["rname"] is None else tr["rname"]
+			locoinfo = self.locos.get(loco, None)
+			if locoinfo is None:
+				return throttle
+			else:
+				try:
+					limit = locoinfo["prof"][profileindex[px]]
+				except (IndexError, KeyError):
+					limit = 0
+
+			return "%s - %d" % (throttle, limit) if self.dccsnifferenabled else "%d" % limit
+
+		elif col == 7:
+			bl = ", ".join(reversed(tr["blocks"]))
+			return bl
+
+		elif col == 8:
+			t = tr.get("assigntime", None)
+			if t is None:
+				return ""
+
+			elapsed = self.lastTick - t
+			mins = int(elapsed / 60)
+			return "%3d" % mins
+
+		return ""
+
+	def OnGetItemAttr(self, item):
+		if item % 2 == 1:
+			return self.normalB
+		else:
+			return self.normalA

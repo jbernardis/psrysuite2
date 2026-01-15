@@ -23,9 +23,9 @@ class LocosReport (Report):
 		html += HTML.head(HTML.style({'type': "text/css", 'media': "screen, print"}, css))
 		
 		html += HTML.startbody()
-		
+
 		html += HTML.h1({'align': 'center'}, "Locomotives")
-		
+
 		header = HTML.tr({},
 			HTML.th({}, "Loco Number"),
 			HTML.th({}, "Sh"),

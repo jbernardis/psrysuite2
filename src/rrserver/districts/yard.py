@@ -263,6 +263,9 @@ class Yard(District):
 				"Y83E": [ ["YSw131", "N"], ["YSw132","R"], ["YSw134", "N"] ],
 				"Y84E": [ ["YSw131", "N"], ["YSw132","N"], ["YSw134", "R"] ],
 		}
+
+	def Locale(self):
+		return "yard"
 	
 	def PressButton(self, btn):
 		try:

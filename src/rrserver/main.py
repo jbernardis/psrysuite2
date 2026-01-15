@@ -186,7 +186,7 @@ class ServerMain:
 		logging.info("New Client connecting from address: %s:%s" % (addr[0], addr[1]))
 		self.socketServer.sendToOne(skt, addr, {"sessionID": sid})
 		self.clients[addr] = [skt, sid]
-		self.clientList.AddClient(addr, skt, sid, None)
+		self.clientList.AddClient(addr, skt, sid)
 
 	def DelClient(self, cmd):
 		addr = cmd["addr"]
@@ -251,13 +251,13 @@ class ServerMain:
 	def Alert(self, msg, locale=None):
 		msg = {"alert": {"msg": msg}}
 		if locale is not None:
-			msg["alert"]["locale"] = locale
+			msg["locale"] = locale
 		self.socketServer.sendToAll(msg)
 
 	def Advice(self, msg, locale=None):
 		msg = {"advice": {"msg": msg}}
 		if locale is not None:
-			msg["advice"]["locale"] = locale
+			msg["locale"] = locale
 		self.socketServer.sendToAll(msg)
 
 	def CreateDispatchTable(self):					
@@ -418,8 +418,10 @@ class ServerMain:
 			logging.debug("Known lever names: %s" % str(list(self.rr.signalLevers.keys())))
 			return
 
-		if sl.SetLeverState(1 if state == "R" else 0, 0, 1 if state == 'L' else 0):
-			sl.UpdateLed()
+		raspect = 1 if state == "R" else 0
+		laspect = 1 if state == "L" else 0
+		if sl.SetLeverState(raspect, 0, laspect):
+			sl.UpdateLed(raspect, laspect)
 
 	def DoSignalClick(self, cmd):
 		try:
@@ -634,7 +636,7 @@ class ServerMain:
 		p = {tag: cmd[tag][0] for tag in cmd if tag != "cmd"}
 		resp = {"dccspeed": [p]}
 		addrList = self.clientList.GetFunctionAddress("DISPLAY") + self.clientList.GetFunctionAddress(
-			"DISPATCH") + self.clientList.GetFunctionAddress("SATELLITE")
+			"DISPATCH") + self.clientList.GetFunctionAddress("SATELLITE") + self.clientList.GetFunctionAddress("ACTIVETRAINS")
 		for addr, skt in addrList:
 			self.socketServer.sendToOne(skt, addr, resp)
 
@@ -642,7 +644,7 @@ class ServerMain:
 		p = {tag: cmd[tag] for tag in cmd if tag != "cmd"}
 		resp = {"dccspeeds": p}
 		addrList = self.clientList.GetFunctionAddress("DISPLAY") + self.clientList.GetFunctionAddress(
-			"DISPATCH") + self.clientList.GetFunctionAddress("SATELLITE")
+			"DISPATCH") + self.clientList.GetFunctionAddress("SATELLITE") + self.clientList.GetFunctionAddress("ACTIVETRAINS")
 		for addr, skt in addrList:
 			self.socketServer.sendToOne(skt, addr, resp)
 
@@ -724,19 +726,19 @@ class ServerMain:
 		except KeyError:
 			function = None
 		try:
-			name = cmd["name"][0]
+			locale = cmd["locale"][0]
 		except KeyError:
-			name = None
+			locale = None
 
 		if sid is None or function is None:
 			logging.error("Identify command without SID and/or function paremeter")
 			return
 
-		self.clientList.SetSessionFunction(sid, function, name)
-		if function == "DISPATCH":
-			self.deleteClients(["AR", "ADVISOR", "ATC"])
-			self.pidAR = None
-			self.pidADV = None
+		self.clientList.SetSessionFunction(sid, function, locale)
+		# if function == "DISPATCH":
+		# 	self.deleteClients(["AR", "ADVISOR", "ATC"])
+		# 	self.pidAR = None
+		# 	self.pidADV = None
 
 	def DoFleet(self, cmd):
 		try:
@@ -964,103 +966,103 @@ class ServerMain:
 		addrList = self.clientList.GetFunctionAddress("DISPATCH") + self.clientList.GetFunctionAddress("SATELLITE")
 		for addr, skt in addrList:
 			self.socketServer.sendToOne(skt, addr, {"traintimesrequest": {}})
-
-	def DoTrainTimesReport(self, cmd):
-		addrList = self.clientList.GetFunctionAddress("DISPLAY")
-		for addr, skt in addrList:
-			self.socketServer.sendToOne(skt, addr, {"traintimesreport": cmd})
-
-	def DoDeleteTrain(self, cmd):
-		try:
-			trn = cmd["name"][0]
-		except (IndexError, KeyError):
-			trn = None
-
-		if trn is None:
-			logging.info("skipping delete train command with no train name")
-			return
-
-		p = {tag: cmd[tag][0] for tag in cmd if tag != "cmd"}
-		resp = {"deletetrain": p}
-		self.socketServer.sendToAll(resp)
-
-		if not self.trainList.HasTrain(trn):
-			logging.info("skipping delete of non existant train")
-			return
-
-		self.trainList.DeleteTrain(trn)
-
-	def DoSetTrain(self, cmd):
-		try:
-			blocks = cmd["blocks"]
-		except (IndexError, KeyError):
-			logging.error("Set train message is missing blocks - ignoring")
-			return
-
-		try:
-			trn = cmd["name"][0]
-		except (IndexError, KeyError):
-			trn = None
-		try:
-			loco = cmd["loco"][0]
-		except (IndexError, KeyError):
-			loco = None
-		try:
-			east = True if cmd["east"][0] == "1" else False
-		except (IndexError, KeyError):
-			east = True
-		try:
-			action = cmd["action"][0]
-		except (IndexError, KeyError):
-			action = REPLACE
-		try:
-			route = cmd["route"][0]
-		except (IndexError, KeyError):
-			route = None
-		try:
-			silent = True if cmd["silent"][0] == "1" else False
-		except (IndexError, KeyError):
-			silent = True
-
-		logging.info("set train: %s" % str(cmd))
-
-		for blknm in blocks:
-			ntrn, nloco = self.trainList.FindTrainInBlock(blknm)
-			if ntrn and ntrn != trn:
-				#remove the block from the old train
-				self.trainList.RemoveTrainFromBlock(ntrn, blknm)
-
-		#self.rr.OccupyBlock(block, 0 if trn is None else 1)
-
-		# train information is always echoed back to all listeners
-		stParams = {"name": trn, "loco": loco, "blocks": blocks, "east": east, "action": action, "silent": silent}
-		if route is not None:
-			stParams["route"] = route
-		resp = {"settrain": stParams}
-		self.socketServer.sendToAll(resp)
-
-		self.trainList.Update(trn, loco, blocks, east, action, route=route)
+	#
+	# def DoTrainTimesReport(self, cmd):
+	# 	addrList = self.clientList.GetFunctionAddress("DISPLAY")
+	# 	for addr, skt in addrList:
+	# 		self.socketServer.sendToOne(skt, addr, {"traintimesreport": cmd})
+	#
+	# def DoDeleteTrain(self, cmd):
+	# 	try:
+	# 		trn = cmd["name"][0]
+	# 	except (IndexError, KeyError):
+	# 		trn = None
+	#
+	# 	if trn is None:
+	# 		logging.info("skipping delete train command with no train name")
+	# 		return
+	#
+	# 	p = {tag: cmd[tag][0] for tag in cmd if tag != "cmd"}
+	# 	resp = {"deletetrain": p}
+	# 	self.socketServer.sendToAll(resp)
+	#
+	# 	if not self.trainList.HasTrain(trn):
+	# 		logging.info("skipping delete of non existant train")
+	# 		return
+	#
+	# 	self.trainList.DeleteTrain(trn)
+	#
+	# def DoSetTrain(self, cmd):
+	# 	try:
+	# 		blocks = cmd["blocks"]
+	# 	except (IndexError, KeyError):
+	# 		logging.error("Set train message is missing blocks - ignoring")
+	# 		return
+	#
+	# 	try:
+	# 		trn = cmd["name"][0]
+	# 	except (IndexError, KeyError):
+	# 		trn = None
+	# 	try:
+	# 		loco = cmd["loco"][0]
+	# 	except (IndexError, KeyError):
+	# 		loco = None
+	# 	try:
+	# 		east = True if cmd["east"][0] == "1" else False
+	# 	except (IndexError, KeyError):
+	# 		east = True
+	# 	try:
+	# 		action = cmd["action"][0]
+	# 	except (IndexError, KeyError):
+	# 		action = REPLACE
+	# 	try:
+	# 		route = cmd["route"][0]
+	# 	except (IndexError, KeyError):
+	# 		route = None
+	# 	try:
+	# 		silent = True if cmd["silent"][0] == "1" else False
+	# 	except (IndexError, KeyError):
+	# 		silent = True
+	#
+	# 	logging.info("set train: %s" % str(cmd))
+	#
+	# 	for blknm in blocks:
+	# 		ntrn, nloco = self.trainList.FindTrainInBlock(blknm)
+	# 		if ntrn and ntrn != trn:
+	# 			#remove the block from the old train
+	# 			self.trainList.RemoveTrainFromBlock(ntrn, blknm)
+	#
+	# 	#self.rr.OccupyBlock(block, 0 if trn is None else 1)
+	#
+	# 	# train information is always echoed back to all listeners
+	# 	stParams = {"name": trn, "loco": loco, "blocks": blocks, "east": east, "action": action, "silent": silent}
+	# 	if route is not None:
+	# 		stParams["route"] = route
+	# 	resp = {"settrain": stParams}
+	# 	self.socketServer.sendToAll(resp)
+	#
+	# 	self.trainList.Update(trn, loco, blocks, east, action, route=route)
 		
-	def DoMoveTrain(self, cmd): #"movetrain":
-		try:
-			blknm = cmd["block"][0]
-		except (IndexError, KeyError):
-			return
-		self.rr.PlaceTrain(blknm)
-		self.rr.OccupyBlock(blknm, 1)
-
-	def DoRemoveTrain(self, cmd): #"removetrain":
-		try:
-			blknm = cmd["block"][0]
-		except (IndexError, KeyError):
-			return
-		self.rr.RemoveTrain(blknm)
-		self.rr.OccupyBlock(blknm, 0)
-
-	def DoTrainComplete(self, cmd):
-		p = {tag: cmd[tag][0] for tag in cmd if tag != "cmd"}
-		resp = {"traincomplete": [p]}
-		self.socketServer.sendToAll(resp)
+	# def DoMoveTrain(self, cmd): #"movetrain":
+	# 	try:
+	# 		blknm = cmd["block"][0]
+	# 	except (IndexError, KeyError):
+	# 		return
+	# 	self.rr.PlaceTrain(blknm)
+	# 	self.rr.OccupyBlock(blknm, 1)
+	#
+	# def DoRemoveTrain(self, cmd): #"removetrain":
+	# 	try:
+	# 		blknm = cmd["block"][0]
+	# 	except (IndexError, KeyError):
+	# 		return
+	# 	self.rr.RemoveTrain(blknm)
+	# 	self.rr.OccupyBlock(blknm, 0)
+	#
+	# def DoTrainComplete(self, cmd):
+	# 	p = {tag: cmd[tag][0] for tag in cmd if tag != "cmd"}
+	# 	resp = {"traincomplete": [p]}
+	# 	self.socketServer.sendToAll(resp)
 
 	def DoModifyTrain(self, cmd):
 		try:
@@ -1133,7 +1135,12 @@ class ServerMain:
 			tr.SetName(name, roster)
 
 		if loco is not None:
-			tr.SetLoco(loco)
+			ltr = self.rr.GetTrainByLoco(loco)
+			if ltr is not None and ltr.Name() != tr.Name():
+				self.rr.Alert("Locomotive %s is already being used by train %s" % (loco, ltr.Name()))
+			else:
+				tr.SetLoco(loco)
+
 		if engineer is not None:
 			if engineer == "-":
 				engineer = None
@@ -1142,6 +1149,10 @@ class ServerMain:
 				self.rr.RemoveEngineerFromTrains(engineer)
 
 			tr.SetEngineer(engineer)
+			if engineer is None:
+				self.rr.Advice("Train %s has been unassigned" % tr.Name())
+			else:
+				self.rr.Advice("Train %s assigned to %s" % (tr.Name(), engineer))
 
 		self.UpdateTrainBlocks(tr)
 

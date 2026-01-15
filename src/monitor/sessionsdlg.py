@@ -47,7 +47,7 @@ class SessionsListCtrl(wx.ListCtrl):
         self.rrServer = rrServer
 
         wx.ListCtrl.__init__(
-            self, parent, wx.ID_ANY, size=(320, 160),
+            self, parent, wx.ID_ANY, size=(380, 160),
             style=wx.LC_REPORT|wx.LC_VIRTUAL|wx.LC_VRULES
             )
 
@@ -58,10 +58,12 @@ class SessionsListCtrl(wx.ListCtrl):
         self.InsertColumn(1, "Function")
         self.InsertColumn(2, "IP")
         self.InsertColumn(3, "Port")
+        self.InsertColumn(4, "Locale")
         self.SetColumnWidth(0, 40)
         self.SetColumnWidth(1, 100)
         self.SetColumnWidth(2, 120)
         self.SetColumnWidth(3, 60)
+        self.SetColumnWidth(4, 60)
 
         self.SetItemCount(0)
 

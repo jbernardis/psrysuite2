@@ -1200,7 +1200,14 @@ class MainFrame(wx.Frame):
 
 		with open(path, "r") as jfp:
 			sl = jfp.readlines()
-		script = [json.loads(s) for s in sl]
+		script = []
+		for s in sl:
+			try:
+				script.append(json.loads(s))
+			except json.decoder.JSONDecodeError as e:
+				print("JSON Decode error on line (%s)" % s, file=sys.stderr)
+				print("error: %s" % str(e))
+
 		self.ExecuteScript(script)
 
 	def ExecuteScript(self, script):

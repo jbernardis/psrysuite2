@@ -332,12 +332,15 @@ class ActiveTrainsDlg(wx.Dialog):
 	def onBRebuild(self, _):
 		self.parent.RebuildActiveTrainList()
 
+	def FindTrainByLoco(self, loco):
+		return self.trCtl.FindTrainByLoco(loco)
+
 	def AddTrain(self, tr):
 		self.trCtl.AddTrain(tr)
-		
+
 	def UpdateTrain(self, tr):
 		self.trCtl.UpdateTrain(tr)
-		
+
 	def RefreshTrain(self, trid):
 		self.trCtl.UpdateTrain(trid)
 		
@@ -346,13 +349,13 @@ class ActiveTrainsDlg(wx.Dialog):
 		
 	def RenameTrain(self, oldName, newName):
 		self.trCtl.RenameTrain(oldName, newName)
-		
+
 	def RemoveTrain(self, trid):
 		self.trCtl.RemoveTrain(trid)
-		
+
 	def RemoveAllTrains(self):
 		self.trCtl.RemoveAllTrains()
-		
+
 	def OnResize(self, _):
 		self.resized = True
 		
@@ -377,6 +380,7 @@ class TrainListCtrl(wx.ListCtrl):
 		self.filtered = []
 		self.dccsnifferenabled = dccsnifferenabled
 		self.lastTick = int(time.time())
+		self.locoMap = {}
 		
 		self.suppressYards = True
 		self.suppressUnknown = False
@@ -420,7 +424,16 @@ class TrainListCtrl(wx.ListCtrl):
 
 	def SetRoster(self, roster):
 		self.roster = roster
-		
+
+	def GenerateLocoMap(self):
+		self.locoMap = {tr.Loco(): tr for tr in self.trains.values() if tr.Loco() != "??"}
+
+	def FindTrainByLoco(self, loco):
+		try:
+			return self.locoMap[loco]
+		except:
+			return None
+
 	def AddTrain(self, tr):
 		nm = tr.GetName()
 		if nm in self.order:
@@ -434,6 +447,7 @@ class TrainListCtrl(wx.ListCtrl):
 		self.SetItemCount(len(self.filtered))	
 		if len(self.filtered) > 0:
 			self.RefreshItems(0, len(self.filtered)-1)
+		self.GenerateLocoMap()
 
 	def GetTrainListControl(self):
 		return {
@@ -458,11 +472,12 @@ class TrainListCtrl(wx.ListCtrl):
 		
 		self.trains[newName] = self.trains[oldName]
 		del self.trains[oldName]
-		
+
 		self.filterTrains()	
 		self.SetItemCount(len(self.filtered))	
 		if len(self.filtered) > 0:
 			self.RefreshItems(0, len(self.filtered)-1)
+		self.GenerateLocoMap()
 		
 	def UpdateTrain(self, tr):
 		iname = tr.IName()
@@ -477,7 +492,8 @@ class TrainListCtrl(wx.ListCtrl):
 			self.SetItemCount(len(self.filtered))
 			if len(self.filtered) > 0:
 				self.RefreshItems(0, len(self.filtered)-1)
-			
+		self.GenerateLocoMap()
+
 	def RefreshAll(self):
 		self.filterTrains()	
 		self.SetItemCount(len(self.filtered))	
@@ -497,12 +513,14 @@ class TrainListCtrl(wx.ListCtrl):
 		self.SetItemCount(len(self.filtered))	
 		if len(self.filtered) > 0:
 			self.RefreshItems(0, len(self.filtered)-1)
+		self.GenerateLocoMap()
 		
 	def RemoveAllTrains(self):
 		self.trains = {}
 		self.order = []
 		self.filtered = []
-		self.SetItemCount(len(self.filtered))	
+		self.SetItemCount(len(self.filtered))
+		self.GenerateLocoMap()
 		
 	def SetSuppressYardTracks(self, flag):
 		self.suppressYards = flag
@@ -657,12 +675,10 @@ class TrainListCtrl(wx.ListCtrl):
 			aspect, aspectType, pastSignal = tr.Aspect()
 			px = aspectprofileindex(aspect, aspectType)
 			loco = tr.Loco()
-			logging.debug("loco for train %s is %s" % (tr.Name(), str(loco)))
 			locoinfo = self.parent.GetLocoInfo(loco)
 			if locoinfo is None:
-				return ""
+				return throttle
 			else:
-				logging.debug("locoinfo returned = %s" % str(locoinfo))
 				try:
 					limit = locoinfo["prof"][profileindex[px]]
 				except (IndexError, KeyError):

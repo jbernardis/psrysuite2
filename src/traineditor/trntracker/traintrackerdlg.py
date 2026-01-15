@@ -4,6 +4,7 @@ import json
 from traineditor.trntracker.trainroster import TrainRoster
 from traineditor.locomotives.locomotives import Locomotives
 from traineditor.trntracker.traincardsreport import TrainCardsReport
+from traineditor.trntracker.schedulereport import ScheduleReport
 
 BTNSZ = (120, 46)
 BTNSZSMALL = (80, 30)
@@ -371,7 +372,7 @@ class TrainTrackerDlg(wx.Dialog):
 		self.bRevert.SetToolTip("Revert to the most recently saved trains file")
 		self.Bind(wx.EVT_BUTTON, self.bRevertPressed, self.bRevert)
 		btnSizer.Add(self.bRevert)
-		
+
 		btnSizer.AddSpacer(30)
 
 		self.bPrintTrainCards = wx.Button(self, wx.ID_ANY, "Print Train Cards", size=BTNSZ)
@@ -380,7 +381,16 @@ class TrainTrackerDlg(wx.Dialog):
 		self.Bind(wx.EVT_BUTTON, self.bPrintTrainCardsPressed, self.bPrintTrainCards)
 		self.bPrintTrainCards.Enable(self.browser is not None)
 		btnSizer.Add(self.bPrintTrainCards)
-				
+
+		btnSizer.AddSpacer(30)
+
+		self.bPrintTrainSchedules = wx.Button(self, wx.ID_ANY, "Print Schedules", size=BTNSZ)
+		self.bPrintTrainSchedules.SetFont(btnFont)
+		self.bPrintTrainSchedules.SetToolTip("Print schedules")
+		self.Bind(wx.EVT_BUTTON, self.bPrintTrainSchedulesPressed, self.bPrintTrainSchedules)
+		self.bPrintTrainSchedules.Enable(self.browser is not None)
+		btnSizer.Add(self.bPrintTrainSchedules)
+
 		btnSizer.AddSpacer(30)
 		
 		self.bExit = wx.Button(self, wx.ID_ANY, "Exit", size=BTNSZ)
@@ -388,9 +398,8 @@ class TrainTrackerDlg(wx.Dialog):
 		self.bExit.SetToolTip("Dismiss the dialog box")
 		self.Bind(wx.EVT_BUTTON, self.bExitPressed, self.bExit)
 		btnSizer.Add(self.bExit)
-		
 
-		vsizer = wx.BoxSizer(wx.VERTICAL)		
+		vsizer = wx.BoxSizer(wx.VERTICAL)
 		vsizer.AddSpacer(20)
 		vsizer.Add(hsizer)	   
 		vsizer.AddSpacer(20)
@@ -921,6 +930,10 @@ class TrainTrackerDlg(wx.Dialog):
 	def bPrintTrainCardsPressed(self, _):
 		rpt = TrainCardsReport(self, self.browser)
 		rpt.TrainCards(self.roster, self.trainList, self.RRServer)
+
+	def bPrintTrainSchedulesPressed(self, _):
+		rpt = ScheduleReport(self, self.browser)
+		rpt.ScheduleReport(self.roster, self.RRServer)
 
 	def bExitPressed(self, _):
 		if self.modified:

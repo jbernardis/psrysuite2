@@ -205,7 +205,6 @@ class Railroad:
 			blk.SetOS(osBlock)
 
 			for sn in sigList:
-				print("build signal to os map for signal %s" % sn, file=sys.stderr)
 				if sn not in self.sigToOSMap:
 					self.sigToOSMap[sn] = []
 				self.sigToOSMap[sn].append(osBlock)
@@ -1945,15 +1944,22 @@ class Railroad:
 				logging.debug("Block %s should have been an OS" % nb.Name())
 				return None
 
-			ar = nb.OS().ActiveRoute()
-			if ar is None:
-				logging.debug("OS %s has no active route" % nb.Name())
-				return None
+			rtList = nb.OS().Routes()
+			sigNm = None
+			for rtn in rtList:
+				rt = self.routes[rtn]
+				bnames = [b.Name() for b in rt.EndPoints() if b is not None]
+				baseName = blk.MainBlock().StoppedBlock().Name()
+				try:
+					ix = bnames.index(baseName)
+				except ValueError:
+					ix = None
+				if ix is not None:
+					sigNm = rt.Signals()[ix]
+					break
 
-			if tr.East() == ar.East():
-				sigNm = ar.EntrySignal()
-			else:
-				sigNm = ar.ExitSignal()
+			if sigNm is None:
+				logging.debug("Unable to identify signal")
 			sig = self.signals.get(sigNm, None)
 			if sig is None:
 				logging.debug("Unable to identify signal")
@@ -2599,6 +2605,8 @@ class Railroad:
 							self.lastValues[objName] = [0, 0]
 						else:
 							self.lastValues[objName][0] = 0
+					else:
+						aspectL = 0
 
 				if transitionR0:
 					aspectR, m = self.ProcessSignalLeverSide(obj, 0, cbit, "R", locale)
@@ -2608,6 +2616,8 @@ class Railroad:
 							self.lastValues[objName] = [0, 0]
 						else:
 							self.lastValues[objName][1] = 0
+					else:
+						aspectR = 0
 
 				if transitionL1:
 					aspectL, m = self.ProcessSignalLeverSide(obj, 1, cbit, "L", locale)
@@ -2617,6 +2627,8 @@ class Railroad:
 							self.lastValues[objName] = [1, 0]
 						else:
 							self.lastValues[objName][0] = 1
+					else:
+						aspectL = 0
 
 				if transitionR1:
 					aspectR, m = self.ProcessSignalLeverSide(obj, 1, cbit, "R", locale)
@@ -2626,6 +2638,8 @@ class Railroad:
 							self.lastValues[objName] = [0, 1]
 						else:
 							self.lastValues[objName][1] = 1
+					else:
+						aspectR = 0
 
 				obj.UpdateLed(aspectR, aspectL)
 
@@ -2635,7 +2649,6 @@ class Railroad:
 	def ProcessSignalLeverSide(self, lever, bit, callon, LR, locale):
 		msgs = []
 		leverName = lever.Name()
-		locale = lever.District().Locale()
 		sigBaseNm = leverName + LR
 		osList = self.lvrToOSMap.get(sigBaseNm, None)
 
@@ -2658,6 +2671,7 @@ class Railroad:
 			sigMatch = None
 
 		if sigMatch is None:
+			self.Alert("No Route Available for signal %s" % sigBaseNm, locale=locale)
 			return None, []
 		else:
 			osblk = self.osblocks[osName]
@@ -2689,7 +2703,6 @@ class Railroad:
 
 			lever.district.EvaluateDistrictLocks(sig, None)
 			self.EvaluatePreviousSignals(sig)
-			self.Alert("check train for signal %s os %s" % (sigMatch, osName))
 			msgs.extend(self.UpdateTrainFromSignal(sig, sigMatch, osblk, osName))
 			return aspect, msgs
 
@@ -2713,14 +2726,14 @@ class Railroad:
 
 		if blk.IsOccupied():
 			if not silent:
-				self.Alert("Block %s is busy" % osblk.RouteDesignator(), locale=sig.District().Locale())
+				self.Alert("Block %s is busy" % osblk.RouteDesignator(), locale=locale)
 			logging.debug("Unable to calculate aspect: OS Block is busy")
 			return None
 
 		currentDirection = sig.East()
 		if currentDirection != osblk.IsEast() and osblk.IsCleared():
 			if not silent:
-				self.Alert("Block %s is cleared in opposite direction" % osblk.RouteDesignator(), locale=sig.District().Locale())
+				self.Alert("Block %s is cleared in opposite direction" % osblk.RouteDesignator(), locale=locale)
 			logging.debug("Unable to calculate aspect: Block %s is cleared in opposite direction" % osblk.Name())
 			return None
 
@@ -2730,20 +2743,20 @@ class Railroad:
 		if exitBlk is not None:
 			if exitBlk.IsOccupied():
 				if not silent:
-					self.Alert("Block %s is busy" % exitBlk.RouteDesignator(), locale=sig.District().Locale())
+					self.Alert("Block %s is busy" % exitBlk.RouteDesignator(), locale=locale)
 				logging.debug("Unable to calculate aspect: Block %s is busy" % exitBlk.Name())
 				return None
 
 			if exitBlk.IsCleared():
 				if exitBlk.East() != currentDirection:
 					if not silent:
-						self.Alert("Block %s is cleared in opposite direction" % exitBlk.RouteDesignator(), locale=sig.District().Locale())
+						self.Alert("Block %s is cleared in opposite direction" % exitBlk.RouteDesignator(), locale=locale)
 					logging.debug("Unable to calculate aspect: Block %s cleared in opposite direction" % exitBlk.Name())
 					return None
 
 			if exitBlk.AreHandSwitchesUnlocked():
 				if not silent:
-					self.Alert("Block %s has a siding unlocked" % exitBlk.RouteDesignator())
+					self.Alert("Block %s has a siding unlocked" % exitBlk.RouteDesignator(), locale=locale)
 				logging.debug("Unable to calculate aspect: Block %s has a siding unlocked" % exitBlk.Name())
 				return None
 
@@ -3489,10 +3502,18 @@ class Railroad:
 
 		return None
 
+	def GetTrainByLoco(self, loco):
+		for tr in self.trains.values():
+			if tr.Loco() == loco:
+				return tr
+
+		return None
+
 	def RemoveEngineerFromTrains(self, engineer):
 		for trid, tr in self.trains.items():
 			if tr.Engineer() == engineer:
 				tr.SetEngineer(None)
+				self.Advice("Engineer %s removed from train %s" % (engineer, tr.Name()))
 				self.RailroadEvent(tr.GetEventMessage())
 
 	def GetActiveTrainList(self):

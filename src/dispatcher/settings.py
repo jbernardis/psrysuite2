@@ -176,7 +176,6 @@ class Settings:
 		self.dispatcher.prechecksavelogs = True
 		self.dispatcher.clockstarttime = 355
 		self.dispatcher.matrixturnoutdelay = 2
-		self.dispatcher.notifyinvalidblocks = True
 		self.dispatcher.notifyincorrectroute = True
 		if self.cfg.has_section(section):
 			for opt, value in self.cfg.items(section):
@@ -211,9 +210,6 @@ class Settings:
 						s = 355
 					self.dispatcher.clockstarttime = s
 
-				elif opt == 'notifyinvalidblocks':
-					self.dispatcher.notifyinvalidblocks = parseBoolean(value, True)
-
 				elif opt == 'notifyincorrectroute':
 					self.dispatcher.notifyincorrectroute = parseBoolean(value, True)
 
@@ -226,7 +222,7 @@ class Settings:
 
 		section = "display"
 		self.display = SNode()
-		self.display.name = "Display"
+		self.display.locale = "display"
 		self.display.pages = 3
 		self.display.showevents = False
 		self.display.showadvice = False
@@ -254,8 +250,8 @@ class Settings:
 				elif opt == 'showunknownhistory':
 					self.display.showunknownhistory = parseBoolean(value, True)
 
-				elif opt == 'name':
-					self.display.name = value
+				elif opt == 'locale':
+					self.display.locale = value
 
 		else:
 			print("Missing %s section - assuming defaults" % section)
@@ -461,7 +457,6 @@ class Settings:
 		self.cfg.set(section, "prechecksavelogs", "True" if self.dispatcher.prechecksavelogs else "False")
 		self.cfg.set(section, "clockstarttime",   "%d" % self.dispatcher.clockstarttime)
 		self.cfg.set(section, "matrixturnoutdelay",   "%d" % self.dispatcher.matrixturnoutdelay)
-		self.cfg.set(section, "notifyinvalidblocks", "True" if self.dispatcher.notifyinvalidblocks else "False")
 		self.cfg.set(section, "notifyincorrectroute", "True" if self.dispatcher.notifyincorrectroute else "False")
 
 		section = "display"
@@ -474,7 +469,7 @@ class Settings:
 		self.cfg.set(section, "showevents", "True" if self.display.showevents else "False")
 		self.cfg.set(section, "showadvice", "True" if self.display.showadvice else "False")
 		self.cfg.set(section, "showunknownhistory", "True" if self.display.showunknownhistory else "False")
-		self.cfg.set(section, "name", self.display.name)
+		self.cfg.set(section, "locale", self.display.locale)
 
 		section = "activetrains" 
 		try:

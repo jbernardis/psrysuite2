@@ -98,9 +98,10 @@ class Train:
 	def SetEngineer(self, engineer):
 		if engineer == self.engineer:
 			return
-
 		self.engineer = engineer
-		self.assignTime = None if engineer is None else int(time.time())
+
+	def SetAssignTime(self, asgtime):
+		self.assignTime = asgtime
 
 	def AssignTime(self):
 		return self.assignTime
@@ -154,7 +155,6 @@ class Train:
 	def SetAspect(self, aspect, aspecttype, pastSignal=None):
 		self.aspect = aspect
 		self.aspectType = aspecttype
-		logging.debug("set aspect for train %s to %s %s %s" % (self.Name(), aspect, aspecttype, pastSignal))
 		if pastSignal is not None:
 			self.pastSignal = pastSignal
 
@@ -187,6 +187,7 @@ class Train:
 
 	def SetThrottle(self, speed, speedtype):
 		self.throttle = formatThrottle(speed, speedtype)
+		logging.debug("Throttle is now set to %s" % self.throttle)
 
 	def Throttle(self):
 		return self.throttle

@@ -1,21 +1,25 @@
+active trains display  - still needs engineer assign time
+
+
+
 verify need/use of all settings variables - I think some can be removed
             [control]
             c13auto = False
-
-            [dispatcher]
-            notifyinvalidblocks = True
 
             [display]
             showunknownhistory = True
 
 
-use zeroconf to find server instead of settings file
+train database editor - merge tracker and sequences better, only have east on one page - rename tracker as train card information
+
+
+
 
 Generation of report for locomotive cards, engineer cards. - basic logic set, need to refine for chosen card format
 
 incorporation of locomotive photographs
 
-train database editor - merge tracker and sequences better, only have east on one page - rename tracker as train card information
+add locales to event/advice messages - basics are done, may need to add scenarios
 
 
 
@@ -23,20 +27,14 @@ Check the needed polarity for H30.srel/H30Power
 
 Block P50 directionality and train movement is not working - I think it works with the manual moving from monitor - this might be isolated to trafficgen
 
-add locales to event/advice messages - all, None, locale only
-
 Need to test dcc sniffer logic
 
-seems as if the wrong signal is being assigned to a train if the train is unable to get the signal it really needs westbound into L11, signal L6L is identified if a train is prezsently using that route.  Signal should be L8L
-
-print schedule - train sequence along with origin tower, terminal tower, direction of travel, space for loco, engineer and notes
 
 
 
 
 
-
-automate C13 - should this be done as part of ATC?
+automate C13 - should this be done as part of AR?
 
 to be fixed in monitor:
     neutralize all signals

@@ -1081,6 +1081,9 @@ class MainFrame(wx.Frame):
 	def ClearLocks(self, toNames):
 		self.Request({"clearlocks": {"turnouts": toNames}})
 
+	def IsDisplay(self):
+		return not (self.settings.dispatcher.dispatch or self.settings.dispatcher.satellite)
+
 	def IsDispatcher(self):
 		return self.settings.dispatcher.dispatch
 
@@ -2512,7 +2515,7 @@ class MainFrame(wx.Frame):
 			# "traincomplete":	self.DoCmdTrainComplete,
 			"clock":			self.DoCmdClock,
 			# "dccspeed":			self.DoCmdDCCSpeed,
-			# "dccspeeds":		self.DoCmdDCCSpeeds,
+			"dccspeeds":		self.DoCmdDCCSpeeds,
 			"control":			self.DoCmdControl,
 			"sessionID":		self.DoCmdSessionID,
 			"end":				self.DoCmdEnd,
@@ -3124,104 +3127,104 @@ class MainFrame(wx.Frame):
 	# 	tr.SetSignal(sig)
 	# 	# self.activeTrains.UpdateTrain(trid)
 
-	def CheckForIncorrectRoute(self, tr, sig, ignoreunchangedsignal=False, silent=False):
-		if tr is None or sig is None:
-			return None, None
-
-		if not self.settings.dispatcher.notifyincorrectroute:
-			return None, None
-
-		if not self.IsDispatcherOrSatellite():
-			return None, None
-
-		trid = tr.GetName()
-		signm = sig.GetName()
-
-		currentSig, currentAspect, fa = tr.GetSignal()
-		if fa is not None:
-			currentAspect = fa
-
-		if currentAspect is None:
-			return None, None
-
-		if not ignoreunchangedsignal:
-			if currentSig is None:
-				changedSignal = True
-			else:
-				changedSignal = currentSig.GetName() != signm or currentAspect != sig.GetAspect()
-			if not changedSignal:
-				return None, None
-
-		aspect = sig.GetAspect()
-		if aspect == 0:
-			return None, None
-
-		blk = tr.FrontBlock()
-		if blk is not None:
-			blknm = blk.GetName()
-			if blk.GetEast():
-				nb = blk.GetAdjacentBlocks()[0]
-			else:
-				nb = blk.GetAdjacentBlocks()[1]
-		else:
-			blknm = None
-			nb = None
-
-		if nb is None:
-			return None, None
-
-		if nb.GetBlockType() != OVERSWITCH:
-			return None, None
-
-		rt = nb.GetRoute()
-		if rt is None:
-			return None, None
-
-		nextBlk = rt.GetExitBlock()
-		if nextBlk is not None and nextBlk in ValidBlocks:
-			"""
-			possibility here - if we do not want to check for incorrect block entry when we are coming into a yerd
-			then we should return None, None here, otherwise pass
-			"""
-			return None, None
-
-		rtnm = nb.GetRouteName()
-		if rtnm is None:
-			return None, None
-
-		try:
-			seq = self.trainList[trid]["sequence"]
-		except (IndexError, KeyError):
-			try:
-				chrt = tr.GetChosenRoute()
-				seq = self.trainList[chrt]["sequence"]
-			except (IndexError, KeyError):
-				seq = None
-
-		if seq is None:
-			return None, None
-
-		blist = [s["block"] for s in seq]
-		if blknm not in blist:
-			return None, None
-
-		rlist = [s["route"] for s in seq]
-		if rtnm not in rlist:
-			incorrectRoute = formatRouteDesignator(rtnm)
-			correctRoute = None
-			for s in seq:
-				if signm == s["signal"]:
-					correctRoute = formatRouteDesignator(s["route"])
-					break
-
-			# if there is no correct route, then most likely we are beyond the end of the train route - do nothing
-			if not silent and correctRoute is not None:
-				self.PopupAdvice("Train %s: incorrect route beyond signal %s: %s" % (trid, signm, incorrectRoute))
-				self.PopupAdvice("The correct route is %s" % correctRoute)
-
-			return incorrectRoute, correctRoute
-
-		return None, rtnm
+	# def CheckForIncorrectRoute(self, tr, sig, ignoreunchangedsignal=False, silent=False):
+	# 	if tr is None or sig is None:
+	# 		return None, None
+	#
+	# 	if not self.settings.dispatcher.notifyincorrectroute:
+	# 		return None, None
+	#
+	# 	if not self.IsDispatcherOrSatellite():
+	# 		return None, None
+	#
+	# 	trid = tr.GetName()
+	# 	signm = sig.GetName()
+	#
+	# 	currentSig, currentAspect, fa = tr.GetSignal()
+	# 	if fa is not None:
+	# 		currentAspect = fa
+	#
+	# 	if currentAspect is None:
+	# 		return None, None
+	#
+	# 	if not ignoreunchangedsignal:
+	# 		if currentSig is None:
+	# 			changedSignal = True
+	# 		else:
+	# 			changedSignal = currentSig.GetName() != signm or currentAspect != sig.GetAspect()
+	# 		if not changedSignal:
+	# 			return None, None
+	#
+	# 	aspect = sig.GetAspect()
+	# 	if aspect == 0:
+	# 		return None, None
+	#
+	# 	blk = tr.FrontBlock()
+	# 	if blk is not None:
+	# 		blknm = blk.GetName()
+	# 		if blk.GetEast():
+	# 			nb = blk.GetAdjacentBlocks()[0]
+	# 		else:
+	# 			nb = blk.GetAdjacentBlocks()[1]
+	# 	else:
+	# 		blknm = None
+	# 		nb = None
+	#
+	# 	if nb is None:
+	# 		return None, None
+	#
+	# 	if nb.GetBlockType() != OVERSWITCH:
+	# 		return None, None
+	#
+	# 	rt = nb.GetRoute()
+	# 	if rt is None:
+	# 		return None, None
+	#
+	# 	nextBlk = rt.GetExitBlock()
+	# 	if nextBlk is not None and nextBlk in ValidBlocks:
+	# 		"""
+	# 		possibility here - if we do not want to check for incorrect block entry when we are coming into a yerd
+	# 		then we should return None, None here, otherwise pass
+	# 		"""
+	# 		return None, None
+	#
+	# 	rtnm = nb.GetRouteName()
+	# 	if rtnm is None:
+	# 		return None, None
+	#
+	# 	try:
+	# 		seq = self.trainList[trid]["sequence"]
+	# 	except (IndexError, KeyError):
+	# 		try:
+	# 			chrt = tr.GetChosenRoute()
+	# 			seq = self.trainList[chrt]["sequence"]
+	# 		except (IndexError, KeyError):
+	# 			seq = None
+	#
+	# 	if seq is None:
+	# 		return None, None
+	#
+	# 	blist = [s["block"] for s in seq]
+	# 	if blknm not in blist:
+	# 		return None, None
+	#
+	# 	rlist = [s["route"] for s in seq]
+	# 	if rtnm not in rlist:
+	# 		incorrectRoute = formatRouteDesignator(rtnm)
+	# 		correctRoute = None
+	# 		for s in seq:
+	# 			if signm == s["signal"]:
+	# 				correctRoute = formatRouteDesignator(s["route"])
+	# 				break
+	#
+	# 		# if there is no correct route, then most likely we are beyond the end of the train route - do nothing
+	# 		if not silent and correctRoute is not None:
+	# 			self.PopupAdvice("Train %s: incorrect route beyond signal %s: %s" % (trid, signm, incorrectRoute))
+	# 			self.PopupAdvice("The correct route is %s" % correctRoute)
+	#
+	# 		return incorrectRoute, correctRoute
+	#
+	# 	return None, rtnm
 	#
 	# def DoCmdDeleteTrain(self, parms):
 	# 	try:
@@ -3640,6 +3643,12 @@ class MainFrame(wx.Frame):
 		except KeyError:
 			pastSignal = False
 
+		try:
+			assignTime = parms[0]["assigntime"]
+		except (KeyError, ValueError):
+			logging.error("Error parsing %s as a float" % str(parms[0]))
+			assignTime = None
+
 		if iname is None:
 			logging.error("Received a train command without an internal name - ignoring")
 			return
@@ -3663,6 +3672,7 @@ class MainFrame(wx.Frame):
 		tr.SetEast(east)
 		tr.SetLoco(loco, short)
 		tr.SetEngineer(engineer)
+		tr.SetAssignTime(assignTime)
 
 		if rname is not None:
 			self.trainNameMap[rname] = tr
@@ -3816,40 +3826,38 @@ class MainFrame(wx.Frame):
 			self.ShowClockStatus()
 		self.DisplayTimeValue()
 	
-	def DoCmdDCCSpeed(self, parms):
-		pass
-		# for p in parms:
-		# 	try:
-		# 		loco = p["loco"]
-		# 	except:
-		# 		loco = None
-		#
-		# 	try:
-		# 		speed = p["speed"]
-		# 	except:
-		# 		speed = "0"
-		#
-		# 	try:
-		# 		speedtype = p["speedtype"]
-		# 	except:
-		# 		speedtype = None
-		#
-		# 	if loco is None:
-		# 		logging.error("DCCSpeed command without loco parameter")
-		# 		return
-		#
-		# 	tr = self.activeTrains.FindTrainByLoco(loco)
-		# 	if tr is not None:
-		# 		tr.SetThrottle(speed, speedtype)
-		# 		self.activeTrains.UpdateTrain(tr.GetName())
+	# def DoCmdDCCSpeed(self, parms):
+	# 	for p in parms:
+	# 		try:
+	# 			loco = p["loco"]
+	# 		except:
+	# 			loco = None
+	#
+	# 		try:
+	# 			speed = p["speed"]
+	# 		except:
+	# 			speed = "0"
+	#
+	# 		try:
+	# 			speedtype = p["speedtype"]
+	# 		except:
+	# 			speedtype = None
+	#
+	# 		if loco is None:
+	# 			logging.error("DCCSpeed command without loco parameter")
+	# 			return
+	#
+	# 		tr = self.activeTrainsDlg.FindTrainByLoco(loco)
+	# 		if tr is not None:
+	# 			tr.SetThrottle(speed, speedtype)
+	# 			self.activeTrainsDlg.UpdateTrain(tr)
 
 	def DoCmdDCCSpeeds(self, parms):
-		pass
-		# for loco, spinfo in parms.items():
-		# 	tr = self.activeTrains.FindTrainByLoco(loco)
-		# 	if tr is not None:
-		# 		tr.SetThrottle(spinfo[0], spinfo[1])
-		# 		self.activeTrains.UpdateTrain(tr.GetName())
+		for loco, spinfo in parms.items():
+			tr = self.activeTrainsDlg.FindTrainByLoco(loco)
+			if tr is not None:
+				tr.SetThrottle(spinfo[0], spinfo[1])
+				self.activeTrainsDlg.UpdateTrain(tr)
 
 	def DoCmdControl(self, parms):
 		for p in parms:
@@ -3874,13 +3882,19 @@ class MainFrame(wx.Frame):
 	def DoCmdSessionID(self, parms):
 		self.sessionid = int(parms)
 		if self.IsDispatcher():
-			self.sessionName = "Dispatcher"
+			self.locale = "Dispatcher"
 		elif self.IsSatellite():
-			self.sessionName = "Satellite"
+			self.locale = "Satellite"
 		else:
-			self.sessionName = self.settings.display.name
-		logging.info("connected to railroad server with session ID %d" % self.sessionid)
-		self.Request({"identify": {"SID": self.sessionid, "function": "DISPATCH" if self.IsDispatcher() else "SATELLITE" if self.IsSatellite() else "DISPLAY", "name": self.sessionName}})
+			self.locale = self.settings.display.locale
+
+		function = "DISPATCH" if self.IsDispatcher() else "SATELLITE" if self.IsSatellite() else "DISPLAY"
+		locale = self.locale if function == "DISPLAY" else None
+		logging.info("connected to railroad server with session ID %s" % self.sessionid)
+		msg = {"identify": {"SID": self.sessionid, "function": function}}
+		if locale is not None:
+			msg["identify"]["locale"] = locale
+		self.Request(msg)
 		self.DoRefresh(True)
 		self.ShowTitle()
 
@@ -3944,8 +3958,17 @@ class MainFrame(wx.Frame):
 					
 	def DoCmdAdvice(self, parms):
 		if "msg" in parms:
-			if self.IsDispatcherOrSatellite() or self.settings.display.showadvice:
-				self.PopupAdvice(parms["msg"])
+			show = False
+			if self.IsDispatcherOrSatellite():
+				show = True
+			else:  # display process
+				if self.settings.display.showadvice:
+					show = True
+				elif "locale" in parms and parms["locale"] == self.settings.display.locale:
+					show = True
+			if show:
+				logging.info("ADVICE: %s" % (str(parms)))
+				self.PopupAdvice(parms["msg"], force=True)
 
 	def DoCmdNodeStatus(self, parms):
 		logging.debug("nodestatus %s" % str(parms))
@@ -3983,9 +4006,18 @@ class MainFrame(wx.Frame):
 
 	def DoCmdAlert(self, parms):
 		if "msg" in parms:
-			if self.IsDispatcherOrSatellite() or self.settings.display.showevents:
+			show = False
+			if self.IsDispatcherOrSatellite():
+				show = True
+			else:  # display process
+				if self.settings.display.showevents:
+					show = True
+				elif "locale" in parms and parms["locale"] == self.settings.display.locale:
+					show = True
+
+			if show:
 				logging.info("ALERT: %s" % (str(parms)))
-				self.PopupEvent(parms["msg"])
+				self.PopupEvent(parms["msg"], force=True)
 				
 	# def DoCmdAR(self, parms):
 	# 	pass

@@ -320,6 +320,9 @@ class Port(District):
 			self.rr.AddTurnoutPosition("PBSw17", self, n, addr, [(5, 4), (5, 5)])
 			self.rr.AddBlock("P33",    self, n, addr, [(5, 6)], False)	
 
+	def Locale(self):
+		return "port"
+
 	def SetAspect(self, sig, aspect):
 		if sig.Name() == "PA4L":
 			pb4La = aspect != 0 # clear

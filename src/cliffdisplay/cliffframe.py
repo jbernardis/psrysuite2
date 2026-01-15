@@ -216,13 +216,11 @@ class CliffFrame(MainFrame):
 		self.timeDisplay = LEDNumberCtrl(self, wx.ID_ANY, pos=(self.centerOffset + 480, 10), size=(150, 50))
 		self.timeDisplay.SetBackgroundColour(wx.Colour(0, 0, 0))
 
-		if self.settings.display.showevents:
-			self.bEvents = wx.Button(self, wx.ID_ANY, "Events Log", pos=(self.centerOffset + 1400, 25), size=BTNDIM)
-			self.Bind(wx.EVT_BUTTON, self.OnBEventsLog, self.bEvents)
+		self.bEvents = wx.Button(self, wx.ID_ANY, "Events Log", pos=(self.centerOffset + 1400, 25), size=BTNDIM)
+		self.Bind(wx.EVT_BUTTON, self.OnBEventsLog, self.bEvents)
 
-		if self.settings.display.showadvice:
-			self.bAdvice = wx.Button(self, wx.ID_ANY, "Advice Log", pos=(self.centerOffset + 1400, 65), size=BTNDIM)
-			self.Bind(wx.EVT_BUTTON, self.OnBAdviceLog, self.bAdvice)
+		self.bAdvice = wx.Button(self, wx.ID_ANY, "Advice Log", pos=(self.centerOffset + 1400, 65), size=BTNDIM)
+		self.Bind(wx.EVT_BUTTON, self.OnBAdviceLog, self.bAdvice)
 
 		self.totalw = totalw
 		self.totalh = diagramh + 280  # 1080 if diagram is full 800 height

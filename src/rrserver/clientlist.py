@@ -13,11 +13,11 @@ class ClientList:
 		self.sids = []
 		self.skts = []
 		self.functions = []
-		self.names = []
+		self.locales = []
 		self.clientList = []
 		self.functionLists = {}
 
-	def AddClient(self, addr, skt, sid, function):
+	def AddClient(self, addr, skt, sid):
 		if addr in self.clientList:
 			return
 
@@ -26,29 +26,29 @@ class ClientList:
 		self.sids.append(sid)
 		self.skts.append(skt)
 		self.functions.append("")
-		self.names.append("")
+		self.locales.append("")
 		self.UpdateFunctionLists()
 		
 	def GetClients(self):
-		return [[self.sids[x], self.functions[x], self.clientList[x][0], self.clientList[x][1]] for x in range(len(self.sids))]
+		return [[self.sids[x], self.functions[x], self.clientList[x][0], self.clientList[x][1], self.locales[x]] for x in range(len(self.sids))]
 		
-	def SetSessionFunction(self, sid, function, name):
+	def SetSessionFunction(self, sid, function, locale):
 		try:
 			index = self.sids.index(sid)
 		except ValueError:
 			return
 		
 		self.functions[index] = function
-		self.names[index] = name
+		self.locales[index] = locale
 		self.UpdateFunctionLists()
 
 	def HasFunction(self, function):
 		return function in self.functions
 
-	def GetFunctionAddress(self, function):
+	def GetFunctionAddress(self, function, locale=None):
 		cl = []
 		for i in range(len(self.clientList)):
-			if function == self.functions[i]:
+			if function == self.functions[i] and (locale is None or locale == self.locales[i]):
 				cl.append((self.clientList[i], self.skts[i]))
 			
 		return cl
@@ -66,6 +66,17 @@ class ClientList:
 			except KeyError:
 				pass
 		return clients
+
+	def GetLocaleClients(self, locale):
+		cl = []
+		for i in range(len(self.locales)):
+			if functions[i] == "DISPLAY":
+				if locale == self.locales[i]:
+					cl.append((self.clientList[i], self.skts[i]))
+			else:
+				cl.append((self.clientList[i], self.skts[i]))
+
+		return cl
 
 	def GetFunctionAtAddress(self, address):
 		for i in range(len(self.clientList)):
@@ -88,4 +99,5 @@ class ClientList:
 		del(self.sids[index])
 		del(self.skts[index])
 		del(self.functions[index])
+		del(self.locales[index])
 		self.UpdateFunctionLists()

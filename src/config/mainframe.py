@@ -194,12 +194,6 @@ class MainFrame(wx.Frame):
 
 		boxsizer.AddSpacer(10)
 
-		self.cbNotifyInvalidBlock = wx.CheckBox(dispBox, wx.ID_ANY, "Notify entry into an invalid block")
-		boxsizer.Add(self.cbNotifyInvalidBlock, 0, wx.LEFT, 40)
-		self.cbNotifyInvalidBlock.SetValue(self.settings.dispatcher.notifyinvalidblocks)
-
-		boxsizer.AddSpacer(10)
-
 		self.cbNotifyIncorrectRoute = wx.CheckBox(dispBox, wx.ID_ANY, "Notify signal cleared for incorrect route")
 		boxsizer.Add(self.cbNotifyIncorrectRoute, 0, wx.LEFT, 40)
 		self.cbNotifyIncorrectRoute.SetValue(self.settings.dispatcher.notifyincorrectroute)
@@ -255,7 +249,24 @@ class MainFrame(wx.Frame):
 		self.cbShowUnknown.SetValue(self.settings.display.showunknownhistory)
 
 		boxsizer.AddSpacer(10)
-		
+
+		hsz = wx.BoxSizer(wx.HORIZONTAL)
+		hsz.AddSpacer(40)
+		hsz.Add(wx.StaticText(dispBox, wx.ID_ANY, "Locale:"))
+		hsz.AddSpacer(10)
+
+		self.locales = ["<none>", "cliff", "port", "yard"]
+		self.chLocale = wx.Choice(dispBox, wx.ID_ANY, choices=self.locales)
+		hsz.Add(self.chLocale)
+		try:
+			lx = self.locales.index(self.settings.display.locale)
+		except ValueError:
+			lx = 0
+		self.chLocale.SetSelection(lx)
+		boxsizer.Add(hsz)
+
+		boxsizer.AddSpacer(10)
+
 		dispBox.SetSizer(boxsizer)
 		
 		vszrm.Add(dispBox, 0, wx.EXPAND)
@@ -580,7 +591,6 @@ class MainFrame(wx.Frame):
 		rbv = self.rbMode.GetSelection()
 		self.settings.dispatcher.dispatch = rbv == 0
 		self.settings.dispatcher.satellite = rbv == 1
-		self.settings.dispatcher.notifyinvalidblocks = self.cbNotifyInvalidBlock.IsChecked()
 		self.settings.dispatcher.notifyincorrectroute = self.cbNotifyIncorrectRoute.IsChecked()
 		self.settings.dispatcher.precheckshutdownserver = self.cbPrecheckShutdownServer.IsChecked()
 		self.settings.dispatcher.prechecksnapshot = self.cbPrecheckSnapshot.IsChecked()
@@ -602,6 +612,9 @@ class MainFrame(wx.Frame):
 		self.settings.display.showevents = self.cbShowEvents.IsChecked()
 		self.settings.display.showadvice = self.cbShowAdvice.IsChecked()
 		self.settings.display.showunknownhistory = self.cbShowUnknown.IsChecked()
+		self.settings.display.locale = self.chLocale.GetStringSelection()
+		if self.settings.display.locale == self.locales[0]:
+			self.settings.display.locale = ""
 
 		self.settings.activetrains.suppressyards = self.cbSuppressYards.IsChecked()		
 		ix = self.rbShowOnly.GetSelection()

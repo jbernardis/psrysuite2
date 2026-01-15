@@ -1,4 +1,6 @@
 import logging
+import time
+
 from dispatcher.constants import aspectname, aspecttype, RegAspects
 
 
@@ -19,6 +21,7 @@ class Train:
 		self.stopped = False
 		self.templateTrain = None
 		self.signal = None
+		self.assigntime = None
 
 	def IsIdentified(self):
 		return self.rname is not None
@@ -111,6 +114,11 @@ class Train:
 		return self.engineer
 
 	def SetEngineer(self, e):
+		if e is None:
+			self.assigntime = None
+		else:
+			if self.engineer != e:
+				self.assigntime = time.time()
 		self.engineer = e
 
 	def SetTemplateTrain(self, tn):
@@ -174,7 +182,8 @@ class Train:
 			"signal": None if self.signal is None else self.signal.Name(),
 			"aspect": self.aspect,
 			"aspecttype": self.aspectType,
-			"pastsignal": self.pastSignal
+			"pastsignal": self.pastSignal,
+			"assigntime": self.assigntime
 		}
 
 		return {"train": [parms]}

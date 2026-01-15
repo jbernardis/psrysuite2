@@ -1,0 +1,33 @@
+{"setinbit": {"address": "0x61", "byte": [4], "bit": [5], "value": [1]}}
+{"delay": {"ms": 500}}
+{"modifytrain": {"iname": ["??0"], "name": ["HWX"], "loco": ["5304"], "east": ["0"]}}
+{"delay": {"ms": 500}}
+{"setinbit": {"address": "0x52", "byte": [3, 3, 3, 3, 3, 3, 4, 4, 4], "bit": [2, 3, 4, 5, 6, 7, 0, 1, 2], "value": [1, 1, 1, 1, 1, 1, 1, 1, 1]}}
+{"delay": {"ms": 500}}
+{"modifytrain": {"iname": ["??1"], "name": ["PBCX"], "loco": ["4023"], "east": ["0"]}}
+{"delay": {"ms": 500}}
+{"modifytrain": {"iname": ["??9"], "name": ["HEX"], "loco": ["7600"], "east": ["1"]}}
+{"delay": {"ms": 500}}
+{"setinbit": {"address": "0x11", "byte": [5, 4, 4, 5], "bit": [3, 6, 7, 0], "value": [1, 1, 1, 1]}}
+{"delay": {"ms": 500}}
+{"setinbit": {"address": "0x12", "byte": [2, 2, 2, 2], "bit": [0, 1, 2, 3], "value": [1, 1, 1, 1]}}
+{"delay": {"ms": 500}}
+{"setinbit": {"address": "0x22", "byte": [3, 3, 3, 3, 3, 3, 3], "bit": [0, 1, 2, 3, 4, 5, 6], "value": [1, 1, 1, 1, 1, 1, 1]}}
+{"delay": {"ms": 500}}
+{"setinbit": {"address": "0x72", "byte": [2], "bit": [7], "value": [1]}}
+{"delay": {"ms": 500}}
+{"modifytrain": {"iname": ["??25"], "name": ["21"], "loco": ["??"], "east": ["0"]}}
+{"delay": {"ms": 500}}
+{"setinbit": {"address": "0x73", "byte": [2], "bit": [2], "value": [1]}}
+{"delay": {"ms": 500}}
+{"modifytrain": {"iname": ["??26"], "name": ["44"], "loco": ["??"], "east": ["1"]}}
+{"delay": {"ms": 500}}
+{"setinbit": {"address": "0x92", "byte": [1], "bit": [6], "value": [1]}}
+{"delay": {"ms": 500}}
+{"modifytrain": {"iname": ["??27"], "name": ["43"], "loco": ["??"], "east": ["0"]}}
+{"delay": {"ms": 500}}
+{"setinbit": {"address": "0x93", "byte": [2, 2, 2, 1, 1, 1], "bit": [2, 1, 0, 7, 6, 5], "value": [1, 1, 1, 1, 1, 1]}}
+{"delay": {"ms": 500}}
+{"setinbit": {"address": "0x95", "byte": [1, 1, 1, 1, 1], "bit": [2, 3, 4, 5, 6], "value": [1, 1, 1, 1, 1]}}
+{"delay": {"ms": 500}}
+

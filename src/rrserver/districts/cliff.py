@@ -437,7 +437,7 @@ class Cliff(District):
 			if not tout:
 				return None
 			if tout.IsLocked() or tout.IsDisabled():
-				self.rr.Alert("Route %s not allowed" % rtNm)
+				self.rr.Alert("Route %s not allowed" % rtNm, locale=self.Locale())
 				return None
 
 		for toName, state in tolist:
