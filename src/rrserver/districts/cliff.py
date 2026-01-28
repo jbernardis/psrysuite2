@@ -341,7 +341,7 @@ class Cliff(District):
 		}
 
 		self.routeOSMap = {
-			"CG21W": "COSGWW",
+			"CG21W": "COSGMW",
 			"CC10W": "COSGMW",
 			"CC30W": "COSGMW",
 			"CC31W": "COSGMW",

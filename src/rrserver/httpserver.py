@@ -71,12 +71,19 @@ class Handler(BaseHTTPRequestHandler):
 			directory = "data"
 
 		if not err:
-			folder = os.path.join(os.getcwd(), directory)
-			fn = os.path.join(folder, filename)
+			if directory == "live" and filename == "SNAPSHOT":
+				ssdata = json.loads(self.rfile.read(content_length))
+				logging.debug("Received live snapshot data: %s" % ssdata)
+				logging.debug("Type: %s" % type(ssdata))
+				app.ApplySnapshot(ssdata)
+				logging.debug("after call to apply snapshot")
+			else:
+				folder = os.path.join(os.getcwd(), directory)
+				fn = os.path.join(folder, filename)
 
-			trdata = json.loads(self.rfile.read(content_length))
-			with open(fn, "w") as jfp:
-				json.dump(trdata, jfp, indent=2)
+				trdata = json.loads(self.rfile.read(content_length))
+				with open(fn, "w") as jfp:
+					json.dump(trdata, jfp, indent=2)
 
 			self.send_response(200)
 			self.send_header("Content-type", "text/plain")
@@ -137,6 +144,10 @@ class HTTPServer:
 
 	def getServer(self):
 		return self.server
+
+	def ApplySnapshot(self, ssdata):
+		logging.debug("apply snapshot in app")
+		self.rr.ApplySnapshot(ssdata)
 
 	def dispatch(self, cmd):
 		verb = cmd["cmd"][0]
@@ -254,10 +265,23 @@ class HTTPServer:
 			logging.info("Returning %d bytes" % len(jstr))
 			return 200, jstr
 
-		elif verb == "savesnapshot":
+		elif verb == "snapshot":
 			logging.debug("HTTP Server - savesnapshot")
-			msg = self.rr.SaveSnapshot()
-			return 200, msg
+			try:
+				action = cmd["action"][0]
+			except (KeyError, IndexError):
+				logging.debug("snapshot command missing action: %s" % str(cmd))
+				action = "save"
+
+			if action == "save":
+				msg = self.rr.SaveSnapshot()
+				return 200, msg
+			elif action == "retrieve":
+				j = self.rr.RetrieveSnapshot()
+				jstr = json.dumps(j)
+				return 200, jstr
+			else:
+				return 400, "Unknown action: %s" % action
 
 		elif verb == "snaplist":
 			logging.debug("http server snaplist")
@@ -490,7 +514,6 @@ class HTTPServer:
 			jstr = json.dumps(j)
 			logging.info("Returning %d bytes" % len(jstr))
 			return 200, jstr
-
 
 		else:
 			self.cbCommand(cmd)

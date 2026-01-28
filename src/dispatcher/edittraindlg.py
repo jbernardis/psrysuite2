@@ -440,6 +440,11 @@ class EditTrainDlg(wx.Dialog):
 					'Duplicate Train', wx.YES_NO | wx.NO_DEFAULT | wx.ICON_QUESTION)
 			rc = dlg.ShowModal()
 			dlg.Destroy()
+			if len(blist) == 0:
+				logging.debug("we found a %s train with no blocks" % self.chosenTrain)
+				logging.debug("active train name map: %s" % str(self.activeTrainNameMap))
+				self.activeTrains[iname].Dump()
+
 			if rc == wx.ID_YES:
 				self.EndModal(wx.ID_CANCEL)
 

@@ -196,26 +196,45 @@ class PSRYFrame(MainFrame):
 			self.bAutoRouter.Enable(False)
 			self.Bind(wx.EVT_BUTTON, self.OnBAutoRouter, self.bAutoRouter)
 
-			self.bATC = wx.Button(self, wx.ID_ANY, "ATC", pos=(self.centerOffset + 350, 45), size=BTNDIM)
+			self.bC13AR = wx.Button(self, wx.ID_ANY, "C13 AR", pos=(self.centerOffset + 350, 45), size=BTNDIM)
+			self.bC13AR.Enable(False)
+			self.Bind(wx.EVT_BUTTON, self.OnBC13AR, self.bC13AR)
+
+			self.bATC = wx.Button(self, wx.ID_ANY, "ATC", pos=(self.centerOffset + 350, 75), size=BTNDIM)
 			self.bATC.Enable(False)
 			self.Bind(wx.EVT_BUTTON, self.OnBATC, self.bATC)
 
 		if self.IsDispatcherOrSatellite():
-			self.bTakeSnapshot = wx.Button(self, wx.ID_ANY, "Take Snapshot", pos=(self.centerOffset + 2040, 15), size=SSBTNDIM)
+			self.SnapshotBox = wx.StaticBox(self, wx.ID_ANY, " Snapshot ", pos=(self.centerOffset + 2030, 0), size=(212, 110))
+			self.bTakeSnapshot = wx.Button(self, wx.ID_ANY, "Take", pos=(self.centerOffset + 2040, 20), size=SSBTNDIM)
 			self.bTakeSnapshot.Enable(False)
+			self.bTakeSnapshot.SetToolTip("Take a snapshot on the server machine")
 			self.Bind(wx.EVT_BUTTON, self.OnBTakeSnapshot, self.bTakeSnapshot)
 
-			self.bChooseSnapshot = wx.Button(self, wx.ID_ANY, "Restore Selected", pos=(self.centerOffset + 2040, 45), size=SSBTNDIM)
-			self.bChooseSnapshot.Enable(False)
-			self.Bind(wx.EVT_BUTTON, self.OnBChooseSnapshot, self.bChooseSnapshot)
+			self.bTakeLocal = wx.Button(self, wx.ID_ANY, "To Local", pos=(self.centerOffset + 2040, 50), size=SSBTNDIM)
+			self.bTakeLocal.Enable(False)
+			self.bTakeLocal.SetToolTip("Take a snapshot and store in a local file")
+			self.Bind(wx.EVT_BUTTON, self.OnBTakeLocal, self.bTakeLocal)
 
-			self.bLatestSnapshot = wx.Button(self, wx.ID_ANY, "Restore Latest", pos=(self.centerOffset + 2040, 75), size=SSBTNDIM)
+			self.bPreloaded = wx.Button(self, wx.ID_ANY, "Preloaded", pos=(self.centerOffset + 2040, 80), size=SSBTNDIM)
+			self.bPreloaded.Enable(False)
+			self.bPreloaded.SetToolTip("Edit preloaded trains")
+			self.Bind(wx.EVT_BUTTON, self.OnBPreloaded, self.bPreloaded)
+
+			self.bLatestSnapshot = wx.Button(self, wx.ID_ANY, "Restore", pos=(self.centerOffset + 2140, 20), size=SSBTNDIM)
 			self.bLatestSnapshot.Enable(False)
+			self.bLatestSnapshot.SetToolTip("Restore the most recent snapshot from the server")
 			self.Bind(wx.EVT_BUTTON, self.OnBLatestSnapshot, self.bLatestSnapshot)
 
-			self.bPreloaded = wx.Button(self, wx.ID_ANY, "Preloaded", pos=(self.centerOffset + 2150, 15), size=BTNDIM)
-			self.bPreloaded.Enable(False)
-			self.Bind(wx.EVT_BUTTON, self.OnBPreloaded, self.bPreloaded)
+			self.bChooseSnapshot = wx.Button(self, wx.ID_ANY, "Selected", pos=(self.centerOffset + 2140, 50), size=SSBTNDIM)
+			self.bChooseSnapshot.Enable(False)
+			self.bChooseSnapshot.SetToolTip("Choose a snapshot from the server")
+			self.Bind(wx.EVT_BUTTON, self.OnBChooseSnapshot, self.bChooseSnapshot)
+
+			self.bRestoreLocal = wx.Button(self, wx.ID_ANY, "From Local", pos=(self.centerOffset + 2140, 80), size=SSBTNDIM)
+			self.bRestoreLocal.Enable(False)
+			self.bRestoreLocal.SetToolTip("Restore a snapshot from a local file")
+			self.Bind(wx.EVT_BUTTON, self.OnBRestoreLocal, self.bRestoreLocal)
 
 		if self.IsDispatcherOrSatellite() or self.settings.display.showevents:
 			self.bEvents = wx.Button(self, wx.ID_ANY, "Events Log", pos=(self.centerOffset + 840, 25), size=BTNDIM)

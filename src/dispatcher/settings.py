@@ -136,7 +136,6 @@ class Settings:
 		self.control.nassau = 2
 		self.control.cliff = 0
 		self.control.yard = 0
-		self.control.c13auto = True
 
 		if self.cfg.has_section(section):
 			for opt, value in self.cfg.items(section):
@@ -160,9 +159,6 @@ class Settings:
 						print("value for controlyard out of range - assuming 0")
 						v = 0
 					self.control.yard = v
-
-				elif opt == 'c13auto':
-					self.control.c13auto = parseBoolean(value, True)
 
 		else:
 			print("Missing %s section - assuming defaults" % section)
@@ -441,7 +437,6 @@ class Settings:
 		self.cfg.set(section, "nassau",   "%d" % self.control.nassau)
 		self.cfg.set(section, "cliff",    "%d" % self.control.cliff)
 		self.cfg.set(section, "yard",     "%d" % self.control.yard)
-		self.cfg.set(section, "c13auto", "True" if self.control.c13auto else "False")
 
 		section = "dispatcher"
 		try:

@@ -314,6 +314,7 @@ class ServerMain:
 			"server":		self.DoServer,
 			
 			"autorouter":	self.DoAutorouter,
+			"c13ar":		self.DoC13AR,
 			"atc":			self.DoATC,
 
 			"loadsnapshot":	self.DoLoadSnapshot,
@@ -436,6 +437,10 @@ class ServerMain:
 			wantedaspect = int(cmd["wantedaspect"][0])
 		except (IndexError, KeyError):
 			wantedaspect = None
+		try:
+			silent = int(cmd["silent"][0]) == 1
+		except (IndexError, KeyError):
+			silent = False
 
 		if signame is None:
 			logging.error("Signal command without name parameter")
@@ -454,7 +459,7 @@ class ServerMain:
 			if wantedaspect != 0 and a != 0:
 				return
 
-		self.rr.SignalClick(signame, callon=callon)
+		self.rr.SignalClick(signame, callon=callon, silent=silent)
 
 	def DoSignalLock(self, cmd):			
 		try:
@@ -790,11 +795,9 @@ class ServerMain:
 			return
 
 		self.rr.SetControlOption(name, value)
-		# p = {tag: cmd[tag][0] for tag in cmd if tag != "cmd"}
-		# resp = {"control": [p]}
-		# addrList = self.clientList.GetFunctionAddress("DISPLAY") + self.clientList.GetFunctionAddress("DISPATCH") + self.clientList.GetFunctionAddress("SATELLITE")
-		# for addr, skt in addrList:
-		# 	self.socketServer.sendToOne(skt, addr, resp)
+		p = {tag: cmd[tag][0] for tag in cmd if tag != "cmd"}
+		resp = {"control": [p]}
+		self.socketServer.sendToAll(resp)
 		
 	def DoQuit(self, _):
 		self.Shutdown()
@@ -926,6 +929,7 @@ class ServerMain:
 				skt = data[0]
 				break
 		else:
+			logging.error("Unable to find socket information for session %d" % sid)
 			return
 
 		self.refreshClient(addr, skt)
@@ -1331,12 +1335,14 @@ class ServerMain:
 	def DoAdvice(self, cmd):
 		addrList = self.clientList.GetFunctionAddress("DISPATCH") + self.clientList.GetFunctionAddress("SATELLITE")
 		for addr, skt in addrList:
-			self.socketServer.sendToOne(skt, addr, {"advice": cmd})
+			for m in cmd["msg"]:
+				self.socketServer.sendToOne(skt, addr, {"advice": {"msg": m}})
 	
 	def DoAlert(self, cmd):
 		addrList = self.clientList.GetFunctionAddress("DISPATCH") + self.clientList.GetFunctionAddress("SATELLITE")
 		for addr, skt in addrList:
-			self.socketServer.sendToOne(skt, addr, {"alert": cmd})
+			for m in cmd["msg"]:
+				self.socketServer.sendToOne(skt, addr, {"alert": {"msg": m}})
 
 	def DoLoadSnapshot(self, cmd):
 		filename = cmd["filename"][0]
@@ -1377,7 +1383,6 @@ class ServerMain:
 		logging.debug("Got debugflags command: %s" % str(cmd))
 		try:
 			showaspectcalculation = int(cmd["showaspectcalculation"][0])
-			logging.debug("%s" % showaspectcalculation)
 		except (KeyError, IndexError, ValueError):
 			showaspectcalculation = 0
 
@@ -1431,6 +1436,11 @@ class ServerMain:
 		addrList = self.clientList.GetFunctionAddress("AUTOROUTER")
 		for addr, skt in addrList:
 			self.socketServer.sendToOne(skt, addr, {"autorouter": cmd})
+
+	def DoC13AR(self, cmd): # pass a message through to the C13AR process
+		addrList = self.clientList.GetFunctionAddress("C13AR")
+		for addr, skt in addrList:
+			self.socketServer.sendToOne(skt, addr, {"c13ar": cmd})
 
 	def DoATC(self, cmd):
 		addrList = self.clientList.GetFunctionAddress("ATC") + self.clientList.GetFunctionAddress("DISPLAY") + self.clientList.GetFunctionAddress("SATELLITE")

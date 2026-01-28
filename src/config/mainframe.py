@@ -413,12 +413,6 @@ class MainFrame(wx.Frame):
 					majorDimension=1, style=wx.RA_SPECIFY_COLS)
 		boxsizer.Add(self.rbCtlYard, 2, wx.EXPAND | wx.LEFT | wx.RIGHT, 10)
 		self.rbCtlYard.SetSelection(self.settings.control.yard)
-		
-		boxsizer.AddSpacer(10)
-
-		self.cbC13Auto = wx.CheckBox(controlBox, wx.ID_ANY, "Automate Block C13")
-		self.cbC13Auto.SetValue(self.settings.control.c13auto)
-		boxsizer.Add(self.cbC13Auto, 1, wx.EXPAND | wx.LEFT | wx.RIGHT, 10)
 
 		boxsizer.AddSpacer(10)
 
@@ -636,7 +630,6 @@ class MainFrame(wx.Frame):
 		self.settings.control.cliff = self.rbCtlCliff.GetSelection()
 		self.settings.control.nassau = self.rbCtlNassau.GetSelection()
 		self.settings.control.yard = self.rbCtlYard.GetSelection()
-		self.settings.control.c13auto = self.cbC13Auto.IsChecked()
 
 		if self.settings.SaveAll():
 			dlg = wx.MessageDialog(self, "Configuration Data has been saved", "Data Saved", wx.OK | wx.ICON_INFORMATION)

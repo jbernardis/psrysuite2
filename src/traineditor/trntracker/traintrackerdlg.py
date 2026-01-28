@@ -933,7 +933,7 @@ class TrainTrackerDlg(wx.Dialog):
 
 	def bPrintTrainSchedulesPressed(self, _):
 		rpt = ScheduleReport(self, self.browser)
-		rpt.ScheduleReport(self.roster, self.RRServer)
+		rpt.ScheduleReport(self.roster, self.locos, self.RRServer)
 
 	def bExitPressed(self, _):
 		if self.modified:

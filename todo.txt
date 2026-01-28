@@ -1,12 +1,12 @@
-active trains display  - still needs engineer assign time
+incorporate preloaded trains into snapshot
+
+
+problem - block C13 westbound.  When a train is in C13.E and C13, with C13.W still green, if c13.E empties, it also clears C13.W
 
 
 
 verify need/use of all settings variables - I think some can be removed
-            [control]
-            c13auto = False
-
-            [display]
+             [display]
             showunknownhistory = True
 
 
@@ -32,12 +32,6 @@ Need to test dcc sniffer logic
 
 
 
-
-
-automate C13 - should this be done as part of AR?
-
-to be fixed in monitor:
-    neutralize all signals
 
 inspection dialog
     ignore blocks

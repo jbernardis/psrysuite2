@@ -18,8 +18,9 @@ class EngineerCards (Report):
 				missingFiles.append(eng)
 		return missingFiles
 
-	def EngineerCards(self, englist):
+	def EngineerCards(self, englist, includeNone):
 		css = HTML.StyleSheet()
+		css.addElement("div.page", {"page-break-inside": "avoid"})
 		css.addElement("table", {'width': '700px', 'border-spacing': '0',  'margin-left': 'auto', 'margin-right': 'auto', "font-family": '"Times New Roman", Times, serif', "font-size": "16px"})
 		css.addElement("table, th, td", {'border-collapse': 'collapse'})
 		css.addElement("th", {'text-align': 'center',  'overflow': 'hidden'})
@@ -29,12 +30,19 @@ class EngineerCards (Report):
 		css.addElement("td.qrmt", {"width": "100px", "text-align": "center",  "vertical-align": "middle"})
 		css.addElement("td.spacer", {"width": "80px"})
 
-
-
 		html  = HTML.starthtml()
 		html += HTML.head(HTML.style({'type': "text/css", 'media': "screen, print"}, css))
 		
 		html += HTML.startbody()
+
+		if includeNone:
+			fn = os.path.join("qrcodes", "engineer_none.png")
+			img = HTML.img({"src": fn})
+			cleartable = HTML.table({},
+					HTML.td({"class": "eng"}, "Clear Engineer") +
+					HTML.td({"class": "qr"}, img))
+			html += cleartable
+			html += HTML.p({}, "")
 
 		rows = []
 		engOrder  = sorted(englist)

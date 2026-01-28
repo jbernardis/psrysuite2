@@ -212,7 +212,7 @@ class ManageEngineersDlg(wx.Dialog):
 			dlg.Destroy()
 			return
 
-		elist = dlg.GetResults()
+		elist, includeNone = dlg.GetResults()
 		dlg.Destroy()
 
 		if len(elist) == 0:
@@ -228,7 +228,7 @@ class ManageEngineersDlg(wx.Dialog):
 			if rc == wx.ID_NO:
 				return
 
-		rpt.EngineerCards(elist)  # self.engineers)
+		rpt.EngineerCards(elist, includeNone)  # self.engineers)
 
 	def bSavePressed(self, _):
 		self.eng.save()
@@ -314,9 +314,15 @@ class ChooseEngineersDlg(wx.Dialog):
 
 		btnsz.AddSpacer(20)
 
+		self.cbIncludeNone = wx.CheckBox(self, wx.ID_ANY, "Include card to clear")
+		self.cbIncludeNone.SetFont(btnFont)
+		self.cbIncludeNone.SetValue(True)
+
 		vsz = wx.BoxSizer(wx.VERTICAL)
 		vsz.AddSpacer(20)
 		vsz.Add(engsz, 0, wx.ALIGN_CENTER_HORIZONTAL)
+		vsz.AddSpacer(20)
+		vsz.Add(self.cbIncludeNone, 0, wx.ALIGN_CENTER_HORIZONTAL)
 		vsz.AddSpacer(20)
 		vsz.Add(btnsz, 0, wx.ALIGN_CENTER_HORIZONTAL)
 		vsz.AddSpacer(20)
@@ -351,5 +357,5 @@ class ChooseEngineersDlg(wx.Dialog):
 		self.EndModal(wx.ID_CANCEL)
 
 	def GetResults(self):
-		return self.lbEngineers.GetCheckedStrings()
+		return self.lbEngineers.GetCheckedStrings(), self.cbIncludeNone.IsChecked()
 

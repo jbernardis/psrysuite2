@@ -5,7 +5,7 @@ from openpyxl.styles import Alignment
 
 class MainClass:
     def __init__(self):
-        fn = os.path.join(os.getcwd(), "data", "newtrains.json")
+        fn = os.path.join(os.getcwd(), "newtrains.json")
         try:
             with open(fn, "r") as jfp:
                 trains = json.load(jfp)

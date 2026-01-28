@@ -1,5 +1,6 @@
 import json
 
+
 class Locomotives:
 	def __init__(self, rrserver):
 		self.RRServer = rrserver

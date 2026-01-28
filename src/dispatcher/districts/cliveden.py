@@ -15,18 +15,18 @@ class Cliveden (District):
 
 	def HandSwitchClick(self, hs, nv=None):
 		controlOpt = self.frame.cliffControl
-		if controlOpt in [0, 1]:  # cliff local control or limited to bank/cliveden (handled in those districts)
+
+		if controlOpt == 2 or (controlOpt == 1 and hs.GetName().startswith("CSw15")):
+			District.HandSwitchClick(self, hs, nv)
+
+		else:  # cliff local control or limited to bank/cliveden (handled in those districts)
 			msg = "Cliveden control is local (Cliff)"
 			self.frame.PopupEvent(msg)
-			return
-
-		District.HandSwitchClick(self, hs, nv)
 
 	def DoBlockAction(self, blk, blockend, state):
 		blknm = blk.GetName()
 		controlOpt = self.frame.cliffControl
 		dispatcher = self.frame.IsDispatcherOrSatellite()
-		c13auto = self.frame.c13auto
 
 		# we need to know the east/west direction both before and after the block command is applied.  Before is
 		# applicable when the block is being exited before it gets set back to its default direction, and after
@@ -35,7 +35,7 @@ class Cliveden (District):
 		District.DoBlockAction(self, blk, blockend, state)
 		blkEastAfter = blk.GetEast()
 
-		if dispatcher and controlOpt != 0 and c13auto:
+		if dispatcher and controlOpt != 0:
 			# we are in either dispatcher all or dispatcher bank/cliveden mode
 			if not blkEastAfter and blknm in ["C23", "C12"] and blockend is None and state == OCCUPIED:
 				rtname = "CRtC13" + blknm

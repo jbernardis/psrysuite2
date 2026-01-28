@@ -30,98 +30,98 @@ class Bank (District):
 
 		self.blocks["B10"] = Block(self, self.frame, "B10",
 			[
-				(self.tiles["horiz"], self.screen,        (5, 11), False),
-				(self.tiles["horiznc"],   self.screen,    (6, 11), False),
-				(self.tiles["horiz"],   self.screen,      (7, 11), False),
-				(self.tiles["horiznc"], self.screen,      (8, 11), False),
-				(self.tiles["eobright"], self.screen,      (9, 11), False),
+				(self.tiles["eobleft"], self.screen,      (110, 38), False),
+				(self.tiles["horiznc"],   self.screen,    (111, 38), False),
+				(self.tiles["horiz"],   self.screen,      (112, 38), True),
+				(self.tiles["horiznc"], self.screen,      (113, 38), False),
+				(self.tiles["horiz"], self.screen,        (114, 38), True),
 			], False)
 		self.blocks["B10"].AddStoppingBlock([
-				(self.tiles["horiznc"], self.screen,      (2, 11), False),
-				(self.tiles["horiz"], self.screen,        (3, 11), False),
-				(self.tiles["horiznc"],   self.screen,    (4, 11), False),
+				(self.tiles["horiznc"], self.screen,      (115, 38), False),
+				(self.tiles["horiz"], self.screen,        (116, 38), True),
+				(self.tiles["horiznc"],   self.screen,    (117, 38), False),
 			], False)
-		self.blocks["B10"].AddTrainLoc(self.screen, (3, 11))
+		self.blocks["B10"].AddTrainLoc(self.screen, (112, 38))
 
 		self.blocks["B20"] = Block(self, self.frame, "B20",
 			[
-				(self.tiles["horiznc"], self.screen,      (2, 13), False),
-				(self.tiles["horiz"],   self.screen,      (3, 13), False),
-				(self.tiles["horiznc"], self.screen,      (4, 13), False),
-				(self.tiles["horiz"],   self.screen,      (5, 13), False),
-				(self.tiles["horiznc"], self.screen, 	  (6, 13), False),
+				(self.tiles["horiznc"], self.screen,      (117, 36), False),
+				(self.tiles["horiz"],   self.screen,      (116, 36), True),
+				(self.tiles["horiznc"], self.screen,      (115, 36), False),
+				(self.tiles["horiz"],   self.screen,      (114, 36), True),
+				(self.tiles["horiznc"], self.screen, 	  (113, 36), False),
 			], True)
 		self.blocks["B20"].AddStoppingBlock([
-				(self.tiles["horiz"],   self.screen,      (7, 13), False),
-				(self.tiles["horiznc"], self.screen,      (8, 13), False),
-				(self.tiles["eobright"], self.screen,      (9, 13), False),
+				(self.tiles["horiz"],   self.screen,      (112, 36), True),
+				(self.tiles["horiznc"], self.screen,      (111, 36), False),
+				(self.tiles["eobleft"], self.screen,      (110, 36), True),
 			], True)
-		self.blocks["B20"].AddTrainLoc(self.screen, (3, 13))
+		self.blocks["B20"].AddTrainLoc(self.screen, (114, 36))
 
 		self.blocks["B11"] = Block(self, self.frame, "B11",
 			[
-				(self.tiles["horiznc"], self.screen,      (18, 11), False),
-				(self.tiles["horiz"],   self.screen,      (19, 11), False),
-				(self.tiles["horiz"],   self.screen,      (21, 11), False),
-				(self.tiles["horiznc"], self.screen,      (22, 11), False),
-				(self.tiles["eobright"], self.screen,      (24, 11), False),
+				(self.tiles["horiznc"], self.screen,      (101, 38), False),
+				(self.tiles["horiz"],   self.screen,      (100, 38), True),
+				(self.tiles["horiz"],   self.screen,      (98, 38), True),
+				(self.tiles["horiznc"], self.screen,      (97, 38), False),
+				(self.tiles["eobleft"], self.screen,      (95, 38), False),
 			], False)
 		self.blocks["B11"].AddStoppingBlock([
-				(self.tiles["eobleft"], self.screen,      (15, 11), False),
-				(self.tiles["horiznc"], self.screen,      (16, 11), False),
-				(self.tiles["horiz"],   self.screen,      (17, 11), False),
+				(self.tiles["eobright"], self.screen,      (104, 38), False),
+				(self.tiles["horiznc"], self.screen,      (103, 38), False),
+				(self.tiles["horiz"],   self.screen,      (102, 38), False),
 			], False)
-		self.blocks["B11"].AddTrainLoc(self.screen, (17, 11))
+		self.blocks["B11"].AddTrainLoc(self.screen, (100, 38))
 
 		self.blocks["B21"] = Block(self, self.frame, "B21",
 			[
-				(self.tiles["horiz"],   self.screen,      (17, 13), False),
-				(self.tiles["horiznc"], self.screen,      (18, 13), False),
-				(self.tiles["horiz"],   self.screen,      (19, 13), False),
-				(self.tiles["horiz"],   self.screen,      (21, 13), False),
-				(self.tiles["horiznc"], self.screen,      (22, 13), False),
+				(self.tiles["horiz"],   self.screen,      (102, 36), True),
+				(self.tiles["horiznc"], self.screen,      (101, 36), False),
+				(self.tiles["horiz"],   self.screen,      (100, 36), True),
+				(self.tiles["horiz"],   self.screen,      (98, 36), True),
+				(self.tiles["horiznc"], self.screen,      (97, 36), False),
 			], True)
 		self.blocks["B21"].AddStoppingBlock([
-				(self.tiles["horiz"],   self.screen,      (23, 13), False),
-				(self.tiles["eobright"], self.screen,      (24, 13), False),
+				(self.tiles["horiz"],   self.screen,      (96, 36), True),
+				(self.tiles["eobleft"], self.screen,      (95, 36), False),
 			], True)
 		self.blocks["B21"].AddStoppingBlock([
-				(self.tiles["eobleft"], self.screen,      (15, 13), False),
-				(self.tiles["horiznc"], self.screen,      (16, 13), False),
+				(self.tiles["eobright"], self.screen,      (104, 36), False),
+				(self.tiles["horiznc"], self.screen,      (103, 36), False),
 			], False)
-		self.blocks["B21"].AddTrainLoc(self.screen, (16, 13))
+		self.blocks["B21"].AddTrainLoc(self.screen, (100, 36))
 
 		self.blocks["BOSWW"] = OverSwitch(self, self.frame, "BOSWW",
 			[
-				(self.tiles["eobleft"],  self.screen,     (10, 11), False),
-				(self.tiles["horiznc"],  self.screen,     (12, 11), False),
-				(self.tiles["horiz"],    self.screen,     (13, 11), False),
-				(self.tiles["eobright"], self.screen,     (14, 11), False),
-				(self.tiles["diagright"], self.screen,     (12, 12), False),
-				(self.tiles["eobright"], self.screen,     (14, 13), False),
+				(self.tiles["eobright"],  self.screen,     (109, 38), False),
+				(self.tiles["horiznc"],   self.screen,     (107, 38), True),
+				(self.tiles["horiz"],     self.screen,     (106, 38), False),
+				(self.tiles["eobleft"],   self.screen,     (105, 38), False),
+				(self.tiles["diagright"], self.screen,     (107, 37), False),
+				(self.tiles["eobleft"],   self.screen,     (105, 36), False),
 			], False)
-		self.blocks["BOSWW"].AddTrainLoc(self.screen, (10, 19))
+		self.blocks["BOSWW"].AddTrainLoc(self.screen, (105, 29))
 
 		self.blocks["BOSWE"] = OverSwitch(self, self.frame, "BOSWE",
 			[
-				(self.tiles["eobleft"],  self.screen,     (10, 13), False),
-				(self.tiles["horiz"],    self.screen,     (11, 13), False),
-				(self.tiles["horiznc"],  self.screen,     (12, 13), False),
-				(self.tiles["eobright"], self.screen,     (14, 13), False),
+				(self.tiles["eobright"], self.screen,     (109, 36), False),
+				(self.tiles["horiz"],    self.screen,     (108, 36), False),
+				(self.tiles["horiznc"],  self.screen,     (107, 36), True),
+				(self.tiles["eobleft"],  self.screen,     (105, 36), False),
 			], False)
-		self.blocks["BOSWE"].AddTrainLoc(self.screen, (10, 21))
+		self.blocks["BOSWE"].AddTrainLoc(self.screen, (105, 27))
 
 		self.blocks["BOSE"] = OverSwitch(self, self.frame, "BOSE",
 			[
-				(self.tiles["eobleft"],  self.screen,     (25, 11), False),
-				(self.tiles["turnrightright"], self.screen, (26, 11), False),
-				(self.tiles["diagright"], self.screen,     (27, 12), False),
-				(self.tiles["eobleft"],  self.screen,     (25, 13), False),
-				(self.tiles["horiz"],    self.screen,     (26, 13), False),
-				(self.tiles["horiznc"],  self.screen,     (27, 13), False),
-				(self.tiles["eobright"], self.screen,     (29, 13), False),
+				(self.tiles["eobright"],  self.screen,     (94, 38), False),
+				(self.tiles["turnrightleft"], self.screen, (93, 38), False),
+				(self.tiles["diagright"], self.screen,     (92, 37), False),
+				(self.tiles["eobright"],  self.screen,     (94, 36), False),
+				(self.tiles["horiz"],    self.screen,      (93, 36), True),
+				(self.tiles["horiznc"],  self.screen,      (92, 36), False),
+				(self.tiles["eobleft"], self.screen,       (90, 36), False),
 			], True)
-		self.blocks["BOSE"].AddTrainLoc(self.screen, (25, 19))
+		self.blocks["BOSE"].AddTrainLoc(self.screen, (90, 29))
 
 		self.osBlocks["BOSWW"] = ["B10", "B11", "B21"]
 		self.osBlocks["BOSWE"] = ["B20", "B21", "B10"]
@@ -133,15 +133,15 @@ class Bank (District):
 		self.turnouts = {}
 
 		toList = [
-			["CSw17",  "torightleft",  ["BOSE"], (28, 13)],
-			["CSw23",  "torightright",  ["BOSWW", "BOSWE"], (11, 11)],
-			["CSw23b", "torightleft",   ["BOSWW", "BOSWE"], (13, 13)],
+			["CSw17",  "torightright",  ["BOSE"], (91, 36)],
+			["CSw23",  "torightleft",  ["BOSWW", "BOSWE"], (108, 38)],
+			["CSw23b", "torightright",   ["BOSWW", "BOSWE"], (106, 36)],
 		]
 
 		hslist = [
-			["CSw19",  "torightright",  "B21", (20, 13)],
-			["CSw21a", "torightleft",   "B11", (23, 11)],
-			["CSw21b", "torightleft",   "B11", (20, 11)],
+			["CSw19",  "toleftright",  "B21", (99, 36)],
+			["CSw21a", "torightright", "B11", (96, 38)],
+			["CSw21b", "torightright", "B11", (99, 38)],
 		]
 
 		for tonm, tileSet, blks, pos in toList:
@@ -172,15 +172,15 @@ class Bank (District):
 		self.osProxies = {}
 
 		sigList = [
-			["C18LA",  RegAspects, True,    "right", (25, 12)],
-			["C18LB",  RegAspects, True,    "rightlong", (25, 14)],
-			["C18R",   RegAspects, False,   "leftlong", (29, 12)],
+			["C18LA",  RegAspects, True,    "left", (94, 37)],
+			["C18LB",  RegAspects, True,    "leftlong", (94, 35)],
+			["C18R",   RegAspects, False,   "rightlong", (90, 37)],
 
-			["C22L",   RegAspects, True,    "right", (10, 12)],
-			["C22R",   RegAspects, False,   "leftlong", (14, 10)],
+			["C22L",   RegAspects, True,    "left", (109, 37)],
+			["C22R",   RegAspects, False,   "rightlong", (105, 39)],
 
-			["C24L",   RegAspects, True,    "rightlong", (10, 14)],
-			["C24R",   RegAspects, False,   "leftlong", (14, 12)],
+			["C24L",   RegAspects, True,    "leftlong", (109, 35)],
+			["C24R",   RegAspects, False,   "rightlong", (105, 37)],
 		]
 		for signm, atype, east, tileSet, pos in sigList:
 			self.signals[signm]  = Signal(self, self.screen, self.frame, signm, atype, east, pos, self.sigtiles[tileSet])
@@ -221,15 +221,15 @@ class Bank (District):
 		self.osSignals = {}
 
 		block = self.blocks["BOSWW"]
-		self.routes["BRtB10B11"] = Route(self.screen, block, "BRtB10B11", "B11", [(10, 11), (11, 11), (12, 11), (13, 11), (14, 11)], "B10", [RESTRICTING, MAIN], ["CSw23:N"], ["C22R", "C22L"])
-		self.routes["BRtB10B21"] = Route(self.screen, block, "BRtB10B21", "B21", [(10, 11), (11, 11), (12, 12), (13, 13), (14, 13)], "B10", [RESTRICTING, DIVERGING], ["CSw23:R"], ["C24R", "C22L"])
+		self.routes["BRtB10B11"] = Route(self.screen, block, "BRtB10B11", "B11", [(109, 38), (108, 38), (107, 38), (106, 38), (105, 38)], "B10", [RESTRICTING, MAIN], ["CSw23:N"], ["C22R", "C22L"])
+		self.routes["BRtB10B21"] = Route(self.screen, block, "BRtB10B21", "B21", [(109, 38), (108, 38), (107, 37), (106, 36), (105, 36)], "B10", [RESTRICTING, DIVERGING], ["CSw23:R"], ["C24R", "C22L"])
 
 		block = self.blocks["BOSWE"]
-		self.routes["BRtB20B21"] = Route(self.screen, block, "BRtB20B21", "B21", [(10, 13), (11, 13), (12, 13), (13, 13), (14, 13)], "B20", [MAIN, RESTRICTING], ["CSw23:N"], ["C24R", "C24L"])
+		self.routes["BRtB20B21"] = Route(self.screen, block, "BRtB20B21", "B21", [(109, 36), (108, 36), (107, 36), (106, 36), (105, 36)], "B20", [MAIN, RESTRICTING], ["CSw23:N"], ["C24R", "C24L"])
 
 		block = self.blocks["BOSE"]
-		self.routes["BRtB11C13"] = Route(self.screen, block, "BRtB11C13", "B11", [(25, 11), (26, 11), (27, 12), (28, 13), (29, 13)], "C13", [RESTRICTING, DIVERGING], ["CSw17:R"], ["C18LA", "C18R"])
-		self.routes["BRtB21C13"] = Route(self.screen, block, "BRtB21C13", "B21", [(25, 13), (26, 13), (27, 13), (28, 13), (29, 13)], "C13", [MAIN, MAIN], ["CSw17:N"], ["C18LB", "C18R"])
+		self.routes["BRtB11C13"] = Route(self.screen, block, "BRtB11C13", "B11", [(94, 38), (93, 38), (92, 37), (91, 36), (90, 36)], "C13", [RESTRICTING, DIVERGING], ["CSw17:R"], ["C18LA", "C18R"])
+		self.routes["BRtB21C13"] = Route(self.screen, block, "BRtB21C13", "B21", [(94, 36), (93, 36), (92, 36), (91, 36), (90, 36)], "C13", [MAIN, MAIN], ["CSw17:N"], ["C18LB", "C18R"])
 
 		self.signals["C22L"].AddPossibleRoutes("BOSWW", ["BRtB10B11", "BRtB10B21"])
 		self.signals["C22R"].AddPossibleRoutes("BOSWW", ["BRtB10B11"])
@@ -261,15 +261,15 @@ class Bank (District):
 	def DefineHandSwitches(self):
 		self.handswitches = {}
 
-		hs = HandSwitch(self, self.screen, self.frame, self.blocks["B11"], "CSw21b.hand", (20, 10), self.misctiles["handdown"])
+		hs = HandSwitch(self, self.screen, self.frame, self.blocks["B11"], "CSw21b.hand", (99, 39), self.misctiles["handup"])
 		self.blocks["B11"].AddHandSwitch(hs)
 		self.handswitches["CSw21b.hand"] = hs
 
-		hs = HandSwitch(self, self.screen, self.frame, self.blocks["B11"], "CSw21a.hand", (23, 10), self.misctiles["handdown"])
+		hs = HandSwitch(self, self.screen, self.frame, self.blocks["B11"], "CSw21a.hand", (96, 39), self.misctiles["handup"])
 		self.blocks["B11"].AddHandSwitch(hs)
 		self.handswitches["CSw21a.hand"] = hs
 
-		hs = HandSwitch(self, self.screen, self.frame, self.blocks["B21"], "CSw19.hand", (20, 14), self.misctiles["handup"])
+		hs = HandSwitch(self, self.screen, self.frame, self.blocks["B21"], "CSw19.hand", (99, 35), self.misctiles["handdown"])
 		self.blocks["B21"].AddHandSwitch(hs)
 		self.handswitches["CSw19.hand"] = hs
 

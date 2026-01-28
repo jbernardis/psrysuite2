@@ -122,6 +122,7 @@ class MainFrame(wx.Frame):
 		self.routesInList = []
 		self.riFamilies = {}
 		self.sigLvrList = []
+		self.sigLevers = {}
 		self.hsUnlock = []
 
 		self.rrServer = None
@@ -1393,34 +1394,40 @@ class MainFrame(wx.Frame):
 		slState = self.rrServer.Get("signallevers", {})
 
 		for lvr in self.sigLevers:
-			info = self.sigLevers[lvr].GetData()
+			info = self.sigLevers.get(lvr, None)
 			if info is None:
 				continue
 
-			print(str(info))
 			if lvr in slState:
-				print("Lever %s state = %s" % (lvr, slState[lvr]))
 				state = slState[lvr]
 				if state[0] == 0 and state[2] == 0:  # if the lever is not thrown either way, skip
 					continue
 
-			if info["left"] is None:
-				vbytes = [info["right"][0]]
-				vbits = [info["right"][1]]
+			position = info["position"]
+			for p in position:
+				print("   %s" % str(p), flush=True, file=sys.stderr)
+
+			bits = position[0]
+			addr = position[1]
+
+			if bits[0] is None:
+				vbytes = [bits[2][0]]
+				vbits = [bits[2][1]]
 				vals = [0]
-			elif info["right"] is None:
-				vbytes = [info["left"][0]]
-				vbits = [info["left"][1]]
+			elif bits[2] is None:
+				vbytes = [bits[0][0]]
+				vbits = [bits[0][1]]
 				vals = [0]
 			else:
-				vbytes = [info["left"][0], info["right"][0]]
-				vbits = [info["left"][1], info["right"][1]]
+				vbytes = [bits[0][0], bits[2][0]]
+				vbits = [bits[0][1], bits[2][1]]
 				vals = [0, 0]
 
-			addr = getNodeAddress(info["node"])
 			if addr is not None:
 				req = {"setinbit": {"address": "0x%x" % addr, "byte": vbytes, "bit": vbits, "value": vals}}
 				script.append(req)
+
+		script.append({"delay": {"ms": 100}})
 
 		self.ExecuteScript(script)
 
@@ -1708,8 +1715,8 @@ class MainFrame(wx.Frame):
 			self.chRoutesIn.SetItems(self.routesInList)
 			self.chRoutesIn.SetSelection(0)
 
-			sl = self.iobits["siglevers"]
-			self.sigLvrList = sorted(list(sl.keys()))
+			self.sigLevers = self.iobits["siglevers"]
+			self.sigLvrList = sorted(list(self.sigLevers.keys()))
 			self.chSigLvr.SetItems(self.sigLvrList)
 			self.chSigLvr.SetSelection(0)
 

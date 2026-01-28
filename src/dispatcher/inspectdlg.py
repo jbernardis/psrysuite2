@@ -1,5 +1,5 @@
 import wx  
-import json
+import os
 import logging
 
 BSIZE = (120, 40)
@@ -89,6 +89,13 @@ class InspectDlg(wx.Dialog):
         bIgnoreBlks = wx.Button(self, wx.ID_ANY, "Ignore Blocks", size=BSIZE)
         self.Bind(wx.EVT_BUTTON, self.OnBIgnoreBlks, bIgnoreBlks)
         btnszr3.Add(bIgnoreBlks)
+
+        if self.settings.scanner.enable:
+            btnszr3.AddSpacer(10)
+
+            bScanner = wx.Button(self, wx.ID_ANY, "Scanner", size=BSIZE)
+            self.Bind(wx.EVT_BUTTON, self.OnBScanner, bScanner)
+            btnszr3.Add(bScanner)
 
         btnszr3.AddSpacer(20)
 
@@ -320,8 +327,46 @@ class InspectDlg(wx.Dialog):
         self.parent.SetIgnoredBlocks(ignoreList)
         self.settings.rrserver.ignoredblocks = ignoreList
 
+    def OnBScanner(self, _):
+        fn = os.path.join(os.getcwd(), "qrcodes", "scanner_battery.png")
+        dlg = MyPngDlg(self, fn)
+        dlg.ShowModal()
+        dlg.Destroy()
+
     def OnCancel(self, _):
         self.closer()
+
+
+class MyPngDlg(wx.Dialog):
+    def __init__(self, parent, pngfile):
+        wx.Dialog.__init__(self, parent, wx.ID_ANY, "Scanner")
+        self.Bind(wx.EVT_CLOSE, self.OnClose)
+
+        vsz = wx.BoxSizer(wx.VERTICAL)
+        vsz.AddSpacer(20)
+
+        self.pngPSRY = wx.Image(pngfile, wx.BITMAP_TYPE_PNG).ConvertToBitmap()
+        mask = wx.Mask(self.pngPSRY, wx.BLUE)
+        self.pngPSRY.SetMask(mask)
+        b = wx.StaticBitmap(self, wx.ID_ANY, self.pngPSRY)
+        vsz.Add(b)
+        vsz.AddSpacer(10)
+
+        vsz.Add(wx.StaticText(self, wx.ID_ANY, "Battery Check"), 0, wx.ALIGN_CENTER_HORIZONTAL)
+
+        vsz.AddSpacer(20)
+
+        hsz = wx.BoxSizer(wx.HORIZONTAL)
+        hsz.AddSpacer(20)
+        hsz.Add(vsz)
+        hsz.AddSpacer(20)
+
+        self.SetSizer(hsz)
+        self.Layout()
+        self.Fit()
+
+    def OnClose(self, evt):
+        self.EndModal(wx.ID_OK)
 
 
 class RelayDlg(wx.Dialog):

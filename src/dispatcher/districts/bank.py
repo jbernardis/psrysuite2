@@ -308,7 +308,6 @@ class Bank (District):
 		blknm = blk.GetName()
 		dispatcher = self.frame.IsDispatcherOrSatellite()
 		controlOpt = self.frame.cliffControl
-		c13auto = self.frame.c13auto
 
 		# we need to know the east/west direction both before and after the block command is applied.  Before is
 		# applicable when the block is being exited before it gets set back to its default direction, and after
@@ -317,7 +316,7 @@ class Bank (District):
 		District.DoBlockAction(self, blk, blockend, state)
 		blkEastAfter = blk.GetEast()
 
-		if dispatcher and controlOpt != 0 and c13auto:
+		if dispatcher and controlOpt != 0:
 			# we are in either dispatcher all or dispatcher bank/cliveden mode
 			if blkEastAfter and blknm in ["B11", "B21"] and blockend is None and state == OCCUPIED:
 				rtname = "BRt" + blknm + "C13"

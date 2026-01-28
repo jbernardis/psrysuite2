@@ -52,6 +52,14 @@ class Train:
 		self.dblocks = []  # blocks deleted from most recent update
 		self.nblocks = []  # blocks added from the most recent update
 
+	def Dump(self):
+		logging.debug("Train %s:%s" % (self.iname, self.rname))
+		logging.debug("East: %s loco: %s   short: %s" % (self.east, self.loco, self.short))
+		logging.debug("Blocks: %s" % str(self.blocks))
+		logging.debug("Engineer: %s" % self.engineer)
+		logging.debug("Signal: %s   Aspect: %d-%s  Past signal: %s" % (self.signal, self.aspect, self.aspectType, self.pastSignal))
+		logging.debug("======================================================================")
+
 	def Name(self):
 		if self.rname is not None:
 			return self.rname

@@ -12,6 +12,19 @@
     "limit": 0,
     "short": true
   },
+  "5": {
+    "desc": "Union Pacific",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "short": false,
+    "limit": 0
+  },
   "9": {
     "desc": "Shea Steam 4-4-4 / Lumber",
     "prof": {
@@ -76,6 +89,19 @@
     },
     "limit": 0,
     "short": false
+  },
+  "59": {
+    "desc": "Western Maryland",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "short": true,
+    "limit": 0
   },
   "64": {
     "desc": "PSRY PA / Exectrix",
@@ -206,6 +232,32 @@
     },
     "limit": 0,
     "short": false
+  },
+  "194": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "short": false,
+    "limit": 0
+  },
+  "196": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "short": false,
+    "limit": 0
   },
   "198": {
     "desc": "Western Maryland / Short Pass",
@@ -792,6 +844,18 @@
     "short": false,
     "limit": 0
   },
+  "1968": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "short": false
+  },
   "2049": {
     "desc": null,
     "prof": {
@@ -1078,6 +1142,18 @@
     "limit": 0,
     "short": false
   },
+  "4007": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "short": false
+  },
   "4023": {
     "desc": "UP 4-8-8-4 / Pate Bros Circus",
     "prof": {
@@ -1142,6 +1218,19 @@
     },
     "limit": 0,
     "short": false
+  },
+  "4113": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "short": false,
+    "limit": 0
   },
   "4197": {
     "desc": null,
@@ -1572,6 +1661,19 @@
     "limit": 0,
     "short": false
   },
+  "6588": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "short": false,
+    "limit": 0
+  },
   "6733": {
     "desc": null,
     "prof": {
@@ -1637,6 +1739,18 @@
     "limit": 0,
     "short": false
   },
+  "7447": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "short": false
+  },
   "7519": {
     "desc": null,
     "prof": {
@@ -1674,6 +1788,31 @@
       "start": 25
     },
     "limit": 0,
+    "short": false
+  },
+  "8445": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "short": false,
+    "limit": 0
+  },
+  "8936": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
     "short": false
   },
   "9002": {

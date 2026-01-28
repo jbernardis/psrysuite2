@@ -434,7 +434,6 @@ class Railroad:
 		self.SetControlOption("nassau", self.settings.control.nassau)
 		self.SetControlOption("cliff", self.settings.control.cliff)
 		self.SetControlOption("yard", self.settings.control.yard)
-		self.SetControlOption("c13auto", self.settings.control.c13auto)
 		self.SetControlOption("bank.fleet", 0)
 		self.SetControlOption("carlton.fleet", 0)
 		self.SetControlOption("cliff.fleet", 0)
@@ -482,8 +481,9 @@ class Railroad:
 			logging.info("Unknown error loading snapshot %s - %s" % (fn, str(e)))
 			return
 
-		jstr = json.dumps(j, indent=2)
+		self.ApplySnapshot(j)
 
+	def ApplySnapshot(self, j):
 		trainsFound = {}
 		for trid, trinfo in j.items():
 			firstBlock = True
@@ -517,11 +517,12 @@ class Railroad:
 			self.RailroadEvent(tr.GetEventMessage())
 
 	def SaveSnapshot(self):
-		tlist = self.GetActiveTrainList()
-		if len(tlist) == 0:
-			return "No trains - snapshot not saved"
-
 		logging.debug("Railroad save snapshot")
+
+		trains = self.RetrieveSnapshot()
+		if len(trains) == 0:
+			return "No active trains - snapshot not saved"
+
 		folder = os.path.join(os.getcwd(), "data", "snapshots")
 		os.makedirs(folder, exist_ok=True)
 		n = datetime.now()
@@ -529,14 +530,6 @@ class Railroad:
 		filename = "snapshot" + ts + ".json"
 		fn = os.path.join(folder, filename)
 
-		trains = {}
-		for trid, trinfo in tlist.items():
-			trains[trid] = {
-				"name": trid,
-				"loco": trinfo["loco"],
-				"east": trinfo["east"],
-				"blocks": trinfo["blocks"],
-			}
 		with open(fn, "w") as jfp:
 			json.dump(trains, jfp, indent=2)
 
@@ -549,6 +542,19 @@ class Railroad:
 				os.unlink(fqn)
 
 		return "Snapshot saved to file %s" % filename
+
+	def RetrieveSnapshot(self):
+		tlist = self.GetActiveTrainList()
+		trains = {}
+		for trid, trinfo in tlist.items():
+			if not trid.startswith("??"):
+				trains[trid] = {
+					"name": trid,
+					"loco": trinfo["loco"],
+					"east": trinfo["east"],
+					"blocks": trinfo["blocks"],
+				}
+		return trains
 
 	def DelayedStartup(self):
 		for d in self.districts.values():
@@ -711,7 +717,7 @@ class Railroad:
 		except KeyError:
 			logging.warning("Ignoring route in command - unknown route name: %s" % rtnm)
 			return
-		
+
 		offRts = rt.district.SelectRouteIn(rt)
 		if offRts is None:
 			return 
@@ -733,7 +739,7 @@ class Railroad:
 			bt = rte.Bits()
 			rte.node.SetInputBit(bt[0][0], bt[0][1], 0)
 
-	def SignalClick(self, signm, callon=False):
+	def SignalClick(self, signm, callon=False, silent=False):
 		try:
 			sig = self.signals[signm]
 		except KeyError:
@@ -747,19 +753,19 @@ class Railroad:
 		currentAspect = sig.Aspect()
 
 		if sig.District().ControlRestrictedSignal(signm):
-			self.Alert(sig.District().ControlRestrictedMessage())
+			if not silent:
+				self.Alert(sig.District().ControlRestrictedMessage())
 			return
 
 		osName = self.DetermineSignalOS(signm)
 		if osName is None:
-			self.Alert("osname is none")
 			return
 
 		msgs = []
 		osb = self.blocks[osName].OS()
 		moving = currentAspect != 0  # Are we requesting a stop signal?
 		try:
-			aspect = self.CalculateAspect(sig, osName, moving, callon, None, silent=False)
+			aspect = self.CalculateAspect(sig, osName, moving, callon, None, silent=silent)
 			if aspect is None:
 				return
 
@@ -1429,25 +1435,47 @@ class Railroad:
 			dobj.setBus(bus)
 
 	def GetCurrentValues(self):
-		'''
-		set turnouts/routes/blocks BEFORE signals
-		'''					
-		for l in [self.blocks, self.turnouts, self.signals, self.indicators]:  # , self.signalLevers, self.stopRelays]:
-			for s in l.values():
-				mlist = s.GetEventMessages()
-				if mlist is not None:
-					for m in mlist:
-						yield m
-		
-		'''
-		routes in are essentially a set of turnouts - send that information
-		'''
+		#
+		# set turnouts/routes/blocks BEFORE signals
+		#
+		#  self.signalLevers, self.stopRelays]:
+		#
+		for t in self.turnouts.values():
+			mlist = t.GetEventMessages()
+			if mlist is not None:
+				for m in mlist:
+					yield m
+
+		for h in self.handswitches.values():
+			mlist = h.GetEventMessages()
+			if mlist is not None:
+				for m in mlist:
+					yield m
+
 		for r in self.routesIn.values():
 			if r.GetState() == 1:
 				msg = r.district.GetRouteInMsg(r)
 				if msg is not None:
 					yield msg
-					
+
+		for osnm, osblk in self.osblocks.items():
+			activeRouteName = osblk.ActiveRouteName()
+			if activeRouteName is not None:
+				m = {"setroute": [{ "os": osnm, "route": activeRouteName}]}
+				yield m
+
+		for b in self.blocks.values():
+			mlist = b.GetEventMessages()
+			if mlist is not None:
+				for m in mlist:
+					yield m
+
+		for s in self.signals.values():
+			mlist = s.GetEventMessages()
+			if mlist is not None:
+				for m in mlist:
+					yield m
+
 		for s in self.breakers.values():
 			if not s.HasProxy(): # skip breakers that use a proxy
 				m = s.GetEventMessage()
@@ -1457,12 +1485,6 @@ class Railroad:
 		for i in self.indicators.values():
 			m = i.GetEventMessage()
 			if m is not None:
-				yield m
-
-		for osnm, osblk in self.osblocks.items():
-			activeRouteName = osblk.ActiveRouteName()
-			if activeRouteName is not None:
-				m = {"setroute": [{ "os": osnm, "route": activeRouteName}]}
 				yield m
 
 		for signm, flag in self.fleetedSignals.items():
@@ -1761,7 +1783,6 @@ class Railroad:
 						if osName is not None and osName not in ["NWOSCY"]:
 							msgs = self.UpdateRoutesForOS(osName)
 							for m in msgs:
-								logging.debug("Sending %s" % str(m))
 								self.RailroadEvent(m)
 
 			'''

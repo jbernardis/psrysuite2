@@ -38,14 +38,20 @@ loglevel = logLevels[l]
 logging.basicConfig(filename=os.path.join(os.getcwd(), "logs", "%s.log" % fn), filemode='w',
 					format='%(asctime)s %(message)s', level=loglevel)
 
-scannerPort = serial.Serial(
-	port=settings.scanner.tty,
-	baudrate=9600,
-	bytesize=serial.EIGHTBITS,
-	parity=serial.PARITY_NONE,
-	stopbits=serial.STOPBITS_ONE,
-	timeout=0.5
-)
+logging.debug("Connecting to serial port %s" % settings.scanner.tty)
+
+try:
+	scannerPort = serial.Serial(
+		port=settings.scanner.tty,
+		baudrate=9600,
+		bytesize=serial.EIGHTBITS,
+		parity=serial.PARITY_NONE,
+		stopbits=serial.STOPBITS_ONE,
+		timeout=0.5
+	)
+except Exception as e:
+	logging.debug("Exception %s connecting to serial port" % str(e))
+	exit(1)
 
 logging.debug(f"Connected to port: {scannerPort.port}")
 
@@ -85,9 +91,14 @@ try:
 
 			elif scanData.startswith("ENGINEER: "):
 				engineer = scanData[10:].strip()
+				if engineer == "NONE":
+					engineer = "-"
 				if train is not None and not expired:
 					rrServer.SendRequest({"assigntrain": {"name": train, "engineer": engineer}})
 					trainScanTime = lastScanTime  # keep the train scan current as long as were scanning other data
+
+			elif scanData.startswith("Battery: "):
+				rrServer.SendRequest({"alert": {"msg": "Scanner %s" % scanData}})
 
 		time.sleep(0.1)
 

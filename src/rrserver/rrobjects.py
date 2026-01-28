@@ -345,7 +345,18 @@ class Block:
 		return False
 
 	def IsOccupied(self):
-		return self.status in ["O", "U"]
+		if self.status in ["O", "U"]:
+			return True
+
+		for sb in self.subBlocks:
+			if sb.IsOccupied():
+				return True
+
+		for sb in self.stoppingBlocks:
+			if sb is not None and sb.IsOccupied():
+				return True
+
+		return False
 		
 	def SetCleared(self, flag):
 		if self.status == "C":
@@ -1683,6 +1694,9 @@ class Handswitch:
 			"revindicators": rindicators,
 			"unlock": unlock
 		}}
+
+	def GetEventMessages(self):
+		return [self.GetEventMessage(), self.GetEventMessage(lock=True)]
 
 	def GetEventMessage(self, lock=False):
 		if lock:

@@ -127,9 +127,12 @@ class MainFrame(wx.Frame):
 		self.c13Control = 0
 		self.stNassauControl = None
 		self.stYardControl = None
+		self.SnapshotBox = None
 		self.bTakeSnapshot = None
+		self.bTakeLocal = None
 		self.bChooseSnapshot = None
 		self.bLatestSnapshot = None
+		self.bRestoreLocal = None
 		self.bPreloaded = None
 		self.initializing = True
 		self.waitCursor = 0
@@ -137,6 +140,7 @@ class MainFrame(wx.Frame):
 		self.cbToD = None
 		self.bAutoRouter = None
 		self.bATC = None
+		self.bC13AR = None
 		self.cbOSSLocks = None
 		self.cbSidingsUnlocked = None
 		self.menuTrain = None
@@ -150,6 +154,7 @@ class MainFrame(wx.Frame):
 		self.subscribed = False
 		self.ARProc = None
 		self.ATCProc = None
+		self.C13ARProc = None
 		self.ScanProc = None
 		self.OSSLocks = True
 		self.sidingsUnlocked = False
@@ -202,7 +207,6 @@ class MainFrame(wx.Frame):
 		self.yardControl = 0
 		self.nassauControl = 0
 		self.cliffControl = 0
-		self.c13auto = self.settings.control.c13auto
 
 		self.delayedRequests = DelayedRequests()
 		self.delayedSignals = DelayedSignals()
@@ -548,12 +552,6 @@ class MainFrame(wx.Frame):
 		self.widgetMap[NaCl].append([self.cbClivedenFleet, 0])
 		self.ClivedenFleetSignals = ["C10L", "C12L", "C10R", "C12R"]
 
-		self.cbC13Auto = wx.CheckBox(self, -1, "Automate block C13", (900, voffset+50))
-		self.Bind(wx.EVT_CHECKBOX, self.OnCBC13Auto, self.cbC13Auto)
-		self.cbC13Auto.Hide()
-		self.cbC13Auto.Enable(self.cliffControl != 0)
-		self.widgetMap[NaCl].append([self.cbC13Auto, 0])
-
 		self.cbYardFleet = wx.CheckBox(self, -1, "Yard Fleeting", (1650, voffset+10))
 		self.Bind(wx.EVT_CHECKBOX, self.OnCBYardFleet, self.cbYardFleet)
 		self.cbYardFleet.Hide()
@@ -636,10 +634,6 @@ class MainFrame(wx.Frame):
 				for signm in self.CliffFleetSignals + self.ClivedenFleetSignals:
 					self.Request({"fleet": { "name": signm, "value": f}})
 
-		elif name == "c13auto":
-			self.c13auto = (value != 0)
-			self.cbC13Auto.SetValue(self.c13auto)
-
 		elif name == "hyde.fleet":
 			self.cbHydeFleet.SetValue(value != 0)			
 			f = 1 if value != 0 else 0
@@ -698,7 +692,6 @@ class MainFrame(wx.Frame):
 		self.cbCliffFleet.Enable(ctl == 2)
 		self.cbBankFleet.Enable(ctl != 0)
 		self.cbClivedenFleet.Enable(ctl == 2)
-		self.cbC13Auto.Enable(ctl != 0)
 		self.Request({"control": { "name": "cliff", "value": ctl}})
 		self.cliffControl = ctl
 		
@@ -776,9 +769,6 @@ class MainFrame(wx.Frame):
 			self.Request({"fleet": { "name": signm, "value": f}})
 		self.Request({"control": {"name": "foss.fleet", "value": f}})
 
-		f = 1 if self.cbC13Auto.IsChecked() else 0
-		self.Request({"control": {"name": "c13auto", "value": f}})
-
 		self.SendOSSLocks()
 		self.SendSidingsUnlocked()
 
@@ -792,6 +782,11 @@ class MainFrame(wx.Frame):
 			logging.info("Scanner process started as PID %d" % self.ScanProc.pid)
 
 	def OnBAutoRouter(self, evt):
+		if self.C13ARProc is not None and self.C13ARProc.poll() is None:
+			# C13 AR is mutually exclusive with AR
+			self.PopupEvent("Auto Router cannot run with block C13 Automation")
+			return
+
 		if self.ARProc is not None and self.ARProc.poll() is not None:
 			# subprocess has terminated - start a new one
 			self.ARProc = None
@@ -803,6 +798,24 @@ class MainFrame(wx.Frame):
 			logging.info("Autorouter started as PID %d" % self.ARProc.pid)
 		else:
 			self.Request({"autorouter": {"action": "show"}})
+
+	def OnBC13AR(self, evt):
+		if self.ARProc is not None and self.ARProc.poll() is None:
+			# C13 AR is mutually exclusive with AR
+			self.PopupEvent("Block C13 Automation cannot run with Auto Router")
+			return
+
+		if self.C13ARProc is not None and self.C13ARProc.poll() is not None:
+			# subprocess has terminated - start a new one
+			self.C13ARProc = None
+
+		if self.C13ARProc is None:
+			C13ARExec = os.path.join(os.getcwd(), "c13auto", "main.py")
+			self.C13ARProc = Popen([sys.executable, C13ARExec])
+
+			logging.info("C13 Autorouter started as PID %d" % self.C13ARProc.pid)
+		else:
+			self.Request({"c13ar": {"action": "show"}})
 
 	def OnBATC(self, evt):
 		if self.ATCProc is not None and self.ATCProc.poll() is not None:
@@ -857,7 +870,6 @@ class MainFrame(wx.Frame):
 		self.cbCliffFleet.Enable(ctl == 2)
 		self.cbBankFleet.Enable(ctl != 0)
 		self.cbClivedenFleet.Enable(ctl == 2)
-		self.cbC13Auto.Enable(ctl != 0)
 		self.Request({"control": { "name": "cliff", "value": ctl}})
 		self.cliffControl = ctl
 
@@ -913,10 +925,6 @@ class MainFrame(wx.Frame):
 		for signm in self.ClivedenFleetSignals:
 			self.Request({"fleet": { "name": signm, "value": f}})
 		self.Request({"control": {"name": "cliveden.fleet", "value": f}})
-
-	def OnCBC13Auto(self, _):
-		self.c13auto = self.cbC13Auto.IsChecked()
-		self.Request({"control": {"name": "c13auto", "value": 1 if self.c13auto else 0}})
 
 	def OnCBCarltonFleet(self, _):
 		f = 1 if self.cbCarltonFleet.IsChecked() else 0
@@ -1428,34 +1436,35 @@ class MainFrame(wx.Frame):
 
 		menu.AppendSeparator()
 
-		itm = wx.MenuItem(menu, MENU_TRAIN_SPLIT, "Split train into two trains")
-		itm.SetFont(self.menuFont)
-		menu.Append(itm)
-		self.Bind(wx.EVT_MENU, self.OnTrainSplit, id=MENU_TRAIN_SPLIT)
+		if self.IsDispatcherOrSatellite():
+			itm = wx.MenuItem(menu, MENU_TRAIN_SPLIT, "Split train into two trains")
+			itm.SetFont(self.menuFont)
+			menu.Append(itm)
+			self.Bind(wx.EVT_MENU, self.OnTrainSplit, id=MENU_TRAIN_SPLIT)
 
-		itm = wx.MenuItem(menu, MENU_TRAIN_MERGE, "Merge two trains into 1")
-		itm.SetFont(self.menuFont)
-		menu.Append(itm)
-		self.Bind(wx.EVT_MENU, self.OnTrainMerge, id=MENU_TRAIN_MERGE)
+			itm = wx.MenuItem(menu, MENU_TRAIN_MERGE, "Merge two trains into 1")
+			itm.SetFont(self.menuFont)
+			menu.Append(itm)
+			self.Bind(wx.EVT_MENU, self.OnTrainMerge, id=MENU_TRAIN_MERGE)
 
-		menu.AppendSeparator()
+			menu.AppendSeparator()
 
-		itm = wx.MenuItem(menu, MENU_TRAIN_SWAP, "Swap train name with another train")
-		itm.SetFont(self.menuFont)
-		menu.Append(itm)
-		self.Bind(wx.EVT_MENU, self.OnTrainSwap, id=MENU_TRAIN_SWAP)
+			itm = wx.MenuItem(menu, MENU_TRAIN_SWAP, "Swap train name with another train")
+			itm.SetFont(self.menuFont)
+			menu.Append(itm)
+			self.Bind(wx.EVT_MENU, self.OnTrainSwap, id=MENU_TRAIN_SWAP)
 
-		itm = wx.MenuItem(menu, MENU_TRAIN_REVERSE, "Reverse the train direction")
-		itm.SetFont(self.menuFont)
-		menu.Append(itm)
-		self.Bind(wx.EVT_MENU, self.OnTrainReverse, id=MENU_TRAIN_REVERSE)
+			itm = wx.MenuItem(menu, MENU_TRAIN_REVERSE, "Reverse the train direction")
+			itm.SetFont(self.menuFont)
+			menu.Append(itm)
+			self.Bind(wx.EVT_MENU, self.OnTrainReverse, id=MENU_TRAIN_REVERSE)
 
-		itm = wx.MenuItem(menu, MENU_TRAIN_REORDER, "Reorder train blocks")
-		itm.SetFont(self.menuFont)
-		menu.Append(itm)
-		self.Bind(wx.EVT_MENU, self.OnTrainReorder, id=MENU_TRAIN_REORDER)
+			itm = wx.MenuItem(menu, MENU_TRAIN_REORDER, "Reorder train blocks")
+			itm.SetFont(self.menuFont)
+			menu.Append(itm)
+			self.Bind(wx.EVT_MENU, self.OnTrainReorder, id=MENU_TRAIN_REORDER)
 
-		menu.AppendSeparator()
+			menu.AppendSeparator()
 
 		if self.menuSequence is not None:
 			itm = wx.MenuItem(menu, MENU_TRAIN_HILITE, "Highlight Train Route")
@@ -1979,15 +1988,25 @@ class MainFrame(wx.Frame):
 			state = "Normal" if to.IsNormal() else "Reversed"
 
 		top = to.GetPaired()
-		parms = {"name": to.GetName()}
+		tname = to.GetName()
+		parms = {"name": tname}
+		pname = None
 		if top is not None:
-			parms["pname"] = top.GetName()
-		lockinfo = self.Get("turnoutlock", parms)
+			pname = top.GetName()
+			parms["pname"] = pname
+
+		lockinfo = self.Get("turnoutlocks", parms)
 
 		try:
-			lockers = lockinfo["turnoutlock"]["lockers"]
+			lockers = lockinfo[tname]
 		except KeyError:
-			lockers = []
+			if pname is not None:
+				try:
+					lockers = lockinfo[pname]
+				except KeyError:
+					lockers = []
+			else:
+				lockers = []
 
 		lockstate = "Locked" if to.IsLocked() else "Unlocked"
 
@@ -2296,6 +2315,48 @@ class MainFrame(wx.Frame):
 	def OnBTakeSnapshot(self, _):
 		self.TakeSnapshot()
 
+	def OnBTakeLocal(self, _):
+		jdata = self.Get("snapshot", {"action": "retrieve"})
+		self.PopupAdvice("Data retrieved for %d trains" % len(jdata))
+		wildcard = "JSON (*.json)|*.json"
+
+		dlg = wx.FileDialog(
+			self, message="Save snapshot file file as ...", defaultDir=os.getcwd(),
+			defaultFile="", wildcard=wildcard, style=wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT
+		)
+		rc = dlg.ShowModal()
+		if rc == wx.ID_CANCEL:
+			dlg.Destroy()
+			return
+
+		fn = dlg.GetPath()
+		dlg.Destroy()
+
+		with open(fn, "w") as jfp:
+			json.dump(jdata, jfp, indent=2)
+
+		self.PopupAdvice("Snapshot saved:")
+		self.PopupAdvice(fn)
+
+	def OnBRestoreLocal(self, _):
+		wildcard = "JSON (*.json)|*.json"
+		dlg = wx.FileDialog(
+			self, message="Choose snapshot file to restore ...", defaultDir=os.getcwd(),
+			defaultFile="", wildcard=wildcard, style=wx.FD_OPEN
+		)
+		rc = dlg.ShowModal()
+		if rc == wx.ID_CANCEL:
+			dlg.Destroy()
+			return
+
+		fn = dlg.GetPath()
+		dlg.Destroy()
+
+		with open(fn, "r") as jfp:
+			jdata = json.load(jfp)
+
+		self.rrServer.Post("SNAPSHOT", "live", jdata)  # json.dumps(jdata))
+
 	def OnBChooseSnapshot(self, _):
 		self.LoadSnapshot(True)
 
@@ -2335,7 +2396,7 @@ class MainFrame(wx.Frame):
 			return
 
 	def TakeSnapshot(self):
-		msg = self.Get("savesnapshot", {})
+		msg = self.Get("snapshot", {"action": "save"})
 		self.PopupAdvice(msg)
 
 	def OnSubscribe(self, _):
@@ -2354,11 +2415,14 @@ class MainFrame(wx.Frame):
 
 			if self.IsDispatcherOrSatellite():
 				self.bTakeSnapshot.Enable(False)
+				self.bTakeLocal.Enable(False)
+				self.bRestoreLocal.Enable(False)
 				self.bChooseSnapshot.Enable(False)
 				self.bLatestSnapshot.Enable(False)
 				self.bPreloaded.Enable(False)
 				if self.IsDispatcher():
 					self.bAutoRouter.Enable(False)
+					self.bC13AR.Enable(False)
 					self.bATC.Enable(False)
 					self.cbOSSLocks.Enable(False)
 					self.cbSidingsUnlocked.Enable(False)
@@ -2383,11 +2447,14 @@ class MainFrame(wx.Frame):
 			if self.IsDispatcherOrSatellite():
 				self.bLostTrains.Enable(True)
 				self.bTakeSnapshot.Enable(True)
+				self.bTakeLocal.Enable(True)
+				self.bRestoreLocal.Enable(True)
 				self.bChooseSnapshot.Enable(True)
 				self.bLatestSnapshot.Enable(True)
 				self.bPreloaded.Enable(True)
 				if self.IsDispatcher():
 					self.bAutoRouter.Enable(True)
+					self.bC13AR.Enable(True)
 					self.bATC.Enable(True)
 					self.cbOSSLocks.Enable(True)
 					self.cbSidingsUnlocked.Enable(True)
@@ -3703,6 +3770,7 @@ class MainFrame(wx.Frame):
 		tr.SetAR(ar)
 		tr.SetSignal(signal)
 		tr.SetAspect(aspect, aspectType, pastSignal)
+		# TODO - Add/Update this train to history
 
 		d, n = tr.SetBlocks(blocks)
 		for bn in blocks:
@@ -3788,7 +3856,6 @@ class MainFrame(wx.Frame):
 			self.PopupEvent("Train %s lost detection in block %s" % (tr.Name(), d[0]))
 			self.CloseRouteTrainDlg(tr.Name())
 			self.lostTrains.Add(tr.Name(), tr.Loco(), tr.Engineer(), tr.East(), d[0])
-			# TODO - Add this train to lost trains and history
 			del(self.trains[iname])
 
 	def DoCmdClock(self, parms):
@@ -3876,8 +3943,8 @@ class MainFrame(wx.Frame):
 
 			if self.IsDispatcher():
 				self.UpdateControlWidget(name, value)
-			# else:
-			# 	self.UpdateControlDisplay(name, value)
+			else:
+				self.UpdateControlDisplay(name, value)
 
 	def DoCmdSessionID(self, parms):
 		self.sessionid = int(parms)
@@ -4222,6 +4289,7 @@ class MainFrame(wx.Frame):
 		self.bRefresh.Enable(False)
 		if self.IsDispatcher():
 			self.bAutoRouter.Enable(False)
+			self.bC13AR.Enable(False)
 			self.bATC.Enable(False)
 			self.cbOSSLocks.Enable(False)
 			self.cbSidingsUnlocked.Enable(False)
@@ -4678,6 +4746,12 @@ class MainFrame(wx.Frame):
 		if self.ARProc:
 			try:
 				self.ARProc.kill()
+			except:
+				pass
+
+		if self.C13ARProc:
+			try:
+				self.C13ARProc.kill()
 			except:
 				pass
 

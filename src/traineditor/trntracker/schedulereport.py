@@ -16,6 +16,7 @@ class ScheduleReport (Report):
 		self.parent = parent
 		self.RRServer = None
 		self.roster = None
+		self.locos = None
 					
 	def getSchedFiles(self):
 		schedList = self.RRServer.Get("schedlist", {})
@@ -27,8 +28,9 @@ class ScheduleReport (Report):
 
 		return [s[:-5] for s in schedList]  # strip off the .json suffix
 
-	def ScheduleReport(self, roster, rrserver):
+	def ScheduleReport(self, roster, locos, rrserver):
 		self.roster = roster
+		self.locos = locos
 		self.RRServer = rrserver
 		dlg = ChooseScheduleDlg(self.parent, self.getSchedFiles(), False)
 		rc = dlg.ShowModal()
@@ -132,6 +134,10 @@ class ScheduleReport (Report):
 
 		if loco is None:
 			loco = ""
+		else:
+			linfo = self.locos.getLoco(loco)
+			if linfo is not None and linfo["short"]:
+				loco += "(s)"
 
 		passenger = tid[0].isdigit()
 

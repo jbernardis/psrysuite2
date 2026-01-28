@@ -52,7 +52,8 @@ class NassauTrack:
 
 	def draw(self, dc):
 		dc.SetTextForeground(wx.Colour(255, 255, 255))
-		dc.DrawText(self.name+":",  100, self.line)
+		xStart = 1540
+		dc.DrawText(self.name+":",  xStart, self.line)
 		if self.train is None and self.loco is None:
 			trloco = ""
 		else:
@@ -60,15 +61,15 @@ class NassauTrack:
 			trloco += "/"
 			trloco += "??" if self.loco is None else self.loco
 			if self.east is not None:
-				dc.DrawBitmap(self.east, 160, self.line)
+				dc.DrawBitmap(self.east, xStart + 60, self.line)
 
 		dc.SetTextForeground(wx.Colour(255, 255, 0))
-		dc.DrawText(trloco, 178, self.line)
+		dc.DrawText(trloco, xStart + 78, self.line)
 
-		dc.DrawBitmap(self.signal, 300, self.line)
+		dc.DrawBitmap(self.signal, xStart + 200, self.line)
 
 		dc.SetTextForeground(wx.Colour(255, 255, 255))
-		dc.DrawText(self.ebsig, 325, self.line)
+		dc.DrawText(self.ebsig, xStart + 225, self.line)
 
 
 class CliffFrame(MainFrame):
@@ -92,15 +93,16 @@ class CliffFrame(MainFrame):
 		}
 		wx.CallAfter(self.CliffInitialize)
 
+		startLine = 140
 		self.nassauTracks = {
-			"W11": NassauTrack("W11", "N28R",  self.bitmaps.misc.indicatorr, 500),
-			"N32": NassauTrack("N32", "N26RA", self.bitmaps.misc.indicatorr, 530),
-			"N31": NassauTrack("N31", "N26RB", self.bitmaps.misc.indicatorr, 560),
-			"N12": NassauTrack("N12", "N26RC", self.bitmaps.misc.indicatorr, 590),
-			"N22": NassauTrack("N22", "N24RA", self.bitmaps.misc.indicatorr, 620),
-			"N41": NassauTrack("N41", "N24RB", self.bitmaps.misc.indicatorr, 650),
-			"N42": NassauTrack("N42", "N24RC", self.bitmaps.misc.indicatorr, 680),
-			"W20": NassauTrack("W20", "N24RD", self.bitmaps.misc.indicatorr, 710)
+			"W11": NassauTrack("W11", "N28R",  self.bitmaps.misc.indicatorr, startLine),
+			"N32": NassauTrack("N32", "N26RA", self.bitmaps.misc.indicatorr, startLine + 30),
+			"N31": NassauTrack("N31", "N26RB", self.bitmaps.misc.indicatorr, startLine + 60),
+			"N12": NassauTrack("N12", "N26RC", self.bitmaps.misc.indicatorr, startLine + 90),
+			"N22": NassauTrack("N22", "N24RA", self.bitmaps.misc.indicatorr, startLine + 120),
+			"N41": NassauTrack("N41", "N24RB", self.bitmaps.misc.indicatorr, startLine + 150),
+			"N42": NassauTrack("N42", "N24RC", self.bitmaps.misc.indicatorr, startLine + 180),
+			"W20": NassauTrack("W20", "N24RD", self.bitmaps.misc.indicatorr, startLine + 210)
 		}
 
 		self.nassauTracksBySignal = {
@@ -250,13 +252,6 @@ class CliffFrame(MainFrame):
 				self.stCliffControl.SetLabel("CLIFF: Dispatch Bank/Cliveden")
 			elif value == 2:
 				self.stCliffControl.SetLabel("CLIFF: Dispatch All")
-
-		elif name == "c13auto":
-			self.c13Control = value
-			if value == 0:
-				self.stC13Control.SetLabel("C13: Manual")
-			else:
-				self.stC13Control.SetLabel("C13: Automatic")
 
 	def DoCmdTrain(self, parms):
 		MainFrame.DoCmdTrain(self, parms)

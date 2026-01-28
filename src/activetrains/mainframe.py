@@ -31,11 +31,14 @@ class MainFrame(wx.Frame):
 		self.listener = None
 		self.sessionid = None
 		self.subscribed = False
+
+		self.dispatch = {}
 		
 		self.trains = {}
 		self.locoMap = {}
 		self.routes = {}
 		self.locos = {}
+		self.roster = {}
 
 		self.rrServer = RRServer()
 		self.rrServer.SetServerAddress(self.settings.ipaddr, self.settings.serverport)
@@ -104,23 +107,26 @@ class MainFrame(wx.Frame):
 		
 	def TrainSelected(self, tr):
 		logging.debug("train selected %s" % str(tr))
-		pass
-		# trid = tr.GetName()
-		# loco = tr.GetLoco()
-		# try:
-		# 	info = self.trainList[trid]
-		# except KeyError:
-		# 	return
-		#
-		# self.ShowTrainDesc(tr, loco, info)
+		trid = tr["rname"]
+		loco = tr["loco"]
+		if trid is None:
+			#  no description to show for an unknown train
+			return
+
+		try:
+			info = self.roster[trid]
+		except KeyError:
+			return
+
+		self.ShowTrainDesc(tr, loco, info)
 		
 	def ShowTrainDesc(self, tr, loco, info):
 		desc = []
 		try:
-			d = " - " + info["desc"]
+			d = " - " + ("" if info["desc"] is None else info["desc"])
 		except KeyError:
 			d = ""
-		desc.append("Train: %s%s" % (tr.GetName(), d))
+		desc.append("Train: %s%s" % (tr["rname"], d))
 		desc.append("")
 				
 		details = "Eastbound" if info["eastbound"] else "Westbound"
@@ -130,13 +136,13 @@ class MainFrame(wx.Frame):
 		desc.append("")
 		
 		try:
-			linfo = self.locoList[loco]
+			linfo = self.locos[loco]
 		except KeyError:
 			linfo = None
 		if linfo:
 			try:
-				d = " - " + linfo["desc"]
-			except:
+				d = " - " + ("" if linfo["desc"] is None else linfo["desc"])
+			except KeyError:
 				d = ""
 			desc.append("Locomotive: %s%s" % (loco, d))
 		else:
@@ -150,7 +156,7 @@ class MainFrame(wx.Frame):
 			else:
 				desc.append("%-12.12s  %-4.4s  %s" % (track[lx][0], "(%d)" % track[lx][2], track[lx][1]))
 		
-		dlg = DescriptionDlg(self, tr.GetName(), desc)
+		dlg = DescriptionDlg(self, tr["rname"], desc)
 		dlg.ShowModal()
 		dlg.Destroy()
 
@@ -172,7 +178,6 @@ class MainFrame(wx.Frame):
 			self.sessionid = None
 			self.bSubscribe.SetLabel("Connect")
 			self.bRefresh.Enable(False)
-			# self.activeTrains.RemoveAllTrains()
 			self.trains = {}
 			self.locoMap = {}
 			self.routes = {}
@@ -213,13 +218,13 @@ class MainFrame(wx.Frame):
 			locos = {}
 
 		self.locos = locos
-		#
-		# trains = self.Get("gettrains", {})
-		# if trains is None:
-		# 	logging.error("Unable to retrieve trains")
-		# 	trains = {}
-		#
-		# self.trainList = trains
+
+		roster = self.Get("gettrains", {})
+		if roster is None:
+			logging.error("Unable to retrieve train roster")
+			roster = {}
+
+		self.roster = roster
 		#
 		# engineers = self.Get("getengineers", {})
 		# if engineers is None:
