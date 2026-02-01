@@ -1,13 +1,14 @@
 import wx
 
-colMap = ["block", "signal", "os", "route", "time", "trigger"]
+colMap = ["block", "signal", "os", "route"]
+
 
 class BlockSequenceListCtrl(wx.ListCtrl):
 	def __init__(self, parent, height=300, readonly=False):
 		self.parent = parent
 
 		wx.ListCtrl.__init__(
-			self, parent, wx.ID_ANY, size=(440, height),
+			self, parent, wx.ID_ANY, size=(310, height),
 			style=wx.LC_REPORT|wx.LC_VIRTUAL|wx.LC_VRULES
 			)
 
@@ -18,14 +19,10 @@ class BlockSequenceListCtrl(wx.ListCtrl):
 		self.InsertColumn(1, "Signal")
 		self.InsertColumn(2, "OS")
 		self.InsertColumn(3, "Route")
-		self.InsertColumn(4, "Time")
-		self.InsertColumn(5, "Trigger")
 		self.SetColumnWidth(0, 50)
 		self.SetColumnWidth(1, 80)
 		self.SetColumnWidth(2, 80)
 		self.SetColumnWidth(3, 80)
-		self.SetColumnWidth(4, 50)
-		self.SetColumnWidth(5, 80)
 
 		self.SetItemCount(0)
 

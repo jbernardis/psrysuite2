@@ -1,10 +1,11 @@
 import wx
 import os
-import json
-from traineditor.trntracker.trainroster import TrainRoster
+import logging
+
+from traineditor.trains.trainroster import TrainRoster
 from traineditor.locomotives.locomotives import Locomotives
-from traineditor.trntracker.traincardsreport import TrainCardsReport
-from traineditor.trntracker.schedulereport import ScheduleReport
+from traineditor.trains.manageschedules import ManageSchedules
+from traineditor.trains.trainseqdlg import TrainSeqDlg
 
 BTNSZ = (120, 46)
 BTNSZSMALL = (80, 30)
@@ -22,15 +23,20 @@ def formatLocation(info, tp):
 	return ("%s / %s" % (info[tp]["loc"], info[tp]["track"]))
 
 
-class TrainTrackerDlg(wx.Dialog):
+class TrainsDlg(wx.Dialog):
 	def __init__(self, parent, rrserver, browser):
 		wx.Dialog.__init__(self, parent, wx.ID_ANY, "")
 		self.Bind(wx.EVT_CLOSE, self.onClose)
 
 		self.parent = parent
+		self.settings = parent.settings
 		self.RRServer = rrserver
 		self.browser = browser
-		
+
+		self.modelChoices = []
+		self.RefCounts = {}
+		self.SeqCounts = {}
+
 		self.titleString = "Edit Train Tracker Information"
 		self.filename = os.path.join(os.getcwd(), "data", "trains.json")
 		
@@ -44,6 +50,7 @@ class TrainTrackerDlg(wx.Dialog):
 		self.locoOnlyList = ["<none>"] + self.locos.getLocoList()
 
 		self.setRoster()
+		self.buildReferences()
 			
 		btnFont = wx.Font(wx.Font(10, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, faceName="Arial"))
 		textFont = wx.Font(wx.Font(12, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, faceName="Arial"))
@@ -291,10 +298,35 @@ class TrainTrackerDlg(wx.Dialog):
 		stepBtnSz.Add(self.bDelStep)
 		
 		sz.Add(stepBtnSz, 0, wx.ALIGN_CENTER_HORIZONTAL)
+		sz.AddSpacer(30)
+
+		seqsz = wx.BoxSizer(wx.HORIZONTAL)
+
+		self.bEditSeq = wx.Button(self, wx.ID_ANY, "Edit Block\nSequence", size=BTNSZ)
+		self.bEditSeq.SetFont(btnFont)
+		self.bEditSeq.SetToolTip("Edit train block sequence")
+		self.Bind(wx.EVT_BUTTON, self.bEditSeqPressed, self.bEditSeq)
+		seqsz.Add(self.bEditSeq)
+		seqsz.AddSpacer(20)
+
+		self.cbTemplate = wx.CheckBox(self, wx.ID_ANY, "Use Template")
+		self.cbTemplate.SetFont(btnFont)
+		self.Bind(wx.EVT_CHECKBOX, self.onCbTemplate, self.cbTemplate)
+		self.cbTemplate.SetValue(False)
+		seqsz.Add(self.cbTemplate, 0, wx.TOP, 10)
+		seqsz.AddSpacer(10)
+
+		self.chModels = wx.Choice(self, wx.ID_ANY, choices = [], size=(200, -1))
+		self.chModels.SetFont(btnFont)
+		self.Bind(wx.EVT_CHOICE, self.onChModels, self.chModels)
+		self.chModels.SetSelection(wx.NOT_FOUND)
+		seqsz.Add(self.chModels, 0, wx.TOP, 4)
+
+		sz.Add(seqsz, 0, wx.ALIGN_CENTER_HORIZONTAL)
 		sz.AddSpacer(10)
-		
+
 		hsizer.Add(sz)
-		
+
 		hsizer.AddSpacer(10)
 		
 		sz = wx.BoxSizer(wx.VERTICAL)
@@ -375,21 +407,12 @@ class TrainTrackerDlg(wx.Dialog):
 
 		btnSizer.AddSpacer(30)
 
-		self.bPrintTrainCards = wx.Button(self, wx.ID_ANY, "Print Train Cards", size=BTNSZ)
-		self.bPrintTrainCards.SetFont(btnFont)
-		self.bPrintTrainCards.SetToolTip("Print train cards")
-		self.Bind(wx.EVT_BUTTON, self.bPrintTrainCardsPressed, self.bPrintTrainCards)
-		self.bPrintTrainCards.Enable(self.browser is not None)
-		btnSizer.Add(self.bPrintTrainCards)
-
-		btnSizer.AddSpacer(30)
-
-		self.bPrintTrainSchedules = wx.Button(self, wx.ID_ANY, "Print Schedules", size=BTNSZ)
-		self.bPrintTrainSchedules.SetFont(btnFont)
-		self.bPrintTrainSchedules.SetToolTip("Print schedules")
-		self.Bind(wx.EVT_BUTTON, self.bPrintTrainSchedulesPressed, self.bPrintTrainSchedules)
-		self.bPrintTrainSchedules.Enable(self.browser is not None)
-		btnSizer.Add(self.bPrintTrainSchedules)
+		self.bSchedules = wx.Button(self, wx.ID_ANY, "Schedules", size=BTNSZ)
+		self.bSchedules.SetFont(btnFont)
+		self.bSchedules.SetToolTip("Manage Schedules/Train Cards")
+		self.Bind(wx.EVT_BUTTON, self.bSchedulesPressed, self.bSchedules)
+		self.bSchedules.Enable(self.browser is not None)
+		btnSizer.Add(self.bSchedules)
 
 		btnSizer.AddSpacer(30)
 		
@@ -410,8 +433,8 @@ class TrainTrackerDlg(wx.Dialog):
 		
 		self.SetSizer(vsizer)
 		self.Layout()
-		self.Fit();
-		
+		self.Fit()
+
 		if len(self.trainList) > 0:
 			self.cbTrains.SetSelection(0)
 			self.setSelectedTrain(self.trainList[0])
@@ -439,14 +462,35 @@ class TrainTrackerDlg(wx.Dialog):
 				"terminus": {
 					"loc": ti["terminus"]["loc"],
 					"track": ti["terminus"]["track"]
-				}
+				},
+				"startblock": ti["startblock"],
+				"startsubblock": ti["startsubblock"],
+				"template": ti["template"]
 			}
+
+			sequence = [{"block": si["block"], "os": si["os"], "route": si["route"], "signal": si["signal"]} for si in ti["sequence"]]
+			info["sequence"] = sequence
 			
 			steps = [[s[0], s[1], s[2]] for s in ti["tracker"]]
 			info["tracker"] = steps
 			
 			self.roster[t] = info
-		
+
+	def buildReferences(self):
+		self.RefCounts = {}
+		self.SeqCounts = {}
+		for tid, info in self.roster.items():
+			l = len(info["sequence"])
+			if l > 0:
+				self.SeqCounts[tid] = l
+
+			tmpl = info["template"]
+			if tmpl is not None and tmpl != "":
+				if tmpl not in self.RefCounts:
+					self.RefCounts[tmpl] = 1
+				else:
+					self.RefCounts[tmpl] += 1
+
 	def onChTrains(self, _):
 		tx = self.cbTrains.GetSelection()
 		if tx == wx.NOT_FOUND:
@@ -495,8 +539,38 @@ class TrainTrackerDlg(wx.Dialog):
 				return
 
 		self.setRoster()
+		self.buildReferences()
+		self.cbTrains.SetItems(self.trainList)
+		trainID = self.trainList[0]
+		self.cbTrains.SetSelection(0)
+		self.setSelectedTrain(trainID)
+
 		self.setModified(False)
-		
+
+	def onCbTemplate(self, _):
+		self.chModels.Enable(self.cbTemplate.IsChecked())
+		if self.cbTemplate.IsChecked():
+			self.chModels.Enable(True)
+			self.chModels.SetSelection(0)
+			self.selectedTrainInfo["template"] = ""
+			self.bEditSeq.Enable(False)
+		else:
+			self.chModels.Enable(False)
+			self.chModels.SetSelection(wx.NOT_FOUND)
+			self.selectedTrainInfo["template"] = None
+			self.bEditSeq.Enable(True)
+		self.setModified()
+
+	def onChModels(self, _):
+		tx = self.chModels.GetSelection()
+		if tx == wx.NOT_FOUND:
+			self.bEditSeq.Enable(True)
+			self.selectedTrainInfo["template"] = ""
+		else:
+			self.bEditSeq.Enable(False)
+			self.selectedTrainInfo["template"] = self.modelChoices[tx]
+		self.setModified()
+
 	def bAddPressed(self, _):
 		dlg = wx.TextEntryDialog(self, 'Enter New Train Number/Name', 'Train ID', '')
 		rc = dlg.ShowModal()
@@ -535,7 +609,7 @@ class TrainTrackerDlg(wx.Dialog):
 		ttrk = t if t != "" else None
 
 		self.roster[trainID] = {
-			'dir': "East" if self.cbEast.IsChecked() else "West",
+			'eastbound': self.cbEast.IsChecked(),
 			'desc': self.teDesc.GetValue(),
 			'loco': None,
 			'normalloco': loco,
@@ -549,9 +623,12 @@ class TrainTrackerDlg(wx.Dialog):
 				'track': ttrk
 			},
 			'tracker': [],
-			'block': None
+			'sequence': [],
+			'startblock': None,
+			'startsubblock': None,
+			'template': None
 			}
-		
+
 		self.cbTrains.SetItems(self.trainList)
 		self.cbTrains.SetSelection(self.trainList.index(trainID))
 		self.setSelectedTrain(trainID)
@@ -616,7 +693,11 @@ class TrainTrackerDlg(wx.Dialog):
 				'track': ttrk
 			},
 			'tracker': steps,
-			'block': None
+			'block': None,
+			'sequence': [],
+			'startblock': None,
+			'startsubblock': None,
+			'template': None
 			}
 		
 		self.cbTrains.SetItems(self.trainList)
@@ -807,6 +888,7 @@ class TrainTrackerDlg(wx.Dialog):
 		self.setModified()
 		
 	def setSelectedTrain(self, tid):
+		self.buildReferences()
 		if tid == wx.NOT_FOUND or tid is None:
 			self.selectedTid = None
 			self.selectedTrainInfo = None
@@ -818,6 +900,10 @@ class TrainTrackerDlg(wx.Dialog):
 			self.cbCutoff.SetValue(False)
 			self.teDesc.SetValue("")
 			self.lcSteps.setData([])
+			self.cbTemplate.Enable(True)
+			self.cbTemplate.SetValue(False)
+			self.chModels.Enable(True)
+			self.chModels.SetSelection(wx.NOT_FOUND)
 			return
 		
 		self.bMod.Enable(True)
@@ -826,7 +912,44 @@ class TrainTrackerDlg(wx.Dialog):
 		self.bDel.Enable(True)
 		self.selectedTid = tid
 		self.selectedTrainInfo = self.roster[tid]
-		
+		tmpl = self.selectedTrainInfo["template"]
+
+		self.modelChoices = sorted(self.SeqCounts.keys())
+		self.chModels.SetItems(self.modelChoices)
+		if tid in self.SeqCounts:
+			# this is a train that has a defined sequence:
+			# do not allow the template button until the sequence length is 0
+			self.chModels.Enable(False)
+			self.chModels.SetSelection(wx.NOT_FOUND)
+			self.cbTemplate.Enable(False)
+			self.cbTemplate.SetValue(False)
+			self.bEditSeq.Enable(True)
+			try:
+				idx = self.modelChoices.index(tmpl)
+			except ValueError:
+				idx = wx.NOT_FOUND
+			self.chModels.SetSelection(idx)
+
+		else:
+			# this NOT a train that has a defined sequence
+			if tmpl is None or tmpl == "":
+				#  there isn't a template chosen either so alow some freedon
+				self.chModels.Enable(True)
+				self.cbTemplate.Enable(True)
+				self.cbTemplate.SetValue(True)
+				self.bEditSeq.Enable(True)
+				self.chModels.SetSelection(0)
+			else:
+				#  there IS a template referred to here so with that for now
+				self.chModels.Enable(False)
+				self.cbTemplate.SetValue(True)
+				self.bEditSeq.Enable(False)
+				try:
+					idx = self.modelChoices.index(tmpl)
+				except ValueError:
+					idx = 0
+				self.chModels.SetSelection(idx)
+
 		self.cbEast.SetValue(self.selectedTrainInfo['eastbound'])
 		self.stDirection.SetLabel("%sbound" % ("East" if self.selectedTrainInfo['eastbound'] else "West"))
 		
@@ -895,31 +1018,56 @@ class TrainTrackerDlg(wx.Dialog):
 		
 		self.modified = flag
 		self.setTitle()
-		
+
+	def bEditSeqPressed(self, _):
+		dlg = TrainSeqDlg(self, self.selectedTid, self.selectedTrainInfo, self.RRServer)
+		rc = dlg.ShowModal()
+		if rc == wx.ID_OK:
+			results = dlg.GetResults()
+
+		dlg.Destroy()
+
+		if rc != wx.ID_OK:
+			return
+
+		self.setModified()
+
+		self.selectedTrainInfo["sequence"] = [s for s in results["sequence"]]
+		self.selectedTrainInfo["startblock"] = (results["startblock"])
+		self.selectedTrainInfo["startsubblock"] = (results["startsubblock"])
+
+		if len(self.selectedTrainInfo["sequence"]) > 0:
+			self.cbTemplate.Enable(False)
+			self.cbTemplate.SetValue(False)
+			self.chModels.Enable(False)
+			self.chModels.SetSelection(wx.NOT_FOUND)
+			self.selectedTrainInfo["template"] = None
+		else:
+			self.cbTemplate.Enable(True)
+			self.chModels.Enable(True)
+			self.chModels.SetSelection(0)
+
 	def bSavePressed(self, _):
+		logging.debug("in sabe, modified = %s" % self.modified)
 		if self.modified:
 			self.trains = self.RRServer.Get("gettrains", {})
+			logging.debug("In save - retrueved trains")
 				
 			delList = []
 			for tr in self.trains:
 				if tr not in self.roster:
 					delList.append(tr)
+			logging.debug("dellist = %s" % str(delList))
 					
 			for tr in delList:
 				del(self.trains[tr])
-				
+
 			for tr in self.roster:
-				if tr not in self.trains:
-					# new train - create an empty record with just placeholders for the non-tracker fields
-					self.trains[tr] = {
-							'sequence': [],
-							'startblock': None,
-							'startsubblock': None,
-							'time': 5000
-							}
-					
-				self.trains[tr].update(self.roster[tr])
-		
+				if tr in self.trains:
+					self.trains[tr].update(self.roster[tr])
+				else:
+					self.trains[tr] = self.roster[tr]
+
 			self.RRServer.Post("trains.json", "data", self.trains)
 			dlg = wx.MessageDialog(self, 'Train list has been saved', 'Data Saved', wx.OK | wx.ICON_INFORMATION)
 			dlg.ShowModal()
@@ -927,13 +1075,8 @@ class TrainTrackerDlg(wx.Dialog):
 
 		self.setModified(False)
 		
-	def bPrintTrainCardsPressed(self, _):
-		rpt = TrainCardsReport(self, self.browser)
-		rpt.TrainCards(self.roster, self.trainList, self.RRServer)
-
-	def bPrintTrainSchedulesPressed(self, _):
-		rpt = ScheduleReport(self, self.browser)
-		rpt.ScheduleReport(self.roster, self.locos, self.RRServer)
+	def bSchedulesPressed(self, _):
+		ManageSchedules(self, self.roster, self.locos, self.trainList, self.RRServer, self.settings)
 
 	def bExitPressed(self, _):
 		if self.modified:

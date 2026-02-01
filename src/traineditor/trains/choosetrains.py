@@ -1,133 +1,21 @@
 import wx
 import os
-from traineditor.trntracker.schedule import Schedule
+from traineditor.trains.schedule import Schedule
 
 BTNSZ = (120, 46)
 wildcardJson = "JSON file (*.json)|*.json|"	 \
 				"All files (*.*)|*.*"
 
 
-class ChooseScheduleDlg(wx.Dialog):
-	def __init__(self, parent, schedules, allowentry):
-		wx.Dialog.__init__(self, parent, wx.ID_ANY, "")
-		self.Bind(wx.EVT_CLOSE, self.OnCancel)
-		if allowentry:
-			self.SetTitle("Choose/Enter schedule name")
-		else:
-			self.SetTitle("Choose schedule name")
-
-		vszr = wx.BoxSizer(wx.VERTICAL)
-		vszr.AddSpacer(20)
-		
-		if allowentry:
-			style = wx.CB_DROPDOWN
-		else:
-			style = wx.CB_DROPDOWN | wx.CB_READONLY					
-		
-		cb = wx.ComboBox(self, 500, "", size=(160, -1), choices=schedules, style=style)
-		self.cbSchedule = cb
-		vszr.Add(cb, 0, wx.ALIGN_CENTER_HORIZONTAL)
-		if not allowentry and len(schedules) > 0:
-			self.cbSchedule.SetSelection(0)
-		else:
-			self.cbSchedule.SetSelection(wx.NOT_FOUND)
-		
-		vszr.AddSpacer(20)
-		
-		btnszr = wx.BoxSizer(wx.HORIZONTAL)
-		
-		bOK = wx.Button(self, wx.ID_ANY, "OK")
-		self.Bind(wx.EVT_BUTTON, self.OnBOK, bOK)
-		
-		bCancel = wx.Button(self, wx.ID_ANY, "Cancel")
-		self.Bind(wx.EVT_BUTTON, self.OnCancel, bCancel)
-		
-		btnszr.Add(bOK)
-		btnszr.AddSpacer(20)
-		btnszr.Add(bCancel)
-		
-		vszr.Add(btnszr, 0, wx.ALIGN_CENTER_HORIZONTAL)
-		
-		vszr.AddSpacer(20)
-				
-		hszr = wx.BoxSizer(wx.HORIZONTAL)
-		hszr.AddSpacer(20)
-		hszr.Add(vszr)
-		
-		hszr.AddSpacer(20)
-		
-		self.SetSizer(hszr)
-		self.Layout()
-		self.Fit();
-		
-	def GetValue(self):
-		return self.cbSchedule.GetValue()
-		
-	def OnCancel(self, _):
-		self.EndModal(wx.ID_CANCEL)
-		
-	def OnBOK(self, _):
-		self.EndModal(wx.ID_OK)
-		
-				
-class ChooseSchedulesDlg(wx.Dialog):
-	def __init__(self, parent, schedules):
-		wx.Dialog.__init__(self, parent, wx.ID_ANY, "")
-		self.Bind(wx.EVT_CLOSE, self.OnCancel)
-		self.SetTitle("Choose schedules")
-
-		vszr = wx.BoxSizer(wx.VERTICAL)
-		vszr.AddSpacer(20)
-		
-		cb = wx.CheckListBox(self, wx.ID_ANY, size=(160, -1), choices=schedules)
-		self.cbSchedule = cb
-		vszr.Add(cb, 0, wx.ALIGN_CENTER_HORIZONTAL)
-		
-		vszr.AddSpacer(20)
-		
-		btnszr = wx.BoxSizer(wx.HORIZONTAL)
-		
-		bOK = wx.Button(self, wx.ID_ANY, "OK")
-		self.Bind(wx.EVT_BUTTON, self.OnBOK, bOK)
-		
-		bCancel = wx.Button(self, wx.ID_ANY, "Cancel")
-		self.Bind(wx.EVT_BUTTON, self.OnCancel, bCancel)
-		
-		btnszr.Add(bOK)
-		btnszr.AddSpacer(20)
-		btnszr.Add(bCancel)
-		
-		vszr.Add(btnszr, 0, wx.ALIGN_CENTER_HORIZONTAL)
-		
-		vszr.AddSpacer(20)
-				
-		hszr = wx.BoxSizer(wx.HORIZONTAL)
-		hszr.AddSpacer(20)
-		hszr.Add(vszr)
-		
-		hszr.AddSpacer(20)
-		
-		self.SetSizer(hszr)
-		self.Layout()
-		self.Fit();
-		
-	def GetValue(self):
-		return self.cbSchedule.GetCheckedStrings()
-		
-	def OnCancel(self, _):
-		self.EndModal(wx.ID_CANCEL)
-		
-	def OnBOK(self, _):
-		self.EndModal(wx.ID_OK)
-				
-
 class ChooseTrainsDlg(wx.Dialog):
-	def __init__(self, parent, alltrains, rrserver):
+	def __init__(self, parent, alltrains, rrserver, traincardsreport, schedulereport):
 		wx.Dialog.__init__(self, parent, wx.ID_ANY, "")
+		self.trainCardsReport = traincardsreport
+		self.scheduleReport = schedulereport
 		self.RRServer = rrserver
 		self.Bind(wx.EVT_CLOSE, self.onClose)
 		
-		self.titleString = "Select Train Cards to print"
+		self.titleString = "Manage Schedules"
 		self.schedDir = os.path.join(os.getcwd(), "data", "schedules")
 		
 		self.allTrains = sorted([t for t in alltrains])		
@@ -235,6 +123,7 @@ class ChooseTrainsDlg(wx.Dialog):
 		hsizer.AddSpacer(20)
 		
 		btnSizer = wx.BoxSizer(wx.HORIZONTAL)
+		btnSizer.AddSpacer(20)
 		
 		self.bLoad = wx.Button(self, wx.ID_ANY, "Load", size=BTNSZ)
 		self.bLoad.SetFont(btnFont)
@@ -249,6 +138,24 @@ class ChooseTrainsDlg(wx.Dialog):
 		self.bSave.SetToolTip("Save train schedule to a file")
 		self.Bind(wx.EVT_BUTTON, self.bSavePressed, self.bSave)
 		btnSizer.Add(self.bSave)
+
+		btnSizer.AddSpacer(10)
+
+		self.bCards = wx.Button(self, wx.ID_ANY, "Print\nTrain Cards", size=BTNSZ)
+		self.bCards.SetFont(btnFont)
+		self.bCards.SetToolTip("Print Train Cards")
+		self.Bind(wx.EVT_BUTTON, self.bCardsPressed, self.bCards)
+		btnSizer.Add(self.bCards)
+
+		btnSizer.AddSpacer(10)
+
+		self.bSched = wx.Button(self, wx.ID_ANY, "Print\nSchedule", size=BTNSZ)
+		self.bSched.SetFont(btnFont)
+		self.bSched.SetToolTip("Print Train Schedule")
+		self.Bind(wx.EVT_BUTTON, self.bSchedPressed, self.bSched)
+		btnSizer.Add(self.bSched)
+
+		btnSizer.AddSpacer(20)
 
 		btnSizer2 = wx.BoxSizer(wx.HORIZONTAL)
 		
@@ -438,6 +345,12 @@ class ChooseTrainsDlg(wx.Dialog):
 			self.lbAll.SetSelection(ix)
 		self.setButtons()
 
+	def bCardsPressed(self, _):
+		self.trainCardsReport(self.schedule)
+
+	def bSchedPressed(self, _):
+		self.scheduleReport(self.schedule)
+
 	def setArrays(self, schedule):
 		if schedule is None:
 			self.schedule = None
@@ -563,3 +476,66 @@ class ChooseTrainsDlg(wx.Dialog):
 		results.setNewExtras(self.extraTrains)
 		
 		return results
+
+
+class ChooseScheduleDlg(wx.Dialog):
+	def __init__(self, parent, schedules, allowentry):
+		wx.Dialog.__init__(self, parent, wx.ID_ANY, "")
+		self.Bind(wx.EVT_CLOSE, self.OnCancel)
+		if allowentry:
+			self.SetTitle("Choose/Enter schedule name")
+		else:
+			self.SetTitle("Choose schedule name")
+
+		vszr = wx.BoxSizer(wx.VERTICAL)
+		vszr.AddSpacer(20)
+
+		if allowentry:
+			style = wx.CB_DROPDOWN
+		else:
+			style = wx.CB_DROPDOWN | wx.CB_READONLY
+
+		cb = wx.ComboBox(self, 500, "", size=(160, -1), choices=schedules, style=style)
+		self.cbSchedule = cb
+		vszr.Add(cb, 0, wx.ALIGN_CENTER_HORIZONTAL)
+		if not allowentry and len(schedules) > 0:
+			self.cbSchedule.SetSelection(0)
+		else:
+			self.cbSchedule.SetSelection(wx.NOT_FOUND)
+
+		vszr.AddSpacer(20)
+
+		btnszr = wx.BoxSizer(wx.HORIZONTAL)
+
+		bOK = wx.Button(self, wx.ID_ANY, "OK")
+		self.Bind(wx.EVT_BUTTON, self.OnBOK, bOK)
+
+		bCancel = wx.Button(self, wx.ID_ANY, "Cancel")
+		self.Bind(wx.EVT_BUTTON, self.OnCancel, bCancel)
+
+		btnszr.Add(bOK)
+		btnszr.AddSpacer(20)
+		btnszr.Add(bCancel)
+
+		vszr.Add(btnszr, 0, wx.ALIGN_CENTER_HORIZONTAL)
+
+		vszr.AddSpacer(20)
+
+		hszr = wx.BoxSizer(wx.HORIZONTAL)
+		hszr.AddSpacer(20)
+		hszr.Add(vszr)
+
+		hszr.AddSpacer(20)
+
+		self.SetSizer(hszr)
+		self.Layout()
+		self.Fit();
+
+	def GetValue(self):
+		return self.cbSchedule.GetValue()
+
+	def OnCancel(self, _):
+		self.EndModal(wx.ID_CANCEL)
+
+	def OnBOK(self, _):
+		self.EndModal(wx.ID_OK)

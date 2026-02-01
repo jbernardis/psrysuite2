@@ -192,7 +192,7 @@ class TrainHistoryCtrl(wx.ListCtrl):
 		self.SetColumnWidth(3, 160)
 		self.InsertColumn(4, "Blocks")
 		self.SetColumnWidth(4, 400)
-		self.SetItemCount(len(self.trains))
+		self.SetHistoryCount()
 
 	def GetTrainName(self, tx):
 		try:
@@ -202,6 +202,9 @@ class TrainHistoryCtrl(wx.ListCtrl):
 
 	def SetShowUnknown(self, flag):
 		self.showUnknown = flag
+		self.SetHistoryCount()
+
+	def SetHistoryCount(self):
 		self.sortTrainOrder()
 		self.SetItemCount(0)
 		n = len(self.trainOrder)
@@ -249,6 +252,9 @@ class TrainHistoryCtrl(wx.ListCtrl):
 					return ""
 				else:
 					return tr["block"][-1]
+
+			else:
+				return "?"  # never gets here
 
 	def OnColClick(self, evt):
 		self.sortColumn = evt.GetColumn()

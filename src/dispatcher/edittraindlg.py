@@ -64,7 +64,7 @@ class EditTrainDlg(wx.Dialog):
 		try:
 			idx = self.trainsWithSeq.index(self.templateTrain)
 		except ValueError:
-			idx = 0
+			idx = wx.NOT_FOUND
 		self.cbRoute.SetSelection(idx)
 
 		self.chosenTrain = name
@@ -266,6 +266,7 @@ class EditTrainDlg(wx.Dialog):
 		else:
 			self.cbRoute.Enable(False)
 			self.templateTrain = None
+			self.cbRoute.SetSelection(wx.NOT_FOUND)
 
 	def OnRouteChoice(self, evt):
 		self.templateTrain = evt.GetString()

@@ -2088,6 +2088,7 @@ class Railroad:
 		if obj.SetStatus("E"):
 			if self.settings.debug.blockoccupancy:
 				self.Alert("Block marked as empty")
+
 			self.RailroadEvent(obj.GetEventMessage())
 			if tr is not None:
 				self.RailroadEvent(tr.GetEventMessage())

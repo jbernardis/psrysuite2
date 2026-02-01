@@ -1,48 +1,35 @@
+preloaded trains
 incorporate preloaded trains into snapshot
 
 
-problem - block C13 westbound.  When a train is in C13.E and C13, with C13.W still green, if c13.E empties, it also clears C13.W
+done, but need the final details:
+    Generation of report for locomotive cards, engineer cards. - basic logic set, need to refine for chosen card format
+    incorporation of locomotive photographs
 
 
 
-verify need/use of all settings variables - I think some can be removed
-             [display]
-            showunknownhistory = True
+specific things that need to be checked:
+    Check the needed polarity for H30.srel/H30Power
 
+    Block P50 directionality and train movement is not working - I think it works with the manual moving from monitor - this might be isolated to trafficgen
 
-train database editor - merge tracker and sequences better, only have east on one page - rename tracker as train card information
-
-
-
-
-Generation of report for locomotive cards, engineer cards. - basic logic set, need to refine for chosen card format
-
-incorporation of locomotive photographs
-
-add locales to event/advice messages - basics are done, may need to add scenarios
-
-
-
-Check the needed polarity for H30.srel/H30Power
-
-Block P50 directionality and train movement is not working - I think it works with the manual moving from monitor - this might be isolated to trafficgen
-
-Need to test dcc sniffer logic
+    Need to test dcc sniffer logic
 
 
 
 
+still need to be done
+    inspection dialog - ignore blocks
 
-inspection dialog
-    ignore blocks
-
-
-Reloading data - trains, engineers, locos, etc - not sure this is possible anymore
-
-
-remove excessive debugging
-Rip out ALL dead code
+    Reloading data - trains, engineers, locos
+        locos and engineers - is probably ok,
+        but trains requires a coordinated action - tell server to reload, and then it tells all others to reload
 
 
 
-Try on the actual railroad
+final stuff
+    remove excessive debugging
+
+    Rip out ALL dead code
+
+    Try on the actual railroad

@@ -9,6 +9,7 @@ class Breaker:
 		self.state = 1
 		self.tripTime = None
 		self.tripDurations = []
+		self.tripTimes = []
 
 	def UpdateState(self, tm, state):
 		if state == self.state:
@@ -20,6 +21,7 @@ class Breaker:
 		else:
 			elapsed = tm - self.tripTime
 			self.tripDurations.append(int(elapsed.total_seconds()))
+			self.tripTimes.append(self.tripTime)
 			self.tripTime = None
 
 	def TripDurations(self):

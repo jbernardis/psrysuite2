@@ -4,15 +4,22 @@ cmdFolder = os.getcwd()
 if cmdFolder not in sys.path:
 	sys.path.insert(0, cmdFolder)
 
+import logging
+
 ofp = open(os.path.join(os.getcwd(), "output", "trainedit.out"), "w")
 efp = open(os.path.join(os.getcwd(), "output", "trainedit.err"), "w")
+lfn = os.path.join(os.getcwd(), "logs", "trainedit.log")
 
 sys.stdout = ofp
 sys.stderr = efp
 
+loglevel = logging.DEBUG
+logging.basicConfig(filename=lfn, filemode='w', format='%(asctime)s %(message)s', level=loglevel)
+
 lockFile = os.path.join(os.getcwd(), "data", "trainedit.lock")
 
 from traineditor.mainframe import MainFrame 
+
 
 class App(wx.App):
 	def OnInit(self):

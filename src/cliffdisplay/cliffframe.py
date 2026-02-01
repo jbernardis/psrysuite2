@@ -160,7 +160,7 @@ class CliffFrame(MainFrame):
 		self.ToasterSetup()
 
 		voffset = topSpace + diagramh + 10
-		self.widgetMap = {cliff: [], c13control: []}
+		self.widgetMap = {cliff: []}
 		self.DefineControlDisplay(voffset)
 
 		self.currentScreen = None
@@ -235,11 +235,7 @@ class CliffFrame(MainFrame):
 	def DefineControlDisplay(self, voffset):
 		f = wx.Font(16, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, faceName="Arial")
 
-		self.stC13Control = wx.StaticText(self, wx.ID_ANY, "C13: Manual", pos=(500, voffset + 10))
-		self.stC13Control.SetFont(f)
-		self.widgetMap[c13control].append([self.stC13Control, 1])
-
-		self.stCliffControl = wx.StaticText(self, wx.ID_ANY, "CLIFF: Dispatch All", pos=(1200, voffset + 10))
+		self.stCliffControl = wx.StaticText(self, wx.ID_ANY, "CLIFF: Dispatch All", pos=(800, voffset + 10))
 		self.stCliffControl.SetFont(f)
 		self.widgetMap[cliff].append([self.stCliffControl, 1])
 

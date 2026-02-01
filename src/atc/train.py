@@ -10,7 +10,6 @@ class Trains:
 				tr = self.AddTrain(tid, trData["eastbound"])
 				tr.SetStartBlock(trData["startblock"])
 				tr.SetStartSubBlock(trData["startsubblock"])
-				tr.SetStartBlockTime(trData["time"])
 				tr.SetSteps(trData["sequence"])
 
 				tr.SetNormalLoco(trData["normalloco"])
@@ -21,7 +20,6 @@ class Trains:
 				tr = self.AddTrain(tid, prData["eastbound"])
 				tr.SetStartBlock(prData["startblock"])
 				tr.SetStartSubBlock(prData["startsubblock"])
-				tr.SetStartBlockTime(prData["time"])
 				tr.SetSteps(prData["sequence"])
 
 				tr.SetNormalLoco(trData["normalloco"])
@@ -72,7 +70,6 @@ class Train:
 		self.steps = []
 		self.startblock = None
 		self.startsubblock = None
-		self.startblocktime = 5000
 		self.normalLoco = None
 
 	def SetDirection(self, direction):
@@ -92,12 +89,6 @@ class Train:
 
 	def GetSteps(self):
 		return [x for x in self.steps]
-
-	def SetStartBlockTime(self, time):
-		self.startblocktime = time
-
-	def GetStartBlockTime(self):
-		return self.startblocktime
 
 	def SetStartBlock(self, blk):
 		self.startblock = blk
@@ -119,5 +110,5 @@ class Train:
 
 	def ToJSON(self):
 		return {"eastbound": self.east, "startblock": self.startblock, "startsubblock": self.startsubblock,
-				"time": self.startblocktime, "sequence": self.steps}
+				"sequence": self.steps}
 

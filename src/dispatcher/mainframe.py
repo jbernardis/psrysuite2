@@ -124,7 +124,6 @@ class MainFrame(wx.Frame):
 		self.bSubscribe = None
 		self.bStartClock = None
 		self.bResetClock = None
-		self.c13Control = 0
 		self.stNassauControl = None
 		self.stYardControl = None
 		self.SnapshotBox = None
@@ -2484,6 +2483,7 @@ class MainFrame(wx.Frame):
 				t = {}
 
 			# CopyTrainReferences(t)
+			logging.debug("Data returned for %d trains" % len(t))
 			self.trainRoster = t
 			if report:
 				self.PopupEvent("Train roster reloaded")
@@ -3770,7 +3770,6 @@ class MainFrame(wx.Frame):
 		tr.SetAR(ar)
 		tr.SetSignal(signal)
 		tr.SetAspect(aspect, aspectType, pastSignal)
-		# TODO - Add/Update this train to history
 
 		d, n = tr.SetBlocks(blocks)
 		for bn in blocks:
@@ -3821,7 +3820,7 @@ class MainFrame(wx.Frame):
 					self.PopupEvent("We couldn't find that block, see if we have a stopping section")
 				if bn.endswith(".E") or bn.endswith(".W"):
 					sbn = bn[:-2]
-					blockend = sbn[-1]
+					blockend = bn[-1]
 					if self.settings.debug.blockoccupancy:
 						self.PopupEvent("Stopping section %s - trying base block %s" % (blockend, sbn))
 					blk = self.blocks.get(sbn, None)

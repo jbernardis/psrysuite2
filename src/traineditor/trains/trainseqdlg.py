@@ -1,24 +1,25 @@
+import sys
+import logging
 import wx
-from wx.lib.intctrl import IntCtrl 
 
-from traineditor.trainsequences.nextblocklist import NextBlockListCtrl
-from traineditor.trainsequences.blocksequence import BlockSequenceListCtrl
-from traineditor.trainsequences.editblockdlg import EditBlockDlg
+from traineditor.trains.nextblocklist import NextBlockListCtrl
+from traineditor.trains.blocksequence import BlockSequenceListCtrl
+from traineditor.trains.editblockdlg import EditBlockDlg
+from traineditor.layoutdata import LayoutData
 
 
-class TrainDlg(wx.Dialog):
-	def __init__(self, parent, train, layout):
+class TrainSeqDlg(wx.Dialog):
+	def __init__(self, parent, tid, tinfo, rrserver):
 		self.parent = parent
+		self.RRServer = rrserver
 		
 		wx.Dialog.__init__(self, self.parent, style=wx.DEFAULT_FRAME_STYLE)
 
-		self.layout = layout
-		self.trainObject = train		
-		self.trainid = train.GetTrainID()
-		self.locoid = 7000
-		self.east = train.IsEast()
+		self.trainid = tid
+		self.traininfo = tinfo
+		self.east = tinfo["eastbound"]
 		
-		self.blockList = [x for x in train.GetSteps()]
+		self.blockList = []  # [x for x in train.GetSteps()]
 		
 		self.title = "Edit Train Step Sequence Dialog"
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
@@ -30,14 +31,6 @@ class TrainDlg(wx.Dialog):
 		self.chStartBlock = wx.Choice(boxStartLoc, wx.ID_ANY, choices=[], size=(60, -1))
 		self.chStartSubBlock = wx.Choice(boxStartLoc, wx.ID_ANY, choices=[], size=(60, -1))
 		self.chStartSubBlock.Enable(False)
-		
-		#self.tcStartBlockTime = wx.TextCtrl(boxStartLoc, wx.ID_ANY, "5000", size=(60, -1), style=wx.TE_RIGHT)
-		ic = IntCtrl(boxStartLoc, wx.ID_ANY, size=(60, -1), style=wx.TE_RIGHT)
-		ic.SetMin(0)
-		ic.SetMax(99999)
-		ic.SetValue(5000)
-		ic.SetNoneAllowed(False)
-		self.tcStartBlockTime = ic
 
 		self.nextBlockList = NextBlockListCtrl(self)
 		self.blockSequence = BlockSequenceListCtrl(self)
@@ -74,12 +67,6 @@ class TrainDlg(wx.Dialog):
 		vsz.Add(wx.StaticText(boxStartLoc, wx.ID_ANY, "Sub-block"))
 		vsz.AddSpacer(5)
 		vsz.Add(self.chStartSubBlock)
-		hsz.Add(vsz)
-		hsz.AddSpacer(20)
-		vsz = wx.BoxSizer(wx.VERTICAL)
-		vsz.Add(wx.StaticText(boxStartLoc, wx.ID_ANY, "Time"))
-		vsz.AddSpacer(5)
-		vsz.Add(self.tcStartBlockTime)
 		hsz.Add(vsz)
 
 		hsz.AddSpacer(20)
@@ -153,40 +140,37 @@ class TrainDlg(wx.Dialog):
 		self.modified = False
 		self.ShowTitle()
 
+		self.layout = LayoutData(self.RRServer)
+
 		self.blockList = self.layout.GetBlocks()
 		self.chStartBlock.SetItems(self.blockList)
-		
-		steps = self.trainObject.GetSteps()
+
+		steps = self.traininfo["sequence"]
 		if len(steps) == 0:
 			self.startBlock = self.blockList[0]
 			self.startSubBlock = None
-			self.chStartBlock.SetSelection(0)
-			self.tcStartBlockTime.SetValue(5000)
 			self.GetAvailableBlocks(self.startBlock)
 			self.nextBlockList.SetBlocks(self.availableBlocks)
 			self.SetSubBlockChoices(self.startBlock, None)
-		else:	
-			self.startBlock = self.trainObject.GetStartBlock()
-			startSubBlock = self.trainObject.GetStartSubBlock()
+		else:
+			self.startBlock = self.traininfo["startblock"]
+			startSubBlock = self.traininfo["startsubblock"]
 			try:
 				bx = self.blockList.index(self.startBlock)
 				self.chStartBlock.SetSelection(bx)
 			except ValueError:
 				self.chStartBlock.SetSelection(0)
-				
-			self.tcStartBlockTime.SetValue(self.trainObject.GetStartBlockTime())
 
-			lastBlock = self.startBlock				
-			for step in self.trainObject.GetSteps():		
+			lastBlock = self.startBlock
+			for step in steps:
 				self.blockSequence.AddBlock(step)
 				lastBlock = step["block"]
-				
+
 			self.GetAvailableBlocks(lastBlock)
 			self.nextBlockList.SetBlocks(self.availableBlocks)
-				
+
 			self.SetSubBlockChoices(self.startBlock, startSubBlock)
 
-			
 		self.Bind(wx.EVT_CHOICE, self.OnChStartBlock, self.chStartBlock)
 		self.Bind(wx.EVT_CHOICE, self.OnChStartSubBlock, self.chStartSubBlock)
 		
@@ -308,8 +292,7 @@ class TrainDlg(wx.Dialog):
 			
 		dlg.ShowModal()
 		dlg.Destroy()
-			
-		
+
 	def GetAvailableBlocks(self, blk):
 		self.availableBlocks = []
 		if blk is None:
@@ -319,6 +302,12 @@ class TrainDlg(wx.Dialog):
 			e = self.layout.GetRouteEnds(r)
 			s = self.layout.GetRouteSignals(r)
 			os = self.layout.GetRouteOS(r)
+			if s == []:
+				s = [None, None]
+
+			if os == "N60":
+				continue
+
 			if e[0] == blk:
 				self.availableBlocks.append([e[1], s[0], os, r])
 			elif e[1] == blk:
@@ -329,7 +318,7 @@ class TrainDlg(wx.Dialog):
 			self.availableBlocks.append(["F10", None, None, None])
 
 	def GetResults(self):
-		return {"startblock": self.startBlock, "startsubblock": self.startSubBlock, "time": self.tcStartBlockTime.GetValue(), "steps": self.blockSequence.GetBlocks()}
+		return {"startblock": self.startBlock, "startsubblock": self.startSubBlock, "sequence": self.blockSequence.GetBlocks()}
 
 	def OnClose(self, _):
 		self.DoCancel()

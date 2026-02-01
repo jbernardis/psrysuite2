@@ -26,7 +26,7 @@ class Script:
 
 		startBlock = tr.GetStartBlock()
 		subblks = self.layout.GetSubBlocks(startBlock)
-		self.script = [{"start": subblks, "time": tr.GetStartBlockTime()}]
+		self.script = [{"start": subblks, "time": 5000}]
 
 		blocks = []
 		sbe, sbw = self.layout.GetStopBlocks(startBlock)
@@ -38,10 +38,10 @@ class Script:
 				blocks.append(sbw)
 
 		if len(blocks) > 0:
-			self.script.append({"blocks": blocks, "time": tr.GetStartBlockTime()})
+			self.script.append({"blocks": blocks, "time": 5000})
 
 		for step in tr.GetSteps():
-			self.script.append({"os": step["os"], "route": step["route"], "signal": step["signal"], "time": step["time"]})
+			self.script.append({"os": step["os"], "route": step["route"], "signal": step["signal"], "time": 5000})
 			block = step["block"]
 			sbe, sbw = self.layout.GetStopBlocks(block)
 			subblks = self.layout.GetSubBlocks(block)
@@ -61,7 +61,7 @@ class Script:
 				if sbw is not None:
 					blocks.append([sbw])
 			for b in blocks:
-				self.script.append({"blocks": b, "time": step["time"]})
+				self.script.append({"blocks": b, "time": 5000})
 
 	def GetName(self):
 		return self.train.GetTrainID()

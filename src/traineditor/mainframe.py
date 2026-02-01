@@ -2,8 +2,7 @@ import os
 import wx
 from dispatcher.settings import Settings 
 from traineditor.rrserver import RRServer
-from traineditor.trainsequences.trainblocksequencedlg import TrainBlockSequencesDlg
-from traineditor.trntracker.traintrackerdlg import TrainTrackerDlg
+from traineditor.trains.trainsdlg import TrainsDlg
 from traineditor.locomotives.managelocos import ManageLocosDlg
 from traineditor.engineers.manageengineers import ManageEngineersDlg
 from utilities.backup import saveData, restoreData
@@ -23,11 +22,8 @@ class MainFrame(wx.Frame):
 		self.RRServer = RRServer()
 		self.RRServer.SetServerAddress(self.settings.ipaddr, self.settings.serverport)
 
-		self.bTrainSeq = wx.Button(self, wx.ID_ANY, "Edit Train Block Sequences", size=(200, 50))
-		self.Bind(wx.EVT_BUTTON, self.OnBTrainBlockSequences, self.bTrainSeq)
-				
-		self.bTrainTracker = wx.Button(self, wx.ID_ANY, "Edit Train Tracker Data", size=(200, 50))
-		self.Bind(wx.EVT_BUTTON, self.OnBTrainTrackerData, self.bTrainTracker)
+		self.bTrain = wx.Button(self, wx.ID_ANY, "Edit Train Data", size=(200, 50))
+		self.Bind(wx.EVT_BUTTON, self.OnBTrainData, self.bTrain)
 
 		self.bLocos = wx.Button(self, wx.ID_ANY, "Edit Locomotive Data", size=(200, 50))
 		self.Bind(wx.EVT_BUTTON, self.OnBLocos, self.bLocos)
@@ -47,9 +43,7 @@ class MainFrame(wx.Frame):
 		vsz = wx.BoxSizer(wx.VERTICAL)
 		vsz.AddSpacer(20)
 		
-		vsz.Add(self.bTrainSeq, 0, wx.ALIGN_CENTER_HORIZONTAL)
-		vsz.AddSpacer(20)
-		vsz.Add(self.bTrainTracker, 0, wx.ALIGN_CENTER_HORIZONTAL)
+		vsz.Add(self.bTrain, 0, wx.ALIGN_CENTER_HORIZONTAL)
 		vsz.AddSpacer(20)
 		vsz.Add(self.bLocos, 0, wx.ALIGN_CENTER_HORIZONTAL)
 		vsz.AddSpacer(20)
@@ -75,14 +69,9 @@ class MainFrame(wx.Frame):
 		self.SetSizer(hsz)
 		self.Fit()
 		self.Layout()
-		
-	def OnBTrainBlockSequences(self, _):
-		dlg = TrainBlockSequencesDlg(self, self.RRServer)
-		dlg.ShowModal()
-		dlg.Destroy()
-		
-	def OnBTrainTrackerData(self, _):
-		dlg = TrainTrackerDlg(self, self.RRServer, self.settings.browser)
+
+	def OnBTrainData(self, _):
+		dlg = TrainsDlg(self, self.RRServer, self.settings.browser)
 		dlg.ShowModal()
 		dlg.Destroy()
 

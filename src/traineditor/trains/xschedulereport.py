@@ -4,8 +4,8 @@ import sys
 import qrcode
 import utilities.HTML as HTML
 from traineditor.reports import Report
-from traineditor.trntracker.choosetrains import ChooseScheduleDlg
-from traineditor.trntracker.schedule import Schedule
+from traineditor.trains.choosetrains import ChooseScheduleDlg
+from traineditor.trains.schedule import Schedule
 
 BTNSZ = (120, 46)
 
