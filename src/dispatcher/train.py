@@ -44,6 +44,8 @@ class Train:
 		self.ar = False
 		self.signal = None
 		self.templateTrain = None
+		self.templateSeq = []
+		self.templateStartBlock = None
 		self.pinpoint = False
 		self.misrouted = False
 		self.throttle = ""
@@ -124,23 +126,48 @@ class Train:
 		return self.signal
 
 	def SetRoster(self, rname, roster):
+		logging.debug("%s: setting roster: %s %s" % (self.Name(), rname, str(roster)))
 		self.rname = rname
-		self.roster = roster
+		self.roster = None if roster is None else {a: roster[a] for a in roster}
 
 	def Roster(self):
 		return self.roster
 
 	def GetSequence(self):
-		if self.roster is None:
-			return None
+		if self.templateTrain is not None:
+			logging.debug("returning template train sequence %s" % str(self.templateSeq))
+			return self.templateSeq
 
-		return self.roster.get("sequence", None)
+		if self.roster:
+			logging.debug("returning roster seq: %s" % str(self.roster["sequence"]))
+			return self.roster["sequence"]
+
+		logging.debug("returning empty list")
+		return []
+
+	def GetStartBlock(self):
+		if self.templateTrain is not None:
+			logging.debug("returning template train start Block %s" % str(self.templateStartBlock))
+			return self.templateStartBlock
+
+		if self.roster:
+			logging.debug("returning roster start block: %s" % str(self.roster["startblock"]))
+			return self.roster["startblock"]
+
+		logging.debug("None")
+		return None
 
 	def SetTemplateTrain(self, tn):
+		logging.debug("setting template train to %s" % tn)
 		self.templateTrain = tn
 
 	def TemplateTrain(self):
 		return self.templateTrain
+
+	def SetTemplateSequence(self, seq, sb):
+		logging.debug("setting template train sequence to %s" % str(seq))
+		self.templateSeq = seq
+		self.templateStartBlock = sb
 
 	def SetStopped(self, flag):
 		self.stopped = flag

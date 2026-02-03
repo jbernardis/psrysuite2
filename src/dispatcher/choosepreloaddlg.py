@@ -1,16 +1,14 @@
 import wx
 
-from dispatcher.preloadedtrains import PreLoadedTrains
 from dispatcher.managepreloaded import PreloadedListCtrl
 
 BTNSZ = (120, 46)
 
 
 class ChoosePreloadedDlg(wx.Dialog):
-	def __init__(self, parent, rrserver):
+	def __init__(self, parent, preLoaded):
 		wx.Dialog.__init__(self, parent, wx.ID_ANY, "Choose Preloaded Trains")
 		self.parent = parent
-		self.rrserver = rrserver
 
 		self.modified = False
 		self.selection = wx.NOT_FOUND
@@ -23,8 +21,7 @@ class ChoosePreloadedDlg(wx.Dialog):
 		textFont = wx.Font(
 			wx.Font(12, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, faceName="Arial"))
 
-		self.pl = PreLoadedTrains(rrserver)
-		self.preloadedTrains = self.pl.getPreloadedTrainsList()
+		self.preloadedTrains = preLoaded
 		if len(self.preloadedTrains) == 0:
 			dlg = wx.MessageDialog(self, "No Preloaded Trains have been defined",
 				"No Trains Defined", wx.OK | wx.ICON_INFORMATION)

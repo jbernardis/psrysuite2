@@ -10,7 +10,7 @@ BUTTONSIZE = (120, 40)
 
 
 class EditTrainDlg(wx.Dialog):
-	def __init__(self, parent, train, locos, trainRoster, engineers, activeTrains, lostTrains, trainHistory, rrserver, dx, dy):
+	def __init__(self, parent, train, locos, trainRoster, engineers, activeTrains, lostTrains, trainHistory, preLoaded, rrserver, dx, dy):
 		wx.Dialog.__init__(self, parent, wx.ID_ANY, "Edit Train Details", pos=(dx, dy), style=wx.CAPTION|wx.CLOSE_BOX|wx.STAY_ON_TOP)
 		self.parent = parent
 		self.Bind(wx.EVT_CLOSE, self.onCancel)
@@ -36,6 +36,7 @@ class EditTrainDlg(wx.Dialog):
 		self.engineers = [self.noEngineer] + sorted(engineers)
 		self.lostTrains = lostTrains
 		self.trainHistory = trainHistory
+		self.preLoaded = preLoaded
 		self.rrserver = rrserver
 		
 		l  = sorted(list(locos.keys()), key=self.BuildLocoKey)
@@ -330,7 +331,7 @@ class EditTrainDlg(wx.Dialog):
 
 	def OnBPreloadedTrains(self, _):
 		tr = None
-		dlg = ChoosePreloadedDlg(self, self.rrserver)
+		dlg = ChoosePreloadedDlg(self, self.preLoaded)
 		rc = dlg.ShowModal()
 		if rc == wx.ID_OK:
 			tr = dlg.GetResults()
@@ -339,7 +340,16 @@ class EditTrainDlg(wx.Dialog):
 		if rc != wx.ID_OK:
 			return
 
-		self.FillInTrainFields(tr["name"], tr["loco"], None, tr["east"])
+		trname = tr["name"]
+		loco = tr["loco"]
+		self.cbTrainID.SetValue(trname)
+		if loco in self.locos:
+			short = self.locos[loco].get("short", False)
+			if short:
+				loco += "(sh)"
+		else:
+			short = False
+		self.cbLocoID.SetValue(loco)
 
 	def FillInTrainFields(self, trname, loco, engineer, east):
 		rc = wx.ID_YES

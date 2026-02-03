@@ -357,4 +357,20 @@ osBlockNames = {
 def BlockName(bn):
 	return osBlockNames.get(bn, bn)
 
-	
+
+YardBlocks = [
+	"C21", "C31", "C40", "C41", "C42", "C43", "C44", "C50", "C51", "C52", "C53", "C54",
+	"C22", "C11", "C20",
+	"H12", "H22", "H30", "H31", "H32", "H33", "H34", "H40", "H41", "H42", "H43",
+	"N32", "N42",
+	"P1", "P2", "P3", "P4", "P5", "P6", "P7",
+	"Y50", "Y51", "Y52", "Y53", "Y81", "Y82", "Y83", "Y84",
+	"Y87", "Y70", "Y30", "Y10", "Y20"]
+
+LadderBlocks = [
+	"COSSHE", "COSSHW",
+	"HOSEE", "HOSEW", "HOSWE", "HOSWW", "HOSWW2",
+	"YOSWYE", "YOSWYW",
+	"YOSKL1", "YOSKL2", "YOSKL3", "YOSKL4",
+	"POSSP1", "POSSP2", "POSSP3", "POSSP4", "POSSP5"
+]

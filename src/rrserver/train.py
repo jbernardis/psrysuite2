@@ -20,6 +20,7 @@ class Train:
 		self.pastSignal = False
 		self.stopped = False
 		self.templateTrain = None
+		self.templateSeq = []
 		self.signal = None
 		self.assigntime = None
 
@@ -50,16 +51,34 @@ class Train:
 		return self.roster
 
 	def WantedRoute(self, osname):
-		if self.roster is None:
-			return None
-
-		seq = self.roster.get("sequence", None)
+		seq = self.Sequence()
 		if seq is None or len(seq) == 0:
 			return None
 
 		for step in seq:
 			if osname == step["os"]:
 				return step["route"]
+
+		return None
+
+	def WantedRouteFromFrontBlock(self):
+		seq = self.Sequence()
+		if seq is None or len(seq) == 0:
+			return None
+
+		fb = self.FrontBlock().Name()
+		if fb.endswith(".E") or fb.endswith(".W"):
+			fb = fb[:-2]
+
+		for sx in range(len(seq)):
+			step = seq[sx]
+			if fb == step["block"]:
+				# we found it - but we need to look at the next step to get the route name
+				if sx < len(seq)-1:
+					step = seq[sx+1]
+					return step["route"]
+				else:
+					return None
 
 		return None
 
@@ -76,12 +95,10 @@ class Train:
 
 		self.signal = sig
 		if sig is None:
-			logging.debug("Train %s, signal set to None" % self.Name())
 			self.aspect = 0
 			self.aspectType = RegAspects
 			self.pastSignal = False
 		else:
-			logging.debug("Train %s, signal %s set aspect to %d/%d" % (self.Name(), sig.Name(), sig.Aspect(), sig.AspectType()))
 			self.aspect = sig.Aspect()
 			self.aspectType = sig.AspectType()
 			self.pastSignal = False
@@ -127,6 +144,18 @@ class Train:
 	def TemplateTrain(self):
 		return self.templateTrain
 
+	def SetTemplateSeq(self, seq):
+		self.templateSeq = seq
+
+	def Sequence(self):
+		if self.templateTrain is not None:
+			return self.templateSeq
+
+		if self.roster:
+			return self.roster["sequence"]
+
+		return []
+
 	def Loco(self):
 		return self.loco
 
@@ -149,6 +178,12 @@ class Train:
 			self.blocks = [blk] + self.blocks
 		else:
 			self.blocks.append(blk)
+
+	def FrontBlock(self):
+		if len(self.blocks) == 0:
+			return None
+
+		return self.blocks[-1]
 
 	def ReverseBlocks(self):
 		self.blocks = list(reversed(self.blocks))

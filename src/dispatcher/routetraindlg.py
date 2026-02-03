@@ -1,9 +1,8 @@
 import wx
 import logging
 
-from dispatcher.constants import BlockName
+from dispatcher.constants import BlockName, YardBlocks
 from dispatcher.block import formatRouteDesignator
-from dispatcher.trainlist import YardBlocks
 
 BUTTONSIZE = (90, 30)
 COLSIG = 100
@@ -15,18 +14,16 @@ HILITEOFF = "Hilite OFF"
 
 
 class RouteTrainDlg(wx.Dialog):
-	def __init__(self, parent, train, trinfo, template, isDispatcher, blocks):
+	def __init__(self, parent, train, trinfo, sequence, isDispatcher, blocks):
 		wx.Dialog.__init__(self, parent, wx.ID_ANY, "", style=wx.CAPTION|wx.CLOSE_BOX|wx.STAY_ON_TOP)
 		self.parent = parent
 		self.train = train
-		self.template = template
-		self.templateTrain = train.TemplateTrain()
-		# loco = train.Loco()
+		self.template = trinfo["template"]
 		self.trainName = train.Name()
 		self.trinfo = trinfo
 		self.isDispatcher = isDispatcher
 		self.blocks = blocks
-		self.sequence = trinfo["sequence"]
+		self.sequence = sequence
 		self.Bind(wx.EVT_CLOSE, self.onClose)
 		self.hilited = False
 
@@ -55,7 +52,7 @@ class RouteTrainDlg(wx.Dialog):
 		hsz.Add(st, 0, wx.ALIGN_CENTER_VERTICAL)
 		hsz.AddSpacer(10)
 		trstr = self.trainName
-		if self.template is not None and self.trainName != self.templateTrain:
+		if self.template is not None and self.trainName != self.template:
 			trstr += " (%s)" % str(self.template)
 		st = wx.StaticText(self, wx.ID_ANY, trstr)
 		st.SetFont(self.fontTrainID)
@@ -82,7 +79,8 @@ class RouteTrainDlg(wx.Dialog):
 		self.bmps = []		
 		vsz.Add(self.AddLine(None, None, None, trinfo["startblock"]))
 		
-		for step in trinfo["sequence"]:
+		for step in self.sequence:
+			logging.debug("adding route line: %s" % str(step))
 			vsz.Add(self.AddLine(step["signal"], step["os"], step["route"], step["block"]))
 			
 		vsz.AddSpacer(20)
@@ -173,7 +171,7 @@ class RouteTrainDlg(wx.Dialog):
 		rc, msg = self.parent.SetRouteSignal(self.sequence[sx]["os"], self.sequence[sx]["route"], self.sequence[sx]["block"], self.sequence[sx]["signal"])
 		
 		if not rc or (rc and msg is not None):
-			self.parent.PopupEvent(msg)
+			self.parent.PopupAdvice(msg)
 
 	def OnBHiLite(self, _):
 		if self.hilited:
@@ -304,7 +302,7 @@ class RouteTrainDlg(wx.Dialog):
 		rtest.SetFont(self.font)
 		rtest.SetBackgroundColour(color)
 			
-		blkst = wx.StaticText(self, wx.ID_ANY, blkname, size=(COLBLK, -1))
+		blkst = wx.StaticText(self, wx.ID_ANY, "" if blkname is None else blkname, size=(COLBLK, -1))
 		blkst.SetFont(self.font)
 		blkst.SetBackgroundColour(color)
 

@@ -1,17 +1,33 @@
-import os
 import wx
+import logging
 
-from dispatcher.preloadedtrains import PreLoadedTrains
 from dispatcher.modifypreloaddlg import ModifyPreloadDlg
 
 BTNSZ = (120, 46)
 
 
 class ManagePreloadedDlg(wx.Dialog):
-	def __init__(self, parent, rrserver):
+	def __init__(self, parent, rrserver, plTrains):
 		wx.Dialog.__init__(self, parent, wx.ID_ANY, "Manage Preloaded Trains")
 		self.parent = parent
 		self.rrserver = rrserver
+
+		self.trainOrder = []
+		self.trainMap = {}
+
+		self.plTrains = [t for t in plTrains]
+		self.SetArrays()
+
+		TrainsJson = rrserver.Get("gettrains", {})
+		self.trainList = sorted([tid for tid in TrainsJson])
+
+		LocosJson = rrserver.Get("getlocos", {})
+		if LocosJson is None:
+			logging.error("Unable to retrieve locos")
+			self.locos = []
+		else:
+			self.locos = sorted([lid for lid in LocosJson], key=self.BuildLocoKey)
+			logging.debug("loco list retrieved: %s" % str(self.locos))
 
 		self.modified = False
 		self.selection = wx.NOT_FOUND
@@ -22,11 +38,6 @@ class ManagePreloadedDlg(wx.Dialog):
 
 		btnFont = wx.Font(wx.Font(10, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, faceName="Arial"))
 		textFont = wx.Font(wx.Font(12, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, faceName="Arial"))
-		
-		self.pl = PreLoadedTrains(rrserver)
-		self.preloadedTrains = self.pl.getPreloadedTrainsList()
-		self.trainOrder = sorted([tr["name"] for tr in self.preloadedTrains])
-		self.trainMap = {tr["name"]: tr for tr in self.preloadedTrains}
 
 		self.lbTrains = PreloadedListCtrl(self)
 		self.lbTrains.SetFont(textFont)
@@ -66,14 +77,6 @@ class ManagePreloadedDlg(wx.Dialog):
 		
 		sz.AddSpacer(20)
 		
-		self.bSave = wx.Button(self, wx.ID_ANY, "Save", size=BTNSZ)
-		self.bSave.SetFont(btnFont)
-		self.bSave.SetToolTip("Save the list of preloaded trains and remain on the dialog box")
-		sz.Add(self.bSave)
-		self.Bind(wx.EVT_BUTTON, self.bSavePressed, self.bSave)
-				
-		sz.AddSpacer(20)
-		
 		self.bOK = wx.Button(self, wx.ID_ANY, "OK", size=BTNSZ)
 		self.bOK.SetFont(btnFont)
 		self.bOK.SetToolTip("Save the preloaded trains (if needed) and exit the dialog box")
@@ -94,12 +97,20 @@ class ManagePreloadedDlg(wx.Dialog):
 		vsz.AddSpacer(20)
 		
 		self.setModified(False)
-		self.lbTrains.setData(self.preloadedTrains, self.trainOrder, self.trainMap)
+		self.lbTrains.setData(self.plTrains, self.trainOrder, self.trainMap)
 		self.SetSizer(vsz)
 		self.Layout()
 		self.Fit()
 
 		self.setTitle()
+
+	def SetArrays(self):
+		self.trainOrder = sorted([tr["name"] for tr in self.plTrains])
+		self.trainMap = {tr["name"]: tr for tr in self.plTrains}
+
+	@staticmethod
+	def BuildLocoKey(lid):
+		return int(lid)
 
 	def setTitle(self):
 		title = self.titleString
@@ -122,7 +133,7 @@ class ManagePreloadedDlg(wx.Dialog):
 
 		trname = self.trainOrder[tx]
 		trinfo = self.trainMap[trname]
-		dlg = ModifyPreloadDlg(self, trinfo)
+		dlg = ModifyPreloadDlg(self, trinfo, self.locos)
 		rc = dlg.ShowModal()
 		newTr = None
 		if rc == wx.ID_OK:
@@ -132,52 +143,49 @@ class ManagePreloadedDlg(wx.Dialog):
 		if rc != wx.ID_OK or newTr is None:
 			return
 
-		self.pl.modify(trname, newTr)
+		logging.debug("Update pl list with %s" % str(newTr))
+		newPl = []
+		for pl in self.plTrains:
+			if pl["name"] == newTr["name"]:
+				newPl.append(newTr)
+			else:
+				newPl.append(pl)
+		self.plTrains = newPl
+		self.SetArrays()
 
-		self.preloadedTrains = self.pl.getPreloadedTrainsList()
-		self.trainOrder = sorted([tr["name"] for tr in self.preloadedTrains])
-		self.trainMap = {tr["name"]: tr for tr in self.preloadedTrains}
-
-		self.lbTrains.setData(self.preloadedTrains, self.trainOrder, self.trainMap)
+		self.lbTrains.setData(self.plTrains, self.trainOrder, self.trainMap)
 		self.setModified()
 
 		self.lbTrains.Select(self.selection)
 
 	def bAddTrPressed(self, _):
-		dlg = wx.TextEntryDialog(
-				self, 'Enter Name of new train',
-				'Add Train', '')
-
-		rc = dlg.ShowModal()
+		tlist = [t for t in self.trainList if t not in self.trainOrder]
+		dlg = wx.SingleChoiceDialog(
+			self, 'Choose a train name', 'The Caption',
+			tlist,
+			wx.CHOICEDLG_STYLE
+		)
 
 		trname = None
+		rc = dlg.ShowModal()
 		if rc == wx.ID_OK:
-			trname = dlg.GetValue()
+			trname = dlg.GetStringSelection()
 
 		dlg.Destroy()
 		
 		if rc != wx.ID_OK or trname is None:
 			return
-		
-		if trname in self.trainOrder:
-			dlg = wx.MessageDialog(self, "Train \"%s\" is already in the list" % trname,
-					"Duplicate Name", wx.OK | wx.ICON_WARNING)
-			dlg.ShowModal()
-			dlg.Destroy()
-			return
 
 		tr = {
 			"name": trname,
 			"loco": "",
-			"east": True
+			"notes": ""
 		}
-		self.pl.add(tr)
 
-		self.preloadedTrains = self.pl.getPreloadedTrainsList()
-		self.trainOrder = sorted([tr["name"] for tr in self.preloadedTrains])
-		self.trainMap = {tr["name"]: tr for tr in self.preloadedTrains}
+		self.plTrains.append(tr)
+		self.SetArrays()
 
-		self.lbTrains.setData(self.preloadedTrains, self.trainOrder, self.trainMap)
+		self.lbTrains.setData(self.plTrains, self.trainOrder, self.trainMap)
 		self.setModified()
 
 		try:
@@ -191,33 +199,24 @@ class ManagePreloadedDlg(wx.Dialog):
 		if self.selection == wx.NOT_FOUND:
 			return
 
-		trid = self.trainOrder[self.selection]
-		self.pl.delete(trid)
-
-		self.preloadedTrains = self.pl.getPreloadedTrainsList()
-		self.trainOrder = sorted([tr["name"] for tr in self.preloadedTrains])
-		self.trainMap = {tr["name"]: tr for tr in self.preloadedTrains}
-
-		self.lbTrains.setData(self.preloadedTrains, self.trainOrder, self.trainMap)
-		self.setModified()
-
-		if self.selection >= len(self.trainOrder):
-			self.selection = len(self.trainOrder) - 1
-			if self.selection < 0:
-				self.selection = wx.NOT_FOUND
-
-		self.lbTrains.Select(self.selection)
-
-	def bSavePressed(self, _):
-		self.pl.save()
-		self.setModified(False)
-		dlg = wx.MessageDialog(self, 'Preloaded Train list has been saved', 'Data Saved', wx.OK | wx.ICON_INFORMATION)
-		dlg.ShowModal()
-		dlg.Destroy()
+		# trid = self.trainOrder[self.selection]
+		# self.pl.delete(trid)
+		#
+		# self.preloadedTrains = self.pl.getPreloadedTrainsList()
+		# self.trainOrder = sorted([tr["name"] for tr in self.preloadedTrains])
+		# self.trainMap = {tr["name"]: tr for tr in self.preloadedTrains}
+		#
+		# self.lbTrains.setData(self.preloadedTrains, self.trainOrder, self.trainMap)
+		# self.setModified()
+		#
+		# if self.selection >= len(self.trainOrder):
+		# 	self.selection = len(self.trainOrder) - 1
+		# 	if self.selection < 0:
+		# 		self.selection = wx.NOT_FOUND
+		#
+		# self.lbTrains.Select(self.selection)
 
 	def bOKPressed(self, _):
-		if self.modified:
-			self.pl.save()
 		self.EndModal(wx.ID_OK)
 		
 	def bCancelPressed(self, _):
@@ -237,6 +236,9 @@ class ManagePreloadedDlg(wx.Dialog):
 
 		self.EndModal(wx.ID_CANCEL)
 
+	def GetResults(self):
+		return self.plTrains
+
 
 class PreloadedListCtrl(wx.ListCtrl):
 	def __init__(self, parent):
@@ -246,16 +248,16 @@ class PreloadedListCtrl(wx.ListCtrl):
 		self.trainMap = {}
 
 		wx.ListCtrl.__init__(
-			self, parent, wx.ID_ANY, size=(240, 240),
+			self, parent, wx.ID_ANY, size=(320, 240),
 			style=wx.LC_REPORT | wx.LC_VIRTUAL | wx.LC_VRULES | wx.LC_SINGLE_SEL
 		)
 
 		self.InsertColumn(0, "Train")
-		self.InsertColumn(1, "Dir")
-		self.InsertColumn(2, "Loco")
+		self.InsertColumn(1, "Loco")
+		self.InsertColumn(2, "Notes")
 		self.SetColumnWidth(0, 80)
 		self.SetColumnWidth(1, 80)
-		self.SetColumnWidth(2, 80)
+		self.SetColumnWidth(2, 160)
 
 		self.SetItemCount(0)
 		self.selected = None
@@ -337,10 +339,12 @@ class PreloadedListCtrl(wx.ListCtrl):
 			return tr["name"]
 
 		elif col == 1:
-			return "E" if tr["east"] else "W"
+			return "" if tr["loco"] is None else tr["loco"]
 
 		elif col == 2:
-			return "" if tr["loco"] is None else tr["loco"]
+			return "" if tr["notes"] is None else tr["notes"]
+
+		return "??"
 
 	def OnGetItemAttr(self, item):
 		if item % 2 == 1:

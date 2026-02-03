@@ -35,7 +35,6 @@ class ClientMain:
 				self.delay -= 1
 				if self.delay <= 0:
 					self.delay = None
-					logging.debug("posting delayed startup command<=====================================")
 					self.cmdQ.put({"delayedstartup": []})
 
 	def forever(self):

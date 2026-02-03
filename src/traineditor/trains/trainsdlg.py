@@ -452,7 +452,6 @@ class TrainsDlg(wx.Dialog):
 			info = {"eastbound": ti["eastbound"],
 				"loco": ti["loco"],
 				"desc": ti["desc"],
-				"block": ti["block"],
 				"cutoff": ti["cutoff"],
 				"normalloco": ti["normalloco"],
 				"origin": {
@@ -552,7 +551,7 @@ class TrainsDlg(wx.Dialog):
 		if self.cbTemplate.IsChecked():
 			self.chModels.Enable(True)
 			self.chModels.SetSelection(0)
-			self.selectedTrainInfo["template"] = ""
+			self.selectedTrainInfo["template"] = self.modelChoices[0]
 			self.bEditSeq.Enable(False)
 		else:
 			self.chModels.Enable(False)
@@ -693,7 +692,6 @@ class TrainsDlg(wx.Dialog):
 				'track': ttrk
 			},
 			'tracker': steps,
-			'block': None,
 			'sequence': [],
 			'startblock': None,
 			'startsubblock': None,
@@ -936,12 +934,13 @@ class TrainsDlg(wx.Dialog):
 				#  there isn't a template chosen either so alow some freedon
 				self.chModels.Enable(True)
 				self.cbTemplate.Enable(True)
-				self.cbTemplate.SetValue(True)
+				self.cbTemplate.SetValue(False)
 				self.bEditSeq.Enable(True)
-				self.chModels.SetSelection(0)
+				self.chModels.SetSelection(wx.NOT_FOUND)
 			else:
 				#  there IS a template referred to here so with that for now
-				self.chModels.Enable(False)
+				self.chModels.Enable(True)
+				self.cbTemplate.Enable(True)
 				self.cbTemplate.SetValue(True)
 				self.bEditSeq.Enable(False)
 				try:

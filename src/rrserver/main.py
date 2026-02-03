@@ -381,7 +381,6 @@ class ServerMain:
 		
 		self.rr.OutIn()
 		if self.firstInterval:
-			logging.debug("After first interval out/in")
 			self.rr.DelayedStartup()
 			self.firstInterval = False
 
@@ -1103,12 +1102,26 @@ class ServerMain:
 			tr.SetName(name, roster)
 
 		tr.SetLoco(loco)
-		tr.SetTemplateTrain(template)
+
+		if template is None:
+			tr.SetTemplateTrain(None)
+			tr.SetTemplateSeq([])
+		else:
+			r = self.rr.GetTrainRoster(template)
+			if r is None:
+				tr.SetTemplateTrain(None)
+				tr.SetTemplateSeq([])
+			else:
+				tr.SetTemplateTrain(template)
+				tr.SetTemplateSeq(r["sequence"])
+
 		if engineer is not None and engineer != "ATC":
 			# remove this engineer from any other trains they might be assigned to
-			self.rr.RemoveEngineerFromTrains(engineer)
+			self.rr.RemoveEngineerFromTrains(engineer, iname)
 
-		tr.SetEngineer(engineer)
+		if engineer != tr.Engineer():
+			tr.SetEngineer(engineer)
+
 		if tr.East() != east:
 			self.rr.ReverseTrain(iname)
 
@@ -1150,13 +1163,15 @@ class ServerMain:
 				engineer = None
 			if engineer is not None and engineer != "ATC":
 				# remove this engineer from any other trains they might be assigned to
-				self.rr.RemoveEngineerFromTrains(engineer)
+				self.rr.RemoveEngineerFromTrains(engineer, tr.IName())
 
-			tr.SetEngineer(engineer)
-			if engineer is None:
-				self.rr.Advice("Train %s has been unassigned" % tr.Name())
-			else:
-				self.rr.Advice("Train %s assigned to %s" % (tr.Name(), engineer))
+			if engineer != tr.Engineer():
+				tr.SetEngineer(engineer)
+
+				if engineer is None:
+					self.rr.Advice("Train %s has been unassigned" % tr.Name())
+				else:
+					self.rr.Advice("Train %s assigned to %s" % (tr.Name(), engineer))
 
 		self.UpdateTrainBlocks(tr)
 
@@ -1460,7 +1475,6 @@ class ServerMain:
 				self.delay -= 1
 				if self.delay <= 0:
 					self.delay = None
-					logging.debug("posting delayed startup command<=====================================")
 					self.cmdQ.put({"cmd": ["delayedstartup"]})
 					
 	def ServeForever(self):

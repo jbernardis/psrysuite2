@@ -15,7 +15,7 @@ from dispatcher.constants import BLOCK
 from dispatcher.district import Districts, CrossingEastWestBoundary
 from dispatcher.tile import loadTiles
 from dispatcher.train import Train
-from dispatcher.trainlist import ActiveTrainsDlg, YardBlocks, LadderBlocks
+from dispatcher.trainlist import ActiveTrainsDlg
 from dispatcher.losttrains import LostTrains, LostTrainsRecoveryDlg
 from dispatcher.trainhistory import TrainHistory
 from dispatcher.routetraindlg import RouteTrainDlg
@@ -30,8 +30,7 @@ from dispatcher.trainqueue import TrainQueue
 from dispatcher.block import formatRouteDesignator
 from dispatcher.node import Node
 
-from dispatcher.constants import HyYdPt, LaKr, NaCl, EMPTY, OCCUPIED, \
-		OVERSWITCH, SLIPSWITCH, turnoutstate, REPLACE, REAR
+from dispatcher.constants import HyYdPt, LaKr, NaCl, EMPTY, SLIPSWITCH, turnoutstate, YardBlocks, LadderBlocks
 from dispatcher.listener import Listener
 from dispatcher.rrserver import RRServer
 
@@ -178,6 +177,7 @@ class MainFrame(wx.Frame):
 		self.routeTrainDlgs = {}
 		self.dlgInspect = None
 		self.RNameToINameMap = {}
+		self.preLoaded = []
 
 		self.locoList = {}
 		self.trainRoster = []
@@ -1417,6 +1417,13 @@ class MainFrame(wx.Frame):
 		trid = tr.Name()
 		rname = tr.RName()
 		self.menuSequence = tr.GetSequence()
+		if self.menuSequence is None or len(self.menuSequence) == 0:
+			self.menuSequence = None
+
+		# if self.menuSequence is not None:
+		# 	sb = tr.GetStartBlock()
+		# 	if sb is not None:
+		# 		self.menuSequence.append(sb)
 
 		menu = wx.Menu()
 		self.menuTrain = tr
@@ -1481,25 +1488,17 @@ class MainFrame(wx.Frame):
 		menu.Destroy()
 
 	def GetTrainRoster(self, rname):
-		if rname is None or (rname not in self.trains and rname not in self.trainNameMap):
-			return None, None
-
-		tr = self.trains.get(rname, self.trainNameMap.get(rname, None))
-		if tr is None:
-			return None, None
-
-		roster = tr.Roster()
-		tname = tr.TemplateTrain()
-
-		return roster, tname
+		roster = self.trainRoster.get(rname, None)
+		# tr = self.trains.get(rname, self.trainNameMap.get(rname, None))
+		return roster
 
 	def OnTrainEdit(self, _):
 		self.EditTrain(self.menuTrain, None)
 
 	def OnTrainRoute(self, _):
 		# get the roster for the train itself
-		roster, template = self.GetTrainRoster(self.menuTrainID)
-		self.RouteTrain(self.menuTrain, roster, template)
+		roster = self.GetTrainRoster(self.menuTrainID)
+		self.RouteTrain(self.menuTrain, roster)
 
 	def OnTrainHilite(self, _):
 		self.ShowHilitedRoute(self.menuTrain, self.menuTrainID)
@@ -1634,7 +1633,7 @@ class MainFrame(wx.Frame):
 		self.Request({"trainswap": {"train": self.menuTrain.IName(), "swaptrain": iname}})
 
 	def ShowHilitedRoute(self, tr, trid):
-		r, _ = self.GetTrainRoster(trid)
+		r = self.GetTrainRoster(trid)
 		if r is None:
 			self.PopupEvent("Train %s has no block sequence defined" % trid)
 			return
@@ -1665,7 +1664,7 @@ class MainFrame(wx.Frame):
 	# def OnTrainRouting(self, _):
 	# 	self.RouteTrain(self.menuTrain)
 		
-	def RouteTrain(self, tr, roster, template):
+	def RouteTrain(self, tr, roster):
 		trainid = tr.Name()
 		if trainid in self.routeTrainDlgs:
 			self.routeTrainDlgs[trainid].Raise()
@@ -1673,13 +1672,22 @@ class MainFrame(wx.Frame):
 
 		# noinspection PyTypeChecker
 		if roster is None or "sequence" not in roster or len(roster["sequence"]) < 1:
+			template = roster["template"]
+			if template is None:
+				sequence = []
+			else:
+				r = self.GetTrainRoster(template)
+				sequence = [s for s in r["sequence"]]
+		else:
+			sequence = [s for s in roster["sequence"]]
+
+		if len(sequence) <= 0:
 			dlg = wx.MessageDialog(self, "Train does not have a block sequence defined",
 					"No Sequence Defined", wx.OK | wx.ICON_INFORMATION)
 			dlg.ShowModal()
 			dlg.Destroy()
-			return
 
-		dlg = RouteTrainDlg(self, tr, roster, template, self.IsDispatcherOrSatellite(), self.blocks)
+		dlg = RouteTrainDlg(self, tr, roster, sequence, self.IsDispatcherOrSatellite(), self.blocks)
 		dlg.Show()
 		self.routeTrainDlgs[trainid] = dlg
 		dlg.UpdateTrainStatus()
@@ -1849,7 +1857,7 @@ class MainFrame(wx.Frame):
 		if blk is not None:
 			blknm = blk.GetName()
 			if blknm in ["R10", "F10"] and oldName.startswith("??"):
-				bl = self.lostTrains.GetBranchLineTrain(blknm, tr.GetEast())
+				bl = self.lostTrains.GetBranchLineTrain(blknm, tr.East())
 			else:
 				bl = None
 
@@ -1862,14 +1870,17 @@ class MainFrame(wx.Frame):
 				dlg.Destroy()
 
 			if rc == wx.ID_YES:
-				trainid, locoid, engineer, east, _, templateTrain = bl
+				trainid, locoid, engineer, east, _ = bl
 				self.lostTrains.ClearBranchLine(trainid)
+				parms = {"iname": tr.IName(), "name": trainid, "loco": locoid,
+						 "east": "1" if east else "0", "engineer": engineer}
+				self.Request({"modifytrain": parms})
 				return
 
 		dlgx = self.centerw - 500 - self.centerOffset
 		dlgy = self.totalh - 660
 		dlg = EditTrainDlg(self, tr, self.locoList, self.trainRoster, self.engineerList, self.trains,
-					self.lostTrains, self.trainHistory, self.rrServer, dlgx, dlgy)
+					self.lostTrains, self.trainHistory, self.preLoaded, self.rrServer, dlgx, dlgy)
 		rc = dlg.ShowModal()
 		east = tr.IsEast()
 		if rc == wx.ID_OK:
@@ -2307,9 +2318,21 @@ class MainFrame(wx.Frame):
 		self.dlgAdvice = None
 
 	def OnBPreloaded(self, _):
-		dlg = ManagePreloadedDlg(self, self.rrServer)
+		dlg = ManagePreloadedDlg(self, self.rrServer, self.preLoaded)
 		rc = dlg.ShowModal()
-		dlg.Destroy()
+		if rc == wx.ID_OK:
+			newPl = dlg.GetResults()
+			dlg.Destroy()
+		else:
+			dlg.Destroy()
+			return
+
+		self.PopupAdvice("Returned PL list")
+		for p in newPl:
+			self.PopupAdvice("%s" % str(p))
+
+		self.preLoaded = [pl for pl in newPl]
+		self.rrServer.Post("PRELOAD", "live", self.preLoaded)
 
 	def OnBTakeSnapshot(self, _):
 		self.TakeSnapshot()
@@ -2354,7 +2377,7 @@ class MainFrame(wx.Frame):
 		with open(fn, "r") as jfp:
 			jdata = json.load(jfp)
 
-		self.rrServer.Post("SNAPSHOT", "live", jdata)  # json.dumps(jdata))
+		self.rrServer.Post("SNAPSHOT", "live", jdata)
 
 	def OnBChooseSnapshot(self, _):
 		self.LoadSnapshot(True)
@@ -2598,6 +2621,7 @@ class MainFrame(wx.Frame):
 			# "traintimesrequest":	self.DoCmdTrainTimesRequest,
 			# "traintimesreport":		self.DoCmdTrainTimesReport,
 			# "trainblockorder":	self.DoCmdTrainBlockOrder,
+			"preload":			self.DoCmdPreload,
 			"nodestatus":		self.DoCmdNodeStatus,
 			"ignore":			self.DoCmdIgnore,
 		}
@@ -3735,43 +3759,67 @@ class MainFrame(wx.Frame):
 			else:
 				short = l["short"]
 
+		rnameChanged = rname != tr.RName()
 		tr.SetRName(rname)
 		tr.SetEast(east)
 		tr.SetLoco(loco, short)
 		tr.SetEngineer(engineer)
 		tr.SetAssignTime(assignTime)
 
-		if rname is not None:
-			self.trainNameMap[rname] = tr
-			if rname in self.trainRoster:
-				if template is not None and template != rname:
-					logging.error("Invalid template %s for train %s.  Ignoring" % (template, rname))
+		if rnameChanged:
+			if rname is not None:
+				self.trainNameMap[rname] = tr
+				if rname in self.trainRoster:
+					tr.SetRoster(rname, self.trainRoster[rname])
+				else:
+					tr.SetRoster(rname, None)
+			else:
+				tr.SetRoster(None, None)
 
-				tr.SetRoster(rname, self.trainRoster[rname])
-				tr.SetTemplateTrain(rname)
-
-			elif template is not None:
+		if template != tr.TemplateTrain():
+			if template is not None:
 				if template in self.trainRoster:
-					tr.SetRoster(rname, self.trainRoster[template])
 					tr.SetTemplateTrain(template)
+					tr.SetTemplateSequence(self.trainRoster[template]["sequence"], self.trainRoster[template]["startblock"])
 				else:
 					logging.error("Unknown template train: %s.  Ignoring." % template)
-					tr.SetRoster(rname, None)
 					tr.SetTemplateTrain(None)
 			else:
-				tr.SetRoster(rname, None)
 				tr.SetTemplateTrain(None)
-		else:
-			tr.SetRoster(rname, None)
-			tr.SetTemplateTrain(None)
 
 		tr.SetStopped(stopped)
 		tr.SetATC(atc)
 		tr.SetAR(ar)
 		tr.SetSignal(signal)
+
 		tr.SetAspect(aspect, aspectType, pastSignal)
 
+		trname = tr.Name()
+
 		d, n = tr.SetBlocks(blocks)
+		# check to see if the newly entered block(s) are expected
+		if self.IsDispatcherOrSatellite() and self.settings.dispatcher.notifyinvalidblocks and not trname.startswith("??"):
+			if len(n) > 0 or rnameChanged:
+				seq = tr.GetSequence()
+				if seq is not None:
+					if rnameChanged:
+						bl = [tr.FrontBlock()]
+					else:
+						bl = [b for b in n]
+
+					routeBlocks = [s["block"] for s in seq]
+					sb = tr.GetStartBlock()
+					if sb is not None:
+						routeBlocks.append(sb)
+					routeOS = [s["os"] for s in seq]
+					for b in bl:
+						ob = b
+						if b.endswith(".E") or b.endswith(".W"):
+							b = b[:-2]
+						if b not in ValidBlocks:
+							if b not in routeBlocks + routeOS:
+								self.PopupEvent("Train %s not expected in block %s" % (trname, ob))
+
 		for bn in blocks:
 			blk = self.blocks.get(bn, None)
 			if blk is not None:
@@ -3856,6 +3904,9 @@ class MainFrame(wx.Frame):
 			self.CloseRouteTrainDlg(tr.Name())
 			self.lostTrains.Add(tr.Name(), tr.Loco(), tr.Engineer(), tr.East(), d[0])
 			del(self.trains[iname])
+
+	def DoCmdPreload(self, parms):
+		self.preLoaded = parms
 
 	def DoCmdClock(self, parms):
 		if self.IsDispatcher():

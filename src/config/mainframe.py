@@ -200,6 +200,12 @@ class MainFrame(wx.Frame):
 
 		boxsizer.AddSpacer(10)
 
+		self.cbNotifyInvalidBlocks = wx.CheckBox(dispBox, wx.ID_ANY, "Notify if train is in incorrect block(s)")
+		boxsizer.Add(self.cbNotifyInvalidBlocks, 0, wx.LEFT, 40)
+		self.cbNotifyInvalidBlocks.SetValue(self.settings.dispatcher.notifyinvalidblocks)
+
+		boxsizer.AddSpacer(10)
+
 		self.cbPrecheckShutdownServer = wx.CheckBox(dispBox, wx.ID_ANY, "Precheck \"Shutdown Server\" on exit")
 		boxsizer.Add(self.cbPrecheckShutdownServer, 0, wx.LEFT, 40)
 		self.cbPrecheckShutdownServer.SetValue(self.settings.dispatcher.precheckshutdownserver)
@@ -586,6 +592,7 @@ class MainFrame(wx.Frame):
 		self.settings.dispatcher.dispatch = rbv == 0
 		self.settings.dispatcher.satellite = rbv == 1
 		self.settings.dispatcher.notifyincorrectroute = self.cbNotifyIncorrectRoute.IsChecked()
+		self.settings.dispatcher.notifyinvalidblocks = self.cbNotifyInvalidBlocks.IsChecked()
 		self.settings.dispatcher.precheckshutdownserver = self.cbPrecheckShutdownServer.IsChecked()
 		self.settings.dispatcher.prechecksnapshot = self.cbPrecheckSnapshot.IsChecked()
 		self.settings.dispatcher.prechecksavelogs = self.cbPrecheckSaveLogs.IsChecked()

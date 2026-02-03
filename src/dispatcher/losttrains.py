@@ -25,10 +25,6 @@ class LostTrains:
 			self.branchLineE = (train, loco, engineer, east, block)
 			if self.dbg.identifytrain:
 				self.frame.DebugMessage("Recording train %s as branch line east" % train)
-		# elif block == "F10" and self.dbg.identifytrain:
-		# 	self.frame.DebugMessage("NOT recording train %s as branch line west because of opposite direction" % train)
-		# elif block == "R10" and self.dbg.identifytrain:
-		# 	self.frame.DebugMessage("NOT recording train %s as branch line east because of opposite direction" % train)
 
 		self.trains[train] = (loco, engineer, east, block)
 		return True

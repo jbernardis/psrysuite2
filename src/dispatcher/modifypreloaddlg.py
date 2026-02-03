@@ -2,12 +2,12 @@ import wx
 
 
 class ModifyPreloadDlg(wx.Dialog):
-	def __init__(self, parent, trinfo):
+	def __init__(self, parent, trinfo, locos):
 		self.parent = parent
 		self.trinfo = trinfo
 		self.trid = trinfo["name"]
-		self.east = trinfo["east"]
 		self.loco = "" if trinfo["loco"] is None else trinfo["loco"]
+		self.notes = "" if trinfo["notes"] is None else trinfo["notes"]
 
 		wx.Dialog.__init__(self, self.parent, style=wx.DEFAULT_FRAME_STYLE)
 		self.modified = False
@@ -22,33 +22,36 @@ class ModifyPreloadDlg(wx.Dialog):
 		self.Bind(wx.EVT_BUTTON, self.OnBOK, self.bOK)
 		self.bCancel = wx.Button(self, wx.ID_ANY, "Cancel", size=(80, 50))
 		self.Bind(wx.EVT_BUTTON, self.OnBCancel, self.bCancel)
-		
-		self.cbEast = wx.CheckBox(self, wx.ID_ANY, "East")
-		self.cbEast.SetValue(self.east)
-		self.cbEast.SetFont(textFontBold)
-		self.Bind(wx.EVT_CHECKBOX, self.OnChange, self.cbEast)
 
-		self.teLoco = wx.TextCtrl(self, wx.ID_ANY, self.loco)
-		self.teLoco.SetFont(textFont)
-		self.Bind(wx.EVT_TEXT, self.OnTextChange, self.teLoco)
+		self.chLoco = wx.Choice(self, wx.ID_ANY, choices=locos)
+		self.chLoco.SetFont(textFont)
+		self.chLoco.SetSelection(0)
+		self.Bind(wx.EVT_CHOICE, self.OnLocoChoice, self.chLoco)
+
+		self.teNotes = wx.TextCtrl(self, wx.ID_ANY, self.notes)
+		self.teNotes.SetFont(textFont)
+		self.Bind(wx.EVT_TEXT, self.OnTextChange, self.teNotes)
 
 		vsz = wx.BoxSizer(wx.VERTICAL)
 		vsz.AddSpacer(20)
-		
-		hsz = wx.BoxSizer(wx.HORIZONTAL)
-		hsz.AddSpacer(120)
-		hsz.Add(self.cbEast)
-		hsz.AddSpacer(120)
-		vsz.Add(hsz)
-		vsz.AddSpacer(20)
-		
+
 		st = wx.StaticText(self, wx.ID_ANY, "Loco:")  # , size=(120, -1), style=wx.ALIGN_RIGHT)
 		st.SetFont(textFontBold)
 		hsz = wx.BoxSizer(wx.HORIZONTAL)
 		hsz.AddSpacer(20)
 		hsz.Add(st, 0)
 		hsz.AddSpacer(5)
-		hsz.Add(self.teLoco)
+		hsz.Add(self.chLoco)
+		vsz.Add(hsz, 0, wx.ALIGN_CENTER_HORIZONTAL)
+		vsz.AddSpacer(20)
+
+		st = wx.StaticText(self, wx.ID_ANY, "Notes:")  # , size=(120, -1), style=wx.ALIGN_RIGHT)
+		st.SetFont(textFontBold)
+		hsz = wx.BoxSizer(wx.HORIZONTAL)
+		hsz.AddSpacer(20)
+		hsz.Add(st, 0)
+		hsz.AddSpacer(5)
+		hsz.Add(self.teNotes)
 		vsz.Add(hsz, 0, wx.ALIGN_CENTER_HORIZONTAL)
 		vsz.AddSpacer(20)
 
@@ -85,29 +88,34 @@ class ModifyPreloadDlg(wx.Dialog):
 	def OnChange(self, _):
 		self.SetModified()
 
+	def OnLocoChoice(self, _):
+		self.SetModified()
+
 	def OnTextChange(self, evt):
 		self.SetModified()
-		nm = evt.GetString().upper()
-		obj = evt.GetEventObject()
-		pos = obj.GetInsertionPoint()
-		obj.ChangeValue(nm)
-		obj.SetInsertionPoint(pos)
-		evt.Skip()
+		# nm = evt.GetString().upper()
+		# obj = evt.GetEventObject()
+		# pos = obj.GetInsertionPoint()
+		# obj.ChangeValue(nm)
+		# obj.SetInsertionPoint(pos)
+		# evt.Skip()
 
 	def SetModified(self, flag=True):
 		self.modified = flag
 		self.ShowTitle()
 				
 	def GetResults(self):
-		loco = self.teLoco.GetValue()
-		if loco.strip() == "":
-			loco = None
+		loco = self.chLoco.GetStringSelection()
+
+		notes = self.teNotes.GetValue()
+		if notes.strip() == "":
+			notes = None
 
 
 		return {
 			"name": self.trid,
-			"east": self.cbEast.GetValue(),
-			"loco": loco
+			"loco": loco,
+			"notes": notes
 		}
 
 	def OnClose(self, _):

@@ -173,6 +173,7 @@ class Settings:
 		self.dispatcher.clockstarttime = 355
 		self.dispatcher.matrixturnoutdelay = 2
 		self.dispatcher.notifyincorrectroute = True
+		self.dispatcher.notifyinvalidblocks = True
 		if self.cfg.has_section(section):
 			for opt, value in self.cfg.items(section):
 				if opt == 'dispatch':
@@ -208,6 +209,9 @@ class Settings:
 
 				elif opt == 'notifyincorrectroute':
 					self.dispatcher.notifyincorrectroute = parseBoolean(value, True)
+
+				elif opt == 'notifyinvalidblocks':
+					self.dispatcher.notifyinvalidblocks = parseBoolean(value, True)
 
 		else:
 			print("Missing %s section - assuming defaults" % section)
@@ -453,6 +457,7 @@ class Settings:
 		self.cfg.set(section, "clockstarttime",   "%d" % self.dispatcher.clockstarttime)
 		self.cfg.set(section, "matrixturnoutdelay",   "%d" % self.dispatcher.matrixturnoutdelay)
 		self.cfg.set(section, "notifyincorrectroute", "True" if self.dispatcher.notifyincorrectroute else "False")
+		self.cfg.set(section, "notifyinvalidblocks", "True" if self.dispatcher.notifyinvalidblocks else "False")
 
 		section = "display"
 		try:

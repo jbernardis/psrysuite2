@@ -73,10 +73,10 @@ class Handler(BaseHTTPRequestHandler):
 		if not err:
 			if directory == "live" and filename == "SNAPSHOT":
 				ssdata = json.loads(self.rfile.read(content_length))
-				logging.debug("Received live snapshot data: %s" % ssdata)
-				logging.debug("Type: %s" % type(ssdata))
 				app.ApplySnapshot(ssdata)
-				logging.debug("after call to apply snapshot")
+			elif directory == "live" and filename == "PRELOAD":
+				pldata = json.loads(self.rfile.read(content_length))
+				app.ApplyPreload(pldata)
 			else:
 				folder = os.path.join(os.getcwd(), directory)
 				fn = os.path.join(folder, filename)
@@ -146,8 +146,10 @@ class HTTPServer:
 		return self.server
 
 	def ApplySnapshot(self, ssdata):
-		logging.debug("apply snapshot in app")
 		self.rr.ApplySnapshot(ssdata)
+
+	def ApplyPreload(self, pldata):
+		self.rr.ApplyPreload(pldata)
 
 	def dispatch(self, cmd):
 		verb = cmd["cmd"][0]

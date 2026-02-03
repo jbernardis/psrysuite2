@@ -93,6 +93,7 @@ class Railroad:
 		self.to2osMap = {}
 		self.lastValues = {}
 		self.block2SigMap = {}
+		self.preLoaded = []
 
 		self.pulsedOutputs = {} 
 		self.topulselen = self.settings.rrserver.topulselen
@@ -483,7 +484,18 @@ class Railroad:
 
 		self.ApplySnapshot(j)
 
+	def ApplyPreload(self, pl):
+		self.preLoaded = pl
+		self.RailroadEvent({"preload": pl})
+
 	def ApplySnapshot(self, j):
+		pl = j.get("PRELOAD", [])
+		try:
+			del j["PRELOAD"]
+		except KeyError:
+			pass
+		self.ApplyPreload(pl)
+
 		trainsFound = {}
 		for trid, trinfo in j.items():
 			firstBlock = True
@@ -554,6 +566,9 @@ class Railroad:
 					"east": trinfo["east"],
 					"blocks": trinfo["blocks"],
 				}
+
+		trains["PRELOAD"] = self.preLoaded
+
 		return trains
 
 	def DelayedStartup(self):
@@ -799,6 +814,9 @@ class Railroad:
 		#  Now advise the user that the train is misrouted if necessary
 		if aspect != 0 and self.settings.dispatcher.notifyincorrectroute:
 			wantedRoute = tr.WantedRoute(osName)
+			if wantedRoute is None:
+				wantedRoute = tr.WantedRouteFromFrontBlock()
+
 			activeRoute = osb.ActiveRouteName()
 			if wantedRoute is not None and wantedRoute != activeRoute:
 				self.Advice("Train %s: incorrect route beyond signal %s: %s" % (tr.Name(), signm, activeRoute))
@@ -3531,9 +3549,9 @@ class Railroad:
 
 		return None
 
-	def RemoveEngineerFromTrains(self, engineer):
+	def RemoveEngineerFromTrains(self, engineer, iname):
 		for trid, tr in self.trains.items():
-			if tr.Engineer() == engineer:
+			if iname != trid and tr.Engineer() == engineer:
 				tr.SetEngineer(None)
 				self.Advice("Engineer %s removed from train %s" % (engineer, tr.Name()))
 				self.RailroadEvent(tr.GetEventMessage())

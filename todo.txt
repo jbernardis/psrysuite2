@@ -1,5 +1,3 @@
-preloaded trains
-incorporate preloaded trains into snapshot
 
 
 done, but need the final details:
@@ -23,7 +21,7 @@ still need to be done
 
     Reloading data - trains, engineers, locos
         locos and engineers - is probably ok,
-        but trains requires a coordinated action - tell server to reload, and then it tells all others to reload
+        but trains requires a coordinated action - tell server to reload, and then it tells all others to reload???
 
 
 

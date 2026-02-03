@@ -972,8 +972,6 @@ class Indicator:
 		return self.bits
 		
 	def SetOn(self, flag):
-		if self.name == "HydeEastPower":
-			logging.debug("========================Setting indicator to %s" % flag)
 		self.status = flag
 		
 	def IsOn(self):
