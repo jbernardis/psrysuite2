@@ -43,6 +43,7 @@ class Dell (District):
 
 		self.blocks["D10"] = Block(self, self.frame, "D10",
 			[
+				(self.tiles["horiz"],    self.screen,      (38, 11), False),
 				(self.tiles["horiznc"],  self.screen,      (39, 11), False),
 				(self.tiles["horiz"],    self.screen,      (40, 11), False),
 				(self.tiles["horiznc"],  self.screen,      (41, 11), False),
@@ -53,8 +54,7 @@ class Dell (District):
 			], False)
 		self.blocks["D10"].AddStoppingBlock([
 				(self.tiles["eobleft"], self.screen,      (36, 11), False),
-				(self.tiles["horiznc"], self.screen,      (37, 11), False),
-				(self.tiles["horiz"],   self.screen,      (38, 11), False),
+				(self.tiles["ssright"], self.screen,      (37, 11), False),
 			], False)
 		self.blocks["D10"].AddTrainLoc(self.screen, (38, 11))
 
@@ -67,10 +67,10 @@ class Dell (District):
 				(self.tiles["horiz"],   self.screen,      (40, 13), False),
 				(self.tiles["horiznc"], self.screen,      (41, 13), False),
 				(self.tiles["horiz"],   self.screen,      (42, 13), False),
+				(self.tiles["horiznc"], self.screen,      (43, 13), False),
 			], True)
 		self.blocks["D20"].AddStoppingBlock([
-				(self.tiles["horiznc"],  self.screen,      (43, 13), False),
-				(self.tiles["horiz"],    self.screen,      (44, 13), False),
+				(self.tiles["ssleft"],   self.screen,      (44, 13), False),
 				(self.tiles["eobright"], self.screen,      (45, 13), False),
 			], True)
 		self.blocks["D20"].AddTrainLoc(self.screen, (38, 13))
@@ -85,12 +85,12 @@ class Dell (District):
 				(self.tiles["horiznc"], self.screen,      (63, 11), False),
 			], False)
 		self.blocks["D11"].AddStoppingBlock([
-				(self.tiles["horiz"],    self.screen,      (64, 11), False),
+				(self.tiles["ssleft"],    self.screen,      (64, 11), False),
 				(self.tiles["eobright"], self.screen,      (65, 11), False),
 			], True)
 		self.blocks["D11"].AddStoppingBlock([
 				(self.tiles["eobleft"], self.screen,      (56, 11), False),
-				(self.tiles["horiznc"], self.screen,      (57, 11), False),
+				(self.tiles["ssright"], self.screen,      (57, 11), False),
 			], False)
 		self.blocks["D11"].AddTrainLoc(self.screen, (58, 11))
 
@@ -104,10 +104,10 @@ class Dell (District):
 			], True)
 		self.blocks["D21"].AddStoppingBlock([
 				(self.tiles["eobleft"], self.screen,      (56, 13), False),
-				(self.tiles["horiznc"], self.screen,      (57, 13), False),
+				(self.tiles["ssright"], self.screen,      (57, 13), False),
 			], False)
 		self.blocks["D21"].AddStoppingBlock([
-				(self.tiles["horiz"],    self.screen,      (64, 13), False),
+				(self.tiles["ssleft"],    self.screen,      (64, 13), False),
 				(self.tiles["eobright"], self.screen,      (65, 13), False),
 			], True)
 		self.blocks["D21"].AddTrainLoc(self.screen, (58, 13))

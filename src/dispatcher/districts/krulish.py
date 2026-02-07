@@ -68,6 +68,7 @@ class Krulish (District):
 
 		self.blocks["N10"] = Block(self, self.frame, "N10",
 			[
+				(self.tiles["horiz"],   self.screen, (124, 7), False),
 				(self.tiles["horiznc"], self.screen, (125, 7), False),
 				(self.tiles["horiz"],   self.screen, (126, 7), False),
 				(self.tiles["horiznc"], self.screen, (127, 7), False),
@@ -81,21 +82,21 @@ class Krulish (District):
 				(self.tiles["diagright"], self.screen, (135, 9), False),
 				(self.tiles["diagright"], self.screen, (136, 10), False),
 				(self.tiles["turnrightleft"], self.screen, (137, 11), False),
+				(self.tiles["horiz"], self.screen, (138, 11), False),
 			], False)
 		self.blocks["N10"].AddStoppingBlock([
 				(self.tiles["eobleft"], self.screen, (122, 7), False),
-				(self.tiles["horiznc"], self.screen, (123, 7), False),
-				(self.tiles["horiz"],   self.screen, (124, 7), False),
+				(self.tiles["ssright"], self.screen, (123, 7), False),
 			], False)
 		self.blocks["N10"].AddStoppingBlock([
-				(self.tiles["horiz"],   self.screen, (138, 11), False),
-				(self.tiles["horiznc"], self.screen, (139, 11), False),
+				(self.tiles["ssleft"], self.screen, (139, 11), False),
 				(self.tiles["eobright"], self.screen, (140, 11), False),
 			], True)
 		self.blocks["N10"].AddTrainLoc(self.screen, (125, 7))
 
 		self.blocks["N25"] = Block(self, self.frame, "N25",
 			[
+				(self.tiles["horiznc"], self.screen, (123, 17), False),
 				(self.tiles["horiz"],   self.screen, (124, 17), False),
 				(self.tiles["horiznc"], self.screen, (125, 17), False),
 				(self.tiles["horiz"],   self.screen, (126, 17), False),
@@ -110,21 +111,21 @@ class Krulish (District):
 				(self.tiles["diagleft"], self.screen, (135, 14), False),
 				(self.tiles["turnleftleft"], self.screen, (136, 13), False),
 				(self.tiles["horiznc"], self.screen, (137, 13), False),
+				(self.tiles["horiz"],   self.screen, (138, 13), False),
 			], False)
 		self.blocks["N25"].AddStoppingBlock([
 				(self.tiles["eobleft"], self.screen, (121, 17), False),
-				(self.tiles["horiz"],   self.screen, (122, 17), False),
-				(self.tiles["horiznc"], self.screen, (123, 17), False),
+				(self.tiles["ssright"],   self.screen, (122, 17), False),
 			], False)
 		self.blocks["N25"].AddStoppingBlock([
-				(self.tiles["horiz"],   self.screen, (138, 13), False),
-				(self.tiles["horiznc"], self.screen, (139, 13), False),
+				(self.tiles["ssleft"], self.screen, (139, 13), False),
 				(self.tiles["eobright"], self.screen, (140, 13), False),
 			], True)
 		self.blocks["N25"].AddTrainLoc(self.screen, (126, 17))
 
 		self.blocks["N20"] = Block(self, self.frame, "N20",
 			[
+				(self.tiles["horiz"],   self.screen, (124, 19), False),
 				(self.tiles["horiznc"], self.screen, (125, 19), False),
 				(self.tiles["horiz"],   self.screen, (126, 19), False),
 				(self.tiles["horiznc"], self.screen, (127, 19), False),
@@ -138,21 +139,21 @@ class Krulish (District):
 				(self.tiles["diagleft"], self.screen, (135, 17), False),
 				(self.tiles["diagleft"], self.screen, (136, 16), False),
 				(self.tiles["turnleftleft"], self.screen, (137, 15), False),
+				(self.tiles["horiz"], self.screen, (138, 15), False),
 			], True)
 		self.blocks["N20"].AddStoppingBlock([
 				(self.tiles["eobleft"], self.screen, (122, 19), False),
-				(self.tiles["horiznc"], self.screen, (123, 19), False),
-				(self.tiles["horiz"],   self.screen, (124, 19), False),
+				(self.tiles["ssright"], self.screen, (123, 19), False),
 			], False)
 		self.blocks["N20"].AddStoppingBlock([
-				(self.tiles["horiz"],   self.screen, (138, 15), False),
-				(self.tiles["horiznc"], self.screen, (139, 15), False),
+				(self.tiles["ssleft"], self.screen, (139, 15), False),
 				(self.tiles["eobright"], self.screen, (140, 15), False),
 			], True)
 		self.blocks["N20"].AddTrainLoc(self.screen, (124, 19))
 
 		self.blocks["N11"] = Block(self, self.frame, "N11",
 			[
+				(self.tiles["horiz"],   self.screen, (152, 11), False),
 				(self.tiles["horiznc"], self.screen, (153, 11), False),
 				(self.tiles["horiz"],   self.screen, (154, 11), False),
 				(self.tiles["horiznc"], self.screen, (155, 11), False),
@@ -164,15 +165,14 @@ class Krulish (District):
 				(self.tiles["horiznc"], NaCl,        (2, 11), False),
 				(self.tiles["horiz"],   NaCl,        (3, 11), False),
 				(self.tiles["horiznc"], NaCl,        (4, 11), False),
+				(self.tiles["horiz"],   NaCl,        (5, 11), False),
 			], False)
 		self.blocks["N11"].AddStoppingBlock([
 				(self.tiles["eobleft"], self.screen, (150, 11), False),
-				(self.tiles["horiznc"], self.screen, (151, 11), False),
-				(self.tiles["horiz"],   self.screen, (152, 11), False),
+				(self.tiles["ssright"], self.screen, (151, 11), False),
 			], False)
 		self.blocks["N11"].AddStoppingBlock([
-				(self.tiles["horiz"],   NaCl,        (5, 11), False),
-				(self.tiles["horiznc"], NaCl,        (6, 11), False),
+				(self.tiles["ssleft"],  NaCl,        (6, 11), False),
 				(self.tiles["horiz"],   NaCl,        (7, 11), False),
 			], True)
 		self.blocks["N11"].AddTrainLoc(self.screen, (154, 11))

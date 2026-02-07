@@ -79,16 +79,17 @@ class Bank (District):
 				(self.tiles["horiznc"], self.screen,      (47, 13), False),
 				(self.tiles["horiz"],   self.screen,      (48, 13), False),
 				(self.tiles["horiznc"], self.screen,      (49, 13), False),
+				(self.tiles["horiz"],   self.screen,      (50, 13), False),
 			], True)
 		self.blocks["B20"].AddStoppingBlock([
-				(self.tiles["horiz"],    self.screen,      (50, 13), False),
-				(self.tiles["horiznc"],  self.screen,      (51, 13), False),
-				(self.tiles["eobright"], self.screen,      (52, 13), False),
+				(self.tiles["ssleft"],    self.screen,    (51, 13), False),
+				(self.tiles["eobright"], self.screen,     (52, 13), False),
 			], True)
 		self.blocks["B20"].AddTrainLoc(self.screen, (47, 13))
 
 		self.blocks["B11"] = Block(self, self.frame, "B11",
 			[
+				(self.tiles["horiz"],    self.screen,     (60, 11), False),
 				(self.tiles["horiznc"],  self.screen,      (61, 11), False),
 				(self.tiles["horiz"],    self.screen,      (62, 11), False),
 				(self.tiles["horiz"],    self.screen,      (64, 11), False),
@@ -97,8 +98,7 @@ class Bank (District):
 			], False)
 		self.blocks["B11"].AddStoppingBlock([
 				(self.tiles["eobleft"], self.screen,      (58, 11), False),
-				(self.tiles["horiznc"], self.screen,      (59, 11), False),
-				(self.tiles["horiz"],   self.screen,      (60, 11), False),
+				(self.tiles["ssright"], self.screen,      (59, 11), False),
 			], False)
 		self.blocks["B11"].AddTrainLoc(self.screen, (59, 11))
 
@@ -111,12 +111,12 @@ class Bank (District):
 				(self.tiles["horiznc"], self.screen,      (65, 13), False),
 			], True)
 		self.blocks["B21"].AddStoppingBlock([
-				(self.tiles["horiz"],    self.screen,      (66, 13), False),
+				(self.tiles["ssleft"],    self.screen,      (66, 13), False),
 				(self.tiles["eobright"], self.screen,      (67, 13), False),
 			], True)
 		self.blocks["B21"].AddStoppingBlock([
 				(self.tiles["eobleft"], self.screen,      (58, 13), False),
-				(self.tiles["horiznc"], self.screen,      (59, 13), False),
+				(self.tiles["ssright"], self.screen,      (59, 13), False),
 			], False)
 		self.blocks["B21"].AddTrainLoc(self.screen, (59, 13))
 

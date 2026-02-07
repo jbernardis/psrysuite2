@@ -451,6 +451,7 @@ class Nassau (District):
 
 		self.blocks["N21"] = Block(self, self.frame, "N21",
 			[
+				(self.tiles["horiznc"], LaKr, (152, 13), False),
 				(self.tiles["horiz"],   LaKr, (153, 13), False),
 				(self.tiles["horiznc"], LaKr, (154, 13), False),
 				(self.tiles["horiz"],   LaKr, (155, 13), False),
@@ -462,15 +463,15 @@ class Nassau (District):
 				(self.tiles["horiznc"], self.screen, (2, 13), False),
 				(self.tiles["horiz"],   self.screen, (3, 13), False),
 				(self.tiles["horiznc"], self.screen, (4, 13), False),
+				(self.tiles["horiz"],   self.screen, (5, 13), False),
 			], True)
 		self.blocks["N21"].AddStoppingBlock([
 				(self.tiles["eobleft"], LaKr, (150, 13), False),
-				(self.tiles["horiz"],   LaKr, (151, 13), False),
+				(self.tiles["ssright"], LaKr, (151, 13), False),
 				(self.tiles["horiznc"], LaKr, (152, 13), False),
 			], False)
 		self.blocks["N21"].AddStoppingBlock([
-				(self.tiles["horiz"],   self.screen, (5, 13), False),
-				(self.tiles["horiznc"], self.screen, (6, 13), False),
+				(self.tiles["ssleft"],  self.screen, (6, 13), False),
 				(self.tiles["horiz"],   self.screen, (7, 13), False),
 			], True)
 		self.blocks["N21"].AddTrainLoc(LaKr, (154, 13))
@@ -578,12 +579,13 @@ class Nassau (District):
 		self.blocks["R10"].AddConditionalTrack({(52, 7): ["RSw1", "N"], (53, 6): ["RSw1", "N"], (52, 8): ["RSw1", "R"], (53, 8): ["RSw1", "R"]})
 		self.blocks["R10"].AddStoppingBlock([
 				(self.tiles["horiznc"],  self.screen, (45, 9), False),
-				(self.tiles["horiz"],    self.screen, (46, 9), False),
+				(self.tiles["ssright"],  self.screen, (46, 9), False),
 			], False)
 		self.blocks["R10"].AddTrainLoc(self.screen, (47, 9))
 
 		self.blocks["B10"] = Block(self, self.frame, "B10",
 			[
+				(self.tiles["horiznc"],  self.screen, (47, 11), False),
 				(self.tiles["horiz"],    self.screen, (48, 11), False),
 				(self.tiles["horiznc"],  self.screen, (49, 11), False),
 				(self.tiles["horiz"],    self.screen, (50, 11), False),
@@ -592,8 +594,7 @@ class Nassau (District):
 			], False)
 		self.blocks["B10"].AddStoppingBlock([
 				(self.tiles["horiznc"],  self.screen, (45, 11), False),
-				(self.tiles["horiz"],    self.screen, (46, 11), False),
-				(self.tiles["horiznc"],  self.screen, (47, 11), False),
+				(self.tiles["ssright"],  self.screen, (46, 11), False),
 			], False)
 		self.blocks["B10"].AddTrainLoc(self.screen, (47, 11))
 

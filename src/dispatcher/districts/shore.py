@@ -135,26 +135,27 @@ class Shore (District):
 
 		self.blocks["S10"] = Block(self, self.frame, "S10",
 			[
+				(self.tiles["horiznc"],  self.screen, (73, 11), False),
 				(self.tiles["horiz"],    self.screen, (74, 11), False),
 				(self.tiles["horiznc"],  self.screen, (75, 11), False),
 				(self.tiles["horiz"],    self.screen, (76, 11), False),
 				(self.tiles["horiz"],    self.screen, (78, 11), False),
 				(self.tiles["horiznc"],  self.screen, (79, 11), False),
+				(self.tiles["horiz"],    self.screen, (80, 11), False),
 			], False)
 		self.blocks["S10"].AddStoppingBlock([
 				(self.tiles["eobleft"],  self.screen, (71, 11), False),
-				(self.tiles["horiz"],    self.screen, (72, 11), False),
-				(self.tiles["horiznc"],  self.screen, (73, 11), False),
+				(self.tiles["ssright"],    self.screen, (72, 11), False),
 			], False)
 		self.blocks["S10"].AddStoppingBlock([
-				(self.tiles["horiz"],    self.screen, (80, 11), False),
-				(self.tiles["horiznc"],  self.screen, (81, 11), False),
+				(self.tiles["ssleft"],   self.screen, (81, 11), False),
 				(self.tiles["eobright"], self.screen, (82, 11), False),
 			], True)
 		self.blocks["S10"].AddTrainLoc(self.screen, (73, 11))
 
 		self.blocks["S11"] = Block(self, self.frame, "S11",
 			[
+				(self.tiles["horiznc"],  self.screen, (108, 7), False),
 				(self.tiles["horiz"],    self.screen, (109, 7), False),
 				(self.tiles["horiznc"],  self.screen, (110, 7), False),
 				(self.tiles["horiz"],    self.screen, (111, 7), False),
@@ -165,57 +166,56 @@ class Shore (District):
 				(self.tiles["horiznc"],  self.screen, (116, 7), False),
 				(self.tiles["horiz"],    self.screen, (117, 7), False),
 				(self.tiles["horiznc"],  self.screen, (118, 7), False),
+				(self.tiles["horiz"],    self.screen, (119, 7), False),
 			], False)
 		self.blocks["S11"].AddStoppingBlock([
 				(self.tiles["eobleft"],  self.screen, (106, 7), False),
-				(self.tiles["horiz"],    self.screen, (107, 7), False),
-				(self.tiles["horiznc"],  self.screen, (108, 7), False),
+				(self.tiles["ssright"],  self.screen, (107, 7), False),
 			], False)
 		self.blocks["S11"].AddStoppingBlock([
-				(self.tiles["horiz"],    self.screen, (119, 7), False),
-				(self.tiles["horiznc"],  self.screen, (120, 7), False),
+				(self.tiles["ssleft"],   self.screen, (120, 7), False),
 				(self.tiles["eobright"], self.screen, (121, 7), False),
 			], True)
 		self.blocks["S11"].AddTrainLoc(self.screen, (112, 7))
 
 		self.blocks["S20"] = Block(self, self.frame, "S20",
 			[
+				(self.tiles["horiznc"],  self.screen, (73, 13), False),
 				(self.tiles["horiz"],    self.screen, (74, 13), False),
 				(self.tiles["horiznc"],  self.screen, (75, 13), False),
 				(self.tiles["horiz"],    self.screen, (76, 13), False),
 				(self.tiles["horiznc"],  self.screen, (77, 13), False),
 				(self.tiles["horiz"],    self.screen, (78, 13), False),
 				(self.tiles["horiznc"],  self.screen, (79, 13), False),
+				(self.tiles["horiz"],    self.screen, (80, 13), False),
 			], True)
 		self.blocks["S20"].AddStoppingBlock([
 				(self.tiles["eobleft"],  self.screen, (71, 13), False),
-				(self.tiles["horiz"],    self.screen, (72, 13), False),
-				(self.tiles["horiznc"],  self.screen, (73, 13), False),
+				(self.tiles["ssright"],  self.screen, (72, 13), False),
 			], False)
 		self.blocks["S20"].AddStoppingBlock([
-				(self.tiles["horiz"],    self.screen, (80, 13), False),
-				(self.tiles["horiznc"],  self.screen, (81, 13), False),
+				(self.tiles["ssleft"],   self.screen, (81, 13), False),
 				(self.tiles["eobright"], self.screen, (82, 13), False),
 			], True)
 		self.blocks["S20"].AddTrainLoc(self.screen, (73, 13))
 
 		self.blocks["S21"] = Block(self, self.frame, "S21",
 			[
+				(self.tiles["horiznc"],  self.screen, (112, 19), False),
 				(self.tiles["horiz"],    self.screen, (113, 19), False),
 				(self.tiles["horiznc"],  self.screen, (114, 19), False),
 				(self.tiles["horiz"],    self.screen, (115, 19), False),
 				(self.tiles["horiznc"],  self.screen, (116, 19), False),
 				(self.tiles["horiz"],    self.screen, (117, 19), False),
 				(self.tiles["horiznc"],  self.screen, (118, 19), False),
-			], True)		
+				(self.tiles["horiz"],    self.screen, (119, 19), False),
+			], True)
 		self.blocks["S21"].AddStoppingBlock([
 				(self.tiles["eobleft"],  self.screen, (110, 19), False),
-				(self.tiles["horiz"],    self.screen, (111, 19), False),
-				(self.tiles["horiznc"],  self.screen, (112, 19), False),
+				(self.tiles["ssright"],    self.screen, (111, 19), False),
 			], False)
 		self.blocks["S21"].AddStoppingBlock([
-				(self.tiles["horiz"],    self.screen, (119, 19), False),
-				(self.tiles["horiznc"],  self.screen, (120, 19), False),
+				(self.tiles["ssleft"],   self.screen, (120, 19), False),
 				(self.tiles["eobright"], self.screen, (121, 19), False),
 			], True)
 		
@@ -367,7 +367,7 @@ class Shore (District):
 				(self.tiles["horiznc"],  self.screen, (84, 9), False),
 			], True)
 		self.blocks["F10"].AddStoppingBlock([
-				(self.tiles["horiz"],    self.screen, (85, 9), False),
+				(self.tiles["ssleft"],   self.screen, (85, 9), False),
 				(self.tiles["eobright"], self.screen, (86, 9), False),
 			], True)
 		self.blocks["F10"].AddTrainLoc(self.screen, (83, 9))
@@ -384,7 +384,7 @@ class Shore (District):
 			], False)
 		self.blocks["F11"].AddStoppingBlock([
 				(self.tiles["eobleft"],        self.screen, (96, 15), False),
-				(self.tiles["turnrightright"], self.screen, (97, 15), False),
+				(self.tiles["ssrightright"], self.screen, (97, 15), False),
 		], False)
 		self.blocks["F11"].AddTrainLoc(self.screen, (99, 17))
 

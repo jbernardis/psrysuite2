@@ -35,10 +35,10 @@ class Bank (District):
 				(self.tiles["horiz"],   self.screen,      (112, 38), True),
 				(self.tiles["horiznc"], self.screen,      (113, 38), False),
 				(self.tiles["horiz"], self.screen,        (114, 38), True),
+				(self.tiles["horiznc"], self.screen,      (115, 38), False),
 			], False)
 		self.blocks["B10"].AddStoppingBlock([
-				(self.tiles["horiznc"], self.screen,      (115, 38), False),
-				(self.tiles["horiz"], self.screen,        (116, 38), True),
+				(self.tiles["ssleft"], self.screen,       (116, 38), True),
 				(self.tiles["horiznc"],   self.screen,    (117, 38), False),
 			], False)
 		self.blocks["B10"].AddTrainLoc(self.screen, (112, 38))
@@ -50,16 +50,17 @@ class Bank (District):
 				(self.tiles["horiznc"], self.screen,      (115, 36), False),
 				(self.tiles["horiz"],   self.screen,      (114, 36), True),
 				(self.tiles["horiznc"], self.screen, 	  (113, 36), False),
+				(self.tiles["horiz"],   self.screen,      (112, 36), True),
 			], True)
 		self.blocks["B20"].AddStoppingBlock([
-				(self.tiles["horiz"],   self.screen,      (112, 36), True),
-				(self.tiles["horiznc"], self.screen,      (111, 36), False),
+				(self.tiles["ssright"], self.screen,      (111, 36), False),
 				(self.tiles["eobleft"], self.screen,      (110, 36), True),
 			], True)
 		self.blocks["B20"].AddTrainLoc(self.screen, (114, 36))
 
 		self.blocks["B11"] = Block(self, self.frame, "B11",
 			[
+				(self.tiles["horiz"],   self.screen,      (102, 38), False),
 				(self.tiles["horiznc"], self.screen,      (101, 38), False),
 				(self.tiles["horiz"],   self.screen,      (100, 38), True),
 				(self.tiles["horiz"],   self.screen,      (98, 38), True),
@@ -68,8 +69,7 @@ class Bank (District):
 			], False)
 		self.blocks["B11"].AddStoppingBlock([
 				(self.tiles["eobright"], self.screen,      (104, 38), False),
-				(self.tiles["horiznc"], self.screen,      (103, 38), False),
-				(self.tiles["horiz"],   self.screen,      (102, 38), False),
+				(self.tiles["ssleft"],  self.screen,      (103, 38), False),
 			], False)
 		self.blocks["B11"].AddTrainLoc(self.screen, (100, 38))
 
@@ -82,12 +82,12 @@ class Bank (District):
 				(self.tiles["horiznc"], self.screen,      (97, 36), False),
 			], True)
 		self.blocks["B21"].AddStoppingBlock([
-				(self.tiles["horiz"],   self.screen,      (96, 36), True),
+				(self.tiles["ssright"], self.screen,      (96, 36), True),
 				(self.tiles["eobleft"], self.screen,      (95, 36), False),
 			], True)
 		self.blocks["B21"].AddStoppingBlock([
 				(self.tiles["eobright"], self.screen,      (104, 36), False),
-				(self.tiles["horiznc"], self.screen,      (103, 36), False),
+				(self.tiles["ssleft"],  self.screen,      (103, 36), False),
 			], False)
 		self.blocks["B21"].AddTrainLoc(self.screen, (100, 36))
 

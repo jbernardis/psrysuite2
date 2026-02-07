@@ -156,7 +156,7 @@
     "desc": "Empty Coal Hoppers",
     "eastbound": true,
     "loco": "7600",
-    "normalloco": "7600",
+    "normalloco": "185",
     "origin": {
       "loc": "HY",
       "track": "H40"

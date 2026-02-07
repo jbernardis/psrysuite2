@@ -37,12 +37,12 @@ class Cliveden (District):
 				(self.tiles["horiz"],   self.screen,      (83, 36), True),
 			], False)
 		self.blocks["C13"].AddStoppingBlock([
-				(self.tiles["horiznc"], self.screen,      (82, 36), False),
+				(self.tiles["ssright"], self.screen,      (82, 36), False),
 				(self.tiles["eobleft"], self.screen,      (81, 36), False),
 			], True)
 		self.blocks["C13"].AddStoppingBlock([
 				(self.tiles["eobright"], self.screen,      (89, 36), False),
-				(self.tiles["horiznc"], self.screen,      (88, 36), False),
+				(self.tiles["ssleft"], self.screen,      (88, 36), False),
 			], False)
 		self.blocks["C13"].AddTrainLoc(self.screen, (82, 36))
 
@@ -56,7 +56,7 @@ class Cliveden (District):
 			], False)
 		self.blocks["C23"].AddStoppingBlock([
 				(self.tiles["eobright"], self.screen,      (75, 36), False),
-				(self.tiles["horiznc"], self.screen,      (74, 36), False),
+				(self.tiles["ssleft"], self.screen,      (74, 36), False),
 			], False)
 		self.blocks["C23"].AddTrainLoc(self.screen, (70, 36))
 
@@ -71,7 +71,7 @@ class Cliveden (District):
 			], True)
 		self.blocks["C12"].AddStoppingBlock([
 				(self.tiles["eobright"], self.screen,      (75, 34), False),
-				(self.tiles["horiznc"], self.screen,      (74, 34), False),
+				(self.tiles["ssleft"], self.screen,      (74, 34), False),
 			], False)
 		self.blocks["C12"].AddTrainLoc(self.screen, (70, 34))
 

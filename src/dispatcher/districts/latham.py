@@ -34,6 +34,7 @@ class Latham (District):
 
 		self.blocks["L10"] = Block(self, self.frame, "L10",
 			[
+				(self.tiles["horiz"],   HyYdPt,      (139, 11), False),
 				(self.tiles["horiznc"], HyYdPt,      (140, 11), False),
 				(self.tiles["horiz"],   HyYdPt,      (141, 11), False),
 				(self.tiles["horiznc"], HyYdPt,      (142, 11), False),
@@ -64,8 +65,7 @@ class Latham (District):
 			], False)
 		self.blocks["L10"].AddStoppingBlock([
 				(self.tiles["horiz"],   HyYdPt,      (137, 11), False),
-				(self.tiles["horiznc"], HyYdPt,      (138, 11), False),
-				(self.tiles["horiz"],   HyYdPt,      (139, 11), False),
+				(self.tiles["ssright"], HyYdPt,      (138, 11), False),
 			], False)
 		self.blocks["L10"].AddTrainLoc(self.screen, (1, 11))
 		self.blocks["L10"].AddTrainLoc(HyYdPt, (141, 11))
@@ -99,10 +99,10 @@ class Latham (District):
 				(self.tiles["horiznc"], self.screen, (2, 13), False),
 				(self.tiles["horiz"],   self.screen, (3, 13), False),
 				(self.tiles["horiznc"], self.screen, (4, 13), False),
+				(self.tiles["horiz"],   self.screen, (5, 13), False),
 			], True)
 		self.blocks["L20"].AddStoppingBlock([
-				(self.tiles["horiz"],    self.screen, (5, 13), False),
-				(self.tiles["horiznc"],  self.screen, (6, 13), False),
+				(self.tiles["ssleft"],   self.screen, (6, 13), False),
 				(self.tiles["eobright"], self.screen, (7, 13), False),
 			], True)
 		self.blocks["L20"].AddTrainLoc(self.screen, (1, 13))
@@ -119,20 +119,20 @@ class Latham (District):
 			], False)
 		self.blocks["L11"].AddStoppingBlock([
 				(self.tiles["eobleft"],   self.screen, (21, 11), False),
-				(self.tiles["horiznc"],   self.screen, (22, 11), False),
+				(self.tiles["ssright"],   self.screen, (22, 11), False),
 			], False)
 		self.blocks["L11"].AddTrainLoc(self.screen, (24, 11))
 
 		self.blocks["L21"] = Block(self, self.frame, "L21",
 			[
+				(self.tiles["horiz"],     self.screen, (23, 13), False),
 				(self.tiles["horiznc"],   self.screen, (24, 13), False),
 				(self.tiles["horiz"],     self.screen, (25, 13), False),
 				(self.tiles["horiznc"],   self.screen, (26, 13), False),
 			], True)
 		self.blocks["L21"].AddStoppingBlock([
 				(self.tiles["eobleft"],   self.screen, (21, 13), False),
-				(self.tiles["horiznc"],   self.screen, (22, 13), False),
-				(self.tiles["horiz"],     self.screen, (23, 13), False),
+				(self.tiles["ssright"],   self.screen, (22, 13), False),
 			], False)
 		self.blocks["L21"].AddStoppingBlock([
 				(self.tiles["horiz"],     self.screen, (27, 13), False),
@@ -151,7 +151,7 @@ class Latham (District):
 				(self.tiles["horiznc"],   self.screen, (26, 15), False),
 			], True)
 		self.blocks["L31"].AddStoppingBlock([
-				(self.tiles["horiznc"],   self.screen, (28, 15), False),
+				(self.tiles["ssleft"],    self.screen, (28, 15), False),
 				(self.tiles["eobright"],  self.screen, (29, 15), False),
 			], True)
 		self.blocks["L31"].AddTrainLoc(self.screen, (22, 15))

@@ -314,6 +314,36 @@ def loadTiles(bitmaps):
 		"green": b.eobleftup.routed,
 		"red": b.eobleftup.occupied,
 		"yellow": b.eobleftup.unknown})
+	tiles["ssright"] = Tile("ssright", {
+		"white": b.ssright.normal,
+		"green": b.ssright.routed,
+		"red": b.ssright.occupied,
+		"yellow": b.ssright.unknown})
+	tiles["ssrightleft"] = Tile("ssrightleft", {
+		"white": b.ssrightleft.normal,
+		"green": b.ssrightleft.routed,
+		"red": b.ssrightleft.occupied,
+		"yellow": b.ssrightleft.unknown})
+	tiles["ssleftleft"] = Tile("ssleftleft", {
+		"white": b.ssleftleft.normal,
+		"green": b.ssleftleft.routed,
+		"red": b.ssleftleft.occupied,
+		"yellow": b.ssleftleft.unknown})
+	tiles["ssleftup"] = Tile("ssleftup", {
+		"white": b.ssleftup.normal,
+		"green": b.ssleftup.routed,
+		"red": b.ssleftup.occupied,
+		"yellow": b.ssleftup.unknown})
+	tiles["ssrightright"] = Tile("ssrightright", {
+		"white": b.ssrightright.normal,
+		"green": b.ssrightright.routed,
+		"red": b.ssrightright.occupied,
+		"yellow": b.ssrightright.unknown})
+	tiles["ssleft"] = Tile("ssleft", {
+		"white": b.ssleft.normal,
+		"green": b.ssleft.routed,
+		"red": b.ssleft.occupied,
+		"yellow": b.ssleft.unknown})
 	tiles["diagleft"] = Tile("diagleft", {
 		"white": b.diagleft.normal,
 		"green": b.diagleft.routed,

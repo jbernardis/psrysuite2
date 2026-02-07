@@ -158,10 +158,10 @@ class Yard (District):
 				(self.tiles["horiznc"],  self.screen, (127, 11), False),
 				(self.tiles["horiz"],    self.screen, (128, 11), False),
 			], False)
-		self.blocks["Y11"].AddTrainLoc(self.screen, (123, 11))
+		self.blocks["Y11"].AddTrainLoc(self.screen, (124, 11))
 		self.blocks["Y11"].AddStoppingBlock([
 				(self.tiles["horiz"],    self.screen, (122, 11), False),
-				(self.tiles["horiznc"],  self.screen, (123, 11), False),
+				(self.tiles["ssright"],  self.screen, (123, 11), False),
 			], False)
 
 		self.blocks["Y20"] = Block(self, self.frame, "Y20",
@@ -174,7 +174,7 @@ class Yard (District):
 			], True)
 		self.blocks["Y20"].AddTrainLoc(self.screen, (108, 13))
 		self.blocks["Y20"].AddStoppingBlock([
-				(self.tiles["horiznc"],  self.screen, (112, 13), False),
+				(self.tiles["ssleft"],   self.screen, (112, 13), False),
 				(self.tiles["horiz"],    self.screen, (113, 13), False),
 			], True)
 
@@ -187,10 +187,10 @@ class Yard (District):
 		self.blocks["Y21"].AddTrainLoc(self.screen, (123, 13))
 		self.blocks["Y21"].AddStoppingBlock([
 				(self.tiles["horiz"],    self.screen, (122, 13), False),
-				(self.tiles["horiznc"],  self.screen, (123, 13), False),
+				(self.tiles["ssright"],  self.screen, (123, 13), False),
 			], False)
 		self.blocks["Y21"].AddStoppingBlock([
-				(self.tiles["horiznc"],  self.screen, (127, 13), False),
+				(self.tiles["ssleft"],   self.screen, (127, 13), False),
 				(self.tiles["horiz"],    self.screen, (128, 13), False),
 			], True)
 

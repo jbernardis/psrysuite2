@@ -63,13 +63,13 @@ class Hyde (District):
 				(self.tiles["horiz"], self.screen, (19, 13), False),
 				(self.tiles["horiznc"], self.screen, (20, 13), False),
 
+				(self.tiles["horiznc"], LaKr, (125, 11), False),
 				(self.tiles["horiz"], LaKr, (126, 11), False),
 				(self.tiles["horiznc"], LaKr, (127, 11), False),
 			], False)
 		self.blocks["H11"].AddStoppingBlock([
 				(self.tiles["eobleft"], LaKr, (123, 11), False),
-				(self.tiles["horiz"], LaKr, (124, 11), False),
-				(self.tiles["horiznc"], LaKr, (125, 11), False),
+				(self.tiles["ssright"], LaKr, (124, 11), False),
 			], False)
 		self.blocks["H11"].AddTrainLoc(self.screen, (14, 13))
 		self.blocks["H11"].AddTrainLoc(LaKr, (124, 11))
@@ -104,6 +104,7 @@ class Hyde (District):
 				(self.tiles["turnleftleft"], self.screen, (25, 5), True),
 				(self.tiles["horiz"], self.screen, (26, 5), False),
 
+				(self.tiles["horiz"], LaKr, (108, 9), False),
 				(self.tiles["horiznc"], LaKr, (109, 9), False),
 				(self.tiles["horiz"], LaKr, (110, 9), False),
 				(self.tiles["horiznc"], LaKr, (111, 9), False),
@@ -127,8 +128,7 @@ class Hyde (District):
 			False)
 		self.blocks["H30"].AddStoppingBlock([
 				(self.tiles["eobleft"], LaKr, (106, 9), False),
-				(self.tiles["horiznc"], LaKr, (107, 9), False),
-				(self.tiles["horiz"], LaKr, (108, 9), False),
+				(self.tiles["ssright"], LaKr, (107, 9), False),
 			], False)
 		self.blocks["H30"].AddTrainLoc(self.screen, (14, 11))
 		self.blocks["H30"].AddTrainLoc(LaKr, (108, 9))
@@ -246,6 +246,7 @@ class Hyde (District):
 				(self.tiles["horiz"],   self.screen, (15, 15), False),
 				(self.tiles["horiznc"], self.screen, (16, 15), False),
 				(self.tiles["horiz"],   self.screen, (17, 15), False),
+				(self.tiles["horiznc"], self.screen, (18, 15), False),
 				(self.tiles["eobleft"], LaKr,        (123, 13), False),
 				(self.tiles["horiz"],   LaKr,        (124, 13), False),
 				(self.tiles["horiznc"], LaKr,        (125, 13), False),
@@ -253,8 +254,7 @@ class Hyde (District):
 				(self.tiles["horiznc"], LaKr,        (127, 13), False),
 			], True)
 		self.blocks["H21"].AddStoppingBlock([
-				(self.tiles["horiznc"], self.screen, (18, 15), False),
-				(self.tiles["horiz"],   self.screen, (19, 15), False),
+				(self.tiles["ssleft"],   self.screen, (19, 15), False),
 				(self.tiles["eobright"], self.screen, (20, 15), False),
 			], True)
 		self.blocks["H21"].AddTrainLoc(self.screen, (14, 15))
@@ -392,6 +392,7 @@ class Hyde (District):
 
 		self.blocks["H13"] = Block(self, self.frame, "H13",
 			[
+				(self.tiles["horiz"],   self.screen, (59, 13), False),
 				(self.tiles["horiznc"], self.screen, (60, 13), False),
 				(self.tiles["horiz"],   self.screen, (61, 13), False),
 				(self.tiles["horiznc"], self.screen, (62, 13), False),
@@ -407,8 +408,7 @@ class Hyde (District):
 			], False)
 		self.blocks["H13"].AddStoppingBlock([
 				(self.tiles["eobleft"], self.screen, (57, 13), False),
-				(self.tiles["horiznc"], self.screen, (58, 13), False),
-				(self.tiles["horiz"],   self.screen, (59, 13), False),
+				(self.tiles["ssright"], self.screen, (58, 13), False),
 				], False)
 		self.blocks["H13"].AddTrainLoc(self.screen, (58, 13))
 		self.blocks["H13"].AddTrainLoc(LaKr, (41, 9))
@@ -481,12 +481,12 @@ class Hyde (District):
 				(self.tiles["horiz"],   LaKr,        (40, 15), False),
 				(self.tiles["horiznc"], LaKr,        (41, 15), False),
 				(self.tiles["horiz"],   LaKr,        (42, 15), False),
+				(self.tiles["horiznc"], LaKr, 		 (43, 15), False),
 			], True)
 		self.blocks["H23"].AddTrainLoc(self.screen, (58, 15))
 		self.blocks["H23"].AddTrainLoc(LaKr, (41, 15))
 		self.blocks["H23"].AddStoppingBlock([
-				(self.tiles["horiznc"], LaKr,        (43, 15), False),
-				(self.tiles["horiz"],   LaKr,        (44, 15), False),
+				(self.tiles["ssleft"],   LaKr,       (44, 15), False),
 				(self.tiles["eobright"], LaKr,       (45, 15), False),
 				], True)
 
@@ -553,7 +553,7 @@ class Hyde (District):
 			], False)
 		self.blocks["H10"].AddStoppingBlock([
 				(self.tiles["eobleft"],  LaKr,    (106, 11), False),
-				(self.tiles["horiz"],    LaKr,    (107, 11), False),
+				(self.tiles["ssright"],    LaKr,    (107, 11), False),
 			], False)
 		self.blocks["H10"].AddTrainLoc(LaKr, (108, 11))
 
@@ -567,7 +567,7 @@ class Hyde (District):
 				(self.tiles["horiz"],    LaKr,    (111, 13), False),
 			], True)
 		self.blocks["H20"].AddStoppingBlock([
-				(self.tiles["horiznc"],  LaKr,    (112, 13), False),
+				(self.tiles["ssleft"],  LaKr,    (112, 13), False),
 				(self.tiles["eobright"], LaKr,    (113, 13), False),
 			], True)
 		self.blocks["H20"].AddTrainLoc(LaKr, (108, 13))

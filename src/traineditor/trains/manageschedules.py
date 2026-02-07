@@ -2,6 +2,7 @@ import wx
 import os
 import sys
 import qrcode
+import logging
 import utilities.HTML as HTML
 from traineditor.reports import Report
 from traineditor.trains.choosetrains import ChooseTrainsDlg, ChooseScheduleDlg
@@ -94,7 +95,7 @@ class SchedulesReport(Report):
 					)
 
 		activetrains = rrserver.Get("activetrains", {})
-		print("active trains = %s" % str(activetrains), file=sys.stderr)
+		logging.debug("active trains = %s" % str(activetrains))
 
 		rows = []
 		rowx = 1
@@ -146,7 +147,7 @@ class SchedulesReport(Report):
 
 		if tinfo is not None:
 			aloco = tinfo.get("loco", None)
-			if loco is None:
+			if aloco is not None:
 				loco = aloco
 
 		if loco is None:
