@@ -4,8 +4,9 @@ import webbrowser
 
 BTNSZ = (120, 46)
 
+
 class Report:
-	def __init__(self, parent, browser):
+	def __init__(self, parent, browser, spreadsheet):
 		self.initialized = False
 		self.parent = parent
 		
@@ -20,6 +21,8 @@ class Report:
 			dlg.ShowModal()
 			dlg.Destroy()
 			return
+
+		self.spreadsheet = spreadsheet
 
 		self.initialized = True
 		

@@ -15,6 +15,9 @@ class Schedule():
 	def getExtras(self):
 		return self.extras
 
+	def lenExtras(self):
+		return len(self.extras)
+
 	def isExtraTrain(self, tid):
 		return tid in self.extras
 

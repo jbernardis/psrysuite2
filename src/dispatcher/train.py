@@ -134,6 +134,7 @@ class Train:
 		return self.roster
 
 	def GetSequence(self):
+		logging.debug("Getting sequence for train %s" % self.Name())
 		if self.templateTrain is not None:
 			logging.debug("returning template train sequence %s" % str(self.templateSeq))
 			return self.templateSeq

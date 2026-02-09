@@ -396,7 +396,7 @@ class MainFrame(wx.Frame):
 						logging.debug("Ignoring control command without either name or value: %s" % str(p))
 					elif name == "cliff":
 						self.CliffControl = int(value)
-						nv = self.SpikesPeakLocked and (self.CliffControl == 1)
+						nv = self.SpikesPeakLocked and (self.CliffControl in [1, 2])
 						if nv != self.C13Control:
 							self.Alert("C13 Automation %s" % ("Enabled" if nv else "Disabled"))
 							self.C13Control = nv

@@ -13,6 +13,7 @@ from autorouter.listener import Listener
 from autorouter.rrserver import RRServer
 # from autorouter.script import Script
 from autorouter.trainlist import TrainListCtrl
+from dispatcher.block import formatRouteDesignator
 
 from autorouter.train import Trains
 from autorouter.layoutdata import LayoutData
@@ -415,20 +416,19 @@ class MainFrame(wx.Frame):
 				logging.debug("Ignoring unknown command: %s %s" % (cmd, str(parms)))
 
 	def AnalyzeTrain(self, trid):
-		print("checking train %s for needed action" % trid)
+		logging.debug("checking train %s for needed action" % trid)
 		try:
 			tr = self.controlledTrains[trid]
 		except KeyError:
 			logging.debug("Train %s not in controlled list" % trid)
 			return
 
-		print("%s" % str(tr))
 		roster = self.roster.GetTrainById(trid)
-		print("%s" % str(roster))
-		print("start block = %s" % roster.GetStartBlock())
+		logging.debug("Roster: %s" % str(roster))
+		logging.debug("start block = %s" % roster.GetStartBlock())
 		steps = roster.GetSteps()
 		for s in steps:
-			print("Step: %s" % str(s))
+			logging.debug("Step: %s" % str(s))
 
 		blockSeq = [roster.GetStartBlock()] + [s["block"] for s in roster.GetSteps()]
 		signalSeq = [s["signal"] for s in roster.GetSteps()]
@@ -439,16 +439,25 @@ class MainFrame(wx.Frame):
 		if currentBlock.endswith(".E") or currentBlock.endswith(".W"):
 			currentBlock = currentBlock[:-2]
 
+		logging.debug("Checking for block %s" % currentBlock)
 		try:
 			idx = blockSeq.index(currentBlock)
 		except ValueError:
+			logging.debug("Block %s not in block sequence" % currentBlock)
 			# it could be in an OS in which case nothing needs to be done
 			if currentBlock in osSeq:
+				logging.debug("It's in an OS within the sequence- just ignore")
 				tr["status"] = ""
 				self.controlledList.refreshTrain(trid)
 				return
 
-			tr["status"] = "Train % is in unexpected block: %s" % (trid, currentBlock)
+			logging.debug("It's an unexpected block")
+			route = self.routes.get(currentBlock, None)
+			if route is None:
+				route = currentBlock
+			else:
+				route = formatRouteDesignator(route)
+			tr["status"] = "Train %s is in unexpected block: %s" % (trid, route)
 			self.controlledList.refreshTrain(trid)
 			return
 

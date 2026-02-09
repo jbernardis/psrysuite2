@@ -32,11 +32,9 @@ def saveData(parent, settings):
 
 	dirs = {
 		root: os.path.join(os.getcwd(), "data"),
-		"locos": os.path.join(os.getcwd(), "data", "locos"),
-		"trains": os.path.join(os.getcwd(), "data", "trains"),
 		"schedules": os.path.join(os.getcwd(), "data", "schedules"),
 		"scripts": os.path.join(os.getcwd(), "data", "scripts"),
-		"trackersnapshots": os.path.join(os.getcwd(), "data", "trackersnapshots")
+		"snapshots": os.path.join(os.getcwd(), "data", "snapshots")
 	}
 
 	fc = 0

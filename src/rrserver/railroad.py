@@ -512,9 +512,11 @@ class Railroad:
 						# change the train's name unless it's still using the internal name
 						if trid != tr.IName():
 							tr.SetName(trid, self.GetTrainRoster(trid))
+							logging.debug("setting train rname to %s for iname %s, roster = %s" % (trid, tr.IName(), str(self.GetTrainRoster(trid))))
 						else:
 							# assert no roster if we are still using internal name
 							tr.SetRoster(None)
+							logging.debug("train still using internal name - set roster to None")
 						tr.SetLoco(trinfo["loco"])
 						tr.SetEast(trinfo["east"])
 						firstBlock = False

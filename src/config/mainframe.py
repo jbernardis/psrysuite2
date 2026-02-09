@@ -451,22 +451,36 @@ class MainFrame(wx.Frame):
 		
 		vszrfile.AddSpacer(5)
 		vszrfile.Add(hsz)
-		
+
 		vszrfile.Add(wx.StaticText(self, wx.ID_ANY, "Browser Location:"))
-		
+
 		self.teBrowser = wx.TextCtrl(self, wx.ID_ANY, self.settings.browser, size=(450, -1), style=wx.TE_READONLY)
 		self.bBrowser = wx.Button(self, wx.ID_ANY, "...", size=(40, -1))
 		self.Bind(wx.EVT_BUTTON, self.OnBBrowser, self.bBrowser)
-		
+
 		hsz = wx.BoxSizer(wx.HORIZONTAL)
 		hsz.Add(self.teBrowser)
 		hsz.AddSpacer(10)
 		hsz.Add(self.bBrowser)
-		
+
 		vszrfile.AddSpacer(5)
 		vszrfile.Add(hsz)
-		
-		vszr.AddSpacer(20)
+
+		vszrfile.Add(wx.StaticText(self, wx.ID_ANY, "Spreadsheet Location:"))
+
+		self.teCalc = wx.TextCtrl(self, wx.ID_ANY, self.settings.spreadsheet, size=(450, -1), style=wx.TE_READONLY)
+		self.bCalc = wx.Button(self, wx.ID_ANY, "...", size=(40, -1))
+		self.Bind(wx.EVT_BUTTON, self.OnBCalc, self.bCalc)
+
+		hsz = wx.BoxSizer(wx.HORIZONTAL)
+		hsz.Add(self.teCalc)
+		hsz.AddSpacer(10)
+		hsz.Add(self.bCalc)
+
+		vszrfile.AddSpacer(5)
+		vszrfile.Add(hsz)
+
+		vszr.AddSpacer(10)
 		vszr.Add(vszrfile, 9, wx.ALIGN_CENTER_HORIZONTAL)
 
 		vszr.AddSpacer(20)
@@ -565,9 +579,37 @@ class MainFrame(wx.Frame):
 
 		dlg.Destroy()
 		if rc != wx.ID_OK:
-			return 
-		
+			return
+
 		self.teBrowser.SetValue(path)
+
+	def OnBCalc(self, _):
+		wildcard = "All files (*.*)|*.*"
+		startPath = self.teCalc.GetValue()
+		spath = os.path.split(startPath)
+		sdir = spath[0]
+		if len(spath) == 1:
+			sfile = ""
+		else:
+			sfile = spath[1]
+
+		dlg = wx.FileDialog(
+			self, message="Choose spreadsheet executable",
+			defaultDir=sdir,
+			defaultFile=sfile,
+			wildcard=wildcard,
+			style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST | wx.FD_PREVIEW)
+
+		rc = dlg.ShowModal()
+		path = None
+		if rc == wx.ID_OK:
+			path = dlg.GetPath()
+
+		dlg.Destroy()
+		if rc != wx.ID_OK:
+			return
+
+		self.teCalc.SetValue(path)
 
 	def OnBGenerate(self, _):
 		dlg = GenerateDlg(self, GenShortcut)
@@ -587,6 +629,9 @@ class MainFrame(wx.Frame):
 		self.settings.socketport = int(self.teBroadcastPort.GetValue())
 		self.settings.backupdir = self.teBackupDir.GetValue()
 		self.settings.browser = self.teBrowser.GetValue()
+		self.settings.spreadsheet = self.teCalc.GetValue()
+		if self.settings.spreadsheet.strip() == "":
+			self.settings.spreadsheet = None
 
 		rbv = self.rbMode.GetSelection()
 		self.settings.dispatcher.dispatch = rbv == 0

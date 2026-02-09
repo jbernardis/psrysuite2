@@ -6,7 +6,7 @@ BTNSZ = (120, 46)
 
 class LocosReport (Report):
 	def __init__(self, parent, browser):
-		Report.__init__(self, parent, browser)
+		Report.__init__(self, parent, browser, None)
 
 	def LocosReport(self, locos):
 		css = HTML.StyleSheet()

@@ -7,7 +7,7 @@ BTNSZ = (120, 46)
 
 class LocoCards (Report):
 	def __init__(self, parent, browser):
-		Report.__init__(self, parent, browser)
+		Report.__init__(self, parent, browser, None)
 
 	def CheckQRFiles(self, locos):
 		locoOrder  = sorted(locos.keys(), key=lambda x: int(x))

@@ -313,7 +313,8 @@ class Settings:
 		self.socketport = 9001
 		self.dccserverport = 9002
 		self.backupdir = os.getcwd()
-		self.browser = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+		self.browser = None
+		self.spreadsheet = None
 		if self.cfg.has_section(GLOBAL):
 			for opt, value in self.cfg.items(GLOBAL):
 				if opt == 'socketport':
@@ -345,9 +346,12 @@ class Settings:
 					
 				elif opt == 'backupdir':
 					self.backupdir = value
-					
+
 				elif opt == 'browser':
 					self.browser = value
+
+				elif opt == 'spreadsheet':
+					self.spreadsheet = value
 
 		else:
 			print("Missing global section - assuming defaults")
@@ -504,6 +508,7 @@ class Settings:
 		self.cfg.set(section, "socketport", "%d" % self.socketport)
 		self.cfg.set(section, "backupdir", self.backupdir)
 		self.cfg.set(section, "browser", self.browser)
+		self.cfg.set(section, "spreadsheet", self.spreadsheet)
 
 		try:
 			cfp = open(self.inifile, 'w')

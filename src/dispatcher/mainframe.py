@@ -30,7 +30,7 @@ from dispatcher.trainqueue import TrainQueue
 from dispatcher.block import formatRouteDesignator
 from dispatcher.node import Node
 
-from dispatcher.constants import HyYdPt, LaKr, NaCl, EMPTY, SLIPSWITCH, turnoutstate, YardBlocks, LadderBlocks
+from dispatcher.constants import HyYdPt, LaKr, NaCl, EMPTY, SLIPSWITCH, OVERSWITCH, turnoutstate, YardBlocks, LadderBlocks
 from dispatcher.listener import Listener
 from dispatcher.rrserver import RRServer
 
@@ -3747,8 +3747,10 @@ class MainFrame(wx.Frame):
 		if iname not in self.trains:
 			tr = Train(iname, rname, east, loco, engineer)
 			self.trains[iname] = tr
+			rnameChanged = True
 		else:
 			tr = self.trains[iname]
+			rnameChanged = rname != tr.RName()
 
 		if loco is None:
 			short = False
@@ -3759,7 +3761,6 @@ class MainFrame(wx.Frame):
 			else:
 				short = l["short"]
 
-		rnameChanged = rname != tr.RName()
 		tr.SetRName(rname)
 		tr.SetEast(east)
 		tr.SetLoco(loco, short)
@@ -3818,7 +3819,20 @@ class MainFrame(wx.Frame):
 							b = b[:-2]
 						if b not in ValidBlocks:
 							if b not in routeBlocks + routeOS:
-								self.PopupEvent("Train %s not expected in block %s" % (trname, ob))
+								blk = self.blocks.get(ob, None)
+								if blk is None:
+									logging.error("Unknown block: %s in train command" % ob)
+								else:
+									if blk.GetBlockType() == OVERSWITCH:
+										rtName = blk.GetRouteName()
+										if rtName is None:
+											rtName = ob
+										else:
+											rtName = formatRouteDesignator(rtName)
+									else:
+										rtName = ob
+
+									self.PopupEvent("Train %s not expected in block %s" % (trname, rtName))
 
 		for bn in blocks:
 			blk = self.blocks.get(bn, None)
