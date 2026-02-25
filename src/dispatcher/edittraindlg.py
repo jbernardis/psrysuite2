@@ -305,7 +305,11 @@ class EditTrainDlg(wx.Dialog):
 			return
 
 		loco, engineer, east, _ = tr
-		logging.debug("recovering loco %s: %s" % (loco, self.locos[loco]))
+		if loco in self.locos:
+			logging.debug("recovering loco %s: %s" % (loco, self.locos[loco]))
+		else:
+			self.parent.PopupEvent("Unknown locomotive: %s, proceeding..." % loco)
+
 		self.FillInTrainFields(trname, loco, engineer, east)
 
 	def OnBTrainHistory(self, _):

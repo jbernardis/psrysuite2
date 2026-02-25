@@ -31,7 +31,7 @@ class BlockDelayDlg(wx.Dialog):
 		self.rrserver = rrserver
 		self.blocks = blocks
 		wx.Dialog.__init__(self, self.parent, style=wx.DEFAULT_FRAME_STYLE)
-		self.SetFont(wx.Font(wx.Font(12, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, faceName="Arial")))
+		self.SetFont(wx.Font(12, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, faceName="Arial"))
 
 		self.blockorder = sorted([bn for bn in self.blocks.keys() if "OS" not in bn and bn not in ["N25occ"]])
 

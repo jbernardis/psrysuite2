@@ -99,7 +99,7 @@
     "startsubblock": null,
     "terminus": {
       "loc": "YD",
-      "track": "Y87"
+      "track": null
     },
     "tracker": [
       [
@@ -155,7 +155,7 @@
     "cutoff": false,
     "desc": "Empty Coal Hoppers",
     "eastbound": true,
-    "loco": "7600",
+    "loco": "185",
     "normalloco": "185",
     "origin": {
       "loc": "HY",
@@ -232,7 +232,7 @@
     "normalloco": "5304",
     "origin": {
       "loc": "HY",
-      "track": "H32"
+      "track": "H30"
     },
     "sequence": [
       {
@@ -270,7 +270,7 @@
     "startsubblock": "H30A",
     "terminus": {
       "loc": "HY",
-      "track": "H32"
+      "track": "H30"
     },
     "tracker": [
       [
@@ -1037,7 +1037,7 @@
     "cutoff": true,
     "origin": {
       "loc": "CF",
-      "track": null
+      "track": "C34"
     },
     "terminus": {
       "loc": "NA",
@@ -1195,7 +1195,7 @@
     "cutoff": false,
     "origin": {
       "loc": "NA",
-      "track": null
+      "track": "N42"
     },
     "terminus": {
       "loc": "GM",
@@ -1546,7 +1546,7 @@
       "track": null
     },
     "terminus": {
-      "loc": "GM",
+      "loc": "SH",
       "track": null
     },
     "tracker": [
@@ -2060,7 +2060,7 @@
     },
     "terminus": {
       "loc": "NA",
-      "track": null
+      "track": "N42"
     },
     "tracker": [
       [
@@ -3018,7 +3018,7 @@
     "cutoff": false,
     "origin": {
       "loc": "NA",
-      "track": null
+      "track": "N32"
     },
     "terminus": {
       "loc": "PT",
@@ -3163,27 +3163,6 @@
     ],
     "eastbound": false,
     "template": null,
-    "block": null
-  },
-  "37": {
-    "eastbound": false,
-    "desc": "Westbound Express Passenger",
-    "loco": null,
-    "normalloco": null,
-    "cutoff": false,
-    "origin": {
-      "loc": "CF",
-      "track": null
-    },
-    "terminus": {
-      "loc": "YD",
-      "track": null
-    },
-    "tracker": [],
-    "sequence": [],
-    "startblock": null,
-    "startsubblock": null,
-    "template": "21",
     "block": null
   }
 }

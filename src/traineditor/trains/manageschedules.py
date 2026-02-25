@@ -159,6 +159,10 @@ class SchedulesReport(Report):
 			east = r["eastbound"]
 			origin = "%s" % r["origin"]["loc"]
 			trk = r["origin"]["track"]
+			if tinfo is not None:
+				blks = tinfo.get("blocks", None)
+				if blks is not None and len(blks) > 0:
+					trk = blks[0]
 			if trk is not None:
 				origin += "(%s)" % trk
 			terminus = "%s" % r["terminus"]["loc"]
@@ -312,6 +316,10 @@ class SchedulesReport(Report):
 			east = r["eastbound"]
 			origin = "%s" % r["origin"]["loc"]
 			trk = r["origin"]["track"]
+			if tinfo is not None:
+				blks = tinfo.get("blocks", None)
+				if blks is not None and len(blks) > 0:
+					trk = blks[0]
 			if trk is not None:
 				origin += "(%s)" % trk
 			terminus = "%s" % r["terminus"]["loc"]

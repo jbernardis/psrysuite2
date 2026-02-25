@@ -1,3 +1,11 @@
+interactive schedule that can be brought up on tm/dispatch,
+messages between towers and tm/disp
+    assign time,
+    train complete,
+    scanner operations:
+        assign/unassign train (already exists) - implies train start/send back to starting point
+        complete train,
+        cancel train,
 
 
 done, but need the final details:
@@ -12,6 +20,9 @@ specific things that need to be checked:
     Block P50 directionality and train movement is not working - I think it works with the manual moving from monitor - this might be isolated to trafficgen
 
     Need to test dcc sniffer logic
+
+
+finish log analyzer
 
 
 

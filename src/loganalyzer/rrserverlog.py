@@ -1,6 +1,5 @@
-import os
+import sys
 from datetime import datetime
-import openpyxl
 
 
 class Breaker:
@@ -27,6 +26,9 @@ class Breaker:
 	def TripDurations(self):
 		return self.tripDurations
 
+	def TripTimes(self):
+		return self.tripTimes
+
 
 class Train:
 	def __init__(self, iname, rname):
@@ -39,6 +41,9 @@ class Train:
 		self.engineer = None
 		self.engineers = []
 		self.stopBlocks = []
+
+	def SetRName(self, rname):
+		self.rname = rname
 
 	def Name(self):
 		return self.iname if self.rname is None else self.rname
@@ -65,8 +70,8 @@ class Train:
 			self.stopped = False
 			self.engineers.append(engineer)
 			self.stopBlocks.append(block)
-			elapsed = tm - self.stopTime
-			self.stopTimes.append(int(elapsed.total_seconds()))
+			elapsed = int((tm - self.stopTime).total_seconds())
+			self.stopTimes.append(elapsed)  # int(elapsed.total_seconds()))
 			self.stopTime = None
 			self.engineer = None
 
@@ -98,14 +103,16 @@ class Block:
 		return self.traversalTimes, self.trains, self.engineers
 
 
-class LogReport:
+class RRServerLog:
 	def __init__(self):
 		self.blocks = {}
 		self.trains = {}
 		self.breakers = {}
 
 	def ProcessLogFile(self, fname):
-		# with open("../logs/rrserver.log", "r") as lfp:
+		self.blocks = {}
+		self.trains = {}
+		self.breakers = {}
 		with open(fname, "r") as lfp:
 			for line in lfp:
 				ts = line[:23]
@@ -131,12 +138,15 @@ class LogReport:
 		stopped = parms["stopped"]
 		engineer = parms["engineer"]
 
+		# print("train report: %s: %s" % (tm, str(parms)), flush=True, file=sys.stderr)
+
 		if iname not in self.trains:
 			tr = Train(iname, rname)
 			self.trains[iname] = tr
 			newBlks, delBlks = self.trains[iname].SetBlocks(blks)
 		else:
 			tr = self.trains[iname]
+			tr.SetRName(rname)
 			newBlks, delBlks = tr.UpdateBlocks(blks)
 
 		for b in newBlks:
@@ -158,7 +168,8 @@ class LogReport:
 				# print("no record of block %s being entered" % b)
 				pass
 
-		tr.UpdateStoppage(tm, engineer, stopped, blks[0])  # TODO:  <== verify 0 or -1 here
+		if len(blks) > 0:
+			tr.UpdateStoppage(tm, engineer, stopped, blks[-1])
 
 	def ProcessBreakerCommand(self, tm, parms):
 		name = parms["name"]
@@ -171,15 +182,8 @@ class LogReport:
 
 		brk.UpdateState(tm, value)
 
-	def ReportBlockTraversalTimes(self, worksheet):
-		row = 2
-
-		worksheet.title = "Block Traversal Times"
-		worksheet.cell(row=1, column=1, value="Block")
-		worksheet.cell(row=1, column=2, value="Seconds")
-		worksheet.cell(row=1, column=3, value="Train")
-		worksheet.cell(row=1, column=4, value="Engineer")
-
+	def ReportBlockTraversal(self):
+		result = []
 		for bn in sorted(self.blocks.keys()):
 			blk = self.blocks[bn]
 			trvTimes, trains, engineers = blk.TraversalTimes()
@@ -187,71 +191,26 @@ class LogReport:
 				tm = trvTimes[i]
 				trn = trains[i]
 				eng = engineers[i]
-				worksheet.cell(row=row, column=1, value=bn)
-				worksheet.cell(row=row, column=2, value=tm)
-				worksheet.cell(row=row, column=3, value=trn)
-				worksheet.cell(row=row, column=4, value=eng)
-				row += 1
+				result.append({"block": bn, "time": tm, "train": trn, "engineer": eng})
+		return result
 
-	def ReportTrainStoppageTimes(self, worksheet):
-		row = 2
-
-		worksheet.title = "Stopping Sections"
-		worksheet.cell(row=1, column=1, value="Train")
-		worksheet.cell(row=1, column=2, value="Block")
-		worksheet.cell(row=1, column=3, value="Seconds")
-		worksheet.cell(row=1, column=4, value="Engineer")
-
+	def ReportStoppageTimes(self):
+		result = []
 		for b in sorted(self.trains.keys()):
 			trn = self.trains[b]
 			tms, engs, blks = trn.StoppageTimes()
 			if len(tms) > 0:
 				for i in range(len(tms)):
-					worksheet.cell(row=row, column=1, value=trn.Name())
-					worksheet.cell(row=row, column=2, value=blks[i])
-					worksheet.cell(row=row, column=3, value=tms[i])
-					worksheet.cell(row=row, column=4, value=engs[i])
-					row += 1
+					result.append({"train": trn.Name(), "block": blks[i], "time": tms[i], "engineer": engs[i]})
+		return result
 
-	def ReportBreakers(self, worksheet):
-		row = 2
-
-		worksheet.title = "Breakers"
-		worksheet.cell(row=1, column=1, value="Name")
-		worksheet.cell(row=1, column=2, value="Seconds")
-
+	def ReportBreakers(self):
+		result = []
 		for b in sorted(self.breakers.keys()):
 			brk = self.breakers[b]
-			times = brk.TripDurations()
-			if len(times) > 0:
-				for tm in times:
-					worksheet.cell(row=row, column=1, value=b)
-					worksheet.cell(row=row, column=2, value=tm)
-					row += 1
-
-
-class ReportMain:
-	def __init__(self):
-		self.lr = LogReport()
-		self.lr.ProcessLogFile("../logs/rrserver.log")
-
-		wb = openpyxl.Workbook()
-		ws = wb.active
-		# ws.column_dimensions['B'].width = 10
-		# ws.column_dimensions['C'].width = 10
-		# ws.column_dimensions['D'].width = 50
-		# ws.row_dimensions[1].height = 30
-
-		self.lr.ReportBlockTraversalTimes(ws)
-
-		wsstop = wb.create_sheet()
-		self.lr.ReportTrainStoppageTimes(wsstop)
-
-		wsbreakers = wb.create_sheet()
-		self.lr.ReportBreakers(wsbreakers)
-
-		xlsfn = os.path.join(os.getcwd(), "stats.xlsx")
-		wb.save(xlsfn)
-
-ReportMain()
+			durations = brk.TripDurations()
+			times = brk.TripTimes()
+			for t, d in zip(times, durations):
+				result.append({"breaker": b, "time": t, "duration": d})
+		return result
 

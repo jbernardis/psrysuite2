@@ -984,6 +984,8 @@ class MainFrame(wx.Frame):
 		titleString = self.title
 		if self.subscribed and self.sessionid is not None:
 			titleString += ("  -  Session ID %s" % str(self.sessionid))
+			if self.locale is not None and self.locale not in ["Satellite", "Dispatcher"]:
+				titleString += (" Locale: %s" % self.locale)
 		self.SetTitle(titleString)
 
 	def Initialize(self, districtMap):
@@ -1977,12 +1979,11 @@ class MainFrame(wx.Frame):
 					template = None
 				trname = trid + ("" if template is None else ("("+template+")"))
 				if locoid in self.locoList:
-					self.PopupAdvice("Loco %s: %s" % (locoid, self.locoList[locoid]))
+					logging.debug("Loco %s: %s" % (locoid, self.locoList[locoid]))
 				else:
-					self.PopupAdvice("loco %s not in list" % locoid)
+					self.PopupEvent("Unknown locomotive: %s, proceeding..." % locoid)
 				self.PopupAdvice("Recovering train %s loco %s in block %s.  Assign to %s" % (trname, locoid, block, engineer))
 				parms = {"iname": tr.IName(), "name": trid, "loco": locoid, "template": template, "east": "1" if east else "0", "engineer": engineer}
-				self.PopupAdvice("Parms: %s" % str(parms))
 
 				self.Request({"modifytrain": parms})
 				self.lostTrains.Remove(trid)
@@ -4015,7 +4016,7 @@ class MainFrame(wx.Frame):
 		if self.IsDispatcher():
 			self.locale = "Dispatcher"
 		elif self.IsSatellite():
-			self.locale = "Satellite"
+			self.locale = "TrainMaster"
 		else:
 			self.locale = self.settings.display.locale
 
