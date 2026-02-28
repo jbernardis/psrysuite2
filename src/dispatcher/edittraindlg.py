@@ -23,6 +23,7 @@ class EditTrainDlg(wx.Dialog):
 
 		name = train.Name()
 		loco = train.Loco()
+		self.iname = train.IName()
 		self.name = name
 		# self.block = block
 		
@@ -445,8 +446,19 @@ class EditTrainDlg(wx.Dialog):
 		self.EndModal(wx.ID_CANCEL)
 
 	def onOK(self, _):
-		activeTrainNameMap = {at.Name(): at.IName() for at in self.activeTrains.values()}
+		# make sure, if we're changing the loco, that that Loco ID is not already in use
+		if self.chosenLoco is not None and self.chosenLoco != "??":
+			for at in self.activeTrains.values():
+				if at.IName() != self.iname:
+					if self.chosenLoco == at.Loco():
+						dlg = wx.MessageDialog(self,
+							"Locomotive %s is already being used by train %s" % (self.chosenLoco, at.Name()),
+							"Duplicate Locomotive", wx.OK | wx.ICON_INFORMATION)
+						dlg.ShowModal()
+						dlg.Destroy()
+						return
 
+		activeTrainNameMap = {at.Name(): at.IName() for at in self.activeTrains.values()}
 		if self.chosenTrain != self.name and self.chosenTrain in activeTrainNameMap:
 			iname = activeTrainNameMap[self.chosenTrain]
 			try:
