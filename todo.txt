@@ -22,8 +22,6 @@ specific things that need to be checked:
     Need to test dcc sniffer logic
 
 
-finish log analyzer
-
 
 
 

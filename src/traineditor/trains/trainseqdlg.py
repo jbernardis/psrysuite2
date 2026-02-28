@@ -253,9 +253,7 @@ class TrainSeqDlg(wx.Dialog):
 			"block":   self.availableBlocks[tx][0],
 			"signal":  self.availableBlocks[tx][1],
 			"os":      self.availableBlocks[tx][2],
-			"route":   self.availableBlocks[tx][3],
-			"time":    5000,
-			"trigger": "Front"
+			"route":   self.availableBlocks[tx][3]
 		}
 
 		self.blockSequence.AddBlock(nextStep)

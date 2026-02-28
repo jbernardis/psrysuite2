@@ -35,14 +35,7 @@ interpfg    = sys.executable.replace("pythonw.exe", "python.exe")
 for i in range(len(sys.argv)):
     print("%d: %s" % (i, sys.argv[i]))
 
-if mode == "remotedispatcher":
-    print("Launch mode: remote dispatcher")
-    
-    dispExec = os.path.join(os.getcwd(), "dispatcher", "main.py")
-    dispProc = Popen([interpreter, dispExec, "--dispatch"], stdout=DEVNULL, stderr=DEVNULL, close_fds=True)
-    print("dispatcher started as PID %d" % dispProc.pid)
- 
-elif mode == "dispatcher":
+if mode == "dispatcher":
     print("Launch mode: dispatcher suite")
     
     svrExec = os.path.join(os.getcwd(), "rrserver", "main.py")

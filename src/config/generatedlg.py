@@ -30,14 +30,14 @@ class GenerateDlg(wx.Dialog):
 		self.bGenDispatch = wx.Button(genBox, wx.ID_ANY, "Dispatcher", size=GENBTNSZ)
 		self.Bind(wx.EVT_BUTTON, self.OnBGenDispatch, self.bGenDispatch)
 		vsz.Add(self.bGenDispatch, 0, wx.ALL, 10)
-				
-		self.bGenRemoteDispatch = wx.Button(genBox, wx.ID_ANY, "Remote Dispatcher", size=GENBTNSZ)
-		self.Bind(wx.EVT_BUTTON, self.OnBGenRemoteDispatch, self.bGenRemoteDispatch)
-		vsz.Add(self.bGenRemoteDispatch, 0, wx.ALL, 10)
-					
-		self.bGenSimulation = wx.Button(genBox, wx.ID_ANY, "Simulation", size=GENBTNSZ)
-		self.Bind(wx.EVT_BUTTON, self.OnBGenSimulation, self.bGenSimulation)
-		vsz.Add(self.bGenSimulation, 0, wx.ALL, 10)
+
+		self.bGenServerOnly = wx.Button(genBox, wx.ID_ANY, "Server Only", size=GENBTNSZ)
+		self.Bind(wx.EVT_BUTTON, self.OnBGenServerOnly, self.bGenServerOnly)
+		vsz.Add(self.bGenServerOnly, 0, wx.ALL, 10)
+
+		self.bGenDispatcherOnly = wx.Button(genBox, wx.ID_ANY, "Dispatcher Only", size=GENBTNSZ)
+		self.Bind(wx.EVT_BUTTON, self.OnBGenDispatcherOnly, self.bGenDispatcherOnly)
+		vsz.Add(self.bGenDispatcherOnly, 0, wx.ALL, 10)
 
 		self.bGenDisplay = wx.Button(genBox, wx.ID_ANY, "Display", size=GENBTNSZ)
 		self.Bind(wx.EVT_BUTTON, self.OnBGenDisplay, self.bGenDisplay)
@@ -58,7 +58,11 @@ class GenerateDlg(wx.Dialog):
 		hsz.Add(vsz)
 		
 		vsz = wx.BoxSizer(wx.VERTICAL)
-					
+
+		self.bGenSimulation = wx.Button(genBox, wx.ID_ANY, "Simulation", size=GENBTNSZ)
+		self.Bind(wx.EVT_BUTTON, self.OnBGenSimulation, self.bGenSimulation)
+		vsz.Add(self.bGenSimulation, 0, wx.ALL, 10)
+
 		self.bGenThrottle = wx.Button(genBox, wx.ID_ANY, "Throttle", size=GENBTNSZ)
 		self.Bind(wx.EVT_BUTTON, self.OnBGenThrottle, self.bGenThrottle)
 		vsz.Add(self.bGenThrottle, 0, wx.ALL, 10)
@@ -70,27 +74,23 @@ class GenerateDlg(wx.Dialog):
 		self.bGenEditor = wx.Button(genBox, wx.ID_ANY, "Database Editor", size=GENBTNSZ)
 		self.Bind(wx.EVT_BUTTON, self.OnBGenEditor, self.bGenEditor)
 		vsz.Add(self.bGenEditor, 0, wx.ALL, 10)
-					
+
 		self.bGenSaveLogs = wx.Button(genBox, wx.ID_ANY, "Save Log Files", size=GENBTNSZ)
 		self.Bind(wx.EVT_BUTTON, self.OnBGenSaveLogs, self.bGenSaveLogs)
 		vsz.Add(self.bGenSaveLogs, 0, wx.ALL, 10)
-		
+
+		self.bGenLogAnalyze = wx.Button(genBox, wx.ID_ANY, "Log File Analyzer", size=GENBTNSZ)
+		self.Bind(wx.EVT_BUTTON, self.OnBGenLogAnalyze, self.bGenLogAnalyze)
+		vsz.Add(self.bGenLogAnalyze, 0, wx.ALL, 10)
+
 		hsz.Add(vsz)
 		
 		vsz = wx.BoxSizer(wx.VERTICAL)
-					
-		self.bGenServerOnly = wx.Button(genBox, wx.ID_ANY, "Server Only", size=GENBTNSZ)
-		self.Bind(wx.EVT_BUTTON, self.OnBGenServerOnly, self.bGenServerOnly)
-		vsz.Add(self.bGenServerOnly, 0, wx.ALL, 10)
 
 		self.bGenServerOnlySim = wx.Button(genBox, wx.ID_ANY, "Server Only\n(simulated)", size=GENBTNSZ)
 		self.Bind(wx.EVT_BUTTON, self.OnBGenServerOnlySim, self.bGenServerOnlySim)
 		vsz.Add(self.bGenServerOnlySim, 0, wx.ALL, 10)
 
-		self.bGenDispatcherOnly = wx.Button(genBox, wx.ID_ANY, "Dispatcher Only", size=GENBTNSZ)
-		self.Bind(wx.EVT_BUTTON, self.OnBGenDispatcherOnly, self.bGenDispatcherOnly)
-		vsz.Add(self.bGenDispatcherOnly, 0, wx.ALL, 10)
-					
 		self.bGenTester = wx.Button(genBox, wx.ID_ANY, "Tester", size=GENBTNSZ)
 		self.Bind(wx.EVT_BUTTON, self.OnBGenTester, self.bGenTester)
 		vsz.Add(self.bGenTester, 0, wx.ALL, 10)
@@ -166,17 +166,6 @@ class GenerateDlg(wx.Dialog):
 		}
 		self.generator(module, self.cbStartMenu.IsChecked())
 
-	def OnBGenRemoteDispatch(self, _):
-		module = {
-			"name": "PSRY Remote Dispatcher",
-			"dir":  "launcher",
-			"main": "main.py",
-			"desc": "Launcher for Remote Dispatcher",
-			"icon": "launcher.ico",
-			"parameter": "remotedispatcher"
-		}
-		self.generator(module, self.cbStartMenu.IsChecked())
-		
 	def OnBGenSimulation(self, _):
 		module = {
 			"name": "PSRY Simulator Suite",
@@ -270,6 +259,16 @@ class GenerateDlg(wx.Dialog):
 			"main": "mainframe.py",
 			"desc": "Track Diagram Editor",
 			"icon": "diagedit.ico"
+		}
+		self.generator(module, self.cbStartMenu.IsChecked())
+
+	def OnBGenLogAnalyze(self, _):
+		module = {
+			"name": "PSRY Server Log Analyzer",
+			"dir":  "loganalyzer",
+			"main": "main.py",
+			"desc": "Server Log File Analyzer",
+			"icon": "loganalyze.ico"
 		}
 		self.generator(module, self.cbStartMenu.IsChecked())
 

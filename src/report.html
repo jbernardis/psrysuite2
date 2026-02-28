@@ -6,20 +6,22 @@ td { text-align : center; overflow : hidden;}
 table, th, td { border : 1px solid black; border-collapse : collapse;}
 td.index { width : 10mm; font-weight : bold;}
 td.trainid { width : 20mm; font-weight : bold;}
-td.loco { width : 20mm; font-weight : bold;}
 td.dir { width : 10mm; font-weight : bold;}
-td.engineer { width : 60mm;}
+td.loco { width : 20mm; font-weight : bold;}
+td.locodesc { width : 60mm; font-weight : bold; font-size : 12px;}
+td.engineer { width : 30mm;}
 td.origin { width : 25mm; font-weight : bold;}
 td.terminus { width : 25mm; font-weight : bold;}
 td.freight { background-color : #FFB6B2;}
 td.passenger { background-color : #8AFFBB;}
 p.header { font-family : Arial, sans-serif; font-size : 30px; font-weight : bold;}
 </style>
-</head><body><div style="height: 50px"></div><p align="center" class="header">Main Schedule</p><table><tr><th></th> <th>Train</th> <th>Loco</th> <th>Dir</th> <th>Engineer</th> <th>Origin</th> <th>Terminus</th></tr> <tr>
+</head><body><div style="height: 10px"></div><p align="center" class="header">Main Schedule</p><table><tr><th></th> <th>Train</th> <th>Dir</th> <th colspan="2">Locomotive</th> <th>Eng</th> <th>Origin</th> <th>Terminus</th></tr> <tr>
    <td class="index">1 </td>
    <td class="trainid passenger">21</td>
-   <td class="loco">743</td>
    <td class="dir">W</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
    <td class="engineer"></td>
    <td class="origin">NA(N32)</td>
    <td class="terminus">PT</td>
@@ -27,17 +29,19 @@ p.header { font-family : Arial, sans-serif; font-size : 30px; font-weight : bold
 <tr>
    <td class="index">2 </td>
    <td class="trainid passenger">17</td>
-   <td class="loco">64</td>
    <td class="dir">W</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
    <td class="engineer"></td>
-   <td class="origin">CF(C50)</td>
-   <td class="terminus">YD</td>
+   <td class="origin">CF</td>
+   <td class="terminus">YD(Y50)</td>
 </tr>
 <tr>
    <td class="index">3 </td>
    <td class="trainid passenger">18</td>
-   <td class="loco">2124</td>
    <td class="dir">E</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
    <td class="engineer"></td>
    <td class="origin">YD(Y50)</td>
    <td class="terminus">CF</td>
@@ -45,8 +49,9 @@ p.header { font-family : Arial, sans-serif; font-size : 30px; font-weight : bold
 <tr>
    <td class="index">4 </td>
    <td class="trainid passenger">91</td>
-   <td class="loco"></td>
    <td class="dir">W</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
    <td class="engineer"></td>
    <td class="origin">HF</td>
    <td class="terminus">PT</td>
@@ -54,224 +59,269 @@ p.header { font-family : Arial, sans-serif; font-size : 30px; font-weight : bold
 <tr>
    <td class="index">5 </td>
    <td class="trainid passenger">96</td>
-   <td class="loco">7000</td>
    <td class="dir">E</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
    <td class="engineer"></td>
    <td class="origin">YD(Y53)</td>
    <td class="terminus">HF</td>
 </tr>
 <tr>
    <td class="index">6 </td>
-   <td class="trainid freight">HEX</td>
-   <td class="loco">185</td>
+   <td class="trainid freight">CFYD</td>
+   <td class="dir">W</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
+   <td class="engineer"></td>
+   <td class="origin">CF</td>
+   <td class="terminus">YD</td>
+</tr>
+<tr>
+   <td class="index">7 </td>
+   <td class="trainid freight">YDCF</td>
    <td class="dir">E</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
+   <td class="engineer"></td>
+   <td class="origin">YD(Y20)</td>
+   <td class="terminus">CF</td>
+</tr>
+<tr>
+   <td class="index">8 </td>
+   <td class="trainid freight">HEX</td>
+   <td class="dir">E</td>
+   <td class="loco">185</td>
+   <td class="locodesc">Western Maryland (4) / Empty Coal</td>
    <td class="engineer"></td>
    <td class="origin">HY(H40)</td>
    <td class="terminus">HY(H40)</td>
 </tr>
 <tr>
-   <td class="index">7 </td>
+   <td class="index">9 </td>
    <td class="trainid passenger">71</td>
-   <td class="loco">196</td>
    <td class="dir">W</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
    <td class="engineer"></td>
    <td class="origin">HY(H34)</td>
    <td class="terminus">PT</td>
 </tr>
 <tr>
-   <td class="index">8 </td>
+   <td class="index">10</td>
    <td class="trainid passenger">64</td>
-   <td class="loco">6013</td>
    <td class="dir">E</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
    <td class="engineer"></td>
    <td class="origin">YD(Y52)</td>
    <td class="terminus">PT</td>
 </tr>
 <tr>
-   <td class="index">9 </td>
+   <td class="index">11</td>
    <td class="trainid freight">HYYD</td>
-   <td class="loco">59(s)</td>
    <td class="dir">W</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
    <td class="engineer"></td>
-   <td class="origin">HY(H33)</td>
+   <td class="origin">HY</td>
    <td class="terminus">YD</td>
 </tr>
 <tr>
-   <td class="index">10</td>
+   <td class="index">12</td>
    <td class="trainid passenger">61</td>
-   <td class="loco"></td>
    <td class="dir">W</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
    <td class="engineer"></td>
-   <td class="origin">NA</td>
+   <td class="origin">NA(Coach)</td>
    <td class="terminus">PT</td>
 </tr>
 <tr>
-   <td class="index">11</td>
+   <td class="index">13</td>
    <td class="trainid passenger">43</td>
-   <td class="loco">194</td>
    <td class="dir">W</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
    <td class="engineer"></td>
-   <td class="origin">CF(C31)</td>
-   <td class="terminus">NA</td>
+   <td class="origin">CF</td>
+   <td class="terminus">NA(N32)</td>
 </tr>
 <tr>
-   <td class="index">12</td>
+   <td class="index">14</td>
    <td class="trainid passenger">73</td>
-   <td class="loco">4113</td>
    <td class="dir">W</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
    <td class="engineer"></td>
    <td class="origin">HY(H12)</td>
-   <td class="terminus">HY</td>
+   <td class="terminus">HY(H34)</td>
 </tr>
 <tr>
-   <td class="index">13</td>
+   <td class="index">15</td>
    <td class="trainid passenger">44</td>
-   <td class="loco">4515</td>
    <td class="dir">E</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
    <td class="engineer"></td>
    <td class="origin">NA(N42)</td>
    <td class="terminus">GM</td>
 </tr>
 <tr>
-   <td class="index">14</td>
-   <td class="trainid passenger">81</td>
-   <td class="loco">5024</td>
-   <td class="dir">W</td>
-   <td class="engineer"></td>
-   <td class="origin">CF(C52)</td>
-   <td class="terminus">HY</td>
-</tr>
-<tr>
-   <td class="index">15</td>
-   <td class="trainid freight">CFHY</td>
-   <td class="loco">7447</td>
-   <td class="dir">W</td>
-   <td class="engineer"></td>
-   <td class="origin">CF(C42)</td>
-   <td class="terminus">HY</td>
-</tr>
-<tr>
    <td class="index">16</td>
-   <td class="trainid passenger">82</td>
-   <td class="loco">905</td>
-   <td class="dir">E</td>
+   <td class="trainid passenger">81</td>
+   <td class="dir">W</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
    <td class="engineer"></td>
-   <td class="origin">HY(H41)</td>
-   <td class="terminus">SH</td>
+   <td class="origin">CF</td>
+   <td class="terminus">HY(H12)</td>
 </tr>
 <tr>
    <td class="index">17</td>
-   <td class="trainid passenger">11</td>
-   <td class="loco">860</td>
+   <td class="trainid freight">CFHY</td>
    <td class="dir">W</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
    <td class="engineer"></td>
-   <td class="origin">CF(C51)</td>
-   <td class="terminus">YD</td>
+   <td class="origin">CF</td>
+   <td class="terminus">HY</td>
 </tr>
 <tr>
    <td class="index">18</td>
-   <td class="trainid passenger">12</td>
-   <td class="loco">700</td>
+   <td class="trainid passenger">82</td>
    <td class="dir">E</td>
-   <td class="engineer"></td>
-   <td class="origin">YD(Y51)</td>
-   <td class="terminus">CF</td>
-</tr>
-<tr>
-   <td class="index">19</td>
-   <td class="trainid freight">HYCF</td>
-   <td class="loco">8445</td>
-   <td class="dir">E</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
    <td class="engineer"></td>
    <td class="origin">HY(H42)</td>
    <td class="terminus">CF</td>
 </tr>
 <tr>
-   <td class="index">20</td>
-   <td class="trainid passenger">22</td>
-   <td class="loco">1968</td>
-   <td class="dir">E</td>
+   <td class="index">19</td>
+   <td class="trainid passenger">11</td>
+   <td class="dir">W</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
    <td class="engineer"></td>
-   <td class="origin">PT(P3)</td>
-   <td class="terminus">NA(N42)</td>
+   <td class="origin">CF</td>
+   <td class="terminus">YD(Y51)</td>
+</tr>
+<tr>
+   <td class="index">20</td>
+   <td class="trainid passenger">12</td>
+   <td class="dir">E</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
+   <td class="engineer"></td>
+   <td class="origin">YD(Y51)</td>
+   <td class="terminus">CF</td>
 </tr>
 <tr>
    <td class="index">21</td>
-   <td class="trainid passenger">95</td>
+   <td class="trainid freight">HYCF</td>
+   <td class="dir">E</td>
    <td class="loco"></td>
-   <td class="dir">W</td>
+   <td class="locodesc"></td>
    <td class="engineer"></td>
-   <td class="origin">HF</td>
-   <td class="terminus">YD</td>
+   <td class="origin">HY</td>
+   <td class="terminus">CF</td>
 </tr>
 <tr>
    <td class="index">22</td>
-   <td class="trainid passenger">84</td>
-   <td class="loco">5450</td>
+   <td class="trainid passenger">22</td>
    <td class="dir">E</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
    <td class="engineer"></td>
-   <td class="origin">HY(H22)</td>
-   <td class="terminus">HY</td>
+   <td class="origin">PT</td>
+   <td class="terminus">NA(N42)</td>
 </tr>
 <tr>
    <td class="index">23</td>
-   <td class="trainid passenger">72</td>
-   <td class="loco">198</td>
-   <td class="dir">E</td>
+   <td class="trainid passenger">95</td>
+   <td class="dir">W</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
    <td class="engineer"></td>
-   <td class="origin">PT(P1)</td>
-   <td class="terminus">HY</td>
+   <td class="origin">HF</td>
+   <td class="terminus">YD(Y53)</td>
 </tr>
 <tr>
    <td class="index">24</td>
-   <td class="trainid passenger">63</td>
+   <td class="trainid passenger">84</td>
+   <td class="dir">E</td>
    <td class="loco"></td>
-   <td class="dir">W</td>
+   <td class="locodesc"></td>
    <td class="engineer"></td>
-   <td class="origin">PT</td>
-   <td class="terminus">YD</td>
+   <td class="origin">HY(H43)</td>
+   <td class="terminus">HY(H42)</td>
 </tr>
 <tr>
    <td class="index">25</td>
-   <td class="trainid freight">YDHY</td>
-   <td class="loco">47(s)</td>
+   <td class="trainid passenger">72</td>
    <td class="dir">E</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
    <td class="engineer"></td>
-   <td class="origin">YD(Y70)</td>
-   <td class="terminus">HY</td>
+   <td class="origin">PT</td>
+   <td class="terminus">HY(H43)</td>
 </tr>
 <tr>
    <td class="index">26</td>
-   <td class="trainid freight">HWX</td>
-   <td class="loco">5304</td>
+   <td class="trainid passenger">63</td>
    <td class="dir">W</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
+   <td class="engineer"></td>
+   <td class="origin">PT</td>
+   <td class="terminus">YD(Y52)</td>
+</tr>
+<tr>
+   <td class="index">27</td>
+   <td class="trainid freight">YDHY</td>
+   <td class="dir">E</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
+   <td class="engineer"></td>
+   <td class="origin">YD</td>
+   <td class="terminus">HY</td>
+</tr>
+<tr>
+   <td class="index">28</td>
+   <td class="trainid freight">HWX</td>
+   <td class="dir">W</td>
+   <td class="loco">5304</td>
+   <td class="locodesc">Reading (6) / Full Coal Train</td>
    <td class="engineer"></td>
    <td class="origin">HY(H30)</td>
    <td class="terminus">HY(H30)</td>
 </tr>
 <tr>
-   <td class="index">27</td>
+   <td class="index">29</td>
    <td class="trainid passenger">92</td>
-   <td class="loco"></td>
    <td class="dir">E</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
    <td class="engineer"></td>
    <td class="origin">PT</td>
    <td class="terminus">HF</td>
 </tr>
 <tr>
-   <td class="index">28</td>
+   <td class="index">30</td>
    <td class="trainid passenger">62</td>
-   <td class="loco"></td>
    <td class="dir">E</td>
+   <td class="loco"></td>
+   <td class="locodesc"></td>
    <td class="engineer"></td>
    <td class="origin">PT</td>
-   <td class="terminus">NA</td>
+   <td class="terminus">NA(Coach)</td>
 </tr>
 <tr>
-   <td class="index">29</td>
+   <td class="index">31</td>
    <td class="trainid freight">PBCX</td>
-   <td class="loco">4023</td>
    <td class="dir">W</td>
+   <td class="loco">4023</td>
+   <td class="locodesc">UP 4-8-8-4 / Pate Bros Circus</td>
    <td class="engineer"></td>
    <td class="origin">HY(H32)</td>
    <td class="terminus">HY(H32)</td>

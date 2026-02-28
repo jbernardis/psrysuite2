@@ -1,5 +1,6 @@
 import wx
 import os
+import sys
 import subprocess
 import qrcode
 import logging
@@ -92,9 +93,10 @@ class SchedulesReport(Report):
 		css.addElement("table, th, td", {'border': "1px solid black", 'border-collapse': 'collapse'})
 		css.addElement("td.index", {"width": "10mm", "font-weight": "bold"})
 		css.addElement("td.trainid", {"width": "20mm", "font-weight": "bold"})
-		css.addElement("td.loco", {"width": "20mm", "font-weight": "bold"})
 		css.addElement("td.dir", {"width": "10mm", "font-weight": "bold"})
-		css.addElement("td.engineer", {"width": "60mm"})
+		css.addElement("td.loco", {"width": "20mm", "font-weight": "bold"})
+		css.addElement("td.locodesc", {"width": "60mm", "font-weight": "bold", "font-size": "12px"})
+		css.addElement("td.engineer", {"width": "30mm"})
 		css.addElement("td.origin", {"width": "25mm", "font-weight": "bold"})
 		css.addElement("td.terminus", {"width": "25mm", "font-weight": "bold"})
 		css.addElement("td.freight", {"background-color": "#FFB6B2"})
@@ -109,12 +111,13 @@ class SchedulesReport(Report):
 		header = HTML.tr({},
 					HTML.th({}, ""),
 					HTML.th({}, "Train"),
-					HTML.th({}, "Loco"),
 					HTML.th({}, "Dir"),
-					HTML.th({}, "Engineer"),
+					HTML.th({"colspan": "2"}, "Locomotive"),
+					HTML.th({}, "Eng"),
 					HTML.th({}, "Origin"),
 					HTML.th({}, "Terminus"),
 					)
+		# HTML.th({}, "Desc"),
 
 		activetrains = rrserver.Get("activetrains", {})
 		logging.debug("active trains = %s" % str(activetrains))
@@ -127,7 +130,7 @@ class SchedulesReport(Report):
 			rowx += 1
 
 		if len(rows) > 0:
-			html += HTML.div({"style": "height: 50px"})
+			html += HTML.div({"style": "height: 10px"})
 			html += HTML.p({'align': 'center', 'class': 'header'}, "Main Schedule")
 			html += HTML.table({}, header, "".join(rows))
 
@@ -176,12 +179,16 @@ class SchedulesReport(Report):
 			if aloco is not None and aloco != "??":
 				loco = aloco
 
+		desc = ""
 		if loco is None:
 			loco = ""
+
 		else:
 			linfo = self.locos.getLoco(loco)
-			if linfo is not None and linfo["short"]:
-				loco += "(s)"
+			if linfo is not None:
+				desc = linfo["desc"]
+				if linfo["short"]:
+					loco += "(s)"
 
 		passenger = tid[0].isdigit()
 
@@ -197,8 +204,9 @@ class SchedulesReport(Report):
 		return HTML.tr({},
 				"\n   " + HTML.td({"class": "index"}, index) + "\n",
 				"  " + HTML.td({"class": "trainid %s" % colorClass}, tid) + "\n",
-				"  " + HTML.td({"class": "loco"}, loco) + "\n",
 				"  " + HTML.td({"class": "dir"}, "E" if east else "W") + "\n",
+				"  " + HTML.td({"class": "loco"}, loco) + "\n",
+				"  " + HTML.td({"class": "locodesc"}, desc) + "\n",
 				"  " + HTML.td({"class": "engineer"}, engineer) + "\n",
 				"  " + HTML.td({"class": "origin"}, origin) + "\n",
 				"  " + HTML.td({"class": "terminus"}, terminus) + "\n"

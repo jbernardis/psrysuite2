@@ -17,7 +17,6 @@ class EditTrainDlg(wx.Dialog):
 
 		self.train = train
 		self.activeTrains = activeTrains
-		self.activeTrainNameMap = {at.Name(): at.IName() for at in self.activeTrains.values()}
 
 		vsz = wx.BoxSizer(wx.VERTICAL)
 		vsz.AddSpacer(20)
@@ -446,9 +445,14 @@ class EditTrainDlg(wx.Dialog):
 		self.EndModal(wx.ID_CANCEL)
 
 	def onOK(self, _):
-		if self.chosenTrain != self.name and self.chosenTrain in self.activeTrainNameMap:
-			iname = self.activeTrainNameMap[self.chosenTrain]
-			blist = self.activeTrains[iname].Blocks()
+		activeTrainNameMap = {at.Name(): at.IName() for at in self.activeTrains.values()}
+
+		if self.chosenTrain != self.name and self.chosenTrain in activeTrainNameMap:
+			iname = activeTrainNameMap[self.chosenTrain]
+			try:
+				blist = self.activeTrains[iname].Blocks()
+			except KeyError:
+				blist = []
 			plural = "s\n" if len(blist) > 1 else " "
 			bstr = ", ".join(blist)
 			dlg = wx.MessageDialog(self, "Train %s already exists on the layout\nin block%s%s\n\nPress \"YES\" to cancel the dialog, or \n\"NO\" to remain to make other changes" % (self.chosenTrain, plural, bstr),
@@ -457,8 +461,11 @@ class EditTrainDlg(wx.Dialog):
 			dlg.Destroy()
 			if len(blist) == 0:
 				logging.debug("we found a %s train with no blocks" % self.chosenTrain)
-				logging.debug("active train name map: %s" % str(self.activeTrainNameMap))
-				self.activeTrains[iname].Dump()
+				logging.debug("active train name map: %s" % str(activeTrainNameMap))
+				try:
+					self.activeTrains[iname].Dump()
+				except KeyError:
+					logging.debug("Train not found in active train list: %s" % self.chosenTrain)
 
 			if rc == wx.ID_YES:
 				self.EndModal(wx.ID_CANCEL)
