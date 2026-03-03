@@ -101,6 +101,8 @@ class SchedulesReport(Report):
 		css.addElement("td.terminus", {"width": "25mm", "font-weight": "bold"})
 		css.addElement("td.freight", {"background-color": "#FFB6B2"})
 		css.addElement("td.passenger", {"background-color": "#8AFFBB"})
+		css.addElement("td.east", {"background-color": "#FFB6B2"})
+		css.addElement("td.west", {"background-color": "#8AFFBB"})
 		css.addElement("p.header", {"font-family": 'Arial, sans-serif', "font-size": "30px", "font-weight": "bold"})
 
 		html = HTML.starthtml()
@@ -194,7 +196,8 @@ class SchedulesReport(Report):
 
 		engineer = ""
 
-		colorClass = "passenger" if passenger else "freight"
+		# colorClass = "passenger" if passenger else "freight"
+		eastWestClass = "east" if east else "west"
 
 		if alpha:
 			index = chr(ord('A') + rowx - 1)
@@ -203,13 +206,13 @@ class SchedulesReport(Report):
 
 		return HTML.tr({},
 				"\n   " + HTML.td({"class": "index"}, index) + "\n",
-				"  " + HTML.td({"class": "trainid %s" % colorClass}, tid) + "\n",
-				"  " + HTML.td({"class": "dir"}, "E" if east else "W") + "\n",
-				"  " + HTML.td({"class": "loco"}, loco) + "\n",
-				"  " + HTML.td({"class": "locodesc"}, desc) + "\n",
+				"  " + HTML.td({"class": "trainid %s" % eastWestClass}, tid) + "\n",
+				"  " + HTML.td({"class": "dir %s" % eastWestClass}, "E" if east else "W") + "\n",
+				"  " + HTML.td({"class": "loco %s" % eastWestClass}, loco) + "\n",
+				"  " + HTML.td({"class": "locodesc %s" % eastWestClass}, desc) + "\n",
 				"  " + HTML.td({"class": "engineer"}, engineer) + "\n",
-				"  " + HTML.td({"class": "origin"}, origin) + "\n",
-				"  " + HTML.td({"class": "terminus"}, terminus) + "\n"
+				"  " + HTML.td({"class": "origin %s" % eastWestClass}, origin) + "\n",
+				"  " + HTML.td({"class": "terminus %s" % eastWestClass}, terminus) + "\n"
 				) + "\n"
 
 	def ScheduleReportXL(self, roster, locos, sched, rrserver):

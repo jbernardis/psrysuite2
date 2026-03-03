@@ -89,8 +89,7 @@ class InspectDlg(wx.Dialog):
         bIgnoreBlks = wx.Button(self, wx.ID_ANY, "Ignore Blocks", size=BSIZE)
         self.Bind(wx.EVT_BUTTON, self.OnBIgnoreBlks, bIgnoreBlks)
         btnszr3.Add(bIgnoreBlks)
-
-        if self.settings.scanner.enable:
+        if self.parent.IsDispatcherOrSatellite() and self.settings.scanner.enable:
             btnszr3.AddSpacer(10)
 
             bScanner = wx.Button(self, wx.ID_ANY, "Scanner", size=BSIZE)
@@ -329,7 +328,7 @@ class InspectDlg(wx.Dialog):
 
     def OnBScanner(self, _):
         fn = os.path.join(os.getcwd(), "qrcodes", "scanner_battery.png")
-        dlg = MyPngDlg(self, fn)
+        dlg = ScannerDlg(self, fn, self.parent)
         dlg.ShowModal()
         dlg.Destroy()
 
@@ -337,10 +336,12 @@ class InspectDlg(wx.Dialog):
         self.closer()
 
 
-class MyPngDlg(wx.Dialog):
-    def __init__(self, parent, pngfile):
+class ScannerDlg(wx.Dialog):
+    def __init__(self, parent, pngfile, frame):
         wx.Dialog.__init__(self, parent, wx.ID_ANY, "Scanner")
         self.Bind(wx.EVT_CLOSE, self.OnClose)
+
+        self.frame = frame
 
         vsz = wx.BoxSizer(wx.VERTICAL)
         vsz.AddSpacer(20)
@@ -356,6 +357,12 @@ class MyPngDlg(wx.Dialog):
 
         vsz.AddSpacer(20)
 
+        bReset = wx.Button(self, wx.ID_ANY, "Reset", size=BSIZE)
+        vsz.Add(bReset, 0, wx.ALIGN_CENTER_HORIZONTAL)
+        self.Bind(wx.EVT_BUTTON, self.OnBReset, bReset)
+
+        vsz.AddSpacer(20)
+
         hsz = wx.BoxSizer(wx.HORIZONTAL)
         hsz.AddSpacer(20)
         hsz.Add(vsz)
@@ -364,6 +371,11 @@ class MyPngDlg(wx.Dialog):
         self.SetSizer(hsz)
         self.Layout()
         self.Fit()
+
+    def OnBReset(self, _):
+        logging.debug("re/starting scanner process")
+        self.frame.StartScanner()
+        logging.debug("back from startscanner")
 
     def OnClose(self, evt):
         self.EndModal(wx.ID_OK)

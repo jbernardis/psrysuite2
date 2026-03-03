@@ -772,13 +772,25 @@ class MainFrame(wx.Frame):
 		self.SendSidingsUnlocked()
 
 	def StartScanner(self):
+		logging.debug("start scanner.  First try to kill it if it's running")
+		if self.ScanProc:
+			try:
+				logging.debug("sending kill")
+				self.ScanProc.kill()
+			except Exception as e:
+				logging.debug("Exception %s killling scanner process" % str(e))
+				pass
+
+			self.ScanProc = None
+
+		logging.debug("now start it up")
 		interpreter = sys.executable.replace("pythonx.exe", "python.exe")
 		logging.debug("Scanner exeutable = \"%s\"" % interpreter)
-		if self.ScanProc is None:
-			ScanExec = os.path.join(os.getcwd(), "scanner", "main.py")
-			logging.debug("scanner program: \"%s\"" % ScanExec)
-			self.ScanProc = Popen([interpreter, ScanExec])
-			logging.info("Scanner process started as PID %d" % self.ScanProc.pid)
+
+		ScanExec = os.path.join(os.getcwd(), "scanner", "main.py")
+		logging.debug("scanner program: \"%s\"" % ScanExec)
+		self.ScanProc = Popen([interpreter, ScanExec])
+		logging.info("Scanner process started as PID %d" % self.ScanProc.pid)
 
 	def OnBAutoRouter(self, evt):
 		if self.C13ARProc is not None and self.C13ARProc.poll() is None:
@@ -2483,8 +2495,9 @@ class MainFrame(wx.Frame):
 					self.cbSidingsUnlocked.Enable(True)
 
 			self.RetrieveData()
-			if self.settings.scanner.enable:
-				self.StartScanner()
+			if self.IsDispatcherOrSatellite():
+				if self.settings.scanner.enable:
+					self.StartScanner()
 
 		self.breakerDisplay.UpdateDisplay()
 		self.ShowTitle()

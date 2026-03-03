@@ -380,7 +380,7 @@
     "normalloco": null,
     "origin": {
       "loc": "YD",
-      "track": "Y20"
+      "track": null
     },
     "sequence": [
       {
@@ -1056,12 +1056,7 @@
       ],
       [
         "NASSAU",
-        "Wilson City (N31 or N32)",
-        0
-      ],
-      [
-        "",
-        "Coach Yard",
+        "Wilson City (N32)",
         0
       ]
     ],
@@ -1192,12 +1187,7 @@
     "tracker": [
       [
         "NASSAU",
-        "Coach Yard",
-        0
-      ],
-      [
-        "",
-        "Wilcon City (N41 or N42)",
+        "Wilcon City (N42)",
         0
       ],
       [
@@ -2071,12 +2061,7 @@
       ],
       [
         "NASSAU",
-        "Wilson City (N41 or N42)",
-        0
-      ],
-      [
-        "",
-        "To Coach Yard",
+        "Wilson City (N42)",
         0
       ]
     ],
@@ -2998,12 +2983,7 @@
     "tracker": [
       [
         "NASSAU",
-        "Coach Yard",
-        0
-      ],
-      [
-        "",
-        "Wilson City (N31 or N32)",
+        "Wilson City (N32)",
         0
       ],
       [
