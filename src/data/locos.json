@@ -114,7 +114,7 @@
       "dec": 1
     },
     "limit": 0,
-    "short": false
+    "short": true
   },
   "68": {
     "desc": "PSRY F8 / Exectrix",
@@ -442,14 +442,14 @@
     "short": false
   },
   "498": {
-    "desc": "ATSF 4-4-0 Coal / Nassau Nrth",
+    "desc": "ATSF 4-4-0 Coal / Nassau North",
     "prof": {
-      "acc": 1,
-      "dec": 1,
-      "fast": 80,
-      "medium": 58,
+      "start": 0,
       "slow": 10,
-      "start": 0
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
     },
     "limit": 0,
     "short": false
@@ -611,14 +611,14 @@
     "short": false
   },
   "905": {
-    "desc": "Reading (2) / Cursader",
+    "desc": "Reading (2) / Crusader",
     "prof": {
-      "acc": 1,
-      "dec": 1,
-      "fast": 75,
-      "medium": 56,
+      "start": 5,
       "slow": 15,
-      "start": 5
+      "medium": 56,
+      "fast": 75,
+      "acc": 1,
+      "dec": 1
     },
     "limit": 0,
     "short": false
@@ -854,7 +854,8 @@
       "acc": 1,
       "dec": 1
     },
-    "short": false
+    "short": false,
+    "limit": 0
   },
   "2049": {
     "desc": null,
@@ -1152,7 +1153,8 @@
       "acc": 1,
       "dec": 1
     },
-    "short": false
+    "short": false,
+    "limit": 0
   },
   "4023": {
     "desc": "UP 4-8-8-4 / Pate Bros Circus",
@@ -1749,7 +1751,8 @@
       "acc": 1,
       "dec": 1
     },
-    "short": false
+    "short": false,
+    "limit": 0
   },
   "7519": {
     "desc": null,
@@ -1813,7 +1816,8 @@
       "acc": 1,
       "dec": 1
     },
-    "short": false
+    "short": false,
+    "limit": 0
   },
   "9002": {
     "desc": "Indiana / Tank Train",

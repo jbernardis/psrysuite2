@@ -1,6 +1,8 @@
 import wx
-import os
+import wx.adv
+
 import sys
+import os
 import subprocess
 import qrcode
 import logging
@@ -9,8 +11,7 @@ from openpyxl.styles import Font, Border, Alignment, Side, PatternFill
 
 import utilities.HTML as HTML
 from traineditor.reports import Report
-from traineditor.trains.choosetrains import ChooseTrainsDlg, ChooseScheduleDlg
-from traineditor.trains.schedule import Schedule
+from traineditor.trains.choosetrains import ChooseTrainsDlg
 
 BTNSZ = (120, 46)
 
@@ -41,17 +42,20 @@ class ManageSchedules:
 		r = TrainCardsReport(self.parent, self.browser)
 		r.TrainCards(self.roster, sched)
 
-	def ScheduleReport(self, sched):
+	def ScheduleReport(self, sched, selTrain):
 		dlg = SchedParmsDlg(self.parent)
 		rc = dlg.ShowModal()
 		if rc != wx.ID_OK:
 			dlg.Destroy()
 			return
 
-		live, html, excel = dlg.GetResults()
+		odate, live, resume, html, excel = dlg.GetResults()
 		dlg.Destroy()
 
-		r = SchedulesReport(self.parent, self.browser, self.spreadsheet, live)
+		if not resume:
+			selTrain = None
+
+		r = SchedulesReport(self.parent, self.browser, self.spreadsheet, live,  odate, selTrain)
 
 		if html:
 			r.ScheduleReportHTML(self.roster, self.locos, sched, self.rrserver)
@@ -61,15 +65,29 @@ class ManageSchedules:
 
 
 class SchedulesReport(Report):
-	def __init__(self, parent, browser, spreadsheet, live):
+	def __init__(self, parent, browser, spreadsheet, live, odate, selTrain):
 		Report.__init__(self, parent, browser, spreadsheet)
 		self.parent = parent
 		self.roster = None
 		self.locos = None
 		self.useLiveData = live
+		self.selectedTrain = selTrain
+		self.odate = odate
 
 		self.passengerFill = PatternFill(start_color="FF8AFFBB", fill_type="solid")
 		self.freightFill = PatternFill(start_color="FFFFB6B2", fill_type="solid")
+
+	@staticmethod
+	def GetRange(sched, selectedTrain):
+		if selectedTrain is None:
+			return list(range(len(sched)))
+
+		try:
+			ix = sched.index(selectedTrain)
+		except ValueError:
+			return list(range(len(sched)))
+
+		return list(range(ix, len(sched))) + list(range(ix))
 
 	def ScheduleReportHTML(self, roster, locos, sched, rrserver):
 		self.roster = roster
@@ -85,8 +103,8 @@ class SchedulesReport(Report):
 			return
 
 		css = HTML.StyleSheet()
-		css.addElement("table", {"border-collapse": "collapse", "border-spacing": "0", "width": "170mm",
-								 "font-family": 'Arial, sans-serif', "font-size": "20px", "margin-left": "auto",
+		css.addElement("table", {"border-collapse": "collapse", "border-spacing": "0", "width": "230mm",
+								 "font-family": 'Arial, sans-serif', "font-size": "14px", "margin-left": "auto",
 								 "margin-right": "auto"})
 		css.addElement("th", {'text-align': 'center', 'overflow': 'hidden'})
 		css.addElement("td", {'text-align': 'center', 'overflow': 'hidden'})
@@ -95,10 +113,10 @@ class SchedulesReport(Report):
 		css.addElement("td.trainid", {"width": "20mm", "font-weight": "bold"})
 		css.addElement("td.dir", {"width": "10mm", "font-weight": "bold"})
 		css.addElement("td.loco", {"width": "20mm", "font-weight": "bold"})
-		css.addElement("td.locodesc", {"width": "60mm", "font-weight": "bold", "font-size": "12px"})
-		css.addElement("td.engineer", {"width": "30mm"})
-		css.addElement("td.origin", {"width": "25mm", "font-weight": "bold"})
-		css.addElement("td.terminus", {"width": "25mm", "font-weight": "bold"})
+		css.addElement("td.locodesc", {"width": "340mm", "font-weight": "bold", "font-size": "12px"})
+		css.addElement("td.engineer", {"width": "60mm"})
+		css.addElement("td.origin", {"width": "32mm", "font-weight": "bold"})
+		css.addElement("td.terminus", {"width": "32mm", "font-weight": "bold"})
 		css.addElement("td.freight", {"background-color": "#FFB6B2"})
 		css.addElement("td.passenger", {"background-color": "#8AFFBB"})
 		css.addElement("td.east", {"background-color": "#FFB6B2"})
@@ -114,26 +132,29 @@ class SchedulesReport(Report):
 					HTML.th({}, ""),
 					HTML.th({}, "Train"),
 					HTML.th({}, "Dir"),
-					HTML.th({"colspan": "2"}, "Locomotive"),
+					HTML.th({}, "Loco"),
+					HTML.th({}, "Description"),
 					HTML.th({}, "Eng"),
 					HTML.th({}, "Origin"),
 					HTML.th({}, "Terminus"),
 					)
-		# HTML.th({}, "Desc"),
 
 		activetrains = rrserver.Get("activetrains", {})
 		logging.debug("active trains = %s" % str(activetrains))
 
 		rows = []
 		rowx = 1
-		for tid in sched.getSchedule():
+		sch = sched.getSchedule()
+		schSeq = self.GetRange(sch, self.selectedTrain)
+		for tx in schSeq:
+			tid = sch[tx]
 			tinfo = activetrains.get(tid, None) if self.useLiveData else None
 			rows.append(self.formatTableRow(tid, tinfo, rowx))
 			rowx += 1
 
 		if len(rows) > 0:
 			html += HTML.div({"style": "height: 10px"})
-			html += HTML.p({'align': 'center', 'class': 'header'}, "Main Schedule")
+			html += HTML.p({'align': 'center', 'class': 'header'}, "Train Schedule for %s" % self.odate)
 			html += HTML.table({}, header, "".join(rows))
 
 		rows = []
@@ -167,7 +188,9 @@ class SchedulesReport(Report):
 			if tinfo is not None:
 				blks = tinfo.get("blocks", None)
 				if blks is not None and len(blks) > 0:
-					trk = blks[0]
+					if trk != blks[0]:
+						trk = blks[0] + "*"
+
 			if trk is not None:
 				origin += "(%s)" % trk
 			terminus = "%s" % r["terminus"]["loc"]
@@ -181,14 +204,19 @@ class SchedulesReport(Report):
 			if aloco is not None and aloco != "??":
 				loco = aloco
 
-		desc = ""
+		desc = r.get("desc", "")
 		if loco is None:
 			loco = ""
 
 		else:
 			linfo = self.locos.getLoco(loco)
 			if linfo is not None:
-				desc = linfo["desc"]
+				if len(desc) == 0:
+					desc = linfo["desc"]
+				else:
+					if len(linfo["desc"]) > 0:
+						desc = linfo["desc"] + " / " + desc
+
 				if linfo["short"]:
 					loco += "(s)"
 
@@ -236,18 +264,20 @@ class SchedulesReport(Report):
 		ws.column_dimensions['A'].width = 6
 		ws.column_dimensions['B'].width = 10
 		ws.column_dimensions['C'].width = 10
-		ws.column_dimensions['D'].width = 6
-		ws.column_dimensions['E'].width = 30
-		ws.column_dimensions['F'].width = 14
+		ws.column_dimensions['D'].width = 30
+		ws.column_dimensions['E'].width = 6
+		ws.column_dimensions['F'].width = 10
 		ws.column_dimensions['G'].width = 14
+		ws.column_dimensions['H'].width = 14
 
 		ft14bold = Font(name='Arial', bold=True, size=14)
+		ft12 = Font(name='Arial', size=12)
 		ft14 = Font(name='Arial', size=14)
 		aligncenter = Alignment(horizontal="center")
 
 		ws.merge_cells('A2:G2')
 		top_left_cell = ws['A2']
-		top_left_cell.value = "Main Schedule"
+		top_left_cell.value = "Train Schedule for %s" % self.odate
 		top_left_cell.alignment = Alignment(horizontal="center")
 		top_left_cell.font = Font(name='Arial', bold=True, size=24)
 
@@ -255,14 +285,18 @@ class SchedulesReport(Report):
 		ws.cell(row=4, column=1, value="")
 		ws.cell(row=4, column=2, value="Train")
 		ws.cell(row=4, column=3, value="Loco")
-		ws.cell(row=4, column=4, value="Dir")
-		ws.cell(row=4, column=5, value="Engineer")
-		ws.cell(row=4, column=6, value="Origin")
-		ws.cell(row=4, column=7, value="Terminus")
+		ws.cell(row=4, column=4, value="Desc")
+		ws.cell(row=4, column=5, value="Dir")
+		ws.cell(row=4, column=6, value="Eng")
+		ws.cell(row=4, column=7, value="Origin")
+		ws.cell(row=4, column=8, value="Terminus")
 
 		rowx = 5
 		index = 1
-		for tid in sched.getSchedule():
+		sch = sched.getSchedule()
+		schSeq = self.GetRange(sch, self.selectedTrain)
+		for tx in schSeq:
+			tid = sch[tx]
 			tinfo = activetrains.get(tid, None) if self.useLiveData else None
 			self.formatSheetRow(tid, tinfo, ws, rowx, index)
 			rowx += 1
@@ -274,17 +308,23 @@ class SchedulesReport(Report):
 			top=Side(border_style="thin", color='FF000000'),
 			bottom=Side(border_style="thin", color='FF000000'))
 
-		for row in ws["A4:G4"]:
+		for row in ws["A4:H4"]:
 			for cell in row:
 				cell.font = ft14bold
 				cell.alignment = aligncenter
 				cell.border = border
 
-		for row in ws["A5:G%s" % (rowx-1)]:
+		for row in ws["A5:H%s" % (rowx-1)]:
 			for cell in row:
 				cell.font = ft14
 				cell.alignment = aligncenter
 				cell.border = border
+
+		for row in ws["D5:D%s" % (rowx-1)]:
+			for cell in row:
+				cell.font = ft12
+				cell.border = border
+				cell.alignment = Alignment(wrap_text=True, vertical='top', horizontal="center")
 
 		if sched.lenExtras() > 0:
 			rowx += 2
@@ -344,10 +384,17 @@ class SchedulesReport(Report):
 			if aloco is not None:
 				loco = aloco
 
+		desc = r.get("desc", "")
 		if loco is None:
 			loco = ""
 		else:
 			linfo = self.locos.getLoco(loco)
+			if len(desc) == 0:
+				desc = linfo["desc"]
+			else:
+				if len(linfo["desc"]) > 0:
+					desc = linfo["desc"] + " / " + desc
+
 			if linfo is not None and linfo["short"]:
 				loco += "(s)"
 
@@ -366,10 +413,11 @@ class SchedulesReport(Report):
 		ws.cell(row=rowx, column=2, value=tid)
 		ws.cell(row=rowx, column=2).fill = colorClass
 		ws.cell(row=rowx, column=3, value=loco)
-		ws.cell(row=rowx, column=4, value="E" if east else "W")
-		ws.cell(row=rowx, column=5, value=engineer)
-		ws.cell(row=rowx, column=6, value=origin)
-		ws.cell(row=rowx, column=7, value=terminus)
+		ws.cell(row=rowx, column=4, value=desc)
+		ws.cell(row=rowx, column=5, value="E" if east else "W")
+		ws.cell(row=rowx, column=6, value=engineer)
+		ws.cell(row=rowx, column=7, value=origin)
+		ws.cell(row=rowx, column=8, value=terminus)
 
 
 class TrainCardsReport (Report):
@@ -522,14 +570,20 @@ class SchedParmsDlg(wx.Dialog):
 		wx.Dialog.__init__(self, parent, style=wx.DEFAULT_FRAME_STYLE)
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
 
+		self.fmtHTML = True
+		self.fmtExcel = False
+
+		self.stReportDate = wx.StaticText(self, wx.ID_ANY, "Date of Operations")
+		self.dpToday = wx.adv.DatePickerCtrl(self, size=(120, -1),
+						style=wx.adv.DP_DROPDOWN | wx.adv.DP_SHOWCENTURY)
+
 		self.cbLiveData = wx.CheckBox(self, wx.ID_ANY, "Use Live Data")
 		self.cbLiveData.SetValue(True)
 
-		self.cbHTML = wx.CheckBox(self, wx.ID_ANY, "Produce HTML report")
-		self.cbHTML.SetValue(True)
-
-		self.cbExcel = wx.CheckBox(self, wx.ID_ANY, "Produce Excel report")
-		self.cbExcel.SetValue(False)
+		self.cbResumeAtSelected = wx.CheckBox(self, wx.ID_ANY, "Resume at selected train")
+		self.cbResumeAtSelected.SetValue(False)
+		self.rbFormat = wx.RadioBox(self, wx.ID_ANY, "Output Format", choices=["HTML", "Excel"], majorDimension=1, style=wx.RA_SPECIFY_COLS)
+		self.Bind(wx.EVT_RADIOBOX, self.OnRbFormat, self.rbFormat)
 
 		self.bOK = wx.Button(self, wx.ID_ANY, "OK")
 		self.Bind(wx.EVT_BUTTON, self.OnBOK, self.bOK)
@@ -540,14 +594,18 @@ class SchedParmsDlg(wx.Dialog):
 		vsz = wx.BoxSizer(wx.VERTICAL)
 		vsz.AddSpacer(20)
 
-		vsz.Add(self.cbLiveData, 0, wx.LEFT, 40)
-		vsz.AddSpacer(20)
+		vsz.Add(self.stReportDate, 0, wx.ALIGN_CENTER_HORIZONTAL)
+		vsz.Add(self.dpToday, 0, wx.ALIGN_CENTER_HORIZONTAL)
+		vsz.AddSpacer(10)
 
-		vsz.Add(self.cbHTML, 0, wx.LEFT, 40)
+		vsz.Add(self.cbLiveData, 0, wx.LEFT, 40)
 		vsz.AddSpacer(5)
 
-		vsz.Add(self.cbExcel, 0, wx.LEFT, 40)
-		vsz.AddSpacer(30)
+		vsz.Add(self.cbResumeAtSelected, 0, wx.LEFT, 40)
+		vsz.AddSpacer(20)
+
+		vsz.Add(self.rbFormat, 0, wx.LEFT, 40)
+		vsz.AddSpacer(5)
 
 		bsz = wx.BoxSizer(wx.HORIZONTAL)
 		bsz.AddSpacer(20)
@@ -568,6 +626,20 @@ class SchedParmsDlg(wx.Dialog):
 		self.Fit()
 		self.Layout()
 
+	def OnRbFormat(self, evt):
+		ix = self.rbFormat.GetSelection()
+		if ix == wx.NOT_FOUND:
+			fmt = "HTML"
+		else:
+			fmt = self.rbFormat.GetString(ix)
+
+		if fmt == "Excel":
+			self.fmtExcel = True
+			self.fmtHTML = False
+		else:
+			self.fmtExcel = False
+			self.fmtHTML = True
+
 	def OnClose(self, _):
 		self.EndModal(wx.ID_CANCEL)
 
@@ -578,7 +650,9 @@ class SchedParmsDlg(wx.Dialog):
 		self.EndModal(wx.ID_OK)
 
 	def GetResults(self):
-		return self.cbLiveData.IsChecked(), self.cbHTML.IsChecked(), self.cbExcel.IsChecked()
+		dt = self.dpToday.GetValue()
+		dstr = dt.Format("%d-%b-%Y")
+		return dstr, self.cbLiveData.IsChecked(), self.cbResumeAtSelected.IsChecked(), self.fmtHTML, self.fmtExcel
 
 
 

@@ -145,6 +145,7 @@ class ChooseTrainsDlg(wx.Dialog):
 		self.bCards.SetFont(btnFont)
 		self.bCards.SetToolTip("Print Train Cards")
 		self.Bind(wx.EVT_BUTTON, self.bCardsPressed, self.bCards)
+		self.bCards.Enable(False)
 		btnSizer.Add(self.bCards)
 
 		btnSizer.AddSpacer(10)
@@ -153,6 +154,7 @@ class ChooseTrainsDlg(wx.Dialog):
 		self.bSched.SetFont(btnFont)
 		self.bSched.SetToolTip("Print Train Schedule")
 		self.Bind(wx.EVT_BUTTON, self.bSchedPressed, self.bSched)
+		self.bSched.Enable(False)
 		btnSizer.Add(self.bSched)
 
 		btnSizer.AddSpacer(20)
@@ -349,18 +351,28 @@ class ChooseTrainsDlg(wx.Dialog):
 		self.trainCardsReport(self.schedule)
 
 	def bSchedPressed(self, _):
-		self.scheduleReport(self.schedule)
+		ix = self.lbSchedule.GetSelection()
+		if ix == wx.NOT_FOUND:
+			selTrain = None
+		else:
+			selTrain = self.lbSchedule.GetString(ix)
+
+		self.scheduleReport(self.schedule, selTrain)
 
 	def setArrays(self, schedule):
 		if schedule is None:
 			self.schedule = None
 			self.scheduleTrains = []
 			self.extraTrains = []
+
 		else:
 			self.schedule = schedule
 			self.scheduleTrains = schedule.getSchedule()
 			self.extraTrains = schedule.getExtras()
-			
+			nTrains = len(self.scheduleTrains) + len(self.extraTrains)
+			self.bCards.Enable(nTrains > 0)
+			self.bSched.Enable(nTrains > 0)
+
 		try:
 			self.lbSchedule.SetItems(self.scheduleTrains)
 		except:
