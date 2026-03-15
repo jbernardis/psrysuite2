@@ -1,0 +1,552 @@
+{
+  "address": 114,
+  "description": "Nassau West",
+  "obytes": [
+    [
+      {
+        "label": "N14LC",
+        "used": true
+      },
+      {
+        "label": "N14LB",
+        "used": true
+      },
+      {
+        "label": "N20R",
+        "used": true
+      },
+      {
+        "label": "N20L",
+        "used": true
+      },
+      {
+        "label": "N14LA(0)",
+        "used": true
+      },
+      {
+        "label": "N14LA(1)",
+        "used": true
+      },
+      {
+        "label": "N16L(0)",
+        "used": true
+      },
+      {
+        "label": "N16L(1)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "N18LB(0)",
+        "used": true
+      },
+      {
+        "label": "N18LB(1)",
+        "used": true
+      },
+      {
+        "label": "N18LA(0)",
+        "used": true
+      },
+      {
+        "label": "N18LA(1)",
+        "used": true
+      },
+      {
+        "label": "N16R(0)",
+        "used": true
+      },
+      {
+        "label": "N16R(1)",
+        "used": true
+      },
+      {
+        "label": "N14R(0)",
+        "used": true
+      },
+      {
+        "label": "(bad bit - see 7:3)",
+        "used": false
+      }
+    ],
+    [
+      {
+        "label": "N18R",
+        "used": true
+      },
+      {
+        "label": "N11W(0) Block",
+        "used": true
+      },
+      {
+        "label": "N11W(1)",
+        "used": true
+      },
+      {
+        "label": "N11W(2)",
+        "used": true
+      },
+      {
+        "label": "N21W(0) Block",
+        "used": true
+      },
+      {
+        "label": "N21W(1)",
+        "used": true
+      },
+      {
+        "label": "N21W(2)",
+        "used": true
+      },
+      {
+        "label": "S11 approach",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "RH Approach",
+        "used": true
+      },
+      {
+        "label": "Bank Approach",
+        "used": true
+      },
+      {
+        "label": "NFleet",
+        "used": true
+      },
+      {
+        "label": "!NFleet",
+        "used": true
+      },
+      {
+        "label": "N14:L",
+        "used": true
+      },
+      {
+        "label": "N14:N",
+        "used": true
+      },
+      {
+        "label": "N14:R",
+        "used": true
+      },
+      {
+        "label": "N16:L",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "N16:N",
+        "used": true
+      },
+      {
+        "label": "N16:R",
+        "used": true
+      },
+      {
+        "label": "N18:L",
+        "used": true
+      },
+      {
+        "label": "N18:N",
+        "used": true
+      },
+      {
+        "label": "N18:R",
+        "used": true
+      },
+      {
+        "label": "N20:L",
+        "used": true
+      },
+      {
+        "label": "N20:N",
+        "used": true
+      },
+      {
+        "label": "N20:R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "KSw1.N",
+        "used": true
+      },
+      {
+        "label": "KSw1.R",
+        "used": true
+      },
+      {
+        "label": "KSw3.N",
+        "used": true
+      },
+      {
+        "label": "KSw3.R",
+        "used": true
+      },
+      {
+        "label": "KSw5.N",
+        "used": true
+      },
+      {
+        "label": "KSw5.R",
+        "used": true
+      },
+      {
+        "label": "KSw7.N",
+        "used": true
+      },
+      {
+        "label": "KSw7.R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "CBKrulish.ind",
+        "used": true
+      },
+      {
+        "label": "CBNassauW.ind",
+        "used": true
+      },
+      {
+        "label": "CBNassauE.ind",
+        "used": true
+      },
+      {
+        "label": "CBSptJct.ind",
+        "used": true
+      },
+      {
+        "label": "CBWilson.ind",
+        "used": true
+      },
+      {
+        "label": "CBThomas.ind",
+        "used": true
+      },
+      {
+        "label": "NWSL(0) lock",
+        "used": true
+      },
+      {
+        "label": "NWSL(1)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "NWSL(2)",
+        "used": true
+      },
+      {
+        "label": "NWSL(3)",
+        "used": true
+      },
+      {
+        "label": "N21.srel",
+        "used": true
+      },
+      {
+        "label": "N14R(1) (from bit 1:7)",
+        "used": true
+      },
+      {
+        "label": "N14LD",
+        "used": true
+      },
+      {
+        "label": "N24RD",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ],
+  "ibytes": [
+    [
+      {
+        "label": "NSw19.N",
+        "used": true
+      },
+      {
+        "label": "NSw19.R",
+        "used": true
+      },
+      {
+        "label": "NSw21.N",
+        "used": true
+      },
+      {
+        "label": "NSw21.R",
+        "used": true
+      },
+      {
+        "label": "NSw23.N",
+        "used": true
+      },
+      {
+        "label": "NSw23.R",
+        "used": true
+      },
+      {
+        "label": "NSw25.N",
+        "used": true
+      },
+      {
+        "label": "NSw25.R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "NSw27.N",
+        "used": true
+      },
+      {
+        "label": "NSw27.R",
+        "used": true
+      },
+      {
+        "label": "NSw29.N",
+        "used": true
+      },
+      {
+        "label": "NSw29.R",
+        "used": true
+      },
+      {
+        "label": "NSw31.N",
+        "used": true
+      },
+      {
+        "label": "NSw31.R",
+        "used": true
+      },
+      {
+        "label": "NSw33.N",
+        "used": true
+      },
+      {
+        "label": "NSw33.R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "N21.W",
+        "used": true
+      },
+      {
+        "label": "N21",
+        "used": true
+      },
+      {
+        "label": "N21.E",
+        "used": true
+      },
+      {
+        "label": "NWOSTY",
+        "used": true
+      },
+      {
+        "label": "NWOSCY",
+        "used": true
+      },
+      {
+        "label": "NWOSW",
+        "used": true
+      },
+      {
+        "label": "NWOSE",
+        "used": true
+      },
+      {
+        "label": "N32",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "N31",
+        "used": true
+      },
+      {
+        "label": "N12",
+        "used": true
+      },
+      {
+        "label": "NRelease",
+        "used": true
+      },
+      {
+        "label": "NFleet",
+        "used": true
+      },
+      {
+        "label": "N14.Rlvr",
+        "used": true
+      },
+      {
+        "label": "N14.Clvr",
+        "used": true
+      },
+      {
+        "label": "N14.Llvr",
+        "used": true
+      },
+      {
+        "label": "N16.Rlvr",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "N16.Clvr",
+        "used": true
+      },
+      {
+        "label": "N16.Llvr",
+        "used": true
+      },
+      {
+        "label": "N18.Rlvr",
+        "used": true
+      },
+      {
+        "label": "N18.Clvr",
+        "used": true
+      },
+      {
+        "label": "N18.Llvr",
+        "used": true
+      },
+      {
+        "label": "N20.Rlvr",
+        "used": true
+      },
+      {
+        "label": "N20.Clvr",
+        "used": true
+      },
+      {
+        "label": "N20.Llvr",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "N24.Rlvr",
+        "used": true
+      },
+      {
+        "label": "N24.Clvr",
+        "used": true
+      },
+      {
+        "label": "N24.Llvr",
+        "used": true
+      },
+      {
+        "label": "N26.Rlvr",
+        "used": true
+      },
+      {
+        "label": "N26.Clvr",
+        "used": true
+      },
+      {
+        "label": "N26.Llvr",
+        "used": true
+      },
+      {
+        "label": "N28.Rlvr",
+        "used": true
+      },
+      {
+        "label": "N28.Clvr",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "N28.Llvr",
+        "used": true
+      },
+      {
+        "label": "CBKrulishYd",
+        "used": true
+      },
+      {
+        "label": "CBThomas",
+        "used": true
+      },
+      {
+        "label": "CBWilson",
+        "used": true
+      },
+      {
+        "label": "CBKrulish",
+        "used": true
+      },
+      {
+        "label": "CBNassauW",
+        "used": true
+      },
+      {
+        "label": "CBNassauE",
+        "used": true
+      },
+      {
+        "label": "CBFoss",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "CBDell",
+        "used": true
+      },
+      {
+        "label": "Coach A",
+        "used": true
+      },
+      {
+        "label": "Coach B",
+        "used": true
+      },
+      {
+        "label": "Coach C",
+        "used": true
+      },
+      {
+        "label": "Coach D",
+        "used": true
+      },
+      {
+        "label": "NSw35.N",
+        "used": true
+      },
+      {
+        "label": "NSw35.R",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ]
+}

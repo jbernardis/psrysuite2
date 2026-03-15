@@ -421,6 +421,7 @@ class TrainListCtrl(wx.ListCtrl):
 
 	def AddTrain(self, tr):
 		nm = tr.GetName()
+		logging.debug("adding train id %s to activetrainsdlg" % nm)
 		if nm in self.order:
 			logging.warning("Attempt to add a duplicate train: %s" % nm)
 			return 
@@ -478,6 +479,10 @@ class TrainListCtrl(wx.ListCtrl):
 			if len(self.filtered) > 0:
 				self.RefreshItems(0, len(self.filtered)-1)
 		self.GenerateLocoMap()
+
+	def hasTrain(self, tr):
+		iname = tr.IName()
+		return iname in self.trains
 
 	def RefreshAll(self):
 		self.filterTrains()	

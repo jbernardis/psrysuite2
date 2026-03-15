@@ -1,3 +1,12 @@
+
+when assigning an engineer to a train, if that train currently has an edit train dialog, that dialog is not updated.  This might be true for loco too.
+
+autoroute is not working through wilson city
+
+snapshot not autoloaded
+
+
+
 interactive schedule that can be brought up on tm/dispatch,
 messages between towers and tm/disp
     assign time,
@@ -40,3 +49,26 @@ final stuff
     Rip out ALL dead code
 
     Try on the actual railroad
+
+
+tester2:
+    expand text in following nodes:
+    [PARSONS, 4],
+    [PORTA, 9],
+    [PORTB, 7],
+    [LATHAM, 5],
+    [CARLTON, 5],
+    [DELL, 4],
+    [FOSS, 3],
+    [HYDEJCT, 3],
+    [HYDE, 5],
+    [SHORE, 7],
+    [KRULISH, 3],
+    [NASSAUW, 8],
+    [NASSAUE, 4],
+    [NASSAUNX, 3],
+    [BANK, 4],
+    [CLIVEDEN, 4],
+    [GREENMTN, 3],
+    [CLIFF, 8],
+    [SHEFFIELD, 4]

@@ -3928,10 +3928,35 @@ class MainFrame(wx.Frame):
 		if len(tr.Blocks()) > 0:
 			self.UpdateRouteDialog(tr.Name())
 		else:
-			self.PopupEvent("Train %s lost detection in block %s" % (tr.Name(), d[0]))
+			if len(d) > 0:
+				self.PopupEvent("Train %s lost detection in block %s" % (tr.Name(), d[0]))
+			else:
+				logging.debug("Lost train %s, but empty delete block list" % tr.Name())
+				tr.Dump()
+
 			self.CloseRouteTrainDlg(tr.Name())
-			self.lostTrains.Add(tr.Name(), tr.Loco(), tr.Engineer(), tr.East(), d[0])
+			if len(d) > 0:
+				self.lostTrains.Add(tr.Name(), tr.Loco(), tr.Engineer(), tr.East(), d[0])
 			del(self.trains[iname])
+
+		self.SweepTrains()
+
+	def SweepTrains(self):
+		#  diagnostic code to see if we encounter trains with no blocks - we need to identify the
+		#  circumstances that get us here
+		delTrains = []
+		logging.debug("Entering sweep trains")
+		for iname, tr in self.trains.items():
+			if tr.BlockCount() == 0:
+				self.PopupEvent("Encountered train %s/%s with a block count of 0" % (iname, tr.Name()))
+				logging.debug("Encountered train %s/%s with a block count of 0" % (iname, tr.Name()))
+				delTrains.append(iname)
+
+		for dt in delTrains:
+			logging.debug("Deleting train %s/%s due to no blocks" % (dt, self.trains[dt].Name()))
+			del(self.trains[dt])
+
+		logging.debug("Exiting sweep trains")
 
 	def DoCmdPreload(self, parms):
 		self.preLoaded = parms

@@ -1,0 +1,280 @@
+{
+  "address": 129,
+  "description": "Bank",
+  "obytes": [
+    [
+      {
+        "label": "C22L",
+        "used": true
+      },
+      {
+        "label": "C24L(0)",
+        "used": true
+      },
+      {
+        "label": "C24L(1)",
+        "used": true
+      },
+      {
+        "label": "C24L(2)",
+        "used": true
+      },
+      {
+        "label": "C24R(0)",
+        "used": true
+      },
+      {
+        "label": "C24R(1)",
+        "used": true
+      },
+      {
+        "label": "C24R(2)",
+        "used": true
+      },
+      {
+        "label": "C22R(0)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "C22R(1)",
+        "used": true
+      },
+      {
+        "label": "C22R(2)",
+        "used": true
+      },
+      {
+        "label": "C18LA",
+        "used": true
+      },
+      {
+        "label": "C18LB(0)",
+        "used": true
+      },
+      {
+        "label": "C18LB(1)",
+        "used": true
+      },
+      {
+        "label": "C18LB(2)",
+        "used": true
+      },
+      {
+        "label": "C18R(0)",
+        "used": true
+      },
+      {
+        "label": "C18R(1)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "C18R(2)",
+        "used": true
+      },
+      {
+        "label": "B10.ind",
+        "used": true
+      },
+      {
+        "label": "C13.ind",
+        "used": true
+      },
+      {
+        "label": "CSw21AB.hslck",
+        "used": true
+      },
+      {
+        "label": "CSw19.hslck",
+        "used": true
+      },
+      {
+        "label": "CSw23.N",
+        "used": true
+      },
+      {
+        "label": "CSw23.R",
+        "used": true
+      },
+      {
+        "label": "CSw17.N",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "CSw17.R",
+        "used": true
+      },
+      {
+        "label": "B20.srel",
+        "used": true
+      },
+      {
+        "label": "B11.srel",
+        "used": true
+      },
+      {
+        "label": "B21.srel",
+        "used": true
+      },
+      {
+        "label": "CBBank.ind",
+        "used": true
+      },
+      {
+        "label": "C24L.ind",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ],
+  "ibytes": [
+    [
+      {
+        "label": "CSw23.N",
+        "used": true
+      },
+      {
+        "label": "CSw23.R",
+        "used": true
+      },
+      {
+        "label": "CSw21a.N",
+        "used": true
+      },
+      {
+        "label": "CSw21a.R",
+        "used": true
+      },
+      {
+        "label": "CSw21b.N",
+        "used": true
+      },
+      {
+        "label": "CSw21b.R",
+        "used": true
+      },
+      {
+        "label": "CSw19.N",
+        "used": true
+      },
+      {
+        "label": "CSw19.R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "CSw17.N",
+        "used": true
+      },
+      {
+        "label": "CSw17.R",
+        "used": true
+      },
+      {
+        "label": "B20",
+        "used": true
+      },
+      {
+        "label": "B20.E",
+        "used": true
+      },
+      {
+        "label": "BOSWW",
+        "used": true
+      },
+      {
+        "label": "BOSWE",
+        "used": true
+      },
+      {
+        "label": "B11.W",
+        "used": true
+      },
+      {
+        "label": "B11",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "B21.W",
+        "used": true
+      },
+      {
+        "label": "B21",
+        "used": true
+      },
+      {
+        "label": "B21.E",
+        "used": true
+      },
+      {
+        "label": "BOSE",
+        "used": true
+      },
+      {
+        "label": "CBBank",
+        "used": true
+      },
+      {
+        "label": "CBKale",
+        "used": true
+      },
+      {
+        "label": "CBWaterman",
+        "used": true
+      },
+      {
+        "label": "CBEngineYard",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "CBEastEndJct",
+        "used": true
+      },
+      {
+        "label": "CBShore",
+        "used": true
+      },
+      {
+        "label": "CBRockyHill",
+        "used": true
+      },
+      {
+        "label": "CBHarpersFerry",
+        "used": true
+      },
+      {
+        "label": "CBBlockY30",
+        "used": true
+      },
+      {
+        "label": "CBBlockY81",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ]
+}

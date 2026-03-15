@@ -522,7 +522,7 @@ class Railroad:
 						firstBlock = False
 
 					if tr.Name() != trid:
-						self.Alert("Train in block %s is in a different train: %s != %s" % (bn, trid, tr.Name()))
+						self.Alert("Train in block %s differs from snapshot: %s != %s" % (bn, trid, tr.Name()))
 					else:
 						if tr.IName() not in trainsFound:
 							trainsFound[tr.IName()] = tr

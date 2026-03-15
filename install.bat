@@ -13,6 +13,8 @@ echo Renaming src directory as current and creating output directories
 rename src current
 mkdir current\logs
 mkdir current\output
+mkdir current\qrcodes
+mkdir current\data\snapshots
 
 echo Creating python virtual environment
 python -m venv ./venv

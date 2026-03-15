@@ -1,0 +1,212 @@
+{
+  "address": 146,
+  "description": "Green Mountain",
+  "obytes": [
+    [
+      {
+        "label": "C2LB(0)",
+        "used": true
+      },
+      {
+        "label": "C2LB(1)",
+        "used": true
+      },
+      {
+        "label": "C2LB(2)",
+        "used": true
+      },
+      {
+        "label": "C2LD",
+        "used": true
+      },
+      {
+        "label": "C2R(0)",
+        "used": true
+      },
+      {
+        "label": "C2R(1)",
+        "used": true
+      },
+      {
+        "label": "C2R(2)",
+        "used": true
+      },
+      {
+        "label": "C2LA(0)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "C2LA(1)",
+        "used": true
+      },
+      {
+        "label": "C2LC",
+        "used": true
+      },
+      {
+        "label": "C4RA(0)",
+        "used": true
+      },
+      {
+        "label": "C4RA(1)",
+        "used": true
+      },
+      {
+        "label": "C4RB(0)",
+        "used": true
+      },
+      {
+        "label": "C4RB(1)",
+        "used": true
+      },
+      {
+        "label": "C4RC(0)",
+        "used": true
+      },
+      {
+        "label": "C4RC(1)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "C4RC(2)",
+        "used": true
+      },
+      {
+        "label": "C4RD",
+        "used": true
+      },
+      {
+        "label": "C4L(0)",
+        "used": true
+      },
+      {
+        "label": "C4L(1)",
+        "used": true
+      },
+      {
+        "label": "C4L(2)",
+        "used": true
+      },
+      {
+        "label": "CSw3.hslck",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ],
+  "ibytes": [
+    [
+      {
+        "label": "CC30E route",
+        "used": true
+      },
+      {
+        "label": "CC10E",
+        "used": true
+      },
+      {
+        "label": "CG10E",
+        "used": true
+      },
+      {
+        "label": "CG12E",
+        "used": true
+      },
+      {
+        "label": "CC31W",
+        "used": true
+      },
+      {
+        "label": "CC30W",
+        "used": true
+      },
+      {
+        "label": "CC10W",
+        "used": true
+      },
+      {
+        "label": "CG21W",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "CSw3.N",
+        "used": true
+      },
+      {
+        "label": "CSw3.R",
+        "used": true
+      },
+      {
+        "label": "C11",
+        "used": true
+      },
+      {
+        "label": "COSGMW",
+        "used": true
+      },
+      {
+        "label": "C10",
+        "used": true
+      },
+      {
+        "label": "C30",
+        "used": true
+      },
+      {
+        "label": "C31",
+        "used": true
+      },
+      {
+        "label": "COSGME",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "C20",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ]
+}

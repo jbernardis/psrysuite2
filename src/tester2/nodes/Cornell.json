@@ -1,0 +1,144 @@
+{
+  "address": 20,
+  "description": "Cornell Jct",
+  "obytes": [
+    [
+      {
+        "label": "Y4L(0) Aspect",
+        "used": true
+      },
+      {
+        "label": "Y4L(1) Aspect",
+        "used": true
+      },
+      {
+        "label": "Y4L(2) Aspect",
+        "used": true
+      },
+      {
+        "label": "Y2L Aspect",
+        "used": true
+      },
+      {
+        "label": "Y2R(0) Aspect",
+        "used": true
+      },
+      {
+        "label": "Y2R(1) Aspect",
+        "used": true
+      },
+      {
+        "label": "Y2R(2) Aspect",
+        "used": true
+      },
+      {
+        "label": "Y4RA{0) Aspect",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "Y4RA(1) Aspect",
+        "used": true
+      },
+      {
+        "label": "Y4RA(2) Aspect",
+        "used": true
+      },
+      {
+        "label": "Y4RB Aspect",
+        "used": true
+      },
+      {
+        "label": "Y21 Stop Relay",
+        "used": true
+      },
+      {
+        "label": "L10 Stop Relay",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ],
+  "ibytes": [
+    [
+      {
+        "label": "YSw1 Normal",
+        "used": true
+      },
+      {
+        "label": "YSw1 Reverse",
+        "used": true
+      },
+      {
+        "label": "YSw3 Normal",
+        "used": true
+      },
+      {
+        "label": "YSw3 Reverse",
+        "used": true
+      },
+      {
+        "label": "Y21.W Occupied",
+        "used": true
+      },
+      {
+        "label": "Y21 Occupied",
+        "used": true
+      },
+      {
+        "label": "Y21.E Occupied",
+        "used": true
+      },
+      {
+        "label": "YOSCJW Occupied",
+        "used": true
+      }
+   ],
+   [
+      {
+        "label": "YOSCJE Occupied",
+        "used": true
+      },
+      {
+        "label": "L10.W Occupied",
+        "used": true
+      },
+      {
+        "label": "L10 Occupied",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ]
+}

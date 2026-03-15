@@ -1,0 +1,144 @@
+{
+  "address": 19,
+  "description": "East End Jct",
+  "obytes": [
+    [
+      {
+        "label": "Y10L(0) Aspect",
+        "used": true
+      },
+      {
+        "label": "Y10L(1) Aspect",
+        "used": true
+      },
+      {
+        "label": "Y10L(2) Aspect",
+        "used": true
+      },
+      {
+        "label": "Y8LA Aspect",
+        "used": true
+      },
+      {
+        "label": "Y8LB Aspect",
+        "used": true
+      },
+      {
+        "label": "Y8LC Aspect",
+        "used": true
+      },
+      {
+        "label": "Y8R(0) Aspect",
+        "used": true
+      },
+      {
+        "label": "Y8R{1) Aspect",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "Y8R(2) Aspect",
+        "used": true
+      },
+      {
+        "label": "Y10R Aspect",
+        "used": true
+      },
+      {
+        "label": "Y20 Stop Relay",
+        "used": true
+      },
+      {
+        "label": "Y11 Stop Relay",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ],
+  "ibytes": [
+    [
+      {
+        "label": "YSw7 Normal",
+        "used": true
+      },
+      {
+        "label": "YSw7 Reverse",
+        "used": true
+      },
+      {
+        "label": "YSw9 Normal",
+        "used": true
+      },
+      {
+        "label": "YSw9 Reverse",
+        "used": true
+      },
+      {
+        "label": "YSw11 Normal",
+        "used": true
+      },
+      {
+        "label": "YSw11 Reverse",
+        "used": true
+      },
+      {
+        "label": "Y20 Occupied",
+        "used": true
+      },
+      {
+        "label": "Y20.E Occupied",
+        "used": true
+      }
+   ],
+   [
+      {
+        "label": "YOSEJW Occupied",
+        "used": true
+      },
+      {
+        "label": "YOSEJE Occupied",
+        "used": true
+      },
+      {
+        "label": "Y11.W Occupied",
+        "used": true
+      },
+      {
+        "label": "Y11 Occupied",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ]
+}

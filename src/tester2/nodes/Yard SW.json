@@ -1,0 +1,178 @@
+{
+  "address": 21,
+  "description": "Yard Switch Control",
+  "obytes": [
+    [
+      {
+        "label": "YSw1 Normal",
+        "used": true
+      },
+      {
+        "label": "YSw1 Reverse",
+        "used": true
+      },
+      {
+        "label": "YSw3 Normal",
+        "used": true
+      },
+      {
+        "label": "YSw3 Reverse",
+        "used": true
+      },
+      {
+        "label": "YSw7 Normal",
+        "used": true
+      },
+      {
+        "label": "YSw7 Reverse",
+        "used": true
+      },
+      {
+        "label": "YSw9 Normal",
+        "used": true
+      },
+      {
+        "label": "YSw9 Reverse",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "YSw11 Normal",
+        "used": true
+      },
+      {
+        "label": "YSw11 Reverse",
+        "used": true
+      },
+      {
+        "label": "YSw17 Normal",
+        "used": true
+      },
+      {
+        "label": "YSw17 Reverse",
+        "used": true
+      },
+      {
+        "label": "YSw19 Normal",
+        "used": true
+      },
+      {
+        "label": "YSw19 Reverse",
+        "used": true
+      },
+      {
+        "label": "YSw21 Normal",
+        "used": true
+      },
+      {
+        "label": "YSw21 Reverse",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "YSw23 Normal",
+        "used": true
+      },
+      {
+        "label": "YSw23 Reverse",
+        "used": true
+      },
+      {
+        "label": "YSw25 Normal",
+        "used": true
+      },
+      {
+        "label": "YSw25 Reverse",
+        "used": true
+      },
+      {
+        "label": "YSw27 Normal",
+        "used": true
+      },
+      {
+        "label": "YSw27 Reverse",
+        "used": true
+      },
+      {
+        "label": "YSw29 Normal",
+        "used": true
+      },
+      {
+        "label": "YSw29 Reverse",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "YSw33 Normal",
+        "used": true
+      },
+      {
+        "label": "YSw33 Reverse",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ],
+    [
+      {
+        "label": "YWWB1 Button",
+        "used": true
+      },
+      {
+        "label": "YWWB2 Button",
+        "used": true
+      },
+      {
+        "label": "YWWB3 Button",
+        "used": true
+      },
+      {
+        "label": "YWWB4 Button",
+        "used": true
+      },
+      {
+        "label": "YWEB1 Button",
+        "used": true
+      },
+      {
+        "label": "YWEB2 Button",
+        "used": true
+      },
+      {
+        "label": "YWEB3 Button",
+        "used": true
+      },
+      {
+        "label": "YWEB4 Button",
+        "used": true
+      }
+    ]
+  ],
+  "ibytes": [
+  ]
+}

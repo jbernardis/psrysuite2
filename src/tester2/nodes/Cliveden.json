@@ -1,0 +1,280 @@
+{
+  "address": 145,
+  "description": "Cliveden",
+  "obytes": [
+    [
+      {
+        "label": "C14L(0)",
+        "used": true
+      },
+      {
+        "label": "C14L(1)",
+        "used": true
+      },
+      {
+        "label": "C14L(2)",
+        "used": true
+      },
+      {
+        "label": "C14RA(0)",
+        "used": true
+      },
+      {
+        "label": "C14RA(1)",
+        "used": true
+      },
+      {
+        "label": "C14RA(2)",
+        "used": true
+      },
+      {
+        "label": "C14RB(0)",
+        "used": true
+      },
+      {
+        "label": "C14RB(1)",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "C14RB(2)",
+        "used": true
+      },
+      {
+        "label": "C12L(0)",
+        "used": true
+      },
+      {
+        "label": "C12L(1)",
+        "used": true
+      },
+      {
+        "label": "C12L(2)",
+        "used": true
+      },
+      {
+        "label": "C10L(0)",
+        "used": true
+      },
+      {
+        "label": "C10L(1)",
+        "used": true
+      },
+      {
+        "label": "C10L(2)",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ],
+    [
+      {
+        "label": "C12R(0)",
+        "used": true
+      },
+      {
+        "label": "C12R(1)",
+        "used": true
+      },
+      {
+        "label": "C12R(2)",
+        "used": true
+      },
+      {
+        "label": "C10R(0)",
+        "used": true
+      },
+      {
+        "label": "C10R(1)",
+        "used": true
+      },
+      {
+        "label": "C10R(2)",
+        "used": true
+      },
+      {
+        "label": "CSw11.hslck",
+        "used": true
+      },
+      {
+        "label": "CSw13.N",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "CSw13.R",
+        "used": true
+      },
+      {
+        "label": "CSw9.N",
+        "used": true
+      },
+      {
+        "label": "(bad bit - see 3:6)",
+        "used": false
+      },
+      {
+        "label": "C13.srel",
+        "used": true
+      },
+      {
+        "label": "C23.srel",
+        "used": true
+      },
+      {
+        "label": "C12.srel",
+        "used": true
+      },
+      {
+        "label": "CSw9.R (from 3:2)",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ],
+  "ibytes": [
+    [
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "CSw13.N",
+        "used": true
+      },
+      {
+        "label": "CSw13.R",
+        "used": true
+      },
+      {
+        "label": "CSw11.N",
+        "used": true
+      },
+      {
+        "label": "CSw11.R",
+        "used": true
+      },
+      {
+        "label": "CSw9.N",
+        "used": true
+      },
+      {
+        "label": "CSw9.R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "C13.W",
+        "used": true
+      },
+      {
+        "label": "C13",
+        "used": true
+      },
+      {
+        "label": "C13.E",
+        "used": true
+      },
+      {
+        "label": "COSCLW",
+        "used": true
+      },
+      {
+        "label": "C12.W",
+        "used": true
+      },
+      {
+        "label": "C12",
+        "used": true
+      },
+      {
+        "label": "C23.W",
+        "used": true
+      },
+      {
+        "label": "C23",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "COSCLEW",
+        "used": true
+      },
+      {
+        "label": "COSCLEE",
+        "used": true
+      },
+      {
+        "label": "C22",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "CBGreenMtnStn",
+        "used": true
+      },
+      {
+        "label": "CBSheffieldA",
+        "used": true
+      },
+      {
+        "label": "CBGreenMtnYd",
+        "used": true
+      },
+      {
+        "label": "CBHydeJct",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "CBHydeWest",
+        "used": true
+      },
+      {
+        "label": "CBHydeEast",
+        "used": true
+      },
+      {
+        "label": "CBSouthportJct",
+        "used": true
+      },
+      {
+        "label": "CBCarlton",
+        "used": true
+      },
+      {
+        "label": "CBSheffieldB",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ]
+}

@@ -55,6 +55,7 @@ class PSRYFrame(MainFrame):
 
 	def SetupScreen(self):
 		self.title = "PSRY Dispatcher" if self.IsDispatcher() else "Satellite" if self.IsSatellite() else "PSRY Monitor"
+		self.title += " v2"
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
 		self.bitmaps = BitMaps(os.path.join(os.getcwd(), "images", "bitmaps"))
 		singlePage = self.settings.display.pages == 1

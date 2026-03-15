@@ -1,0 +1,416 @@
+{
+  "address": 17,
+  "description": "Engine Yard",
+  "obytes": [
+    [
+      {
+        "label": "Y2 Right Ind",
+        "used": true
+      },
+      {
+        "label": "Y2 Neutral Ind",
+        "used": true
+      },
+      {
+        "label": "Y2 Left Ind",
+        "used": true
+      },
+      {
+        "label": "Y4 Right Ind",
+        "used": true
+      },
+      {
+        "label": "Y4 Neutral Ind",
+        "used": true
+      },
+      {
+        "label": "Y4 Left Ind",
+        "used": true
+      },
+      {
+        "label": "Y8 Right Ind",
+        "used": true
+      },
+      {
+        "label": "Y8 Neutral Ind",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "Y8 Left Ind",
+        "used": true
+      },
+      {
+        "label": "Y10 Right Ind",
+        "used": true
+      },
+      {
+        "label": "Y10 Neutral Ind",
+        "used": true
+      },
+      {
+        "label": "Y10 Left Ind",
+        "used": true
+      },
+      {
+        "label": "Y22 Right Ind",
+        "used": true
+      },
+      {
+        "label": "Y22 Neutral Ind",
+        "used": true
+      },
+      {
+        "label": "Y22 Left Ind",
+        "used": true
+      },
+      {
+        "label": "Y24 Right Ind",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "Y24 Neutral Ind",
+        "used": true
+      },
+      {
+        "label": "Y26 Right Ind",
+        "used": true
+      },
+      {
+        "label": "Y26 Neutral Ind",
+        "used": true
+      },
+      {
+        "label": "Y26 Left Ind",
+        "used": true
+      },
+      {
+        "label": "Y34 Right Ind",
+        "used": true
+      },
+      {
+        "label": "Y34 Neutral Ind",
+        "used": true
+      },
+      {
+        "label": "Y34 Left Ind",
+        "used": true
+      },
+      {
+        "label": "Y34RA Aspect",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "Y34RB Aspect",
+        "used": true
+      },
+      {
+        "label": "Y34L(0) Aspect",
+        "used": true
+      },
+      {
+        "label": "Y34L(1) Aspect",
+        "used": true
+      },
+      {
+        "label": "Y34L(2) Aspect",
+        "used": true
+      },
+      {
+        "label": "Kale Breaker Ind",
+        "used": true
+      },
+      {
+        "label": "EastEndJct Breaker Ind",
+        "used": true
+      },
+      {
+        "label": "CornellJct Breaker Ind",
+        "used": true
+      },
+      {
+        "label": "EngineYard Breaker Ind",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "Waterman Breaker Ind",
+        "used": true
+      },
+      {
+        "label": "L20 Occupied Ind",
+        "used": true
+      },
+      {
+        "label": "P50 Occupied Ind",
+        "used": true
+      },
+      {
+        "label": "YSw1 Switch Lock",
+        "used": true
+      },
+      {
+        "label": "YSw3 Switch Lock",
+        "used": true
+      },
+      {
+        "label": "YSw7 Switch Lock",
+        "used": true
+      },
+      {
+        "label": "YSw9 Switch Lock",
+        "used": true
+      },
+      {
+        "label": "YSw17 Switch Lock",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "YSw19 Switch Lock",
+        "used": true
+      },
+      {
+        "label": "YSw21 Switch Lock",
+        "used": true
+      },
+      {
+        "label": "YSw23 Switch Lock",
+        "used": true
+      },
+      {
+        "label": "YSw25 Switch Lock",
+        "used": true
+      },
+      {
+        "label": "YSw29 Switch Lock",
+        "used": true
+      },
+      {
+        "label": "YSw33 Switch Lock",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ],
+  "ibytes": [
+    [
+      {
+        "label": "YSw33 Normal",
+        "used": true
+      },
+      {
+        "label": "YSw33 Reverse",
+        "used": true
+      },
+      {
+        "label": "Y2 Right",
+        "used": true
+      },
+      {
+        "label": "Y2 Call on",
+        "used": true
+      },
+      {
+        "label": "Y2 Left",
+        "used": true
+      },
+      {
+        "label": "Y4 Right",
+        "used": true
+      },
+      {
+        "label": "Y4 Call on",
+        "used": true
+      },
+      {
+        "label": "Y4 Left",
+        "used": true
+      }
+   ],
+    [
+      {
+        "label": "Y8 Right",
+        "used": true
+      },
+      {
+        "label": "Y8 Call on",
+        "used": true
+      },
+      {
+        "label": "Y8 Left",
+        "used": true
+      },
+      {
+        "label": "Y10 Right",
+        "used": true
+      },
+      {
+        "label": "Y10 Call on",
+        "used": true
+      },
+      {
+        "label": "Y10 Left",
+        "used": true
+      },
+      {
+        "label": "Y22 Right",
+        "used": true
+      },
+      {
+        "label": "Y22 Call on",
+        "used": true
+      }
+   ],
+   [
+      {
+        "label": "Y22 Left",
+        "used": true
+      },
+      {
+        "label": "Y24 Call on",
+        "used": true
+      },
+      {
+        "label": "Y24 Left",
+        "used": true
+      },
+      {
+        "label": "Y26 Right",
+        "used": true
+      },
+      {
+        "label": "Y26 Call on",
+        "used": true
+      },
+      {
+        "label": "Y26 Left",
+        "used": true
+      },
+      {
+        "label": "Y34 Right",
+        "used": true
+      },
+      {
+        "label": "Y34 Call on",
+        "used": true
+      }
+   ],
+   [
+      {
+        "label": "Y34 Left",
+        "used": true
+      },
+      {
+        "label": "Y Release",
+        "used": true
+      },
+      {
+        "label": "WOS1NORM",
+        "used": true
+      },
+      {
+        "label": "Y81W Route",
+        "used": true
+      },
+      {
+        "label": "Y82W Route",
+        "used": true
+      },
+      {
+        "label": "Y83W Route",
+        "used": true
+      },
+      {
+        "label": "Y84W Route",
+        "used": true
+      },
+      {
+        "label": "Y81E Route",
+        "used": true
+      }
+   ],
+   [
+      {
+        "label": "Y82E Route",
+        "used": true
+      },
+      {
+        "label": "Y83E Route",
+        "used": true
+      },
+      {
+        "label": "Y84E Route",
+        "used": true
+      },
+      {
+        "label": "Y70 Occupied",
+        "used": true
+      },
+      {
+        "label": "YOSWYW Occupied",
+        "used": true
+      },
+      {
+        "label": "(bad bit)",
+        "used": false
+      },
+      {
+        "label": "Y82 Occupied",
+        "used": true
+      },
+      {
+        "label": "Y83 Occupied",
+        "used": true
+      }
+   ],
+   [
+      {
+        "label": "Y84 Occupied",
+        "used": true
+      },
+      {
+        "label": "YOSWYE Occupied",
+        "used": true
+      },
+      {
+        "label": "Y87 Occupied",
+        "used": true
+      },
+      {
+        "label": "Y81 Occupied",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ]
+}

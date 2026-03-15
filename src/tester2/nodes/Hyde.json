@@ -1,0 +1,348 @@
+{
+  "address": 82,
+  "description": "Hyde",
+  "obytes": [
+    [
+      {
+        "label": "HSw1.N",
+        "used": true
+      },
+      {
+        "label": "HSw1.R",
+        "used": true
+      },
+      {
+        "label": "HSw3.N",
+        "used": true
+      },
+      {
+        "label": "HSw3.R",
+        "used": true
+      },
+      {
+        "label": "HSw7.N",
+        "used": true
+      },
+      {
+        "label": "HSw7.R",
+        "used": true
+      },
+      {
+        "label": "HSw9.N",
+        "used": true
+      },
+      {
+        "label": "HSw9.R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "HSw11.N",
+        "used": true
+      },
+      {
+        "label": "HSw11.R",
+        "used": true
+      },
+      {
+        "label": "HSw23.N",
+        "used": true
+      },
+      {
+        "label": "HSw23.R",
+        "used": true
+      },
+      {
+        "label": "HSw25.N",
+        "used": true
+      },
+      {
+        "label": "HSw25.R",
+        "used": true
+      },
+      {
+        "label": "HSw27.N",
+        "used": true
+      },
+      {
+        "label": "HSw27.R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "HSw29.N",
+        "used": true
+      },
+      {
+        "label": "HSw29.R",
+        "used": true
+      },
+      {
+        "label": "HSw15.N",
+        "used": true
+      },
+      {
+        "label": "HSw15.R",
+        "used": true
+      },
+      {
+        "label": "HSw17.N",
+        "used": true
+      },
+      {
+        "label": "HSw17.R",
+        "used": true
+      },
+      {
+        "label": "HSw19.N",
+        "used": true
+      },
+      {
+        "label": "HSw19.R",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "HSw21.N",
+        "used": true
+      },
+      {
+        "label": "HSw21.R",
+        "used": true
+      },
+      {
+        "label": "H30.ind",
+        "used": true
+      },
+      {
+        "label": "H10.ind",
+        "used": true
+      },
+      {
+        "label": "H23.ind",
+        "used": true
+      },
+      {
+        "label": "N25 occupied",
+        "used": true
+      },
+      {
+        "label": "H21.srel",
+        "used": true
+      },
+      {
+        "label": "H13.srel",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "CBHydeJct.ind",
+        "used": true
+      },
+      {
+        "label": "CBHydeWest.ind",
+        "used": true
+      },
+      {
+        "label": "CBHydeEast.ind",
+        "used": true
+      },
+      {
+        "label": "HydeWestPower",
+        "used": true
+      },
+      {
+        "label": "HydeEastPower",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ],
+  "ibytes": [
+    [
+      {
+        "label": "H12W route",
+        "used": true
+      },
+      {
+        "label": "H34W",
+        "used": true
+      },
+      {
+        "label": "H33W",
+        "used": true
+      },
+      {
+        "label": "H30E",
+        "used": true
+      },
+      {
+        "label": "H31W",
+        "used": true
+      },
+      {
+        "label": "H32W",
+        "used": true
+      },
+      {
+        "label": "H22W",
+        "used": true
+      },
+      {
+        "label": "H43W",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "H42W route",
+        "used": true
+      },
+      {
+        "label": "H41W",
+        "used": true
+      },
+      {
+        "label": "H41E",
+        "used": true
+      },
+      {
+        "label": "H42E",
+        "used": true
+      },
+      {
+        "label": "H43E",
+        "used": true
+      },
+      {
+        "label": "H22E",
+        "used": true
+      },
+      {
+        "label": "H40E",
+        "used": true
+      },
+      {
+        "label": "H12E",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "H34E route",
+        "used": true
+      },
+      {
+        "label": "H33E",
+        "used": true
+      },
+      {
+        "label": "H32E",
+        "used": true
+      },
+      {
+        "label": "H31E",
+        "used": true
+      },
+      {
+        "label": "H21",
+        "used": true
+      },
+      {
+        "label": "H21.E",
+        "used": true
+      },
+      {
+        "label": "HOSWW2",
+        "used": true
+      },
+      {
+        "label": "HOSWW",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "HOSWE",
+        "used": true
+      },
+      {
+        "label": "H31",
+        "used": true
+      },
+      {
+        "label": "H32",
+        "used": true
+      },
+      {
+        "label": "H33",
+        "used": true
+      },
+      {
+        "label": "H34",
+        "used": true
+      },
+      {
+        "label": "H12",
+        "used": true
+      },
+      {
+        "label": "H22",
+        "used": true
+      },
+      {
+        "label": "H43",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "H42",
+        "used": true
+      },
+      {
+        "label": "H41",
+        "used": true
+      },
+      {
+        "label": "H40",
+        "used": true
+      },
+      {
+        "label": "HOSEW",
+        "used": true
+      },
+      {
+        "label": "HOSEE",
+        "used": true
+      },
+      {
+        "label": "H13.W",
+        "used": true
+      },
+      {
+        "label": "H13",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ]
+}

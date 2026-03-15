@@ -66,6 +66,58 @@ osButtons = {
 	}
 }
 
+routeButtons = {
+	"NRtT12W10": ["NNXBtnT12", "NNXBtnW10"],
+	"NRtN60N31": ["NNXBtnN60", "NNXBtnN31W"],
+	"NRtN60N32": ["NNXBtnN60", "NNXBtnN32W"],
+	"NRtN60W10": ["NNXBtnN60", "NNXBtnW10"],
+	"NRtN60N12": ["NNXBtnN60", "NNXBtnN12W"],
+	"NRtN60N22": ["NNXBtnN60", "NNXBtnN22W"],
+	"NRtN60N41": ["NNXBtnN60", "NNXBtnN41W"],
+	"NRtN60N42": ["NNXBtnN60", "NNXBtnN42W"],
+	"NRtN60W20": ["NNXBtnN60", "NNXBtnW20W"],
+	"NRtN11N31": ["NNXBtnN11", "NNXBtnN31W"],
+	"NRtN11N32": ["NNXBtnN11", "NNXBtnN32W"],
+	"NRtN11W10": ["NNXBtnN11", "NNXBtnW10"],
+	"NRtN11N12": ["NNXBtnN11", "NNXBtnN12W"],
+	"NRtN11N22": ["NNXBtnN11", "NNXBtnN22W"],
+	"NRtN11N41": ["NNXBtnN11", "NNXBtnN41W"],
+	"NRtN11N42": ["NNXBtnN11", "NNXBtnN42W"],
+	"NRtN11W20": ["NNXBtnN11", "NNXBtnW20W"],
+	"NRtN21N31": ["NNXBtnN21", "NNXBtnN31W"],
+	"NRtN21N32": ["NNXBtnN21", "NNXBtnN32W"],
+	"NRtN21W10": ["NNXBtnN21", "NNXBtnW10"],
+	"NRtN21N12": ["NNXBtnN21", "NNXBtnN12W"],
+	"NRtN21N22": ["NNXBtnN21", "NNXBtnN22W"],
+	"NRtN21N41": ["NNXBtnN21", "NNXBtnN41W"],
+	"NRtN21N42": ["NNXBtnN21", "NNXBtnN42W"],
+	"NRtN21W20": ["NNXBtnN21", "NNXBtnW20W"],
+	"NRtR10W11": ["NNXBtnR10", "NNXBtnW11"],
+	"NRtR10N32": ["NNXBtnR10", "NNXBtnN32E"],
+	"NRtR10N31": ["NNXBtnR10", "NNXBtnN31E"],
+	"NRtR10N12": ["NNXBtnR10", "NNXBtnN12E"],
+	"NRtR10N22": ["NNXBtnR10", "NNXBtnN22E"],
+	"NRtR10N41": ["NNXBtnR10", "NNXBtnN41E"],
+	"NRtR10N42": ["NNXBtnR10", "NNXBtnN42E"],
+	"NRtR10W20": ["NNXBtnR10", "NNXBtnW20E"],
+	"NRtB10W11": ["NNXBtnB10", "NNXBtnW11"],
+	"NRtB10N32": ["NNXBtnB10", "NNXBtnN32E"],
+	"NRtB10N31": ["NNXBtnB10", "NNXBtnN31E"],
+	"NRtB10N12": ["NNXBtnB10", "NNXBtnN12E"],
+	"NRtB10N22": ["NNXBtnB10", "NNXBtnN22E"],
+	"NRtB10N41": ["NNXBtnB10", "NNXBtnN41E"],
+	"NRtB10N42": ["NNXBtnB10", "NNXBtnN42E"],
+	"NRtB10W20": ["NNXBtnB10", "NNXBtnW20E"],
+	"NRtB20W11": ["NNXBtnB20", "NNXBtnW11"],
+	"NRtB20N32": ["NNXBtnB20", "NNXBtnN32E"],
+	"NRtB20N31": ["NNXBtnB20", "NNXBtnN31E"],
+	"NRtB20N12": ["NNXBtnB20", "NNXBtnN12E"],
+	"NRtB20N22": ["NNXBtnB20", "NNXBtnN22E"],
+	"NRtB20N41": ["NNXBtnB20", "NNXBtnN41E"],
+	"NRtB20N42": ["NNXBtnB20", "NNXBtnN42E"],
+	"NRtB20W20": ["NNXBtnB20", "NNXBtnW20E"]
+}
+
 
 class MainFrame(wx.Frame):
 	def __init__(self, cmdFolder):
@@ -525,9 +577,11 @@ class MainFrame(wx.Frame):
 		currentRoute = self.routes.get(osName, None)
 		if currentRoute != route:
 			try:
+				logging.debug("OS buttons for route %s" % route)
 				nxb = osButtons[osName][route]
 			except KeyError:
-				nxb = None
+				nxb = routeButtons.get(route, None)
+			logging.debug("%s" % str(nxb))
 			if nxb is None:  # set route with individual turnout commands
 				toCmd = []
 				for tnm, pos in req.ToList():
@@ -543,7 +597,13 @@ class MainFrame(wx.Frame):
 						self.Request({"turnoutclick": {"name": tnm, "status": pos}})
 					return False
 			else:
-				self.Request({"nxbutton": {"button": [nxb], "cmd": ["nxbutton"]}})
+				if type(nxb) is list:
+					if len(nxb) > 1:
+						self.Request({"nxbutton": {"entry": [nxb[0]], "exit": [nxb[1]], "cmd": ["nxbutton"]}})
+					else:
+						self.Request({"nxbutton": {"button": [nxb[0]], "cmd": ["nxbutton"]}})
+				else:
+					self.Request({"nxbutton": {"button": [nxb], "cmd": ["nxbutton"]}})
 			return False
 
 		# once the route is correct, request a permissive signal

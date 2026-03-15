@@ -1,0 +1,110 @@
+{
+  "address": 116,
+  "description": "Nassau NX Control",
+  "obytes": [
+    [
+      {
+        "label": "NNXBtnT12",
+        "used": true
+      },
+      {
+        "label": "NNXBtnN60",
+        "used": true
+      },
+      {
+        "label": "NNXBtnN11",
+        "used": true
+      },
+      {
+        "label": "NNXBtnN21",
+        "used": true
+      },
+      {
+        "label": "NNXBtnW10",
+        "used": true
+      },
+      {
+        "label": "NNXBtnN32W",
+        "used": true
+      },
+      {
+        "label": "NNXBtnN31W",
+        "used": true
+      },
+      {
+        "label": "NNXBtnN12W",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "NNXBtnN22W",
+        "used": true
+      },
+      {
+        "label": "NNXBtnN41W",
+        "used": true
+      },
+      {
+        "label": "NNXBtnN42W",
+        "used": true
+      },
+      {
+        "label": "NNXBtnW20W",
+        "used": true
+      },
+      {
+        "label": "NNXBtnW11",
+        "used": true
+      },
+      {
+        "label": "NNXBtnN32E",
+        "used": true
+      },
+      {
+        "label": "NNXBtnN31E",
+        "used": true
+      },
+      {
+        "label": "NNXBtnN12E",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "NNXBtnN22E",
+        "used": true
+      },
+      {
+        "label": "NNXBtnN41E",
+        "used": true
+      },
+      {
+        "label": "NNXBtnN42E",
+        "used": true
+      },
+      {
+        "label": "NNXBtnN20E",
+        "used": true
+      },
+      {
+        "label": "NNXBtnR10",
+        "used": true
+      },
+      {
+        "label": "NNXBtnB10",
+        "used": true
+      },
+      {
+        "label": "NNXBtnB20",
+        "used": true
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      }
+    ]
+  ],
+  "ibytes": [
+  ]
+}
