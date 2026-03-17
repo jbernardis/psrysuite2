@@ -4,65 +4,65 @@
   "obytes": [
     [
       {
-        "label": "C14L(0)",
+        "label": "C14L(0) Aspect",
         "used": true
       },
       {
-        "label": "C14L(1)",
+        "label": "C14L(1) Aspect",
         "used": true
       },
       {
-        "label": "C14L(2)",
+        "label": "C14L(2) Aspect",
         "used": true
       },
       {
-        "label": "C14RA(0)",
+        "label": "C14RA(0) Aspect",
         "used": true
       },
       {
-        "label": "C14RA(1)",
+        "label": "C14RA(1) Aspect",
         "used": true
       },
       {
-        "label": "C14RA(2)",
+        "label": "C14RA(2) Aspect",
         "used": true
       },
       {
-        "label": "C14RB(0)",
+        "label": "C14RB(0) Aspect",
         "used": true
       },
       {
-        "label": "C14RB(1)",
+        "label": "C14RB(1) Aspect",
         "used": true
       }
     ],
     [
       {
-        "label": "C14RB(2)",
+        "label": "C14RB(2) Aspect",
         "used": true
       },
       {
-        "label": "C12L(0)",
+        "label": "C12L(0) Aspect",
         "used": true
       },
       {
-        "label": "C12L(1)",
+        "label": "C12L(1) Aspect",
         "used": true
       },
       {
-        "label": "C12L(2)",
+        "label": "C12L(2) Aspect",
         "used": true
       },
       {
-        "label": "C10L(0)",
+        "label": "C10L(0) Aspect",
         "used": true
       },
       {
-        "label": "C10L(1)",
+        "label": "C10L(1) Aspect",
         "used": true
       },
       {
-        "label": "C10L(2)",
+        "label": "C10L(2) Aspect",
         "used": true
       },
       {
@@ -72,45 +72,45 @@
     ],
     [
       {
-        "label": "C12R(0)",
+        "label": "C12R(0) Aspect",
         "used": true
       },
       {
-        "label": "C12R(1)",
+        "label": "C12R(1) Aspect",
         "used": true
       },
       {
-        "label": "C12R(2)",
+        "label": "C12R(2) Aspect",
         "used": true
       },
       {
-        "label": "C10R(0)",
+        "label": "C10R(0) Aspect",
         "used": true
       },
       {
-        "label": "C10R(1)",
+        "label": "C10R(1) Aspect",
         "used": true
       },
       {
-        "label": "C10R(2)",
+        "label": "C10R(2) Aspect",
         "used": true
       },
       {
-        "label": "CSw11.hslck",
+        "label": "CSw11 Hand Switch Lock",
         "used": true
       },
       {
-        "label": "CSw13.N",
+        "label": "CSw13 Normal",
         "used": true
       }
     ],
     [
       {
-        "label": "CSw13.R",
+        "label": "CSw13 Reverse",
         "used": true
       },
       {
-        "label": "CSw9.N",
+        "label": "CSw9 Normal",
         "used": true
       },
       {
@@ -118,19 +118,19 @@
         "used": false
       },
       {
-        "label": "C13.srel",
+        "label": "C13 Stop Relay",
         "used": true
       },
       {
-        "label": "C23.srel",
+        "label": "C23 Stop Relay",
         "used": true
       },
       {
-        "label": "C12.srel",
+        "label": "C12 Stop Relay",
         "used": true
       },
       {
-        "label": "CSw9.R (from 3:2)",
+        "label": "CSw9 Reverse (from 3:2)",
         "used": true
       },
       {
@@ -150,75 +150,75 @@
         "used": false
       },
       {
-        "label": "CSw13.N",
+        "label": "CSw13 Normal",
         "used": true
       },
       {
-        "label": "CSw13.R",
+        "label": "CSw13 Reverse",
         "used": true
       },
       {
-        "label": "CSw11.N",
+        "label": "CSw11 Normal",
         "used": true
       },
       {
-        "label": "CSw11.R",
+        "label": "CSw11 Reverse",
         "used": true
       },
       {
-        "label": "CSw9.N",
+        "label": "CSw9 Normal",
         "used": true
       },
       {
-        "label": "CSw9.R",
+        "label": "CSw9 Reverse",
         "used": true
       }
     ],
     [
       {
-        "label": "C13.W",
+        "label": "C13.W Occupied",
         "used": true
       },
       {
-        "label": "C13",
+        "label": "C13 Occupied",
         "used": true
       },
       {
-        "label": "C13.E",
+        "label": "C13.E Occupied",
         "used": true
       },
       {
-        "label": "COSCLW",
+        "label": "COSCLW Occupied",
         "used": true
       },
       {
-        "label": "C12.W",
+        "label": "C12.W Occupied",
         "used": true
       },
       {
-        "label": "C12",
+        "label": "C12 Occupied",
         "used": true
       },
       {
-        "label": "C23.W",
+        "label": "C23.W Occupied",
         "used": true
       },
       {
-        "label": "C23",
+        "label": "C23 Occupied",
         "used": true
       }
     ],
     [
       {
-        "label": "COSCLEW",
+        "label": "COSCLEW Occupied",
         "used": true
       },
       {
-        "label": "COSCLEE",
+        "label": "COSCLEE Occupied",
         "used": true
       },
       {
-        "label": "C22",
+        "label": "C22 Occupied",
         "used": true
       },
       {
@@ -226,41 +226,41 @@
         "used": false
       },
       {
-        "label": "CBGreenMtnStn",
+        "label": "GreenMtnStn Breaker",
         "used": true
       },
       {
-        "label": "CBSheffieldA",
+        "label": "SheffieldA Breaker",
         "used": true
       },
       {
-        "label": "CBGreenMtnYd",
+        "label": "GreenMtnYd Breaker",
         "used": true
       },
       {
-        "label": "CBHydeJct",
+        "label": "HydeJct Breaker",
         "used": true
       }
     ],
     [
       {
-        "label": "CBHydeWest",
+        "label": "HydeWest Breaker",
         "used": true
       },
       {
-        "label": "CBHydeEast",
+        "label": "HydeEast Breaker",
         "used": true
       },
       {
-        "label": "CBSouthportJct",
+        "label": "SouthportJct Breaker",
         "used": true
       },
       {
-        "label": "CBCarlton",
+        "label": "Carlton Breaker",
         "used": true
       },
       {
-        "label": "CBSheffieldB",
+        "label": "SheffieldB Breaker",
         "used": true
       },
       {

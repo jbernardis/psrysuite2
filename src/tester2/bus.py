@@ -41,6 +41,7 @@ class Bus:
 
 		except serial.SerialException as e:
 			self.port = None
+			self.initialized = True
 			self.error = str(e)
 			return
 

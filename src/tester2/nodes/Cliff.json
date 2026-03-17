@@ -4,261 +4,261 @@
   "obytes": [
     [
       {
-        "label": "C2:R",
+        "label": "C2 Right Ind",
         "used": true
       },
       {
-        "label": "C2:N",
+        "label": "C2 Neutral Ind",
         "used": true
       },
       {
-        "label": "C2:L",
+        "label": "C2 Left Ind",
         "used": true
       },
       {
-        "label": "C4:R",
+        "label": "C4 Right Ind",
         "used": true
       },
       {
-        "label": "C4:N",
+        "label": "C4 Neutral Ind",
         "used": true
       },
       {
-        "label": "C4:L",
+        "label": "C4 Left Ind",
         "used": true
       },
       {
-        "label": "C6:R",
+        "label": "C6 Right Ind",
         "used": true
       },
       {
-        "label": "C6:N",
+        "label": "C6 Neutral Ind",
         "used": true
       }
     ],
     [
       {
-        "label": "C6:L",
+        "label": "C6 Left Ind",
         "used": true
       },
       {
-        "label": "C8:R",
+        "label": "C8 Right Ind",
         "used": true
       },
       {
-        "label": "C8:N",
+        "label": "C8 Neutral Ind",
         "used": true
       },
       {
-        "label": "C8:L",
+        "label": "C8 Left Ind",
         "used": true
       },
       {
-        "label": "C10:R",
+        "label": "C10 Right Ind",
         "used": true
       },
       {
-        "label": "C10:N",
+        "label": "C10 Neutral Ind",
         "used": true
       },
       {
-        "label": "C10:L",
+        "label": "C10 Left Ind",
         "used": true
       },
       {
-        "label": "C12:R",
+        "label": "C12 Right Ind",
         "used": true
       }
     ],
     [
       {
-        "label": "C12:N",
+        "label": "C12 Neutral Ind",
         "used": true
       },
       {
-        "label": "C12:L",
+        "label": "C12 Left Ind",
         "used": true
       },
       {
-        "label": "C14:R",
+        "label": "C14 Right Ind",
         "used": true
       },
       {
-        "label": "C14:N",
+        "label": "C14 Neutral Ind",
         "used": true
       },
       {
-        "label": "C14:L",
+        "label": "C14 Left Ind",
         "used": true
       },
       {
-        "label": "CFleet",
+        "label": "C Fleet",
         "used": true
       },
       {
-        "label": "!CFleet",
+        "label": "!C Fleet",
         "used": true
       },
       {
-        "label": "C18:R",
+        "label": "C18 Right Ind",
         "used": true
       }
     ],
     [
       {
-        "label": "C18:N",
+        "label": "C18 Neutral Ind",
         "used": true
       },
       {
-        "label": "C18:L",
+        "label": "C18 Left Ind",
         "used": true
       },
       {
-        "label": "C22:R",
+        "label": "C22 Right Ind",
         "used": true
       },
       {
-        "label": "C22:N",
+        "label": "C22 Neutral Ind",
         "used": true
       },
       {
-        "label": "C22:L",
+        "label": "C22 Left Ind",
         "used": true
       },
       {
-        "label": "C24:R",
+        "label": "C24 Right Ind",
         "used": true
       },
       {
-        "label": "C24:N",
+        "label": "C24 Neutral Ind",
         "used": true
       },
       {
-        "label": "C24:L",
+        "label": "C24 Left Ind",
         "used": true
       }
     ],
     [
       {
-        "label": "CSw3.hslck",
+        "label": "CSw3 Hand Switch Ind",
         "used": true
       },
       {
-        "label": "!CSw3.hslck",
+        "label": "CSw3 !Hand Switch Ind",
         "used": true
       },
       {
-        "label": "CSw11.hslck",
+        "label": "CSw11 Hand Switch Ind",
         "used": true
       },
       {
-        "label": "!CSw11.hslck",
+        "label": "CSw11 !Hand Switch Ind",
         "used": true
       },
       {
-        "label": "CSw15.hslck",
+        "label": "CSw15 Hand Switch Ind",
         "used": true
       },
       {
-        "label": "!CSw15.hslck",
+        "label": "CSw15 !Hand Switch Ind",
         "used": true
       },
       {
-        "label": "CSw19.hslck",
+        "label": "CSw19 Hand Switch Ind",
         "used": true
       },
       {
-        "label": "!CSw19.hslck",
+        "label": "CSw19 !Hand Switch Ind",
         "used": true
       }
     ],
     [
       {
-        "label": "CSw21ab.hslck",
+        "label": "CSw21ab Hand Switch Ind",
         "used": true
       },
       {
-        "label": "!CSw21ab.hslck",
+        "label": "CSw21ab !Hand Switch Ind",
         "used": true
       },
       {
-        "label": "B10.ind",
+        "label": "B10 Occupied Ind",
         "used": true
       },
       {
-        "label": "CBGreenMtn.ind",
+        "label": "GreenMtn Breaker Ind",
         "used": true
       },
       {
-        "label": "CBSheffield.ind",
+        "label": "Sheffield Breaker Ind",
         "used": true
       },
       {
-        "label": "CBCliveden",
+        "label": "Cliveden Breaker Ind",
         "used": true
       },
       {
-        "label": "CBReverserC22C23",
+        "label": "ReverserC22C23 Ind",
         "used": true
       },
       {
-        "label": "CBBank",
+        "label": "Bank Breaker Ind",
         "used": true
       }
     ],
     [
       {
-        "label": "CSw31.lck",
+        "label": "CSw31 Switch Lock",
         "used": true
       },
       {
-        "label": "CSw41.lck",
+        "label": "CSw41 Switch Lock",
         "used": true
       },
       {
-        "label": "CSw43.lck",
+        "label": "CSw43 Switch Lock",
         "used": true
       },
       {
-        "label": "CSw61.lck",
+        "label": "CSw61 Switch Lock",
         "used": true
       },
       {
-        "label": "CSw9.lck",
+        "label": "CSw9 Switch Lock",
         "used": true
       },
       {
-        "label": "CSw13.lck",
+        "label": "CSw13 Switch Lock",
         "used": true
       },
       {
-        "label": "CSw17.lck",
+        "label": "CSw17 Switch Lock",
         "used": true
       },
       {
-        "label": "CSw23.lck",
+        "label": "CSw23 Switch Lock",
         "used": true
       }
     ],
     [
       {
-        "label": "CSw21a.hsind",
+        "label": "CSw21a Hand Switch Lock",
         "used": true
       },
       {
-        "label": "CSw21b.hsind",
+        "label": "CSw21b Hand Switch Lock",
         "used": true
       },
       {
-        "label": "CSw19,hsind",
+        "label": "CSw19 Hand Switch Lock",
         "used": true
       },
       {
-        "label": "CSw15.hsind",
+        "label": "CSw15 Hand Switch Lock",
         "used": true
       },
       {
-        "label": "CSw11.hsind",
+        "label": "CSw11 Hand Switch Lock",
         "used": true
       },
       {
@@ -278,171 +278,171 @@
   "ibytes": [
     [
       {
-        "label": "CC21E route",
+        "label": "CC21E Route",
         "used": true
       },
       {
-        "label": "CC40E",
+        "label": "CC40E Route",
         "used": true
       },
       {
-        "label": "CC44E",
+        "label": "CC44E Route",
         "used": true
       },
       {
-        "label": "CC43E",
+        "label": "CC43E Route",
         "used": true
       },
       {
-        "label": "CC42E",
+        "label": "CC42E Route",
         "used": true
       },
       {
-        "label": "CC41E",
+        "label": "CC41E Route",
         "used": true
       },
       {
-        "label": "CC41W",
+        "label": "CC41W Route",
         "used": true
       },
       {
-        "label": "CC42W",
+        "label": "CC42W Route",
         "used": true
       }
     ],
     [
       {
-        "label": "CC21W",
+        "label": "CC21W Route",
         "used": true
       },
       {
-        "label": "CC40W",
+        "label": "CC40W Route",
         "used": true
       },
       {
-        "label": "CC44W",
+        "label": "CC44W Route",
         "used": true
       },
       {
-        "label": "CC43W",
+        "label": "CC43W Route",
         "used": true
       },
       {
-        "label": "COSSHE",
+        "label": "COSSHE Occupied",
         "used": true
       },
       {
-        "label": "C21",
+        "label": "C21 Occupied",
         "used": true
       },
       {
-        "label": "C40",
+        "label": "C40 Occupied",
         "used": true
       },
       {
-        "label": "C41",
+        "label": "C41 Occupied",
         "used": true
       }
     ],
     [
       {
-        "label": "C42",
+        "label": "C42 Occupied",
         "used": true
       },
       {
-        "label": "C43",
+        "label": "C43 Occupied",
         "used": true
       },
       {
-        "label": "C44",
+        "label": "C44 Occupied",
         "used": true
       },
       {
-        "label": "COSSHW",
+        "label": "COSSHW Occupied",
         "used": true
       },
       {
-        "label": "C2.Rlvr",
+        "label": "C2 Right",
         "used": true
       },
       {
-        "label": "C2.Clvr",
+        "label": "C2 Call on",
         "used": true
       },
       {
-        "label": "C2.Llvr",
+        "label": "C2 Left",
         "used": true
       },
       {
-        "label": "C4.Rlvr",
+        "label": "C4 Right",
         "used": true
       }
     ],
     [
       {
-        "label": "C4.Clvr",
+        "label": "C4 Call on",
         "used": true
       },
       {
-        "label": "C4.Llvr",
+        "label": "C4 Left",
         "used": true
       },
       {
-        "label": "C6.Rlvr",
+        "label": "C6 Right",
         "used": true
       },
       {
-        "label": "C6.Clvr",
+        "label": "C6 Call on",
         "used": true
       },
       {
-        "label": "C6.Llvr",
+        "label": "C6 Left",
         "used": true
       },
       {
-        "label": "C8.Rlvr",
+        "label": "C8 Right",
         "used": true
       },
       {
-        "label": "C8.Clvr",
+        "label": "C8 Call on",
         "used": true
       },
       {
-        "label": "C8.Llvr",
+        "label": "C8 Left",
         "used": true
       }
     ],
     [
       {
-        "label": "C10.Rlvr",
+        "label": "C10 Right",
         "used": true
       },
       {
-        "label": "C10.Clvr",
+        "label": "C10 Call on",
         "used": true
       },
       {
-        "label": "C10.Llvr",
+        "label": "C10 Left",
         "used": true
       },
       {
-        "label": "C12.Rlvr",
+        "label": "C12 Right",
         "used": true
       },
       {
-        "label": "C12.Clvr",
+        "label": "C12 Call on",
         "used": true
       },
       {
-        "label": "C12.Llvr",
+        "label": "C12 Left",
         "used": true
       },
       {
-        "label": "C14.Rlvr",
+        "label": "C14 Right",
         "used": true
       },
       {
-        "label": "C14.Clvr",
+        "label": "C14 Call on",
         "used": true
       }
     ],
@@ -452,75 +452,75 @@
         "used": false
       },
       {
-        "label": "CFleet",
+        "label": "C Fleet",
         "used": true
       },
       {
-        "label": "C18.Rlvr",
+        "label": "C18 Right",
         "used": true
       },
       {
-        "label": "C18.Clvr",
+        "label": "C18 Call on",
         "used": true
       },
       {
-        "label": "C18.Llvr",
+        "label": "C18 Left",
         "used": true
       },
       {
-        "label": "C22.Rlvr",
+        "label": "C22 Right",
         "used": true
       },
       {
-        "label": "C22.Clvr",
+        "label": "C22 Call on",
         "used": true
       },
       {
-        "label": "C22.Llvr",
+        "label": "C22 Left",
         "used": true
       }
     ],
     [
       {
-        "label": "C24.Rlvr",
+        "label": "C24 Right",
         "used": true
       },
       {
-        "label": "C24.Clvr",
+        "label": "C24 Call on",
         "used": true
       },
       {
-        "label": "C24.Llvr",
+        "label": "C24 Left",
         "used": true
       },
       {
-        "label": "CRelease",
+        "label": "C Release",
         "used": true
       },
       {
-        "label": "CSw3.hand",
+        "label": "CSw3 Hand Switch",
         "used": true
       },
       {
-        "label": "CSw11.hand",
+        "label": "CSw11 Hand Switch",
         "used": true
       },
       {
-        "label": "CSw15.hand",
+        "label": "CSw15 Hand Switch",
         "used": true
       },
       {
-        "label": "CSw19.hand",
+        "label": "CSw19 Hand Switch",
         "used": true
       }
     ],
     [
       {
-        "label": "CSw21ab.hand",
+        "label": "CSw21ab Hand Switch",
         "used": true
       },
       {
-        "label": "C14.Llvr",
+        "label": "C14 Left (see bit 5:0)",
         "used": true
       },
       {

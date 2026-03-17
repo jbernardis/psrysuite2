@@ -71,6 +71,7 @@ class MyFrame(wx.Frame):
         self.Bind(wx.EVT_CLOSE, self.onClose)
 
         self.bus = Bus(self.settings.rrserver.rrtty)
+        self.running = False
 
         self.nodes = []
         maxBytes = 0
@@ -78,6 +79,18 @@ class MyFrame(wx.Frame):
             if nbytes > maxBytes:
                 maxBytes = nbytes
             self.nodes.append(Node(self.bus, addr, nbytes))
+
+        self.bmGreen = wx.Image(os.path.join(os.getcwd(), "images", "atlGreen.png"), wx.BITMAP_TYPE_PNG).ConvertToBitmap()
+        mask = wx.Mask(self.bmGreen, wx.BLUE)
+        self.bmGreen.SetMask(mask)
+
+        self.bmRed = wx.Image(os.path.join(os.getcwd(), "images", "atlRed.png"), wx.BITMAP_TYPE_PNG).ConvertToBitmap()
+        mask = wx.Mask(self.bmRed, wx.BLUE)
+        self.bmRed.SetMask(mask)
+
+        self.bmGray = wx.Image(os.path.join(os.getcwd(), "images", "atlGray.png"), wx.BITMAP_TYPE_PNG).ConvertToBitmap()
+        mask = wx.Mask(self.bmGray, wx.BLUE)
+        self.bmGray.SetMask(mask)
 
         nNodes = len(self.nodes)
         nRows = nNodes * 2
@@ -180,6 +193,11 @@ class MyFrame(wx.Frame):
 
         boxsizer.AddSpacer(60)
 
+        self.bmSignal = wx.StaticBitmap(sendBox, wx.ID_ANY, self.bmGray)
+        boxsizer.Add(self.bmSignal, 0, wx.ALIGN_CENTER_HORIZONTAL)
+
+        boxsizer.AddSpacer(10)
+
         st = wx.StaticText(sendBox, wx.ID_ANY, "Interval (usec)")
         boxsizer.Add(st, 0, wx.ALIGN_CENTER_HORIZONTAL)
         boxsizer.AddSpacer(10)
@@ -263,6 +281,8 @@ class MyFrame(wx.Frame):
             self.bStop.Enable(False)
             self.bOnce.Enable(False)
             self.bConnect.SetLabel("Connect")
+            self.bmSignal.SetBitmap(self.bmRed)
+
         else:
             self.bus.Connect()
             if not self.bus.isOpen():
@@ -272,16 +292,24 @@ class MyFrame(wx.Frame):
                 dlg = wx.MessageDialog(self, msg, "Bus Connect Error", wx.OK | wx.ICON_INFORMATION)
                 dlg.ShowModal()
                 dlg.Destroy()
+                self.bmSignal.SetBitmap(self.bmGray)
 
             else:
                 self.bStart.Enable(True)
                 self.bStop.Enable(False)
                 self.bOnce.Enable(True)
                 self.bConnect.SetLabel("Disconnect")
+                self.bmSignal.SetBitmap(self.bmRed)
 
     def refresh(self):
         self.grid.ClearSelection()
         self.grid.Refresh()
+        if not self.bus.isOpen():
+            self.bmSignal.SetBitmap(self.bmGray)
+        elif self.running:
+            self.bmSignal.SetBitmap(self.bmGreen)
+        else:
+            self.bmSignal.SetBitmap(self.bmRed)
 
     def OnBRefresh(self, _):
         self.refresh()
@@ -293,12 +321,14 @@ class MyFrame(wx.Frame):
         self.timer.Stop()
 
     def OnTimer(self, _):
-        print("tick")
         self.SendOne()
 
     def SendOne(self):
-        for nd in self.nodes:
-            nd.OutIn()
+        try:
+            for nd in self.nodes:
+                nd.OutIn()
+        except Exception as e:
+            print("Exception %s" % str(e))
 
     def OnBOnce(self, _):
         self.SendOne()
@@ -308,12 +338,16 @@ class MyFrame(wx.Frame):
         self.bStart.Enable(False)
         self.bStop.Enable(True)
         self.StartTimer()
+        self.running = True
+        self.bmSignal.SetBitmap(self.bmGreen)
 
     def OnBStop(self, _):
         self.bOnce.Enable(True)
         self.bStart.Enable(True)
         self.bStop.Enable(False)
         self.StopTimer()
+        self.running = False
+        self.bmSignal.SetBitmap(self.bmRed)
 
     def OnGridMotion(self, evt):
         pass

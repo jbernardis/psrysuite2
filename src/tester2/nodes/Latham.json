@@ -4,11 +4,11 @@
   "obytes": [
     [
       {
-        "label": "LSw1.N",
+        "label": "LSw1 Normal",
         "used": true
       },
       {
-        "label": "LSw1.R",
+        "label": "LSw1 Reverse",
         "used": true
       },
       {
@@ -16,71 +16,71 @@
         "used": false
       },
       {
-        "label": "LSw3.R",
+        "label": "LSw3 Reverse",
         "used": true
       },
       {
-        "label": "LSw5.N",
+        "label": "LSw5 Normal",
         "used": true
       },
       {
-        "label": "LSw5.R",
+        "label": "LSw5 Reverse",
         "used": true
       },
       {
-        "label": "LSw7.R",
+        "label": "LSw7 Reverse",
         "used": true
       },
       {
-        "label": "LSw7.N",
+        "label": "LSw7 Normal",
         "used": true
       }
     ],
     [
       {
-        "label": "LSw9.N",
+        "label": "LSw9 Normal",
         "used": true
       },
       {
-        "label": "LSw9.R",
+        "label": "LSw9 Reverse",
         "used": true
       },
       {
-        "label": "L4R(0)",
+        "label": "L4R(0) Aspect",
         "used": true
       },
       {
-        "label": "L4R(1)",
+        "label": "L4R(1) Aspect",
         "used": true
       },
       {
-        "label": "L4R(2)",
+        "label": "L4R(2) Aspect",
         "used": true
       },
       {
-        "label": "L6RB",
+        "label": "L6RB Aspect",
         "used": true
       },
       {
-        "label": "L6RA(0)",
+        "label": "L6RA(0) Aspect",
         "used": true
       },
       {
-        "label": "L6RA(1)",
+        "label": "L6RA(1 Aspect",
         "used": true
       }
     ],
     [
       {
-        "label": "L6RA(2)",
+        "label": "L6RA(2) Aspect",
         "used": true
       },
       {
-        "label": "L8R",
+        "label": "L8R Aspect",
         "used": true
       },
       {
-        "label": "LSw3.N (see bit 0:2)",
+        "label": "LSw3 Normal (see bit 0:2)",
         "used": true
       },
       {
@@ -88,63 +88,63 @@
         "used": false
       },
       {
-        "label": "L4L",
+        "label": "L4L Aspect",
         "used": true
       },
       {
-        "label": "L6L(0)",
+        "label": "L6L(0) Aspect",
         "used": true
       },
       {
-        "label": "L6L(1)",
+        "label": "L6L(1) Aspect",
         "used": true
       },
       {
-        "label": "L6L(2)",
+        "label": "L6L(2) Aspect",
         "used": true
       }
     ],
     [
       {
-        "label": "L8L(0)",
+        "label": "L8L(0) Aspect",
         "used": true
       },
       {
-        "label": "L8L(1)",
+        "label": "L8L(1) Aspect",
         "used": true
       },
       {
-        "label": "L8L(2)",
+        "label": "L8L(2) Aspect",
         "used": true
       },
       {
-        "label": "L10",
+        "label": "L10 Occupied Ind",
         "used": true
       },
       {
-        "label": "L31",
+        "label": "L31 Occupied Ind",
         "used": true
       },
       {
-        "label": "P11",
+        "label": "P11 Occupied Ind",
         "used": true
       },
       {
-        "label": "L20.srel",
+        "label": "L20 Stop Relay",
         "used": true
       },
       {
-        "label": "P21.srel",
+        "label": "P21 Stop Relay",
         "used": true
       }
     ],
     [
       {
-        "label": "L11.srel",
+        "label": "L11 Stop Relay",
         "used": true
       },
       {
-        "label": "L21.srel",
+        "label": "L21 Stop Relay",
         "used": true
       },
       {
@@ -176,147 +176,147 @@
   "ibytes": [
     [
       {
-        "label": "LSw1.N",
+        "label": "LSw1 Normal",
         "used": true
       },
       {
-        "label": "LSw1.R",
+        "label": "LSw1 Reverse",
         "used": true
       },
       {
-        "label": "LSw3.N",
+        "label": "LSw3 Normal",
         "used": true
       },
       {
-        "label": "LSw3.R",
+        "label": "LSw3 Reverse",
         "used": true
       },
       {
-        "label": "LSw5.N",
+        "label": "LSw5 Normal",
         "used": true
       },
       {
-        "label": "LSw5.R",
+        "label": "LSw5 Reverse",
         "used": true
       },
       {
-        "label": "LSw7.N",
+        "label": "LSw7 Normal",
         "used": true
       },
       {
-        "label": "LSw7.R",
+        "label": "LSw7 Reverse",
         "used": true
       }
     ],
     [
       {
-        "label": "LSw9.N",
+        "label": "LSw9 Normal",
         "used": true
       },
       {
-        "label": "LSw9.R",
+        "label": "LSw9 Reverse",
         "used": true
       },
       {
-        "label": "L20",
+        "label": "L20 Occupied",
         "used": true
       },
       {
-        "label": "L20.E",
+        "label": "L20.E Occupied",
         "used": true
       },
       {
-        "label": "P21",
+        "label": "P21 Occupied",
         "used": true
       },
       {
-        "label": "P21.E",
+        "label": "P21.E Occupied",
         "used": true
       },
       {
-        "label": "LOSLAW",
+        "label": "LOSLAW Occupied",
         "used": true
       },
       {
-        "label": "LOSLAM",
+        "label": "LOSLAM Occupied",
         "used": true
       }
     ],
     [
       {
-        "label": "LOSLAE",
+        "label": "LOSLAE Occupied",
         "used": true
       },
       {
-        "label": "L11.W",
+        "label": "L11.W Occupied",
         "used": true
       },
       {
-        "label": "L11",
+        "label": "L11 Occupied",
         "used": true
       },
       {
-        "label": "L21.W",
+        "label": "L21.W Occupied",
         "used": true
       },
       {
-        "label": "L21",
+        "label": "L21 Occupied",
         "used": true
       },
       {
-        "label": "L21.E",
+        "label": "L21.E Occupied",
         "used": true
       },
       {
-        "label": "CBCliveden",
+        "label": "Cliveden Breaker",
         "used": true
       },
       {
-        "label": "CBLatham",
+        "label": "Latham Breaker",
         "used": true
       }
     ],
     [
       {
-        "label": "CBCornellJct",
+        "label": "CornellJct Breaker",
         "used": true
       },
       {
-        "label": "CBParsonsJct",
+        "label": "ParsonsJct Breaker",
         "used": true
       },
       {
-        "label": "CBSouthJct",
+        "label": "SouthJct Breaker",
         "used": true
       },
       {
-        "label": "CBCircusJct",
+        "label": "CircusJct Breaker",
         "used": true
       },
       {
-        "label": "CBSouthport",
+        "label": "Southport Breaker",
         "used": true
       },
       {
-        "label": "CBLavinYard",
+        "label": "LavinYard Breaker",
         "used": true
       },
       {
-        "label": "CBReverserP31",
+        "label": "Reverser P31",
         "used": true
       },
       {
-        "label": "CBReverserP41",
+        "label": "Reverser P41",
         "used": true
       }
     ],
     [
       {
-        "label": "CBReverserP50",
+        "label": "Reverser P50",
         "used": true
       },
       {
-        "label": "CBReverserC22C23",
+        "label": "Reverser C22/C23",
         "used": true
       },
       {

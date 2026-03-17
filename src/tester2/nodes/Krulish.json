@@ -4,103 +4,103 @@
   "obytes": [
     [
       {
-        "label": "K8R(0)",
+        "label": "K8R(0) Aspect",
         "used": true
       },
       {
-        "label": "K8R(1)",
+        "label": "K8R(1) Aspect",
         "used": true
       },
       {
-        "label": "K8R(2)",
+        "label": "K8R(2) Aspect",
         "used": true
       },
       {
-        "label": "K4R(0)",
+        "label": "K4R(0) Aspect",
         "used": true
       },
       {
-        "label": "K4R(1)",
+        "label": "K4R(1) Aspect",
         "used": true
       },
       {
-        "label": "K4R(2)",
+        "label": "K4R(2) Aspect",
         "used": true
       },
       {
-        "label": "K2R(0)",
+        "label": "K2R(0) Aspect",
         "used": true
       },
       {
-        "label": "K2R(1)",
-        "used": true
-      }
-    ],
-    [
-      {
-        "label": "K2R(2)",
-        "used": true
-      },
-      {
-        "label": "K2L(0)",
-        "used": true
-      },
-      {
-        "label": "K2L(1)",
-        "used": true
-      },
-      {
-        "label": "K2L(2)",
-        "used": true
-      },
-      {
-        "label": "K8LA",
-        "used": true
-      },
-      {
-        "label": "K8LB(0)",
-        "used": true
-      },
-      {
-        "label": "K8LB(1)",
-        "used": true
-      },
-      {
-        "label": "K8LB(2)",
+        "label": "K2R(1) Aspect",
         "used": true
       }
     ],
     [
       {
-        "label": "(unused)",
-        "used": false
-      },
-      {
-        "label": "(unused)",
-        "used": false
-      },
-      {
-        "label": "(unused)",
-        "used": false
-      },
-      {
-        "label": "(unused)",
-        "used": false
-      },
-      {
-        "label": "CBKrulishYd.ind",
+        "label": "K2R(2) Aspect",
         "used": true
       },
       {
-        "label": "N10.srel",
+        "label": "K2L(0) Aspect",
         "used": true
       },
       {
-        "label": "N20.srel",
+        "label": "K2L(1) Aspect",
         "used": true
       },
       {
-        "label": "N11.srel",
+        "label": "K2L(2) Aspect",
+        "used": true
+      },
+      {
+        "label": "K8LA Aspect",
+        "used": true
+      },
+      {
+        "label": "K8LB(0) Aspect",
+        "used": true
+      },
+      {
+        "label": "K8LB(1) Aspect",
+        "used": true
+      },
+      {
+        "label": "K8LB(2) Aspect",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "KrulishYd Breaker Ind",
+        "used": true
+      },
+      {
+        "label": "N10 Stop Relay",
+        "used": true
+      },
+      {
+        "label": "N20 Stop Relay",
+        "used": true
+      },
+      {
+        "label": "N11 Stop Relay",
         "used": true
       }
     ]
@@ -108,35 +108,35 @@
   "ibytes": [
     [
       {
-        "label": "KSw1.N",
+        "label": "KSw1 Normal",
         "used": true
       },
       {
-        "label": "KSw1.R",
+        "label": "KSw1 Reverse",
         "used": true
       },
       {
-        "label": "KSw3.N",
+        "label": "KSw3 Normal",
         "used": true
       },
       {
-        "label": "KSw3.R",
+        "label": "KSw3 Reverse",
         "used": true
       },
       {
-        "label": "KSw5.N",
+        "label": "KSw5 Normal",
         "used": true
       },
       {
-        "label": "KSw5.R",
+        "label": "KSw5 Reverse",
         "used": true
       },
       {
-        "label": "KSw7.N",
+        "label": "KSw7 Normal",
         "used": true
       },
       {
-        "label": "KSw7.R",
+        "label": "KSw7 Reverse",
         "used": true
       }
     ],
@@ -150,53 +150,53 @@
         "used": false
       },
       {
-        "label": "N10.W",
+        "label": "N10.W Occupied",
         "used": true
       },
       {
-        "label": "N10",
+        "label": "N10 Occupied",
         "used": true
       },
       {
-        "label": "N10.E",
+        "label": "N10.E Occupied",
         "used": true
       },
       {
-        "label": "N20.W",
+        "label": "N20.W Occupied",
         "used": true
       },
       {
-        "label": "N20",
+        "label": "N20 Occupied",
         "used": true
       },
       {
-        "label": "N20.E",
+        "label": "N20.E Occupied",
         "used": true
       }
     ],
     [
       {
-        "label": "KOSW",
+        "label": "KOSW Occupied",
         "used": true
       },
       {
-        "label": "KOSM",
+        "label": "KOSM Occupied",
         "used": true
       },
       {
-        "label": "KOSE",
+        "label": "KOSE Occupied",
         "used": true
       },
       {
-        "label": "N11.W",
+        "label": "N11.W Occupied",
         "used": true
       },
       {
-        "label": "N11",
+        "label": "N11 Occupied",
         "used": true
       },
       {
-        "label": "N11.E",
+        "label": "N11.E Occupied",
         "used": true
       },
       {

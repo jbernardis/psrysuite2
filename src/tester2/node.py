@@ -5,6 +5,12 @@ import json
 from tester2.bus import setBit, getBit
 from rrserver.constants import nodeNames
 
+BTNSZ = (100, 40)
+
+
+class BusException(Exception):
+	pass
+
 
 class Node:
 	def __init__(self, bus, addr, nbytes):
@@ -111,6 +117,14 @@ class Node:
 		self.obuf[byte] = setBit(ob, 7-bit, value)
 		return True
 
+	def ClearOutputs(self):
+		for byx in range(self.nbytes):
+			self.ClearOutputByte(byx)
+
+	def ClearOutputByte(self, byx):
+		for bix in range(7):
+			self.setbit(byx, bix, 0)
+
 	def Render(self):
 		for b in range(self.nbytes):
 			if self.lastOBuf[b] != self.obuf[b]:
@@ -128,12 +142,11 @@ class Node:
 		inb = self.bus.sendRecv(self.addr, self.obuf, self.nbytes)
 
 		if inb is None:
-			#  Error on reading - ignore this message
-			pass
+			raise BusException
 		else:
 			if len(inb) != self.nbytes:
 				# error - did not receive the expected number of bytes - ignore this message
-				pass
+				raise BusException
 			else:
 				self.ibuf = [b for b in inb]
 				if self.ibuf != self.lastIBuf:
@@ -245,9 +258,19 @@ class NodeDlg(wx.Dialog):
 
 		vsizer.AddSpacer(20)
 
-		self.bRefresh = wx.Button(self, wx.ID_ANY, "Refresh", size=(80, 30))
+		btnsz = wx.BoxSizer(wx.HORIZONTAL)
+
+		self.bClear = wx.Button(self, wx.ID_ANY, "Clear\nOutputs", size=BTNSZ)
+		self.Bind(wx.EVT_BUTTON, self.OnBClear, self.bClear)
+		btnsz.Add(self.bClear)
+
+		btnsz.AddSpacer(20)
+
+		self.bRefresh = wx.Button(self, wx.ID_ANY, "Refresh", size=BTNSZ)
 		self.Bind(wx.EVT_BUTTON, self.OnBRefresh, self.bRefresh)
-		vsizer.Add(self.bRefresh, 0, wx.ALIGN_CENTER_HORIZONTAL)
+		btnsz.Add(self.bRefresh)
+
+		vsizer.Add(btnsz, 0, wx.ALIGN_CENTER_HORIZONTAL)
 
 		vsizer.AddSpacer(20)
 
@@ -264,6 +287,12 @@ class NodeDlg(wx.Dialog):
 		byx, bix, cb = self.ocbMap[evt.GetId()]
 		self.node.setbit(byx, bix, 1 if cb.IsChecked() else 0)
 		self.node.Render()
+
+	def OnBClear(self, _):
+		self.node.ClearOutputs()
+		self.node.Render()
+		for _, _, cb in self.ocbMap.values():
+			cb.SetValue(False)
 
 	def OnBRefresh(self, _):
 		for byx, bix, cb in self.icbMap.values():
@@ -357,9 +386,20 @@ class NodeByteDlg(wx.Dialog):
 
 		bSizer.AddSpacer(20)
 
-		self.bRefresh = wx.Button(self, wx.ID_ANY, "Refresh", size=(80, 30))
+		btnsz = wx.BoxSizer(wx.HORIZONTAL)
+
+		if not self.input:
+			self.bClear = wx.Button(self, wx.ID_ANY, "Clear\nOutputs", size=BTNSZ)
+			self.Bind(wx.EVT_BUTTON, self.OnBClear, self.bClear)
+			btnsz.Add(self.bClear)
+
+			btnsz.AddSpacer(20)
+
+		self.bRefresh = wx.Button(self, wx.ID_ANY, "Refresh", size=BTNSZ)
 		self.Bind(wx.EVT_BUTTON, self.OnBRefresh, self.bRefresh)
-		bSizer.Add(self.bRefresh, 0, wx.ALIGN_CENTER_HORIZONTAL)
+		btnsz.Add(self.bRefresh)
+
+		bSizer.Add(btnsz, 0, wx.ALIGN_CENTER_HORIZONTAL)
 
 		bSizer.AddSpacer(20)
 
@@ -376,6 +416,12 @@ class NodeByteDlg(wx.Dialog):
 		bix, cb = self.cbMap[evt.GetId()]
 		self.node.setbit(self.byx, bix, 1 if cb.IsChecked() else 0)
 		self.node.Render()
+
+	def OnBClear(self, _):
+		self.node.ClearOutputByte(self.byx)
+		self.node.Render()
+		for _, cb in self.cbMap.values():
+			cb.SetValue(False)
 
 	def OnBRefresh(self, _):
 		for bix, cb in self.cbMap.values():
