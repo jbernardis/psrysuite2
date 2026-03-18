@@ -194,19 +194,19 @@ class Nassau(District):
 			self.rr.AddTurnoutPair("NSw57", "NSw57b")
 
 			# inputs
-			self.rr.AddTurnoutPosition("NSw41", self, n, addr, [(0, 0), (3, 2)]) # bit 0,1 is bad
+			self.rr.AddTurnoutPosition("NSw41", self, n, addr, [(0, 0), (3, 2)])  # bit 0,1 is bad
 			self.rr.AddTurnoutPosition("NSw43", self, n, addr, [(0, 2), (0, 3)])	
 			self.rr.AddTurnoutPosition("NSw45", self, n, addr, [(0, 4), (0, 5)])	
 			self.rr.AddTurnoutPosition("NSw47", self, n, addr, [(0, 6), (0, 7)])	
-			self.rr.AddTurnoutPosition("NSw51", self, n, addr, [(3, 3), (1, 1)]) # bit 1,0 is bad	
+			self.rr.AddTurnoutPosition("NSw51", self, n, addr, [(3, 3), (1, 1)])  # bit 1,0 is bad
 			self.rr.AddTurnoutPosition("NSw53", self, n, addr, [(1, 2), (1, 3)])	
 			self.rr.AddTurnoutPosition("NSw55", self, n, addr, [(1, 4), (1, 5)])	
 			self.rr.AddTurnoutPosition("NSw57", self, n, addr, [(1, 6), (1, 7)])	
 	
-			self.rr.AddBlock("N22",     self, n, addr, [(2, 0)], True)
+			self.rr.AddBlock("N22",     self, n, addr, [(3, 4)], True)  # bit 2:0 is bad
 			self.rr.AddBlock("N41",     self, n, addr, [(2, 1)], True)
 			self.rr.AddBlock("N42",     self, n, addr, [(2, 2)], True)
-			self.rr.AddBlock("NEOSRH",  self, n, addr, [(2, 3)], False)
+			self.rr.AddBlock("NEOSRH",  self, n, addr, [(3, 5)], False)  # bit 2:3 is bad
 			self.rr.AddBlock("NEOSW",   self, n, addr, [(2, 4)], False)
 			self.rr.AddBlock("NEOSE",   self, n, addr, [(2, 5)], True)
 			sbw = self.rr.AddBlock("B10.W",   self, n, addr, [(2, 6)], False)

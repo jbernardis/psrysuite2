@@ -210,8 +210,8 @@
     ],
     [
       {
-        "label": "N22 Occupied",
-        "used": true
+        "label": "(bad bit - see bit 3:4)",
+        "used": false
       },
       {
         "label": "N41 Occupied",
@@ -222,8 +222,8 @@
         "used": true
       },
       {
-        "label": "NEOSRH Occupied",
-        "used": true
+        "label": "(bad bit - see bit 3:5)",
+        "used": false
       },
       {
         "label": "NEOSW Occupied",
@@ -260,12 +260,12 @@
         "used": true
       },
       {
-        "label": "(unused)",
-        "used": false
+        "label": "N22 Occupied (see bit 2:0)",
+        "used": true
       },
       {
-        "label": "(unused)",
-        "used": false
+        "label": "NEOSRH Occupied (see bit 2:3)",
+        "used": true
       },
       {
         "label": "(unused)",

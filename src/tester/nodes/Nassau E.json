@@ -210,8 +210,8 @@
     ],
     [
       {
-        "label": "N22",
-        "used": true
+        "label": "(bad bit - see bit 3:4)",
+        "used": false
       },
       {
         "label": "N41",
@@ -222,8 +222,8 @@
         "used": true
       },
       {
-        "label": "NEOSRH",
-        "used": true
+        "label": "(bad bit - see bit 3:5)",
+        "used": false
       },
       {
         "label": "NEOSW",
@@ -260,12 +260,12 @@
         "used": true
       },
       {
-        "label": "(unused)",
-        "used": false
+        "label": "N22 - see bit 2:0",
+        "used": true
       },
       {
-        "label": "(unused)",
-        "used": false
+        "label": "NEOSRH - see bit 2:3",
+        "used": true
       },
       {
         "label": "(unused)",
