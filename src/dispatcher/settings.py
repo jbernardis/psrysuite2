@@ -30,6 +30,7 @@ class Debug:
 		self.blockoccupancy = False
 		self.identifytrain = False
 		self.loglevel = "DEBUG"
+		self.blockadjacency = False
 
 
 class Settings:
@@ -305,6 +306,8 @@ class Settings:
 					self.debug.blockoccupancy = parseBoolean(value, False)
 				elif opt == 'identifytrain':
 					self.debug.identifytrain = parseBoolean(value, False)
+				elif opt == 'blockadjacency':
+					self.debug.blockadjacency = parseBoolean(value, False)
 				elif opt == 'loglevel':
 					self.debug.loglevel = value
 
@@ -494,6 +497,8 @@ class Settings:
 			pass
 		self.cfg.set(section, "showaspectcalculation", "True" if self.debug.showaspectcalculation else "False")
 		self.cfg.set(section, "blockoccupancy", "True" if self.debug.blockoccupancy else "False")
+		self.cfg.set(section, "identifytrain", "True" if self.debug.identifytrain else "False")
+		self.cfg.set(section, "blockadjacency", "True" if self.debug.blockadjacency else "False")
 		self.cfg.set(section, "loglevel", self.debug.loglevel)
 
 		section = GLOBAL

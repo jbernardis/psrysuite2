@@ -1,6 +1,10 @@
-import wx  
+import wx
+import wx.grid as gridlib
 import os
+import sys
 import logging
+from subprocess import Popen
+
 
 BSIZE = (120, 40)
 skipBlocks = ["KOSN10S11", "KOSN20S21"]
@@ -15,88 +19,76 @@ class InspectDlg(wx.Dialog):
         self.settings = settings
         self.Bind(wx.EVT_CLOSE, self.OnCancel)
 
+        self.dlgAdjacency = None
+        self.dlgOSProxy = None
+        self.dlgNodeStatus = None
+        self.dlgSignalLevers = None
+        self.dlgSidingLocks = None
+
         self.SetTitle("Inspection Dialog")
+
+        bLogLevel = wx.Button(self, wx.ID_ANY, "Logging Level", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBLogLevel, bLogLevel)
+        bDebug = wx.Button(self, wx.ID_ANY, "Debugging Flags", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBDebug, bDebug)
+        bProxies = wx.Button(self, wx.ID_ANY, "OS Proxies", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBProxies, bProxies)
+        bNodes = wx.Button(self, wx.ID_ANY, "Node Status", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBNodes, bNodes)
+        bTester = wx.Button(self, wx.ID_ANY, "Tester", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBStartTester, bTester)
+        bRelays = wx.Button(self, wx.ID_ANY, "Stop Relays", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBRelays, bRelays)
+        bLevers = wx.Button(self, wx.ID_ANY, "Signal Levers", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBLevers, bLevers)
+        bToLocks = wx.Button(self, wx.ID_ANY, "Turnout Locks", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBTurnoutLocks, bToLocks)
+        bAuditTrains = wx.Button(self, wx.ID_ANY, "Audit Trains", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBAuditTrains, bAuditTrains)
+        bMonitor = wx.Button(self, wx.ID_ANY, "Monitor", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBStartMonitor, bMonitor)
+        bHandSwitches = wx.Button(self, wx.ID_ANY, "Siding Locks", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBHandSwitches, bHandSwitches)
+        bResetBlks = wx.Button(self, wx.ID_ANY, "Reset Blocks", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBResetBlks, bResetBlks)
+        # bIgnoreBlks = wx.Button(self, wx.ID_ANY, "Ignore Blocks", size=BSIZE)
+        # self.Bind(wx.EVT_BUTTON, self.OnBIgnoreBlks, bIgnoreBlks)
+        bAdjacency = wx.Button(self, wx.ID_ANY, "Block Adjacency", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBBlockAdjacency, bAdjacency)
+        bScanner = wx.Button(self, wx.ID_ANY, "Scanner", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBScanner, bScanner)
 
         btnszr1 = wx.BoxSizer(wx.VERTICAL)
         btnszr1.AddSpacer(20)
 
-        bLogLevel = wx.Button(self, wx.ID_ANY, "Logging Level", size=BSIZE)
-        self.Bind(wx.EVT_BUTTON, self.OnBLogLevel, bLogLevel)
-        btnszr1.Add(bLogLevel)
+        blist = [bDebug, bLogLevel, bAuditTrains, bNodes, bRelays]
+        for b in blist:
+            btnszr1.Add(b)
+            btnszr1.AddSpacer(10)
 
         btnszr1.AddSpacer(10)
-
-        bDebug = wx.Button(self, wx.ID_ANY, "Debugging Flags", size=BSIZE)
-        self.Bind(wx.EVT_BUTTON, self.OnBDebug, bDebug)
-        btnszr1.Add(bDebug)
-
-        btnszr1.AddSpacer(10)
-
-        bProxies = wx.Button(self, wx.ID_ANY, "OS Proxies", size=BSIZE)
-        self.Bind(wx.EVT_BUTTON, self.OnBProxies, bProxies)
-        btnszr1.Add(bProxies)
-
-        btnszr1.AddSpacer(10)
-
-        bNodes = wx.Button(self, wx.ID_ANY, "Node Status", size=BSIZE)
-        self.Bind(wx.EVT_BUTTON, self.OnBNodes, bNodes)
-        btnszr1.Add(bNodes)
-
-        btnszr1.AddSpacer(20)
 
         btnszr2 = wx.BoxSizer(wx.VERTICAL)
         btnszr2.AddSpacer(20)
 
-        bRelays = wx.Button(self, wx.ID_ANY, "Stop Relays", size=BSIZE)
-        self.Bind(wx.EVT_BUTTON, self.OnBRelays, bRelays)
-        btnszr2.Add(bRelays)
+        blist = [bProxies, bToLocks, bHandSwitches, bAdjacency, bLevers, bResetBlks]
+        for b in blist:
+            btnszr2.Add(b)
+            btnszr2.AddSpacer(10)
 
         btnszr2.AddSpacer(10)
-
-        bLevers = wx.Button(self, wx.ID_ANY, "Signal Levers", size=BSIZE)
-        self.Bind(wx.EVT_BUTTON, self.OnBLevers, bLevers)
-        btnszr2.Add(bLevers)
-
-        btnszr2.AddSpacer(10)
-
-        bToLocks = wx.Button(self, wx.ID_ANY, "Turnout Locks", size=BSIZE)
-        self.Bind(wx.EVT_BUTTON, self.OnBTurnoutLocks, bToLocks)
-        btnszr2.Add(bToLocks)
-
-        btnszr2.AddSpacer(10)
-
-        bAuditTrains = wx.Button(self, wx.ID_ANY, "Audit Trains", size=BSIZE)
-        self.Bind(wx.EVT_BUTTON, self.OnBAuditTrains, bAuditTrains)
-        btnszr2.Add(bAuditTrains)
-
-        btnszr2.AddSpacer(20)
 
         btnszr3 = wx.BoxSizer(wx.VERTICAL)
         btnszr3.AddSpacer(20)
 
-        bHandSwitches = wx.Button(self, wx.ID_ANY, "Siding Locks", size=BSIZE)
-        self.Bind(wx.EVT_BUTTON, self.OnBHandSwitches, bHandSwitches)
-        btnszr3.Add(bHandSwitches)
-
-        btnszr3.AddSpacer(10)
-
-        bResetBlks = wx.Button(self, wx.ID_ANY, "Reset Blocks", size=BSIZE)
-        self.Bind(wx.EVT_BUTTON, self.OnBResetBlks, bResetBlks)
-        btnszr3.Add(bResetBlks)
-
-        btnszr3.AddSpacer(10)
-
-        bIgnoreBlks = wx.Button(self, wx.ID_ANY, "Ignore Blocks", size=BSIZE)
-        self.Bind(wx.EVT_BUTTON, self.OnBIgnoreBlks, bIgnoreBlks)
-        btnszr3.Add(bIgnoreBlks)
+        blist = [bTester, bMonitor]
         if self.parent.IsDispatcherOrSatellite() and self.settings.scanner.enable:
+            blist.append(bScanner)
+        for b in blist:
+            btnszr3.Add(b)
             btnszr3.AddSpacer(10)
 
-            bScanner = wx.Button(self, wx.ID_ANY, "Scanner", size=BSIZE)
-            self.Bind(wx.EVT_BUTTON, self.OnBScanner, bScanner)
-            btnszr3.Add(bScanner)
-
-        btnszr3.AddSpacer(20)
+        btnszr3.AddSpacer(10)
 
         btnszr = wx.BoxSizer(wx.HORIZONTAL)
 
@@ -111,6 +103,18 @@ class InspectDlg(wx.Dialog):
         self.SetSizer(btnszr)
         self.Layout()
         self.Fit()
+
+    def OnBStartTester(self, _):
+        Exec = os.path.join(os.getcwd(), "tester2", "main.py")
+        Proc = Popen([sys.executable, Exec])
+
+        logging.info("Tester2 started as PID %d" % Proc.pid)
+
+    def OnBStartMonitor(self, _):
+        Exec = os.path.join(os.getcwd(), "monitor", "main.py")
+        Proc = Popen([sys.executable, Exec])
+
+        logging.info("Monitor started as PID %d" % Proc.pid)
 
     def OnBLogLevel(self, _):
         dlg = LogLevelDlg(self)
@@ -133,9 +137,11 @@ class InspectDlg(wx.Dialog):
         pi = self.parent.GetOSProxyInfo()
         if pi is None:
             pi = []
-        dlg = OSProxyDlg(self, pi, self.parent.GetOSProxyInfo)
-        dlg.ShowModal()
-        dlg.Destroy()
+        try:
+            self.dlgOSProxy.Raise()
+        except:
+            self.dlgOSProxy = OSProxyDlg(self, pi, self.parent.GetOSProxyInfo)
+            self.dlgOSProxy.Show()
 
     def OnBRelays(self, _):
         rlAct, rlInact = self.GetRelayList()
@@ -180,14 +186,24 @@ class InspectDlg(wx.Dialog):
         relaysInactive = [self.formatRelayName(rly) for rly in sorted(rl.keys()) if not rl[rly]]
         return relaysActive, relaysInactive
 
+    def OnBBlockAdjacency(self, _):
+        ba = self.parent.Get("blockadjacency", {})
+        try:
+            self.dlgAdjacency.Raise()
+        except:
+            self.dlgAdjacency = AdjacencyDlg(self, ba, self.parent)
+            self.dlgAdjacency.Show()
+
     def formatRelayName(self, rn):
         return rn.split(".")[0]
 
     def OnBLevers(self, _):
         slv = self.GetSignalLeverValues()
-        dlg = ListDlg(self, slv, (200, 200), "Signal Levers", self.GetSignalLeverValues)
-        dlg.ShowModal()
-        dlg.Destroy()
+        try:
+            self.dlgSignalLevers.Raise()
+        except:
+            self.dlgSignalLevers = ListDlg(self, slv, (200, 200), "Signal Levers", self.GetSignalLeverValues)
+            self.dlgSignalLevers.Show()
 
     def OnBTurnoutLocks(self, _):
         lks = self.parent.GetTurnoutLocks()
@@ -276,9 +292,11 @@ class InspectDlg(wx.Dialog):
 
     def OnBHandSwitches(self, _):
         hsv = self.GetHandswitchValues()
-        dlg = ListDlg(self, hsv, (260, 200), "Siding Locks", self.GetHandswitchValues)
-        dlg.ShowModal()
-        dlg.Destroy()
+        try:
+            self.dlgSidingLocks.Raise()
+        except:
+            self.dlgSidingLocks = ListDlg(self, hsv, (260, 200), "Siding Locks", self.GetHandswitchValues)
+            self.dlgSidingLocks.Show()
 
     def GetHandswitchValues(self):
         hsinfo = self.parent.GetHandswitchInfo()
@@ -289,9 +307,11 @@ class InspectDlg(wx.Dialog):
 
     def OnBNodes(self, _):
         nodeList = self.parent.GetNodes()
-        dlg = NodeStatusDlg(self, nodeList, self.parent.GetNodes)
-        dlg.ShowModal()
-        dlg.Destroy()
+        try:
+            self.dlgNodeStatus.Raise()
+        except:
+            self.dlgNodeStatus = NodeStatusDlg(self, nodeList, self.parent.GetNodes)
+            self.dlgNodeStatus.Show()
 
     def ReEnableNodes(self, dislist):
         self.parent.ReEnableNodes(dislist)
@@ -333,7 +353,116 @@ class InspectDlg(wx.Dialog):
         dlg.Destroy()
 
     def OnCancel(self, _):
+        try:
+            self.dlgAdjacency.Destroy()
+        except:
+            pass
+
+        try:
+            self.dlgOSProxy.Destroy()
+        except:
+            pass
+
+        try:
+            self.dlgNodeStatus.Destroy()
+        except:
+            pass
+
+        try:
+            self.dlgSignalLevers.Destroy()
+        except:
+            pass
+
+        try:
+            self.dlgSidingLocks.Destroy()
+        except:
+            pass
+
         self.closer()
+
+
+class AdjacencyDlg(wx.Dialog):
+    def __init__(self, parent, adata, frame):
+        wx.Dialog.__init__(self, parent, wx.ID_ANY, "Block Adjacency")
+        self.Bind(wx.EVT_CLOSE, self.OnClose)
+        self.frame = frame
+
+        headings = ["West", "Block", "East"]
+        colWidth = [70, 70, 70]
+        colAlign = [wx.ALIGN_CENTER, wx.ALIGN_CENTER, wx.ALIGN_CENTER]
+        nRows = len(adata)
+        nCols = len(headings)
+
+        # we want to have at least 5, at most 30 lines on the display
+        nr = nRows
+        if nr < 5:
+            nr = 5
+        elif nr > 30:
+            nr = 30
+        ht = int(33 + nr * 19)
+
+        self.BAgrid = gridlib.Grid(self, size=(sum(colWidth) + 20, ht))
+        self.BAgrid.CreateGrid(nRows, nCols)
+        self.BAgrid.EnableGridLines(True)
+        self.BAgrid.SetGridLineColour(wx.BLACK)
+        self.BAgrid.SetRowLabelSize(2)
+
+        attrs = []
+        for c in range(nCols):
+            attr = wx.grid.GridCellAttr()
+            attr.SetAlignment(colAlign[c], wx.ALIGN_CENTER)
+            attr.SetReadOnly(True)
+            attrs.append(attr)
+
+        for i in range(nCols):
+            self.BAgrid.SetColLabelValue(i, headings[i])
+            self.BAgrid.SetColSize(i, colWidth[i])
+            self.BAgrid.SetColAttr(i, attrs[i])
+
+        self.BAMap = {}
+        row = 0
+        for bn in sorted(adata.keys()):
+            self.BAMap[bn] = row
+            self.BAgrid.SetCellValue(row, 0, adata[bn][0])
+            self.BAgrid.SetCellValue(row, 1, bn)
+            self.BAgrid.SetCellValue(row, 2, adata[bn][1])
+            row += 1
+
+        vsz = wx.BoxSizer(wx.VERTICAL)
+        vsz.AddSpacer(20)
+
+        hsz = wx.BoxSizer(wx.HORIZONTAL)
+        hsz.AddSpacer(20)
+
+        hsz.Add(self.BAgrid, 0, wx.EXPAND)
+
+        hsz.AddSpacer(20)
+        vsz.Add(hsz)
+
+        vsz.AddSpacer(20)
+
+        bRefresh = wx.Button(self, wx.ID_ANY, "Refresh", size=(100, 30))
+        self.Bind(wx.EVT_BUTTON, self.OnBRefresh, bRefresh)
+        vsz.Add(bRefresh, 0, wx.ALIGN_CENTER_HORIZONTAL)
+
+        vsz.AddSpacer(20)
+
+        self.SetSizer(vsz)
+        self.Fit()
+        self.Layout()
+
+    def OnBRefresh(self, _):
+        ba = self.frame.Get("blockadjacency", {})
+        for bn in ba.keys():
+            row = self.BAMap.get(bn, None)
+            if row is not None:
+                self.BAgrid.SetCellValue(row, 0, ba[bn][0])
+                self.BAgrid.SetCellValue(row, 2, ba[bn][1])
+            else:
+                logging.debug("Refresh block adjacency - unknown block: %s" % bn)
+
+    def OnClose(self, _):
+        self.Destroy()
 
 
 class ScannerDlg(wx.Dialog):
@@ -464,6 +593,12 @@ class DebugFlagsDlg(wx.Dialog):
         vszr.Add(self.cbTrainID)
         self.cbTrainID.SetValue(self.settings.debug.identifytrain)
 
+        vszr.AddSpacer(10)
+
+        self.cbBlockAdj = wx.CheckBox(self, wx.ID_ANY, "Block Adjacency")
+        vszr.Add(self.cbBlockAdj)
+        self.cbBlockAdj.SetValue(self.settings.debug.blockadjacency)
+
         btnszr = wx.BoxSizer(wx.HORIZONTAL)
 
         self.bOK = wx.Button(self, wx.ID_ANY, "OK", size=BSIZE)
@@ -514,16 +649,21 @@ class DebugFlagsDlg(wx.Dialog):
             self.settings.debug.identifytrain = nv
             messages.append("Train Identification => %s" % nv)
 
-        if len(messages) == 0:
-            dlg = wx.MessageDialog(self, "No Flags Changed",
-                                   "No Changes",
-                                   wx.OK | wx.ICON_INFORMATION
-                                   )
-        else:
-            dlg = wx.MessageDialog(self, "\n".join(messages),
-                                   "Flags Modified",
-                                   wx.OK | wx.ICON_INFORMATION
-                                   )
+        nv = self.cbBlockAdj.GetValue()
+        if nv != self.settings.debug.blockadjacency:
+            self.settings.debug.blockadjacency = nv
+            messages.append("Block Adjacency => %s" % nv)
+
+        # if len(messages) == 0:
+        #     dlg = wx.MessageDialog(self, "No Flags Changed",
+        #                            "No Changes",
+        #                            wx.OK | wx.ICON_INFORMATION
+        #                            )
+        # else:
+        #     dlg = wx.MessageDialog(self, "\n".join(messages),
+        #                            "Flags Modified",
+        #                            wx.OK | wx.ICON_INFORMATION
+        #                            )
         dlg.ShowModal()
         dlg.Destroy()
 
@@ -628,7 +768,7 @@ class ListDlg(wx.Dialog):
         self.lb.SetFirstItem(top)
 
     def OnCancel(self, _):
-        self.EndModal(wx.ID_CANCEL)
+        self.Destroy()
 
 
 class OSProxyDlg(wx.Dialog):
@@ -661,7 +801,7 @@ class OSProxyDlg(wx.Dialog):
         self.lb.SetData(ospdict)
 
     def OnCancel(self, _):
-        self.EndModal(wx.ID_CANCEL)
+        self.Destroy()
 
 
 class OSProxyListCtrl(wx.ListCtrl):
@@ -770,7 +910,7 @@ class NodeStatusDlg(wx.Dialog):
         self.bReEnable.Enable(len(dislist) > 0)
 
     def OnCancel(self, _):
-        self.EndModal(wx.ID_CANCEL)
+        self.Destroy()
 
 
 class NodeStatusListCtrl(wx.ListCtrl):

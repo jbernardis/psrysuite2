@@ -133,6 +133,8 @@ class HTTPServer:
 		self.server = ThreadingHTTPServer((ip, port), Handler)
 		self.server.setApp(self)
 		self.cbCommand = cbCommand
+		self.dispatchTable = {}
+		self.CreateDispatchTable()
 		self.thread = Thread(target=self.server.serve_railroad)
 		self.thread.start()
 		self.main = main
@@ -151,379 +153,428 @@ class HTTPServer:
 	def ApplyPreload(self, pldata):
 		self.rr.ApplyPreload(pldata)
 
+	def CreateDispatchTable(self):
+		self.dispatchTable = {
+			"getlocos":  self.GetLocos,
+			"gettrains": self.GetTrains,
+			"audittrains": self.AuditTrains,
+			"getlayout": self.GetLayout,
+			"getsubblocks": self.GetSubBlocks,
+			"getiobits": self.GetIOBits,
+			"getengineers": self.GetEngineers,
+			"snapshot": self.GetSnapshot,
+			"snaplist": self.GetSnapList,
+			"schedlist": self.GetSchedList,
+			"turnoutlocks": self.GetTurnoutLocks,
+			"signallevers": self.GetSignalLevers,
+			"osproxies": self.GetOSProxies,
+			"listdir": self.ListDir,
+			"getfile": self.GetFile,
+			"delfile": self.DelFile,
+			"getbits": self.GetBits,
+			"setinbit": self.SetInBit,
+			"activetrains": self.ActiveTrains,
+			"getsignals": self.GetSignals,
+			"getroutes": self.GetRoutes,
+			"getturnouts": self.GetTurnouts,
+			"getblocks": self.GetBlocks,
+			"getsiglevers": self.GetSigLevers,
+			"stoprelays": self.GetStopRelays,
+			"sessions": self.GetSessions,
+			"blockosmap": self.GetBlockOSMap,
+			"blockadjacency": self.GetBlockAdjacency,
+		}
+
 	def dispatch(self, cmd):
-		verb = cmd["cmd"][0]
-		if verb == "getlocos":
-			fn = os.path.join(os.getcwd(), "data", "locos.json")
-			logging.info("Retrieving loco information from file (%s)" % fn)
-			try:
-				with open(fn, "r") as jfp:
-					j = json.load(jfp)
-			except FileNotFoundError:
-				logging.info("File not found")
-				return 400, "File Not Found"
-			
-			except:
-				logging.info("Unknown error")
-				return 400, "Unknown error encountered"
-			
-			jstr = json.dumps(j)
-			logging.info("Returning %d bytes" % len(jstr))
-			return 200, jstr
-		
-		elif verb == "gettrains":
-			fn = os.path.join(os.getcwd(), "data", "trains.json")
-			logging.info("Retrieving trains information from file (%s)" % fn)
-			try:
-				with open(fn, "r") as jfp:
-					j = json.load(jfp)
-			except FileNotFoundError:
-				logging.info("File not found")
-				return 400, "File Not Found"
-			
-			except:
-				logging.info("Unknown error")
-				return 400, "Unknown error encountered"
-			
-			jstr = json.dumps(j)
-			logging.info("Returning %d bytes" % len(jstr))
-			return 200, jstr
+		try:
+			verb = cmd["cmd"][0]
+		except KeyError:
+			verb = None
 
-		elif verb == "audittrains":
-			audit = self.rr.AuditTrains()
-			jstr = json.dumps(audit)
-			logging.info("Returning %d bytes" % len(jstr))
-			return 200, jstr
+		if verb is None:
+			logging.error("Command without cmd parameter")
+			return
 
-		elif verb == "getlayout":
-			fn = os.path.join(os.getcwd(), "data", "layout.json")
-			logging.info("Retrieving layout information from file (%s)" % fn)
-			try:
-				with open(fn, "r") as jfp:
-					j = json.load(jfp)
-			except FileNotFoundError:
-				logging.info("File not found")
-				return 400, "File Not Found"
+		try:
+			handler = self.dispatchTable[verb]
+			return(handler(cmd))
 
-			except:
-				logging.info("Unknown error")
-				return 400, "Unknown error encountered"
-
-			jstr = json.dumps(j)
-			logging.info("Returning %d bytes" % len(jstr))
-			return 200, jstr
-
-		elif verb == "getsubblocks":
-			fn = os.path.join(os.getcwd(), "data", "subblocks.json")
-			logging.info("Retrieving subblock information from file (%s)" % fn)
-			try:
-				with open(fn, "r") as jfp:
-					j = json.load(jfp)
-			except FileNotFoundError:
-				logging.info("File not found")
-				return 400, "File Not Found"
-
-			except:
-				logging.info("Unknown error")
-				return 400, "Unknown error encountered"
-
-			jstr = json.dumps(j)
-			logging.info("Returning %d bytes" % len(jstr))
-			return 200, jstr
-
-		elif verb == "getiobits":
-			fn = os.path.join(os.getcwd(), "data", "iobits.json")
-			logging.info("Retrieving I/O Bit information from file (%s)" % fn)
-			try:
-				with open(fn, "r") as jfp:
-					j = json.load(jfp)
-			except FileNotFoundError:
-				logging.info("File not found")
-				return 400, "File Not Found"
-
-			except:
-				logging.info("Unknown error")
-				return 400, "Unknown error encountered"
-
-			jstr = json.dumps(j)
-			logging.info("Returning %d bytes" % len(jstr))
-			return 200, jstr
-
-		elif verb == "getengineers":
-			fn = os.path.join(os.getcwd(), "data", "engineers.txt")
-			logging.info("Retrieving engineer information from file (%s)" % fn)
-			try:
-				with open(fn, "r") as jfp:
-					j = json.load(jfp)
-			except FileNotFoundError:
-				logging.info("File not found")
-				return 400, "File Not Found"
-			
-			except:
-				logging.info("Unknown error")
-				return 400, "Unknown error encountered"
-			
-			jstr = json.dumps(j)
-			logging.info("Returning %d bytes" % len(jstr))
-			return 200, jstr
-
-		elif verb == "snapshot":
-			logging.debug("HTTP Server - savesnapshot")
-			try:
-				action = cmd["action"][0]
-			except (KeyError, IndexError):
-				logging.debug("snapshot command missing action: %s" % str(cmd))
-				action = "save"
-
-			if action == "save":
-				msg = self.rr.SaveSnapshot()
-				return 200, msg
-			elif action == "retrieve":
-				j = self.rr.RetrieveSnapshot()
-				jstr = json.dumps(j)
-				return 200, jstr
-			else:
-				return 400, "Unknown action: %s" % action
-
-		elif verb == "snaplist":
-			logging.debug("http server snaplist")
-			snapList = GetSnapList()
-			logging.debug("returning %s" % json.dumps(snapList))
-			jstr = json.dumps(snapList)
-			return 200, jstr
-
-		elif verb == "schedlist":
-			logging.debug("http server schedule list")
-			scheduleList = GetScheduleList()
-			logging.debug("returning %s" % json.dumps(scheduleList))
-			jstr = json.dumps(scheduleList)
-			return 200, jstr
-
-		elif verb == "turnoutlocks":
-			rv = self.rr.GetTurnoutLocks()
-			if rv is None:
-				logging.info("Unknown error retrieving turnout locks")
-				return 400, ""
-
-			jstr = json.dumps(rv)
-			return 200, jstr
-
-		elif verb == "signallevers":
-			rv = self.rr.GetSignalLevers()
-			if rv is None:
-				logging.info("Unknown error retrieving signal levers")
-				return 400, ""
-
-			jstr = json.dumps(rv)
-			return 200, jstr
-
-		elif verb == "osproxies":
-			rv = self.rr.GetOSProxyInfo()
-			if rv is None:
-				logging.info("Unknown error retrieving os proxies")
-				return 400, ""
-
-			jstr = json.dumps(rv)
-			return 200, jstr
-
-		elif verb == "listdir":
-			try:
-				directory = cmd["dir"][0]
-			except:
-				directory = "data"
-							
-			fqdn = os.path.join(os.getcwd(), directory)
-			logging.info("Retrieving directory contents (%s)" % fqdn)
-
-			d = [x for x in os.listdir(fqdn) if not os.path.isdir(os.path.join(fqdn, x))]
-			logging.info("Returning %d bytes" % len(d))
-			return 200, json.dumps(d)
-		
-		elif verb == "getfile":
-			try:
-				fn = cmd["file"][0]
-			except:
-				fn = None
-				
-			try:
-				directory = cmd["dir"][0]
-			except:
-				directory = "data"
-
-			if fn is None:
-				logging.info("File name not specified")
-				return 400, "File name not specified"
-							
-			fqn = os.path.join(os.getcwd(), directory, fn)
-			logging.info("Retrieving file (%s)" % fqn)
-
-			try:
-				with open(fqn, "r") as fp:
-					d = fp.read()
-			except FileNotFoundError:
-				logging.info("File not found")
-				return 400, "File Not Found"
-			
-			except:
-				logging.info("Unknown error")
-				return 400, "Unknown error encountered"
-			
-			logging.info("Returning %d bytes" % len(d))
-			return 200, d
-		
-		elif verb == "delfile":
-			try:
-				fn = cmd["file"][0]
-			except:
-				fn = None
-				
-			try:
-				directory = cmd["dir"][0]
-			except:
-				directory = "data"
-
-			if fn is None:
-				logging.info("File name not specified")
-				return 400, "File name not specified"
-							
-			fqn = os.path.join(os.getcwd(), directory, fn)
-			logging.info("Deleting file (%s)" % fqn)
-
-			try:
-				os.unlink(fqn)
-			except FileNotFoundError:
-				logging.info("File not found")
-				return 400, "File Not Found"
-			
-			except:
-				logging.info("Unknown error")
-				return 400, "Unknown error encountered"
-			
-			logging.info("File %s deleted" % fqn)
-			return 200, "deleted file %s" % fqn
-	
-		elif verb == "getbits":
-			try:
-				address = int(cmd["address"][0], 16)
-				n, ob, ib = self.rr.GetNodeBits(address)
-				resp = {"count": n, "out": ob, "in": ib}
-				jstr = json.dumps(resp)
-				return 200, jstr
-			except Exception as e:
-				logging.info("Unknown error: %s" % str(e))
-				return 400, str(e)
-
-		elif verb == "setinbit":
-			try:
-				addr = int(cmd["address"][0], 16)
-				vbytes = [int(x) for x in cmd["byte"]]
-				vbits = [int(x) for x in cmd["bit"]]
-				vals = [int(x) for x in cmd["value"]]
-				self.rr.SetInputBitByAddr(addr, vbytes, vbits, vals)
-				return 200, "Command received"
-			except Exception as e:
-				logging.info("Unknown error: %s" % str(e))
-				return 400, str(e)
-
-		elif verb == "activetrains":
-			tl = self.rr.GetActiveTrainList()
-			if tl is None:
-				logging.info("Unknown error")
-				return 400, "Unable to retrieve train list"
-			else:
-				jstr = json.dumps(tl)
-				return 200, jstr
-
-		elif verb == "getsignals":
-			rt = self.rr.GetSignals()
-			if rt is None:
-				logging.info("Unknown error")
-				return 400, "Unable to retrieve signal list"
-			else:
-				jstr = json.dumps(rt)
-				return 200, jstr
-
-		elif verb == "getroutes":
-			rt = self.rr.GetOSRoutes()
-			if rt is None:
-				logging.info("Unknown error")
-				return 400, "Unable to retrieve route list"
-			else:
-				jstr = json.dumps(rt)
-				return 200, jstr
-
-		elif verb == "getturnouts":
-			trn = self.rr.GetTurnoutPositions()
-			if trn is None:
-				logging.info("Unknown error")
-				return 400, "Unable to retrieve turnout positionlist"
-			else:
-				jstr = json.dumps(trn)
-				return 200, jstr
-
-		elif verb == "getblocks":
-			logging.debug("getblocks command")
-			rt = self.rr.GetBlocks()
-			logging.debug("blocks returned: %s" % str(rt))
-			if rt is None:
-				logging.info("Unknown error")
-				return 400, "Unable to retrieve block list"
-			else:
-				jstr = json.dumps(rt)
-				return 200, jstr
-
-		elif verb == "getsiglevers":
-			sl = self.rr.GetSignalLevers()
-			if sl is None:
-				logging.info("Unknown error")
-				return 400, "Unable to retrieve signal levers"
-			else:
-				jstr = json.dumps(sl)
-				return 200, jstr
-
-		elif verb == "stoprelays":
-			rl = self.rr.GetRelays()
-			if rl is None:
-				logging.info("Unknown error")
-				return 400, "Unable to retrieve relay status"
-			else:
-				jstr = json.dumps(rl)
-				return 200, jstr
-
-		elif verb == "sessions":
-			tl = self.main.GetSessions()
-			if tl is None:
-				logging.info("Unknown error")
-				return 400, "Unable to retrieve train list"
-			else:
-				jstr = json.dumps(tl)
-				return 200, jstr
-
-		elif verb == "blockosmap":
-			fn = os.path.join(os.getcwd(), "data", "blockosmap.json")
-			logging.info("Retrieving block os map from file (%s)" % fn)
-			try:
-				with open(fn, "r") as jfp:
-					j = json.load(jfp)
-			except FileNotFoundError:
-				logging.info("File not found")
-				return 400, "File Not Found"
-
-			except Exception as e:
-				logging.info("Unknown error: %s" % str(e))
-				return 400, "Unknown error encountered"
-
-			jstr = json.dumps(j)
-			logging.info("Returning %d bytes" % len(jstr))
-			return 200, jstr
-
-		else:
+		except KeyError:
 			self.cbCommand(cmd)
-		
-		rc = 200
-		body = b'request received'
+			rc = 200
+			body = b'request received'
 
-		return rc, body
+			return rc, body
+
+	def GetLocos(self, cmd):
+		fn = os.path.join(os.getcwd(), "data", "locos.json")
+		logging.info("Retrieving loco information from file (%s)" % fn)
+		try:
+			with open(fn, "r") as jfp:
+				j = json.load(jfp)
+		except FileNotFoundError:
+			logging.info("File not found")
+			return 400, "File Not Found"
+
+		except:
+			logging.info("Unknown error")
+			return 400, "Unknown error encountered"
+
+		jstr = json.dumps(j)
+		logging.info("Returning %d bytes" % len(jstr))
+		return 200, jstr
+		
+	def GetTrains(self, cmd):
+		fn = os.path.join(os.getcwd(), "data", "trains.json")
+		logging.info("Retrieving trains information from file (%s)" % fn)
+		try:
+			with open(fn, "r") as jfp:
+				j = json.load(jfp)
+		except FileNotFoundError:
+			logging.info("File not found")
+			return 400, "File Not Found"
+
+		except:
+			logging.info("Unknown error")
+			return 400, "Unknown error encountered"
+
+		jstr = json.dumps(j)
+		logging.info("Returning %d bytes" % len(jstr))
+		return 200, jstr
+
+	def AuditTrains(self, cmd):
+		audit = self.rr.AuditTrains()
+		jstr = json.dumps(audit)
+		logging.info("Returning %d bytes" % len(jstr))
+		return 200, jstr
+
+	def GetLayout(self, cmd):
+		fn = os.path.join(os.getcwd(), "data", "layout.json")
+		logging.info("Retrieving layout information from file (%s)" % fn)
+		try:
+			with open(fn, "r") as jfp:
+				j = json.load(jfp)
+		except FileNotFoundError:
+			logging.info("File not found")
+			return 400, "File Not Found"
+
+		except:
+			logging.info("Unknown error")
+			return 400, "Unknown error encountered"
+
+		jstr = json.dumps(j)
+		logging.info("Returning %d bytes" % len(jstr))
+		return 200, jstr
+
+	def GetSubBlocks(self, cmd):
+		fn = os.path.join(os.getcwd(), "data", "subblocks.json")
+		logging.info("Retrieving subblock information from file (%s)" % fn)
+		try:
+			with open(fn, "r") as jfp:
+				j = json.load(jfp)
+		except FileNotFoundError:
+			logging.info("File not found")
+			return 400, "File Not Found"
+
+		except:
+			logging.info("Unknown error")
+			return 400, "Unknown error encountered"
+
+		jstr = json.dumps(j)
+		logging.info("Returning %d bytes" % len(jstr))
+		return 200, jstr
+
+	def GetIOBits (self, cmd):
+		fn = os.path.join(os.getcwd(), "data", "iobits.json")
+		logging.info("Retrieving I/O Bit information from file (%s)" % fn)
+		try:
+			with open(fn, "r") as jfp:
+				j = json.load(jfp)
+		except FileNotFoundError:
+			logging.info("File not found")
+			return 400, "File Not Found"
+
+		except:
+			logging.info("Unknown error")
+			return 400, "Unknown error encountered"
+
+		jstr = json.dumps(j)
+		logging.info("Returning %d bytes" % len(jstr))
+		return 200, jstr
+
+	def GetEngineers(self, cmd):
+		fn = os.path.join(os.getcwd(), "data", "engineers.txt")
+		logging.info("Retrieving engineer information from file (%s)" % fn)
+		try:
+			with open(fn, "r") as jfp:
+				j = json.load(jfp)
+		except FileNotFoundError:
+			logging.info("File not found")
+			return 400, "File Not Found"
+
+		except:
+			logging.info("Unknown error")
+			return 400, "Unknown error encountered"
+
+		jstr = json.dumps(j)
+		logging.info("Returning %d bytes" % len(jstr))
+		return 200, jstr
+
+	def GetSnapshot(self, cmd):
+		logging.debug("HTTP Server - savesnapshot")
+		try:
+			action = cmd["action"][0]
+		except (KeyError, IndexError):
+			logging.debug("snapshot command missing action: %s" % str(cmd))
+			action = "save"
+
+		if action == "save":
+			msg = self.rr.SaveSnapshot()
+			return 200, msg
+		elif action == "retrieve":
+			j = self.rr.RetrieveSnapshot()
+			jstr = json.dumps(j)
+			return 200, jstr
+		else:
+			return 400, "Unknown action: %s" % action
+
+	def GetSnapList(self, cmd):
+		logging.debug("http server snaplist")
+		snapList = GetSnapList()
+		logging.debug("returning %s" % json.dumps(snapList))
+		jstr = json.dumps(snapList)
+		return 200, jstr
+
+	def GetSchedList(self, cmd):
+		logging.debug("http server schedule list")
+		scheduleList = GetScheduleList()
+		logging.debug("returning %s" % json.dumps(scheduleList))
+		jstr = json.dumps(scheduleList)
+		return 200, jstr
+
+	def GetTurnoutLocks(self, cmd):
+		rv = self.rr.GetTurnoutLocks()
+		if rv is None:
+			logging.info("Unknown error retrieving turnout locks")
+			return 400, ""
+
+		jstr = json.dumps(rv)
+		return 200, jstr
+
+	def GetSignalLevers(self, cmd):
+		rv = self.rr.GetSignalLevers()
+		if rv is None:
+			logging.info("Unknown error retrieving signal levers")
+			return 400, ""
+
+		jstr = json.dumps(rv)
+		return 200, jstr
+
+	def GetOSProxies(self, cmd):
+		rv = self.rr.GetOSProxyInfo()
+		if rv is None:
+			logging.info("Unknown error retrieving os proxies")
+			return 400, ""
+
+		jstr = json.dumps(rv)
+		return 200, jstr
+
+	def ListDir(self, cmd):
+		try:
+			directory = cmd["dir"][0]
+		except:
+			directory = "data"
+
+		fqdn = os.path.join(os.getcwd(), directory)
+		logging.info("Retrieving directory contents (%s)" % fqdn)
+
+		d = [x for x in os.listdir(fqdn) if not os.path.isdir(os.path.join(fqdn, x))]
+		logging.info("Returning %d bytes" % len(d))
+		return 200, json.dumps(d)
+		
+	def GetFile(self, cmd):
+		try:
+			fn = cmd["file"][0]
+		except:
+			fn = None
+
+		try:
+			directory = cmd["dir"][0]
+		except:
+			directory = "data"
+
+		if fn is None:
+			logging.info("File name not specified")
+			return 400, "File name not specified"
+
+		fqn = os.path.join(os.getcwd(), directory, fn)
+		logging.info("Retrieving file (%s)" % fqn)
+
+		try:
+			with open(fqn, "r") as fp:
+				d = fp.read()
+		except FileNotFoundError:
+			logging.info("File not found")
+			return 400, "File Not Found"
+
+		except:
+			logging.info("Unknown error")
+			return 400, "Unknown error encountered"
+
+		logging.info("Returning %d bytes" % len(d))
+		return 200, d
+
+	def	DelFile(self, cmd):
+		try:
+			fn = cmd["file"][0]
+		except:
+			fn = None
+
+		try:
+			directory = cmd["dir"][0]
+		except:
+			directory = "data"
+
+		if fn is None:
+			logging.info("File name not specified")
+			return 400, "File name not specified"
+
+		fqn = os.path.join(os.getcwd(), directory, fn)
+		logging.info("Deleting file (%s)" % fqn)
+
+		try:
+			os.unlink(fqn)
+		except FileNotFoundError:
+			logging.info("File not found")
+			return 400, "File Not Found"
+
+		except:
+			logging.info("Unknown error")
+			return 400, "Unknown error encountered"
+
+		logging.info("File %s deleted" % fqn)
+		return 200, "deleted file %s" % fqn
+	
+	def GetBits(self, cmd):
+		try:
+			address = int(cmd["address"][0], 16)
+			n, ob, ib = self.rr.GetNodeBits(address)
+			resp = {"count": n, "out": ob, "in": ib}
+			jstr = json.dumps(resp)
+			return 200, jstr
+		except Exception as e:
+			logging.info("Unknown error: %s" % str(e))
+			return 400, str(e)
+
+	def SetInBit(self, cmd):
+		try:
+			addr = int(cmd["address"][0], 16)
+			vbytes = [int(x) for x in cmd["byte"]]
+			vbits = [int(x) for x in cmd["bit"]]
+			vals = [int(x) for x in cmd["value"]]
+			self.rr.SetInputBitByAddr(addr, vbytes, vbits, vals)
+			return 200, "Command received"
+		except Exception as e:
+			logging.info("Unknown error: %s" % str(e))
+			return 400, str(e)
+
+	def ActiveTrains(self, cmd):
+		tl = self.rr.GetActiveTrainList()
+		if tl is None:
+			logging.info("Unknown error")
+			return 400, "Unable to retrieve train list"
+		else:
+			jstr = json.dumps(tl)
+			return 200, jstr
+
+	def GetSignals(self, cmd):
+		rt = self.rr.GetSignals()
+		if rt is None:
+			logging.info("Unknown error")
+			return 400, "Unable to retrieve signal list"
+		else:
+			jstr = json.dumps(rt)
+			return 200, jstr
+
+	def GetRoutes(self, cmd):
+		rt = self.rr.GetOSRoutes()
+		if rt is None:
+			logging.info("Unknown error")
+			return 400, "Unable to retrieve route list"
+		else:
+			jstr = json.dumps(rt)
+			return 200, jstr
+
+	def GetTurnouts(self, cmd):
+		trn = self.rr.GetTurnoutPositions()
+		if trn is None:
+			logging.info("Unknown error")
+			return 400, "Unable to retrieve turnout positionlist"
+		else:
+			jstr = json.dumps(trn)
+			return 200, jstr
+
+	def GetBlocks(self, cmd):
+		logging.debug("getblocks command")
+		rt = self.rr.GetBlocks()
+		logging.debug("blocks returned: %s" % str(rt))
+		if rt is None:
+			logging.info("Unknown error")
+			return 400, "Unable to retrieve block list"
+		else:
+			jstr = json.dumps(rt)
+			return 200, jstr
+
+	def GetSigLevers(self, cmd):
+		sl = self.rr.GetSignalLevers()
+		if sl is None:
+			logging.info("Unknown error")
+			return 400, "Unable to retrieve signal levers"
+		else:
+			jstr = json.dumps(sl)
+			return 200, jstr
+
+	def GetStopRelays(self, cmd):
+		rl = self.rr.GetRelays()
+		if rl is None:
+			logging.info("Unknown error")
+			return 400, "Unable to retrieve relay status"
+		else:
+			jstr = json.dumps(rl)
+			return 200, jstr
+
+	def GetSessions(self, cmd):
+		tl = self.main.GetSessions()
+		if tl is None:
+			logging.info("Unknown error")
+			return 400, "Unable to retrieve train list"
+		else:
+			jstr = json.dumps(tl)
+			return 200, jstr
+
+	def GetBlockOSMap(self, cmd):
+		fn = os.path.join(os.getcwd(), "data", "blockosmap.json")
+		logging.info("Retrieving block os map from file (%s)" % fn)
+		try:
+			with open(fn, "r") as jfp:
+				j = json.load(jfp)
+		except FileNotFoundError:
+			logging.info("File not found")
+			return 400, "File Not Found"
+
+		except Exception as e:
+			logging.info("Unknown error: %s" % str(e))
+			return 400, "Unknown error encountered"
+
+		jstr = json.dumps(j)
+		logging.info("Returning %d bytes" % len(jstr))
+		return 200, jstr
+
+	def GetBlockAdjacency(self, cmd):
+		ba = self.rr.GetAdjacency()
+		jstr = json.dumps(ba)
+		logging.info("Returning %d bytes" % len(jstr))
+		return 200, jstr
 
 	def close(self):
 		self.server.shut_down()

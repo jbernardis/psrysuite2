@@ -1405,6 +1405,12 @@ class ServerMain:
 			blockoccupancy = int(cmd["blockoccupancy"][0])
 		except (KeyError, IndexError, ValueError):
 			blockoccupancy = 0
+
+		try:
+			blockadjacency = int(cmd["blockadjacency"][0])
+		except (KeyError, IndexError, ValueError):
+			blockadjacency = 0
+
 		try:
 			identifytrain = int(cmd["identifytrain"][0])
 		except (KeyError, IndexError, ValueError):
@@ -1412,6 +1418,7 @@ class ServerMain:
 
 		settings.debug.showaspectcalculation = showaspectcalculation > 0
 		settings.debug.blockoccupancy = blockoccupancy > 0
+		settings.debug.blockadjacency = blockadjacency > 0
 		settings.debug.identifytrain = identifytrain > 0
 
 	def DoDumpTrains(self, cmd):

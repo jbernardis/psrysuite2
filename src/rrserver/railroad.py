@@ -52,6 +52,8 @@ class Railroad:
 		self.nodes = {}
 
 		self.debug = self.settings.debug
+		self.Alert("rr constructor, settings = %s flag = %s" % (str(self.settings.debug), self.settings.debug.blockadjacency))
+		self.Alert("local debug = %s" % str(self.debug))
 
 		self.districtList = [
 			[ Yard, "Yard" ],
@@ -195,7 +197,8 @@ class Railroad:
 				blk = None
 
 			if osBlock is None:
-				osBlock = None if blk is None else OSBlock(osBlockName, blk)
+				logging.debug("settings to osblock: %s" % str(self.settings.debug))
+				osBlock = None if blk is None else OSBlock(osBlockName, blk, self, self.settings)
 
 				if osBlock is not None:
 					self.osblocks[osBlockName] = osBlock
@@ -579,6 +582,23 @@ class Railroad:
 		self.SetIndicator("HydeEastPower", True)
 		self.SetIndicator("HydeWestPower", True)
 		self.SetIndicator("H30Power", True)
+
+	def GetAdjacency(self):
+		result = {}
+		for bn, blk in self.blocks.items():
+			blkw = blk.NextDetectionSectionWest()
+			try:
+				wname = blkw.Name()
+			except AttributeError:
+				wname = "None"
+
+			blke = blk.NextDetectionSectionEast()
+			try:
+				ename = blke.Name()
+			except AttributeError:
+				ename = "None"
+			result[bn] = [wname, ename]
+		return result
 
 	#
 	# def OccupyBlock(self, blknm, state):
@@ -2479,9 +2499,11 @@ class Railroad:
 
 	def RailroadEvents(self, elist):
 		for e in elist:
+			logging.debug("Sending: %s" % str(e))
 			self.cbEvent(e)
 
 	def RailroadEvent(self, event):
+		logging.debug("Sending: %s" % str(event))
 		self.cbEvent(event)
 
 	def DeleteTrain(self, tr):
@@ -3140,6 +3162,13 @@ class Railroad:
 
 		self.EvaluatePreviousSignals(psig)
 
+	#
+	# identify a train that appears in a block.  This is done when a new block occupancy is reported by the railroad
+	#
+	# the return values are:
+	#	1) the train - either an existing one that is found in an adjacent block, or a newly created one
+	#	2) a flag indicating if the new block is added to the front (False) or rear (True) of that train
+	#
 	def IdentifyTrain(self, blk):
 		if self.debug.identifytrain:
 			self.Alert("======= new train identification for block %s" % blk.Name())
@@ -3159,6 +3188,12 @@ class Railroad:
 					self.Alert("The train found there is %s" % ("None" if tr is None else tr.Name()))
 
 				if tr is not None:
+					# we found a train in the block to the west.  Return that train's identity
+					# and determine if the block goes at the front or rear of the train
+					#
+					# first determine if we crossed an east/west crossover point and change the
+					# train's direction if we did
+					#
 					self.CheckEWCross(tr, blk, blkw)
 					if tr.IsEast():
 						if self.debug.identifytrain:
@@ -3189,6 +3224,12 @@ class Railroad:
 					self.Alert("The train found there is %s" % ("None" if tr is None else tr.Name()))
 
 				if tr is not None:
+					# we found a train in the block to the east.  Return that train's identity
+					# and determine if the block goes at the front or rear of the train
+					#
+					# first determine if we crossed an east/west crossover point and change the
+					# train's direction if we did
+					#
 					self.CheckEWCross(tr, blk, blke)
 					if tr.IsEast():
 						if self.debug.identifytrain:
@@ -3220,6 +3261,12 @@ class Railroad:
 					self.Alert("The train found there is %s" % ("None" if tr is None else tr.Name()))
 
 				if tr is not None:
+					# we found a train in the block to the east.  Return that train's identity
+					# and determine if the block goes at the front or rear of the train
+					#
+					# first determine if we crossed an east/west crossover point and change the
+					# train's direction if we did
+					#
 					self.CheckEWCross(tr, blk, blke)
 					if tr.IsEast():
 						#  this block goes on the rear of the train AND the block is set to an east block
@@ -3250,6 +3297,12 @@ class Railroad:
 					self.Alert("The train found there is %s" % ("None" if tr is None else tr.Name()))
 
 				if tr is not None:
+					# we found a train in the block to the west.  Return that train's identity
+					# and determine if the block goes at the front or rear of the train
+					#
+					# first determine if we crossed an east/west crossover point and change the
+					# train's direction if we did
+					#
 					self.CheckEWCross(tr, blk, blkw)
 					if tr.IsEast():
 						# this block goes on the front of the train AND the block is set to an east block

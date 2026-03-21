@@ -321,10 +321,10 @@ class MainFrame(wx.Frame):
 					{
 						"showaspectcalculation": 1 if self.settings.debug.showaspectcalculation else 0,
 						"blockoccupancy": 1 if self.settings.debug.blockoccupancy else 0,
+						"blockadjacency": 1 if self.settings.debug.blockadjacency else 0,
 						"identifytrain": 1 if self.settings.debug.identifytrain else 0
 					}
 		}
-		logging.debug("sending message: %s" % str(msg))
 		self.Request(msg)
 
 	def SendLogLevel(self, lvl):
@@ -2653,11 +2653,11 @@ class MainFrame(wx.Frame):
 				logging.error("Unknown command: %s" % cmd)
 
 			else:
-				handler(parms)
-				# try:
-				# 	handler(parms)
-				# except Exception as e:
-				# 	logging.error("Exception %s handling command %s" % (str(e), cmd))
+				#handler(parms)
+				try:
+					handler(parms)
+				except Exception as e:
+					logging.error("Exception %s handling command %s" % (str(e), cmd))
 			
 	def DoCmdTurnout(self, parms):
 		for p in parms:

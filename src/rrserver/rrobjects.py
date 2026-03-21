@@ -507,9 +507,11 @@ class Block:
 
 
 class OSBlock:
-	def __init__(self, name, blk):
+	def __init__(self, name, blk, rr, settings):
 		self.name = name
 		self.block = blk
+		self.rr = rr
+		self.settings = settings
 		self.routes = {}
 		self.activeRoute = None
 		self.activeRouteName = None
@@ -667,11 +669,27 @@ class OSBlock:
 			rc = self.activeRoute is not None
 			self.activeRoute = None
 			self.activeRouteName = None
+			if self.settings.debug.blockadjacency:
+				self.rr.Alert("Set active route for %s to %s" % (self.name, "None"))
 			return rc
 
 		rc = not self.activeRouteName == rt.Name()
 		self.activeRoute = rt
 		self.activeRouteName = rt.Name()
+		try:
+			neast = self.NextDetectionSectionEast().Name()
+		except AttributeError:
+			neast = "None"
+		try:
+			nwest = self.NextDetectionSectionWest().Name()
+		except AttributeError:
+			nwest = "None"
+
+		if self.settings.debug.blockadjacency:
+			self.rr.Alert("Set active route for %s to %s" % (self.name, self.activeRouteName))
+			self.rr.Alert("Next detection section East: %s" % neast)
+			self.rr.Alert("Next detection section West: %s" % nwest)
+
 		# each of the two ends of the route need to point back to this OS block
 		# ar = self.activeRoute
 		# nxtEast = ar.NextBlockEast()
