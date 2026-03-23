@@ -1,9 +1,6 @@
-
 when assigning an engineer to a train, if that train currently has an edit train dialog, that dialog is not updated.  This might be true for loco too.
 
-autoroute is not working through wilson city
-
-snapshot not autoloaded
+snapshot not autoloaded?
 
 
 

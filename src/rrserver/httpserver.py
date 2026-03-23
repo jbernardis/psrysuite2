@@ -503,6 +503,7 @@ class HTTPServer:
 			return 400, "Unable to retrieve route list"
 		else:
 			jstr = json.dumps(rt)
+			logging.debug("getroutes returning %d bytes" % len(jstr))
 			return 200, jstr
 
 	def GetTurnouts(self, cmd):

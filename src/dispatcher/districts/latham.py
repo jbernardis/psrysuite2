@@ -129,14 +129,14 @@ class Latham (District):
 				(self.tiles["horiznc"],   self.screen, (24, 13), False),
 				(self.tiles["horiz"],     self.screen, (25, 13), False),
 				(self.tiles["horiznc"],   self.screen, (26, 13), False),
+				(self.tiles["horiz"],     self.screen, (27, 13), False),
 			], True)
 		self.blocks["L21"].AddStoppingBlock([
 				(self.tiles["eobleft"],   self.screen, (21, 13), False),
 				(self.tiles["ssright"],   self.screen, (22, 13), False),
 			], False)
 		self.blocks["L21"].AddStoppingBlock([
-				(self.tiles["horiz"],     self.screen, (27, 13), False),
-				(self.tiles["horiznc"],   self.screen, (28, 13), False),
+				(self.tiles["ssleft"],    self.screen, (28, 13), False),
 				(self.tiles["eobright"],  self.screen, (29, 13), False),
 			], True)
 		self.blocks["L21"].AddTrainLoc(self.screen, (24, 13))

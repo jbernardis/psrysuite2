@@ -5,6 +5,7 @@ import sys
 import logging
 from subprocess import Popen
 
+from c13auto.c13automain import osRoutes
 
 BSIZE = (120, 40)
 skipBlocks = ["KOSN10S11", "KOSN20S21"]
@@ -24,6 +25,8 @@ class InspectDlg(wx.Dialog):
         self.dlgNodeStatus = None
         self.dlgSignalLevers = None
         self.dlgSidingLocks = None
+        self.dlgHilite = None
+        self.dlgRoutes = None
 
         self.SetTitle("Inspection Dialog")
 
@@ -33,6 +36,8 @@ class InspectDlg(wx.Dialog):
         self.Bind(wx.EVT_BUTTON, self.OnBDebug, bDebug)
         bProxies = wx.Button(self, wx.ID_ANY, "OS Proxies", size=BSIZE)
         self.Bind(wx.EVT_BUTTON, self.OnBProxies, bProxies)
+        bRoutes = wx.Button(self, wx.ID_ANY, "Active Routes", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBRoutes, bRoutes)
         bNodes = wx.Button(self, wx.ID_ANY, "Node Status", size=BSIZE)
         self.Bind(wx.EVT_BUTTON, self.OnBNodes, bNodes)
         bTester = wx.Button(self, wx.ID_ANY, "Tester", size=BSIZE)
@@ -57,6 +62,8 @@ class InspectDlg(wx.Dialog):
         self.Bind(wx.EVT_BUTTON, self.OnBBlockAdjacency, bAdjacency)
         bScanner = wx.Button(self, wx.ID_ANY, "Scanner", size=BSIZE)
         self.Bind(wx.EVT_BUTTON, self.OnBScanner, bScanner)
+        bHilite = wx.Button(self, wx.ID_ANY, "Hilite\nBlock/Route", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBHilite, bHilite)
 
         btnszr1 = wx.BoxSizer(wx.VERTICAL)
         btnszr1.AddSpacer(20)
@@ -71,7 +78,7 @@ class InspectDlg(wx.Dialog):
         btnszr2 = wx.BoxSizer(wx.VERTICAL)
         btnszr2.AddSpacer(20)
 
-        blist = [bProxies, bToLocks, bHandSwitches, bAdjacency, bLevers, bResetBlks]
+        blist = [bProxies, bToLocks, bHandSwitches, bRoutes, bAdjacency, bLevers, bResetBlks]
         for b in blist:
             btnszr2.Add(b)
             btnszr2.AddSpacer(10)
@@ -81,7 +88,7 @@ class InspectDlg(wx.Dialog):
         btnszr3 = wx.BoxSizer(wx.VERTICAL)
         btnszr3.AddSpacer(20)
 
-        blist = [bTester, bMonitor]
+        blist = [bTester, bMonitor, bHilite]
         if self.parent.IsDispatcherOrSatellite() and self.settings.scanner.enable:
             blist.append(bScanner)
         for b in blist:
@@ -103,6 +110,13 @@ class InspectDlg(wx.Dialog):
         self.SetSizer(btnszr)
         self.Layout()
         self.Fit()
+
+    def OnBHilite(self, _):
+        try:
+            self.dlgHilite.Raise()
+        except:
+            self.dlgHilite = HiliteDlg(self, self.parent)
+            self.dlgHilite.Show()
 
     def OnBStartTester(self, _):
         Exec = os.path.join(os.getcwd(), "tester2", "main.py")
@@ -193,6 +207,14 @@ class InspectDlg(wx.Dialog):
         except:
             self.dlgAdjacency = AdjacencyDlg(self, ba, self.parent)
             self.dlgAdjacency.Show()
+
+    def OnBRoutes(self, _):
+        rtl = self.parent.Get("getroutes", {})
+        try:
+            self.dlgRoutes.Raise()
+        except:
+            self.dlgRoutes = RoutesDlg(self, rtl, self.parent)
+            self.dlgRoutes.Show()
 
     def formatRelayName(self, rn):
         return rn.split(".")[0]
@@ -378,7 +400,186 @@ class InspectDlg(wx.Dialog):
         except:
             pass
 
+        try:
+            self.dlgHilite.Destroy()
+        except:
+            pass
+
+        try:
+            self.dlgRoutes.Destroy()
+        except:
+            pass
+
         self.closer()
+
+
+class HiliteDlg(wx.Dialog):
+    def __init__(self, parent, frame):
+        wx.Dialog.__init__(self, parent, wx.ID_ANY, "Block/Route Hilite")
+        self.Bind(wx.EVT_CLOSE, self.OnClose)
+        self.parent = parent
+        self.frame = frame
+
+        self.selectedBlock = None
+        self.selectedOS = None
+        self.selectedRoute = None
+
+        blks = sorted([bn for bn, blk in self.frame.blocks.items() if not blk.IsOS()])
+        osblks = sorted([bn for bn, blk in self.frame.blocks.items() if blk.IsOS()])
+        rtes = {rn: rte.GetOSName() for rn, rte in self.frame.routes.items()}
+ 
+        self.os2route = {}
+        for rtnm, osnm in rtes.items():
+            if osnm in self.os2route.keys():
+                self.os2route[osnm].append(rtnm)
+            else:
+                self.os2route[osnm] = [rtnm]
+
+        szBlockChoice = wx.BoxSizer(wx.HORIZONTAL)
+
+        st = wx.StaticText(self, wx.ID_ANY, "Block:")
+        szBlockChoice.Add(st)
+        szBlockChoice.AddSpacer(10)
+        self.chBlk = wx.Choice(self, wx.ID_ANY, choices=blks)
+        self.Bind(wx.EVT_CHOICE, self.OnChBlock, self.chBlk)
+        szBlockChoice.Add(self.chBlk)
+
+        self.rbBlkOpts = wx.RadioBox(self, wx.ID_ANY, "Options",
+            choices=["Main Block Only", "Stop Sections Only", "All"], majorDimension=1, style=wx.RA_SPECIFY_COLS)
+        self.rbBlkOpts.SetSelection(2)
+
+        szButtons = wx.BoxSizer(wx.HORIZONTAL)
+        szButtons.AddSpacer(20)
+
+        self.bBlock = wx.Button(self, wx.ID_ANY, "Hilite Block", size=BSIZE)
+        szButtons.Add(self.bBlock)
+        self.Bind(wx.EVT_BUTTON, self.OnBBlock, self.bBlock)
+        self.bBlock.Enable(False)
+
+        szButtons.AddSpacer(20)
+        self.bClear = wx.Button(self, wx.ID_ANY, "Clear Hilite", size=BSIZE)
+        szButtons.Add(self.bClear)
+        self.Bind(wx.EVT_BUTTON, self.OnBClear, self.bClear)
+
+        szButtons.AddSpacer(20)
+        self.bOS = wx.Button(self, wx.ID_ANY, "Hilite OS Route", size=BSIZE)
+        szButtons.Add(self.bOS)
+        self.Bind(wx.EVT_BUTTON, self.OnBOS, self.bOS)
+        self.bOS.Enable(False)
+
+        vszL = wx.BoxSizer(wx.VERTICAL)
+        vszL.AddSpacer(20)
+        szButtons.AddSpacer(20)
+
+        vszL.Add(szBlockChoice, 0, wx.ALIGN_CENTER_HORIZONTAL)
+
+        vszL.AddSpacer(20)
+
+        vszL.Add(self.rbBlkOpts, 0, wx.ALIGN_CENTER_HORIZONTAL)
+
+        vszL.AddSpacer(20)
+
+        szOSChoice = wx.BoxSizer(wx.HORIZONTAL)
+
+        st = wx.StaticText(self, wx.ID_ANY, "OS:")
+        szOSChoice.Add(st)
+        szOSChoice.AddSpacer(10)
+        self.chOS = wx.Choice(self, wx.ID_ANY, choices=osblks)
+        self.Bind(wx.EVT_CHOICE, self.OnChOS, self.chOS)
+        szOSChoice.Add(self.chOS)
+
+        szRouteChoice = wx.BoxSizer(wx.HORIZONTAL)
+
+        st = wx.StaticText(self, wx.ID_ANY, "Route:")
+        szRouteChoice.Add(st)
+        szRouteChoice.AddSpacer(10)
+        self.chRoute = wx.Choice(self, wx.ID_ANY, choices=[])
+        self.Bind(wx.EVT_CHOICE, self.OnChRoute, self.chRoute)
+        self.chRoute.Enable(False)
+        szRouteChoice.Add(self.chRoute)
+
+        vszR = wx.BoxSizer(wx.VERTICAL)
+        vszR.AddSpacer(20)
+
+        vszR.Add(szOSChoice, 0, wx.ALIGN_CENTER_HORIZONTAL)
+        
+        vszR.AddSpacer(10)
+
+        vszR.Add(szRouteChoice, 0, wx.ALIGN_CENTER_HORIZONTAL)
+
+        vszR.AddSpacer(20)
+
+        hsz = wx.BoxSizer(wx.HORIZONTAL)
+        hsz.AddSpacer(20)
+
+        hsz.Add(vszL)
+
+        hsz.AddSpacer(20)
+
+        hsz.Add(vszR)
+
+        hsz.AddSpacer(20)
+
+        vsz = wx.BoxSizer(wx.VERTICAL)
+        vsz.Add(hsz, 0, wx.ALIGN_CENTER_HORIZONTAL)
+        vsz.Add(szButtons, 0, wx.ALIGN_CENTER_HORIZONTAL)
+        vsz.AddSpacer(20)
+
+        self.SetSizer(vsz)
+        self.Fit()
+        self.Layout()
+
+    def OnBBlock(self, _):
+        if self.selectedBlock is not None:
+            opt = self.rbBlkOpts.GetSelection()
+            mainblock = opt in [0, 2]
+            stopblocks = opt in [1, 2]
+            self.frame.ShowHilitedBlock(self.selectedBlock, mainblock=mainblock, stopblocks=stopblocks)
+
+    def OnBClear(self, _):
+        if self.selectedBlock is not None:
+            self.frame.ClearHighlitedRoute()
+
+    def OnChBlock(self, _):
+        chx = self.chBlk.GetSelection()
+        if chx == wx.NOT_FOUND:
+            self.selectedBlock = None
+            self.bBlock.Enable(False)
+        else:
+            self.selectedBlock = self.chBlk.GetString(chx)
+            self.bBlock.Enable(True)
+
+    def OnChOS(self, _):
+        chx = self.chOS.GetSelection()
+        if chx == wx.NOT_FOUND:
+            self.selectedOS = None
+            self.bOS.Enable(False)
+            self.chRoute.SetItems([])
+            self.chRoute.SetSelection(wx.NOT_FOUND)
+            self.chRoute.Enable(False)
+        else:
+            self.selectedOS = self.chOS.GetString(chx)
+            self.bOS.Enable(True)
+            self.chRoute.SetItems(self.os2route[self.selectedOS])
+            self.chRoute.SetSelection(0)
+            self.chRoute.Enable(True)
+            self.selectedRoute = self.chRoute.GetString(0)
+            
+    def OnChRoute(self, _):
+        chx = self.chRoute.GetSelection()
+        if chx == wx.NOT_FOUND:
+            self.selectedRoute = None
+            self.bOS.Enable(False)
+        else:
+            self.selectedRoute = self.chRoute.GetString(chx)
+            self.bOS.Enable(True)
+
+    def OnBOS(self, _):
+        if self.selectedOS is not None and self.selectedRoute is not None:
+            self.frame.ShowHilitedOSRoute(self.selectedOS, self.selectedRoute)
+
+    def OnClose(self, _):
+        self.Destroy()
 
 
 class AdjacencyDlg(wx.Dialog):
@@ -460,6 +661,88 @@ class AdjacencyDlg(wx.Dialog):
                 self.BAgrid.SetCellValue(row, 2, ba[bn][1])
             else:
                 logging.debug("Refresh block adjacency - unknown block: %s" % bn)
+
+    def OnClose(self, _):
+        self.Destroy()
+
+
+class RoutesDlg(wx.Dialog):
+    def __init__(self, parent, rtl, frame):
+        wx.Dialog.__init__(self, parent, wx.ID_ANY, "Active Routes")
+        self.Bind(wx.EVT_CLOSE, self.OnClose)
+        self.frame = frame
+
+        headings = ["OS", "Active Route"]
+        colWidth = [100, 100]
+        colAlign = [wx.ALIGN_CENTER, wx.ALIGN_CENTER]
+        nRows = len(rtl)
+        nCols = len(headings)
+
+        # we want to have at least 5, at most 30 lines on the display
+        nr = nRows
+        if nr < 5:
+            nr = 5
+        elif nr > 30:
+            nr = 30
+        ht = int(33 + nr * 19)
+
+        self.RTgrid = gridlib.Grid(self, size=(sum(colWidth) + 20, ht))
+        self.RTgrid.CreateGrid(nRows, nCols)
+        self.RTgrid.EnableGridLines(True)
+        self.RTgrid.SetGridLineColour(wx.BLACK)
+        self.RTgrid.SetRowLabelSize(2)
+
+        attrs = []
+        for c in range(nCols):
+            attr = wx.grid.GridCellAttr()
+            attr.SetAlignment(colAlign[c], wx.ALIGN_CENTER)
+            attr.SetReadOnly(True)
+            attrs.append(attr)
+
+        for i in range(nCols):
+            self.RTgrid.SetColLabelValue(i, headings[i])
+            self.RTgrid.SetColSize(i, colWidth[i])
+            self.RTgrid.SetColAttr(i, attrs[i])
+
+        self.RTMap = {}
+        row = 0
+        for rtn in sorted(rtl.keys()):
+            self.RTMap[rtn] = row
+            self.RTgrid.SetCellValue(row, 0, rtn)
+            self.RTgrid.SetCellValue(row, 1, "None" if rtl[rtn] is None else rtl[rtn])
+            row += 1
+
+        vsz = wx.BoxSizer(wx.VERTICAL)
+        vsz.AddSpacer(20)
+
+        hsz = wx.BoxSizer(wx.HORIZONTAL)
+        hsz.AddSpacer(20)
+
+        hsz.Add(self.RTgrid, 0, wx.EXPAND)
+
+        hsz.AddSpacer(20)
+        vsz.Add(hsz)
+
+        vsz.AddSpacer(20)
+
+        bRefresh = wx.Button(self, wx.ID_ANY, "Refresh", size=(100, 30))
+        self.Bind(wx.EVT_BUTTON, self.OnBRefresh, bRefresh)
+        vsz.Add(bRefresh, 0, wx.ALIGN_CENTER_HORIZONTAL)
+
+        vsz.AddSpacer(20)
+
+        self.SetSizer(vsz)
+        self.Fit()
+        self.Layout()
+
+    def OnBRefresh(self, _):
+        rtl = self.frame.Get("getroutes", {})
+        for rtn in rtl.keys():
+            row = self.RTMap.get(rtn, None)
+            if row is not None:
+                self.RTgrid.SetCellValue(row, 1, "None" if rtl[rtn] is None else rtl[rtn])
+            else:
+                logging.debug("Refresh active routes - unknown OS: %s" % rtn)
 
     def OnClose(self, _):
         self.Destroy()
@@ -664,8 +947,8 @@ class DebugFlagsDlg(wx.Dialog):
         #                            "Flags Modified",
         #                            wx.OK | wx.ICON_INFORMATION
         #                            )
-        dlg.ShowModal()
-        dlg.Destroy()
+        # dlg.ShowModal()
+        # dlg.Destroy()
 
 
 class LogLevelDlg(wx.Dialog):

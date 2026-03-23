@@ -1076,7 +1076,8 @@ class Railroad:
 		self.osRoutes[blknm] = [rtname, ends, signals]
 
 	def GetOSRoutes(self):
-		return self.osRoutes
+		rts = {osb.Name(): osb.ActiveRouteName() for osb in self.osblocks.values()}
+		return rts
 		
 	def SetControlOption(self, name, value):
 		self.controlOptions[name] = value

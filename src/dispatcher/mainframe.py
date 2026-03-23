@@ -1659,6 +1659,14 @@ class MainFrame(wx.Frame):
 
 		self.SetHighlitedRoute("MAIN", routeTiles, ticker=14)
 
+	def ShowHilitedBlock(self, blkname, mainblock=True, stopblocks=True):
+		routeTiles = self.EnumerateBlockTiles(blkname, mainblock=mainblock, stopblocks=stopblocks)
+		self.SetHighlitedRoute(blkname, routeTiles, ticker=14)
+
+	def ShowHilitedOSRoute(self, osname, rtname):
+		routeTiles = self.EnumerateOSTiles(osname, rtname)
+		self.SetHighlitedRoute(rtname, routeTiles, ticker=14)
+
 	def formatSigLvr(self, data):
 		dl = 0 if data[0] is None else data[0]
 		dc = 0 if data[1] is None else data[1]
@@ -1725,14 +1733,24 @@ class MainFrame(wx.Frame):
 	# 	pass
 	# 	# return self.activeTrains.GetTrain(trid)
 
-	def EnumerateBlockTiles(self, blkname):
+	def EnumerateBlockTiles(self, blkname, mainblock=True, stopblocks=True):
+		if not mainblock and not stopblocks:
+			return []
+
 		try:
 			blk = self.blocks[blkname]
 		except KeyError:
 			return []
 
-		tl = blk.GetTiles() + blk.GetSBTiles()
-		tol = blk.GetTurnoutLocations()
+		tl = []
+		if mainblock:
+			tl.extend(blk.GetTiles())
+			tol = blk.GetTurnoutLocations()
+		else:
+			tol = []
+
+		if stopblocks:
+			tl.extend(blk.GetSBTiles())
 
 		tloc = [[t[1], t[2]] for t in tl] + tol
 
@@ -1754,6 +1772,7 @@ class MainFrame(wx.Frame):
 
 		self.hilitedRoute = name
 		tiles = {}
+		logging.debug("routetiles = %s" % str(routeTiles))
 		for scr, pos in routeTiles:
 			offset = self.diagrams[scr].offset
 			if scr not in tiles:
