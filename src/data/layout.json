@@ -2196,12 +2196,12 @@
     "YRtY20Y60": {
       "os": "YOSKL3",
       "ends": [
-        "Y60",
-        "Y20"
+        "Y20",
+        "Y60"
       ],
       "signals": [
-        "Y22L",
-        "Y26R"
+        "Y26R",
+        "Y22L"
       ],
       "turnouts": [
         [

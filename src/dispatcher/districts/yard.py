@@ -893,7 +893,7 @@ class Yard (District):
 		self.routes["YRtY20Y53"] = Route(self.screen, block, "YRtY20Y53", "Y53", [(96, 7), (97, 8), (98, 9), (99, 10), (100, 11), (101, 12), (102, 13), (103, 13), (104, 13), (105, 13)], "Y20", [RESTRICTING, RESTRICTING], ["YSw17:N", "YSw21:N", "YSw23:R", "YSw29:R"], ["Y24LB", "Y26R"])
 
 		block = self.blocks["YOSKL3"]
-		self.routes["YRtY20Y60"] = Route(self.screen, block, "YRtY20Y60", "Y60", [(96, 5), (97, 5), (98, 6), (99, 7), (100, 8), (101, 9), (102, 10), (103, 11), (104, 12), (105, 13)], "Y20", [RESTRICTING, RESTRICTING], ["YSw17:R", "YSw19:R", "YSw21:N"], ["Y22L", "Y26R"])
+		self.routes["YRtY20Y60"] = Route(self.screen, block, "YRtY20Y60", "Y20", [(96, 5), (97, 5), (98, 6), (99, 7), (100, 8), (101, 9), (102, 10), (103, 11), (104, 12), (105, 13)], "Y60", [RESTRICTING, RESTRICTING], ["YSw17:R", "YSw19:R", "YSw21:N"], ["Y26R", "Y22L"])
 
 		block = self.blocks["YOSKL2"]
 		self.routes["YRtY10Y52"] = Route(self.screen, block, "YRtY10Y52", "Y10", [(96, 9), (97, 9), (98, 9), (99, 10), (100, 11), (101, 11), (102, 11), (103, 11), (104, 11), (105, 11)], "Y52", [RESTRICTING, SLOW], ["YSw17:N", "YSw19:N", "YSw21:N", "YSw23:N", "YSw29:N"], ["Y22R", "Y24LA"])

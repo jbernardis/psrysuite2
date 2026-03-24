@@ -594,6 +594,9 @@ class AdjacencyDlg(wx.Dialog):
         nRows = len(adata)
         nCols = len(headings)
 
+        self.colorWhite = wx.Colour(255, 255, 255)
+        self.colorGray = wx.Colour(196, 196, 196)
+
         # we want to have at least 5, at most 30 lines on the display
         nr = nRows
         if nr < 5:
@@ -657,10 +660,18 @@ class AdjacencyDlg(wx.Dialog):
         for bn in ba.keys():
             row = self.BAMap.get(bn, None)
             if row is not None:
+                vwest = self.BAgrid.GetCellValue(row, 0)
+                veast = self.BAgrid.GetCellValue(row, 2)
+
+                self.BAgrid.SetCellBackgroundColour(row, 0, self.colorGray if vwest != ba[bn][0] else self.colorWhite)
+                self.BAgrid.SetCellBackgroundColour(row, 2, self.colorGray if veast != ba[bn][1] else self.colorWhite)
+
                 self.BAgrid.SetCellValue(row, 0, ba[bn][0])
                 self.BAgrid.SetCellValue(row, 2, ba[bn][1])
             else:
                 logging.debug("Refresh block adjacency - unknown block: %s" % bn)
+
+        self.BAgrid.Refresh()
 
     def OnClose(self, _):
         self.Destroy()
@@ -677,6 +688,9 @@ class RoutesDlg(wx.Dialog):
         colAlign = [wx.ALIGN_CENTER, wx.ALIGN_CENTER]
         nRows = len(rtl)
         nCols = len(headings)
+
+        self.colorWhite = wx.Colour(255, 255, 255)
+        self.colorGray = wx.Colour(196, 196, 196)
 
         # we want to have at least 5, at most 30 lines on the display
         nr = nRows
@@ -740,9 +754,16 @@ class RoutesDlg(wx.Dialog):
         for rtn in rtl.keys():
             row = self.RTMap.get(rtn, None)
             if row is not None:
-                self.RTgrid.SetCellValue(row, 1, "None" if rtl[rtn] is None else rtl[rtn])
+                vold = self.RTgrid.GetCellValue(row, 1)
+                vnew = "None" if rtl[rtn] is None else rtl[rtn]
+
+                self.RTgrid.SetCellBackgroundColour(row, 1, self.colorGray if vold != vnew else self.colorWhite)
+
+                self.RTgrid.SetCellValue(row, 1, vnew)
             else:
                 logging.debug("Refresh active routes - unknown OS: %s" % rtn)
+
+        self.RTgrid.Refresh()
 
     def OnClose(self, _):
         self.Destroy()
