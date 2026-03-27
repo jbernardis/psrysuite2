@@ -1616,6 +1616,7 @@ class MainFrame(wx.Frame):
 			self.RNameToINameMap[tr.Name()] = tr.IName()
 
 	def OnTrainSwap(self, _):
+		logging.debug("requesting train swap")
 		trList = sorted([tr.Name() for tr in self.trains.values() if tr.Name() != self.menuTrainID],  key=self.BuildTrainKey)
 		self.BuildINameMap()
 		if len(trList) == 0:
@@ -1633,6 +1634,7 @@ class MainFrame(wx.Frame):
 			trxid = None
 		dlg.Destroy()
 		if lrc != wx.ID_OK:
+			logging.debug("returning because ID_OK not returned from selection dialog")
 			return
 
 		if trxid is None:
@@ -1641,9 +1643,11 @@ class MainFrame(wx.Frame):
 
 		iname = self.RNameToINameMap.get(trxid, None)
 		if iname is None:
-			self.PopupEvent("Unknown error trying to swap trains")
+			self.PopupEvent("Error trying to swap trains. Can't determine iname from rname %s" % trxid)
+			logging.debug("Can't determine iname from rname %s" % trxid)
 			return
 
+		logging.debug("sending trainswap command for %s and %s" % (self.menuTrain.IName(), iname))
 		self.Request({"trainswap": {"train": self.menuTrain.IName(), "swaptrain": iname}})
 
 	def ShowHilitedRoute(self, tr, trid):
@@ -4337,6 +4341,7 @@ class MainFrame(wx.Frame):
 			return True
 
 		if self.IsSatellite():
+			logging.debug("denying %s command to satellite: %s" % (cmd, cmd in disallowedSatelliteCommands))
 			return cmd not in disallowedSatelliteCommands
 
 		return cmd in allowedCommands

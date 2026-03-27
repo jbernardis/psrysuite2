@@ -150,7 +150,7 @@ class CliffFrame(MainFrame):
 		ht = None  # diagram height.  None => use bitmap size.  use a number < 800 to trim bottom off of diagram bitmaps
 		self.diagramWidth = 1904
 
-		dp = TrackDiagram(self, [self.diagrams[cliff]], ht)
+		dp = TrackDiagram(self, [self.diagrams[cliff]], self.settings, ht)
 		dp.SetPosition((8, 120))
 		_, diagramh = dp.GetSize()
 		self.panels = {self.diagrams[cliff].screen: dp}

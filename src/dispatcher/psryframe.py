@@ -71,7 +71,7 @@ class PSRYFrame(MainFrame):
 		self.diagramWidth = 2544
 
 		if self.settings.display.pages == 1:  # set up a single ultra-wide display accross 3 monitors
-			dp = TrackDiagram(self, [self.diagrams[sn] for sn in screensList], ht)
+			dp = TrackDiagram(self, [self.diagrams[sn] for sn in screensList], self.settings, ht)
 			dp.SetPosition((0, 120))
 			_, diagramh = dp.GetSize()
 			self.panels = {self.diagrams[sn].screen: dp for sn in screensList}  # all 3 screens just point to the same diagram
@@ -82,7 +82,7 @@ class PSRYFrame(MainFrame):
 			self.panels = {}
 			diagramh = 0
 			for d in [self.diagrams[sn] for sn in screensList]:
-				dp = TrackDiagram(self, [d], ht)
+				dp = TrackDiagram(self, [d], self.settings, ht)
 				_, diagramh = dp.GetSize()
 				dp.Hide()
 				dp.SetPosition((0, 120))

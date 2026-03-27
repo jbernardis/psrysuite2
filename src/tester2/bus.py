@@ -41,7 +41,7 @@ class Bus:
 
 		except serial.SerialException as e:
 			self.port = None
-			self.initialized = True
+			self.initialized = False
 			self.error = str(e)
 			return
 
@@ -59,16 +59,11 @@ class Bus:
 		
 		self.port.close()
 		self.port = None
+		self.initialized = False
 
 	def sendRecv(self, address, outbuf, nbytes):
 		if not self.initialized:
 			return None
-		#
-		# try:
-		# 	lastused = self.lastUsed[address]
-		# except:
-		# 	lastused = [None for _ in range(nbytes)]
-		# 	self.lastUsed[address] = lastused
 
 		sendBuffer = [address]
 

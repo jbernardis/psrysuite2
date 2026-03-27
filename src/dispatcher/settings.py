@@ -19,6 +19,10 @@ def parseBoolean(val, defaultVal):
 	return defaultVal
 
 
+def formatList(l):
+	return "(" + ",".join(["%d" % d for d in l]) + ")"
+
+
 class SNode:
 	def __init__(self):
 		pass
@@ -228,6 +232,14 @@ class Settings:
 		self.display.showevents = False
 		self.display.showadvice = False
 		self.display.showunknownhistory = True
+
+		self.display.colortagfg = (255, 255, 255)
+		self.display.colortagbg = (224, 149, 149)
+		self.display.colortrainfg = (192, 0, 0)
+		self.display.colortrainbg = (196, 196, 196)
+		self.display.colorlocofg = (0, 0, 0)
+		self.display.colorlocobg = (224, 149, 149)
+
 		if self.cfg.has_section(section):
 			for opt, value in self.cfg.items(section):
 				if opt == 'pages':
@@ -250,6 +262,24 @@ class Settings:
 
 				elif opt == 'showunknownhistory':
 					self.display.showunknownhistory = parseBoolean(value, True)
+
+				elif opt == 'colortagfg':
+					self.display.colortagfg = eval(value)
+
+				elif opt == 'colortagbg':
+					self.display.colortagbg = eval(value)
+
+				elif opt == 'colortrainfg':
+					self.display.colortrainfg = eval(value)
+
+				elif opt == 'colortrainbg':
+					self.display.colortrainbg = eval(value)
+
+				elif opt == 'colorlocofg':
+					self.display.colorlocofg = eval(value)
+
+				elif opt == 'colorlocobg':
+					self.display.colorlocobg = eval(value)
 
 				elif opt == 'locale':
 					self.display.locale = value
@@ -477,6 +507,12 @@ class Settings:
 		self.cfg.set(section, "showadvice", "True" if self.display.showadvice else "False")
 		self.cfg.set(section, "showunknownhistory", "True" if self.display.showunknownhistory else "False")
 		self.cfg.set(section, "locale", self.display.locale)
+		self.cfg.set(section, "colortagfg", formatList(self.display.colortagfg))
+		self.cfg.set(section, "colortagbg", formatList(self.display.colortagbg))
+		self.cfg.set(section, "colortrainfg", formatList(self.display.colortrainfg))
+		self.cfg.set(section, "colortrainbg", formatList(self.display.colortrainbg))
+		self.cfg.set(section, "colorlocofg", formatList(self.display.colorlocofg))
+		self.cfg.set(section, "colorlocobg", formatList(self.display.colorlocobg))
 
 		section = "activetrains" 
 		try:

@@ -209,7 +209,7 @@ class Cliff (District):
 				(self.tiles["turnleftleft"],  self.screen, (15, 17), False),
 				(self.tiles["diagleft"],       self.screen, (14, 18), False),
 			], True)
-		self.blocks["COSGME"].AddTrainLoc(self.screen, (102, 36))
+		self.blocks["COSGME"].AddTrainLoc(self.screen, (12, 12))
 
 		self.osBlocks["COSGME"] = ["C10", "C30", "G12", "G10", "C20"]
 

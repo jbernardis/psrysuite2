@@ -27,6 +27,7 @@ class InspectDlg(wx.Dialog):
         self.dlgSidingLocks = None
         self.dlgHilite = None
         self.dlgRoutes = None
+        self.dlgTrains = None
 
         self.SetTitle("Inspection Dialog")
 
@@ -50,6 +51,8 @@ class InspectDlg(wx.Dialog):
         self.Bind(wx.EVT_BUTTON, self.OnBTurnoutLocks, bToLocks)
         bAuditTrains = wx.Button(self, wx.ID_ANY, "Audit Trains", size=BSIZE)
         self.Bind(wx.EVT_BUTTON, self.OnBAuditTrains, bAuditTrains)
+        bActiveTrains = wx.Button(self, wx.ID_ANY, "Active Trains", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBActiveTrains, bActiveTrains)
         bMonitor = wx.Button(self, wx.ID_ANY, "Monitor", size=BSIZE)
         self.Bind(wx.EVT_BUTTON, self.OnBStartMonitor, bMonitor)
         bHandSwitches = wx.Button(self, wx.ID_ANY, "Siding Locks", size=BSIZE)
@@ -65,51 +68,48 @@ class InspectDlg(wx.Dialog):
         bHilite = wx.Button(self, wx.ID_ANY, "Hilite\nBlock/Route", size=BSIZE)
         self.Bind(wx.EVT_BUTTON, self.OnBHilite, bHilite)
 
-        btnszr1 = wx.BoxSizer(wx.VERTICAL)
-        btnszr1.AddSpacer(20)
+        bszl = []
 
-        blist = [bDebug, bLogLevel, bAuditTrains, bNodes, bRelays]
-        for b in blist:
-            btnszr1.Add(b)
-            btnszr1.AddSpacer(10)
+        buttonCols = [[bDebug, bLogLevel, bNodes, bRelays],
+                    [bAuditTrains, bActiveTrains, bRoutes, bAdjacency, bProxies],
+                    [bToLocks, bLevers, bHandSwitches, bResetBlks],
+                    [bTester, bMonitor, bHilite]]
 
-        btnszr1.AddSpacer(10)
-
-        btnszr2 = wx.BoxSizer(wx.VERTICAL)
-        btnszr2.AddSpacer(20)
-
-        blist = [bProxies, bToLocks, bHandSwitches, bRoutes, bAdjacency, bLevers, bResetBlks]
-        for b in blist:
-            btnszr2.Add(b)
-            btnszr2.AddSpacer(10)
-
-        btnszr2.AddSpacer(10)
-
-        btnszr3 = wx.BoxSizer(wx.VERTICAL)
-        btnszr3.AddSpacer(20)
-
-        blist = [bTester, bMonitor, bHilite]
         if self.parent.IsDispatcherOrSatellite() and self.settings.scanner.enable:
-            blist.append(bScanner)
-        for b in blist:
-            btnszr3.Add(b)
-            btnszr3.AddSpacer(10)
+            buttonCols[3].append(bScanner)
 
-        btnszr3.AddSpacer(10)
+        for blist in buttonCols:
+
+            sz = wx.BoxSizer(wx.VERTICAL)
+            sz.AddSpacer(20)
+
+            for b in blist:
+                sz.Add(b)
+                sz.AddSpacer(10)
+
+            sz.AddSpacer(10)
+
+            bszl.append(sz)
 
         btnszr = wx.BoxSizer(wx.HORIZONTAL)
 
-        btnszr.AddSpacer(20)
-        btnszr.Add(btnszr1)
-        btnszr.AddSpacer(10)
-        btnszr.Add(btnszr2)
-        btnszr.AddSpacer(10)
-        btnszr.Add(btnszr3)
+        for bsz in bszl:
+            btnszr.AddSpacer(20)
+            btnszr.Add(bsz)
+
         btnszr.AddSpacer(20)
 
         self.SetSizer(btnszr)
         self.Layout()
         self.Fit()
+
+    def OnBActiveTrains(self, _):
+        tl = self.parent.Get("activetrains", {})
+        try:
+            self.dlgTrains.Raise()
+        except:
+            self.dlgTrains = ActiveTrainsDlg(self, tl, self.parent)
+            self.dlgTrains.Show()
 
     def OnBHilite(self, _):
         try:
@@ -410,6 +410,11 @@ class InspectDlg(wx.Dialog):
         except:
             pass
 
+        try:
+            self.dlgTrains.Destroy()
+        except:
+            pass
+
         self.closer()
 
 
@@ -577,6 +582,218 @@ class HiliteDlg(wx.Dialog):
     def OnBOS(self, _):
         if self.selectedOS is not None and self.selectedRoute is not None:
             self.frame.ShowHilitedOSRoute(self.selectedOS, self.selectedRoute)
+
+    def OnClose(self, _):
+        self.Destroy()
+
+
+class TrainEntry:
+    def __init__(self, name, loco, direction, engineer, blocks, signal, aspect, stopped):
+        self.name = name
+        self.loco = loco
+        self.direction = direction
+        self.engineer = engineer
+        self.blocks = blocks
+        self.signal = signal
+        self.aspect = aspect
+        self.stopped = stopped
+
+    def NewName(self, name):
+        rc = name != self.name
+        self.name = name
+        return rc
+
+    def NewLoco(self, loco):
+        rc = loco != self.loco
+        self.loco = loco
+        return rc
+
+    def NewDirection(self, direction):
+        rc = direction != self.direction
+        self.direction = direction
+        return rc
+
+    def NewEngineer(self, engineer):
+        rc = engineer != self.engineer
+        self.engineer = engineer
+        return rc
+
+    def NewBlocks(self, blocks):
+        rc = blocks != self.blocks
+        self.blocks = blocks
+        return rc
+
+    def NewSignal(self, signal):
+        rc = signal != self.signal
+        self.signal = signal
+        return rc
+
+    def NewAspect(self, aspect):
+        rc = aspect != self.aspect
+        self.aspect = aspect
+        return rc
+
+    def NewStopped(self, stopped):
+        rc = stopped != self.stopped
+        self.stopped = stopped
+        return rc
+
+
+class ActiveTrainsDlg(wx.Dialog):
+    def __init__(self, parent, tdata, frame):
+        wx.Dialog.__init__(self, parent, wx.ID_ANY, "Active Trains")
+        self.Bind(wx.EVT_CLOSE, self.OnClose)
+        self.parent = parent
+        self.frame = frame
+
+        headings = ["Train", "Int name", "Loco", "Direction", "Engineer", "Blocks", "Signal", "Aspect", "Stopped"]
+        colWidth = [70, 70, 70, 70, 70, 140, 70, 140, 70]
+        colAlign = [wx.ALIGN_CENTER, wx.ALIGN_CENTER, wx.ALIGN_CENTER, wx.ALIGN_CENTER, wx.ALIGN_CENTER,
+                    wx.ALIGN_CENTER, wx.ALIGN_CENTER, wx.ALIGN_CENTER, wx.ALIGN_CENTER]
+        self.nRows = len(tdata)
+        nCols = len(headings)
+
+        self.colorWhite = wx.Colour(255, 255, 255)
+        self.colorGray = wx.Colour(196, 196, 196)
+
+        # we want to have at least 5, at most 30 lines on the display
+        nr = self.nRows
+        if nr < 5:
+            nr = 5
+        elif nr > 30:
+            nr = 30
+        ht = int(33 + nr * 19)
+
+        self.TRgrid = gridlib.Grid(self, size=(sum(colWidth) + 20, ht))
+        self.TRgrid.CreateGrid(self.nRows, nCols)
+        self.TRgrid.EnableGridLines(True)
+        self.TRgrid.SetGridLineColour(wx.BLACK)
+        self.TRgrid.SetRowLabelSize(2)
+
+        attrs = []
+        for c in range(nCols):
+            attr = wx.grid.GridCellAttr()
+            attr.SetAlignment(colAlign[c], wx.ALIGN_CENTER)
+            attr.SetReadOnly(True)
+            attrs.append(attr)
+
+        for i in range(nCols):
+            self.TRgrid.SetColLabelValue(i, headings[i])
+            self.TRgrid.SetColSize(i, colWidth[i])
+            self.TRgrid.SetColAttr(i, attrs[i])
+
+        row = 0
+        self.TRMap = {}
+        for trid in sorted(tdata.keys(), key=self.BuildTrainKey):
+            name = trid
+            iname, loco, direction, engineer, blocks, signal, aspect, stopped = self.ParseTrainEntry(tdata[trid])
+            self.TRMap[iname] = TrainEntry(name, loco, direction, engineer, blocks, signal, aspect, stopped)
+            self.TRgrid.SetCellValue(row, 0, name)
+            self.TRgrid.SetCellValue(row, 1, iname)
+            self.TRgrid.SetCellValue(row, 2, loco)
+            self.TRgrid.SetCellValue(row, 3, direction)
+            self.TRgrid.SetCellValue(row, 4, engineer)
+            self.TRgrid.SetCellValue(row, 5, blocks)
+            self.TRgrid.SetCellValue(row, 6, signal)
+            self.TRgrid.SetCellValue(row, 7, aspect)
+            self.TRgrid.SetCellValue(row, 8, stopped)
+            row += 1
+
+        vsz = wx.BoxSizer(wx.VERTICAL)
+        vsz.AddSpacer(20)
+
+        hsz = wx.BoxSizer(wx.HORIZONTAL)
+        hsz.AddSpacer(20)
+
+        hsz.Add(self.TRgrid, 0, wx.EXPAND)
+
+        hsz.AddSpacer(20)
+        vsz.Add(hsz)
+
+        vsz.AddSpacer(20)
+
+        bRefresh = wx.Button(self, wx.ID_ANY, "Refresh", size=(100, 30))
+        self.Bind(wx.EVT_BUTTON, self.OnBRefresh, bRefresh)
+        vsz.Add(bRefresh, 0, wx.ALIGN_CENTER_HORIZONTAL)
+
+        vsz.AddSpacer(20)
+
+        self.SetSizer(vsz)
+        self.Fit()
+        self.Layout()
+
+    @staticmethod
+    def BuildTrainKey(trid):
+        if trid.startswith("??"):
+            return "ZZ%s" % trid
+        else:
+            return "AA%s" % trid
+
+    @staticmethod
+    def ParseTrainEntry(trinfo):
+        iname = trinfo["iname"]
+        l = trinfo["loco"]
+        loco = "None" if l is None else l
+        direction = "East" if trinfo["east"] else "West"
+        e = trinfo["engineer"]
+        engineer = "None" if e is None else e
+        blocks = ", ".join(trinfo["blocks"])
+        s = trinfo["signal"]
+        signal = "None" if s is None else s
+        a = trinfo["aspect"]
+        aspect = "None" if a is None else a
+        stopped = str(trinfo["stopped"])
+        return iname, loco, direction, engineer, blocks, signal, aspect, stopped
+
+    def OnBRefresh(self, _):
+        tdata = self.frame.Get("activetrains", {})
+        for tid, tinfo in tdata.items():
+            logging.debug("%s:  %s" % (tid, str(tinfo)))
+
+        currentKeys = self.TRMap.keys()
+        newKeys = [tinfo["iname"] for tinfo in tdata.values()]
+        newTrains = [t for t in newKeys if t not in currentKeys]
+        delTrains = [t for t in currentKeys if t not in newKeys]
+
+        newRowCount = self.nRows - len(delTrains) + len(newTrains)
+        if newRowCount > self.nRows:
+            rowsToAdd = newRowCount - self.nRows
+            self.TRgrid.AppendRows(rowsToAdd, True)
+        elif newRowCount < self.nRows:
+            rowsToRemove = self.nRows - newRowCount
+            self.TRgrid.DeleteRows(0, rowsToRemove, True)
+
+        self.nRows = newRowCount
+
+        row = 0
+        for trid in sorted(tdata.keys(), key=self.BuildTrainKey):
+            name = trid
+            iname, loco, direction, engineer, blocks, signal, aspect, stopped = self.ParseTrainEntry(tdata[trid])
+            currentValues = self.TRMap.get(iname, None)
+            if currentValues is None:
+                currentValues = TrainEntry(name, loco, direction, engineer, blocks, signal, aspect, stopped)
+                self.TRMap[iname] = currentValues
+
+            self.TRgrid.SetCellValue(row, 0, name)
+            self.TRgrid.SetCellBackgroundColour(row, 0, self.colorGray if currentValues.NewName(name) else self.colorWhite)
+            self.TRgrid.SetCellValue(row, 1, iname)
+            self.TRgrid.SetCellValue(row, 2, loco)
+            self.TRgrid.SetCellBackgroundColour(row, 2, self.colorGray if currentValues.NewLoco(loco) else self.colorWhite)
+            self.TRgrid.SetCellValue(row, 3, direction)
+            self.TRgrid.SetCellBackgroundColour(row, 3, self.colorGray if currentValues.NewDirection(direction) else self.colorWhite)
+            self.TRgrid.SetCellValue(row, 4, engineer)
+            self.TRgrid.SetCellBackgroundColour(row, 4, self.colorGray if currentValues.NewEngineer(engineer) else self.colorWhite)
+            self.TRgrid.SetCellValue(row, 5, blocks)
+            self.TRgrid.SetCellBackgroundColour(row, 5, self.colorGray if currentValues.NewBlocks(blocks) else self.colorWhite)
+            self.TRgrid.SetCellValue(row, 6, signal)
+            self.TRgrid.SetCellBackgroundColour(row, 6, self.colorGray if currentValues.NewSignal(signal) else self.colorWhite)
+            self.TRgrid.SetCellValue(row, 7, aspect)
+            self.TRgrid.SetCellBackgroundColour(row, 7, self.colorGray if currentValues.NewAspect(aspect) else self.colorWhite)
+            self.TRgrid.SetCellValue(row, 8, stopped)
+            self.TRgrid.SetCellBackgroundColour(row, 8, self.colorGray if currentValues.NewStopped(stopped) else self.colorWhite)
+            row += 1
+
+        self.TRgrid.Refresh()
 
     def OnClose(self, _):
         self.Destroy()

@@ -197,7 +197,6 @@ class Railroad:
 				blk = None
 
 			if osBlock is None:
-				logging.debug("settings to osblock: %s" % str(self.settings.debug))
 				osBlock = None if blk is None else OSBlock(osBlockName, blk, self, self.settings)
 
 				if osBlock is not None:
@@ -458,7 +457,17 @@ class Railroad:
 	def SetSnapshotLimit(self, limit):
 		self.snapshotLimit = limit
 
+	def ScrubTrains(self):
+		for trid, tr in self.trains.items():
+			tr.SetName(None, None)
+			tr.SetTemplateTrain(None)
+			tr.SetTemplateSeq([])
+			for blk in tr.Blocks():
+				self.RailroadEvent(blk.GetEventMessage())
+			self.RailroadEvent(tr.GetEventMessage())
+
 	def LoadSnapshot(self, fn):
+
 		snapList = GetSnapList()
 		if len(snapList) == 0:
 			logging.info("No snapshot files to load - skipping")
@@ -485,6 +494,7 @@ class Railroad:
 			logging.info("Unknown error loading snapshot %s - %s" % (fn, str(e)))
 			return
 
+		self.ScrubTrains()
 		self.ApplySnapshot(j)
 
 	def ApplyPreload(self, pl):
@@ -2556,13 +2566,13 @@ class Railroad:
 			if msgs is not None:
 				result.extend(msgs)
 
-				blk = self.blocks[osName]
-				if blk is not None:
-					dist = blk.District()
-					if dist is not None:
-						changes = dist.CheckTurnoutLocks(self.turnouts)
-						for sw, flag in changes:
-							result.append({"lockturnout": [{"name": sw, "lock": flag}]})
+			blk = self.blocks[osName]
+			if blk is not None:
+				dist = blk.District()
+				if dist is not None:
+					changes = dist.CheckTurnoutLocks(self.turnouts)
+					for sw, flag in changes:
+						result.append({"lockturnout": [{"name": sw, "lock": flag}]})
 
 		return result
 
@@ -2584,6 +2594,7 @@ class Railroad:
 				entrySn = sn
 				entryBlk = blk
 				break
+		# consideration here - if we don't find a non zero signal, then we use the inherent direction of the OS Block
 
 		reverseBlk = entrySn != sbzip[0][0]
 		exitSn = sbzip[0 if reverseBlk else 1][0]

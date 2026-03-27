@@ -1,52 +1,10 @@
-Verify block adjacency for ALL OS'es
-
-    done Kale 1
-    done kale 2
-    done kale 3
-    done kale 4
-    done East End Jct
-    done cornell jct
-    done waterman e
-    done waterman w
-    done Latham
-    done Carlton
-
-    Valley Jct
-    Foss
-    shore
-    hyde jct
-    krulish
-    nassau w
-    nassau e
-    bank w
-    bank 3
-    cliveden w
-
-    cliveden e
-    green mtn w
-    green mtn 3
-    sheffield w
-    sheffield e
-    Hyde w w
-    hyde w w 2
-    hyde e w
-    hyde w e
-    hyde e e
-
-    circus jct
-    south jct
-    parsons jct
-    port 1
-    port 2
-    port 3
-    port 4
-    port 5
-
-
+verify operation of os proxies
 
 when assigning an engineer to a train, if that train currently has an edit train dialog, that dialog is not updated.  This might be true for loco too.
 
-snapshot not autoloaded?
+iron out locale with displaying of events and alerts only
+
+swap trains did not work when testing in rocky hill - can't reproduce - need to diagnose further - will add logging
 
 
 

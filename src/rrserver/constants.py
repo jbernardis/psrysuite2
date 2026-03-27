@@ -78,4 +78,8 @@ def CrossingEastWestBoundary(osblk, blk):
         return False
     blkNm = blk.Name()
     osNm = osblk.Name()
+    return CrossingEastWestBoundaryByName(blkNm, osNm)
+
+
+def CrossingEastWestBoundaryByName(osNm, blkNm):
     return [osNm, blkNm] in EWCrossoverPoints or [blkNm, osNm] in EWCrossoverPoints

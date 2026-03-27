@@ -222,7 +222,7 @@ class Hyde (District):
 				(self.tiles["horiznc"], self.screen, (31, 13), False),
 			], 
 			False)
-		self.blocks["HOSWW"].AddTrainLoc(self.screen, (16, 6))
+		self.blocks["HOSWW"].AddTrainLoc(self.screen, (16, 5))
 
 		self.blocks["HOSWW2"] = OverSwitch(self, self.frame, "HOSWW2", 
 			[

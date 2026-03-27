@@ -109,7 +109,7 @@ class Bank (District):
 				(self.tiles["horiznc"],  self.screen,     (107, 36), True),
 				(self.tiles["eobleft"],  self.screen,     (105, 36), False),
 			], False)
-		self.blocks["BOSWE"].AddTrainLoc(self.screen, (105, 27))
+		self.blocks["BOSWE"].AddTrainLoc(self.screen, (105, 28))
 
 		self.blocks["BOSE"] = OverSwitch(self, self.frame, "BOSE",
 			[

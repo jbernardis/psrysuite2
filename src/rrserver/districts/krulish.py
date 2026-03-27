@@ -67,6 +67,7 @@ class Krulish(District):
 			# virtual blocks
 			self.rr.AddBlock("KOSN10S11", self, n, addr, [], False)
 			self.rr.AddBlock("KOSN20S21", self, n, addr, [], True)
+			self.rr.AddBlock("K10",       self, n, addr, [], True)
 
 	def BlockOccupancyChange(self, rr, obj, val):
 		exbn = obj.MainBlockName()

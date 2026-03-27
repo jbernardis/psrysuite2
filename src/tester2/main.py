@@ -15,11 +15,10 @@ from dispatcher.settings import Settings
 from rrserver.constants import (YARD, KALE, EASTJCT, CORNELL, YARDSW, PARSONS, PORTA, PORTB, LATHAM, CARLTON, DELL,
         FOSS, HYDEJCT, HYDE, SHORE, KRULISH, NASSAUW, NASSAUE, NASSAUNX, BANK, CLIVEDEN, GREENMTN, CLIFF, SHEFFIELD)
 
-# ofp = open(os.path.join(os.getcwd(), "output", "tester2.out"), "w")
-# efp = open(os.path.join(os.getcwd(), "output", "tester2.err"), "w")
-#
-# sys.stdout = ofp
-# sys.stderr = efp
+ofp = open(os.path.join(os.getcwd(), "output", "tester2.out"), "w")
+efp = open(os.path.join(os.getcwd(), "output", "tester2.err"), "w")
+sys.stdout = ofp
+sys.stderr = efp
 
 BTNSZ = (100, 40)
 

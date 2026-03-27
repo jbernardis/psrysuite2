@@ -476,6 +476,7 @@ class Nassau(District):
 	
 	def RouteIn(self, rt, stat, turnouts):
 		rt.SetState(stat)
+		self.rr.Alert("Route In: %s: %s turnouts: %s" % (rt.name, stat, str(turnouts)))
 		if stat == 1:
 			if rt.name == self.currentCoachRoute:
 				return None

@@ -164,7 +164,7 @@ class MainFrame(wx.Frame):
 				joiner = ", "
 			else:
 				joiner = ""
-			if self.CliffControl != 1:
+			if self.CliffControl == 0:
 				text += joiner + "Cliff Control"
 
 		self.stStatus.SetForegroundColour(color)
@@ -410,7 +410,7 @@ class MainFrame(wx.Frame):
 						logging.debug("Ignoring handswitch command without name or state: %s" % str(p))
 					elif name == "CSw15.hand":
 						self.SpikesPeakLocked = int(state) == 0
-						nv = self.SpikesPeakLocked and (self.CliffControl == 1)
+						nv = self.SpikesPeakLocked and (self.CliffControl in [1, 2])
 						if nv != self.C13Control:
 							self.Alert("C13 Automation %s" % ("Enabled" if nv else "Disabled"))
 							self.C13Control = nv

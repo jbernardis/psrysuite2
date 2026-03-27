@@ -2,7 +2,7 @@ import wx
 
 
 class TrackDiagram(wx.Panel):
-	def __init__(self, frame, dlist, ht=None): # dlist = screen, id, diagramBmp, offset):
+	def __init__(self, frame, dlist, settings, ht=None): # dlist = screen, id, diagramBmp, offset):
 		wx.Panel.__init__(self, frame, size=(100, 100), pos=(0,0), style=0)
 		self.frame = frame
 		self.screens = [d.screen for d in dlist]
@@ -12,6 +12,7 @@ class TrackDiagram(wx.Panel):
 		self.xoffset.append(9999)
 		self.offsetMap = {d.screen: d.offset for d in dlist}
 		self.SetBackgroundStyle(wx.BG_STYLE_PAINT)
+		self.settings = settings
 
 		self.showPosition = True
 		self.showCTC = False
@@ -29,6 +30,17 @@ class TrackDiagram(wx.Panel):
 		self.shift_down = False
 		self.highlitedRoute = []
 		self.hilitebmp = None
+
+		c = settings.display
+
+		self.colorTagFG = wx.Colour(c.colortagfg[0], c.colortagfg[1], c.colortagfg[2])
+		self.colorTagBG = wx.Colour(c.colortagbg[0], c.colortagbg[1], c.colortagbg[2])
+
+		self.colorTrainFG = wx.Colour(c.colortrainfg[0], c.colortrainfg[1], c.colortrainfg[2])
+		self.colorTrainBG = wx.Colour(c.colortrainbg[0], c.colortrainbg[1], c.colortrainbg[2])
+
+		self.colorLocoFG = wx.Colour(c.colorlocofg[0], c.colorlocofg[1], c.colorlocofg[2])
+		self.colorLocoBG = wx.Colour(c.colorlocobg[0], c.colorlocobg[1], c.colorlocobg[2])
 
 		self.SetCursor(wx.Cursor(wx.CURSOR_ARROW))
 
@@ -177,8 +189,6 @@ class TrackDiagram(wx.Panel):
 
 	def OnPaint(self, evt):
 		dc = wx.BufferedPaintDC(self)
-		dc.SetTextForeground(wx.Colour(255, 0, 0))
-		dc.SetTextBackground(wx.Colour(255, 255, 255))
 		dc.SetBackgroundMode(wx.BRUSHSTYLE_SOLID)
 		dc.SetFont(wx.Font(wx.Font(10, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, faceName="Arial")))
 		self.DrawBackground(dc)
@@ -195,48 +205,40 @@ class TrackDiagram(wx.Panel):
 			misrouted = tinfo[6]
 			ht = int(dc.GetTextExtent("0")[1]/2.0)
 
-			if misrouted:
-				dc.SetTextForeground(wx.Colour(236, 56, 255))
-				dc.SetTextBackground(wx.Colour(236, 56, 255))
-				txt = "  "
-				dc.DrawText(txt, x, y)
-				x += dc.GetTextExtent(txt)[0]
-
+			# a leading asterisk if the train has hit a stopping block
 			if tinfo[2]:
-				dc.SetTextForeground(wx.Colour(255, 255, 255))
-				dc.SetTextBackground(wx.Colour(255, 0, 0))
+				dc.SetTextForeground(self.colorTagFG)
+				dc.SetTextBackground(self.colorTagBG)
 				txt = "* "
 				dc.DrawText(txt, x, y)
 				x += dc.GetTextExtent(txt)[0]
 
+			# indication if the train is on AR and/or ATC
 			if tinfo[3] or tinfo[4]:
-				dc.SetTextForeground(wx.Colour(255, 255, 0))
-				dc.SetTextBackground(wx.Colour(0, 0, 0))
+				dc.SetTextForeground(self.colorTagFG)
+				dc.SetTextBackground(self.colorTagBG)
 				if tinfo[3] and tinfo[4]:
 					txt = "AR "
 				elif tinfo[3]:
-					txt = "A "
+					txt = "A  "
 				else:
-					txt=" R"
+					txt = " R "
 				dc.DrawText(txt, x, y)
 				x += dc.GetTextExtent(txt)[0]
 
-			dc.SetTextForeground(wx.Colour(255, 0, 0))
-			dc.SetTextBackground(wx.Colour(255, 255, 255))
-			dc.DrawText(tinfo[0]+" ", x, y)
-			x += dc.GetTextExtent(tinfo[0])[0]+2
+			# train name
+			dc.SetTextForeground(self.colorTrainFG)
+			dc.SetTextBackground(self.colorTrainBG)
+			txt = tinfo[0] + " "
+			dc.DrawText(txt, x, y)
+			x += dc.GetTextExtent(txt)[0]
 
-			dc.SetTextForeground(wx.Colour(255, 255, 255))
-			dc.SetTextBackground(wx.Colour(255, 0, 0))
-			dc.DrawText(tinfo[1], x, y)
-			x += dc.GetTextExtent(tinfo[1])[0]
-
-			if misrouted:
-				dc.SetTextForeground(wx.Colour(236, 56, 255))
-				dc.SetTextBackground(wx.Colour(236, 56, 255))
-				txt = "  "
-				dc.DrawText(txt, x, y)
-				x += dc.GetTextExtent(txt)[0]
+			# the locomotive
+			dc.SetTextForeground(self.colorLocoFG)
+			dc.SetTextBackground(self.colorLocoBG)
+			txt = " " + tinfo[1] + " "
+			dc.DrawText(txt, x, y)
+			x += dc.GetTextExtent(txt)[0]
 
 			if hilite:
 				dc.SetPen(wx.Pen(wx.GREEN, width=10, style=wx.PENSTYLE_SOLID))

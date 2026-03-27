@@ -148,7 +148,7 @@ class Node:
 				# error - did not receive the expected number of bytes - ignore this message
 				raise BusException
 			else:
-				self.ibuf = [b for b in inb]
+				self.ibuf = [b[0] for b in inb]  # convert byte to integer through subscripting
 				if self.ibuf != self.lastIBuf:
 					changes = True
 

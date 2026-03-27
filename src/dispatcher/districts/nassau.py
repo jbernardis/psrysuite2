@@ -690,7 +690,7 @@ class Nassau (District):
 				(self.tiles["horiz"],     self.screen, (19, 17), False),
 			], 
 			False)
-		self.blocks["NWOSCY"].AddTrainLoc(self.screen, (9, 27))
+		self.blocks["NWOSCY"].AddTrainLoc(self.screen, (9, 26))
 
 		self.blocks["NWOSW"] = OverSwitch(self, self.frame, "NWOSW", 
 			[
@@ -727,7 +727,7 @@ class Nassau (District):
 				(self.tiles["horiz"],     self.screen, (19, 17), False),
 			], 
 			False)
-		self.blocks["NWOSW"].AddTrainLoc(self.screen, (9, 29))
+		self.blocks["NWOSW"].AddTrainLoc(self.screen, (9, 27))
 
 		self.blocks["NWOSE"] = OverSwitch(self, self.frame, "NWOSE", 
 			[
@@ -766,7 +766,7 @@ class Nassau (District):
 				(self.tiles["horiz"],     self.screen, (19, 17), False),
 			], 
 			True)
-		self.blocks["NWOSE"].AddTrainLoc(self.screen, (9, 31))
+		self.blocks["NWOSE"].AddTrainLoc(self.screen, (9, 28))
 
 		self.blocks["NEOSRH"] = OverSwitch(self, self.frame, "NEOSRH", 
 			[
@@ -869,7 +869,7 @@ class Nassau (District):
 				(self.tiles["turnleftright"],  self.screen, (32, 19), False),
 			],
 			False)
-		self.blocks["NEOSW"].AddTrainLoc(self.screen, (39, 25))
+		self.blocks["NEOSW"].AddTrainLoc(self.screen, (39, 24))
 
 		self.blocks["NEOSE"] = OverSwitch(self, self.frame, "NEOSE", 
 			[
@@ -921,7 +921,7 @@ class Nassau (District):
 				(self.tiles["turnleftright"],  self.screen, (32, 19), False),
 			],
 			True)
-		self.blocks["NEOSE"].AddTrainLoc(self.screen, (39, 27))
+		self.blocks["NEOSE"].AddTrainLoc(self.screen, (39, 25))
 
 		self.osBlocks["NWOSTY"] = ["T12", "W10"]
 		self.osBlocks["NWOSCY"] = ["N60", "W10", "N32", "N31", "N12", "N22", "N41", "N42", "W20"]
@@ -1310,7 +1310,7 @@ class Nassau (District):
 			self.blocks[blknm].SetSignals(siglist)
 
 		block = self.blocks["NWOSTY"]
-		self.routes["NRtT12W10"] = Route(self.screen, block, "NRtT12W10", "W10", [(17, 5), (18, 5), (19, 5)], "T12", [RESTRICTING, RESTRICTING], ["NSw25:N"], ["N20R", "N20L"])
+		self.routes["NRtT12W10"] = Route(self.screen, block, "NRtT12W10", "W10", [(17, 5), (18, 5), (19, 5)], "T12", [RESTRICTING, RESTRICTING], ["NSw25:N"], ["N20L", "N20R"])
 		self.routeButtons["NRtT12W10"] = ["NNXBtnT12", "NNXBtnW10"]
 		
 		block = self.blocks["NWOSCY"]

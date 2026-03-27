@@ -217,7 +217,7 @@ class Cliveden (District):
 				(self.tiles["eobleft"],   self.screen,      (95, 13), False),
 				(self.tiles["diagright"], self.screen,      (97, 14), False),
 			], True)
-		self.blocks["COSCLEE"].AddTrainLoc(self.screen, (95, 25))
+		self.blocks["COSCLEE"].AddTrainLoc(self.screen, (95, 24))
 
 		self.osBlocks["COSCLW"] = ["C13", "C23", "C12"]
 		self.osBlocks["COSCLEW"] = ["C23", "C22"]

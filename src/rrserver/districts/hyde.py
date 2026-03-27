@@ -317,8 +317,6 @@ class Hyde(District):
 	def RouteIn(self, rt, stat, turnouts):
 		rt.SetState(stat)
 		rtNm = rt.Name()
-		if stat == 0:
-			return None
 
 		try:
 			tolist = self.routeMap[rtNm]
@@ -329,6 +327,9 @@ class Hyde(District):
 			osName = self.routeOSMap[rtNm]
 		except KeyError:
 			return None
+
+		if stat == 0:  # the route is NOT set - do nothing to the turnouts - just return the OS name
+			return osName
 
 		for tonm, state in tolist:
 			self.toPos[tonm] = state == "N" 

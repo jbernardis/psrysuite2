@@ -1,7 +1,7 @@
 import logging
 
 from rrserver.constants import (INPUT_BLOCK, INPUT_BREAKER, INPUT_SIGNALLEVER, INPUT_ROUTEIN, INPUT_HANDSWITCH,
-								INPUT_TURNOUTPOS, CrossingEastWestBoundary)
+								INPUT_TURNOUTPOS, CrossingEastWestBoundary, CrossingEastWestBoundaryByName)
 from dispatcher.constants import RegAspects, aspectname, aspecttype
 
 
@@ -389,6 +389,8 @@ class Block:
 			if CrossingEastWestBoundary(self, blk):
 				self.nextBlockEast = blk
 			else:
+				if self.Name() in [ "W10", "T12"]:
+					logging.debug("***** %s in set next west, setting next west to %s" % (self.Name(), "NOne" if blk is None else blk.Name()))
 				self.nextBlockWest = blk
 
 	def GetNextWest(self):
@@ -397,6 +399,9 @@ class Block:
 		elif self.mainBlock is not None:
 			return self.mainBlock.GetNextWest()
 		else:
+			if self.Name() in ["W10", "T12"]:
+				nm = "None" if self.nextBlockWest is None else self.nextBlockWest.Name()
+				logging.debug("***** %s in get next west, returning %s" % (self.Name(), nm))
 			return self.nextBlockWest
 
 	def NextDetectionSectionWest(self):
@@ -486,6 +491,9 @@ class Block:
 		elif self.mainBlock is not None:
 			return self.mainBlock.GetNextEast()
 		else:
+			if self.Name() in ["W10", "T12"]:
+				nm = "None" if self.nextBlockEast is None else self.nextBlockEast.Name()
+				logging.debug("***** %s in get next east, returning %s" % (self.Name(), nm))
 			return self.nextBlockEast
 
 	def AddIndicator(self, district, node, address, bits):
@@ -631,10 +639,12 @@ class OSBlock:
 					routeSelected = False
 					break
 			if routeSelected:
-				return self.SetActiveRoute(rt)
+				rc = self.SetActiveRoute(rt)
+				return rc
 
 		if not routeSelected:
-			return self.SetActiveRoute(None)
+			rc = self.SetActiveRoute(None)
+			return rc
 
 		return False
 
@@ -664,6 +674,8 @@ class OSBlock:
 		if self.IsReversed():
 			sbx = SBEAST if sbx == SBWEST else SBWEST
 		sb = blk.StoppingBlocks()[sbx]
+		# if self.name == "KOSW":
+		# 	blkNm = blk.Name() if sb is None else sb.Name()
 		return blk if sb is None else sb
 
 	def ActiveRoute(self):
@@ -687,7 +699,11 @@ class OSBlock:
 	def SetActiveRoute(self, rt):
 		# for the block to our east, find out what it has as its next west block, because if it's us
 		# and to are no longer pointing east to them, then this must be set to None
+		if self.settings.debug.blockadjacency:
+			self.rr.Alert("Set active route for %s" % self.name)
+
 		clearEast = False
+		crossEast = False
 		try:
 			ieast = self.NextDetectionSectionEast()
 			ieastName = ieast.Name()
@@ -695,12 +711,27 @@ class OSBlock:
 			ieast = None
 			ieastName = "None"
 
+		neName = "None"
 		if ieast is not None:
-			ne = ieast.GetNextWest()
+			bblk = ieast.StoppedBlock()
+			if CrossingEastWestBoundary(self, bblk):
+				# if we cross an E/W boundary, then we need to retrieve next east instead
+				crossEast = True
+				ne = ieast.GetNextEast()
+			else:
+				ne = ieast.GetNextWest()
+
 			if ne is not None:
-				clearEast = ne.Name() == self.name
+				neName = ne.Name()
+				clearEast = neName == self.name
+
+		if self.settings.debug.blockadjacency:
+			self.rr.Alert("  next east is %s and next west from there is %s, cleareast = %s" % (ieastName, neName, clearEast))
+			if crossEast:
+				self.rr.Alert("  E/W Boundary crossed")
 
 		clearWest = False
+		crossWest = False
 		try:
 			iwest = self.NextDetectionSectionWest()
 			iwestName = iwest.Name()
@@ -708,10 +739,24 @@ class OSBlock:
 			iwest = None
 			iwestName = "None"
 
+		nwName = "None"
 		if iwest is not None:
-			nw = iwest.GetNextEast()
+			# if we cross an E/W boundary, then we need to retrieve next west instead
+			bblk = iwest.StoppedBlock()
+			if CrossingEastWestBoundary(self, bblk):
+				crossWest = True
+				nw = iwest.GetNextWest()
+			else:
+				nw = iwest.GetNextEast()
+
 			if nw is not None:
-				clearWest = nw.Name() == self.name
+				nwName = nw.Name()
+				clearWest = nwName == self.name
+
+		if self.settings.debug.blockadjacency:
+			self.rr.Alert("  next west is %s and next east from there is %s, clearwest = %s" % (iwestName, nwName, clearWest))
+			if crossWest:
+				self.rr.Alert("  E/W Boundary crossed")
 
 		if rt is None:
 			rc = self.activeRoute is not None
@@ -721,16 +766,27 @@ class OSBlock:
 			if self.settings.debug.blockadjacency:
 				self.rr.Alert("Set active route for %s to None" % self.name)
 			if clearEast:
-				if self.settings.debug.blockadjacency:
-					self.rr.Alert("  Clearing next west for east block %s" % ieastName)
-				ieast.SetNextWest(None)
+				if crossEast:
+					if self.settings.debug.blockadjacency:
+						self.rr.Alert("  Crossed: Clearing next east for east block %s" % ieastName)
+					ieast.SetNextEast(None)
+				else:
+					if self.settings.debug.blockadjacency:
+						self.rr.Alert("  Clearing next west for east block %s" % ieastName)
+					ieast.SetNextWest(None)
 			if clearWest:
-				if self.settings.debug.blockadjacency:
-					self.rr.Alert("  Clearing next east for west block %s" % iwestName)
-				iwest.SetNextEast(None)
+				if crossWest:
+					if self.settings.debug.blockadjacency:
+						self.rr.Alert("  Crossed: Clearing next west for west block %s" % iwestName)
+					iwest.SetNextWest(None)
+				else:
+					if self.settings.debug.blockadjacency:
+						self.rr.Alert("  Clearing next east for west block %s" % iwestName)
+					iwest.SetNextEast(None)
 			return rc
 
 		rc = not self.activeRouteName == rt.Name()
+
 		self.activeRoute = rt
 		self.activeRouteName = rt.Name()
 		try:
@@ -747,13 +803,24 @@ class OSBlock:
 			self.rr.Alert("  Next detection section East: %s" % neast)
 			self.rr.Alert("  Next detection section West: %s" % nwest)
 		if clearEast and neast != ieastName:
-			if self.settings.debug.blockadjacency:
-				self.rr.Alert("  Clearing next west for east block %s" % ieastName)
-			ieast.SetNextWest(None)
+			if crossEast:
+				if self.settings.debug.blockadjacency:
+					self.rr.Alert("  Crossed: Clearing next east for east block %s" % ieastName)
+				ieast.SetNextEast(None)
+			else:
+				if self.settings.debug.blockadjacency:
+					self.rr.Alert("  Clearing next west for east block %s" % ieastName)
+				ieast.SetNextWest(None)
+
 		if clearWest and nwest != iwestName:
-			if self.settings.debug.blockadjacency:
-				self.rr.Alert("  Clearing next east for west block %s" % iwestName)
-			iwest.SetNextEast(None)
+			if crossWest:
+				if self.settings.debug.blockadjacency:
+					self.rr.Alert("  Crossed: Clearing next west for west block %s" % iwestName)
+				iwest.SetNextWest(None)
+			else:
+				if self.settings.debug.blockadjacency:
+					self.rr.Alert("  Clearing next east for west block %s" % iwestName)
+				iwest.SetNextEast(None)
 
 		# each of the two ends of the route need to point back to this OS block
 		# ar = self.activeRoute
