@@ -300,15 +300,9 @@ class InspectDlg(wx.Dialog):
     def OnBAuditTrains(self, _):
         messages = self.parent.Get("audittrains", {})
 
-        logging.debug("********** Train/Block Audit Start **********")
         for ml in messages:
             logging.debug(ml)
-
-        logging.debug("********** Train/Block Audit End ************")
-
-        dlg = wx.MessageDialog(self, "\n".join(messages),
-                               "Train/Block Audit",
-                               wx.OK | wx.ICON_INFORMATION)
+        dlg = AuditTrainsDlg(self, messages)
         dlg.ShowModal()
         dlg.Destroy()
 
@@ -637,6 +631,35 @@ class TrainEntry:
         rc = stopped != self.stopped
         self.stopped = stopped
         return rc
+
+
+class AuditTrainsDlg(wx.Dialog):
+    def __init__(self, parent, msgs):
+        wx.Dialog.__init__(self, parent, wx.ID_ANY, "Audit Trains", style=wx.DEFAULT_DIALOG_STYLE | wx.STAY_ON_TOP)
+        self.Bind(wx.EVT_CLOSE, self.OnClose)
+
+        vszr = wx.BoxSizer(wx.VERTICAL)
+        vszr.AddSpacer(20)
+
+        tc = wx.TextCtrl(self, wx.ID_ANY, "", size=(500, 500), style=wx.TE_MULTILINE | wx.TE_READONLY | wx.HSCROLL)
+        for m in msgs:
+            tc.AppendText("%s\n" % m)
+
+        vszr.Add(tc)
+
+        vszr.AddSpacer(20)
+        szr = wx.BoxSizer(wx.HORIZONTAL)
+        szr.AddSpacer(20)
+        szr.Add(vszr)
+        szr.AddSpacer(20)
+
+        self.SetSizer(szr)
+        self.Layout()
+        self.Fit();
+        self.CenterOnScreen()
+
+    def OnClose(self, _):
+        self.EndModal(wx.ID_OK)
 
 
 class ActiveTrainsDlg(wx.Dialog):
@@ -988,7 +1011,7 @@ class RoutesDlg(wx.Dialog):
 
 class ScannerDlg(wx.Dialog):
     def __init__(self, parent, pngfile, frame):
-        wx.Dialog.__init__(self, parent, wx.ID_ANY, "Scanner")
+        wx.Dialog.__init__(self, parent, wx.ID_ANY, "Scanner", style=wx.DEFAULT_DIALOG_STYLE | wx.STAY_ON_TOP)
         self.Bind(wx.EVT_CLOSE, self.OnClose)
 
         self.frame = frame
@@ -1033,7 +1056,7 @@ class ScannerDlg(wx.Dialog):
 
 class RelayDlg(wx.Dialog):
     def __init__(self, parent, rlAct, rlInact):
-        wx.Dialog.__init__(self, parent, wx.ID_ANY, "Choose Relays")
+        wx.Dialog.__init__(self, parent, wx.ID_ANY, "Choose Relays", style=wx.DEFAULT_DIALOG_STYLE | wx.STAY_ON_TOP)
         self.Bind(wx.EVT_CLOSE, self.OnCancel)
 
         vsz = wx.BoxSizer(wx.VERTICAL)
@@ -1090,7 +1113,7 @@ class RelayDlg(wx.Dialog):
 
 class DebugFlagsDlg(wx.Dialog):
     def __init__(self, parent, settings):
-        wx.Dialog.__init__(self, parent, wx.ID_ANY, "Debugging Flags")
+        wx.Dialog.__init__(self, parent, wx.ID_ANY, "Debugging Flags", style=wx.DEFAULT_DIALOG_STYLE | wx.STAY_ON_TOP)
         self.Bind(wx.EVT_CLOSE, self.OnCancel)
         self.parent = parent
         self.settings = settings
@@ -1191,7 +1214,7 @@ class DebugFlagsDlg(wx.Dialog):
 
 class LogLevelDlg(wx.Dialog):
     def __init__(self, parent):
-        wx.Dialog.__init__(self, parent, wx.ID_ANY, "Set Log Level")
+        wx.Dialog.__init__(self, parent, wx.ID_ANY, "Set Log Level", style=wx.DEFAULT_DIALOG_STYLE | wx.STAY_ON_TOP)
         self.Bind(wx.EVT_CLOSE, self.OnCancel)
         self.CenterOnScreen()
 
@@ -1493,7 +1516,7 @@ class NodeStatusListCtrl(wx.ListCtrl):
 class CheckListDlg(wx.Dialog):
     def __init__(self, parent, items, title, prechecked=[]):
         self.choices = items
-        wx.Dialog.__init__(self, parent, wx.ID_ANY, title)
+        wx.Dialog.__init__(self, parent, wx.ID_ANY, title, style=wx.DEFAULT_DIALOG_STYLE | wx.STAY_ON_TOP)
         self.Bind(wx.EVT_CLOSE, self.OnCancel)
 
         vszr = wx.BoxSizer(wx.VERTICAL)

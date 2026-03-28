@@ -824,79 +824,79 @@ class District:
 
 	def ReportTurnoutLocked(self, tonm):
 		self.frame.PopupEvent("Turnout %s is locked" % tonm)
-
-	def GenerateRouteInformation(self):
-		routes = {}
-		for r in self.routes.values():
-			routes.update(r.GetDefinition())
-
-		return routes
-
-	def GenerateBlockInformation(self):
-		blocks = {}
-		for b in self.blocks.values():
-			blocks.update(b.GetDefinition())
-
-		return blocks
-		
-	def CheckOSProxies(self, block, state):
-		if block not in self.osProxies:
-			return block
-
-		if state == self.osProxies[block].GetStatus():
-			return None
-
-		preCounts = self.GetOSProxyCounts()
-		if self.dbg.blockoccupancy:
-			self.frame.DebugMessage("PreCounts for %s: %s" % (block, str(preCounts)))
-
-		self.osProxies[block].SetStatus(state)
-		postCounts = self.GetOSProxyCounts()
-		logging.debug("PostCounts for %s: %s" % (block, str(postCounts)))
-		if self.dbg.blockoccupancy:
-			self.frame.DebugMessage("PostCounts for %s: %s" % (block, str(postCounts)))
-
-		for rn in preCounts:
-			# there SHOULD only be a single route, MAX, that changes
-			if postCounts[rn] > preCounts[rn] == 0:
-				if self.dbg.blockoccupancy:
-					self.frame.DebugMessage("%s is the first OS section to be occupied for route %s-%s" %
-										(block, self.routes[rn].GetOSName(), rn))
-				return self.routes[rn].GetOSName()
-
-			elif postCounts[rn] == 0 and preCounts[rn] > 0:
-				if self.dbg.blockoccupancy:
-					self.frame.DebugMessage("%s is the last OS section to be unoccupied for route %s-%s" %
-										(block, self.routes[rn].GetOSName(), rn))
-				return self.routes[rn].GetOSName()
-
-			elif postCounts[rn] != preCounts[rn]:
-				if self.dbg.blockoccupancy:
-					self.frame.DebugMessage("%s: count changed from %d to %d for route %s-%s" %
-										(block, preCounts[rn], postCounts[rn], self.routes[rn].GetOSName(), rn))
-
-		# no differences - just absorb the block command
-		return None
-
-	def GetOSProxyCounts(self):
-		counts = {}
-		for pn, prx in self.osProxies.items():
-			for osb in prx.osList:
-				rte = osb.GetRoute()
-				if rte is not None:
-					if prx.HasRoute(rte.GetName()) and self.IsAligned(rte):
-						counts[rte.GetName()] = counts.get(rte.GetName(), 0) + (1 if prx.IsOccupied() else 0)
-
-		return counts
-
-	def IsAligned(self, rte):
-		toList = rte.GetSetTurnouts()
-		for to, pos in toList:
-			tout = self.turnouts[to]
-			if pos == 'N' and not tout.IsNormal():
-				return False
-
-		return True
+	#
+	# def GenerateRouteInformation(self):
+	# 	routes = {}
+	# 	for r in self.routes.values():
+	# 		routes.update(r.GetDefinition())
+	#
+	# 	return routes
+	#
+	# def GenerateBlockInformation(self):
+	# 	blocks = {}
+	# 	for b in self.blocks.values():
+	# 		blocks.update(b.GetDefinition())
+	#
+	# 	return blocks
+	# #
+	# def CheckOSProxies(self, block, state):
+	# 	if block not in self.osProxies:
+	# 		return block
+	#
+	# 	if state == self.osProxies[block].GetStatus():
+	# 		return None
+	#
+	# 	preCounts = self.GetOSProxyCounts()
+	# 	if self.dbg.blockoccupancy:
+	# 		self.frame.DebugMessage("XXXXPreCounts for %s: %s" % (block, str(preCounts)))
+	#
+	# 	self.osProxies[block].SetStatus(state)
+	# 	postCounts = self.GetOSProxyCounts()
+	# 	logging.debug("PostCounts for %s: %s" % (block, str(postCounts)))
+	# 	if self.dbg.blockoccupancy:
+	# 		self.frame.DebugMessage("PostCounts for %s: %s" % (block, str(postCounts)))
+	#
+	# 	for rn in preCounts:
+	# 		# there SHOULD only be a single route, MAX, that changes
+	# 		if postCounts[rn] > preCounts[rn] == 0:
+	# 			if self.dbg.blockoccupancy:
+	# 				self.frame.DebugMessage("%s is the first OS section to be occupied for route %s-%s" %
+	# 									(block, self.routes[rn].GetOSName(), rn))
+	# 			return self.routes[rn].GetOSName()
+	#
+	# 		elif postCounts[rn] == 0 and preCounts[rn] > 0:
+	# 			if self.dbg.blockoccupancy:
+	# 				self.frame.DebugMessage("%s is the last OS section to be unoccupied for route %s-%s" %
+	# 									(block, self.routes[rn].GetOSName(), rn))
+	# 			return self.routes[rn].GetOSName()
+	#
+	# 		elif postCounts[rn] != preCounts[rn]:
+	# 			if self.dbg.blockoccupancy:
+	# 				self.frame.DebugMessage("%s: count changed from %d to %d for route %s-%s" %
+	# 									(block, preCounts[rn], postCounts[rn], self.routes[rn].GetOSName(), rn))
+	#
+	# 	# no differences - just absorb the block command
+	# 	return None
+	#
+	# def GetOSProxyCounts(self):
+	# 	counts = {}
+	# 	for pn, prx in self.osProxies.items():
+	# 		for osb in prx.osList:
+	# 			rte = osb.GetRoute()
+	# 			if rte is not None:
+	# 				if prx.HasRoute(rte.GetName()) and self.IsAligned(rte):
+	# 					counts[rte.GetName()] = counts.get(rte.GetName(), 0) + (1 if prx.IsOccupied() else 0)
+	#
+	# 	return counts
+	#
+	# def IsAligned(self, rte):
+	# 	toList = rte.GetSetTurnouts()
+	# 	for to, pos in toList:
+	# 		tout = self.turnouts[to]
+	# 		if pos == 'N' and not tout.IsNormal():
+	# 			return False
+	#
+	# 	return True
 
 
 class Districts:

@@ -233,6 +233,112 @@ class MainFrame(wx.Frame):
 		vszrm = wx.BoxSizer(wx.VERTICAL)
 		vszrm.AddSpacer(20)
 
+		clrBox = wx.StaticBox(self, wx.ID_ANY, "Train Tag Colors")
+		topBorder = clrBox.GetBordersForSizer()[0]
+		boxsizer = wx.BoxSizer(wx.VERTICAL)
+		boxsizer.AddSpacer(topBorder+10)
+
+		stHdr = wx.StaticText(clrBox, wx.ID_ANY, "FG                   BG")
+		boxsizer.Add(stHdr, 0, wx.LEFT, 94)
+		boxsizer.AddSpacer(4)
+
+		clrsz = wx.BoxSizer(wx.HORIZONTAL)
+		clrsz.AddSpacer(20)
+
+		self.stTag = wx.StaticText(clrBox, wx.ID_ANY, "Prefix:", size=(50, -1))
+		clrsz.Add(self.stTag, 0, wx.TOP, 12)
+
+		f = self.settings.display.colortagfg
+		self.bTagFG = wx.Button(clrBox, wx.ID_ANY, "", size=(40, 40))
+		self.bTagFG.SetBackgroundColour(wx.Colour(f[0], f[1], f[2]))
+		self.Bind(wx.EVT_BUTTON, self.OnBTagFG, self.bTagFG)
+		clrsz.Add(self.bTagFG)
+
+		clrsz.AddSpacer(30)
+
+		b = self.settings.display.colortagbg
+		self.bTagBG = wx.Button(clrBox, wx.ID_ANY, "", size=(40, 40))
+		self.bTagBG.SetBackgroundColour(wx.Colour(b[0], b[1], b[2]))
+		self.Bind(wx.EVT_BUTTON, self.OnBTagBG, self.bTagBG)
+		clrsz.Add(self.bTagBG)
+
+		clrsz.AddSpacer(20)
+
+		self.stTagEx = wx.StaticText(clrBox, wx.ID_ANY, " Example ")
+		self.stTagEx.SetForegroundColour(wx.Colour(f[0], f[1], f[2]))
+		self.stTagEx.SetBackgroundColour(wx.Colour(b[0], b[1], b[2]))
+		clrsz.Add(self.stTagEx, 0, wx.TOP, 12)
+
+		boxsizer.Add(clrsz)
+		boxsizer.AddSpacer(10)
+
+		clrsz = wx.BoxSizer(wx.HORIZONTAL)
+		clrsz.AddSpacer(20)
+
+		self.stTrain = wx.StaticText(clrBox, wx.ID_ANY, "Train:", size=(50, -1))
+		clrsz.Add(self.stTrain, 0, wx.TOP, 12)
+
+		f = self.settings.display.colortrainfg
+		self.bTrainFG = wx.Button(clrBox, wx.ID_ANY, "", size=(40, 40))
+		self.bTrainFG.SetBackgroundColour(wx.Colour(f[0], f[1], f[2]))
+		self.Bind(wx.EVT_BUTTON, self.OnBTrainFG, self.bTrainFG)
+		clrsz.Add(self.bTrainFG)
+
+		clrsz.AddSpacer(30)
+
+		b = self.settings.display.colortrainbg
+		self.bTrainBG = wx.Button(clrBox, wx.ID_ANY, "", size=(40, 40))
+		self.bTrainBG.SetBackgroundColour(wx.Colour(b[0], b[1], b[2]))
+		self.Bind(wx.EVT_BUTTON, self.OnBTrainBG, self.bTrainBG)
+		clrsz.Add(self.bTrainBG)
+
+		clrsz.AddSpacer(20)
+
+		self.stTrainEx = wx.StaticText(clrBox, wx.ID_ANY, " Example ")
+		self.stTrainEx.SetForegroundColour(wx.Colour(f[0], f[1], f[2]))
+		self.stTrainEx.SetBackgroundColour(wx.Colour(b[0], b[1], b[2]))
+		clrsz.Add(self.stTrainEx, 0, wx.TOP, 12)
+
+		boxsizer.Add(clrsz)
+		boxsizer.AddSpacer(10)
+
+		clrsz = wx.BoxSizer(wx.HORIZONTAL)
+		clrsz.AddSpacer(20)
+
+		self.stLoco = wx.StaticText(clrBox, wx.ID_ANY, "Loco:", size=(50, -1))
+		clrsz.Add(self.stLoco, 0, wx.TOP, 12)
+
+		f = self.settings.display.colorlocofg
+		self.bLocoFG = wx.Button(clrBox, wx.ID_ANY, "", size=(40, 40))
+		self.bLocoFG.SetBackgroundColour(wx.Colour(f[0], f[1], f[2]))
+		self.Bind(wx.EVT_BUTTON, self.OnBLocoFG, self.bLocoFG)
+		clrsz.Add(self.bLocoFG)
+
+		clrsz.AddSpacer(30)
+
+		b = self.settings.display.colorlocobg
+		self.bLocoBG = wx.Button(clrBox, wx.ID_ANY, "", size=(40, 40))
+		self.bLocoBG.SetBackgroundColour(wx.Colour(b[0], b[1], b[2]))
+		self.Bind(wx.EVT_BUTTON, self.OnBLocoBG, self.bLocoBG)
+		clrsz.Add(self.bLocoBG)
+
+		clrsz.AddSpacer(20)
+
+		self.stLocoEx = wx.StaticText(clrBox, wx.ID_ANY, " Example ")
+		self.stLocoEx.SetForegroundColour(wx.Colour(f[0], f[1], f[2]))
+		self.stLocoEx.SetBackgroundColour(wx.Colour(b[0], b[1], b[2]))
+		clrsz.Add(self.stLocoEx, 0, wx.TOP, 12)
+
+		boxsizer.Add(clrsz)
+
+		boxsizer.AddSpacer(10)
+
+		clrBox.SetSizer(boxsizer)
+
+		vszrm.Add(clrBox, 0, wx.EXPAND)
+
+		vszrm.AddSpacer(20)
+
 		dispBox = wx.StaticBox(self, wx.ID_ANY, "Display")
 		topBorder = dispBox.GetBordersForSizer()[0]
 		boxsizer = wx.BoxSizer(wx.VERTICAL)
@@ -345,20 +451,23 @@ class MainFrame(wx.Frame):
 
 		vszrm.AddSpacer(20)
 
+		vszrr = wx.BoxSizer(wx.VERTICAL)
+		vszrr.AddSpacer(20)
+
 		atBox = wx.StaticBox(self, wx.ID_ANY, "Active Trains")
 		topBorder = atBox.GetBordersForSizer()[0]
 		boxsizer = wx.BoxSizer(wx.VERTICAL)
-		boxsizer.AddSpacer(topBorder+10)
-		
+		boxsizer.AddSpacer(topBorder + 10)
+
 		self.cbSuppressYards = wx.CheckBox(atBox, wx.ID_ANY, "Suppress Yards")
 		boxsizer.Add(self.cbSuppressYards, 0, wx.LEFT, 40)
 		self.cbSuppressYards.SetValue(self.settings.activetrains.suppressyards)
-	
+
 		boxsizer.AddSpacer(10)
-		
+
 		self.showonly = ["All", "Known", "Assigned", "Assigned or Unknown"]
 		self.rbShowOnly = wx.RadioBox(atBox, wx.ID_ANY, "Show Only", choices=self.showonly,
-					majorDimension=1, style=wx.RA_SPECIFY_COLS)
+									  majorDimension=1, style=wx.RA_SPECIFY_COLS)
 		boxsizer.Add(self.rbShowOnly, 1, wx.EXPAND | wx.LEFT | wx.RIGHT, 10)
 		ix = 0
 		if self.settings.activetrains.suppressunknown:
@@ -368,12 +477,12 @@ class MainFrame(wx.Frame):
 		elif self.settings.activetrains.onlyassignedorunknown:
 			ix = 3
 		self.rbShowOnly.SetSelection(ix)
-		
+
 		boxsizer.AddSpacer(10)
-		
+
 		hsz = wx.BoxSizer(wx.HORIZONTAL)
 		hsz.AddSpacer(20)
-		hsz.Add(wx.StaticText(atBox, wx.ID_ANY, "Lines: ", size=(130, -1)))		
+		hsz.Add(wx.StaticText(atBox, wx.ID_ANY, "Lines: ", size=(130, -1)))
 		self.teLines = wx.TextCtrl(atBox, wx.ID_ANY, "", size=(100, -1))
 		self.teLines.SetValue("%d" % self.settings.activetrains.lines)
 		hsz.Add(self.teLines)
@@ -381,14 +490,10 @@ class MainFrame(wx.Frame):
 		boxsizer.Add(hsz)
 
 		boxsizer.AddSpacer(10)
-		
-		atBox.SetSizer(boxsizer)
-		
-		vszrm.Add(atBox, 0, wx.EXPAND)
-	
-		vszrm.AddSpacer(20)
 
-		vszrr = wx.BoxSizer(wx.VERTICAL)
+		atBox.SetSizer(boxsizer)
+
+		vszrr.Add(atBox, 0, wx.EXPAND)
 		vszrr.AddSpacer(20)
 
 		controlBox = wx.StaticBox(self, wx.ID_ANY, "Control")
@@ -555,6 +660,86 @@ class MainFrame(wx.Frame):
 		
 		self.teBackupDir.SetValue(path)
 
+	def OnBTagFG(self, _):
+		c = self.settings.display.colortagfg
+		nc = self.ChooseColor(c[0], c[1], c[2], "Prefix Foreground")
+		if nc is not None:
+			self.settings.display.colortagfg = nc
+			nclr = wx.Colour(nc[0], nc[1], nc[2])
+			self.bTagFG.SetBackgroundColour(nclr)
+			self.stTagEx.SetForegroundColour(nclr)
+			self.stTagEx.Refresh()
+
+	def OnBTagBG(self, _):
+		c = self.settings.display.colortagbg
+		nc = self.ChooseColor(c[0], c[1], c[2], "Prefix Background")
+		if nc is not None:
+			self.settings.display.colortagbg = nc
+			nclr = wx.Colour(nc[0], nc[1], nc[2])
+			self.bTagBG.SetBackgroundColour(nclr)
+			self.stTagEx.SetBackgroundColour(nclr)
+			self.stTagEx.Refresh()
+
+	def OnBTrainFG(self, _):
+		c = self.settings.display.colortrainfg
+		nc = self.ChooseColor(c[0], c[1], c[2], "Train Foreground")
+		if nc is not None:
+			self.settings.display.colortrainfg = nc
+			nclr = wx.Colour(nc[0], nc[1], nc[2])
+			self.bTrainFG.SetBackgroundColour(nclr)
+			self.stTrainEx.SetForegroundColour(nclr)
+			self.stTrainEx.Refresh()
+
+	def OnBTrainBG(self, _):
+		c = self.settings.display.colortrainbg
+		nc = self.ChooseColor(c[0], c[1], c[2], "Train Background")
+		if nc is not None:
+			self.settings.display.colortrainbg = nc
+			nclr = wx.Colour(nc[0], nc[1], nc[2])
+			self.bTrainBG.SetBackgroundColour(nclr)
+			self.stTrainEx.SetBackgroundColour(nclr)
+			self.stTrainEx.Refresh()
+
+	def OnBLocoFG(self, _):
+		c = self.settings.display.colorlocofg
+		nc = self.ChooseColor(c[0], c[1], c[2], "Loco Foreground")
+		if nc is not None:
+			self.settings.display.colorlocofg = nc
+			nclr = wx.Colour(nc[0], nc[1], nc[2])
+			self.bLocoFG.SetBackgroundColour(nclr)
+			self.stLocoEx.SetForegroundColour(nclr)
+			self.stLocoEx.Refresh()
+
+	def OnBLocoBG(self, _):
+		c = self.settings.display.colorlocobg
+		nc = self.ChooseColor(c[0], c[1], c[2], "Loco Background")
+		if nc is not None:
+			self.settings.display.colorlocobg = nc
+			nclr = wx.Colour(nc[0], nc[1], nc[2])
+			self.bLocoBG.SetBackgroundColour(nclr)
+			self.stLocoEx.SetBackgroundColour(nclr)
+			self.stLocoEx.Refresh()
+
+	def ChooseColor(self, r, g, b, dlgTitle):
+		dlg = wx.ColourDialog(self)
+		dlg.SetTitle("Choose color for %s" % dlgTitle)
+		data = dlg.GetColourData()
+		data.SetChooseFull(True)
+		data.SetColour(wx.Colour(r, g, b, 255))
+		rc = dlg.ShowModal()
+		if rc != wx.ID_OK:
+			dlg.Destroy()
+			return None
+
+		data = dlg.GetColourData()
+
+		color = data.GetColour().Get()
+		dlg.Destroy()
+
+		if len(color) < 3:
+			return None   # don't know how to deal with this
+		return color[0:3]
+
 	def OnBBrowser(self, _):
 		wildcard = "All files (*.*)|*.*"
 		startPath = self.teBrowser.GetValue()
@@ -661,6 +846,8 @@ class MainFrame(wx.Frame):
 		self.settings.display.locale = self.chLocale.GetStringSelection()
 		if self.settings.display.locale == self.locales[0]:
 			self.settings.display.locale = ""
+
+		print("In save, color = %s" % str(self.settings.display.colortrainfg))
 
 		self.settings.activetrains.suppressyards = self.cbSuppressYards.IsChecked()		
 		ix = self.rbShowOnly.GetSelection()

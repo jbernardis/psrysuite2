@@ -3860,7 +3860,14 @@ class Railroad:
 					self.Alert("%s: count changed from %d to %d for route %s-%s" %
 											(block, preCounts[rn], postCounts[rn], self.routes[rn].OSName(), rn))
 
-		# no differences - just absorb the block command
+			else:
+				if self.debug.blockoccupancy:
+					self.Alert("%s: no changes in route %s" % (block, rn))
+
+		# no differences - just absorb the command
+		if self.debug.blockoccupancy:
+			self.Alert("No matching route found for %s - ignoring" % block)
+
 		return None
 
 	def GetOSProxyCounts(self, district):
