@@ -28,6 +28,7 @@ class InspectDlg(wx.Dialog):
         self.dlgHilite = None
         self.dlgRoutes = None
         self.dlgTrains = None
+        self.dlgAuditTrains = None
 
         self.SetTitle("Inspection Dialog")
 
@@ -63,8 +64,6 @@ class InspectDlg(wx.Dialog):
         # self.Bind(wx.EVT_BUTTON, self.OnBIgnoreBlks, bIgnoreBlks)
         bAdjacency = wx.Button(self, wx.ID_ANY, "Block Adjacency", size=BSIZE)
         self.Bind(wx.EVT_BUTTON, self.OnBBlockAdjacency, bAdjacency)
-        bScanner = wx.Button(self, wx.ID_ANY, "Scanner", size=BSIZE)
-        self.Bind(wx.EVT_BUTTON, self.OnBScanner, bScanner)
         bHilite = wx.Button(self, wx.ID_ANY, "Hilite\nBlock/Route", size=BSIZE)
         self.Bind(wx.EVT_BUTTON, self.OnBHilite, bHilite)
 
@@ -76,6 +75,8 @@ class InspectDlg(wx.Dialog):
                     [bTester, bMonitor, bHilite]]
 
         if self.parent.IsDispatcherOrSatellite() and self.settings.scanner.enable:
+            bScanner = wx.Button(self, wx.ID_ANY, "Scanner", size=BSIZE)
+            self.Bind(wx.EVT_BUTTON, self.OnBScanner, bScanner)
             buttonCols[3].append(bScanner)
 
         for blist in buttonCols:
@@ -298,13 +299,12 @@ class InspectDlg(wx.Dialog):
             return " ? " + callon
 
     def OnBAuditTrains(self, _):
-        messages = self.parent.Get("audittrains", {})
-
-        for ml in messages:
-            logging.debug(ml)
-        dlg = AuditTrainsDlg(self, messages)
-        dlg.ShowModal()
-        dlg.Destroy()
+        results = self.parent.Get("audittrains", {})
+        try:
+            self.dlgAuditTrains.Raise()
+        except:
+            self.dlgAuditTrains = AuditTrainsDlg(self, results)
+            self.dlgAuditTrains.Show()
 
     def OnBHandSwitches(self, _):
         hsv = self.GetHandswitchValues()
@@ -406,6 +406,11 @@ class InspectDlg(wx.Dialog):
 
         try:
             self.dlgTrains.Destroy()
+        except:
+            pass
+
+        try:
+            self.dlgAuditTrains.Destroy()
         except:
             pass
 
@@ -634,23 +639,42 @@ class TrainEntry:
 
 
 class AuditTrainsDlg(wx.Dialog):
-    def __init__(self, parent, msgs):
+    def __init__(self, parent, results):
         wx.Dialog.__init__(self, parent, wx.ID_ANY, "Audit Trains", style=wx.DEFAULT_DIALOG_STYLE | wx.STAY_ON_TOP)
         self.Bind(wx.EVT_CLOSE, self.OnClose)
 
+        font = wx.Font(wx.Font(18, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, faceName="Arial"))
+
+        A = results["A"]
+        B = results["B"]
+
+        gA = self.TrainsToBlocksGrid(self, A)
+        gB = self.BlocksToTrainsGrid(self, B)
+
+        vszl = wx.BoxSizer(wx.VERTICAL)
+        tc = wx.StaticText(self, wx.ID_ANY, "Trains => Blocks => Trains")
+        tc.SetFont(font)
+        vszl.Add(tc, 0, wx.ALIGN_CENTER_HORIZONTAL)
+        vszl.AddSpacer(10)
+        vszl.Add(gA, 0, wx.ALIGN_CENTER_HORIZONTAL)
+
         vszr = wx.BoxSizer(wx.VERTICAL)
-        vszr.AddSpacer(20)
+        tc = wx.StaticText(self, wx.ID_ANY, "Blocks => Trains => Blocks")
+        tc.SetFont(font)
+        vszr.Add(tc, 0, wx.ALIGN_CENTER_HORIZONTAL)
+        vszr.AddSpacer(10)
+        vszr.Add(gB, 0, wx.ALIGN_CENTER_HORIZONTAL)
 
-        tc = wx.TextCtrl(self, wx.ID_ANY, "", size=(500, 500), style=wx.TE_MULTILINE | wx.TE_READONLY | wx.HSCROLL)
-        for m in msgs:
-            tc.AppendText("%s\n" % m)
+        hszr = wx.BoxSizer(wx.HORIZONTAL)
+        hszr.AddSpacer(20)
+        hszr.Add(vszl)
+        hszr.AddSpacer(10)
+        hszr.Add(vszr)
+        hszr.AddSpacer(20)
 
-        vszr.Add(tc)
-
-        vszr.AddSpacer(20)
-        szr = wx.BoxSizer(wx.HORIZONTAL)
+        szr = wx.BoxSizer(wx.VERTICAL)
         szr.AddSpacer(20)
-        szr.Add(vszr)
+        szr.Add(hszr)
         szr.AddSpacer(20)
 
         self.SetSizer(szr)
@@ -658,8 +682,114 @@ class AuditTrainsDlg(wx.Dialog):
         self.Fit();
         self.CenterOnScreen()
 
+    def TrainsToBlocksGrid(self, parent, tdata):
+        headings = ["Train", "Train\nBlock", "Block\nTrain"]
+        colWidth = [70, 70, 70]
+        colAlign = [wx.ALIGN_CENTER, wx.ALIGN_CENTER, wx.ALIGN_CENTER]
+        nRows = 0
+        for t in tdata.values():
+            nRows += len(t)
+        nCols = len(headings)
+
+        colorWhite = wx.Colour(255, 255, 255)
+        colorRed = wx.Colour(224, 149, 149)
+
+        # we want to have at least 5, at most 30 lines on the display
+        nr = nRows
+        if nr < 5:
+            nr = 5
+        elif nr > 30:
+            nr = 30
+        ht = int(33 + nr * 19)
+
+        g = gridlib.Grid(parent, size=(sum(colWidth) + 20, ht))
+        g.CreateGrid(nRows, nCols)
+        g.EnableGridLines(True)
+        g.SetGridLineColour(wx.BLACK)
+        g.SetRowLabelSize(2)
+
+        attrs = []
+        for c in range(nCols):
+            attr = wx.grid.GridCellAttr()
+            attr.SetAlignment(colAlign[c], wx.ALIGN_CENTER)
+            attr.SetReadOnly(True)
+            attrs.append(attr)
+
+        for i in range(nCols):
+            g.SetColLabelValue(i, headings[i])
+            g.SetColSize(i, colWidth[i])
+            g.SetColAttr(i, attrs[i])
+
+        row = 0
+        for trid, tinfo in tdata.items():
+            nm = trid
+            for b in tinfo:
+                g.SetCellValue(row, 0, nm)
+                g.SetCellValue(row, 1, b["block"])
+                g.SetCellValue(row, 2, b["train"])
+                g.SetCellBackgroundColour(row, 0, colorRed if b["train"] != trid else colorWhite)
+
+                nm = ""
+                row += 1
+
+        return g
+
+    def BlocksToTrainsGrid(self, parent, bdata):
+        headings = ["Block", "Block\nTrain", "Train\nBlocks"]
+        colWidth = [70, 70, 300]
+        colAlign = [wx.ALIGN_CENTER, wx.ALIGN_CENTER, wx.ALIGN_LEFT]
+        nRows = len(bdata)
+        nCols = len(headings)
+
+        colorWhite = wx.Colour(255, 255, 255)
+        colorRed = wx.Colour(224, 149, 149)
+
+        # we want to have at least 5, at most 30 lines on the display
+        nr = nRows
+        if nr < 5:
+            nr = 5
+        elif nr > 30:
+            nr = 30
+        ht = int(33 + nr * 19)
+
+        g = gridlib.Grid(parent, size=(sum(colWidth) + 20, ht))
+        g.CreateGrid(nRows, nCols)
+        g.EnableGridLines(True)
+        g.SetGridLineColour(wx.BLACK)
+        g.SetRowLabelSize(2)
+
+        attrs = []
+        for c in range(nCols):
+            attr = wx.grid.GridCellAttr()
+            attr.SetAlignment(colAlign[c], wx.ALIGN_CENTER)
+            attr.SetReadOnly(True)
+            attrs.append(attr)
+
+        for i in range(nCols):
+            g.SetColLabelValue(i, headings[i])
+            g.SetColSize(i, colWidth[i])
+            g.SetColAttr(i, attrs[i])
+
+        row = 0
+        for blkid, info in bdata.items():
+            g.SetCellValue(row, 0, blkid)
+            g.SetCellValue(row, 1, info["train"])
+            g.SetCellValue(row, 2, ", ".join(info["blocks"]))
+            if blkid in info["blocks"]:
+                c = colorWhite
+            else:
+                if "alias" in info:
+                    c = colorRed if info["alias"] not in info["blocks"] else colorWhite
+                else:
+                    c = colorRed
+            g.SetCellBackgroundColour(row, 0, c)
+
+            row += 1
+
+        return g
+
     def OnClose(self, _):
-        self.EndModal(wx.ID_OK)
+        self.Destroy()
 
 
 class ActiveTrainsDlg(wx.Dialog):

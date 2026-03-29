@@ -1,7 +1,5 @@
 Need to reimplement the turnoutlocks under inspection so that I can make them stay on top
 
-Train audit - better format, and allow H30A to be equivalent to H30, etc
-
 when assigning an engineer to a train, if that train currently has an edit train dialog, that dialog is not updated.  This might be true for loco too.
 
 iron out locale with displaying of events and alerts only

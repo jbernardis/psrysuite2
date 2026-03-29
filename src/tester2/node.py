@@ -1,6 +1,7 @@
 import wx
 import os
 import json
+import logging
 
 from tester2.bus import setBit, getBit
 from rrserver.constants import nodeNames
@@ -19,8 +20,8 @@ class Node:
 		self.nbytes = nbytes
 		self.obuf = [0 for _ in range(nbytes)]
 		self.ibuf = [0 for _ in range(nbytes)]
-		self.lastIBuf = [None for _ in range(nbytes)]
-		self.lastOBuf = [None for _ in range(nbytes)]
+		self.lastIBuf = [-1 for _ in range(nbytes)]
+		self.lastOBuf = [-1 for _ in range(nbytes)]
 		self.grid = None
 		self.outRow = 0
 		self.inRow = 0
@@ -45,6 +46,10 @@ class Node:
 								   "JSON parse error", wx.OK | wx.ICON_EXCLAMATION)
 			dlg.ShowModal()
 			dlg.Destroy()
+
+	def Reset(self):
+		self.lastIBuf = [-1 for _ in range(self.nbytes)]
+		self.lastOBuf = [-1 for _ in range(self.nbytes)]
 
 	def JsonData(self):
 		return self.jdata
@@ -125,16 +130,36 @@ class Node:
 		for bix in range(7):
 			self.setbit(byx, bix, 0)
 
-	def Render(self):
+	def Render(self, log=False):
+		obytes = []
+		ibytes = []
 		for b in range(self.nbytes):
 			if self.lastOBuf[b] != self.obuf[b]:
 				self.lastOBuf[b] = self.obuf[b]
-				self.grid.SetCellValue(self.outRow, b+1, "{:08b}".format(self.obuf[b])[::-1])
+				ob = "{:08b}".format(self.obuf[b])[::-1]
+				self.grid.SetCellValue(self.outRow, b+1, ob)
+				if log:
+					obytes.append(ob)
+			else:
+				if log:
+					obytes.append("--------")
+
 			if self.lastIBuf[b] != self.ibuf[b]:
 				self.lastIBuf[b] = self.ibuf[b]
-				self.grid.SetCellValue(self.inRow, b+1, "{:08b}".format(self.ibuf[b])[::-1])
+				ib = "{:08b}".format(self.ibuf[b])
+				self.grid.SetCellValue(self.inRow, b+1, ib)
+				if log:
+					ibytes.append(ib)
+			else:
+				if log:
+					ibytes.append("--------")
 
-	def OutIn(self):
+		if log:
+			logging.info("%s(%x):" % (self.Name(), self.Address()))
+			logging.info("  Out: %s" % " ".join(obytes))
+			logging.info("   In: %s" % " ".join(ibytes))
+
+	def OutIn(self, logFlag):
 		if not self.enabled:
 			return
 
@@ -152,8 +177,8 @@ class Node:
 				if self.ibuf != self.lastIBuf:
 					changes = True
 
-		if changes:
-			self.Render()
+		if changes or True:
+			self.Render(log=logFlag)
 
 
 class NodeDlg(wx.Dialog):
@@ -240,7 +265,7 @@ class NodeDlg(wx.Dialog):
 				inBSizer.Add(hz)
 			inSizer.Add(inBSizer)
 
-		st = wx.StaticText(self, wx.ID_ANY, "Node: %s" % nd.Name())
+		st = wx.StaticText(self, wx.ID_ANY, "Node: %s (0x%x)" % (nd.Name(), nd.Address()))
 		st.SetFont(headingFont)
 		vsizer.Add(st, 0, wx.ALIGN_CENTER_HORIZONTAL)
 		vsizer.AddSpacer(10)
@@ -343,7 +368,7 @@ class NodeByteDlg(wx.Dialog):
 
 		bSizer = wx.BoxSizer(wx.VERTICAL)
 
-		st = wx.StaticText(self, wx.ID_ANY, "Node: %s" % nd.Name())
+		st = wx.StaticText(self, wx.ID_ANY, "Node: %s (0x%x)" % (nd.Name(), nd.Address()))
 		st.SetFont(headingFont)
 		bSizer.Add(st, 0, wx.ALIGN_CENTER_HORIZONTAL)
 		bSizer.AddSpacer(10)

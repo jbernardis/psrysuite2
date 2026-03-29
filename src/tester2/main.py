@@ -3,7 +3,6 @@ import wx.grid as gridlib
 
 import os
 import sys
-import json
 
 cmdFolder = os.getcwd()
 if cmdFolder not in sys.path:
@@ -15,10 +14,16 @@ from dispatcher.settings import Settings
 from rrserver.constants import (YARD, KALE, EASTJCT, CORNELL, YARDSW, PARSONS, PORTA, PORTB, LATHAM, CARLTON, DELL,
         FOSS, HYDEJCT, HYDE, SHORE, KRULISH, NASSAUW, NASSAUE, NASSAUNX, BANK, CLIVEDEN, GREENMTN, CLIFF, SHEFFIELD)
 
+fn = "tester2"
 ofp = open(os.path.join(os.getcwd(), "output", "tester2.out"), "w")
 efp = open(os.path.join(os.getcwd(), "output", "tester2.err"), "w")
 sys.stdout = ofp
 sys.stderr = efp
+
+import logging
+
+logging.basicConfig(filename=os.path.join(os.getcwd(), "logs", "%s.log" % fn), filemode='w',
+                    format='%(asctime)s %(message)s', level=logging.INFO)
 
 BTNSZ = (100, 40)
 
@@ -71,6 +76,7 @@ class MyFrame(wx.Frame):
 
         self.bus = Bus(self.settings.rrserver.rrtty)
         self.running = False
+        self.logMessages = False
 
         self.nodes = []
         maxBytes = 0
@@ -231,7 +237,13 @@ class MyFrame(wx.Frame):
 
         btnsz.Add(sendBox)
 
-        btnsz.AddSpacer(200)
+        btnsz.AddSpacer(100)
+
+        self.cbLog = wx.CheckBox(self, wx.ID_ANY, "Log Messages", size=BTNSZ)
+        self.Bind(wx.EVT_CHECKBOX, self.OnCBLog, self.cbLog)
+        btnsz.Add(self.cbLog, 0, wx.ALIGN_CENTER_HORIZONTAL)
+
+        btnsz.AddSpacer(90)
 
         self.bSelectNone = wx.Button(self, wx.ID_ANY, "Select None", size=BTNSZ)
         self.Bind(wx.EVT_BUTTON, self.OnBSelectNone, self.bSelectNone)
@@ -313,6 +325,9 @@ class MyFrame(wx.Frame):
     def OnBRefresh(self, _):
         self.refresh()
 
+    def OnCBLog(self, _):
+        self.logMessages = self.cbLog.IsChecked()
+
     def StartTimer(self):
         self.timer.Start(self.scInterval.GetValue())
 
@@ -325,14 +340,20 @@ class MyFrame(wx.Frame):
     def SendOne(self):
         try:
             for nd in self.nodes:
-                nd.OutIn()
+                nd.OutIn(self.logMessages)
         except Exception as e:
             print("Exception %s" % str(e))
 
+    def ResetNodes(self):
+        for n in self.nodes:
+            n.Reset()
+
     def OnBOnce(self, _):
+        self.ResetNodes()
         self.SendOne()
 
     def OnBStart(self, _):
+        self.ResetNodes()
         self.bOnce.Enable(False)
         self.bStart.Enable(False)
         self.bStop.Enable(True)

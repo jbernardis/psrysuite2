@@ -43,6 +43,13 @@ def GetScheduleList():
 	return sorted([f for f in listdir(folder) if isfile(join(folder, f))])
 
 
+def BuildTrainKey(trname):
+	if trname.startswith("??"):
+		return "ZZ%s" % trname
+	else:
+		return "AA%s" % trname
+
+
 class Railroad:
 	def __init__(self, parent, cbEvent, settings):
 		self.parent = parent
@@ -3645,60 +3652,36 @@ class Railroad:
 		return result
 
 	def AuditTrains(self):
-		msgs = []
-		mismatches = 0
-		msgs.append("Train Audit Results")
+		resultA = {}
 
-		msgs.append("")
-		msgs.append("Trains -> Blocks:")
-		msgs.append("")
-		for trid, tr in self.trains.items():
+		trmap = {tr.Name(): tr for tr in self.trains.values()}
+		for trName in sorted(trmap.keys(), key=BuildTrainKey):
+			tr = trmap[trName]
 			trName = tr.Name()
-			msgs.append("Train %s:" % trName)
-			for blk in tr.Blocks():
+			trid = tr.IName()
+			blks = []
+			for blk in tr.Blocks()[::-1]:
 				blkTrain = blk.Train()
 				blkTrName = "None" if blkTrain is None else blkTrain.Name()
-				if trName != blkTrName:
-					marker = "  <<<<"
-					mismatches += 1
-				else:
-					marker = ""
-				msgs.append("              Block %s -> Train %s %s" % (blk.RouteDesignator(), blkTrName, marker))
-			msgs.append("")
+				blks.append({"block": blk.RouteDesignator(), "train": blkTrName})
 
-		msgs.append("")
-		if mismatches == 0:
-			msgs.append("Train to Block: ALL OK")
-		else:
-			msgs.append("Train to Block: %d mismatches" % mismatches)
+			resultA[trName] = blks
 
-		msgs.append("")
-		msgs.append("----------------------------------")
-		msgs.append("")
-		msgs.append("Blocks -> Trains:")
-		msgs.append("")
-		mismatches = 0
+		resultB = {}
 
-		for bname, blk in self.blocks.items():
+		for bname in sorted(self.blocks.keys()):
+			blk = self.blocks[bname]
 			tr = blk.Train()
 			if tr is None:
 				continue
-			msgs.append("Block %s:" % bname)
-			blkNames = [blk.Name() for blk in tr.Blocks()]
-			if bname in blkNames:
-				marker = ""
-			else:
-				marker = "  <<<<"
-				mismatches += 1
-			msgs.append("       Train %s -> %s %s" % (tr.Name(), str(blkNames), marker))
 
-		msgs.append("")
-		if mismatches == 0:
-			msgs.append("Blocks to Trains: ALL OK")
-		else:
-			msgs.append("Blocks to Trains: %d mismatches" % mismatches)
+			bnames = [b.RouteDesignator() for b in tr.Blocks()[::-1]]
+			b = {"train": tr.Name(), "blocks": bnames}
+			if blk.IsSubBlock():
+				b["alias"] = blk.MainBlockName()
+			resultB[blk.RouteDesignator()] = b
 
-		return msgs
+		return {"A": resultA, "B": resultB}
 
 	def CheckBlockSignals(self, blkNm, sigNm, blkEast):
 		blk = self.blocks[blkNm]

@@ -350,10 +350,27 @@ class SchedulesReport(Report):
 					cell.alignment = aligncenter
 					cell.border = border
 
-		xlsfn = os.path.join(os.getcwd(), "report.xlsx")
-		wb.save(xlsfn)
+		if self.spreadsheet is None or self.spreadsheet.strip() == "":
+			wildcard = "Excel (*.xlsx)|*.xlsx|All files (*.*)|*.*"
 
-		if self.spreadsheet is not None:
+			dlg = wx.FileDialog(self.parent, message="Save file as ...", defaultDir=os.getcwd(),
+				defaultFile="", wildcard=wildcard, style=wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT)
+			rc = dlg.ShowModal()
+			if rc != wx.ID_OK:
+				dlg.Destroy()
+				return
+
+			xlsfn = dlg.GetPath()
+			wb.save(xlsfn)
+			dlg.Destroy()
+			dlg = wx.MessageDialog(self.parent, "Excel data saved to file\n%s" % xlsfn,
+					"File Saved", wx.OK | wx.ICON_INFORMATION)
+			dlg.ShowModal()
+			dlg.Destroy()
+
+		else:
+			xlsfn = os.path.join(os.getcwd(), "report.xlsx")
+			wb.save(xlsfn)
 			process = subprocess.Popen([self.spreadsheet, xlsfn])
 
 	def formatSheetRow(self, tid, tinfo, ws, rowx, index, alpha=False):
