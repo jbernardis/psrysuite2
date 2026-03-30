@@ -60,8 +60,10 @@ class Block:
 	def GetAllBlocks(self):
 		if self.stoppedBlock is not None:
 			return self.stoppedBlock.GetAllBlocks()
+		elif self.mainBlock is not None:
+			return self.mainBlock.GetAllBlocks()
 
-		blocks = [self] + [sb for sb in self.stoppingBlocks if sb is not None]
+		blocks = [self] + [sb for sb in self.stoppingBlocks if sb is not None] + [sb for sb in self.subBlocks if sb is not None]
 		return blocks
 
 	def toJson(self):

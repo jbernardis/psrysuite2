@@ -1102,6 +1102,9 @@ class MainFrame(wx.Frame):
 	def ClearLocks(self, toNames):
 		self.Request({"clearlocks": {"turnouts": toNames}})
 
+	def ClearLock(self, toName):
+		self.Request({"clearlocks": {"turnouts": [toName]}})
+
 	def IsDisplay(self):
 		return not (self.settings.dispatcher.dispatch or self.settings.dispatcher.satellite)
 
@@ -4195,7 +4198,10 @@ class MainFrame(wx.Frame):
 
 	def ReEnableNodes(self, disList):
 		for n in disList:
-			self.Request({"enablenode": {"name": n[0], "address": n[1], "enable": "1"}})
+			self.ReEnableNode(n[0], n[1])
+
+	def ReEnableNode(self, nname, address):
+		self.Request({"enablenode": {"name": nname, "address": address, "enable": "1"}})
 
 	def DoCmdAlert(self, parms):
 		if "msg" in parms:

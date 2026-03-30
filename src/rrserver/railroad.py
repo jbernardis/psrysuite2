@@ -1140,9 +1140,11 @@ class Railroad:
 			if blk is None:
 				logging.error("Unknown block in resetblocks command: %s" % bn)
 			else:
-				blk.Reset()
-				blk.SetStatus("E")
-				self.RailroadEvent(blk.GetEventMessage())
+				sbl = blk.GetAllBlocks()
+				for b in sbl:
+					b.Reset()
+					b.SetStatus("E")
+					self.RailroadEvent(b.GetEventMessage())
 
 	def SetDistrictLock(self, name, value):
 		if self.districtLock[name] == value:
@@ -1618,8 +1620,9 @@ class Railroad:
 	def GetTurnoutLocks(self):
 		result = {}
 		for trnm, trn in self.turnouts.items():
-			if trn.IsLocked():
-				result[trnm] = trn.Lockers()
+			# if trn.IsLocked():
+			# 	result[trnm] = trn.Lockers()
+			result[trnm] = [trn.IsLocked(), trn.Lockers()]
 
 		return result
 

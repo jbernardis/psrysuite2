@@ -29,6 +29,12 @@ class InspectDlg(wx.Dialog):
         self.dlgRoutes = None
         self.dlgTrains = None
         self.dlgAuditTrains = None
+        self.dlgRelays = None
+        self.dlgTurnoutLocks = None
+
+        self.dialogs = [self.dlgAdjacency, self.dlgOSProxy, self.dlgNodeStatus, self.dlgSignalLevers, self.dlgRelays,
+                        self.dlgSidingLocks, self.dlgHilite, self.dlgRoutes, self.dlgTrains, self.dlgAuditTrains,
+                        self.dlgTurnoutLocks]
 
         self.SetTitle("Inspection Dialog")
 
@@ -108,14 +114,14 @@ class InspectDlg(wx.Dialog):
         tl = self.parent.Get("activetrains", {})
         try:
             self.dlgTrains.Raise()
-        except:
+        except (AttributeError, RuntimeError):
             self.dlgTrains = ActiveTrainsDlg(self, tl, self.parent)
             self.dlgTrains.Show()
 
     def OnBHilite(self, _):
         try:
             self.dlgHilite.Raise()
-        except:
+        except (AttributeError, RuntimeError):
             self.dlgHilite = HiliteDlg(self, self.parent)
             self.dlgHilite.Show()
 
@@ -159,53 +165,33 @@ class InspectDlg(wx.Dialog):
             self.dlgOSProxy.Show()
 
     def OnBRelays(self, _):
-        rlAct, rlInact = self.GetRelayList()
+        rl = self.GetRelayList()
 
-        dlg = RelayDlg(self, rlAct, rlInact)
-        rc = dlg.ShowModal()
-        if rc == wx.ID_OK:
-            newRlAct, newRlInact = dlg.GetRelays()
+        try:
+            self.dlgRelays.Raise()
+        except (AttributeError, RuntimeError):
+            self.dlgRelays = RelayDlg(self, rl)
+            self.dlgRelays.Show()
 
-        dlg.Destroy()
-        if rc != wx.ID_OK:
-            return
-
-        tobeActivated = [r for r in newRlAct if r not in rlAct]
-        tobeDeactivated = [r for r in newRlInact if r not in rlInact]
-
-        if len(tobeActivated) == 0 and len(tobeDeactivated) == 0:
-            return
-
-        for bn in tobeActivated:
-            self.parent.SetStoppingRelays(bn, True, force=True)
-        for bn in tobeDeactivated:
-            self.parent.SetStoppingRelays(bn, False, force=True)
-
-        msg = []
-        if len(tobeActivated) != 0:
-            msg.append("  Activated: %s" % ", ".join(tobeActivated))
-        if len(tobeDeactivated) != 0:
-            msg.append("Deactivated: %s" % ", ".join(tobeDeactivated))
-        dlg = wx.MessageDialog(self, "\n".join(msg),
-            "Stopping Relays",
-            wx.OK | wx.ICON_INFORMATION)
-        dlg.ShowModal()
-        dlg.Destroy()
+    def ActivateRelay(self, relay, activate=True):
+        self.parent.SetStoppingRelays(relay, activate, force=True)
 
     def GetRelayList(self):
         rl = self.parent.Get("stoprelays", {})
 
         if rl is None:
             return []
-        relaysActive = [self.formatRelayName(rly) for rly in sorted(rl.keys()) if rl[rly]]
-        relaysInactive = [self.formatRelayName(rly) for rly in sorted(rl.keys()) if not rl[rly]]
-        return relaysActive, relaysInactive
+
+        return rl
+        # relaysActive = [self.formatRelayName(rly) for rly in sorted(rl.keys()) if rl[rly]]
+        # relaysInactive = [self.formatRelayName(rly) for rly in sorted(rl.keys()) if not rl[rly]]
+        # return relaysActive, relaysInactive
 
     def OnBBlockAdjacency(self, _):
         ba = self.parent.Get("blockadjacency", {})
         try:
             self.dlgAdjacency.Raise()
-        except:
+        except (AttributeError, RuntimeError):
             self.dlgAdjacency = AdjacencyDlg(self, ba, self.parent)
             self.dlgAdjacency.Show()
 
@@ -213,7 +199,7 @@ class InspectDlg(wx.Dialog):
         rtl = self.parent.Get("getroutes", {})
         try:
             self.dlgRoutes.Raise()
-        except:
+        except (AttributeError, RuntimeError):
             self.dlgRoutes = RoutesDlg(self, rtl, self.parent)
             self.dlgRoutes.Show()
 
@@ -224,55 +210,66 @@ class InspectDlg(wx.Dialog):
         slv = self.GetSignalLeverValues()
         try:
             self.dlgSignalLevers.Raise()
-        except:
+        except (AttributeError, RuntimeError):
             self.dlgSignalLevers = ListDlg(self, slv, (200, 200), "Signal Levers", self.GetSignalLeverValues)
             self.dlgSignalLevers.Show()
 
     def OnBTurnoutLocks(self, _):
-        lks = self.parent.GetTurnoutLocks()
-        toList = ["%s: %s" % (x, ", ".join(lks[x])) for x in sorted(lks.keys())]
-        if len(toList) == 0:
-            dlg = wx.MessageDialog(self, "No turnouts are presently locked",
-                "Turnout Locks",
-                wx.OK | wx.ICON_INFORMATION)
-            dlg.ShowModal()
-            dlg.Destroy()
-            return
+        lks = self.GetTurnoutLocks()
 
-        dlg = wx.MultiChoiceDialog( self,
-            "Choose turnout(s) to unlock",
-            "Turnout Locks", toList)
+        dlg = TurnoutLocksDlg(self, lks)
+        dlg.Show()
 
-        rc = dlg.ShowModal()
-        if rc == wx.ID_OK:
-            selections = dlg.GetSelections()
-            toNames = [toList[x] for x in selections]
-        else:
-            toNames = []
+    def GetTurnoutLocks(self):
+        return self.parent.GetTurnoutLocks()
 
-        dlg.Destroy()
-        if rc != wx.ID_OK:
-            return
+    def ClearLock(self, tname):
+        self.parent.ClearLock(tname)
 
-        if len(toNames) == 0:
-            return
 
-        tl = []
-        for t in toNames:
-            try:
-                tx = t.index(":")
-            except ValueError:
-                tx = None
-            if tx is not None:
-                tl.append(t[:tx])
-
-        self.parent.ClearLocks(tl)
-
-        dlg = wx.MessageDialog(self, "Requested Turnout(s) Unlock:\n%s" % ", ".join(tl),
-            "Turnout Locks",
-            wx.OK | wx.ICON_INFORMATION)
-        dlg.ShowModal()
-        dlg.Destroy()
+        # toList = ["%s: %s" % (x, ", ".join(lks[x])) for x in sorted(lks.keys())]
+        # if len(toList) == 0:
+        #     dlg = wx.MessageDialog(self, "No turnouts are presently locked",
+        #         "Turnout Locks",
+        #         wx.OK | wx.ICON_INFORMATION)
+        #     dlg.ShowModal()
+        #     dlg.Destroy()
+        #     return
+        #
+        # dlg = wx.MultiChoiceDialog( self,
+        #     "Choose turnout(s) to unlock",
+        #     "Turnout Locks", toList)
+        #
+        # rc = dlg.ShowModal()
+        # if rc == wx.ID_OK:
+        #     selections = dlg.GetSelections()
+        #     toNames = [toList[x] for x in selections]
+        # else:
+        #     toNames = []
+        #
+        # dlg.Destroy()
+        # if rc != wx.ID_OK:
+        #     return
+        #
+        # if len(toNames) == 0:
+        #     return
+        #
+        # tl = []
+        # for t in toNames:
+        #     try:
+        #         tx = t.index(":")
+        #     except ValueError:
+        #         tx = None
+        #     if tx is not None:
+        #         tl.append(t[:tx])
+        #
+        # self.parent.ClearLocks(tl)
+        #
+        # dlg = wx.MessageDialog(self, "Requested Turnout(s) Unlock:\n%s" % ", ".join(tl),
+        #     "Turnout Locks",
+        #     wx.OK | wx.ICON_INFORMATION)
+        # dlg.ShowModal()
+        # dlg.Destroy()
 
     def GetSignalLeverValues(self):
         sl = self.parent.Get("signallevers", {})
@@ -302,7 +299,7 @@ class InspectDlg(wx.Dialog):
         results = self.parent.Get("audittrains", {})
         try:
             self.dlgAuditTrains.Raise()
-        except:
+        except (AttributeError, RuntimeError):
             self.dlgAuditTrains = AuditTrainsDlg(self, results)
             self.dlgAuditTrains.Show()
 
@@ -310,7 +307,7 @@ class InspectDlg(wx.Dialog):
         hsv = self.GetHandswitchValues()
         try:
             self.dlgSidingLocks.Raise()
-        except:
+        except (AttributeError, RuntimeError):
             self.dlgSidingLocks = ListDlg(self, hsv, (260, 200), "Siding Locks", self.GetHandswitchValues)
             self.dlgSidingLocks.Show()
 
@@ -325,12 +322,12 @@ class InspectDlg(wx.Dialog):
         nodeList = self.parent.GetNodes()
         try:
             self.dlgNodeStatus.Raise()
-        except:
+        except (AttributeError, RuntimeError):
             self.dlgNodeStatus = NodeStatusDlg(self, nodeList, self.parent.GetNodes)
             self.dlgNodeStatus.Show()
 
-    def ReEnableNodes(self, dislist):
-        self.parent.ReEnableNodes(dislist)
+    def ReEnableNode(self, ndName, address):
+        self.parent.ReEnableNode(ndName, address)
 
     def OnBResetBlks(self, _):
         resetList = []
@@ -369,50 +366,11 @@ class InspectDlg(wx.Dialog):
         dlg.Destroy()
 
     def OnCancel(self, _):
-        try:
-            self.dlgAdjacency.Destroy()
-        except:
-            pass
-
-        try:
-            self.dlgOSProxy.Destroy()
-        except:
-            pass
-
-        try:
-            self.dlgNodeStatus.Destroy()
-        except:
-            pass
-
-        try:
-            self.dlgSignalLevers.Destroy()
-        except:
-            pass
-
-        try:
-            self.dlgSidingLocks.Destroy()
-        except:
-            pass
-
-        try:
-            self.dlgHilite.Destroy()
-        except:
-            pass
-
-        try:
-            self.dlgRoutes.Destroy()
-        except:
-            pass
-
-        try:
-            self.dlgTrains.Destroy()
-        except:
-            pass
-
-        try:
-            self.dlgAuditTrains.Destroy()
-        except:
-            pass
+        for dlg in self.dialogs:
+            try:
+                dlg.Destroy()
+            except (AttributeError, RuntimeError):
+                pass
 
         self.closer()
 
@@ -1185,36 +1143,34 @@ class ScannerDlg(wx.Dialog):
 
 
 class RelayDlg(wx.Dialog):
-    def __init__(self, parent, rlAct, rlInact):
-        wx.Dialog.__init__(self, parent, wx.ID_ANY, "Choose Relays", style=wx.DEFAULT_DIALOG_STYLE | wx.STAY_ON_TOP)
-        self.Bind(wx.EVT_CLOSE, self.OnCancel)
+    def __init__(self, parent, rl):
+        wx.Dialog.__init__(self, parent, wx.ID_ANY, "Stopping Relays", style=wx.DEFAULT_DIALOG_STYLE | wx.STAY_ON_TOP)
+        self.Bind(wx.EVT_CLOSE, self.OnClose)
+        self.parent = parent
+
+        self.colorGreen = wx.Colour(119, 215, 126)
+        self.colorRed = wx.Colour(224, 149, 149)
+        self.gridMap = []
 
         vsz = wx.BoxSizer(wx.VERTICAL)
         vsz.AddSpacer(20)
 
-        st = wx.StaticText(self, wx.ID_ANY, "Check/Uncheck to Activate/Deactivate")
-        vsz.Add(st)
+        self.relayList = rl
+        self.relayGrid = self.RelayGrid()
+        self.Bind(gridlib.EVT_GRID_CELL_LEFT_CLICK, self.OnGridClick, self.relayGrid)
+        vsz.Add(self.relayGrid, 0, wx.ALIGN_CENTER_HORIZONTAL)
+
         vsz.AddSpacer(10)
-
-        self.AllRelays = sorted(rlAct+rlInact)
-
-        self.cblRelays = wx.CheckListBox(self, wx.ID_ANY, choices=self.AllRelays, size=(100, 200))
-        self.cblRelays.SetCheckedStrings(rlAct)
-        vsz.Add(self.cblRelays, 0, wx.ALIGN_CENTER_HORIZONTAL)
+        tc = wx.StaticText(self, wx.ID_ANY, "Click on status to Activate/Deactivate")
+        vsz.Add(tc, 0, wx.ALIGN_CENTER_HORIZONTAL)
 
         vsz.AddSpacer(20)
 
         h = wx.BoxSizer(wx.HORIZONTAL)
 
-        self.bOK = wx.Button(self, wx.ID_ANY, "OK")
-        self.Bind(wx.EVT_BUTTON, self.OnBOk, self.bOK)
-        h.Add(self.bOK)
-
-        h.AddSpacer(20)
-
-        self.bCancel = wx.Button(self, wx.ID_ANY, "Cancel")
-        self.Bind(wx.EVT_BUTTON, self.OnCancel, self.bCancel)
-        h.Add(self.bCancel)
+        self.bRefresh = wx.Button(self, wx.ID_ANY, "Refresh", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBRefresh, self.bRefresh)
+        h.Add(self.bRefresh)
 
         vsz.Add(h, 0, wx.ALIGN_CENTER_HORIZONTAL)
 
@@ -1229,16 +1185,214 @@ class RelayDlg(wx.Dialog):
         self.Layout()
         self.Fit()
 
-    def GetRelays(self):
-        rlAct = self.cblRelays.GetCheckedStrings()
-        rlInact = [r for r in self.AllRelays if r not in rlAct]
-        return rlAct, rlInact
+    def OnGridClick(self, evt):
+        r = evt.GetRow()
+        c = evt.GetCol()
+        if c != 1:
+            return
 
-    def OnCancel(self, evt):
-        self.EndModal(wx.ID_CANCEL)
+        if r < 0 or r >= len(self.gridMap):
+            return
 
-    def OnBOk(self, evt):
-        self.EndModal(wx.ID_OK)
+        rname = self.gridMap[r][0]
+        status = self.gridMap[r][1]
+        self.parent.ActivateRelay(rname, not status)
+        dlg = wx.MessageDialog(self,
+                    "Stop Relay %s %s requested" % (rname, "Activation" if not status else "Deactivation"),
+                    "Stop Relay Status", wx.OK | wx.ICON_INFORMATION)
+        dlg.ShowModal()
+        dlg.Destroy()
+        self.DoRefresh()
+
+    def OnClose(self, evt):
+        self.Destroy()
+
+    def OnBRefresh(self, _):
+        self.DoRefresh()
+
+    def DoRefresh(self):
+        self.relayList = self.parent.GetRelayList()
+        self.LoadGrid(self.relayGrid)
+        self.relayGrid.Refresh()
+
+    def RelayGrid(self):
+        headings = ["Node", "Status"]
+        colWidth = [70, 70]
+        colAlign = [wx.ALIGN_CENTER, wx.ALIGN_CENTER]
+
+        nRows = len(self.relayList)
+        nCols = len(headings)
+
+        # we want to have at least 5, at most 30 lines on the display
+        nr = nRows
+        if nr < 5:
+            nr = 5
+        elif nr > 30:
+            nr = 30
+        ht = int(33 + nr * 19)
+
+        g = gridlib.Grid(self, size=(sum(colWidth) + 20, ht))
+        g.CreateGrid(nRows, nCols)
+        g.EnableGridLines(True)
+        g.SetGridLineColour(wx.BLACK)
+        g.SetRowLabelSize(2)
+
+        attrs = []
+        for c in range(nCols):
+            attr = wx.grid.GridCellAttr()
+            attr.SetAlignment(colAlign[c], wx.ALIGN_CENTER)
+            attr.SetReadOnly(True)
+            attrs.append(attr)
+
+        for i in range(nCols):
+            g.SetColLabelValue(i, headings[i])
+            g.SetColSize(i, colWidth[i])
+            g.SetColAttr(i, attrs[i])
+
+        self.LoadGrid(g)
+
+        return g
+
+    def LoadGrid(self, grid):
+        row = 0
+        self.gridMap = []
+        for rname in sorted(self.relayList.keys()):
+            nm = rname[:-5] if rname.endswith(".srel") else rname
+            status = self.relayList[rname]
+            self.gridMap.append([nm, status])
+            grid.SetCellValue(row, 0, nm)
+            grid.SetCellValue(row, 1, "Active" if status else "Inactive")
+            grid.SetCellBackgroundColour(row, 1, self.colorRed if status else self.colorGreen)
+            row += 1
+
+
+class TurnoutLocksDlg(wx.Dialog):
+    def __init__(self, parent, tll):
+        wx.Dialog.__init__(self, parent, wx.ID_ANY, "Turnout Locks", style=wx.DEFAULT_DIALOG_STYLE | wx.STAY_ON_TOP)
+        self.Bind(wx.EVT_CLOSE, self.OnClose)
+        self.parent = parent
+
+        self.colorGreen = wx.Colour(119, 215, 126)
+        self.colorRed = wx.Colour(224, 149, 149)
+        self.gridMap = []
+
+        vsz = wx.BoxSizer(wx.VERTICAL)
+        vsz.AddSpacer(20)
+
+        self.lockList = tll
+        self.lockGrid = self.TurnoutLocksGrid()
+        self.Bind(gridlib.EVT_GRID_CELL_LEFT_CLICK, self.OnGridClick, self.lockGrid)
+        vsz.Add(self.lockGrid, 0, wx.ALIGN_CENTER_HORIZONTAL)
+
+        vsz.AddSpacer(10)
+        tc = wx.StaticText(self, wx.ID_ANY, "Click on status to Unlock")
+        vsz.Add(tc, 0, wx.ALIGN_CENTER_HORIZONTAL)
+
+        vsz.AddSpacer(20)
+
+        h = wx.BoxSizer(wx.HORIZONTAL)
+
+        self.bRefresh = wx.Button(self, wx.ID_ANY, "Refresh", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBRefresh, self.bRefresh)
+        h.Add(self.bRefresh)
+
+        vsz.Add(h, 0, wx.ALIGN_CENTER_HORIZONTAL)
+
+        vsz.AddSpacer(20)
+
+        hsz = wx.BoxSizer(wx.HORIZONTAL)
+        hsz.AddSpacer(20)
+        hsz.Add(vsz)
+        hsz.AddSpacer(20)
+
+        self.SetSizer(hsz)
+        self.Layout()
+        self.Fit()
+
+    def OnGridClick(self, evt):
+        r = evt.GetRow()
+        c = evt.GetCol()
+        if c != 1:
+            return
+
+        if r < 0 or r >= len(self.gridMap):
+            return
+
+        status = self.gridMap[r][1]
+        if not status:
+            return  # nothing to do if it's already cleared
+
+        tname = self.gridMap[r][0]
+        self.parent.ClearLock(tname)
+        dlg = wx.MessageDialog(self,
+                    "Turnout %s unlock requested" % tname,
+                    "Turnout Lock Status", wx.OK | wx.ICON_INFORMATION)
+        dlg.ShowModal()
+        dlg.Destroy()
+        self.DoRefresh()
+
+    def OnClose(self, evt):
+        self.Destroy()
+
+    def OnBRefresh(self, _):
+        self.DoRefresh()
+
+    def DoRefresh(self):
+        self.lockList = self.parent.GetTurnoutLocks()
+        self.LoadGrid(self.lockGrid)
+        self.lockGrid.Refresh()
+
+    def TurnoutLocksGrid(self):
+        headings = ["Name", "Status", "Locked By"]
+        colWidth = [70, 70, 140]
+        colAlign = [wx.ALIGN_CENTER, wx.ALIGN_CENTER, wx.ALIGN_CENTER]
+
+        nRows = len(self.lockList)
+        nCols = len(headings)
+
+        # we want to have at least 5, at most 30 lines on the display
+        nr = nRows
+        if nr < 5:
+            nr = 5
+        elif nr > 30:
+            nr = 30
+        ht = int(33 + nr * 19)
+
+        g = gridlib.Grid(self, size=(sum(colWidth) + 20, ht))
+        g.CreateGrid(nRows, nCols)
+        g.EnableGridLines(True)
+        g.SetGridLineColour(wx.BLACK)
+        g.SetRowLabelSize(2)
+
+        attrs = []
+        for c in range(nCols):
+            attr = wx.grid.GridCellAttr()
+            attr.SetAlignment(colAlign[c], wx.ALIGN_CENTER)
+            attr.SetReadOnly(True)
+            attrs.append(attr)
+
+        for i in range(nCols):
+            g.SetColLabelValue(i, headings[i])
+            g.SetColSize(i, colWidth[i])
+            g.SetColAttr(i, attrs[i])
+
+        self.LoadGrid(g)
+
+        return g
+
+    def LoadGrid(self, grid):
+        row = 0
+        self.gridMap = []
+        for tname in sorted(self.lockList.keys()):
+            ti = self.lockList[tname]
+            status = ti[0]
+            lockers = ti[1]
+            self.gridMap.append([tname, status])
+            grid.SetCellValue(row, 0, tname)
+            grid.SetCellValue(row, 1, "Locked" if status else "Unlocked")
+            grid.SetCellValue(row, 2, ", ".join(lockers))
+            grid.SetCellBackgroundColour(row, 1, self.colorRed if status else self.colorGreen)
+            row += 1
 
 
 class DebugFlagsDlg(wx.Dialog):
@@ -1534,17 +1688,28 @@ class OSProxyListCtrl(wx.ListCtrl):
 
 
 class NodeStatusDlg(wx.Dialog):
-    def __init__(self, parent, data, cbRefresh=None):
+    def __init__(self, parent, ndata, cbRefresh=None):
         wx.Dialog.__init__(self, parent, wx.ID_ANY, "Node Status")
         self.Bind(wx.EVT_CLOSE, self.OnCancel)
         self.parent = parent
         self.cbRefresh = cbRefresh
 
+        self.gridMap = []
+        self.colorRed = wx.Colour(224, 149, 149)
+        self.colorGreen = wx.Colour(119, 215, 126)
+
         vszr = wx.BoxSizer(wx.VERTICAL)
 
-        lb = NodeStatusListCtrl(self, data)
-        vszr.Add(lb, 1, wx.ALL, 20)
-        self.lb = lb
+        self.nodeinfo = sorted(ndata, key=lambda x: x[1])
+
+        g = self.NodeStatusGrid()
+        vszr.Add(g, 0, wx.LEFT | wx.RIGHT, 20)
+        self.grid = g
+        self.Bind(gridlib.EVT_GRID_CELL_LEFT_CLICK, self.OnGridClick, self.grid)
+
+        vszr.AddSpacer(10)
+        tc = wx.StaticText(self, wx.ID_ANY, "Click on status to re-enable")
+        vszr.Add(tc, 0, wx.ALIGN_CENTER_HORIZONTAL)
 
         hszr = wx.BoxSizer(wx.HORIZONTAL)
 
@@ -1553,13 +1718,6 @@ class NodeStatusDlg(wx.Dialog):
             b = wx.Button(self, wx.ID_ANY, "Refresh")
             self.Bind(wx.EVT_BUTTON, self.onBRefresh, b)
             hszr.Add(b)
-
-        hszr.AddSpacer(20)
-        b = wx.Button(self, wx.ID_ANY, "Re-Enable")
-        self.Bind(wx.EVT_BUTTON, self.onBReEnable, b)
-        hszr.Add(b)
-        self.bReEnable = b
-        hszr.AddSpacer(20)
 
         vszr.AddSpacer(20)
         vszr.Add(hszr, 0, wx.ALIGN_CENTER_HORIZONTAL)
@@ -1570,51 +1728,29 @@ class NodeStatusDlg(wx.Dialog):
         self.Fit();
         self.CenterOnScreen()
 
-        dislist = self.lb.GetDisabled()
-        self.bReEnable.Enable(len(dislist) > 0)
+    def OnGridClick(self, evt):
+        r = evt.GetRow()
+        c = evt.GetCol()
+        if c != 2:
+            return
 
-    def onBReEnable(self, _):
-        disList = self.lb.GetDisabled()
-        self.parent.ReEnableNodes(disList)
+        if r < 0 or r >= len(self.gridMap):
+            return
 
-    def onBRefresh(self, _):
-        nlist = self.cbRefresh()
-        self.lb.SetData(nlist)
-        dislist = self.lb.GetDisabled()
-        self.bReEnable.Enable(len(dislist) > 0)
+        rname = self.gridMap[r][0]
+        addr = self.gridMap[r][1]
+        status = self.gridMap[r][2]
 
-    def OnCancel(self, _):
-        self.Destroy()
+        if status:  # nothing to do if the node is currently enabled
+            return
 
-
-class NodeStatusListCtrl(wx.ListCtrl):
-    def __init__(self, parent, nlist, cbRefresh=None):
-        wx.ListCtrl.__init__(self, parent, wx.ID_ANY, size=(420, 680), style=wx.LC_REPORT + wx.LC_VIRTUAL)
-        self.parent = parent
-        self.cbRefresh=cbRefresh
-        self.nodeinfo = sorted(nlist, key=lambda x: x[1])
-
-        font = wx.Font(wx.Font(14, wx.FONTFAMILY_TELETYPE, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, faceName="Monospace"))
-        self.SetFont(font)
-
-        self.normalA = wx.ItemAttr()
-        self.normalB = wx.ItemAttr()
-        self.normalA.SetBackgroundColour(wx.Colour(225, 255, 240))
-        self.normalB.SetBackgroundColour(wx.Colour(138, 255, 197))
-
-        self.InsertColumn(0, "Name")
-        self.SetColumnWidth(0, 160)
-        self.InsertColumn(1, "Address")
-        self.SetColumnWidth(1, 160)
-        self.InsertColumn(2, "Enabled")
-        self.SetColumnWidth(2, 100)
-
-        self.SetItemCount(len(self.nodeinfo))
-
-    def SetData(self, nlist):
-        self.nodeinfo = sorted(nlist, key=lambda x: x[1])
-        self.SetItemCount(0)
-        self.SetItemCount(len(self.nodeinfo))
+        self.parent.ReEnableNode(rname, addr)
+        dlg = wx.MessageDialog(self,
+                    "Node %s re-enable requested" % rname,
+                    "Node Status", wx.OK | wx.ICON_INFORMATION)
+        dlg.ShowModal()
+        dlg.Destroy()
+        self.DoRefresh()
 
     def GetDisabled(self):
         rv = []
@@ -1624,23 +1760,66 @@ class NodeStatusListCtrl(wx.ListCtrl):
 
         return rv
 
-    def OnGetItemText(self, item, col):
-        ni = self.nodeinfo[item]
+    def onBRefresh(self, _):
+        self.DoRefresh()
 
-        if col == 0:
-            return ni[0]
+    def DoRefresh(self):
+        ndata = self.cbRefresh()
+        self.nodeinfo = sorted(ndata, key=lambda x: x[1])
+        self.LoadGrid(self.grid)
 
-        elif col == 1:
-            return "0x%02x" % ni[1]
+    def OnCancel(self, _):
+        self.Destroy()
 
-        elif col == 2:
-            return "%s" % ni[2]
+    def NodeStatusGrid(self):
+        headings = ["Node", "Address", "Status"]
+        colWidth = [70, 70, 70]
+        colAlign = [wx.ALIGN_CENTER, wx.ALIGN_CENTER, wx.ALIGN_CENTER]
 
-    def OnGetItemAttr(self, item):
-        if item % 2 == 1:
-            return self.normalB
-        else:
-            return self.normalA
+        nRows = len(self.nodeinfo)
+        nCols = len(headings)
+
+        # we want to have at least 5, at most 30 lines on the display
+        nr = nRows
+        if nr < 5:
+            nr = 5
+        elif nr > 30:
+            nr = 30
+        ht = int(33 + nr * 19)
+
+        g = gridlib.Grid(self, size=(sum(colWidth) + 20, ht))
+        g.CreateGrid(nRows, nCols)
+        g.EnableGridLines(True)
+        g.SetGridLineColour(wx.BLACK)
+        g.SetRowLabelSize(2)
+
+        attrs = []
+        for c in range(nCols):
+            attr = wx.grid.GridCellAttr()
+            attr.SetAlignment(colAlign[c], wx.ALIGN_CENTER)
+            attr.SetReadOnly(True)
+            attrs.append(attr)
+
+        for i in range(nCols):
+            g.SetColLabelValue(i, headings[i])
+            g.SetColSize(i, colWidth[i])
+            g.SetColAttr(i, attrs[i])
+
+        self.LoadGrid(g)
+
+        return g
+
+    def LoadGrid(self, grid):
+        row = 0
+        self.gridMap = []
+        for nm, addr, status in self.nodeinfo:
+            self.gridMap.append([nm, addr, status])
+            grid.SetCellValue(row, 0, nm)
+            grid.SetCellValue(row, 1, "0x%02x" % addr)
+            grid.SetCellValue(row, 2, "Enabled" if status else "Disabled")
+            grid.SetCellBackgroundColour(row, 2, self.colorGreen if status else self.colorRed)
+
+            row += 1
 
 
 class CheckListDlg(wx.Dialog):
