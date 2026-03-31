@@ -1163,6 +1163,8 @@ class RelayDlg(wx.Dialog):
         vsz.AddSpacer(10)
         tc = wx.StaticText(self, wx.ID_ANY, "Click on status to Activate/Deactivate")
         vsz.Add(tc, 0, wx.ALIGN_CENTER_HORIZONTAL)
+        tc = wx.StaticText(self, wx.ID_ANY, "Shift-Click to invert")
+        vsz.Add(tc, 0, wx.ALIGN_CENTER_HORIZONTAL)
 
         vsz.AddSpacer(20)
 
@@ -1186,6 +1188,7 @@ class RelayDlg(wx.Dialog):
         self.Fit()
 
     def OnGridClick(self, evt):
+        shift = evt.ShiftDown()
         r = evt.GetRow()
         c = evt.GetCol()
         if c != 1:
@@ -1196,6 +1199,8 @@ class RelayDlg(wx.Dialog):
 
         rname = self.gridMap[r][0]
         status = self.gridMap[r][1]
+        if shift:
+            status = not status
         self.parent.ActivateRelay(rname, not status)
         dlg = wx.MessageDialog(self,
                     "Stop Relay %s %s requested" % (rname, "Activation" if not status else "Deactivation"),

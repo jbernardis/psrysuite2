@@ -23,6 +23,8 @@ class Train:
 		self.templateSeq = []
 		self.signal = None
 		self.assigntime = None
+		self.atc = False
+		self.ar = False
 
 	def IsIdentified(self):
 		return self.rname is not None
@@ -203,6 +205,17 @@ class Train:
 		Train.tx += 1
 		return rv
 
+	def ATC(self):
+		return self.atc
+
+	def SetATC(self, flag=True):
+		self.atc = flag
+
+	def AR(self):
+		return self.ar
+
+	def SetAR(self, flag=True):
+		self.ar = flag
 
 	def GetEventMessage(self):
 		parms = {
@@ -214,6 +227,8 @@ class Train:
 			"engineer": self.engineer,
 			"blocks": [b.Name() for b in self.blocks],
 			"stopped": self.stopped,
+			"atc": self.atc,
+			"ar": self.ar,
 			"signal": None if self.signal is None else self.signal.Name(),
 			"aspect": self.aspect,
 			"aspecttype": self.aspectType,

@@ -283,6 +283,8 @@ class ServerMain:
 			"trainmerge":	self.DoTrainMerge,
 			"trainswap":	self.DoTrainSwap,
 			"trainmove":	self.DoTrainMove,
+			"settraincontrol": self.DoSetTrainControl,
+
 			# "movetrain":	self.DoMoveTrain,
 			# "removetrain":	self.DoRemoveTrain,
 			# "traincomplete":		self.DoTrainComplete,
@@ -364,12 +366,12 @@ class ServerMain:
 		except KeyError:
 			logging.error("Unknown command: %s" % verb)
 		else:
-			handler(cmd)
-			# try:
-			# 	handler(cmd)
-			# except Exception as e:
-			# 	logging.error("Exception %s processing command %s" % (str(e), verb))
-			# 	logging.error("%s" % str(cmd))
+			# handler(cmd)
+			try:
+				handler(cmd)
+			except Exception as e:
+				logging.error("Exception %s processing command %s" % (str(e), verb))
+				logging.error("%s" % str(cmd))
 
 	def DoInterval(self, _):
 		if self.pause > 0:
@@ -1066,6 +1068,47 @@ class ServerMain:
 	# 	p = {tag: cmd[tag][0] for tag in cmd if tag != "cmd"}
 	# 	resp = {"traincomplete": [p]}
 	# 	self.socketServer.sendToAll(resp)
+
+	def DoSetTrainControl(self, cmd):
+		logging.debug("set train control: %s" % str(cmd))
+		try:
+			name = cmd["name"][0]
+		except (IndexError, KeyError):
+			name = None
+		try:
+			ar = cmd["ar"][0] in [1, "1"]
+		except (IndexError, KeyError):
+			ar = None
+		try:
+			atc = cmd["atc"][0] in [1, "1"]
+		except (IndexError, KeyError):
+			atc = None
+
+		if name is None:
+			logging.debug("settraincontrol command without train")
+			return
+
+		tr = self.rr.GetTrainByName(name)
+		if tr is None:
+			logging.debug("Unknown train: %s in settraincontrol" % name)
+			return
+
+		changes = False
+		if ar is not None:
+			logging.debug("setting AR to %s" % ar)
+			tr.SetAR(ar)
+			changes = True
+
+		if atc is not None:
+			logging.debug("setting atc to %s" % atc)
+			tr.SetATC(atc)
+			changes = True
+
+		if changes:
+			msg = tr.GetEventMessage()
+			logging.debug("Sending this message: %s" % str(msg))
+			self.rr.RailroadEvent(msg)
+			# self.rr.RailroadEvent(tr.GetEventMessage())
 
 	def DoModifyTrain(self, cmd):
 		try:

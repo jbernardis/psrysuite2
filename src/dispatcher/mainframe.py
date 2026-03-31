@@ -3872,7 +3872,7 @@ class MainFrame(wx.Frame):
 									else:
 										rtName = ob
 
-									self.PopupEvent("Train %s not expected in block %s" % (trname, rtName))
+									logging.debug("Train %s not expected in block %s" % (trname, rtName))
 
 		for bn in blocks:
 			blk = self.blocks.get(bn, None)

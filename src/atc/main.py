@@ -261,11 +261,9 @@ class MainFrame(wx.Frame):
 		self.ShowTitle()
 
 	def DisconnectServer(self):
-		self.dccServer = None
-		self.dccRemote = None
-		self.listener.kill()
-		self.listener.join()
-		self.listener = None
+		for trid in self.controlledTrains.keys():
+			self.RRRequest({"settraincontrol": {"name": trid, "atc": 0}})
+
 		self.subscribed = False
 		self.sessionid = None
 		self.bConnect.SetLabel("Connect")
@@ -279,6 +277,13 @@ class MainFrame(wx.Frame):
 		self.controlledTrains = {}
 		self.lbAvailable.SetItems([])
 		self.ShowTitle()
+
+		self.dccServer = None
+		self.dccRemote = None
+		self.listener.kill()
+		self.listener.join()
+		self.listener = None
+
 
 	def Initialize(self):
 		self.ShowTitle()
@@ -529,6 +534,9 @@ class MainFrame(wx.Frame):
 					if loco is None or loco == "??":
 						logging.debug("skipping train %s because it has no loco address" % iname)
 						continue
+					if loco not in self.locos.keys():
+						logging.debug("Skipping train %s loco %s because loco is not defined" % (iname, loco))
+						continue
 
 					if rname in self.controlledTrains:
 						tr = self.controlledTrains[rname]
@@ -639,6 +647,8 @@ class MainFrame(wx.Frame):
 			short = self.locos[loco]["short"]
 			self.controlledTrains[trid]["short"] = short
 
+			self.RRRequest({"settraincontrol": {"name": trid, "atc": 1}})
+
 			roster = self.roster.GetTrainById(trid)
 			steps = roster.GetSteps()
 
@@ -689,6 +699,7 @@ class MainFrame(wx.Frame):
 		trid = self.selectedTrain
 
 		self.RRRequest({"assigntrain": {"name": trid, "engineer": "-"}})
+		self.RRRequest({"settraincontrol": {"name": trid, "atc": 0}})
 		self.atcList.DelTrainByName(trid)
 		tr = self.controlledTrains[trid]
 		self.availableTrains[trid] = tr

@@ -260,6 +260,7 @@ class MainFrame(wx.Frame):
 		self.signals = {}
 		self.routes = {}
 		self.availableTrains = {}
+		self.lbAvailable.SetItems([])
 		self.controlledTrains = {}
 		self.controlledList.ClearAll()
 
@@ -282,14 +283,20 @@ class MainFrame(wx.Frame):
 		self.ShowTitle()
 
 	def DisconnectServer(self):
-		self.listener.kill()
-		self.listener.join()
-		self.listener = None
+		for trid in self.controlledTrains.keys():
+			self.Request({"settraincontrol": {"name": trid, "ar": 0}})
+
 		self.subscribed = False
 		self.sessionid = None
 		self.bSubscribe.SetLabel("Connect")
+
 		self.ClearDataStructures()
 		self.ShowTitle()
+
+		self.listener.kill()
+		self.listener.join()
+		self.listener = None
+
 
 	def OnAvailableChoice(self, _):
 		il = self.lbAvailable.GetSelections()
@@ -308,6 +315,7 @@ class MainFrame(wx.Frame):
 			self.controlledList.AddTrain(self.controlledTrains[trid])
 			del self.availableTrains[trid]
 			self.AnalyzeTrain(trid)
+			self.Request({"settraincontrol": {"name": trid, "ar": 1}})
 
 		choices = sorted(self.availableTrains.keys())
 		self.lbAvailable.SetItems(choices)
@@ -325,6 +333,7 @@ class MainFrame(wx.Frame):
 			del self.controlledTrains[trid]
 			self.controlledList.RemoveTrain(trid)
 			self.availableTrains[trid] = tr
+			self.Request({"settraincontrol": {"name": trid, "ar": 0}})
 
 		choices = sorted(self.availableTrains.keys())
 		self.lbAvailable.SetItems(choices)
