@@ -47,8 +47,9 @@ class PSRYFrame(MainFrame):
 		self.Initialize(self.districtMap)
 
 		bmpHilite = self.misctiles["hilite"]
+		bmpOOS = self.misctiles["oos"]
 		for p in self.panels.values():
-			p.SetHiliteBmp(bmpHilite)
+			p.SetBmps(bmpHilite, bmpOOS)
 
 	def drawCustom(self, dc):
 		pass
@@ -58,6 +59,7 @@ class PSRYFrame(MainFrame):
 		self.title += " v2"
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
 		self.bitmaps = BitMaps(os.path.join(os.getcwd(), "images", "bitmaps"))
+		logging.debug("set up bitmaps")
 		singlePage = self.settings.display.pages == 1
 		self.bmpw, self.bmph = self.bitmaps.diagrams.HydeYardPort.GetSize()
 		self.diagrams = {

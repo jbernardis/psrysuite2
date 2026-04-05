@@ -805,6 +805,7 @@ class Railroad:
 			return
 
 		currentAspect = sig.Aspect()
+		moving = currentAspect != 0  # Are we requesting a stop signal?
 
 		if sig.District().ControlRestrictedSignal(signm):
 			if not silent:
@@ -816,8 +817,24 @@ class Railroad:
 			return
 
 		msgs = []
-		osb = self.blocks[osName].OS()
-		moving = currentAspect != 0  # Are we requesting a stop signal?
+
+		if not moving:
+			# we are trying to get a signal for movement - make sure the target block is not out of service
+			osb = self.blocks[osName].OS()
+			rt = osb.ActiveRoute()
+			if rt is None:
+				logging.debug("OS %s is not set to any route" % osName)
+				return
+
+			wantedBlock = osb.ExitBlock(sig.East() != osb.East())
+			if wantedBlock is None:
+				logging.debug("Unable to determine exit block from route %s" % osb.RouteDesignator())
+				return
+
+			if wantedBlock.IsOOS() and not callon:
+				self.Alert("Block %s is out of service" % wantedBlock.Name())
+				return
+
 		try:
 			aspect = self.CalculateAspect(sig, osName, moving, callon, None, silent=silent)
 			if aspect is None:
@@ -1095,7 +1112,17 @@ class Railroad:
 	def GetOSRoutes(self):
 		rts = {osb.Name(): osb.ActiveRouteName() for osb in self.osblocks.values()}
 		return rts
-		
+
+	def SetBlockOOS(self, bname, flag=True):
+		try:
+			blk = self.blocks[bname]
+		except KeyError:
+			logging.warning("ignoring block Out Of Service - unknown block: %s" % bname)
+			return
+
+		blk.SetOOS(flag)
+		self.RailroadEvent(blk.GetEventMessage())
+
 	def SetControlOption(self, name, value):
 		self.controlOptions[name] = value
 		if name == "osslocks":
@@ -2774,9 +2801,26 @@ class Railroad:
 			if sig is None:
 				return None, []
 
+			moving = bit == 0  # are we requesting a stop signal?
+			if not moving:
+				# we are trying to get a signal for movement - make sure the target block is not out of service
+				rt = osblk.ActiveRoute()
+				if rt is None:
+					logging.debug("OS %s is not set to any route" % osName)
+					return None, []
+
+				wantedBlock = osblk.ExitBlock(sig.East() != osblk.East())
+
+				if wantedBlock is None:
+					logging.debug("Unable to determine exit block from route %s" % osblk.RouteDesignator())
+					return None, []
+
+				if wantedBlock.IsOOS() and not callon:
+					self.Alert("Block %s is out of service" % wantedBlock.Name())
+					return None, []
+
 			msgs = []
 			try:
-				moving = bit == 0  # are we requesting a stop signal?
 				aspect = self.CalculateAspect(sig, osName, moving, callon, locale, silent=False)
 				if aspect is not None:
 					msgs.extend(self.ApplyAspect(aspect, sig, osName, callon))

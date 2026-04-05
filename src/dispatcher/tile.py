@@ -845,7 +845,8 @@ def loadTiles(bitmaps):
 			"green-diagleft": b.diagleft.routed,
 			"red-diagleft": b.diagleft.occupied,
 			"yellow-diagleft": b.diagleft.unknown,
-			"cross": bmisc.cross
+			"cross": bmisc.cross,
+
 		})
 	misctiles["handdown"] = MiscTile("handdown",
 		{
@@ -875,6 +876,7 @@ def loadTiles(bitmaps):
 			"out": bmisc.indicatorout,
 		})
 	misctiles["hilite"] = bmisc.hilite
+	misctiles["oos"] = bmisc.oos
 
 	b = bitmaps.signals
 	signals = {}

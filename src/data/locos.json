@@ -961,6 +961,18 @@
     "short": false,
     "limit": 0
   },
+  "2560": {
+    "desc": "Erie Lackawanna",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "short": false
+  },
   "2591": {
     "desc": null,
     "prof": {

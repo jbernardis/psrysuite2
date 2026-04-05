@@ -73,6 +73,8 @@ class Hyde (District):
 			], False)
 		self.blocks["H11"].AddTrainLoc(self.screen, (14, 13))
 		self.blocks["H11"].AddTrainLoc(LaKr, (124, 11))
+		self.blocks["H11"].AddOOSLoc(LaKr, (123, 11))
+		self.blocks["H11"].AddOOSLoc(self.screen, (20, 13))
 
 		self.blocks["H12"] = Block(self, self.frame, "H12",
 			[
@@ -86,6 +88,8 @@ class Hyde (District):
 				(self.tiles["horiznc"], self.screen, (40, 13), False),
 			], False)
 		self.blocks["H12"].AddTrainLoc(self.screen, (34, 13))
+		self.blocks["H12"].AddOOSLoc(self.screen, (33, 13))
+		self.blocks["H12"].AddOOSLoc(self.screen, (40, 13))
 
 		self.blocks["H30"] = Block(self, self.frame, "H30",
 			[
@@ -132,6 +136,8 @@ class Hyde (District):
 			], False)
 		self.blocks["H30"].AddTrainLoc(self.screen, (14, 11))
 		self.blocks["H30"].AddTrainLoc(LaKr, (108, 9))
+		self.blocks["H30"].AddOOSLoc(LaKr, (106, 9))
+		self.blocks["H30"].AddOOSLoc(self.screen, (26, 5))
 
 		self.blocks["H31"] = Block(self, self.frame, "H31",
 			[
@@ -145,6 +151,8 @@ class Hyde (District):
 				(self.tiles["horiznc"], self.screen, (40, 5), False),
 			], False)
 		self.blocks["H31"].AddTrainLoc(self.screen, (34, 5))
+		self.blocks["H31"].AddOOSLoc(self.screen, (33, 5))
+		self.blocks["H31"].AddOOSLoc(self.screen, (40, 5))
 
 		self.blocks["H32"] = Block(self, self.frame, "H32",
 			[
@@ -158,6 +166,8 @@ class Hyde (District):
 				(self.tiles["horiznc"], self.screen, (40, 7), False),
 			], False)
 		self.blocks["H32"].AddTrainLoc(self.screen, (34, 7))
+		self.blocks["H32"].AddOOSLoc(self.screen, (33, 7))
+		self.blocks["H32"].AddOOSLoc(self.screen, (40, 7))
 
 		self.blocks["H33"] = Block(self, self.frame, "H33",
 			[
@@ -171,6 +181,8 @@ class Hyde (District):
 				(self.tiles["horiznc"], self.screen, (40, 9), False),
 			], False)
 		self.blocks["H33"].AddTrainLoc(self.screen, (34, 9))
+		self.blocks["H33"].AddOOSLoc(self.screen, (33, 9))
+		self.blocks["H33"].AddOOSLoc(self.screen, (40, 9))
 
 		self.blocks["H34"] = Block(self, self.frame, "H34",
 			[
@@ -184,6 +196,8 @@ class Hyde (District):
 				(self.tiles["horiznc"], self.screen, (40, 11), False),
 			], False)
 		self.blocks["H34"].AddTrainLoc(self.screen, (34, 11))
+		self.blocks["H34"].AddOOSLoc(self.screen, (33, 11))
+		self.blocks["H34"].AddOOSLoc(self.screen, (40, 11))
 
 		self.blocks["HOSWW"] = OverSwitch(self, self.frame, "HOSWW", 
 			[
@@ -259,6 +273,8 @@ class Hyde (District):
 			], True)
 		self.blocks["H21"].AddTrainLoc(self.screen, (14, 15))
 		self.blocks["H21"].AddTrainLoc(LaKr, (124, 13))
+		self.blocks["H21"].AddOOSLoc(LaKr, (123, 13))
+		self.blocks["H21"].AddOOSLoc(self.screen, (20, 15))
 
 		self.blocks["H22"] = Block(self, self.frame, "H22",
 			[
@@ -272,6 +288,8 @@ class Hyde (District):
 				(self.tiles["horiznc"], self.screen, (40, 15), False),
 			], True)
 		self.blocks["H22"].AddTrainLoc(self.screen, (34, 15))
+		self.blocks["H22"].AddOOSLoc(self.screen, (33, 15))
+		self.blocks["H22"].AddOOSLoc(self.screen, (40, 15))
 
 		self.blocks["H43"] = Block(self, self.frame, "H43",
 			[
@@ -285,6 +303,8 @@ class Hyde (District):
 				(self.tiles["horiznc"], self.screen, (40, 17), False),
 			], True)
 		self.blocks["H43"].AddTrainLoc(self.screen, (34, 17))
+		self.blocks["H43"].AddOOSLoc(self.screen, (33, 17))
+		self.blocks["H43"].AddOOSLoc(self.screen, (40, 17))
 
 		self.blocks["H42"] = Block(self, self.frame, "H42",
 			[
@@ -298,6 +318,8 @@ class Hyde (District):
 				(self.tiles["horiznc"], self.screen, (40, 19), False),
 			], True)
 		self.blocks["H42"].AddTrainLoc(self.screen, (34, 19))
+		self.blocks["H42"].AddOOSLoc(self.screen, (33, 19))
+		self.blocks["H42"].AddOOSLoc(self.screen, (40, 19))
 
 		self.blocks["H41"] = Block(self, self.frame, "H41",
 			[
@@ -311,6 +333,8 @@ class Hyde (District):
 				(self.tiles["horiznc"], self.screen, (40, 21), False),
 			], True)
 		self.blocks["H41"].AddTrainLoc(self.screen, (34, 21))
+		self.blocks["H41"].AddOOSLoc(self.screen, (33, 21))
+		self.blocks["H41"].AddOOSLoc(self.screen, (40, 21))
 
 		self.blocks["H40"] = Block(self, self.frame, "H40",
 			[
@@ -350,6 +374,8 @@ class Hyde (District):
 			], True)
 		self.blocks["H40"].AddTrainLoc(self.screen, (28, 23))
 		self.blocks["H40"].AddTrainLoc(LaKr, (124, 15))
+		self.blocks["H40"].AddOOSLoc(LaKr, (123, 15))
+		self.blocks["H40"].AddOOSLoc(self.screen, (40, 23))
 
 		self.blocks["HOSWE"] = OverSwitch(self, self.frame, "HOSWE", 
 			[
@@ -412,6 +438,8 @@ class Hyde (District):
 				], False)
 		self.blocks["H13"].AddTrainLoc(self.screen, (58, 13))
 		self.blocks["H13"].AddTrainLoc(LaKr, (41, 9))
+		self.blocks["H13"].AddOOSLoc(LaKr, (45, 9))
+		self.blocks["H13"].AddOOSLoc(self.screen, (57, 13))
 
 		self.blocks["HOSEW"] = OverSwitch(self, self.frame, "HOSEW", 
 			[
@@ -489,6 +517,8 @@ class Hyde (District):
 				(self.tiles["ssleft"],   LaKr,       (44, 15), False),
 				(self.tiles["eobright"], LaKr,       (45, 15), False),
 				], True)
+		self.blocks["H23"].AddOOSLoc(LaKr, (45, 15))
+		self.blocks["H23"].AddOOSLoc(self.screen, (57, 15))
 
 		self.blocks["HOSEE"] = OverSwitch(self, self.frame, "HOSEE", 
 			[
@@ -556,6 +586,8 @@ class Hyde (District):
 				(self.tiles["ssright"],    LaKr,    (107, 11), False),
 			], False)
 		self.blocks["H10"].AddTrainLoc(LaKr, (108, 11))
+		self.blocks["H10"].AddOOSLoc(LaKr, (106, 11))
+		self.blocks["H10"].AddOOSLoc(LaKr, (113, 11))
 
 		self.blocks["H20"] = Block(self, self.frame, "H20",
 			[
@@ -571,6 +603,8 @@ class Hyde (District):
 				(self.tiles["eobright"], LaKr,    (113, 13), False),
 			], True)
 		self.blocks["H20"].AddTrainLoc(LaKr, (108, 13))
+		self.blocks["H20"].AddOOSLoc(LaKr, (106, 13))
+		self.blocks["H20"].AddOOSLoc(LaKr, (113, 13))
 
 		return self.blocks, self.osBlocks
 

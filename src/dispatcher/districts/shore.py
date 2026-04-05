@@ -152,6 +152,9 @@ class Shore (District):
 				(self.tiles["eobright"], self.screen, (82, 11), False),
 			], True)
 		self.blocks["S10"].AddTrainLoc(self.screen, (73, 11))
+		self.blocks["S10"].AddOOSLoc(self.screen, (71, 11))
+		self.blocks["S10"].AddOOSLoc(self.screen, (82, 11))
+
 
 		self.blocks["S11"] = Block(self, self.frame, "S11",
 			[
@@ -177,6 +180,8 @@ class Shore (District):
 				(self.tiles["eobright"], self.screen, (121, 7), False),
 			], True)
 		self.blocks["S11"].AddTrainLoc(self.screen, (112, 7))
+		self.blocks["S11"].AddOOSLoc(self.screen, (106, 7))
+		self.blocks["S11"].AddOOSLoc(self.screen, (121, 7))
 
 		self.blocks["S20"] = Block(self, self.frame, "S20",
 			[
@@ -198,6 +203,8 @@ class Shore (District):
 				(self.tiles["eobright"], self.screen, (82, 13), False),
 			], True)
 		self.blocks["S20"].AddTrainLoc(self.screen, (73, 13))
+		self.blocks["S20"].AddOOSLoc(self.screen, (71, 13))
+		self.blocks["S20"].AddOOSLoc(self.screen, (82, 13))
 
 		self.blocks["S21"] = Block(self, self.frame, "S21",
 			[
@@ -218,8 +225,9 @@ class Shore (District):
 				(self.tiles["ssleft"],   self.screen, (120, 19), False),
 				(self.tiles["eobright"], self.screen, (121, 19), False),
 			], True)
-		
 		self.blocks["S21"].AddTrainLoc(self.screen, (112, 19))
+		self.blocks["S21"].AddOOSLoc(self.screen, (110, 19))
+		self.blocks["S21"].AddOOSLoc(self.screen, (121, 19))
 
 		self.blocks["SOSW"] = OverSwitch(self, self.frame, "SOSW", 
 			[

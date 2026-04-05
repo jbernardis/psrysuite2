@@ -36,6 +36,7 @@ class Block:
 		self.nextBlockWest = None
 		self.handswitches = []
 		self.train = None
+		self.outOfService = False
 
 	def Dump(self):
 		logging.debug("===== dump of block %s" % self.name)
@@ -83,6 +84,28 @@ class Block:
 
 	def OS(self):
 		return self.osblk
+
+	def SetOOS(self, flag=True):
+		if self.stoppedBlock is not None:
+			self.stoppedBlock.SetOOS(flag)
+
+		elif self.mainBlock is not None:
+			self.mainBlock.SetOOS(flag)
+
+		else:
+			logging.debug("Setting OOS to %s for block %s" % (flag, self.Name()))
+			self.outOfService = flag
+
+	def IsOOS(self):
+		if self.stoppedBlock is not None:
+			return self.stoppedBlock.IsOOS()
+
+		elif self.mainBlock is not None:
+			return self.mainBlock.IsOOS()
+
+		else:
+			logging.debug("Return OOS %s for block %s" % (self.outOfService, self.Name()))
+			return self.outOfService
 
 	def Block(self):
 		return self
@@ -529,11 +552,15 @@ class Block:
 		if self.mainBlock is not None:
 			bname = self.mainBlockName
 			stat = self.mainBlock.GetStatus()
+			oos = self.mainBlock.IsOOS()
 		else:
 			bname = self.name
 			stat = self.status
+			oos = self.IsOOS()
 
-		return {"block": [{ "name": bname, "state": stat, "east": self.east}]}
+		logging.debug("GEM for block %s, oos = %s" % (self.Name(), oos))
+
+		return {"block": [{ "name": bname, "state": stat, "east": self.east, "oos": oos}]}
 
 
 class OSBlock:
@@ -695,6 +722,7 @@ class OSBlock:
 	def ExitBlock(self, reverse=False):
 		if self.activeRoute is None:
 			return None
+		logging.debug("Get Exit Block for os %s, reversed = %s" % (self.name, reverse))
 
 		return self.activeRoute.ExitBlock(reverse=reverse)
 

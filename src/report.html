@@ -1,13 +1,331 @@
 <html><head>
 <style type="text/css" media="screen, print">
-div.page { page-break-inside : avoid;}
-table { width : 700px; border-spacing : 0; margin-left : auto; margin-right : auto; font-family : "Times New Roman", Times, serif; font-size : 16px;}
-table, th, td { border-collapse : collapse;}
+table { border-collapse : collapse; border-spacing : 0; width : 230mm; font-family : Arial, sans-serif; font-size : 14px; margin-left : auto; margin-right : auto;}
 th { text-align : center; overflow : hidden;}
-td.eng { text-align : center; width : 140px; font-size : 28px; font-weight : bold; border-top : 1px solid black; border-bottom : 1px solid black; border-left : 1px solid black;}
-td.qr { width : 100px; text-align : center; vertical-align : middle; border-top : 1px solid black; border-bottom : 1px solid black; border-right : 1px solid black;}
-td.engmt { text-align : center; width : 140px; font-size : 28px; font-weight : bold;}
-td.qrmt { width : 100px; text-align : center; vertical-align : middle;}
-td.spacer { width : 80px;}
+td { text-align : center; overflow : hidden;}
+table, th, td { border : 1px solid black; border-collapse : collapse;}
+td.index { width : 10mm; font-weight : bold;}
+td.trainid { width : 20mm; font-weight : bold;}
+td.dir { width : 10mm; font-weight : bold;}
+td.loco { width : 20mm; font-weight : bold;}
+td.locodesc { width : 340mm; font-weight : bold; font-size : 12px;}
+td.engineer { width : 60mm;}
+td.origin { width : 32mm; font-weight : bold;}
+td.terminus { width : 32mm; font-weight : bold;}
+td.freight { background-color : #FFB6B2;}
+td.passenger { background-color : #8AFFBB;}
+td.east { background-color : #FFB6B2;}
+td.west { background-color : #8AFFBB;}
+p.header { font-family : Arial, sans-serif; font-size : 30px; font-weight : bold;}
 </style>
-</head><body><table><td class="eng">Clear Engineer</td><td class="qr"><img src="qrcodes\engineer_none.png"></td></table><p></p><table><td class="eng">Ameen</td><td class="qr"><img src="qrcodes\engineer_Ameen.png"></td><td class="spacer"></td><td class="eng">Andy</td><td class="qr"><img src="qrcodes\engineer_Andy.png"></td></table><p></p><table><td class="eng">Bill L</td><td class="qr"><img src="qrcodes\engineer_Bill L.png"></td><td class="spacer"></td><td class="eng">Bill S</td><td class="qr"><img src="qrcodes\engineer_Bill S.png"></td></table><p></p><table><td class="eng">Bob</td><td class="qr"><img src="qrcodes\engineer_Bob.png"></td><td class="spacer"></td><td class="eng">Cat</td><td class="qr"><img src="qrcodes\engineer_Cat.png"></td></table><p></p><table><td class="eng">Chris</td><td class="qr"><img src="qrcodes\engineer_Chris.png"></td><td class="spacer"></td><td class="eng">Dave</td><td class="qr"><img src="qrcodes\engineer_Dave.png"></td></table><p></p><table><td class="eng">Ed</td><td class="qr"><img src="qrcodes\engineer_Ed.png"></td><td class="spacer"></td><td class="eng">Francis</td><td class="qr"><img src="qrcodes\engineer_Francis.png"></td></table><p></p><table><td class="eng">Frank</td><td class="qr"><img src="qrcodes\engineer_Frank.png"></td><td class="spacer"></td><td class="eng">Gene</td><td class="qr"><img src="qrcodes\engineer_Gene.png"></td></table><p></p><table><td class="eng">Jeff B</td><td class="qr"><img src="qrcodes\engineer_Jeff B.png"></td><td class="spacer"></td><td class="eng">Jeff M</td><td class="qr"><img src="qrcodes\engineer_Jeff M.png"></td></table><p></p><table><td class="eng">Jim AG</td><td class="qr"><img src="qrcodes\engineer_Jim AG.png"></td><td class="spacer"></td><td class="eng">Jim Al</td><td class="qr"><img src="qrcodes\engineer_Jim Al.png"></td></table><p></p><table><td class="eng">Joe</td><td class="qr"><img src="qrcodes\engineer_Joe.png"></td><td class="spacer"></td><td class="eng">John I</td><td class="qr"><img src="qrcodes\engineer_John I.png"></td></table><p></p><table><td class="eng">John M</td><td class="qr"><img src="qrcodes\engineer_John M.png"></td><td class="spacer"></td><td class="eng">Jonathan</td><td class="qr"><img src="qrcodes\engineer_Jonathan.png"></td></table><p></p><table><td class="eng">Kevin</td><td class="qr"><img src="qrcodes\engineer_Kevin.png"></td><td class="spacer"></td><td class="eng">Mike L</td><td class="qr"><img src="qrcodes\engineer_Mike L.png"></td></table><p></p><table><td class="eng">Mike M</td><td class="qr"><img src="qrcodes\engineer_Mike M.png"></td><td class="spacer"></td><td class="eng">Murr</td><td class="qr"><img src="qrcodes\engineer_Murr.png"></td></table><p></p><table><td class="eng">Paul G</td><td class="qr"><img src="qrcodes\engineer_Paul G.png"></td><td class="spacer"></td><td class="eng">Paul J</td><td class="qr"><img src="qrcodes\engineer_Paul J.png"></td></table><p></p><table><td class="eng">Paul S</td><td class="qr"><img src="qrcodes\engineer_Paul S.png"></td><td class="spacer"></td><td class="eng">Ram</td><td class="qr"><img src="qrcodes\engineer_Ram.png"></td></table><p></p><table><td class="eng">Roger</td><td class="qr"><img src="qrcodes\engineer_Roger.png"></td><td class="spacer"></td><td class="eng">Ron</td><td class="qr"><img src="qrcodes\engineer_Ron.png"></td></table><p></p><table><td class="eng">Sawyer</td><td class="qr"><img src="qrcodes\engineer_Sawyer.png"></td><td class="spacer"></td><td class="eng">Scott</td><td class="qr"><img src="qrcodes\engineer_Scott.png"></td></table><p></p><table><td class="eng">Stan</td><td class="qr"><img src="qrcodes\engineer_Stan.png"></td><td class="spacer"></td><td class="eng">Steve F</td><td class="qr"><img src="qrcodes\engineer_Steve F.png"></td></table><p></p><table><td class="eng">Steve R</td><td class="qr"><img src="qrcodes\engineer_Steve R.png"></td><td class="spacer"></td><td class="eng">Tom</td><td class="qr"><img src="qrcodes\engineer_Tom.png"></td></table><p></p><table><td class="eng">Tony</td><td class="qr"><img src="qrcodes\engineer_Tony.png"></td><td class="spacer"></td><td class="eng">Vince</td><td class="qr"><img src="qrcodes\engineer_Vince.png"></td></table><p></p></body></html>
+</head><body><div style="height: 10px"></div><p align="center" class="header">Train Schedule for 01-Apr-2026</p><table><tr><th></th> <th>Train</th> <th>Dir</th> <th>Loco</th> <th>Description</th> <th>Eng</th> <th>Origin</th> <th>Terminus</th></tr> <tr>
+   <td class="index">1 </td>
+   <td class="trainid west">21</td>
+   <td class="dir west">W</td>
+   <td class="loco west">4515</td>
+   <td class="locodesc west">NJ Transit / Bi-directional / Westbound Local Passenger</td>
+   <td class="engineer"></td>
+   <td class="origin west">NA(N32)</td>
+   <td class="terminus west">PT</td>
+</tr>
+<tr>
+   <td class="index">2 </td>
+   <td class="trainid west">17</td>
+   <td class="dir west">W</td>
+   <td class="loco west">64(s)</td>
+   <td class="locodesc west">PSRY PA / Exectrix / Westbound Express Passenger</td>
+   <td class="engineer"></td>
+   <td class="origin west">CF(C53*)</td>
+   <td class="terminus west">YD(Y50)</td>
+</tr>
+<tr>
+   <td class="index">3 </td>
+   <td class="trainid east">18</td>
+   <td class="dir east">E</td>
+   <td class="loco east">700</td>
+   <td class="locodesc east">New Haven / Passenger / Eastbound Express Passenger</td>
+   <td class="engineer"></td>
+   <td class="origin east">YD(Y50)</td>
+   <td class="terminus east">CF</td>
+</tr>
+<tr>
+   <td class="index">4 </td>
+   <td class="trainid west">91</td>
+   <td class="dir west">W</td>
+   <td class="loco west"></td>
+   <td class="locodesc west">Westbound Express Passenger</td>
+   <td class="engineer"></td>
+   <td class="origin west">HF</td>
+   <td class="terminus west">PT</td>
+</tr>
+<tr>
+   <td class="index">5 </td>
+   <td class="trainid east">96</td>
+   <td class="dir east">E</td>
+   <td class="loco east">6013</td>
+   <td class="locodesc east">Penn / Reading Sea Shore / Eastbound Local Passenger</td>
+   <td class="engineer"></td>
+   <td class="origin east">YD(Y53)</td>
+   <td class="terminus east">HF</td>
+</tr>
+<tr>
+   <td class="index">6 </td>
+   <td class="trainid west">CFYD</td>
+   <td class="dir west">W</td>
+   <td class="loco west">6238</td>
+   <td class="locodesc west">Westbound Freight</td>
+   <td class="engineer"></td>
+   <td class="origin west">CF(C41*)</td>
+   <td class="terminus west">YD</td>
+</tr>
+<tr>
+   <td class="index">7 </td>
+   <td class="trainid east">YDCF</td>
+   <td class="dir east">E</td>
+   <td class="loco east">7447</td>
+   <td class="locodesc east">Eastbound Freight</td>
+   <td class="engineer"></td>
+   <td class="origin east">YD(Y70*)</td>
+   <td class="terminus east">CF</td>
+</tr>
+<tr>
+   <td class="index">8 </td>
+   <td class="trainid east">HEX</td>
+   <td class="dir east">E</td>
+   <td class="loco east">185</td>
+   <td class="locodesc east">Western Maryland (4) / Empty Coal / Empty Coal Hoppers</td>
+   <td class="engineer"></td>
+   <td class="origin east">HY(H40)</td>
+   <td class="terminus east">HY(H40)</td>
+</tr>
+<tr>
+   <td class="index">9 </td>
+   <td class="trainid west">71</td>
+   <td class="dir west">W</td>
+   <td class="loco west">5024</td>
+   <td class="locodesc west">C&NW / Bi-directional / Westbound Express Passenger</td>
+   <td class="engineer"></td>
+   <td class="origin west">HY(H34)</td>
+   <td class="terminus west">PT</td>
+</tr>
+<tr>
+   <td class="index">10</td>
+   <td class="trainid east">64</td>
+   <td class="dir east">E</td>
+   <td class="loco east">4113</td>
+   <td class="locodesc east">Eastbound Local Passenger (RDC)</td>
+   <td class="engineer"></td>
+   <td class="origin east">YD(Y52)</td>
+   <td class="terminus east">PT</td>
+</tr>
+<tr>
+   <td class="index">11</td>
+   <td class="trainid west">HYYD</td>
+   <td class="dir west">W</td>
+   <td class="loco west">47(s)</td>
+   <td class="locodesc west">CSX / Container / Westbound Unit Freight</td>
+   <td class="engineer"></td>
+   <td class="origin west">HY(H33*)</td>
+   <td class="terminus west">YD</td>
+</tr>
+<tr>
+   <td class="index">12</td>
+   <td class="trainid west">61</td>
+   <td class="dir west">W</td>
+   <td class="loco west"></td>
+   <td class="locodesc west">Westbound Local Passenger (RDC)</td>
+   <td class="engineer"></td>
+   <td class="origin west">NA(Coach)</td>
+   <td class="terminus west">PT</td>
+</tr>
+<tr>
+   <td class="index">13</td>
+   <td class="trainid west">43</td>
+   <td class="dir west">W</td>
+   <td class="loco west">1968</td>
+   <td class="locodesc west">Westbound Local Passenger</td>
+   <td class="engineer"></td>
+   <td class="origin west">CF(C31*)</td>
+   <td class="terminus west">NA(N32)</td>
+</tr>
+<tr>
+   <td class="index">14</td>
+   <td class="trainid west">73</td>
+   <td class="dir west">W</td>
+   <td class="loco west">905</td>
+   <td class="locodesc west">Reading (2) / Crusader / Westbound Loop Passenger</td>
+   <td class="engineer"></td>
+   <td class="origin west">HY(H12)</td>
+   <td class="terminus west">HY(H34)</td>
+</tr>
+<tr>
+   <td class="index">15</td>
+   <td class="trainid east">44</td>
+   <td class="dir east">E</td>
+   <td class="loco east">2560</td>
+   <td class="locodesc east">Erie Lackawanna / Eastbound Local Passenger</td>
+   <td class="engineer"></td>
+   <td class="origin east">NA(N42)</td>
+   <td class="terminus east">GM</td>
+</tr>
+<tr>
+   <td class="index">16</td>
+   <td class="trainid west">81</td>
+   <td class="dir west">W</td>
+   <td class="loco west">914</td>
+   <td class="locodesc west">UP / Long Passenger / Westbound Express Passenger </td>
+   <td class="engineer"></td>
+   <td class="origin west">CF(C51*)</td>
+   <td class="terminus west">HY(H12)</td>
+</tr>
+<tr>
+   <td class="index">17</td>
+   <td class="trainid west">CFHY</td>
+   <td class="dir west">W</td>
+   <td class="loco west">8936</td>
+   <td class="locodesc west">Westbound Unit Freight</td>
+   <td class="engineer"></td>
+   <td class="origin west">CF(C44*)</td>
+   <td class="terminus west">HY</td>
+</tr>
+<tr>
+   <td class="index">18</td>
+   <td class="trainid east">82</td>
+   <td class="dir east">E</td>
+   <td class="loco east">5450</td>
+   <td class="locodesc east">NYC 4-6-4 / Streamline Pass / Eastbound Express Passenger</td>
+   <td class="engineer"></td>
+   <td class="origin east">HY(H42)</td>
+   <td class="terminus east">CF</td>
+</tr>
+<tr>
+   <td class="index">19</td>
+   <td class="trainid west">11</td>
+   <td class="dir west">W</td>
+   <td class="loco west">860</td>
+   <td class="locodesc west">Lackawanna / Passenger / Westbound Express Passenger</td>
+   <td class="engineer"></td>
+   <td class="origin west">CF(C50*)</td>
+   <td class="terminus west">YD(Y51)</td>
+</tr>
+<tr>
+   <td class="index">20</td>
+   <td class="trainid east">12</td>
+   <td class="dir east">E</td>
+   <td class="loco east">2124</td>
+   <td class="locodesc east">Reading (2) / Passenger / Eastbound Express Passenger</td>
+   <td class="engineer"></td>
+   <td class="origin east">YD(Y51)</td>
+   <td class="terminus east">CF</td>
+</tr>
+<tr>
+   <td class="index">21</td>
+   <td class="trainid east">HYCF</td>
+   <td class="dir east">E</td>
+   <td class="loco east">6588</td>
+   <td class="locodesc east">Eastbound Unit Freight</td>
+   <td class="engineer"></td>
+   <td class="origin east">HY(H22*)</td>
+   <td class="terminus east">CF</td>
+</tr>
+<tr>
+   <td class="index">22</td>
+   <td class="trainid east">22</td>
+   <td class="dir east">E</td>
+   <td class="loco east">198</td>
+   <td class="locodesc east">Western Maryland / Short Pass / Eastbound Local Passenger</td>
+   <td class="engineer"></td>
+   <td class="origin east">PT(P4*)</td>
+   <td class="terminus east">NA(N42)</td>
+</tr>
+<tr>
+   <td class="index">23</td>
+   <td class="trainid west">95</td>
+   <td class="dir west">W</td>
+   <td class="loco west"></td>
+   <td class="locodesc west">Westbound Local Passenger</td>
+   <td class="engineer"></td>
+   <td class="origin west">HF</td>
+   <td class="terminus west">YD(Y53)</td>
+</tr>
+<tr>
+   <td class="index">24</td>
+   <td class="trainid east">84</td>
+   <td class="dir east">E</td>
+   <td class="loco east">6137</td>
+   <td class="locodesc east">RDC - B&O (3 units) / Eastbound Loop Passenger</td>
+   <td class="engineer"></td>
+   <td class="origin east">HY(H43)</td>
+   <td class="terminus east">HY(H42)</td>
+</tr>
+<tr>
+   <td class="index">25</td>
+   <td class="trainid east">72</td>
+   <td class="dir east">E</td>
+   <td class="loco east">196</td>
+   <td class="locodesc east">Eastbound Express Passenger</td>
+   <td class="engineer"></td>
+   <td class="origin east">PT(P5*)</td>
+   <td class="terminus east">HY(H43)</td>
+</tr>
+<tr>
+   <td class="index">26</td>
+   <td class="trainid west">63</td>
+   <td class="dir west">W</td>
+   <td class="loco west"></td>
+   <td class="locodesc west">Westbound Local Passenger (RDC)</td>
+   <td class="engineer"></td>
+   <td class="origin west">PT</td>
+   <td class="terminus west">YD(Y52)</td>
+</tr>
+<tr>
+   <td class="index">27</td>
+   <td class="trainid east">YDHY</td>
+   <td class="dir east">E</td>
+   <td class="loco east">8099</td>
+   <td class="locodesc east">Southern / Container / Eastbound Unit Freight</td>
+   <td class="engineer"></td>
+   <td class="origin east">YD(Y81*)</td>
+   <td class="terminus east">HY</td>
+</tr>
+<tr>
+   <td class="index">28</td>
+   <td class="trainid west">HWX</td>
+   <td class="dir west">W</td>
+   <td class="loco west">5308</td>
+   <td class="locodesc west">Loaded Coal Hoppers</td>
+   <td class="engineer"></td>
+   <td class="origin west">HY(H30)</td>
+   <td class="terminus west">HY(H30)</td>
+</tr>
+<tr>
+   <td class="index">29</td>
+   <td class="trainid east">92</td>
+   <td class="dir east">E</td>
+   <td class="loco east"></td>
+   <td class="locodesc east">Eastbound Express Passenger</td>
+   <td class="engineer"></td>
+   <td class="origin east">PT</td>
+   <td class="terminus east">HF</td>
+</tr>
+<tr>
+   <td class="index">30</td>
+   <td class="trainid east">62</td>
+   <td class="dir east">E</td>
+   <td class="loco east"></td>
+   <td class="locodesc east">Eastbound Local Passenger</td>
+   <td class="engineer"></td>
+   <td class="origin east">PT</td>
+   <td class="terminus east">NA(Coach)</td>
+</tr>
+<tr>
+   <td class="index">31</td>
+   <td class="trainid west">PBCX</td>
+   <td class="dir west">W</td>
+   <td class="loco west">4023</td>
+   <td class="locodesc west">UP 4-8-8-4 / Pate Bros Circus / Pate Brothers Circus</td>
+   <td class="engineer"></td>
+   <td class="origin west">HY(H32)</td>
+   <td class="terminus west">HY(H32)</td>
+</tr>
+</table></body></html>

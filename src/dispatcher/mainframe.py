@@ -269,7 +269,7 @@ class MainFrame(wx.Frame):
 			for pnl in self.panels.values():
 				pnl.SetShift(True)
 
-		elif kcd == wx.WXK_ESCAPE and self.shift:
+		elif kcd == wx.WXK_ESCAPE and evt.ShiftDown():
 			self.CloseProgram()
 			self.SetShift(False)
 			for pnl in self.panels.values():
@@ -327,14 +327,14 @@ class MainFrame(wx.Frame):
 		}
 		self.Request(msg)
 
-	def SendLogLevel(self, lvl):
+	def SendLogLevel(self, lvl, lvlName):
 		logging.getLogger().setLevel(lvl)
 
 		msg = {"loglevel": {"level": lvl}}
 		logging.debug("sending message: %s" % str(msg))
 		self.Request(msg)
 
-		dlg = wx.MessageDialog(self, "Logging Level has been set to %s" % lvl,
+		dlg = wx.MessageDialog(self, "Logging Level has been set to %s" % lvlName,
 							"Logging Level Changed",
 							wx.OK | wx.ICON_INFORMATION)
 		dlg.CenterOnScreen()
@@ -1008,6 +1008,7 @@ class MainFrame(wx.Frame):
 		self.Bind(EVT_DISCONNECT, self.onDisconnectEvent)
 
 		self.tiles, self.totiles, self.sstiles, self.sigtiles, self.misctiles = loadTiles(self.bitmaps)
+		logging.debug("setup tiles")
 		self.districts = Districts(self)
 		self.signalLeverMap = {}
 		for dname in ["Yard", "Latham", "Dell", "Shore", "Krulish", "Nassau", "Bank", "Cliveden", "Cliff", "Hyde", "Port"]:
@@ -2130,10 +2131,14 @@ class MainFrame(wx.Frame):
 		# 	self.activeTrains.UpdateTrain(trainid)
 		# 	self.Request({"ar": {"action": "remove", "train": trainid}})
 		# 	self.menuTrain.Draw()
-							
+
 	def DrawTile(self, screen, pos, bmp):
 		offset = self.diagrams[screen].offset
 		self.panels[screen].DrawTile(pos[0], pos[1], offset, bmp)
+
+	def DrawOOSTile(self, screen, pos, status):
+		offset = self.diagrams[screen].offset
+		self.panels[screen].DrawOOSTile(pos[0], pos[1], offset, status)
 
 	def DrawText(self, screen, pos, text):
 		offset = self.diagrams[screen].offset
@@ -2882,6 +2887,10 @@ class MainFrame(wx.Frame):
 				east = p["east"]
 			except KeyError:
 				east = True
+			try:
+				oos = p["oos"]
+			except KeyError:
+				oos = False
 
 			if block is None or state is None:
 				logging.error("Block command without block and/or state parameter")
@@ -2906,6 +2915,7 @@ class MainFrame(wx.Frame):
 			if blockend is None:
 				blk.SetEast(east)
 				blk.SetStatus(state)
+				blk.SetOOS(oos)
 
 			else:
 				blk.SetStopSectionStatus(state, blockend)

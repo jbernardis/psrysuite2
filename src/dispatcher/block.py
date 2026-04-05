@@ -137,6 +137,7 @@ class Block:
 		self.handswitches = []
 		self.train = None
 		self.trainLoc = []
+		self.oosLoc = []
 		self.blkEast = None
 		self.blkWest = None
 		self.sbEast = None
@@ -150,7 +151,26 @@ class Block:
 		self.entryAspect = 0
 		self.lastSubBlockEntered = None
 		self.conditionalTrack = None
+		self.oos = False
 		self.dbg = self.frame.GetDebugFlags()
+
+	def SetOOS(self, flag=True):
+		if flag == self.oos:
+			return  # no change
+
+		self.oos = flag
+
+		for screen, pos in self.oosLoc:
+			self.frame.DrawOOSTile(screen, pos, flag)
+
+	def OOS(self):
+		return self.oos
+
+	def IsOOS(self):
+		return self.OOS()
+
+	def GetOOS(self):
+		return self.OOS()
 
 	def SetTrain(self, train):
 		self.train = train
@@ -188,6 +208,12 @@ class Block:
 
 	def TrainLoc(self):
 		return self.trainLoc
+
+	def AddOOSLoc(self, screen, pos):
+		self.oosLoc.append([screen, pos])
+
+	def OOSLoc(self):
+		return self.OOSLoc
 
 	def IsInActiveRoute(self, col, row):
 		# not applicable to normal blocks

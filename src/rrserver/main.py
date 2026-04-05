@@ -318,6 +318,7 @@ class ServerMain:
 			"autorouter":	self.DoAutorouter,
 			"c13ar":		self.DoC13AR,
 			"atc":			self.DoATC,
+			"blockoos":		self.DoBlockOOS,
 
 			"loadsnapshot":	self.DoLoadSnapshot,
 
@@ -425,6 +426,22 @@ class ServerMain:
 		if sl.SetLeverState(raspect, 0, laspect):
 			sl.UpdateLed(raspect, laspect)
 
+	def DoBlockOOS(self, cmd):
+		try:
+			blkname = cmd["name"][0]
+		except KeyError:
+			blkname = None
+		try:
+			status = int(cmd["oos"][0]) == 1
+		except (IndexError, KeyError):
+			status = False
+
+		if blkname is None:
+			logging.error("blockoos command without block name parameter")
+			return
+
+		self.rr.SetBlockOOS(blkname, status)
+
 	def DoSignalClick(self, cmd):
 		try:
 			signame = cmd["name"][0]
@@ -434,6 +451,7 @@ class ServerMain:
 			callon = int(cmd["callon"][0]) == 1
 		except (IndexError, KeyError):
 			callon = False
+
 		try:
 			wantedaspect = int(cmd["wantedaspect"][0])
 		except (IndexError, KeyError):

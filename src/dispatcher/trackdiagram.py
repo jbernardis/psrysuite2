@@ -1,4 +1,5 @@
 import wx
+import logging
 
 
 class TrackDiagram(wx.Panel):
@@ -18,6 +19,7 @@ class TrackDiagram(wx.Panel):
 		self.showCTC = False
 
 		self.tiles = {}
+		self.oostiles = {}
 		self.text = {}
 		self.trains = {}
 		self.bitmaps = {}
@@ -30,6 +32,7 @@ class TrackDiagram(wx.Panel):
 		self.shift_down = False
 		self.highlitedRoute = []
 		self.hilitebmp = None
+		self.OOSbmp = None
 
 		c = settings.display
 
@@ -65,8 +68,9 @@ class TrackDiagram(wx.Panel):
 		self.Bind(wx.EVT_KEY_UP, self.OnKeyUp)
 		self.Bind(wx.EVT_ENTER_WINDOW, lambda event: self.SetFocus())
 
-	def SetHiliteBmp(self, bmp):
-		self.hilitebmp = bmp
+	def SetBmps(self, hilitebmp, oosbmp):
+		self.hilitebmp = hilitebmp
+		self.OOSbmp = oosbmp
 
 	def ShowCTC(self, flag=True):
 		if flag == self.showCTC:
@@ -126,18 +130,29 @@ class TrackDiagram(wx.Panel):
 
 	def OnLeftUp(self, evt):
 		pt = evt.GetPosition()
-		self.frame.ProcessClick(self.scr, (self.tx, self.ty), (pt.x, pt.y), shift=self.shift_down, screenpos=evt.GetPosition())
+		self.frame.ProcessClick(self.scr, (self.tx, self.ty), (pt.x, pt.y), shift=evt.ShiftDown(), screenpos=evt.GetPosition())
 
 	def OnRightUp(self, evt):
 		pt = evt.GetPosition()
-		self.frame.ProcessClick(self.scr, (self.tx, self.ty), (pt.x, pt.y), shift=self.shift_down, right=True, screenpos=evt.GetPosition())
+		self.frame.ProcessClick(self.scr, (self.tx, self.ty), (pt.x, pt.y), shift=evt.ShiftDown(), right=True, screenpos=evt.GetPosition())
 
 	def DrawTile(self, x, y, offset, bmp):
-		self.tiles[(x*16+offset, y*16)] = bmp;
+		self.tiles[(x*16+offset, y*16)] = bmp
+		self.Refresh()
+
+	def DrawOOSTile(self, x, y, offset, status):
+		if status:
+			self.oostiles[(x*16+offset, y*16)] = True
+		else:
+			try:
+				del self.oostiles[(x*16+offset, y*16)]
+			except:
+				pass
+
 		self.Refresh()
 
 	def DrawText(self, x, y, offset, text):
-		self.text[(x*16+offset, y*16)] = text;
+		self.text[(x*16+offset, y*16)] = text
 		self.Refresh()
 
 	def DrawCustom(self):
@@ -245,21 +260,24 @@ class TrackDiagram(wx.Panel):
 				dc.SetBrush(wx.Brush(wx.GREEN, wx.TRANSPARENT))
 				dc.DrawCircle(bx[0] + int((x - bx[0]) / 2.0), y + ht, 50)
 
+		for bx, bmp in self.oostiles.items():
+			dc.DrawBitmap(self.OOSbmp, bx[0], bx[1])
+
 		if len(self.highlitedRoute) > 0 and self.hilitebmp is not None:
 			for hx, hy in self.highlitedRoute:
 				dc.DrawBitmap(self.hilitebmp, hx, hy)
-
-		if self.showCTC:
-			for bx, bmp in self.ctcbgbitmaps.items():
-				dc.DrawBitmap(bmp, bx[0], bx[1])
-			for bx, bmp in self.ctcfgbitmaps.items():
-				dc.DrawBitmap(bmp, bx[0], bx[1])
-			dc.SetTextForeground(wx.Colour(255, 255, 0))
-			dc.SetTextBackground(wx.Colour(0, 0, 0))
-			for bx, lblinfo  in self.ctclabels.items():
-				txt, fnt = lblinfo
-				dc.SetFont(fnt)
-				dc.DrawText(txt, bx[0], bx[1])
+		#
+		# if self.showCTC:
+		# 	for bx, bmp in self.ctcbgbitmaps.items():
+		# 		dc.DrawBitmap(bmp, bx[0], bx[1])
+		# 	for bx, bmp in self.ctcfgbitmaps.items():
+		# 		dc.DrawBitmap(bmp, bx[0], bx[1])
+		# 	dc.SetTextForeground(wx.Colour(255, 255, 0))
+		# 	dc.SetTextBackground(wx.Colour(0, 0, 0))
+		# 	for bx, lblinfo  in self.ctclabels.items():
+		# 		txt, fnt = lblinfo
+		# 		dc.SetFont(fnt)
+		# 		dc.DrawText(txt, bx[0], bx[1])
 
 		self.frame.drawCustom(dc)
 

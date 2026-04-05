@@ -11,6 +11,7 @@ from dispatcher.constants import RESTRICTING, MAIN, DIVERGING, SLIPSWITCH, RegAs
 class Dell (District):
 	def __init__(self, name, frame, screen):
 		District.__init__(self, name, frame, screen)
+		self.bmpOOS = None
 
 	def DoTurnoutAction(self, turnout, state, force=False):
 		tn = turnout.GetName()
@@ -57,6 +58,8 @@ class Dell (District):
 				(self.tiles["ssright"], self.screen,      (37, 11), False),
 			], False)
 		self.blocks["D10"].AddTrainLoc(self.screen, (38, 11))
+		self.blocks["D10"].AddOOSLoc(self.screen, (36, 11))
+		self.blocks["D10"].AddOOSLoc(self.screen, (45, 11))
 
 		self.blocks["D20"] = Block(self, self.frame, "D20",
 			[
@@ -74,6 +77,8 @@ class Dell (District):
 				(self.tiles["eobright"], self.screen,      (45, 13), False),
 			], True)
 		self.blocks["D20"].AddTrainLoc(self.screen, (38, 13))
+		self.blocks["D20"].AddOOSLoc(self.screen, (36, 13))
+		self.blocks["D20"].AddOOSLoc(self.screen, (45, 13))
 
 		self.blocks["D11"] = Block(self, self.frame, "D11",
 			[
@@ -93,6 +98,8 @@ class Dell (District):
 				(self.tiles["ssright"], self.screen,      (57, 11), False),
 			], False)
 		self.blocks["D11"].AddTrainLoc(self.screen, (58, 11))
+		self.blocks["D11"].AddOOSLoc(self.screen, (56, 11))
+		self.blocks["D11"].AddOOSLoc(self.screen, (65, 11))
 
 		self.blocks["D21"] = Block(self, self.frame, "D21",
 			[
@@ -111,6 +118,8 @@ class Dell (District):
 				(self.tiles["eobright"], self.screen,      (65, 13), False),
 			], True)
 		self.blocks["D21"].AddTrainLoc(self.screen, (58, 13))
+		self.blocks["D21"].AddOOSLoc(self.screen, (56, 13))
+		self.blocks["D21"].AddOOSLoc(self.screen, (65, 13))
 
 		self.blocks["DOSVJW"] = OverSwitch(self, self.frame, "DOSVJW", 
 			[

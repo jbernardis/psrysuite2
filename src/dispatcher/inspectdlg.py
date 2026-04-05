@@ -31,10 +31,11 @@ class InspectDlg(wx.Dialog):
         self.dlgAuditTrains = None
         self.dlgRelays = None
         self.dlgTurnoutLocks = None
+        self.dlgBlockIgnoreOOS = None
 
         self.dialogs = [self.dlgAdjacency, self.dlgOSProxy, self.dlgNodeStatus, self.dlgSignalLevers, self.dlgRelays,
                         self.dlgSidingLocks, self.dlgHilite, self.dlgRoutes, self.dlgTrains, self.dlgAuditTrains,
-                        self.dlgTurnoutLocks]
+                        self.dlgTurnoutLocks,  self.dlgBlockIgnoreOOS]
 
         self.SetTitle("Inspection Dialog")
 
@@ -66,8 +67,8 @@ class InspectDlg(wx.Dialog):
         self.Bind(wx.EVT_BUTTON, self.OnBHandSwitches, bHandSwitches)
         bResetBlks = wx.Button(self, wx.ID_ANY, "Reset Blocks", size=BSIZE)
         self.Bind(wx.EVT_BUTTON, self.OnBResetBlks, bResetBlks)
-        # bIgnoreBlks = wx.Button(self, wx.ID_ANY, "Ignore Blocks", size=BSIZE)
-        # self.Bind(wx.EVT_BUTTON, self.OnBIgnoreBlks, bIgnoreBlks)
+        bIgnoreBlks = wx.Button(self, wx.ID_ANY, "Blocks\nIgnore/Service", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBIgnoreBlks, bIgnoreBlks)
         bAdjacency = wx.Button(self, wx.ID_ANY, "Block Adjacency", size=BSIZE)
         self.Bind(wx.EVT_BUTTON, self.OnBBlockAdjacency, bAdjacency)
         bHilite = wx.Button(self, wx.ID_ANY, "Hilite\nBlock/Route", size=BSIZE)
@@ -77,7 +78,7 @@ class InspectDlg(wx.Dialog):
 
         buttonCols = [[bDebug, bLogLevel, bNodes, bRelays],
                     [bAuditTrains, bActiveTrains, bRoutes, bAdjacency, bProxies],
-                    [bToLocks, bLevers, bHandSwitches, bResetBlks],
+                    [bToLocks, bLevers, bHandSwitches, bResetBlks, bIgnoreBlks],
                     [bTester, bMonitor, bHilite]]
 
         if self.parent.IsDispatcherOrSatellite() and self.settings.scanner.enable:
@@ -141,8 +142,8 @@ class InspectDlg(wx.Dialog):
         dlg = LogLevelDlg(self)
         rc = dlg.ShowModal()
         if rc == wx.ID_OK:
-            lvl = dlg.GetResults()
-            self.parent.SendLogLevel(lvl)
+            lvl, lvlName = dlg.GetResults()
+            self.parent.SendLogLevel(lvl, lvlName)
 
         dlg.Destroy()
 
@@ -344,20 +345,11 @@ class InspectDlg(wx.Dialog):
         self.parent.Request({"resetblocks": {"blocks": resetList}})
 
     def OnBIgnoreBlks(self, _):
-        ignoreIndices = []
-        blks = sorted(list(self.parent.blocks.keys()))
-        dlg = CheckListDlg(self, blks, "Choose Block(s) to ignore", prechecked=self.settings.rrserver.ignoredblocks)
-        rc = dlg.ShowModal()
-        if rc == wx.ID_OK:
-            ignoreList = dlg.GetCheckedItems()
-
-        dlg.Destroy()
-        if rc != wx.ID_OK:
-            return
-
-        logging.info("New ignore list: %s" % str(ignoreList))
-        self.parent.SetIgnoredBlocks(ignoreList)
-        self.settings.rrserver.ignoredblocks = ignoreList
+        try:
+            self.dlgBlockIgnoreOOS.Raise()
+        except (AttributeError, RuntimeError):
+            self.dlgBlockIgnoreOOS = OOSIgnoreBlocksDlg(self, self.parent)
+            self.dlgBlockIgnoreOOS.Show()
 
     def OnBScanner(self, _):
         fn = os.path.join(os.getcwd(), "qrcodes", "scanner_battery.png")
@@ -682,10 +674,10 @@ class AuditTrainsDlg(wx.Dialog):
         for trid, tinfo in tdata.items():
             nm = trid
             for b in tinfo:
+                g.SetCellBackgroundColour(row, 0, colorRed if b["train"] != trid else colorWhite)
                 g.SetCellValue(row, 0, nm)
                 g.SetCellValue(row, 1, b["block"])
                 g.SetCellValue(row, 2, b["train"])
-                g.SetCellBackgroundColour(row, 0, colorRed if b["train"] != trid else colorWhite)
 
                 nm = ""
                 row += 1
@@ -730,9 +722,6 @@ class AuditTrainsDlg(wx.Dialog):
 
         row = 0
         for blkid, info in bdata.items():
-            g.SetCellValue(row, 0, blkid)
-            g.SetCellValue(row, 1, info["train"])
-            g.SetCellValue(row, 2, ", ".join(info["blocks"]))
             if blkid in info["blocks"]:
                 c = colorWhite
             else:
@@ -741,6 +730,9 @@ class AuditTrainsDlg(wx.Dialog):
                 else:
                     c = colorRed
             g.SetCellBackgroundColour(row, 0, c)
+            g.SetCellValue(row, 0, blkid)
+            g.SetCellValue(row, 1, info["train"])
+            g.SetCellValue(row, 2, ", ".join(info["blocks"]))
 
             row += 1
 
@@ -885,23 +877,23 @@ class ActiveTrainsDlg(wx.Dialog):
                 currentValues = TrainEntry(name, loco, direction, engineer, blocks, signal, aspect, stopped)
                 self.TRMap[iname] = currentValues
 
-            self.TRgrid.SetCellValue(row, 0, name)
             self.TRgrid.SetCellBackgroundColour(row, 0, self.colorGray if currentValues.NewName(name) else self.colorWhite)
+            self.TRgrid.SetCellValue(row, 0, name)
             self.TRgrid.SetCellValue(row, 1, iname)
-            self.TRgrid.SetCellValue(row, 2, loco)
             self.TRgrid.SetCellBackgroundColour(row, 2, self.colorGray if currentValues.NewLoco(loco) else self.colorWhite)
-            self.TRgrid.SetCellValue(row, 3, direction)
+            self.TRgrid.SetCellValue(row, 2, loco)
             self.TRgrid.SetCellBackgroundColour(row, 3, self.colorGray if currentValues.NewDirection(direction) else self.colorWhite)
-            self.TRgrid.SetCellValue(row, 4, engineer)
+            self.TRgrid.SetCellValue(row, 3, direction)
             self.TRgrid.SetCellBackgroundColour(row, 4, self.colorGray if currentValues.NewEngineer(engineer) else self.colorWhite)
-            self.TRgrid.SetCellValue(row, 5, blocks)
+            self.TRgrid.SetCellValue(row, 4, engineer)
             self.TRgrid.SetCellBackgroundColour(row, 5, self.colorGray if currentValues.NewBlocks(blocks) else self.colorWhite)
-            self.TRgrid.SetCellValue(row, 6, signal)
+            self.TRgrid.SetCellValue(row, 5, blocks)
             self.TRgrid.SetCellBackgroundColour(row, 6, self.colorGray if currentValues.NewSignal(signal) else self.colorWhite)
-            self.TRgrid.SetCellValue(row, 7, aspect)
+            self.TRgrid.SetCellValue(row, 6, signal)
             self.TRgrid.SetCellBackgroundColour(row, 7, self.colorGray if currentValues.NewAspect(aspect) else self.colorWhite)
-            self.TRgrid.SetCellValue(row, 8, stopped)
+            self.TRgrid.SetCellValue(row, 7, aspect)
             self.TRgrid.SetCellBackgroundColour(row, 8, self.colorGray if currentValues.NewStopped(stopped) else self.colorWhite)
+            self.TRgrid.SetCellValue(row, 8, stopped)
             row += 1
 
         self.TRgrid.Refresh()
@@ -1000,6 +992,137 @@ class AdjacencyDlg(wx.Dialog):
                 logging.debug("Refresh block adjacency - unknown block: %s" % bn)
 
         self.BAgrid.Refresh()
+
+    def OnClose(self, _):
+        self.Destroy()
+
+
+class OOSIgnoreBlocksDlg(wx.Dialog):
+    def __init__(self, parent, frame):
+        wx.Dialog.__init__(self, parent, wx.ID_ANY, "Block Ignore/Out of Service")
+        self.Bind(wx.EVT_CLOSE, self.OnClose)
+        self.parent = parent
+        self.frame = frame
+
+        self.gridMap = {}
+        bdata = self.BuildBlockData()
+
+        self.colorGreen = wx.Colour(119, 215, 126)
+        self.colorRed = wx.Colour(224, 149, 149)
+
+        headings = ["Block", "Ignored", "OOS"]
+        colWidth = [70, 70, 70]
+        colAlign = [wx.ALIGN_CENTER, wx.ALIGN_CENTER, wx.ALIGN_CENTER]
+        nRows = len(bdata)
+        nCols = len(headings)
+
+        self.colorWhite = wx.Colour(255, 255, 255)
+        self.colorGray = wx.Colour(196, 196, 196)
+
+        # we want to have at least 5, at most 30 lines on the display
+        nr = nRows
+        if nr < 5:
+            nr = 5
+        elif nr > 30:
+            nr = 30
+        ht = int(33 + nr * 19)
+
+        self.grid = gridlib.Grid(self, size=(sum(colWidth) + 20, ht))
+        self.Bind(gridlib.EVT_GRID_CELL_LEFT_CLICK, self.OnGridClick, self.grid)
+        self.grid.CreateGrid(nRows, nCols)
+        self.grid.EnableGridLines(True)
+        self.grid.SetGridLineColour(wx.BLACK)
+        self.grid.SetRowLabelSize(2)
+
+        attrs = []
+        for c in range(nCols):
+            attr = wx.grid.GridCellAttr()
+            attr.SetAlignment(colAlign[c], wx.ALIGN_CENTER)
+            attr.SetReadOnly(True)
+            attrs.append(attr)
+
+        for i in range(nCols):
+            self.grid.SetColLabelValue(i, headings[i])
+            self.grid.SetColSize(i, colWidth[i])
+            self.grid.SetColAttr(i, attrs[i])
+
+        self.LoadGrid(bdata)
+
+        vsz = wx.BoxSizer(wx.VERTICAL)
+        vsz.AddSpacer(20)
+
+        hsz = wx.BoxSizer(wx.HORIZONTAL)
+        hsz.AddSpacer(20)
+
+        hsz.Add(self.grid, 0, wx.EXPAND)
+
+        hsz.AddSpacer(20)
+        vsz.Add(hsz)
+
+        vsz.AddSpacer(20)
+
+        bRefresh = wx.Button(self, wx.ID_ANY, "Refresh", size=(100, 30))
+        self.Bind(wx.EVT_BUTTON, self.OnBRefresh, bRefresh)
+        vsz.Add(bRefresh, 0, wx.ALIGN_CENTER_HORIZONTAL)
+
+        vsz.AddSpacer(20)
+
+        self.SetSizer(vsz)
+        self.Fit()
+        self.Layout()
+
+    def OnGridClick(self, evt):
+        r = evt.GetRow()
+        c = evt.GetCol()
+        if c not in [1, 2]:
+            return
+
+        if r < 0 or r >= len(self.gridMap):
+            return
+
+        bname = self.gridMap[r][0]
+        ignored = self.gridMap[r][1]
+        oos = self.gridMap[r][2]
+
+        if c == 1:
+            self.frame.PopupEvent("set block %s ignored to %s" % (bname, str(not ignored)))
+        else:
+            self.frame.Request({"blockoos": {"name": bname, "oos": 0 if oos else 1}})
+            text = "Out Of" if not oos else "Back In"
+            dlg = wx.MessageDialog(self,
+                        "Block %s %s Service requested" % (bname, text),
+                        "Block %s Service" % text, wx.OK | wx.ICON_INFORMATION)
+            dlg.ShowModal()
+            dlg.Destroy()
+
+        self.DoRefresh()
+
+    def OnBRefresh(self, _):
+        self.DoRefresh()
+
+    def DoRefresh(self):
+        bdata = self.BuildBlockData()
+        self.LoadGrid(bdata)
+        self.grid.Refresh()
+
+    def BuildBlockData(self):
+        bl = self.frame.blocks
+        bdata = {bn: {"ignored": False, "oos": bl[bn].IsOOS()} for bn in bl.keys() if not bl[bn].IsOS()}
+        return bdata
+
+    def LoadGrid(self, bdata):
+        self.gridMap = {}
+        row = 0
+        for bn in sorted(bdata.keys()):
+            self.gridMap[row] = (bn, bdata[bn]["ignored"], bdata[bn]["oos"])
+            self.grid.SetCellValue(row, 0, bn)
+            self.grid.SetCellBackgroundColour(row, 1, self.colorRed if bdata[bn]["ignored"] else self.colorGreen)
+            self.grid.SetCellValue(row, 1, str(bdata[bn]["ignored"]))
+            self.grid.SetCellBackgroundColour(row, 2, self.colorRed if bdata[bn]["oos"] else self.colorGreen)
+            self.grid.SetCellValue(row, 2, str(bdata[bn]["oos"]))
+            row += 1
+
+        self.grid.Refresh()
 
     def OnClose(self, _):
         self.Destroy()
@@ -1266,8 +1389,8 @@ class RelayDlg(wx.Dialog):
             status = self.relayList[rname]
             self.gridMap.append([nm, status])
             grid.SetCellValue(row, 0, nm)
-            grid.SetCellValue(row, 1, "Active" if status else "Inactive")
             grid.SetCellBackgroundColour(row, 1, self.colorRed if status else self.colorGreen)
+            grid.SetCellValue(row, 1, "Active" if status else "Inactive")
             row += 1
 
 
@@ -1394,9 +1517,9 @@ class TurnoutLocksDlg(wx.Dialog):
             lockers = ti[1]
             self.gridMap.append([tname, status])
             grid.SetCellValue(row, 0, tname)
+            grid.SetCellBackgroundColour(row, 1, self.colorRed if status else self.colorGreen)
             grid.SetCellValue(row, 1, "Locked" if status else "Unlocked")
             grid.SetCellValue(row, 2, ", ".join(lockers))
-            grid.SetCellBackgroundColour(row, 1, self.colorRed if status else self.colorGreen)
             row += 1
 
 
@@ -1559,7 +1682,7 @@ class LogLevelDlg(wx.Dialog):
 
     def GetResults(self):
         lvl = self.rbMode.GetSelection()
-        return self.logLevelValues[lvl]
+        return self.logLevelValues[lvl], self.logLevels[lvl]
 
 
 class ListDlg(wx.Dialog):
@@ -1821,8 +1944,8 @@ class NodeStatusDlg(wx.Dialog):
             self.gridMap.append([nm, addr, status])
             grid.SetCellValue(row, 0, nm)
             grid.SetCellValue(row, 1, "0x%02x" % addr)
-            grid.SetCellValue(row, 2, "Enabled" if status else "Disabled")
             grid.SetCellBackgroundColour(row, 2, self.colorGreen if status else self.colorRed)
+            grid.SetCellValue(row, 2, "Enabled" if status else "Disabled")
 
             row += 1
 
