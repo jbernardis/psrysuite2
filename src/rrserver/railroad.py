@@ -18,6 +18,7 @@ from rrserver.districts.cliveden import Cliveden
 from rrserver.districts.cliff import Cliff
 from rrserver.districts.hyde import Hyde
 from rrserver.districts.port import Port
+from rrserver.ignoredblocks import IgnoredBlocks
 
 from rrserver.train import Train
 
@@ -76,8 +77,6 @@ class Railroad:
 			[ Port, "Port" ],
 		]
 
-		self.ignoredBlocks = self.settings.rrserver.ignoredblocks
-		
 		self.controlOptions = {}
 		self.signals = {}
 		self.signalLevers = {}
@@ -353,6 +352,9 @@ class Railroad:
 			logging.info("Error %s saving io bits file" % str(e))
 
 		self.RecordBreakerTrip(None)  # create a new empty breaker trip report file
+
+		self.ignoredBlocks = IgnoredBlocks(self.blocks)
+		self.ignoredBlocks.AddRawBlocks(self.settings.rrserver.ignoredblocks)
 
 	# self.AuditRoutes()
 
@@ -1613,6 +1615,18 @@ class Railroad:
 	def GetBlocks(self):
 		return {bn: self.blocks[bn].toJson() for bn in self.blocks}
 
+	def GetIgnoredBlocks(self):
+		return self.ignoredBlocks.GetRawList()
+
+	def SetIgnoredBlocks(self, iblocks, persistent):
+		self.ignoredBlocks.SetRawBlocks(iblocks)
+		logging.debug("checking persistent: %s" % str(persistent))
+		if persistent:
+			self.settings.rrserver.ignoredblocks = iblocks
+			logging.debug("changed ignored list to %s" % str(iblocks))
+			self.settings.SaveAll()
+			logging.debug("back from savall")
+
 	def GetOSBlock(self, osnm):
 		try:
 			return self.osblocks[osnm]
@@ -1758,9 +1772,9 @@ class Railroad:
 			
 			if t.district.Name() == districtName:
 				t.UpdateLockBits(released)
-
-	def UpdateIgnoreList(self):
-		self.ignoredBlocks = self.settings.rrserver.ignoredblocks
+	#
+	# def UpdateIgnoreList(self):
+	# 	self.ignoredBlocks = self.settings.rrserver.ignoredblocks
 
 	def ExamineInputs(self):
 		for addr, district, node in self.addrList:
@@ -1915,7 +1929,8 @@ class Railroad:
 		if self.settings.debug.blockoccupancy:
 			self.Alert("Input block change: %s:%s   %s" % (objName, newval, str(obj)))
 
-		if objName.split(".")[0] in self.ignoredBlocks:
+		if self.ignoredBlocks.HasBlock(objName):
+			logging.debug("Ignoring input from block %s as per ignore list" % objName)
 			if self.settings.debug.blockoccupancy:
 				self.Alert("Ignoring block %s as per ignore list" % objName)
 			return

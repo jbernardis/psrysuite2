@@ -183,6 +183,7 @@ class HTTPServer:
 			"sessions": self.GetSessions,
 			"blockosmap": self.GetBlockOSMap,
 			"blockadjacency": self.GetBlockAdjacency,
+			"getignoredblocks": self.GetIgnoredBlocks,
 		}
 
 	def dispatch(self, cmd):
@@ -282,6 +283,15 @@ class HTTPServer:
 
 		jstr = json.dumps(j)
 		logging.info("Returning %d bytes" % len(jstr))
+		return 200, jstr
+
+	def GetIgnoredBlocks(self, cmd):
+		ibl = self.rr.GetIgnoredBlocks()
+		if ibl is None:
+			logging.error("Unable to retrieve ignored block list")
+			return 400, "Unknown error encountered"
+
+		jstr = json.dumps(ibl)
 		return 200, jstr
 
 	def GetIOBits (self, cmd):

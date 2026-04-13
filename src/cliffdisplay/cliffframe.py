@@ -125,8 +125,9 @@ class CliffFrame(MainFrame):
 		self.Initialize(self.districtMap)
 
 		bmpHilite = self.misctiles["hilite"]
+		bmpOOS = self.misctiles["oos"]
 		for p in self.panels.values():
-			p.SetHiliteBmp(bmpHilite)
+			p.SetBmps(bmpHilite, bmpOOS)
 
 	def DrawCustom(self):
 		self.panels[self.diagrams[cliff].screen].DrawCustom()

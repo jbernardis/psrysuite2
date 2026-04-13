@@ -93,6 +93,8 @@ class Krulish (District):
 				(self.tiles["eobright"], self.screen, (140, 11), False),
 			], True)
 		self.blocks["N10"].AddTrainLoc(self.screen, (125, 7))
+		self.blocks["N10"].AddOOSLoc(self.screen, (122, 7))
+		self.blocks["N10"].AddOOSLoc(self.screen, (140, 11))
 
 		self.blocks["N25"] = Block(self, self.frame, "N25",
 			[
@@ -122,6 +124,8 @@ class Krulish (District):
 				(self.tiles["eobright"], self.screen, (140, 13), False),
 			], True)
 		self.blocks["N25"].AddTrainLoc(self.screen, (126, 17))
+		self.blocks["N25"].AddOOSLoc(self.screen, (121, 17))
+		self.blocks["N25"].AddOOSLoc(self.screen, (140, 13))
 
 		self.blocks["N20"] = Block(self, self.frame, "N20",
 			[
@@ -150,6 +154,8 @@ class Krulish (District):
 				(self.tiles["eobright"], self.screen, (140, 15), False),
 			], True)
 		self.blocks["N20"].AddTrainLoc(self.screen, (124, 19))
+		self.blocks["N20"].AddOOSLoc(self.screen, (122, 19))
+		self.blocks["N20"].AddOOSLoc(self.screen, (140, 15))
 
 		self.blocks["N11"] = Block(self, self.frame, "N11",
 			[
@@ -177,6 +183,8 @@ class Krulish (District):
 			], True)
 		self.blocks["N11"].AddTrainLoc(self.screen, (154, 11))
 		self.blocks["N11"].AddTrainLoc(NaCl, (2, 11))
+		self.blocks["N11"].AddOOSLoc(self.screen, (150, 11))
+		self.blocks["N11"].AddOOSLoc(NaCl, (7, 11))
 
 		self.blocks["K10"] = Block(self, self.frame, "K10",
 			[
@@ -184,6 +192,7 @@ class Krulish (District):
 				(self.tiles["houtline"],  self.screen, (151, 9), False),
 				(self.tiles["houtline"],  self.screen, (152, 9), False),
 			], False)
+		self.blocks["K10"].AddOOSLoc(self.screen, (150, 9))
 
 		self.blocks["KOSW"] = OverSwitch(self, self.frame, "KOSW", 
 			[

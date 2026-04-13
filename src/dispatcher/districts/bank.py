@@ -86,6 +86,8 @@ class Bank (District):
 				(self.tiles["eobright"], self.screen,     (52, 13), False),
 			], True)
 		self.blocks["B20"].AddTrainLoc(self.screen, (47, 13))
+		self.blocks["B20"].AddOOSLoc(self.screen, (45, 13))
+		self.blocks["B20"].AddOOSLoc(self.screen, (52, 13))
 
 		self.blocks["B11"] = Block(self, self.frame, "B11",
 			[
@@ -101,6 +103,8 @@ class Bank (District):
 				(self.tiles["ssright"], self.screen,      (59, 11), False),
 			], False)
 		self.blocks["B11"].AddTrainLoc(self.screen, (59, 11))
+		self.blocks["B11"].AddOOSLoc(self.screen, (58, 11))
+		self.blocks["B11"].AddOOSLoc(self.screen, (67, 11))
 
 		self.blocks["B21"] = Block(self, self.frame, "B21",
 			[
@@ -119,6 +123,8 @@ class Bank (District):
 				(self.tiles["ssright"], self.screen,      (59, 13), False),
 			], False)
 		self.blocks["B21"].AddTrainLoc(self.screen, (59, 13))
+		self.blocks["B21"].AddOOSLoc(self.screen, (58, 13))
+		self.blocks["B21"].AddOOSLoc(self.screen, (67, 13))
 
 		self.blocks["BOSWW"] = OverSwitch(self, self.frame, "BOSWW",
 			[

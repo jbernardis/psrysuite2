@@ -49,6 +49,7 @@ class Cliff (District):
 				(self.tiles["houtline"], self.screen,  (34, 21), False),
 				(self.tiles["houtline"], self.screen,  (35, 21), False),
 			], True)
+		self.blocks["G21"].AddOOSLoc(self.screen, (35, 21))
 
 		self.blocks["C10"] = Block(self, self.frame, "C10",
 			[
@@ -72,6 +73,8 @@ class Cliff (District):
 				(self.tiles["horiz"],   self.screen,  (35, 19), True),
 			], True)
 		self.blocks["C10"].AddTrainLoc(self.screen, (25, 19))
+		self.blocks["C10"].AddOOSLoc(self.screen, (18, 19))
+		self.blocks["C10"].AddOOSLoc(self.screen, (35, 19))
 
 		self.blocks["C30"] = Block(self, self.frame, "C30",
 			[
@@ -94,6 +97,8 @@ class Cliff (District):
 				(self.tiles["horiz"],   self.screen,  (35, 17), True),
 			], True)
 		self.blocks["C30"].AddTrainLoc(self.screen, (25, 17))
+		self.blocks["C30"].AddOOSLoc(self.screen, (18, 17))
+		self.blocks["C30"].AddOOSLoc(self.screen, (35, 17))
 
 		self.blocks["C31"] = Block(self, self.frame, "C31",
 			[
@@ -104,6 +109,7 @@ class Cliff (District):
 				(self.tiles["eobleft"], self.screen,  (31, 15), False),
 			], True)
 		self.blocks["C31"].AddTrainLoc(self.screen, (32, 15))
+		self.blocks["C31"].AddOOSLoc(self.screen, (35, 15))
 
 		self.blocks["COSGMW"] = OverSwitch(self, self.frame, "COSGMW",
 			[
@@ -138,6 +144,7 @@ class Cliff (District):
 				(self.tiles["houtline"], self.screen,  (19, 23), False),
 				(self.tiles["houtline"], self.screen,  (20, 23), False),
 			], True)
+		self.blocks["G12"].AddOOSLoc(self.screen, (18, 23))
 
 		self.blocks["G10"] = Block(self, self.frame, "G10",
 			[
@@ -145,6 +152,7 @@ class Cliff (District):
 				(self.tiles["houtline"], self.screen, (19, 21), False),
 				(self.tiles["houtline"], self.screen, (20, 21), False),
 			], True)
+		self.blocks["G10"].AddOOSLoc(self.screen, (18, 21))
 
 		self.blocks["C20"] = Block(self, self.frame, "C20",
 			[
@@ -189,6 +197,8 @@ class Cliff (District):
 				(self.tiles["eobright"],    self.screen, (7, 46), False),
 			], True)
 		self.blocks["C20"].AddTrainLoc(self.screen, (2, 30))
+		self.blocks["C20"].AddOOSLoc(self.screen, (10, 19))
+		self.blocks["C20"].AddOOSLoc(self.screen, (7, 46))
 
 		self.blocks["COSGME"] = OverSwitch(self, self.frame, "COSGME",
 			[
@@ -242,6 +252,8 @@ class Cliff (District):
 				(self.tiles["horiz"],          self.screen, (43, 46), True),
 			], False)
 		self.blocks["C44"].AddTrainLoc(self.screen, (28, 46))
+		self.blocks["C44"].AddOOSLoc(self.screen, (20, 46))
+		self.blocks["C44"].AddOOSLoc(self.screen, (43, 46))
 
 		self.blocks["C43"] = Block(self, self.frame, "C43",
 			[
@@ -271,6 +283,8 @@ class Cliff (District):
 				(self.tiles["horiz"],          self.screen, (43, 44), True),
 			], False)
 		self.blocks["C43"].AddTrainLoc(self.screen, (28, 44))
+		self.blocks["C43"].AddOOSLoc(self.screen, (20, 44))
+		self.blocks["C43"].AddOOSLoc(self.screen, (43, 44))
 
 		self.blocks["C42"] = Block(self, self.frame, "C42",
 			[
@@ -300,6 +314,8 @@ class Cliff (District):
 				(self.tiles["horiz"],          self.screen, (43, 42), True),
 			], False)
 		self.blocks["C42"].AddTrainLoc(self.screen, (28, 42))
+		self.blocks["C42"].AddOOSLoc(self.screen, (20, 42))
+		self.blocks["C42"].AddOOSLoc(self.screen, (43, 42))
 
 		self.blocks["C41"] = Block(self, self.frame, "C41",
 			[
@@ -329,6 +345,8 @@ class Cliff (District):
 				(self.tiles["horiz"],          self.screen, (43, 40), True),
 			], False)
 		self.blocks["C41"].AddTrainLoc(self.screen, (28, 40))
+		self.blocks["C41"].AddOOSLoc(self.screen, (20, 40))
+		self.blocks["C41"].AddOOSLoc(self.screen, (43, 40))
 
 		self.blocks["C40"] = Block(self, self.frame, "C40",
 			[
@@ -353,6 +371,8 @@ class Cliff (District):
 				(self.tiles["horiznc"],        self.screen, (43, 38), False),
 			], False)
 		self.blocks["C40"].AddTrainLoc(self.screen, (28, 38))
+		self.blocks["C40"].AddOOSLoc(self.screen, (25, 38))
+		self.blocks["C40"].AddOOSLoc(self.screen, (43, 38))
 
 		self.blocks["C21"] = Block(self, self.frame, "C21",
 			[
@@ -377,6 +397,8 @@ class Cliff (District):
 				(self.tiles["horiznc"],        self.screen, (43, 36), False),
 			], False)
 		self.blocks["C21"].AddTrainLoc(self.screen, (28, 36))
+		self.blocks["C21"].AddOOSLoc(self.screen, (25, 36))
+		self.blocks["C21"].AddOOSLoc(self.screen, (43, 36))
 
 		self.blocks["C50"] = Block(self, self.frame, "C50",
 			[
@@ -401,6 +423,8 @@ class Cliff (District):
 				(self.tiles["horiznc"],        self.screen, (43, 34), False),
 			], False)
 		self.blocks["C50"].AddTrainLoc(self.screen, (28, 34))
+		self.blocks["C50"].AddOOSLoc(self.screen, (25, 34))
+		self.blocks["C50"].AddOOSLoc(self.screen, (43, 34))
 
 		self.blocks["C51"] = Block(self, self.frame, "C51",
 			[
@@ -413,6 +437,8 @@ class Cliff (District):
 				(self.tiles["horiznc"],        self.screen, (37, 32), False),
 			], False)
 		self.blocks["C51"].AddTrainLoc(self.screen, (32, 32))
+		self.blocks["C51"].AddOOSLoc(self.screen, (31, 32))
+		self.blocks["C51"].AddOOSLoc(self.screen, (37, 32))
 
 		self.blocks["C52"] = Block(self, self.frame, "C52",
 			[
@@ -425,6 +451,8 @@ class Cliff (District):
 				(self.tiles["horiznc"],        self.screen, (37, 30), False),
 			], False)
 		self.blocks["C52"].AddTrainLoc(self.screen, (32, 30))
+		self.blocks["C52"].AddOOSLoc(self.screen, (31, 30))
+		self.blocks["C52"].AddOOSLoc(self.screen, (37, 30))
 
 		self.blocks["C53"] = Block(self, self.frame, "C53",
 			[
@@ -437,6 +465,8 @@ class Cliff (District):
 				(self.tiles["horiznc"],        self.screen, (37, 28), False),
 			], False)
 		self.blocks["C53"].AddTrainLoc(self.screen, (32, 28))
+		self.blocks["C53"].AddOOSLoc(self.screen, (31, 28))
+		self.blocks["C53"].AddOOSLoc(self.screen, (37, 28))
 
 		self.blocks["C54"] = Block(self, self.frame, "C54",
 			[
@@ -449,6 +479,8 @@ class Cliff (District):
 				(self.tiles["horiznc"],        self.screen, (37, 26), False),
 			], False)
 		self.blocks["C54"].AddTrainLoc(self.screen, (32, 26))
+		self.blocks["C54"].AddOOSLoc(self.screen, (31, 26))
+		self.blocks["C54"].AddOOSLoc(self.screen, (37, 26))
 
 		self.blocks["COSSHE"] = OverSwitch(self, self.frame, "COSSHE",
 			[

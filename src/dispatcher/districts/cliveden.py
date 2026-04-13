@@ -113,6 +113,8 @@ class Cliveden (District):
 				(self.tiles["ssright"], self.screen,      (74, 13), False),
 			], False)
 		self.blocks["C13"].AddTrainLoc(self.screen, (75, 13))
+		self.blocks["C13"].AddOOSLoc(self.screen, (73, 13))
+		self.blocks["C13"].AddOOSLoc(self.screen, (81, 13))
 
 		self.blocks["C23"] = Block(self, self.frame, "C23",
 			[
@@ -127,6 +129,8 @@ class Cliveden (District):
 				(self.tiles["ssright"], self.screen,      (88, 13), False),
 			], False)
 		self.blocks["C23"].AddTrainLoc(self.screen, (90, 13))
+		self.blocks["C23"].AddOOSLoc(self.screen, (87, 13))
+		self.blocks["C23"].AddOOSLoc(self.screen, (94, 13))
 
 		self.blocks["C12"] = Block(self, self.frame, "C12",
 			[
@@ -142,6 +146,8 @@ class Cliveden (District):
 				(self.tiles["ssright"], self.screen,      (88, 15), False),
 			], False)
 		self.blocks["C12"].AddTrainLoc(self.screen, (90, 15))
+		self.blocks["C12"].AddOOSLoc(self.screen, (87, 15))
+		self.blocks["C12"].AddOOSLoc(self.screen, (94, 15))
 
 		self.blocks["C22"] = Block(self, self.frame, "C22",
 			[
@@ -153,6 +159,8 @@ class Cliveden (District):
 				(self.tiles["eobright"], self.screen,      (105, 13), False),
 			], False)
 		self.blocks["C22"].AddTrainLoc(self.screen, (102, 13))
+		self.blocks["C22"].AddOOSLoc(self.screen, (100, 13))
+		self.blocks["C22"].AddOOSLoc(self.screen, (105, 13))
 
 		self.blocks["C11"] = Block(self, self.frame, "C11",
 			[
@@ -186,6 +194,8 @@ class Cliveden (District):
 				(self.tiles["eobright"],       self.screen, (118, 30), False),
 			], True)
 		self.blocks["C11"].AddTrainLoc(self.screen, (102, 15))
+		self.blocks["C11"].AddOOSLoc(self.screen, (100, 15))
+		self.blocks["C11"].AddOOSLoc(self.screen, (118, 30))
 
 		self.blocks["COSCLW"] = OverSwitch(self, self.frame, "COSCLW",
 			[

@@ -114,13 +114,13 @@ class Node:
 			if self.errorCount >= MAX_ERRORCOUNT:
 				self.disabled = True
 				self.rr.RailroadEvent({"nodestatus": {"name":  nodeNames[self.address], "address": self.address, "enabled": 0 } })
-
-	def ReEnable(self):
-		msg = "Re-Enabling node %s(0x%2x)" % (nodeNames[self.address], self.address)
-		logging.info(msg)
-		self.goodCount = 0
-		self.errorCount = 0
-		self.disabled = False
+	#
+	# def ReEnable(self):
+	# 	msg = "Re-Enabling node %s(0x%2x)" % (nodeNames[self.address], self.address)
+	# 	logging.info(msg)
+	# 	self.goodCount = 0
+	# 	self.errorCount = 0
+	# 	self.disabled = False
 
 	def IsEnabled(self):
 		return not self.disabled
@@ -132,6 +132,10 @@ class Node:
 			return
 
 		self.disabled = not flag
+		if not self.disabled:
+			self.goodCount = 0
+			self.errorCount = 0
+
 		self.rr.RailroadEvent({"nodestatus": {"name": nodeNames[self.address], "address": self.address, "enabled": 1 if flag else 0}})
 
 	def GetChangedInputs(self):

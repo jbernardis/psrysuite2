@@ -97,7 +97,7 @@ class Settings:
 					self.rrserver.autoloadsnapshot = parseBoolean(value, True)
 
 				elif opt == "ignoredblocks":
-					self.rrserver.ignoredblocks = [x.strip() for x in value.split(",")]
+					self.rrserver.ignoredblocks = [x.strip() for x in value.split(",") if x.strip() != ""]
 
 				elif opt == "pendingdetectionlosscycles":
 					self.rrserver.pendingdetectionlosscycles = int(value)

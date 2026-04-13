@@ -226,11 +226,17 @@ class ServerMain:
 			self.socketServer.sendToOne(skt, addr, m)
 
 		nv = self.rr.GetNodeStatuses()
-		for addr, name, stat in nv:
-			m = {"nodestatus":{"address": addr, "name": name, "enabled": stat}}
+		for naddr, name, stat in nv:
+			m = {"nodestatus":{"address": naddr, "name": name, "enabled": stat}}
 			self.socketServer.sendToOne(skt, addr, m)
 
 		self.socketServer.sendToOne(skt, addr, {"end": {}})
+
+		f = self.clientList.GetFunctionAtAddress(addr)
+		if f == "DISPATCH":
+			ibl = self.rr.GetIgnoredBlocks()
+			if ibl is not None and len(ibl) > 0:
+				self.Alert("Ignoring blocks: %s" % ", ".join(ibl))
 
 	def sendTrainInfo(self, addr, skt):
 		for m in self.trainList.GetSetTrainCmds():
@@ -325,7 +331,8 @@ class ServerMain:
 			"debug":		self.DoDebug,
 			"debugflags":	self.DoDebugFlags,
 			"simulate": 	self.DoSimulate,
-			"ignore": 		self.DoIgnore,
+			# "ignore": 		self.DoIgnore,
+			"setignoredblocks":	self.DoSetIgnoredBlocks,
 
 			"dccspeed":		self.DoDCCSpeed,
 			"dccspeeds": 	self.DoDCCSpeeds,
@@ -1486,20 +1493,35 @@ class ServerMain:
 		self.trainList.Dump()
 
 	def DoIgnore(self, cmd):
+		pass
+		# try:
+		# 	settings.rrserver.ignoredblocks = cmd["blocks"]
+		# except KeyError:
+		# 	settings.rrserver.ignoredblocks = []
+		#
+		# logging.info("received ignore command: %s" % str(settings.rrserver.ignoredblocks))
+		# settings.SaveAll()
+		# self.rr.UpdateIgnoreList()
+		#
+		# p = {tag: cmd[tag] for tag in cmd if tag != "cmd"}
+		# resp = {"ignore": p}
+		# addrList = self.clientList.GetFunctionAddress("DISPATCH") + self.clientList.GetFunctionAddress("SATELLITE")
+		# for addr, skt in addrList:
+		# 	self.socketServer.sendToOne(skt, addr, resp)
+
+	def DoSetIgnoredBlocks(self, cmd):
+		logging.debug("Set ignored command: %s" % str(cmd))
 		try:
-			settings.rrserver.ignoredblocks = cmd["blocks"]
+			iblocks = cmd["blocks"]
 		except KeyError:
-			settings.rrserver.ignoredblocks = []
+			iblocks = []
 
-		logging.info("received ignore command: %s" % str(settings.rrserver.ignoredblocks))
-		settings.SaveAll()
-		self.rr.UpdateIgnoreList()
+		try:
+			persistent = cmd["persistent"][0] in [1, "1"]
+		except (KeyError, IndexError):
+			persistent = False
 
-		p = {tag: cmd[tag] for tag in cmd if tag != "cmd"}
-		resp = {"ignore": p}
-		addrList = self.clientList.GetFunctionAddress("DISPATCH") + self.clientList.GetFunctionAddress("SATELLITE")
-		for addr, skt in addrList:
-			self.socketServer.sendToOne(skt, addr, resp)
+		self.rr.SetIgnoredBlocks(iblocks, persistent)
 
 	def DoClose(self, cmd):
 		try:

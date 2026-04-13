@@ -1,9 +1,5 @@
-need an indicator on the screen to indicate a block out of service - a red X would do
-need a way to take a block out of service or put it back into service
 
 block oos interaction with fleeting
-
-inspection dialog - ignore blocks - must have
 
 when assigning an engineer to a train, if that train currently has an edit train dialog, that dialog is not updated.  This might be true for loco too.
 

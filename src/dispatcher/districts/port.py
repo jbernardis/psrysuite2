@@ -168,6 +168,7 @@ class Port (District):
 			[
 				(self.tiles["houtline"],  self.screen, (108, 18), False),
 			], True)
+		self.blocks["V10"].AddOOSLoc(self.screen, (108, 18))
 
 		self.blocks["V11"] = Block(self, self.frame, "V11",
 			[
@@ -175,6 +176,7 @@ class Port (District):
 				(self.tiles["houtline"],  self.screen, (113, 18), False),
 				(self.tiles["houtline"],  self.screen, (114, 18), False),
 			], False)
+		self.blocks["V11"].AddOOSLoc(self.screen, (114, 18))
 
 		self.blocks["P1"] = Block(self, self.frame, "P1",
 			[
@@ -187,6 +189,7 @@ class Port (District):
 				(self.tiles["eobright"],  self.screen, (99, 32), False),
 			], True)
 		self.blocks["P1"].AddTrainLoc(self.screen, (94, 32))
+		self.blocks["P1"].AddOOSLoc(self.screen, (99, 32))
 
 		self.blocks["P2"] = Block(self, self.frame, "P2",
 			[
@@ -203,6 +206,7 @@ class Port (District):
 				(self.tiles["eobright"], self.screen, (99, 30), False),
 			], True)
 		self.blocks["P2"].AddTrainLoc(self.screen, (90, 30))
+		self.blocks["P2"].AddOOSLoc(self.screen, (99, 30))
 
 		self.blocks["P3"] = Block(self, self.frame, "P3",
 			[
@@ -220,6 +224,7 @@ class Port (District):
 				(self.tiles["eobright"], self.screen, (100, 28), False),
 			], True)
 		self.blocks["P3"].AddTrainLoc(self.screen, (90, 28))
+		self.blocks["P3"].AddOOSLoc(self.screen, (100, 28))
 
 		self.blocks["P4"] = Block(self, self.frame, "P4",
 			[
@@ -238,6 +243,7 @@ class Port (District):
 				(self.tiles["eobright"], self.screen, (101, 26), False),
 			], True)
 		self.blocks["P4"].AddTrainLoc(self.screen, (90, 26))
+		self.blocks["P4"].AddOOSLoc(self.screen, (101, 26))
 
 		self.blocks["P5"] = Block(self, self.frame, "P5",
 			[
@@ -256,6 +262,7 @@ class Port (District):
 				(self.tiles["eobright"], self.screen, (101, 24), False),
 			], False)
 		self.blocks["P5"].AddTrainLoc(self.screen, (90, 24))
+		self.blocks["P5"].AddOOSLoc(self.screen, (101, 24))
 
 		self.blocks["P6"] = Block(self, self.frame, "P6",
 			[
@@ -268,6 +275,7 @@ class Port (District):
 				(self.tiles["eobright"], self.screen, (99, 22), False),
 			], False)
 		self.blocks["P6"].AddTrainLoc(self.screen, (94, 22))
+		self.blocks["P6"].AddOOSLoc(self.screen, (99, 22))
 
 		self.blocks["P7"] = Block(self, self.frame, "P7",
 			[
@@ -282,6 +290,7 @@ class Port (District):
 				(self.tiles["eobright"], self.screen, (97, 20), False),
 			], False)
 		self.blocks["P7"].AddTrainLoc(self.screen, (90, 20))
+		self.blocks["P7"].AddOOSLoc(self.screen, (97, 20))
 
 		self.blocks["P10"] = Block(self, self.frame, "P10",
 			[
@@ -297,6 +306,8 @@ class Port (District):
 				(self.tiles["ssleft"],   self.screen, (117, 24), False),
 				(self.tiles["horiz"],    self.screen, (118, 24), False),
 			], True)
+		self.blocks["P10"].AddOOSLoc(self.screen, (111, 24))
+		self.blocks["P10"].AddOOSLoc(self.screen, (118, 24))
 
 		self.blocks["P11"] = Block(self, self.frame, "P11",
 			[
@@ -346,6 +357,8 @@ class Port (District):
 				(self.tiles["eobleft"],  self.screen, (128, 24), False),
 				(self.tiles["ssright"],  self.screen, (129, 24), False),
 			], False)
+		self.blocks["P11"].AddOOSLoc(self.screen, (128, 24))
+		self.blocks["P11"].AddOOSLoc(LaKr, (7, 15))
 
 		self.blocks["P20"] = Block(self, self.frame, "P20",
 			[
@@ -361,6 +374,8 @@ class Port (District):
 				(self.tiles["ssleft"],   self.screen, (117, 26), False),
 				(self.tiles["horiz"],    self.screen, (118, 26), False),
 			], True)
+		self.blocks["P20"].AddOOSLoc(self.screen, (111, 26))
+		self.blocks["P20"].AddOOSLoc(self.screen, (118, 26))
 
 		self.blocks["P21"] = Block(self, self.frame, "P21",
 			[
@@ -408,6 +423,8 @@ class Port (District):
 				(self.tiles["ssleft"],   LaKr, (6, 17), False),
 				(self.tiles["eobright"], LaKr, (7, 17), False),
 			], True)
+		self.blocks["P21"].AddOOSLoc(self.screen, (128, 26))
+		self.blocks["P21"].AddOOSLoc(LaKr, (7, 17))
 
 		self.blocks["P30"] = Block(self, self.frame, "P30",
 			[
@@ -425,6 +442,8 @@ class Port (District):
 				(self.tiles["ssrightleft"], self.screen, (117, 33), False),
 				(self.tiles["eobright"], self.screen, (118, 33), False),
 			], False)
+		self.blocks["P30"].AddOOSLoc(self.screen, (118, 28))
+		self.blocks["P30"].AddOOSLoc(self.screen, (118, 33))
 
 		self.blocks["P31"] = Block(self, self.frame, "P31",
 			[
@@ -442,6 +461,8 @@ class Port (District):
 				(self.tiles["ssleft"],  self.screen, (133, 33), False),
 				(self.tiles["eobright"], self.screen, (134, 33), False),
 			], True)
+		self.blocks["P31"].AddOOSLoc(self.screen, (127, 33))
+		self.blocks["P31"].AddOOSLoc(self.screen, (134, 33))
 
 		self.blocks["P32"] = Block(self, self.frame, "P32",
 			[
@@ -473,6 +494,10 @@ class Port (District):
 			], False)
 		self.blocks["P32"].AddTrainLoc(self.screen, (152, 30))
 		self.blocks["P32"].AddTrainLoc(LaKr, (110, 24))
+		self.blocks["P32"].AddOOSLoc(self.screen, (143, 33))
+		self.blocks["P32"].AddOOSLoc(self.screen, (150, 28))
+		self.blocks["P32"].AddOOSLoc(LaKr, (110, 21))
+
 		self.blocks["P32"].AddStoppingBlock([
 				(self.tiles["horiz"],         self.screen, (143, 33), False),
 				(self.tiles["ssright"],       self.screen, (144, 33), False),
@@ -519,6 +544,8 @@ class Port (District):
 			], False)
 		self.blocks["P33"].AddTrainLoc(self.screen, (148, 24))
 		self.blocks["P33"].AddTrainLoc(LaKr, (101, 24))
+		self.blocks["P33"].AddOOSLoc(self.screen, (150, 27))
+		self.blocks["P33"].AddOOSLoc(LaKr, (103, 23))
 
 		self.blocks["P40"] = Block(self, self.frame, "P40",
 			[
@@ -533,6 +560,8 @@ class Port (District):
 				(self.tiles["ssleft"],  self.screen, (117, 35), False),
 				(self.tiles["eobright"], self.screen, (118, 35), False),
 			], True)
+		self.blocks["P40"].AddOOSLoc(self.screen, (112, 35))
+		self.blocks["P40"].AddOOSLoc(self.screen, (118, 35))
 
 		self.blocks["P41"] = Block(self, self.frame, "P41",
 			[
@@ -549,6 +578,8 @@ class Port (District):
 				(self.tiles["ssleft"],   self.screen, (133, 35), False),
 				(self.tiles["eobright"], self.screen, (134, 35), False),
 			], True)
+		self.blocks["P41"].AddOOSLoc(self.screen, (127, 35))
+		self.blocks["P41"].AddOOSLoc(self.screen, (134, 35))
 
 		self.blocks["P42"] = Block(self, self.frame, "P42",
 			[
@@ -574,6 +605,8 @@ class Port (District):
 				(self.tiles["ssleft"],    LaKr,        (112, 15), False),
 				(self.tiles["eobright"], LaKr,        (113, 15), False),
 			], True)
+		self.blocks["P42"].AddOOSLoc(self.screen, (143, 35))
+		self.blocks["P42"].AddOOSLoc(LaKr, (113, 15))
 
 		self.blocks["P50"] = Block(self, self.frame, "P50",
 			[
@@ -602,6 +635,8 @@ class Port (District):
 				(self.tiles["ssrightright"], self.screen, (138, 15), False),
 				(self.tiles["horiz"],    self.screen, (137, 15), True),
 			], True)
+		self.blocks["P50"].AddOOSLoc(self.screen, (128, 22))
+		self.blocks["P50"].AddOOSLoc(self.screen, (137, 15))
 
 		self.blocks["P60"] = Block(self, self.frame, "P60",
 			[
@@ -615,6 +650,8 @@ class Port (District):
 				(self.tiles["houtline"],  self.screen, (115, 20), False),
 			], False)
 		self.blocks["P60"].AddTrainLoc(self.screen, (109, 20))
+		self.blocks["P60"].AddOOSLoc(self.screen, (108, 20))
+		self.blocks["P60"].AddOOSLoc(self.screen, (115, 20))
 
 		self.blocks["P61"] = Block(self, self.frame, "P61",
 			[
@@ -631,6 +668,8 @@ class Port (District):
 				(self.tiles["houtline"],  self.screen, (117, 22), False),
 			], False)
 		self.blocks["P61"].AddTrainLoc(self.screen, (109, 22))
+		self.blocks["P61"].AddOOSLoc(self.screen, (107, 22))
+		self.blocks["P61"].AddOOSLoc(self.screen, (117, 22))
 
 		self.blocks["P62"] = Block(self, self.frame, "P62",
 			[
@@ -638,6 +677,7 @@ class Port (District):
 				(self.tiles["houtline"],  self.screen, (111, 28), False),
 				(self.tiles["houtline"],  self.screen, (112, 28), False),
 			], True)
+		self.blocks["P62"].AddOOSLoc(self.screen, (110, 28))
 
 		self.blocks["P63"] = Block(self, self.frame, "P63",
 			[
@@ -645,11 +685,13 @@ class Port (District):
 				(self.tiles["houtline"],  self.screen, (113, 30), False),
 				(self.tiles["houtline"],  self.screen, (114, 30), False),
 			], True)
+		self.blocks["P63"].AddOOSLoc(self.screen, (112, 30))
 
 		self.blocks["P64"] = Block(self, self.frame, "P64",
 			[
 				(self.tiles["houtline"],  self.screen, (113, 32), False),
 			], True)
+		self.blocks["P64"].AddOOSLoc(self.screen, (113, 32))
 
 		self.blocks["POSCJ1"] = OverSwitch(self, self.frame, "POSCJ1",
 			[

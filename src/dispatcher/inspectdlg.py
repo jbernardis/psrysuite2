@@ -171,7 +171,7 @@ class InspectDlg(wx.Dialog):
         try:
             self.dlgRelays.Raise()
         except (AttributeError, RuntimeError):
-            self.dlgRelays = RelayDlg(self, rl)
+            self.dlgRelays = RelayDlg(self, self.parent, rl)
             self.dlgRelays.Show()
 
     def ActivateRelay(self, relay, activate=True):
@@ -218,7 +218,7 @@ class InspectDlg(wx.Dialog):
     def OnBTurnoutLocks(self, _):
         lks = self.GetTurnoutLocks()
 
-        dlg = TurnoutLocksDlg(self, lks)
+        dlg = TurnoutLocksDlg(self, self.parent, lks)
         dlg.Show()
 
     def GetTurnoutLocks(self):
@@ -324,7 +324,7 @@ class InspectDlg(wx.Dialog):
         try:
             self.dlgNodeStatus.Raise()
         except (AttributeError, RuntimeError):
-            self.dlgNodeStatus = NodeStatusDlg(self, nodeList, self.parent.GetNodes)
+            self.dlgNodeStatus = NodeStatusDlg(self, self.parent, nodeList, self.parent.GetNodes)
             self.dlgNodeStatus.Show()
 
     def ReEnableNode(self, ndName, address):
@@ -1005,6 +1005,7 @@ class OOSIgnoreBlocksDlg(wx.Dialog):
         self.frame = frame
 
         self.gridMap = {}
+        self.ignoredBlocks = []
         bdata = self.BuildBlockData()
 
         self.colorGreen = wx.Colour(119, 215, 126)
@@ -1029,6 +1030,7 @@ class OOSIgnoreBlocksDlg(wx.Dialog):
 
         self.grid = gridlib.Grid(self, size=(sum(colWidth) + 20, ht))
         self.Bind(gridlib.EVT_GRID_CELL_LEFT_CLICK, self.OnGridClick, self.grid)
+        self.grid.GetGridWindow().Bind(wx.EVT_MOTION, self.OnGridMotion)
         self.grid.CreateGrid(nRows, nCols)
         self.grid.EnableGridLines(True)
         self.grid.SetGridLineColour(wx.BLACK)
@@ -1061,6 +1063,13 @@ class OOSIgnoreBlocksDlg(wx.Dialog):
 
         vsz.AddSpacer(20)
 
+        self.cbPersist = wx.CheckBox(self, wx.ID_ANY, "Persist \"Ignore\"")
+        self.cbPersist.SetValue(False)
+        self.Bind(wx.EVT_CHECKBOX, self.OnCbPersist, self.cbPersist)
+        vsz.Add(self.cbPersist, 0, wx.ALIGN_CENTER_HORIZONTAL)
+
+        vsz.AddSpacer(10)
+
         bRefresh = wx.Button(self, wx.ID_ANY, "Refresh", size=(100, 30))
         self.Bind(wx.EVT_BUTTON, self.OnBRefresh, bRefresh)
         vsz.Add(bRefresh, 0, wx.ALIGN_CENTER_HORIZONTAL)
@@ -1070,6 +1079,22 @@ class OOSIgnoreBlocksDlg(wx.Dialog):
         self.SetSizer(vsz)
         self.Fit()
         self.Layout()
+
+    def GetIgnoredBlocks(self):
+        bl = self.frame.Get("getignoredblocks", {})
+
+        if bl is None:
+            return []
+
+        return bl
+
+    def OnCbPersist(self, _):
+        if self.cbPersist.IsChecked():
+            self.frame.Request({"setignoredblocks": {"blocks": self.ignoredBlocks, "persistent": 1}})
+            wx.CallLater(200, self.DoRefresh)
+
+    def OnGridMotion(self, _):
+        pass
 
     def OnGridClick(self, evt):
         r = evt.GetRow()
@@ -1086,16 +1111,22 @@ class OOSIgnoreBlocksDlg(wx.Dialog):
 
         if c == 1:
             self.frame.PopupEvent("set block %s ignored to %s" % (bname, str(not ignored)))
+            if not ignored:
+                if bname not in self.ignoredBlocks:
+                     self.ignoredBlocks.append(bname)
+            else:
+                if bname in self.ignoredBlocks:
+                    self.ignoredBlocks.remove(bname)
+
+            persist = 1 if self.cbPersist.IsChecked() else 0
+            self.frame.Request({"setignoredblocks": {"blocks": self.ignoredBlocks, "persistent": persist}})
+
         else:
             self.frame.Request({"blockoos": {"name": bname, "oos": 0 if oos else 1}})
             text = "Out Of" if not oos else "Back In"
-            dlg = wx.MessageDialog(self,
-                        "Block %s %s Service requested" % (bname, text),
-                        "Block %s Service" % text, wx.OK | wx.ICON_INFORMATION)
-            dlg.ShowModal()
-            dlg.Destroy()
+            self.frame.PopupEvent("Block %s %s Service requested" % (bname, text))
 
-        self.DoRefresh()
+        wx.CallLater(200, self.DoRefresh)
 
     def OnBRefresh(self, _):
         self.DoRefresh()
@@ -1103,11 +1134,13 @@ class OOSIgnoreBlocksDlg(wx.Dialog):
     def DoRefresh(self):
         bdata = self.BuildBlockData()
         self.LoadGrid(bdata)
+        self.grid.ClearSelection()
         self.grid.Refresh()
 
     def BuildBlockData(self):
         bl = self.frame.blocks
-        bdata = {bn: {"ignored": False, "oos": bl[bn].IsOOS()} for bn in bl.keys() if not bl[bn].IsOS()}
+        self.ignoredBlocks = self.GetIgnoredBlocks()
+        bdata = {bn: {"ignored": bn in self.ignoredBlocks, "oos": bl[bn].IsOOS()} for bn in bl.keys() if not bl[bn].IsOS()}
         return bdata
 
     def LoadGrid(self, bdata):
@@ -1122,7 +1155,7 @@ class OOSIgnoreBlocksDlg(wx.Dialog):
             self.grid.SetCellValue(row, 2, str(bdata[bn]["oos"]))
             row += 1
 
-        self.grid.Refresh()
+        wx.CallLater(100, self.grid.Refresh)
 
     def OnClose(self, _):
         self.Destroy()
@@ -1266,10 +1299,11 @@ class ScannerDlg(wx.Dialog):
 
 
 class RelayDlg(wx.Dialog):
-    def __init__(self, parent, rl):
+    def __init__(self, parent, frame, rl):
         wx.Dialog.__init__(self, parent, wx.ID_ANY, "Stopping Relays", style=wx.DEFAULT_DIALOG_STYLE | wx.STAY_ON_TOP)
         self.Bind(wx.EVT_CLOSE, self.OnClose)
         self.parent = parent
+        self.frame = frame
 
         self.colorGreen = wx.Colour(119, 215, 126)
         self.colorRed = wx.Colour(224, 149, 149)
@@ -1281,6 +1315,7 @@ class RelayDlg(wx.Dialog):
         self.relayList = rl
         self.relayGrid = self.RelayGrid()
         self.Bind(gridlib.EVT_GRID_CELL_LEFT_CLICK, self.OnGridClick, self.relayGrid)
+        self.relayGrid.GetGridWindow().Bind(wx.EVT_MOTION, self.OnGridMotion)
         vsz.Add(self.relayGrid, 0, wx.ALIGN_CENTER_HORIZONTAL)
 
         vsz.AddSpacer(10)
@@ -1310,6 +1345,9 @@ class RelayDlg(wx.Dialog):
         self.Layout()
         self.Fit()
 
+    def OnGridMotion(self, _):
+        pass
+
     def OnGridClick(self, evt):
         shift = evt.ShiftDown()
         r = evt.GetRow()
@@ -1325,12 +1363,8 @@ class RelayDlg(wx.Dialog):
         if shift:
             status = not status
         self.parent.ActivateRelay(rname, not status)
-        dlg = wx.MessageDialog(self,
-                    "Stop Relay %s %s requested" % (rname, "Activation" if not status else "Deactivation"),
-                    "Stop Relay Status", wx.OK | wx.ICON_INFORMATION)
-        dlg.ShowModal()
-        dlg.Destroy()
-        self.DoRefresh()
+        self.frame.PopupEvent("Stop Relay %s %s requested" % (rname, "Activation" if not status else "Deactivation"))
+        wx.CallLater(200, self.DoRefresh)
 
     def OnClose(self, evt):
         self.Destroy()
@@ -1341,6 +1375,7 @@ class RelayDlg(wx.Dialog):
     def DoRefresh(self):
         self.relayList = self.parent.GetRelayList()
         self.LoadGrid(self.relayGrid)
+        self.relayGrid.ClearSelection()
         self.relayGrid.Refresh()
 
     def RelayGrid(self):
@@ -1393,12 +1428,15 @@ class RelayDlg(wx.Dialog):
             grid.SetCellValue(row, 1, "Active" if status else "Inactive")
             row += 1
 
+        wx.CallLater(100, grid.Refresh)
+
 
 class TurnoutLocksDlg(wx.Dialog):
-    def __init__(self, parent, tll):
+    def __init__(self, parent, frame, tll):
         wx.Dialog.__init__(self, parent, wx.ID_ANY, "Turnout Locks", style=wx.DEFAULT_DIALOG_STYLE | wx.STAY_ON_TOP)
         self.Bind(wx.EVT_CLOSE, self.OnClose)
         self.parent = parent
+        self.frame = frame
 
         self.colorGreen = wx.Colour(119, 215, 126)
         self.colorRed = wx.Colour(224, 149, 149)
@@ -1410,6 +1448,7 @@ class TurnoutLocksDlg(wx.Dialog):
         self.lockList = tll
         self.lockGrid = self.TurnoutLocksGrid()
         self.Bind(gridlib.EVT_GRID_CELL_LEFT_CLICK, self.OnGridClick, self.lockGrid)
+        self.lockGrid.GetGridWindow().Bind(wx.EVT_MOTION, self.OnGridMotion)
         vsz.Add(self.lockGrid, 0, wx.ALIGN_CENTER_HORIZONTAL)
 
         vsz.AddSpacer(10)
@@ -1437,6 +1476,9 @@ class TurnoutLocksDlg(wx.Dialog):
         self.Layout()
         self.Fit()
 
+    def OnGridMotion(self, _):
+        pass
+
     def OnGridClick(self, evt):
         r = evt.GetRow()
         c = evt.GetCol()
@@ -1452,12 +1494,8 @@ class TurnoutLocksDlg(wx.Dialog):
 
         tname = self.gridMap[r][0]
         self.parent.ClearLock(tname)
-        dlg = wx.MessageDialog(self,
-                    "Turnout %s unlock requested" % tname,
-                    "Turnout Lock Status", wx.OK | wx.ICON_INFORMATION)
-        dlg.ShowModal()
-        dlg.Destroy()
-        self.DoRefresh()
+        self.frame.PopupEvent("Turnout %s unlock requested" % tname)
+        wx.CallLater(200, self.DoRefresh)
 
     def OnClose(self, evt):
         self.Destroy()
@@ -1468,6 +1506,7 @@ class TurnoutLocksDlg(wx.Dialog):
     def DoRefresh(self):
         self.lockList = self.parent.GetTurnoutLocks()
         self.LoadGrid(self.lockGrid)
+        self.lockGrid.ClearSelection()
         self.lockGrid.Refresh()
 
     def TurnoutLocksGrid(self):
@@ -1816,10 +1855,11 @@ class OSProxyListCtrl(wx.ListCtrl):
 
 
 class NodeStatusDlg(wx.Dialog):
-    def __init__(self, parent, ndata, cbRefresh=None):
+    def __init__(self, parent, frame, ndata, cbRefresh=None):
         wx.Dialog.__init__(self, parent, wx.ID_ANY, "Node Status")
         self.Bind(wx.EVT_CLOSE, self.OnCancel)
         self.parent = parent
+        self.frame = frame
         self.cbRefresh = cbRefresh
 
         self.gridMap = []
@@ -1834,6 +1874,7 @@ class NodeStatusDlg(wx.Dialog):
         vszr.Add(g, 0, wx.LEFT | wx.RIGHT, 20)
         self.grid = g
         self.Bind(gridlib.EVT_GRID_CELL_LEFT_CLICK, self.OnGridClick, self.grid)
+        self.grid.GetGridWindow().Bind(wx.EVT_MOTION, self.OnGridMotion)
 
         vszr.AddSpacer(10)
         tc = wx.StaticText(self, wx.ID_ANY, "Click on status to re-enable")
@@ -1856,6 +1897,9 @@ class NodeStatusDlg(wx.Dialog):
         self.Fit();
         self.CenterOnScreen()
 
+    def OnGridMotion(self, _):
+        pass
+
     def OnGridClick(self, evt):
         r = evt.GetRow()
         c = evt.GetCol()
@@ -1873,12 +1917,8 @@ class NodeStatusDlg(wx.Dialog):
             return
 
         self.parent.ReEnableNode(rname, addr)
-        dlg = wx.MessageDialog(self,
-                    "Node %s re-enable requested" % rname,
-                    "Node Status", wx.OK | wx.ICON_INFORMATION)
-        dlg.ShowModal()
-        dlg.Destroy()
-        self.DoRefresh()
+        self.frame.PopupEvent("Node %s re-enable requested" % rname)
+        wx.CallLater(200, self.DoRefresh)
 
     def GetDisabled(self):
         rv = []
@@ -1895,6 +1935,7 @@ class NodeStatusDlg(wx.Dialog):
         ndata = self.cbRefresh()
         self.nodeinfo = sorted(ndata, key=lambda x: x[1])
         self.LoadGrid(self.grid)
+        self.grid.ClearSelection()
 
     def OnCancel(self, _):
         self.Destroy()

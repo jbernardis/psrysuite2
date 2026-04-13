@@ -1001,6 +1001,7 @@ class MainFrame(wx.Frame):
 		self.SetTitle(titleString)
 
 	def Initialize(self, districtMap):
+		logging.debug("iN MAINFRAME initialize")
 		self.CreateDispatchTable()
 		self.listener = None
 		self.ShowTitle()
@@ -2604,9 +2605,9 @@ class MainFrame(wx.Frame):
 
 	def SetStoppingRelays(self, bn, flag=False, force=False):
 		self.Request({"setrelay": {"name": bn, "flag": 1 if flag else 0}})
-
-	def SetIgnoredBlocks(self, igList):
-		self.Request({"ignore": {"blocks": igList}})
+	#
+	# def SetIgnoredBlocks(self, igList):
+	# 	self.Request({"ignore": {"blocks": igList}})
 
 	def AllSignalsNeutral(self):
 		for s in self.signals.values():
@@ -2668,7 +2669,7 @@ class MainFrame(wx.Frame):
 			# "trainblockorder":	self.DoCmdTrainBlockOrder,
 			"preload":			self.DoCmdPreload,
 			"nodestatus":		self.DoCmdNodeStatus,
-			"ignore":			self.DoCmdIgnore,
+			# "ignore":			self.DoCmdIgnore,
 		}
 		
 	def DoCmdNOOP(self, _):
@@ -3002,14 +3003,14 @@ class MainFrame(wx.Frame):
 
 	# def DoCmdBlockClear(self, parms):
 	# 	pass
-
-	def DoCmdIgnore(self, parms):
-		try:
-			iglist = parms["blocks"]
-		except KeyError:
-			iglist = []
-		self.settings.rrserver.ignoredblocks = iglist
-		logging.info("setting ignored blocks list to: %s" % str(iglist))
+	#
+	# def DoCmdIgnore(self, parms):
+	# 	try:
+	# 		iglist = parms["blocks"]
+	# 	except KeyError:
+	# 		iglist = []
+	# 	self.settings.rrserver.ignoredblocks = iglist
+	# 	logging.info("setting ignored blocks list to: %s" % str(iglist))
 
 	def DoCmdShowAspect(self, parms):
 		for p in parms:

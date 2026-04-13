@@ -8,6 +8,7 @@ AR       = 40
 
 functions = [ "DISPATCH", "DISPLAY", "ATC", "AR" ]
 
+
 class ClientList:
 	def __init__(self, parent):
 		self.sids = []
@@ -21,7 +22,6 @@ class ClientList:
 		if addr in self.clientList:
 			return
 
-		logging.info("Adding new client from %s:%s" % (addr[0], addr[1]))
 		self.clientList.append(addr)
 		self.sids.append(sid)
 		self.skts.append(skt)

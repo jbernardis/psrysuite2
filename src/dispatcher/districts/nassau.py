@@ -477,6 +477,8 @@ class Nassau (District):
 			], True)
 		self.blocks["N21"].AddTrainLoc(LaKr, (154, 13))
 		self.blocks["N21"].AddTrainLoc(self.screen, (1, 13))
+		self.blocks["N21"].AddOOSLoc(LaKr, (150, 13))
+		self.blocks["N21"].AddOOSLoc(self.screen, (7, 13))
 
 		self.blocks["N32"] = Block(self, self.frame, "N32",
 			[
@@ -490,6 +492,8 @@ class Nassau (District):
 				(self.tiles["horiznc"], self.screen, (28, 7), False),
 			], False)
 		self.blocks["N32"].AddTrainLoc(self.screen, (23, 7))
+		self.blocks["N32"].AddOOSLoc(self.screen, (21, 7))
+		self.blocks["N32"].AddOOSLoc(self.screen, (28, 7))
 
 		self.blocks["N31"] = Block(self, self.frame, "N31",
 			[
@@ -503,6 +507,8 @@ class Nassau (District):
 				(self.tiles["horiznc"], self.screen, (28, 9), False),
 			], False)
 		self.blocks["N31"].AddTrainLoc(self.screen, (23, 9))
+		self.blocks["N31"].AddOOSLoc(self.screen, (21, 9))
+		self.blocks["N31"].AddOOSLoc(self.screen, (28, 9))
 
 		self.blocks["N12"] = Block(self, self.frame, "N12",
 			[
@@ -516,6 +522,8 @@ class Nassau (District):
 				(self.tiles["horiznc"], self.screen, (28, 11), False),
 			], False)
 		self.blocks["N12"].AddTrainLoc(self.screen, (23, 11))
+		self.blocks["N12"].AddOOSLoc(self.screen, (21, 11))
+		self.blocks["N12"].AddOOSLoc(self.screen, (28, 11))
 
 		self.blocks["N22"] = Block(self, self.frame, "N22",
 			[
@@ -529,6 +537,8 @@ class Nassau (District):
 				(self.tiles["horiznc"], self.screen, (28, 13), False),
 			], True)
 		self.blocks["N22"].AddTrainLoc(self.screen, (23, 13))
+		self.blocks["N22"].AddOOSLoc(self.screen, (21, 13))
+		self.blocks["N22"].AddOOSLoc(self.screen, (28, 13))
 
 		self.blocks["N41"] = Block(self, self.frame, "N41",
 			[
@@ -542,6 +552,8 @@ class Nassau (District):
 				(self.tiles["horiznc"], self.screen, (28, 15), False),
 			], True)
 		self.blocks["N41"].AddTrainLoc(self.screen, (23, 15))
+		self.blocks["N41"].AddOOSLoc(self.screen, (21, 15))
+		self.blocks["N41"].AddOOSLoc(self.screen, (28, 15))
 
 		self.blocks["N42"] = Block(self, self.frame, "N42",
 			[
@@ -555,6 +567,8 @@ class Nassau (District):
 				(self.tiles["horiznc"], self.screen, (28, 17), False),
 			], True)
 		self.blocks["N42"].AddTrainLoc(self.screen, (23, 17))
+		self.blocks["N42"].AddOOSLoc(self.screen, (21, 17))
+		self.blocks["N42"].AddOOSLoc(self.screen, (28, 17))
 
 		self.blocks["W20"] = Block(self, self.frame, "W20",
 			[
@@ -565,6 +579,8 @@ class Nassau (District):
 				(self.tiles["houtline"],  self.screen, (29, 19), False),
 				(self.tiles["houtline"],  self.screen, (30, 19), False),
 			], True)
+		self.blocks["W20"].AddOOSLoc(self.screen, (22, 19))
+		self.blocks["W20"].AddOOSLoc(self.screen, (30, 19))
 
 		self.blocks["R10"] = Block(self, self.frame, "R10",
 			[
@@ -583,6 +599,7 @@ class Nassau (District):
 				(self.tiles["ssright"],  self.screen, (46, 9), False),
 			], False)
 		self.blocks["R10"].AddTrainLoc(self.screen, (47, 9))
+		self.blocks["R10"].AddOOSLoc(self.screen, (45, 9))
 
 		self.blocks["B10"] = Block(self, self.frame, "B10",
 			[
@@ -598,6 +615,8 @@ class Nassau (District):
 				(self.tiles["ssright"],  self.screen, (46, 11), False),
 			], False)
 		self.blocks["B10"].AddTrainLoc(self.screen, (47, 11))
+		self.blocks["B10"].AddOOSLoc(self.screen, (45, 11))
+		self.blocks["B10"].AddOOSLoc(self.screen, (52, 11))
 
 		self.blocks["W10"] = Block(self, self.frame, "W10",
 			[
@@ -605,6 +624,7 @@ class Nassau (District):
 				(self.tiles["houtline"],  self.screen, (22, 5), False),
 				(self.tiles["houtline"],  self.screen, (23, 5), False),
 			], False)
+		self.blocks["W10"].AddOOSLoc(self.screen, (21, 5))
 
 		self.blocks["W11"] = Block(self, self.frame, "W11",
 			[
@@ -612,12 +632,14 @@ class Nassau (District):
 				(self.tiles["houtline"],  self.screen, (30, 5), False),
 				(self.tiles["houtline"],  self.screen, (31, 5), False),
 			], False)
+		self.blocks["W11"].AddOOSLoc(self.screen, (31, 5))
 
 		self.blocks["T12"] = Block(self, self.frame, "T12",
 			[
 				(self.tiles["houtline"],  self.screen, (14, 5), False),
 				(self.tiles["houtline"],  self.screen, (15, 5), False),
 			], False)
+		self.blocks["T12"].AddOOSLoc(self.screen, (15, 5))
 
 		self.blocks["N60"] = OverSwitch(self, self.frame, "N60",
 			[
@@ -644,6 +666,7 @@ class Nassau (District):
 				(self.tiles["houtline"],  self.screen, (2, 9), False),
 				(self.tiles["houtline"],  self.screen, (3, 9), False),
 			], True)
+		self.blocks["N60"].AddOOSLoc(self.screen, (8, 9))
 
 		self.blocks["NWOSTY"] = OverSwitch(self, self.frame, "NWOSTY", 
 			[
