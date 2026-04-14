@@ -2237,7 +2237,9 @@ class Railroad:
 			if mname in self.PendingFleetActions:
 				sig, osblk, rteNm = self.PendingFleetActions[mname]
 				del self.PendingFleetActions[mname]
-				if osblk is None or rteNm is None or osblk.ActiveRouteName() == rteNm:
+				if blk.IsOOS():
+					self.Alert("Signal %s not Fleeted - Block %s is Out of Service" % (sig.Name(), blk.MainBlockName()))
+				elif osblk is None or rteNm is None or osblk.ActiveRouteName() == rteNm:
 					osName = osblk.Name()
 					try:
 						a = self.CalculateAspect(sig, osName, False, False, None, True)
