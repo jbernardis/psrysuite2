@@ -1,5 +1,5 @@
-requests == 2.28.2
+requests == 2.33.1
 pyserial == 3.5
-wxPython == 4.2.0
+wxPython == 4.2.5
 winshell == 0.6
 qrcode == 8.2

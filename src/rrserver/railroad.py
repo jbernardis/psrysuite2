@@ -476,7 +476,6 @@ class Railroad:
 			self.RailroadEvent(tr.GetEventMessage())
 
 	def LoadSnapshot(self, fn):
-
 		snapList = GetSnapList()
 		if len(snapList) == 0:
 			logging.info("No snapshot files to load - skipping")

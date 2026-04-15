@@ -148,6 +148,7 @@ class HTTPServer:
 		return self.server
 
 	def ApplySnapshot(self, ssdata):
+		self.rr.ScrubTrains()
 		self.rr.ApplySnapshot(ssdata)
 
 	def ApplyPreload(self, pldata):

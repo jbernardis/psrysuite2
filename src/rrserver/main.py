@@ -1430,6 +1430,7 @@ class ServerMain:
 	def DoLoadSnapshot(self, cmd):
 		filename = cmd["filename"][0]
 		fn = os.path.join(os.getcwd(), "data", "snapshots", filename)
+		self.Alert("Load snapshot %s" % fn)
 		self.rr.LoadSnapshot(filename)
 
 	def DoServer(self, cmd):
