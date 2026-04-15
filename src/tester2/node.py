@@ -106,7 +106,7 @@ class Node:
 			return None
 
 		ib = self.ibuf[byte]
-		v = getBit(ib, 7-bit)
+		v = getBit(ib, bit)
 		return v
 
 	def setbit(self, byte, bit, value):
