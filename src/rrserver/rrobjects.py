@@ -1355,7 +1355,19 @@ class Signal:
 		msg = {"showaspect": [{ "signal": self.name, "aspect": self.aspect, "aspecttype": self.aspectType, "frozenaspect": self.frozenaspect}]}
 
 		return msg
-		
+
+	def ForBitMap(self):
+		result = {self.name: {"aspect": [self.bits, self.address]}}
+
+		indList = []
+		for _, _, addr, bits in self.indicators:
+			indList.append([self.bits, self.address])
+
+		if len(indList) > 0:
+			result[self.name]["indicators"] = indList
+
+		return result
+
 	def dump(self):
 		addr = "None" if self.address is None else ("%x" % self.address)
 		logging.info("%s: district: %s  addr: %s, bits: %s" % (self.name, "None" if self.district is None else self.district.name, addr, str(self.bits)))

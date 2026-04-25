@@ -49,6 +49,8 @@ class InspectDlg(wx.Dialog):
         self.Bind(wx.EVT_BUTTON, self.OnBRoutes, bRoutes)
         bNodes = wx.Button(self, wx.ID_ANY, "Node Status", size=BSIZE)
         self.Bind(wx.EVT_BUTTON, self.OnBNodes, bNodes)
+        bSigTool = wx.Button(self, wx.ID_ANY, "Signal Tester", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBSignalTester, bSigTool)
         bTester = wx.Button(self, wx.ID_ANY, "Tester", size=BSIZE)
         self.Bind(wx.EVT_BUTTON, self.OnBStartTester, bTester)
         bRelays = wx.Button(self, wx.ID_ANY, "Stop Relays", size=BSIZE)
@@ -79,7 +81,7 @@ class InspectDlg(wx.Dialog):
         buttonCols = [[bDebug, bLogLevel, bNodes, bRelays],
                     [bAuditTrains, bActiveTrains, bRoutes, bAdjacency, bProxies],
                     [bToLocks, bLevers, bHandSwitches, bResetBlks, bIgnoreBlks],
-                    [bTester, bMonitor, bHilite]]
+                    [bSigTool, bTester, bMonitor, bHilite]]
 
         if self.parent.IsDispatcherOrSatellite() and self.settings.scanner.enable:
             bScanner = wx.Button(self, wx.ID_ANY, "Scanner", size=BSIZE)
@@ -125,6 +127,12 @@ class InspectDlg(wx.Dialog):
         except (AttributeError, RuntimeError):
             self.dlgHilite = HiliteDlg(self, self.parent)
             self.dlgHilite.Show()
+
+    def OnBSignalTester(self, _):
+        Exec = os.path.join(os.getcwd(), "sigtool", "main.py")
+        Proc = Popen([sys.executable, Exec])
+
+        logging.info("Signal tester started as PID %d" % Proc.pid)
 
     def OnBStartTester(self, _):
         Exec = os.path.join(os.getcwd(), "tester2", "main.py")

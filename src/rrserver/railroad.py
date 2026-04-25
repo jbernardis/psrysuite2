@@ -327,6 +327,10 @@ class Railroad:
 		for rt in self.routesIn.values():
 			rilist.update(rt.ForBitMap())
 
+		siglist = {}
+		for s in self.signals.values():
+			siglist.update(s.ForBitMap())
+
 		sllist = {}
 		for sl in self.signalLevers.values():
 			sllist.update(sl.ForBitMap())
@@ -341,6 +345,7 @@ class Railroad:
 			"breakers": brklist,
 			"routesin": rilist,
 			"siglevers": sllist,
+			"signals": siglist,
 			"handswitches": hslist
 		}
 		fn = os.path.join(os.getcwd(), "data", "iobits.json")
@@ -1733,6 +1738,14 @@ class Railroad:
 			if addr in dnodes:
 				for i in range(len(vbytes)):
 					dnodes[addr].SetInputBit(vbytes[i], vbits[i], 1 if vals[i] != 0 else 0)
+
+	def SetOutputBitByAddr(self, addr, vbytes, vbits, vals):
+		# this routine handles the setoutbit command from HTTP server
+		logging.debug("setoutputbit addr %s bytes %s  bits %s vals %s" % (addr, str(vbytes), str(vbits), str(vals)))
+		for dnodes in self.nodes.values():
+			if addr in dnodes:
+				for i in range(len(vbytes)):
+					dnodes[addr].SetOutputBit(vbytes[i], vbits[i], 1 if vals[i] != 0 else 0)
 
 	def AddPendingFleetAction(self, blknm, sig, osBlk, rte):
 		self.PendingFleetActions[blknm] = [sig, osBlk, rte]

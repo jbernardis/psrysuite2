@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="tester2 was interpreting input bits in the wrong order">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/c13auto/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/client/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/loganalyzer/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sigtool/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sigtool/mainframe.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sigtool/railroadserver.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sigtool/signals.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/psrysuite2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/psrysuite2.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/iobits.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/iobits.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/schedules/Standard 29.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/schedules/Standard 31.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/schedules/extras29.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/scripts/c13test.scr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/scripts/invalidorder.scr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/scripts/s1.scr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/scripts/standard29.scr" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/scripts/standard31.scr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/scripts/traina.scr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/scripts/trainb.scr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/scripts/validorder.scr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/inspectdlg.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/inspectdlg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/report.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/report.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/httpserver.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/httpserver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/railroad.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/railroad.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/rrobjects.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/rrobjects.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;jbernardis&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:jbernardis/psrysuite2.git&quot;,
+    &quot;accountId&quot;: &quot;3b2602e0-7ab7-43a8-afc9-3211fbe207fe&quot;
+  }
+}</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5,
+  &quot;fromUser&quot;: false
+}</component>
+  <component name="ProjectId" id="3CKiqotFmTyYwMNXBXNLOM9Po16" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.Cliff Display.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Config.executor&quot;: &quot;Run&quot;,
+    &quot;Python.sigtool.executor&quot;: &quot;Run&quot;,
+    &quot;Python.tester2.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/jeff/PycharmProjects/psrysuite2/src/sigtool&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\jeff\PycharmProjects\psrysuite2\src\sigtool" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.sigtool">
+    <configuration name="Cliff Display" type="PythonConfigurationType" factoryName="Python">
+      <module name="psrysuite2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.12 (psrysuite)" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\jeff\PycharmProjects\psrysuite2\src" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/cliffdisplay/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Config" type="PythonConfigurationType" factoryName="Python">
+      <module name="psrysuite2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.12 (psrysuite)" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\jeff\PycharmProjects\psrysuite2\src" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/config/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="sigtool" type="PythonConfigurationType" factoryName="Python">
+      <module name="psrysuite2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.13.3" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\jeff\PycharmProjects\psrysuite2\src" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/sigtool/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="tester2" type="PythonConfigurationType" factoryName="Python">
+      <module name="psrysuite2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.12 (psrysuite)" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\jeff\PycharmProjects\psrysuite2\src" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/tester2/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.Cliff Display" />
+      <item itemvalue="Python.Config" />
+      <item itemvalue="Python.tester2" />
+      <item itemvalue="Python.sigtool" />
+    </list>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-b63d5a1f7c97-b61e75351b1f-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-261.22158.340" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="" />
+      <created>1776140856169</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1776140856169</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Initial commit under new pycharm, fixed issue with not scrubbing trains when loading a local snapshot">
+      <option name="closed" value="true" />
+      <created>1776264138154</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1776264138154</updated>
+    </task>
+    <task id="LOCAL-00002" summary="tester2 was interpreting input bits in the wrong order">
+      <option name="closed" value="true" />
+      <created>1776279416779</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1776279416779</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="false" />
+    <MESSAGE value="Initial commit under new pycharm, fixed issue with not scrubbing trains when loading a local snapshot" />
+    <MESSAGE value="tester2 was interpreting input bits in the wrong order" />
+    <option name="LAST_COMMIT_MESSAGE" value="tester2 was interpreting input bits in the wrong order" />
+  </component>
+</project>

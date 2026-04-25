@@ -1,6 +1,0 @@
-{"setinbit": {"address": "0x93", "byte": [4, 4, 7], "bit": [6, 7, 1], "value": [1, 0, 0]}}
-{"delay": {"ms": 500}}
-{"setinbit": {"address": "0x91", "byte": [1], "bit": [2], "value": [1]}}
-{"delay": {"ms": 500}}
-{"setinbit": {"address": "0x91", "byte": [1], "bit": [1], "value": [1]}}
-{"delay": {"ms": 500}}

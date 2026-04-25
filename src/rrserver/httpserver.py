@@ -174,6 +174,7 @@ class HTTPServer:
 			"delfile": self.DelFile,
 			"getbits": self.GetBits,
 			"setinbit": self.SetInBit,
+			"setoutbit": self.SetOutBit,
 			"activetrains": self.ActiveTrains,
 			"getsignals": self.GetSignals,
 			"getroutes": self.GetRoutes,
@@ -484,6 +485,18 @@ class HTTPServer:
 			vbits = [int(x) for x in cmd["bit"]]
 			vals = [int(x) for x in cmd["value"]]
 			self.rr.SetInputBitByAddr(addr, vbytes, vbits, vals)
+			return 200, "Command received"
+		except Exception as e:
+			logging.info("Unknown error: %s" % str(e))
+			return 400, str(e)
+
+	def SetOutBit(self, cmd):
+		try:
+			addr = int(cmd["address"][0], 16)
+			vbytes = [int(x) for x in cmd["byte"]]
+			vbits = [int(x) for x in cmd["bit"]]
+			vals = [int(x) for x in cmd["value"]]
+			self.rr.SetOutputBitByAddr(addr, vbytes, vbits, vals)
 			return 200, "Command received"
 		except Exception as e:
 			logging.info("Unknown error: %s" % str(e))
