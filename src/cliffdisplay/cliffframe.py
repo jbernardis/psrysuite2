@@ -10,6 +10,7 @@ from dispatcher.bitmaps import BitMaps
 from dispatcher.trackdiagram import TrackDiagram
 
 from dispatcher.breaker import BreakerDisplay
+from dispatcher.nodestatus import NodeStatusDisplay
 
 from cliffdisplay.districts.yard import Yard
 from cliffdisplay.districts.hyde import Hyde
@@ -215,6 +216,7 @@ class CliffFrame(MainFrame):
 		self.bResetScreen.SetToolTip("Move the screen back to its home location")
 
 		self.breakerDisplay = BreakerDisplay(self, pos=(int(totalw / 2 - 400 / 2), 30), size=(400, 40))
+		self.nodeStatusDisplay = NodeStatusDisplay(self, pos=(int(totalw / 2 - 400 / 2), 1), size=(400, 29))
 
 		self.timeDisplay = LEDNumberCtrl(self, wx.ID_ANY, pos=(self.centerOffset + 480, 10), size=(150, 50))
 		self.timeDisplay.SetBackgroundColour(wx.Colour(0, 0, 0))

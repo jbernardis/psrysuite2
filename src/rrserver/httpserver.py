@@ -180,6 +180,7 @@ class HTTPServer:
 			"getroutes": self.GetRoutes,
 			"getturnouts": self.GetTurnouts,
 			"getblocks": self.GetBlocks,
+			"getnodes": self.GetNodes,
 			"getsiglevers": self.GetSigLevers,
 			"stoprelays": self.GetStopRelays,
 			"sessions": self.GetSessions,
@@ -249,6 +250,11 @@ class HTTPServer:
 		audit = self.rr.AuditTrains()
 		jstr = json.dumps(audit)
 		logging.info("Returning %d bytes" % len(jstr))
+		return 200, jstr
+
+	def GetNodes(self, cmd):
+		rv = self.rr.GetNodeStatuses()
+		jstr = json.dumps(rv)
 		return 200, jstr
 
 	def GetLayout(self, cmd):

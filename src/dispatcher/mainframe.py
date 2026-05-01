@@ -110,6 +110,7 @@ class MainFrame(wx.Frame):
 		self.bEvents = None
 		self.timeDisplay = None
 		self.breakerDisplay = None
+		self.nodeStatusDisplay = None
 		self.bResetScreen = None
 		self.ypos = None
 		self.xpos = None
@@ -1250,6 +1251,8 @@ class MainFrame(wx.Frame):
 	def onTicker1Sec(self):
 		self.ClearExpiredButtons()
 		self.breakerDisplay.ticker()
+		if self.nodeStatusDisplay is not None:
+			self.nodeStatusDisplay.ticker()
 		self.activeTrainsDlg.ticker()
 		self.districts.ticker()
 		
@@ -2284,6 +2287,10 @@ class MainFrame(wx.Frame):
 
 	def GetNodes(self):
 		nv = [[n.Name(), n.Address(), n.IsEnabled()] for n in self.nodes.values()]
+		if self.nodeStatusDisplay is not None:
+			for nm, ad, st in nv:
+				self.nodeStatusDisplay.UpdateNodeStatus(nm, ad, st)
+
 		return nv
 
 	def GetBlockStatus(self, blknm):
@@ -4204,15 +4211,14 @@ class MainFrame(wx.Frame):
 			msg = "Node %s(0x%x) disabled" % (name, addr)
 			self.PopupEvent(msg)
 
-	def EnableNode(self, name, addr, flag):
-		self.Request({"enablenode": { "name": name, "address": addr, "enable": "1" if flag else "0"}})
+		self.nodeStatusDisplay.UpdateNodeStatus(name, addr, status)
 
-	def ReEnableNodes(self, disList):
+	def EnableNodes(self, disList):
 		for n in disList:
-			self.ReEnableNode(n[0], n[1])
+			self.EnableNode(n[0], n[1], True)
 
-	def ReEnableNode(self, nname, address):
-		self.Request({"enablenode": {"name": nname, "address": address, "enable": "1"}})
+	def EnableNode(self, nname, address, flag=True):
+		self.Request({"enablenode": {"name": nname, "address": address, "enable": "1" if flag else "0"}})
 
 	def DoCmdAlert(self, parms):
 		if "msg" in parms:

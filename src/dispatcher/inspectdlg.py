@@ -332,11 +332,11 @@ class InspectDlg(wx.Dialog):
         try:
             self.dlgNodeStatus.Raise()
         except (AttributeError, RuntimeError):
-            self.dlgNodeStatus = NodeStatusDlg(self, self.parent, nodeList, self.parent.GetNodes)
+            self.dlgNodeStatus = NodeStatusDlg(self, self.parent, nodeList, self.parent.GetNodes, self.EnableNode)
             self.dlgNodeStatus.Show()
 
-    def ReEnableNode(self, ndName, address):
-        self.parent.ReEnableNode(ndName, address)
+    def EnableNode(self, ndName, address, flag=True):
+        self.parent.EnableNode(ndName, address, flag)
 
     def OnBResetBlks(self, _):
         resetList = []
@@ -1863,12 +1863,13 @@ class OSProxyListCtrl(wx.ListCtrl):
 
 
 class NodeStatusDlg(wx.Dialog):
-    def __init__(self, parent, frame, ndata, cbRefresh=None):
+    def __init__(self, parent, frame, ndata, cbRefresh=None, cbEnable=None):
         wx.Dialog.__init__(self, parent, wx.ID_ANY, "Node Status")
         self.Bind(wx.EVT_CLOSE, self.OnCancel)
         self.parent = parent
         self.frame = frame
         self.cbRefresh = cbRefresh
+        self.cbEnable = cbEnable
 
         self.gridMap = []
         self.colorRed = wx.Colour(224, 149, 149)
@@ -1924,7 +1925,8 @@ class NodeStatusDlg(wx.Dialog):
         if status:  # nothing to do if the node is currently enabled
             return
 
-        self.parent.ReEnableNode(rname, addr)
+        if self.cbEnable:
+            self.cbEnable(rname, addr, True)
         self.frame.PopupEvent("Node %s re-enable requested" % rname)
         wx.CallLater(200, self.DoRefresh)
 
@@ -1944,6 +1946,7 @@ class NodeStatusDlg(wx.Dialog):
         self.nodeinfo = sorted(ndata, key=lambda x: x[1])
         self.LoadGrid(self.grid)
         self.grid.ClearSelection()
+        self.grid.Refresh()
 
     def OnCancel(self, _):
         self.Destroy()

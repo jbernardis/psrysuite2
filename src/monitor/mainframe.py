@@ -197,13 +197,35 @@ class MainFrame(wx.Frame):
 		if self.settings.rrserver.simulation:		
 			hsz = wx.BoxSizer(wx.HORIZONTAL)
 			hsz.AddSpacer(20)
-	
+
 			self.bSetInputBit = wx.Button(self, wx.ID_ANY, "Set Input Bits", size=(100, 46))
 			self.Bind(wx.EVT_BUTTON, self.OnSetInputBit, self.bSetInputBit)
 			hsz.Add(self.bSetInputBit)
-					
+
 			vsz.Add(hsz)
-			
+			vsz.AddSpacer(20)
+
+			hsz = wx.BoxSizer(wx.HORIZONTAL)
+			hsz.AddSpacer(20)
+
+			self.bEnableNode = wx.Button(self, wx.ID_ANY, "Enable Node", size=(100, 46))
+			self.Bind(wx.EVT_BUTTON, self.OnEnableNode, self.bEnableNode)
+			hsz.Add(self.bEnableNode)
+
+			hsz.AddSpacer(20)
+			self.chNodes = wx.Choice(self, wx.ID_ANY, choices=[n[0] for n in Nodes])
+			self.chNodes.SetSelection(0)
+			hsz.Add(self.chNodes, 0, wx.TOP, 10)
+
+			hsz.AddSpacer(20)
+
+			self.cbEnableNode = wx.CheckBox(self, wx.ID_ANY, "Enable")
+			self.cbEnableNode.SetValue(True)
+			hsz.Add(self.cbEnableNode, 0, wx.TOP, 15)
+
+			hsz.AddSpacer(20)
+
+			vsz.Add(hsz)
 			vsz.AddSpacer(20)
 
 		if self.settings.rrserver.simulation:
@@ -661,10 +683,23 @@ class MainFrame(wx.Frame):
 			self.bScript.Enable(flag)
 			self.bSnapshot.Enable(flag)
 			self.bRecord.Enable(flag)
+			self.bEnableNode.Enable(flag)
 
 	def OnConnect(self, _):
 		self.ConnectToServer()
-			
+
+	def OnEnableNode(self, _):
+		chx = self.chNodes.GetSelection()
+		if chx == wx.NOT_FOUND:
+			return
+
+		nname = self.chNodes.GetString(chx)
+
+		ena = "1" if self.cbEnableNode.IsChecked() else "0"
+
+		req = {"enablenode": {"name": nname, "address": getNodeAddress(nname), "enable": ena}}
+		self.Request(req)
+
 	def OnOccupy(self, _):
 		chx = self.chBlock.GetSelection()
 		if chx == wx.NOT_FOUND:
