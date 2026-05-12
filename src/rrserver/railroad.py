@@ -824,9 +824,9 @@ class Railroad:
 
 		msgs = []
 
+		osb = self.blocks[osName].OS()
 		if not moving:
 			# we are trying to get a signal for movement - make sure the target block is not out of service
-			osb = self.blocks[osName].OS()
 			rt = osb.ActiveRoute()
 			if rt is None:
 				logging.debug("OS %s is not set to any route" % osName)

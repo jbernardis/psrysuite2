@@ -4,16 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="check in">
-      <change afterPath="$PROJECT_DIR$/src/dispatcher/nodestatus.py" afterDir="false" />
+    <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="added node status to the various displays">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cliffdisplay/cliffframe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/cliffdisplay/cliffframe.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dispatcher/inspectdlg.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/inspectdlg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/mainframe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/mainframe.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/psryframe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/psryframe.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monitor/mainframe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/monitor/mainframe.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/report.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/report.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rrserver/httpserver.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/httpserver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/clientlist.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/clientlist.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/districts/nassau.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/districts/nassau.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/railroad.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/railroad.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +82,7 @@
       <recent name="C:\Users\jeff\PycharmProjects\psrysuite2\src\sigtool" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Cliff Display">
+  <component name="RunManager" selected="Python.Config">
     <configuration name="Cliff Display" type="PythonConfigurationType" factoryName="Python">
       <module name="psrysuite2" />
       <option name="ENV_FILES" value="" />
@@ -119,7 +117,7 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.12 (psrysuite)" />
+      <option name="SDK_NAME" value="Python 3.13 (psrysuite2)" />
       <option name="WORKING_DIRECTORY" value="C:\Users\jeff\PycharmProjects\psrysuite2\src" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -212,10 +210,10 @@
     </configuration>
     <list>
       <item itemvalue="Python.Cliff Display" />
-      <item itemvalue="Python.Config" />
       <item itemvalue="Python.monitor" />
-      <item itemvalue="Python.sigtool" />
+      <item itemvalue="Python.Config" />
       <item itemvalue="Python.tester2" />
+      <item itemvalue="Python.sigtool" />
     </list>
   </component>
   <component name="SharedIndexes">
@@ -257,7 +255,15 @@
       <option name="project" value="LOCAL" />
       <updated>1777137380994</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="added node status to the various displays">
+      <option name="closed" value="true" />
+      <created>1777651585549</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1777651585549</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -268,6 +274,7 @@
     <MESSAGE value="Initial commit under new pycharm, fixed issue with not scrubbing trains when loading a local snapshot" />
     <MESSAGE value="tester2 was interpreting input bits in the wrong order" />
     <MESSAGE value="check in" />
-    <option name="LAST_COMMIT_MESSAGE" value="check in" />
+    <MESSAGE value="added node status to the various displays" />
+    <option name="LAST_COMMIT_MESSAGE" value="added node status to the various displays" />
   </component>
 </project>

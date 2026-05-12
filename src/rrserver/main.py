@@ -175,11 +175,6 @@ class ServerMain:
 
 	def NewClient(self, cmd):
 		logging.debug("new client")
-		if not self.snapshotLoaded:
-			if settings.rrserver.autoloadsnapshot:
-				self.rr.LoadSnapshot(None)
-			self.snapshotLoaded = True
-
 		addr = cmd["addr"]
 		skt = cmd["socket"]
 		sid = cmd["SID"]
@@ -198,6 +193,7 @@ class ServerMain:
 		
 		f = self.clientList.GetFunctionAtAddress(addr)
 		self.clientList.DelClient(addr)
+		self.socketServer.deleteSocket(addr)
 		
 		if f == "DISPATCH":
 			self.deleteClients(["AR", "ADVISOR", "ATC"])
@@ -208,6 +204,7 @@ class ServerMain:
 		for cname in clist:
 			addrList = self.clientList.GetFunctionAddress(cname)
 			for addr, _ in addrList:
+				self.clientList.DelClient(addr)
 				self.socketServer.deleteSocket(addr)
 				
 	def GetSessions(self):
@@ -246,7 +243,7 @@ class ServerMain:
 
 	def rrEventReceipt(self, cmd):
 		try:
-			self.socketServer.sendToAll(cmd)
+			self.sendToNonNodes(cmd)
 		except AttributeError:
 			pass
 
@@ -258,15 +255,20 @@ class ServerMain:
 		msg = {"alert": {"msg": msg}}
 		if locale is not None:
 			msg["locale"] = locale
-		self.socketServer.sendToAll(msg)
+		self.sendToNonNodes(msg)
 
 	def Advice(self, msg, locale=None):
 		msg = {"advice": {"msg": msg}}
 		if locale is not None:
 			msg["locale"] = locale
-		self.socketServer.sendToAll(msg)
+		self.sendToNonNodes(msg)
 
-	def CreateDispatchTable(self):					
+	def sendToNonNodes(self, msg):
+		cl = self.clientList.NonNodeClientList()
+		for addr, skt  in cl:
+			self.socketServer.sendToOne(skt, addr, msg)
+
+	def CreateDispatchTable(self):
 		self.dispatch = {
 			"interval": 	self.DoInterval,
 			"clock":    	self.DoClock,
@@ -397,7 +399,7 @@ class ServerMain:
 	def DoSigLever(self, cmd):
 		p = {tag: cmd[tag][0] for tag in cmd if tag != "cmd"}
 		resp = {"siglever": [p]}
-		self.socketServer.sendToAll(resp)
+		self.sendToNonNodes(resp)
 
 	def DoSigLeverLED(self, cmd):
 		try:
@@ -524,7 +526,7 @@ class ServerMain:
 	def DoTurnoutLever(self, cmd):
 		p = {tag: cmd[tag][0] for tag in cmd if tag != "cmd"}
 		resp = {"turnoutlever": [p]}
-		self.socketServer.sendToAll(resp)
+		self.sendToNonNodes(resp)
 
 	def DoNXButton(self, cmd):
 		try:
@@ -604,7 +606,7 @@ class ServerMain:
 		if signals is not None:
 			resp["setroute"][0]["signals"] = signals
 
-		self.socketServer.sendToAll(resp)
+		self.sendToNonNodes(resp)
 
 	def DoIndicator(self, cmd):
 		try:
@@ -760,16 +762,25 @@ class ServerMain:
 			locale = cmd["locale"][0]
 		except KeyError:
 			locale = None
+		if function == "NODE":
+			try:
+				address = cmd["address"][0]
+			except KeyError:
+				logging.error("Node Identify command without address parameter")
+				return
+		else:
+			address = None
 
 		if sid is None or function is None:
 			logging.error("Identify command without SID and/or function paremeter")
 			return
 
-		self.clientList.SetSessionFunction(sid, function, locale)
-		# if function == "DISPATCH":
-		# 	self.deleteClients(["AR", "ADVISOR", "ATC"])
-		# 	self.pidAR = None
-		# 	self.pidADV = None
+		self.clientList.SetSessionFunction(sid, function, locale, address)
+		if function != "NODE":
+			if not self.snapshotLoaded:
+				if settings.rrserver.autoloadsnapshot:
+					self.rr.LoadSnapshot(None)
+				self.snapshotLoaded = True
 
 	def DoFleet(self, cmd):
 		try:
@@ -788,7 +799,7 @@ class ServerMain:
 		self.rr.SetSignalFleet(signame, value != 0)
 		resp = {"fleet": [{"name": signame, "value": value}]}
 		# fleeting changes are always echoed back to all listeners
-		self.socketServer.sendToAll(resp)
+		self.sendToNonNodes(resp)
 		
 	def DoDistrictLock(self, cmd):
 		try:
@@ -823,7 +834,7 @@ class ServerMain:
 		self.rr.SetControlOption(name, value)
 		p = {tag: cmd[tag][0] for tag in cmd if tag != "cmd"}
 		resp = {"control": [p]}
-		self.socketServer.sendToAll(resp)
+		self.sendToNonNodes(resp)
 		
 	def DoQuit(self, _):
 		self.Shutdown()
@@ -986,7 +997,7 @@ class ServerMain:
 				p = {tag: cmd[tag][0] for tag in cmd if tag != "cmd"}
 				p["blocks"] = [b for b in blocks]
 				resp = {"trainblockorder": [p]}
-				self.socketServer.sendToAll(resp)
+				self.sendToNonNodes(resp)
 			else:
 				logging.error("Received trainblock order for non existant train %s" % trid)
 		else:
@@ -1014,7 +1025,7 @@ class ServerMain:
 	#
 	# 	p = {tag: cmd[tag][0] for tag in cmd if tag != "cmd"}
 	# 	resp = {"deletetrain": p}
-	# 	self.socketServer.sendToAll(resp)
+	# 	self.sendToNonNodes(resp)
 	#
 	# 	if not self.trainList.HasTrain(trn):
 	# 		logging.info("skipping delete of non existant train")
@@ -1069,7 +1080,7 @@ class ServerMain:
 	# 	if route is not None:
 	# 		stParams["route"] = route
 	# 	resp = {"settrain": stParams}
-	# 	self.socketServer.sendToAll(resp)
+	# 	self.sendToNonNodes(resp)
 	#
 	# 	self.trainList.Update(trn, loco, blocks, east, action, route=route)
 		
@@ -1092,7 +1103,7 @@ class ServerMain:
 	# def DoTrainComplete(self, cmd):
 	# 	p = {tag: cmd[tag][0] for tag in cmd if tag != "cmd"}
 	# 	resp = {"traincomplete": [p]}
-	# 	self.socketServer.sendToAll(resp)
+	# 	self.sendToNonNodes(resp)
 
 	def DoSetTrainControl(self, cmd):
 		logging.debug("set train control: %s" % str(cmd))
@@ -1413,7 +1424,7 @@ class ServerMain:
 		self.trainList.UpdateSignal(trid, signal, aspect)
 		p = {tag: cmd[tag][0] for tag in cmd if tag != "cmd"}
 		resp = {"trainsignal": p}
-		self.socketServer.sendToAll(resp)
+		self.sendToNonNodes(resp)
 	
 	def DoAdvice(self, cmd):
 		addrList = self.clientList.GetFunctionAddress("DISPATCH") + self.clientList.GetFunctionAddress("SATELLITE")

@@ -7,7 +7,7 @@ from subprocess import Popen
 
 from c13auto.c13automain import osRoutes
 
-BSIZE = (120, 40)
+BSIZE = wx.Size(120, 40)
 skipBlocks = ["KOSN10S11", "KOSN20S21"]
 
 
@@ -32,10 +32,11 @@ class InspectDlg(wx.Dialog):
         self.dlgRelays = None
         self.dlgTurnoutLocks = None
         self.dlgBlockIgnoreOOS = None
+        self.dlgSessions = None
 
         self.dialogs = [self.dlgAdjacency, self.dlgOSProxy, self.dlgNodeStatus, self.dlgSignalLevers, self.dlgRelays,
                         self.dlgSidingLocks, self.dlgHilite, self.dlgRoutes, self.dlgTrains, self.dlgAuditTrains,
-                        self.dlgTurnoutLocks,  self.dlgBlockIgnoreOOS]
+                        self.dlgTurnoutLocks,  self.dlgBlockIgnoreOOS, self.dlgSessions]
 
         self.SetTitle("Inspection Dialog")
 
@@ -45,6 +46,8 @@ class InspectDlg(wx.Dialog):
         self.Bind(wx.EVT_BUTTON, self.OnBDebug, bDebug)
         bProxies = wx.Button(self, wx.ID_ANY, "OS Proxies", size=BSIZE)
         self.Bind(wx.EVT_BUTTON, self.OnBProxies, bProxies)
+        bSessions = wx.Button(self, wx.ID_ANY, "Sessions", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBSessions, bSessions)
         bRoutes = wx.Button(self, wx.ID_ANY, "Active Routes", size=BSIZE)
         self.Bind(wx.EVT_BUTTON, self.OnBRoutes, bRoutes)
         bNodes = wx.Button(self, wx.ID_ANY, "Node Status", size=BSIZE)
@@ -78,7 +81,7 @@ class InspectDlg(wx.Dialog):
 
         bszl = []
 
-        buttonCols = [[bDebug, bLogLevel, bNodes, bRelays],
+        buttonCols = [[bDebug, bLogLevel, bSessions, bNodes, bRelays],
                     [bAuditTrains, bActiveTrains, bRoutes, bAdjacency, bProxies],
                     [bToLocks, bLevers, bHandSwitches, bResetBlks, bIgnoreBlks],
                     [bSigTool, bTester, bMonitor, bHilite]]
@@ -112,6 +115,18 @@ class InspectDlg(wx.Dialog):
         self.SetSizer(btnszr)
         self.Layout()
         self.Fit()
+
+    def OnBSessions(self, _):
+        try:
+            self.dlgSessions.Raise()
+        except (AttributeError, RuntimeError):
+            sessions = self.parent.Get("sessions", {})
+            logging.debug("Sessions")
+            for s in sessions:
+                logging.debug("  %s" % str(s))
+            logging.debug("======================================")
+            self.dlgSessions = SessionsDlg(self, sessions, self.parent)
+            self.dlgSessions.Show()
 
     def OnBActiveTrains(self, _):
         tl = self.parent.Get("activetrains", {})
@@ -234,51 +249,6 @@ class InspectDlg(wx.Dialog):
 
     def ClearLock(self, tname):
         self.parent.ClearLock(tname)
-
-
-        # toList = ["%s: %s" % (x, ", ".join(lks[x])) for x in sorted(lks.keys())]
-        # if len(toList) == 0:
-        #     dlg = wx.MessageDialog(self, "No turnouts are presently locked",
-        #         "Turnout Locks",
-        #         wx.OK | wx.ICON_INFORMATION)
-        #     dlg.ShowModal()
-        #     dlg.Destroy()
-        #     return
-        #
-        # dlg = wx.MultiChoiceDialog( self,
-        #     "Choose turnout(s) to unlock",
-        #     "Turnout Locks", toList)
-        #
-        # rc = dlg.ShowModal()
-        # if rc == wx.ID_OK:
-        #     selections = dlg.GetSelections()
-        #     toNames = [toList[x] for x in selections]
-        # else:
-        #     toNames = []
-        #
-        # dlg.Destroy()
-        # if rc != wx.ID_OK:
-        #     return
-        #
-        # if len(toNames) == 0:
-        #     return
-        #
-        # tl = []
-        # for t in toNames:
-        #     try:
-        #         tx = t.index(":")
-        #     except ValueError:
-        #         tx = None
-        #     if tx is not None:
-        #         tl.append(t[:tx])
-        #
-        # self.parent.ClearLocks(tl)
-        #
-        # dlg = wx.MessageDialog(self, "Requested Turnout(s) Unlock:\n%s" % ", ".join(tl),
-        #     "Turnout Locks",
-        #     wx.OK | wx.ICON_INFORMATION)
-        # dlg.ShowModal()
-        # dlg.Destroy()
 
     def GetSignalLeverValues(self):
         sl = self.parent.Get("signallevers", {})
@@ -1000,6 +970,104 @@ class AdjacencyDlg(wx.Dialog):
                 logging.debug("Refresh block adjacency - unknown block: %s" % bn)
 
         self.BAgrid.Refresh()
+
+    def OnClose(self, _):
+        self.Destroy()
+
+
+class SessionsDlg(wx.Dialog):
+    def __init__(self, parent, sdata, frame):
+        wx.Dialog.__init__(self, parent, wx.ID_ANY, "Sessions")
+        self.Bind(wx.EVT_CLOSE, self.OnClose)
+        self.frame = frame
+        self.parent = parent
+
+        headings = ["SID", "Function", "IP Addr", "Port", "Locale"]
+        colWidth = [40, 120, 100, 60, 100]
+        colAlign = [wx.ALIGN_CENTER, wx.ALIGN_CENTER, wx.ALIGN_CENTER, wx.ALIGN_CENTER, wx.ALIGN_CENTER]
+        nRows = len(sdata)
+        self.nCols = len(headings)
+
+        self.colorWhite = wx.Colour(255, 255, 255)
+        self.colorGray = wx.Colour(196, 196, 196)
+
+        # we want to have at least 5, at most 10 lines on the display
+        nr = nRows
+        if nr < 5:
+            nr = 5
+        elif nr > 10:
+            nr = 10
+        ht = int(33 + nr * 19)
+
+        self.SessGrid = gridlib.Grid(self, size=wx.Size(sum(colWidth) + 20, ht))
+        self.SessGrid.CreateGrid(nRows, self.nCols)
+        self.SessGrid.EnableGridLines(True)
+        self.SessGrid.SetGridLineColour(wx.BLACK)
+        self.SessGrid.SetRowLabelSize(2)
+
+        attrs = []
+        for c in range(self.nCols):
+            attr = wx.grid.GridCellAttr()
+            attr.SetAlignment(colAlign[c], wx.ALIGN_CENTER)
+            attr.SetReadOnly(True)
+            attrs.append(attr)
+
+        for i in range(self.nCols):
+            self.SessGrid.SetColLabelValue(i, headings[i])
+            self.SessGrid.SetColSize(i, colWidth[i])
+            self.SessGrid.SetColAttr(i, attrs[i])
+
+        self.LoadGrid(sdata)
+
+        vsz = wx.BoxSizer(wx.VERTICAL)
+        vsz.AddSpacer(20)
+
+        hsz = wx.BoxSizer(wx.HORIZONTAL)
+        hsz.AddSpacer(20)
+
+        hsz.Add(self.SessGrid, 0, wx.EXPAND)
+
+        hsz.AddSpacer(20)
+        vsz.Add(hsz)
+
+        vsz.AddSpacer(20)
+
+        bRefresh = wx.Button(self, wx.ID_ANY, "Refresh", size=wx.Size(100, 30))
+        self.Bind(wx.EVT_BUTTON, self.OnBRefresh, bRefresh)
+        vsz.Add(bRefresh, 0, wx.ALIGN_CENTER_HORIZONTAL)
+
+        vsz.AddSpacer(20)
+
+        self.SetSizer(vsz)
+        self.Fit()
+        self.Layout()
+
+    def LoadGrid(self, sdata):
+        row = 0
+        self.SessGrid.ClearGrid()
+        n = self.SessGrid.GetNumberRows()
+        for i in range(n):
+            self.SessGrid.SetCellValue(row, 0, "")
+            self.SessGrid.SetCellValue(row, 1, "")
+            self.SessGrid.SetCellValue(row, 2, "")
+            self.SessGrid.SetCellValue(row, 3, "")
+            self.SessGrid.SetCellValue(row, 4, "")
+
+        for sessInfo in sdata:
+            if row >= n:
+                self.SessGrid.AppendRows(1)
+                n += 1
+            self.SessGrid.SetCellValue(row, 0, str(sessInfo[0]))
+            self.SessGrid.SetCellValue(row, 1, str(sessInfo[1]))
+            self.SessGrid.SetCellValue(row, 2, str(sessInfo[2]))
+            self.SessGrid.SetCellValue(row, 3, str(sessInfo[3]))
+            self.SessGrid.SetCellValue(row, 4, str(sessInfo[4]))
+            row += 1
+
+    def OnBRefresh(self, _):
+        sdata = self.frame.Get("sessions", {})
+        self.LoadGrid(sdata)
+        self.SessGrid.Refresh()
 
     def OnClose(self, _):
         self.Destroy()
