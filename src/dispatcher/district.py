@@ -311,7 +311,7 @@ class District:
 		
 		if osblk.IsOccupied():
 			if not silent:
-				self.frame.PopupEvent("Block %s is busy" % osblk.GetRouteDesignator())
+				self.frame.PopupEvent("Block %s is occupied" % osblk.GetRouteDesignator())
 			logging.debug("Unable to calculate aspect: OS Block is busy")
 			return None
 		
@@ -328,7 +328,7 @@ class District:
 		exitBlk = self.frame.blocks[exitBlkNm]
 		if exitBlk.IsOccupied():
 			if not silent:
-				self.frame.PopupEvent("Block %s is busy" % exitBlk.GetRouteDesignator())
+				self.frame.PopupEvent("Block %s is occupied" % exitBlk.GetRouteDesignator())
 			logging.debug("Unable to calculate aspect: Block %s is busy" % exitBlkNm)
 			return None
 
@@ -818,9 +818,9 @@ class District:
 
 	def ReportBlockBusy(self, blknm):
 		self.frame.PopupEvent("Block %s is busy" % blknm)
-
-	def ReportOSBusy(self, osnm):
-		self.frame.PopupEvent("Block %s is busy" % osnm)
+	#
+	# def ReportOSBusy(self, osnm):
+	# 	self.frame.PopupEvent("Block %s is busy" % osnm)
 
 	def ReportTurnoutLocked(self, tonm):
 		self.frame.PopupEvent("Turnout %s is locked" % tonm)

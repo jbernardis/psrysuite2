@@ -180,15 +180,13 @@ class Dell(District):
 		if RXO != self.RXO:
 			self.RXO = RXO
 			self.rr.SetODevice("RXO", self.RXO)
-			
-		# determine the state of signal R10W it should mirror signal N28L
 		
 		msig = self.rr.GetSignal("N28L")
 		aspect = msig.Aspect()
 
 		sig = self.rr.GetSignal("R10W")
-		if sig.Aspect() != aspect:
-			naspect = 2 if aspect == 3 else aspect
+		naspect = 0 if aspect == 0 else 3
+		if sig.Aspect() != naspect:
 			self.rr.SetAspect("R10W", naspect)
 			self.rr.RailroadEvent(sig.GetEventMessage())
 

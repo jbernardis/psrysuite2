@@ -66,6 +66,13 @@ class ClientList:
 				if i != index:  # no action needed for the new session
 					self.DelClient(self.clientList[i])
 
+	def GetNodeSocketAtAddress(self, addr):
+		for i in range(len(self.nodeAddrs)):
+			if addr == self.nodeAddrs[i]:
+				return self.clientList[i], self.skts[i]
+
+		return None, None
+
 	def HasFunction(self, function):
 		return function in self.functions
 

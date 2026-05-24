@@ -436,8 +436,11 @@ class Cliff(District):
 			tout = self.rr.GetTurnout(toName)
 			if not tout:
 				return None
-			if tout.IsLocked() or tout.IsDisabled():
-				self.rr.Alert("Route %s not allowed" % rtNm, locale=self.Locale())
+			if tout.IsDisabled():
+				self.rr.Alert("Route %s not allowed.  Turnout %s disabled" % (rtNm, toName), locale=self.Locale())
+				return None
+			if tout.IsLocked():
+				self.rr.Alert("Route %s not allowed. Turnout %s locked" % (rtNm, toName), locale=self.Locale())
 				return None
 
 		for toName, state in tolist:

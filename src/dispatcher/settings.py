@@ -393,12 +393,12 @@ class Settings:
 		process the command line next and override the settings file with the options seen there
 		"""
 		try:
-			opts, _ = getopt.getopt(sys.argv[1:], "", ["dispatch", "display", "simulate", "sim", "nosimulate", "nosim", "satellite"])
+			opts, _ = getopt.getopt(sys.argv[1:], "", ["dispatch", "display", "simulate", "sim", "nosimulate", "nosim", "satellite", "locale="])
 		except getopt.GetoptError:
 			print('Invalid command line arguments - ignoring')
 			return 
 		
-		for opt, _ in opts:
+		for opt, val in opts:
 			print("command line option: %s" % opt, flush=True)
 			if opt == "--display":
 				self.dispatcher.dispatch = False
@@ -418,11 +418,15 @@ class Settings:
 			elif opt in ["--simulate", "--sim"]:
 				self.rrserver.simulation = True
 				print("Overriding simulation flag from command line: True")
-				
+
 			elif opt in ["--nosimulate", "--nosim"]:
 				self.rrserver.simulation = False
 				print("Overriding simulation flag from command line: False")
-		
+
+			elif opt == "--locale":
+				self.display.locale = val
+				print("Overriding locale from command line: %s" % val)
+
 	def SaveAll(self):
 		print("entering saveall", flush=True)
 		self.cfg = configparser.ConfigParser()

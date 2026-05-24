@@ -26,6 +26,11 @@ class Node:
 		self.rr = rr
 		self.address = address
 		self.bcount = bcount
+
+		self.ipaddr = None
+		self.skt = None
+		self.sktserver = None
+
 		'''
 		We assume there are as many input bytes as there are output bytes, and indeed, we do pulse in the same
 		number of bytes.  Some nodes, though, have less bytes with actual data.  Since the subsequent bytes
@@ -76,8 +81,12 @@ class Node:
 		self.inb[vbyte] = setBit(self.inb[vbyte], 7-vbit, state)
 
 	def SetOutputBit(self, vbyte, vbit, state):
-		self.outb[vbyte] = setBit(self.outb[vbyte], vbit, state)	   
-		
+		self.outb[vbyte] = setBit(self.outb[vbyte], vbit, state)
+		if self.sktserver is not None:
+			data = "%d%d%d" % (vbyte, vbit, 1 if state else 0)
+			msg = {"setoutbit": data}
+			self.sktserver.sendToOne(self.skt, self.ipaddr, msg)
+
 	def setBus(self, bus):
 		self.rrBus = bus
 
@@ -86,6 +95,11 @@ class Node:
 
 	def Address(self):
 		return self.address
+
+	def SetNodeAddress(self, ipaddr, skt, sktserver):
+		self.sktserver = sktserver
+		self.ipaddr = ipaddr
+		self.skt = skt
 
 	def OutIn(self):
 		if self.disabled:

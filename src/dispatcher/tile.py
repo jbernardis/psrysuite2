@@ -179,9 +179,9 @@ class SignalTile:
 	def getBmp(self, sig):
 		if sig.aspectType == SloAspects:
 			if sig.aspect == 0b01:
-				tag = "clear"
+				tag = "slow-clear"
 			elif sig.aspect == 0b11:
-				tag = "approach"
+				tag = "slow-approach"
 			elif sig.aspect == 0b10:
 				tag = "restricting"
 			else:

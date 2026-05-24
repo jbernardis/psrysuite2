@@ -1731,6 +1731,14 @@ class Railroad:
 			
 		return 0, [], []
 
+	def GetNodeByAddr(self, addr):
+		logging.debug("looking for node at address %s" % addr)
+		for dnodes in self.nodes.values():
+			if addr in dnodes:
+				return dnodes[addr]
+
+		return None
+
 	def SetInputBitByAddr(self, addr, vbytes, vbits, vals):
 		# this routine handles the setinbit command from HTTP server
 		logging.debug("setinputbit addr %s bytes %s  bits %s vals %s" % (addr, str(vbytes), str(vbits), str(vals)))
@@ -1796,7 +1804,7 @@ class Railroad:
 				obj = objparms[0]
 				objType = obj.InputType()
 				objName = obj.Name()
-				# logging.debug("changed bit: %s(%s) %x %s %s %s" % (objName, objType, node.Address(), vbyte, vbit, newval))
+				logging.debug("changed bit: %s(%s) %x %s %s %s" % (objName, objType, node.Address(), vbyte, vbit, newval))
 
 				if objType == INPUT_BLOCK:
 					self.InputBlock(district, obj, objName, newval)
@@ -1846,7 +1854,9 @@ class Railroad:
 							self.RailroadEvent(obj.GetEventMessage())
 	
 				elif objType == INPUT_SIGNALLEVER:
+					logging.debug("signal lever %s" % obj.Name())
 					if obj.Name() not in skiplist: # bypass levers that are skipped because of a control option
+						logging.debug("processing")
 						self.ProcessSignalLever(obj, node)
 					else:
 						self.Alert(district.ControlRestrictedMessage(), locale=district.Locale())
@@ -2885,7 +2895,7 @@ class Railroad:
 
 		if blk.IsOccupied():
 			if not silent:
-				self.Alert("Block %s is busy" % osblk.RouteDesignator(), locale=locale)
+				self.Alert("Block %s is occupied" % osblk.RouteDesignator(), locale=locale)
 			logging.debug("Unable to calculate aspect: OS Block is busy")
 			return None
 
@@ -2902,7 +2912,7 @@ class Railroad:
 		if exitBlk is not None:
 			if exitBlk.IsOccupied():
 				if not silent:
-					self.Alert("Block %s is busy" % exitBlk.RouteDesignator(), locale=locale)
+					self.Alert("6Block %s is occupied" % exitBlk.RouteDesignator(), locale=locale)
 				logging.debug("Unable to calculate aspect: Block %s is busy" % exitBlk.Name())
 				return None
 

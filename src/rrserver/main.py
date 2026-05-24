@@ -264,8 +264,10 @@ class ServerMain:
 		self.sendToNonNodes(msg)
 
 	def sendToNonNodes(self, msg):
+		logging.debug("Sending to non-nodes: (%s)" % str(msg))
 		cl = self.clientList.NonNodeClientList()
 		for addr, skt  in cl:
+			logging.debug("Address: %s" % str(addr))
 			self.socketServer.sendToOne(skt, addr, msg)
 
 	def CreateDispatchTable(self):
@@ -781,6 +783,19 @@ class ServerMain:
 				if settings.rrserver.autoloadsnapshot:
 					self.rr.LoadSnapshot(None)
 				self.snapshotLoaded = True
+		else:
+			ipaddr, skt = self.clientList.GetNodeSocketAtAddress(address)
+			if ipaddr is None or skt is None:
+				logging.error("Unable to find matching node address: %s" % address)
+			else:
+				if address.startswith("0x"):
+					address = address[2:]
+				iaddr = int(address, 16)
+				nd = self.rr.GetNodeByAddr(iaddr)
+				if nd is None:
+					logging.error("Unable to find the node at address %s" % iaddr)
+				else:
+					nd.SetNodeAddress(ipaddr, skt, self.socketServer)
 
 	def DoFleet(self, cmd):
 		try:

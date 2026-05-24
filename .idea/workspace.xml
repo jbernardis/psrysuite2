@@ -4,13 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="added node status to the various displays">
+    <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="changes to allow HTTP sessions with wiznet nodes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/inspectdlg.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/inspectdlg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/report.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/report.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/psry.ini" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/psry.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/district.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/district.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/mainframe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/mainframe.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/tile.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/tile.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rrserver/clientlist.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/clientlist.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rrserver/districts/nassau.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/districts/nassau.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/districts/cliff.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/districts/cliff.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/districts/dell.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/districts/dell.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rrserver/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/node.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rrserver/railroad.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/railroad.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -44,6 +49,9 @@
     <commands />
     <urls />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5,
   &quot;fromUser&quot;: false
@@ -58,6 +66,7 @@
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;Python.Cliff Display.executor&quot;: &quot;Run&quot;,
     &quot;Python.Config.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Yard Display.executor&quot;: &quot;Run&quot;,
     &quot;Python.monitor.executor&quot;: &quot;Run&quot;,
     &quot;Python.sigtool.executor&quot;: &quot;Run&quot;,
     &quot;Python.tester2.executor&quot;: &quot;Run&quot;,
@@ -82,7 +91,7 @@
       <recent name="C:\Users\jeff\PycharmProjects\psrysuite2\src\sigtool" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Config">
+  <component name="RunManager" selected="Python.Yard Display">
     <configuration name="Cliff Display" type="PythonConfigurationType" factoryName="Python">
       <module name="psrysuite2" />
       <option name="ENV_FILES" value="" />
@@ -92,7 +101,7 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.13.3" />
+      <option name="SDK_NAME" value="Python 3.13 (psrysuite2)" />
       <option name="WORKING_DIRECTORY" value="C:\Users\jeff\PycharmProjects\psrysuite2\src" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -100,7 +109,7 @@
       <option name="DEBUG_JUST_MY_CODE" value="false" />
       <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/cliffdisplay/main.py" />
-      <option name="PARAMETERS" value="" />
+      <option name="PARAMETERS" value="--display --locale=cliff" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -126,6 +135,31 @@
       <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/config/main.py" />
       <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Yard Display" type="PythonConfigurationType" factoryName="Python">
+      <module name="psrysuite2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.13.3" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\jeff\PycharmProjects\psrysuite2\src" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/dispatcher/main.py" />
+      <option name="PARAMETERS" value="--locale=yard --display" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -209,11 +243,12 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.Yard Display" />
       <item itemvalue="Python.Cliff Display" />
-      <item itemvalue="Python.monitor" />
       <item itemvalue="Python.Config" />
-      <item itemvalue="Python.tester2" />
+      <item itemvalue="Python.monitor" />
       <item itemvalue="Python.sigtool" />
+      <item itemvalue="Python.tester2" />
     </list>
   </component>
   <component name="SharedIndexes">
@@ -263,7 +298,15 @@
       <option name="project" value="LOCAL" />
       <updated>1777651585549</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="changes to allow HTTP sessions with wiznet nodes">
+      <option name="closed" value="true" />
+      <created>1778544330091</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1778544330091</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -275,6 +318,7 @@
     <MESSAGE value="tester2 was interpreting input bits in the wrong order" />
     <MESSAGE value="check in" />
     <MESSAGE value="added node status to the various displays" />
-    <option name="LAST_COMMIT_MESSAGE" value="added node status to the various displays" />
+    <MESSAGE value="changes to allow HTTP sessions with wiznet nodes" />
+    <option name="LAST_COMMIT_MESSAGE" value="changes to allow HTTP sessions with wiznet nodes" />
   </component>
 </project>
