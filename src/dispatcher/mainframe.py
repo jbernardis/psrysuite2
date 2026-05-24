@@ -4177,9 +4177,10 @@ class MainFrame(wx.Frame):
 				show = True
 			else:  # display process
 				if self.settings.display.showadvice:
-					if "locale" in parms:
-						if parms["locale"] == self.settings.display.locale:
-							show = True
+					if self.settings.display.locale == "all":
+						show = True
+					elif "locale" in parms and self.settings.display.locale == parms["locale"]:
+						show = True
 			if show:
 				logging.info("ADVICE: %s" % (str(parms)))
 				self.PopupAdvice(parms["msg"], force=True)
@@ -4227,9 +4228,10 @@ class MainFrame(wx.Frame):
 				show = True
 			else:  # display process
 				if self.settings.display.showevents:
-					if "locale" in parms:
-						if parms["locale"] == self.settings.display.locale:
-							show = True
+					if self.settings.display.locale == "all":
+						show = True
+					elif "locale" in parms and self.settings.display.locale == parms["locale"]:
+						show = True
 
 			if show:
 				logging.info("ALERT: %s" % (str(parms)))
