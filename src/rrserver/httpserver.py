@@ -184,6 +184,7 @@ class HTTPServer:
 			"getsiglevers": self.GetSigLevers,
 			"stoprelays": self.GetStopRelays,
 			"sessions": self.GetSessions,
+			"blockstatus": self.GetBlockStatus,
 			"blockosmap": self.GetBlockOSMap,
 			"blockadjacency": self.GetBlockAdjacency,
 			"getignoredblocks": self.GetIgnoredBlocks,
@@ -582,6 +583,22 @@ class HTTPServer:
 		else:
 			jstr = json.dumps(tl)
 			return 200, jstr
+
+	def GetBlockStatus(self, cmd):
+		try:
+			reset = cmd["reset"][0]
+		except:
+			reset = None
+
+		if reset is None or reset != "1":
+			doreset = False
+		else:
+			doreset = True
+
+		bstat = self.rr.GetBlockStatus(doreset)
+		jstr = json.dumps(bstat)
+		logging.info("Returning %d bytes" % len(jstr))
+		return 200, jstr
 
 	def GetBlockOSMap(self, cmd):
 		fn = os.path.join(os.getcwd(), "data", "blockosmap.json")

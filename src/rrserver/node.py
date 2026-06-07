@@ -67,7 +67,7 @@ class Node:
 
 	def GetInputMap(self):
 		return self.inputMap
-	
+
 	def GetInputBits(self, bits):
 		rv = []
 		for bt in bits:
@@ -79,6 +79,10 @@ class Node:
 	
 	def SetInputBit(self, vbyte, vbit, state):
 		self.inb[vbyte] = setBit(self.inb[vbyte], 7-vbit, state)
+
+	def SetInputBits(self, bits, value):
+		for bt in bits:
+			self.SetInputBit(bt[0], bt[1], 1 if value else 0)
 
 	def SetOutputBit(self, vbyte, vbit, state):
 		self.outb[vbyte] = setBit(self.outb[vbyte], vbit, state)

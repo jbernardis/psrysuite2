@@ -33,10 +33,11 @@ class InspectDlg(wx.Dialog):
         self.dlgTurnoutLocks = None
         self.dlgBlockIgnoreOOS = None
         self.dlgSessions = None
+        self.dlgBlockStat = None
 
         self.dialogs = [self.dlgAdjacency, self.dlgOSProxy, self.dlgNodeStatus, self.dlgSignalLevers, self.dlgRelays,
                         self.dlgSidingLocks, self.dlgHilite, self.dlgRoutes, self.dlgTrains, self.dlgAuditTrains,
-                        self.dlgTurnoutLocks,  self.dlgBlockIgnoreOOS, self.dlgSessions]
+                        self.dlgTurnoutLocks,  self.dlgBlockIgnoreOOS, self.dlgSessions, self.dlgBlockStat]
 
         self.SetTitle("Inspection Dialog")
 
@@ -78,13 +79,15 @@ class InspectDlg(wx.Dialog):
         self.Bind(wx.EVT_BUTTON, self.OnBBlockAdjacency, bAdjacency)
         bHilite = wx.Button(self, wx.ID_ANY, "Hilite\nBlock/Route", size=BSIZE)
         self.Bind(wx.EVT_BUTTON, self.OnBHilite, bHilite)
+        bBlockStat = wx.Button(self, wx.ID_ANY, "Block Status", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBBlockStat, bBlockStat)
 
         bszl = []
 
         buttonCols = [[bDebug, bLogLevel, bSessions, bNodes, bRelays],
                     [bAuditTrains, bActiveTrains, bRoutes, bAdjacency, bProxies],
                     [bToLocks, bLevers, bHandSwitches, bResetBlks, bIgnoreBlks],
-                    [bSigTool, bTester, bMonitor, bHilite]]
+                    [bSigTool, bTester, bMonitor, bHilite, bBlockStat]]
 
         if self.parent.IsDispatcherOrSatellite() and self.settings.scanner.enable:
             bScanner = wx.Button(self, wx.ID_ANY, "Scanner", size=BSIZE)
@@ -218,6 +221,15 @@ class InspectDlg(wx.Dialog):
         except (AttributeError, RuntimeError):
             self.dlgAdjacency = AdjacencyDlg(self, ba, self.parent)
             self.dlgAdjacency.Show()
+
+    def OnBBlockStat(self, _):
+        bstat = self.parent.Get("blockstatus", {})
+        logging.debug("Block status: %s" % str(bstat))
+        try:
+            self.dlgBlockStat.Raise()
+        except (AttributeError, RuntimeError):
+            self.dlgBlockStat = BlockStatusDlg(self, bstat, self.parent)
+            self.dlgBlockStat.Show()
 
     def OnBRoutes(self, _):
         rtl = self.parent.Get("getroutes", {})
@@ -970,6 +982,141 @@ class AdjacencyDlg(wx.Dialog):
                 logging.debug("Refresh block adjacency - unknown block: %s" % bn)
 
         self.BAgrid.Refresh()
+
+    def OnClose(self, _):
+        self.Destroy()
+
+class BlockStatusDlg(wx.Dialog):
+    def __init__(self, parent, bdata, frame):
+        wx.Dialog.__init__(self, parent, wx.ID_ANY, "Block Status")
+        self.Bind(wx.EVT_CLOSE, self.OnClose)
+        self.frame = frame
+
+        headings = ["Block", "Occupancy", "RR"]
+        colWidth = [70, 70, 70]
+        colAlign = [wx.ALIGN_CENTER, wx.ALIGN_CENTER, wx.ALIGN_CENTER]
+        nRows = len(bdata)
+        nCols = len(headings)
+
+        self.colorWhite = wx.Colour(255, 255, 255)
+        self.colorGray = wx.Colour(196, 196, 196)
+
+        # we want to have at least 5, at most 30 lines on the display
+        nr = nRows
+        if nr < 5:
+            nr = 5
+        elif nr > 30:
+            nr = 30
+        ht = int(33 + nr * 19)
+
+        self.BAgrid = gridlib.Grid(self, size=(sum(colWidth) + 20, ht))
+        self.BAgrid.CreateGrid(nRows, nCols)
+        self.BAgrid.EnableGridLines(True)
+        self.BAgrid.SetGridLineColour(wx.BLACK)
+        self.BAgrid.SetRowLabelSize(2)
+
+        attrs = []
+        for c in range(nCols):
+            attr = wx.grid.GridCellAttr()
+            attr.SetAlignment(colAlign[c], wx.ALIGN_CENTER)
+            attr.SetReadOnly(True)
+            attrs.append(attr)
+
+        for i in range(nCols):
+            self.BAgrid.SetColLabelValue(i, headings[i])
+            self.BAgrid.SetColSize(i, colWidth[i])
+            self.BAgrid.SetColAttr(i, attrs[i])
+
+        self.BSMap = {}
+        row = 0
+
+        issues = 0
+        for bn in sorted(bdata.keys()):
+            self.BSMap[bn] = row
+
+            if bdata[bn][0] != bdata[bn][1]:
+                issues += 1
+                self.BAgrid.SetCellBackgroundColour(row, 1, self.colorGray)
+                self.BAgrid.SetCellBackgroundColour(row, 2, self.colorGray)
+            else:
+                self.BAgrid.SetCellBackgroundColour(row, 1, self.colorWhite)
+                self.BAgrid.SetCellBackgroundColour(row, 2, self.colorWhite)
+
+            self.BAgrid.SetCellValue(row, 0, bn)
+            self.BAgrid.SetCellValue(row, 1, "True" if bdata[bn][0] else "False")
+            self.BAgrid.SetCellValue(row, 2, "True" if bdata[bn][1] else "False")
+            row += 1
+
+        vsz = wx.BoxSizer(wx.VERTICAL)
+        vsz.AddSpacer(20)
+
+        hsz = wx.BoxSizer(wx.HORIZONTAL)
+        hsz.AddSpacer(20)
+
+        hsz.Add(self.BAgrid, 0, wx.EXPAND)
+
+        hsz.AddSpacer(20)
+        vsz.Add(hsz)
+
+        vsz.AddSpacer(20)
+
+        bsz = wx.BoxSizer(wx.HORIZONTAL)
+        bsz.AddSpacer(20)
+
+        bRefresh = wx.Button(self, wx.ID_ANY, "Refresh", size=(100, 30))
+        self.Bind(wx.EVT_BUTTON, self.OnBRefresh, bRefresh)
+        bsz.Add(bRefresh)
+
+        bsz.AddSpacer(20)
+
+        self.bReset = wx.Button(self, wx.ID_ANY, "Reset", size=(100, 30))
+        self.Bind(wx.EVT_BUTTON, self.OnBReset, self.bReset)
+        bsz.Add(self.bReset)
+        self.bReset.Enable(issues > 0)
+
+        bsz.AddSpacer(20)
+
+        vsz.Add(bsz, 0, wx.ALIGN_CENTER_HORIZONTAL)
+
+        vsz.AddSpacer(10)
+
+        self.message = wx.StaticText(self, wx.ID_ANY, "Out of Sync Blocks: %s" % issues)
+        vsz.Add(self.message, 0, wx.ALIGN_CENTER_HORIZONTAL)
+
+        vsz.AddSpacer(20)
+
+        self.SetSizer(vsz)
+        self.Fit()
+        self.Layout()
+
+    def OnBRefresh(self, _):
+        self.DoRefresh({})
+
+    def OnBReset(self, _):
+        self.DoRefresh({"reset": 1})
+
+    def DoRefresh(self, parms={}):
+        bstat = self.frame.Get("blockstatus", parms)
+        issues = 0
+        for bn in bstat.keys():
+            row = self.BSMap.get(bn, None)
+            if row is not None:
+                if bstat[bn][0] != bstat[bn][1]:
+                    issues += 1
+                    self.BAgrid.SetCellBackgroundColour(row, 1, self.colorGray)
+                    self.BAgrid.SetCellBackgroundColour(row, 2, self.colorGray)
+                else:
+                    self.BAgrid.SetCellBackgroundColour(row, 1, self.colorWhite)
+                    self.BAgrid.SetCellBackgroundColour(row, 2, self.colorWhite)
+
+                self.BAgrid.SetCellValue(row, 1, "True" if bstat[bn][0] else "False")
+                self.BAgrid.SetCellValue(row, 2, "True" if bstat[bn][1] else "False")
+            else:
+                logging.debug("Refresh block adjacency - unknown block: %s" % bn)
+
+        self.BAgrid.Refresh()
+        self.bReset.Enable(issues > 0)
+        self.message.SetLabel("Out of Sync Blocks: %s" % issues)
 
     def OnClose(self, _):
         self.Destroy()

@@ -420,6 +420,16 @@ class Railroad:
 				return
 		logging.error("unable to find node %s(0x%2x) to set enabled to %s" % (name, addr, enable))
 
+	def GetBlockStatus(self, reset=False):
+		blks = {}
+		for blknm, blk in self.blocks.items():
+			if blk.Node() is not None:
+				occ, rrOcc = blk.GetDetectionStatus(reset)
+				if occ is not None:
+					blks[blknm] = [occ, rrOcc]
+
+		return blks
+
 	def GetBlockInfo(self):
 		blks = []
 		for blknm, blk in self.blocks.items():

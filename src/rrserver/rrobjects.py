@@ -124,6 +124,9 @@ class Block:
 	
 	def District(self):
 		return self.district
+
+	def Node(self):
+		return self.node
 	
 	def InputType(self):
 		return INPUT_BLOCK
@@ -338,6 +341,17 @@ class Block:
 
 	def GetStatus(self):
 		return self.status
+
+	def GetDetectionStatus(self, reset=False):
+		if len(self.bits) < 1:
+			return None, None
+
+		occ = self.IsOccupied()
+		rrOcc = True if self.node.GetInputBits(self.bits)[0] == 1 else False
+		if reset and occ != rrOcc:
+			self.node.SetInputBits(self.bits, occ)
+			rrOcc = occ
+		return occ, rrOcc
 
 	def SetRoute(self, rtName, blks, sigs):
 		# bnames = ["NONE" if bn is None else bn.Name() for bn in blks]
