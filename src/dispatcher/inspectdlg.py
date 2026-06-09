@@ -85,9 +85,9 @@ class InspectDlg(wx.Dialog):
         bszl = []
 
         buttonCols = [[bDebug, bLogLevel, bSessions, bNodes, bRelays],
-                    [bAuditTrains, bActiveTrains, bRoutes, bAdjacency, bProxies],
+                    [bAuditTrains, bActiveTrains, bRoutes, bProxies, bAdjacency, bBlockStat],
                     [bToLocks, bLevers, bHandSwitches, bResetBlks, bIgnoreBlks],
-                    [bSigTool, bTester, bMonitor, bHilite, bBlockStat]]
+                    [bSigTool, bTester, bMonitor, bHilite]]
 
         if self.parent.IsDispatcherOrSatellite() and self.settings.scanner.enable:
             bScanner = wx.Button(self, wx.ID_ANY, "Scanner", size=BSIZE)
