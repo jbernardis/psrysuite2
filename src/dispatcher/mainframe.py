@@ -8,6 +8,7 @@ import json
 import re
 import logging
 import time
+from datetime import datetime
 from subprocess import Popen
 
 from dispatcher.constants import BLOCK
@@ -2331,10 +2332,13 @@ class MainFrame(wx.Frame):
 
 	def PopupEvent(self, message, force=False):
 		if self.IsDispatcherOrSatellite() or self.settings.display.showevents or force:
+			n = datetime.now()
+			ts = "%02d:%02d:%02d " % (n.hour, n.minute, n.second)
 			self.events.Append(message)
-			self.eventsList.append(message)
+			self.eventsList.append(ts + message)
+
 			if self.dlgEvents is not None:
-				self.dlgEvents.AddItem(message)
+				self.dlgEvents.AddItem(ts + message)
 		
 	def OnBEventsLog(self, _):
 		if self.dlgEvents is None:
@@ -2351,10 +2355,12 @@ class MainFrame(wx.Frame):
 
 	def PopupAdvice(self, message, force=False):
 		if self.IsDispatcherOrSatellite() or self.settings.display.showadvice or force:
+			n = datetime.now()
+			ts = "%02d:%02d:%02d " % (n.hour, n.minute, n.second)
 			self.advice.Append(message)
-			self.adviceList.append(message)
+			self.adviceList.append(ts + message)
 			if self.dlgAdvice is not None:
-				self.dlgAdvice.AddItem(message)
+				self.dlgAdvice.AddItem(ts + message)
 		
 	def OnBAdviceLog(self, _):
 		if self.dlgAdvice is None:

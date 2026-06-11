@@ -5,15 +5,15 @@ import os
 class ListDlg(wx.Dialog):
     def __init__(self, parent, title, dataList, dlgexit, dataclear):
         wx.Dialog.__init__(self, parent, style=wx.CAPTION | wx.CLOSE_BOX | wx.STAY_ON_TOP)
-        
+
         self.parent = parent
         self.dlgexit = dlgexit
         self.dataclear = dataclear
-        
+
         self.SetTitle(title)
         self.title = title
         self.Bind(wx.EVT_CLOSE, self.OnClose)
-        
+
         font = wx.Font(wx.Font(18, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, faceName="Arial"))
 
         vsz = wx.BoxSizer(wx.VERTICAL)
@@ -21,15 +21,15 @@ class ListDlg(wx.Dialog):
 
         data = "\n".join(dataList)
         tcList = wx.TextCtrl(self, wx.ID_ANY, data,
-                size=(800, 460), style=wx.TE_MULTILINE)
+                             size=(800, 460), style=wx.TE_MULTILINE)
         tcList.SetFont(font)
         tcList.ShowPosition(len(data))
         vsz.Add(tcList)
         vsz.AddSpacer(10)
         self.tcList = tcList
-        
+
         bsz = wx.BoxSizer(wx.HORIZONTAL)
-        
+
         self.bClear = wx.Button(self, wx.ID_ANY, "Clear")
         self.Bind(wx.EVT_BUTTON, self.OnBClear, self.bClear)
         bsz.Add(self.bClear)
@@ -47,23 +47,23 @@ class ListDlg(wx.Dialog):
         bsz.Add(self.bSave)
 
         vsz.Add(bsz, 0, wx.ALIGN_CENTER_HORIZONTAL)
-        
+
         vsz.AddSpacer(20)
-        
+
         hsz = wx.BoxSizer(wx.HORIZONTAL)
         hsz.AddSpacer(20)
-        
+
         hsz.Add(vsz)
         hsz.AddSpacer(20)
-        
+
         self.SetSizer(hsz)
-        
+
         self.Fit()
         self.Layout()
-        
+
     def AddItem(self, msg):
-        self.tcList.AppendText("\n"+msg)
-        
+        self.tcList.AppendText("\n" + msg)
+
     def OnBClear(self, _):
         self.tcList.Clear()
         self.dataclear()
@@ -74,7 +74,7 @@ class ListDlg(wx.Dialog):
         dlg = wx.FileDialog(
             self, message="Save %s as ..." % self.title, defaultDir=os.path.join(os.getcwd(), "output"),
             defaultFile="", wildcard=wildcard, style=wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT
-            )
+        )
 
         rc = dlg.ShowModal()
         path = None
@@ -90,21 +90,21 @@ class ListDlg(wx.Dialog):
             ofp.write(self.tcList.GetValue())
 
         dlg = wx.MessageDialog(self,
-                "%s successfully saved to %s" % (self.title, path),
-                "%s Saved" % self.title,
-                wx.OK | wx.ICON_INFORMATION)
+                               "%s successfully saved to %s" % (self.title, path),
+                               "%s Saved" % self.title,
+                               wx.OK | wx.ICON_INFORMATION)
 
         dlg.ShowModal()
         dlg.Destroy()
 
     def OnClose(self, _):
         self.DoClose()
-        
+
     def OnBOK(self, _):
         self.DoClose()
-        
+
     def OnBExit(self, _):
         self.DoClose()
-        
+
     def DoClose(self):
         self.dlgexit()

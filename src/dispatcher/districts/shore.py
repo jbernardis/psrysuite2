@@ -664,7 +664,7 @@ class Shore (District):
 
 		block = self.blocks["SOSHJM"]
 		self.routes["SRtH20H11"] = Route(self.screen, block, "SRtH20H11", "H20", [(114, 13), (115, 13), (116, 13), (117, 13), (118, 13), (119, 13), (120, 12), (121, 11), (122, 11)], "H11", [RESTRICTING, RESTRICTING], ["SSw15:N", "SSw17:N", "SSw19:R"], ["S18R", "S20L"])
-		self.routes["SRtH20H21"] = Route(self.screen, block, "SRtH20H21", "H20", [(114, 13), (115, 13), (116, 13), (117, 13), (118, 13), (119, 13), (120, 13), (121, 13), (122, 13)], "H21", [MAIN, RESTRICTING], ["SSw15:N", "SSw17:N", "SSw19:N"], ["S18R", "S18LA"])
+		self.routes["SRtH20H21"] = Route(self.screen, block, "SRtH20H21", "H20", [(114, 13), (115, 13), (116, 13), (117, 13), (118, 13), (119, 13), (120, 13), (121, 13), (122, 13)], "H21", [RESTRICTING, RESTRICTING], ["SSw15:N", "SSw17:N", "SSw19:N"], ["S18R", "S18LA"])
 		self.routes["SRtH20H40"] = Route(self.screen, block, "SRtH20H40", "H20", [(114, 13), (115, 13), (116, 13), (117, 13), (118, 13), (119, 14), (120, 15), (121, 15), (122, 15)], "H40", [DIVERGING, RESTRICTING], ["SSw15:N", "SSw17:R"], ["S18R", "S18LB"])
 
 		block = self.blocks["SOSHJE"]

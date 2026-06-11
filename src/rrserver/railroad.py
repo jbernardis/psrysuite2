@@ -1832,19 +1832,25 @@ class Railroad:
 						if obj.IsNormal():
 							if nflag == 0 and rflag == 1:
 								if obj.SetNormal(False):
-									msgs = obj.GetEventMessages()
+									force = obj.IsLocked() or obj.IsDisabled()
+									msgs = obj.GetEventMessages(force=force)
 									msgs.extend(self.UpdateRoutesForTurnout(obj))
 									obj.UpdateLed()
 									for m in msgs:
 										self.RailroadEvent(m)
+									if force:
+										self.Alert("Turnout %s changed position while disabled or locked" % obj.Name(), district.Locale())
 						else:
 							if nflag == 1 and rflag == 0:
 								if obj.SetNormal(True):
-									msgs = obj.GetEventMessages()
+									force = obj.IsLocked() or obj.IsDisabled()
+									msgs = obj.GetEventMessages(force=force)
 									msgs.extend(self.UpdateRoutesForTurnout(obj))
 									obj.UpdateLed()
 									for m in msgs:
 										self.RailroadEvent(m)
+									if force:
+										self.Alert("Turnout %s changed position while disabled or locked" % obj.Name(), district.Locale())
 
 					if obj.HasLever():
 						bt = obj.Bits()
