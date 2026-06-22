@@ -23,29 +23,29 @@ class Cliveden (District):
 			msg = "Cliveden control is local (Cliff)"
 			self.frame.PopupEvent(msg)
 
-	def DoBlockAction(self, blk, blockend, state):
-		blknm = blk.GetName()
-		controlOpt = self.frame.cliffControl
-		dispatcher = self.frame.IsDispatcherOrSatellite()
-
-		# we need to know the east/west direction both before and after the block command is applied.  Before is
-		# applicable when the block is being exited before it gets set back to its default direction, and after
-		# is applicable on block entry when the train's direction is applied to the block
-		blkEastBefore = blk.GetEast()
-		District.DoBlockAction(self, blk, blockend, state)
-		blkEastAfter = blk.GetEast()
-
-		if dispatcher and controlOpt != 0:
-			# we are in either dispatcher all or dispatcher bank/cliveden mode
-			if not blkEastAfter and blknm in ["C23", "C12"] and blockend is None and state == OCCUPIED:
-				rtname = "CRtC13" + blknm
-				signm = "C14RA" if blknm == "C12" else "C14RB"
-				self.AutomatedBlockEnqueue(self.C13Queue, "COSCLW", rtname, "C13", signm)
-				self.AutomatedBlockEnqueue(self.C13Queue, "BOSE", "BRtB11C13", "B11", "C18R")
-				self.AutomatedBlockProcess(self.C13Queue)
-
-			elif blkEastBefore and blknm == "COSCLW" and state == EMPTY:
-				self.AutomatedBlockProcess(self.C13Queue)
+	# def DoBlockAction(self, blk, blockend, state):
+	# 	blknm = blk.GetName()
+	# 	controlOpt = self.frame.cliffControl
+	# 	dispatcher = self.frame.IsDispatcherOrSatellite()
+	#
+	# 	# we need to know the east/west direction both before and after the block command is applied.  Before is
+	# 	# applicable when the block is being exited before it gets set back to its default direction, and after
+	# 	# is applicable on block entry when the train's direction is applied to the block
+	# 	blkEastBefore = blk.GetEast()
+	# 	District.DoBlockAction(self, blk, blockend, state)
+	# 	blkEastAfter = blk.GetEast()
+	#
+	# 	if dispatcher and controlOpt != 0:
+	# 		# we are in either dispatcher all or dispatcher bank/cliveden mode
+	# 		if not blkEastAfter and blknm in ["C23", "C12"] and blockend is None and state == OCCUPIED:
+	# 			rtname = "CRtC13" + blknm
+	# 			signm = "C14RA" if blknm == "C12" else "C14RB"
+	# 			self.AutomatedBlockEnqueue(self.C13Queue, "COSCLW", rtname, "C13", signm)
+	# 			self.AutomatedBlockEnqueue(self.C13Queue, "BOSE", "BRtB11C13", "B11", "C18R")
+	# 			self.AutomatedBlockProcess(self.C13Queue)
+	#
+	# 		elif blkEastBefore and blknm == "COSCLW" and state == EMPTY:
+	# 			self.AutomatedBlockProcess(self.C13Queue)
 
 	def ticker(self):
 		self.AutomatedBlockProcess(self.C13Queue)

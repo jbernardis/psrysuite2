@@ -649,19 +649,19 @@ class District:
 			stat = 0
 
 		self.frame.Request({"handswitch": {"name": hs.GetName(), "status": stat}})
-
-	def DoBlockAction(self, blk, blockend, state):
-		bname = blk.GetName()
-		if blk.IsOS() and blk.route is None:
-			# self.frame.PopupEvent("Ignoring Block command for OS %s: route not set" % bname)
-			logging.info("Ignoring Block command for OS %s: route not set" % bname)
-			return 
-
-		blk.SetStatus(state, blockend=blockend, refresh=True)
-
-		osList = self.frame.GetOSForBlock(bname)
-		for osblk in osList:
-			osblk.Draw()
+	#
+	# def DoBlockAction(self, blk, blockend, state):
+	# 	bname = blk.GetName()
+	# 	if blk.IsOS() and blk.route is None:
+	# 		# self.frame.PopupEvent("Ignoring Block command for OS %s: route not set" % bname)
+	# 		logging.info("Ignoring Block command for OS %s: route not set" % bname)
+	# 		return
+	#
+	# 	blk.SetStatus(state, blockend=blockend, refresh=True)
+	#
+	# 	osList = self.frame.GetOSForBlock(bname)
+	# 	for osblk in osList:
+	# 		osblk.Draw()
 
 	def DoTurnoutAction(self, turnout, state, force=False):
 		if state == "N":

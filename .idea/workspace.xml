@@ -4,13 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="reorganized the inspection dialog buttons">
+    <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="timestamp added to events/alerts, fixed aspect calculation through hyde junction">
+      <change afterPath="$PROJECT_DIR$/src/data/scripts/split.scr" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/dispatcher/brokentrainsdlg.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/district.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/district.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/districts/bank.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/districts/bank.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/districts/cliveden.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/districts/cliveden.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/districts/nassau.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/districts/nassau.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dispatcher/districts/shore.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/districts/shore.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/listdlg.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/listdlg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/districts/yard.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/districts/yard.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dispatcher/mainframe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/mainframe.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rrserver/districts/nassau.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/districts/nassau.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/trainhistory.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/trainhistory.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rrserver/railroad.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/railroad.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/todo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/todo.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +78,7 @@
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/jeff/PycharmProjects/psrysuite2/src/dispatcher&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/jeff/PycharmProjects/psrysuite2/src/data/scripts&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -81,6 +88,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\jeff\PycharmProjects\psrysuite2\src\data\scripts" />
       <recent name="C:\Users\jeff\PycharmProjects\psrysuite2\src\dispatcher" />
       <recent name="C:\Users\jeff\PycharmProjects\psrysuite2\src\sigtool" />
     </key>
@@ -332,7 +340,15 @@
       <option name="project" value="LOCAL" />
       <updated>1780971271458</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="reorganized the inspection dialog buttons">
+      <option name="closed" value="true" />
+      <created>1781143482513</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1781143482513</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -347,6 +363,17 @@
     <MESSAGE value="check in" />
     <MESSAGE value="added to inspection dlg - check and reset block detection disagreement with railroad.  Solution is to change input bit status to agree with program and then the next assertion from the railroad will automatically correct it." />
     <MESSAGE value="reorganized the inspection dialog buttons" />
-    <option name="LAST_COMMIT_MESSAGE" value="reorganized the inspection dialog buttons" />
+    <MESSAGE value="timestamp added to events/alerts, fixed aspect calculation through hyde junction" />
+    <option name="LAST_COMMIT_MESSAGE" value="timestamp added to events/alerts, fixed aspect calculation through hyde junction" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/dispatcher/brokentrainsdlg.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

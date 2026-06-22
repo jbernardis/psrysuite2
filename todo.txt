@@ -1,3 +1,11 @@
+repair trains:
+    if unknown train, suggest trains that were lost in that block and offer to resurrect them
+    if train in multiple sections, assist split and rename
+
+    make sure history is retained in time order
+
+
+
 
 when assigning an engineer to a train, if that train currently has an edit train dialog, that dialog is not updated.  This might be true for loco too.
 

@@ -2418,8 +2418,8 @@ class Railroad:
 		# create a new train
 		newTr = Train()
 		# a new train takes on the direction of the original train
-		tr.SetEast(tr.IsEast())
-		self.trains[tr.IName()] = tr
+		newTr.SetEast(tr.IsEast())
+		self.trains[newTr.IName()] = newTr
 
 		# remove all split blocks from the old train and add them to the new train
 		msgs = []

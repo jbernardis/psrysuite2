@@ -63,18 +63,18 @@ class Shore (District):
 	# 				return False
 	#
 	# 	return District.DoSignalLeverAction(self, signame, state, callon, silent, source)
-		
-	def DoBlockAction(self, blk, blockend, state):
-		blknm = blk.GetName()
-		if blknm == "S21" and blockend == "E" and not self.frame.GetBlockByName("KOSN20S21").GetEast():
-			District.DoBlockAction(self, self.frame.GetBlockByName("KOSN20S21"), None, state)
-		elif blknm == "S11" and blockend == "E" and not self.frame.GetBlockByName("KOSN10S11").GetEast():
-			District.DoBlockAction(self, self.frame.GetBlockByName("KOSN10S11"), None, state)
-		
-		if blknm == "SOSHF" and state == "E":
-			for sig in [self.signals["S8L"], self.signals["S8R"]]:
-				sig.SetLock("SOSHF", 0)
-		District.DoBlockAction(self, blk, blockend, state)
+	#
+	# def DoBlockAction(self, blk, blockend, state):
+	# 	blknm = blk.GetName()
+	# 	if blknm == "S21" and blockend == "E" and not self.frame.GetBlockByName("KOSN20S21").GetEast():
+	# 		District.DoBlockAction(self, self.frame.GetBlockByName("KOSN20S21"), None, state)
+	# 	elif blknm == "S11" and blockend == "E" and not self.frame.GetBlockByName("KOSN10S11").GetEast():
+	# 		District.DoBlockAction(self, self.frame.GetBlockByName("KOSN10S11"), None, state)
+	#
+	# 	if blknm == "SOSHF" and state == "E":
+	# 		for sig in [self.signals["S8L"], self.signals["S8R"]]:
+	# 			sig.SetLock("SOSHF", 0)
+	# 	District.DoBlockAction(self, blk, blockend, state)
 
 	def DrawOthers(self, block):
 		if block.GetName() in ["SOSHF", "SOSW", "SOSE"]:

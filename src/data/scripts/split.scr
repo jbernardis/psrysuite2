@@ -1,0 +1,4 @@
+{"setinbit": {"address": "0x61", "byte": [4], "bit": [5], "value": [1]}}
+{"delay": {"ms": 500}}
+{"modifytrain": {"iname": ["??0"], "name": ["HWX"], "loco": ["5304"], "east": ["0"]}}
+{"delay": {"ms": 500}}

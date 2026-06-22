@@ -62,18 +62,18 @@ class Yard (District):
 				trnout = self.turnouts["YSw19"]
 				trnout.UpdateStatus()
 				trnout.Draw()
-
-	def DoBlockAction(self, blk, blockend, state):
-		District.DoBlockAction(self, blk, blockend, state)
-
-		bname = blk.GetName()
-		if bname != "Y20":
-			return
-
-		Y20H = not blk.IsSectionOccupied(None) and not blk.IsSectionOccupied("E") and blk.GetEast()
-		Y20D = Y20H and blk.IsCleared() and blk.GetEast()
-		self.indicators["Y20H"].SetValue(1 if Y20H else 0)
-		self.indicators["Y20D"].SetValue(1 if Y20D else 0)
+	# 
+	# def DoBlockAction(self, blk, blockend, state):
+	# 	District.DoBlockAction(self, blk, blockend, state)
+	#
+	# 	bname = blk.GetName()
+	# 	if bname != "Y20":
+	# 		return
+	#
+	# 	Y20H = not blk.IsSectionOccupied(None) and not blk.IsSectionOccupied("E") and blk.GetEast()
+	# 	Y20D = Y20H and blk.IsCleared() and blk.GetEast()
+	# 	self.indicators["Y20H"].SetValue(1 if Y20H else 0)
+	# 	self.indicators["Y20D"].SetValue(1 if Y20D else 0)
 
 	def DetermineRoute(self, blocks):
 		self.FindTurnoutCombinations(blocks, [

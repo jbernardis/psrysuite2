@@ -309,34 +309,34 @@ class Bank (District):
 		self.handswitches["CSw19.hand"] = hs
 
 		return self.handswitches
-	
-	def DoBlockAction(self, blk, blockend, state):
-		blknm = blk.GetName()
-		dispatcher = self.frame.IsDispatcherOrSatellite()
-		controlOpt = self.frame.cliffControl
-
-		# we need to know the east/west direction both before and after the block command is applied.  Before is
-		# applicable when the block is being exited before it gets set back to its default direction, and after
-		# is applicable on block entry when the train's direction is applied to the block
-		blkEastBefore = blk.GetEast()
-		District.DoBlockAction(self, blk, blockend, state)
-		blkEastAfter = blk.GetEast()
-
-		if dispatcher and controlOpt != 0:
-			# we are in either dispatcher all or dispatcher bank/cliveden mode
-			if blkEastAfter and blknm in ["B11", "B21"] and blockend is None and state == OCCUPIED:
-				rtname = "BRt" + blknm + "C13"
-				signm = "C18LA" if blknm == "B11" else "C18LB"
-				self.AutomatedBlockEnqueue(self.C13Queue, "BOSE", rtname, "C13", signm)
-				self.AutomatedBlockEnqueue(self.C13Queue, "COSCLW", "CRtC13C12", "C12", "C14L")
-				self.AutomatedBlockProcess(self.C13Queue)
-
-			elif not blkEastBefore and blknm == "BOSE" and state == EMPTY:
-				self.AutomatedBlockProcess(self.C13Queue)
-
-		if blknm in ["B20", "B21"]:
-			self.CheckBlockSignalsAdv("B20", "B21", "B20E", True)
-
+	#
+	# def DoBlockAction(self, blk, blockend, state):
+	# 	blknm = blk.GetName()
+	# 	dispatcher = self.frame.IsDispatcherOrSatellite()
+	# 	controlOpt = self.frame.cliffControl
+	#
+	# 	# we need to know the east/west direction both before and after the block command is applied.  Before is
+	# 	# applicable when the block is being exited before it gets set back to its default direction, and after
+	# 	# is applicable on block entry when the train's direction is applied to the block
+	# 	blkEastBefore = blk.GetEast()
+	# 	District.DoBlockAction(self, blk, blockend, state)
+	# 	blkEastAfter = blk.GetEast()
+	#
+	# 	if dispatcher and controlOpt != 0:
+	# 		# we are in either dispatcher all or dispatcher bank/cliveden mode
+	# 		if blkEastAfter and blknm in ["B11", "B21"] and blockend is None and state == OCCUPIED:
+	# 			rtname = "BRt" + blknm + "C13"
+	# 			signm = "C18LA" if blknm == "B11" else "C18LB"
+	# 			self.AutomatedBlockEnqueue(self.C13Queue, "BOSE", rtname, "C13", signm)
+	# 			self.AutomatedBlockEnqueue(self.C13Queue, "COSCLW", "CRtC13C12", "C12", "C14L")
+	# 			self.AutomatedBlockProcess(self.C13Queue)
+	#
+	# 		elif not blkEastBefore and blknm == "BOSE" and state == EMPTY:
+	# 			self.AutomatedBlockProcess(self.C13Queue)
+	#
+	# 	if blknm in ["B20", "B21"]:
+	# 		self.CheckBlockSignalsAdv("B20", "B21", "B20E", True)
+	#
 	def DoSignalAction(self, sig, aspect, frozenaspect=None, callon=False):
 		District.DoSignalAction(self, sig, aspect, frozenaspect=frozenaspect, callon=callon)
 		signame = sig.GetName()

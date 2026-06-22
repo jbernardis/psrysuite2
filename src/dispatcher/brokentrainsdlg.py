@@ -1,0 +1,107 @@
+import wx
+import logging
+
+BTNSZ = wx.Size(120, 33)
+
+
+class BrokenTrainsDlg(wx.Dialog):
+	def __init__(self, parent, brokenTrains):
+		wx.Dialog.__init__(self, parent, wx.ID_ANY, "Non-Contiguous Trains")
+		self.parent = parent
+		self.brokenTrains = brokenTrains
+
+		self.SetTitle("Non-Contiguous Trains")
+		self.Bind(wx.EVT_CLOSE, self.onClose)
+
+		bgGray1 = wx.Colour(192, 192, 192)
+		bgGray2 = wx.Colour(224, 224, 224)
+
+		hdgFont = wx.Font(wx.Font(12, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, faceName="Arial"))
+		btnFont = wx.Font(wx.Font(10, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, faceName="Arial"))
+		textFont = wx.Font(
+			wx.Font(12, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, faceName="Arial"))
+
+		vsz = wx.BoxSizer(wx.VERTICAL)
+		hsz = wx.BoxSizer(wx.HORIZONTAL)
+		hsz.AddSpacer(20)
+
+		grid = wx.GridBagSizer(hgap=5, vgap=5)
+
+		stHeadingTrain = wx.StaticText(self, wx.ID_ANY, "Train", size=wx.Size(100, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+		stHeadingTrain.SetFont(hdgFont)
+		grid.Add(stHeadingTrain, pos=(0, 0), flag=wx.ALIGN_CENTER_VERTICAL)
+		stHeadingSegment = wx.StaticText(self, wx.ID_ANY, "Segment", size=wx.Size(200, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+		stHeadingSegment.SetFont(hdgFont)
+		grid.Add(stHeadingSegment, pos=(0, 1), flag=wx.ALIGN_CENTER_VERTICAL)
+
+		gline = 1
+		self.bMap = {}
+
+		for tr, segs in brokenTrains:
+			trid = tr.Name()
+			for seg in segs:
+				stTrid = wx.StaticText(self, wx.ID_ANY, trid, size=wx.Size(100, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+				stTrid.SetBackgroundColour(bgGray1 if gline%2 == 0 else bgGray2)
+				stTrid.SetFont(textFont)
+				grid.Add(stTrid, pos=(gline, 0), flag=wx.ALIGN_CENTER_VERTICAL)
+
+				stSeg = wx.StaticText(self, wx.ID_ANY, str(seg), size=wx.Size(200, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+				stSeg.SetBackgroundColour(bgGray1 if gline%2 == 0 else bgGray2)
+				stSeg.SetFont(textFont)
+				grid.Add(stSeg, pos=(gline, 1), flag=wx.ALIGN_CENTER_VERTICAL)
+
+				b = wx.Button(self, wx.ID_ANY, "Split", size=BTNSZ)
+				b.user_data = [trid, seg]
+				self.Bind(wx.EVT_BUTTON, self.bBClick, b)
+				b.SetFont(btnFont)
+				grid.Add(b, pos=(gline, 2))
+
+				self.bMap[gline] = [trid, seg]
+
+				gline += 1
+
+		hsz.Add(grid, 0, wx.ALIGN_CENTER_VERTICAL)
+
+		hsz.AddSpacer(20)
+
+		vsz.Add(hsz, 0, wx.ALIGN_CENTER_HORIZONTAL)
+		vsz.AddSpacer(20)
+
+		sz = wx.BoxSizer(wx.HORIZONTAL)
+
+		sz.AddSpacer(20)
+
+		self.bExit = wx.Button(self, wx.ID_ANY, "Exit", size=BTNSZ)
+		self.bExit.SetFont(btnFont)
+		sz.Add(self.bExit)
+		self.Bind(wx.EVT_BUTTON, self.bExitPressed, self.bExit)
+
+		sz.AddSpacer(20)
+
+		vsz.Add(sz, 0, wx.ALIGN_CENTER_HORIZONTAL)
+		vsz.AddSpacer(20)
+
+		self.SetSizer(vsz)
+		self.Layout()
+		self.Fit()
+
+	def bBClick(self, evt):
+		btn = evt.GetEventObject()
+		bdata = btn.user_data
+		logging.debug("button data: %s" % str(bdata))
+		self.selectedTrain = bdata[0]
+		self.selectedSeg = bdata[1]
+		self.EndModal(wx.ID_CUT)
+
+	def GetResults(self):
+		return self.selectedTrain, self.selectedSeg
+
+	def bExitPressed(self, _):
+		self.doCancel()
+
+	def onClose(self, _):
+		self.doCancel()
+
+	def doCancel(self):
+		self.EndModal(wx.ID_CANCEL)
+

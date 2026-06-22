@@ -1,4 +1,5 @@
 import wx
+import time
 
 import logging
 
@@ -24,7 +25,9 @@ class TrainHistory:
 		if trid not in self.trainIds:
 			self.trainIds.append(trid)
 
-		self.history[trid] = {"name": trid, "loco": tr.Loco(), "engineer": tr.Engineer(), "east": tr.East(), "block": tr.Blocks()}
+		self.history[trid] = {"name": trid, "loco": tr.Loco(), "engineer": tr.Engineer(), "east": tr.East(), "block": tr.Blocks(), "time": time.time()}
+
+		self.trainIds = sorted(self.trainIds, key=lambda x: self.history[x]["time"], reverse=True)
 
 	def UpdateEngineer(self, trid, eng):
 		if trid not in self.trainIds:
@@ -44,6 +47,9 @@ class TrainHistory:
 
 	def GetTrains(self):
 		return self.history
+
+	def GetTrainOrder(self):
+		return self.trainIds
 
 
 class TrainHistoryDlg(wx.Dialog):
@@ -66,8 +72,8 @@ class TrainHistoryDlg(wx.Dialog):
 
 		self.Bind(wx.EVT_LIST_ITEM_SELECTED, self.OnClick, self.ch)
 		self.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.OnDClick, self.ch)
-		self.Bind(wx.EVT_LIST_COL_CLICK, self.ch.OnColClick, self.ch)
-		self.Bind(wx.EVT_LIST_COL_RIGHT_CLICK, self.ch.OnColRClick, self.ch)
+		# self.Bind(wx.EVT_LIST_COL_CLICK, self.ch.OnColClick, self.ch)
+		# self.Bind(wx.EVT_LIST_COL_RIGHT_CLICK, self.ch.OnColRClick, self.ch)
 		vsz.AddSpacer(20)
 
 		hsz = wx.BoxSizer(wx.HORIZONTAL)
@@ -106,12 +112,12 @@ class TrainHistoryDlg(wx.Dialog):
 		self.Fit()
 		self.CenterOnScreen()
 
-	@staticmethod
-	def BuildTrainKey(trid):
-		if trid.startswith("??"):
-			return "ZZ%s" % trid
-		else:
-			return "AA%s" % trid
+	# @staticmethod
+	# def BuildTrainKey(trid):
+	# 	if trid.startswith("??"):
+	# 		return "ZZ%s" % trid
+	# 	else:
+	# 		return "AA%s" % trid
 
 	def OnDClick(self, evt):
 		tx = evt.Index
@@ -169,11 +175,8 @@ class TrainHistoryCtrl(wx.ListCtrl):
 		self.parent = parent
 		self.trainHistory = trainHistory
 		self.trains = self.trainHistory.GetTrains()
-		self.sortColumn = 0
-		self.sortReverse = False
 		self.showUnknown = showUnknown
-		self.trainOrder = []
-		self.sortTrainOrder()
+		self.trainOrder = [tid for tid in self.trainHistory.GetTrainOrder() if showUnknown or not tid.startswith("??")]
 
 		self.SetFont(wx.Font(wx.Font(14, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, faceName="Arial")))
 
@@ -205,68 +208,69 @@ class TrainHistoryCtrl(wx.ListCtrl):
 		self.SetHistoryCount()
 
 	def SetHistoryCount(self):
-		self.sortTrainOrder()
+		# self.sortTrainOrder()
+		self.trainOrder = [tid for tid in self.trainHistory.GetTrainOrder() if self.showUnknown or not tid.startswith("??")]
 		self.SetItemCount(0)
 		n = len(self.trainOrder)
 		self.SetItemCount(n)
 		if n > 0:
 			self.RefreshItems(0, n-1)
-
-	def sortTrainOrder(self):
-		if self.showUnknown:
-			k = self.trains.keys()
-		else:
-			k = [kk for kk in self.trains.keys() if not kk.startswith("??")]
-		self.trainOrder = sorted(k, key=self.BuildTrainKey, reverse=self.sortReverse)
-
-	def BuildTrainKey(self, trid):
-		if self.sortColumn == 0:
-			if trid.startswith("??"):
-				return "ZZ%s" % trid
-			else:
-				return "AA%s" % trid
-		else:
-			tr = self.trains[trid]
-			if self.sortColumn == 1:  # east
-				if tr["east"]:
-					return "E"
-				else:
-					return "W"
-
-			elif self.sortColumn == 2:  # loco
-				l = tr["loco"]
-				if l.startswith("??"):
-					return "ZZ%s" % l
-				else:
-					k = ("00000"+l)[-5:]
-					return "AA%s" % k
-
-			elif self.sortColumn == 3:  # engineer
-				if tr["engineer"] is None:
-					return "ZZZZZZZZ"
-				else:
-					return tr["engineer"]
-
-			elif self.sortColumn == 4:  # blocks
-				if len(tr["block"]) == 0:
-					return ""
-				else:
-					return tr["block"][-1]
-
-			else:
-				return "?"  # never gets here
-
-	def OnColClick(self, evt):
-		self.sortColumn = evt.GetColumn()
-		self.sortReverse = False
-		self.sortTrainOrder()
-		self.RefreshItems(0, len(self.trainOrder)-1)
-
-	def OnColRClick(self, evt):
-		self.sortColumn = evt.GetColumn()
-		self.sortReverse = True
-		self.sortTrainOrder()
-		self.RefreshItems(0, len(self.trainOrder)-1)
+	#
+	# def sortTrainOrder(self):
+	# 	if self.showUnknown:
+	# 		k = self.trains.keys()
+	# 	else:
+	# 		k = [kk for kk in self.trains.keys() if not kk.startswith("??")]
+	# 	self.trainOrder = sorted(k, key=self.BuildTrainKey, reverse=self.sortReverse)
+	#
+	# def BuildTrainKey(self, trid):
+	# 	if self.sortColumn == 0:
+	# 		if trid.startswith("??"):
+	# 			return "ZZ%s" % trid
+	# 		else:
+	# 			return "AA%s" % trid
+	# 	else:
+	# 		tr = self.trains[trid]
+	# 		if self.sortColumn == 1:  # east
+	# 			if tr["east"]:
+	# 				return "E"
+	# 			else:
+	# 				return "W"
+	#
+	# 		elif self.sortColumn == 2:  # loco
+	# 			l = tr["loco"]
+	# 			if l.startswith("??"):
+	# 				return "ZZ%s" % l
+	# 			else:
+	# 				k = ("00000"+l)[-5:]
+	# 				return "AA%s" % k
+	#
+	# 		elif self.sortColumn == 3:  # engineer
+	# 			if tr["engineer"] is None:
+	# 				return "ZZZZZZZZ"
+	# 			else:
+	# 				return tr["engineer"]
+	#
+	# 		elif self.sortColumn == 4:  # blocks
+	# 			if len(tr["block"]) == 0:
+	# 				return ""
+	# 			else:
+	# 				return tr["block"][-1]
+	#
+	# 		else:
+	# 			return "?"  # never gets here
+	#
+	# def OnColClick(self, evt):
+	# 	self.sortColumn = evt.GetColumn()
+	# 	self.sortReverse = False
+	# 	# self.sortTrainOrder()
+	# 	self.RefreshItems(0, len(self.trainOrder)-1)
+	#
+	# def OnColRClick(self, evt):
+	# 	self.sortColumn = evt.GetColumn()
+	# 	self.sortReverse = True
+	# 	# self.sortTrainOrder()
+	# 	self.RefreshItems(0, len(self.trainOrder)-1)
 
 	def OnGetItemText(self, item, col):
 		trid = self.trainOrder[item]

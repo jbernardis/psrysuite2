@@ -19,6 +19,7 @@ from dispatcher.train import Train
 from dispatcher.trainlist import ActiveTrainsDlg
 from dispatcher.losttrains import LostTrains, LostTrainsRecoveryDlg
 from dispatcher.trainhistory import TrainHistory
+from dispatcher.brokentrainsdlg import BrokenTrainsDlg
 from dispatcher.routetraindlg import RouteTrainDlg
 from dispatcher.inspectdlg import InspectDlg
 
@@ -1533,6 +1534,7 @@ class MainFrame(wx.Frame):
 
 	def OnTrainSplit(self, _):
 		blks = list(reversed([self.blocks[b] for b in self.menuTrain.Blocks() if not (b.endswith(".E") or b.endswith(".W"))]))
+		blockNames = [b.Name() for b in blks]
 		blockList = [b.GetRouteDesignator() for b in blks]
 		if len(blockList) == 1:
 			dlg = wx.MessageDialog(self, "Train occupies only 1 block", "Unable to split train",
@@ -1541,21 +1543,25 @@ class MainFrame(wx.Frame):
 			dlg.Destroy()
 			return
 
-		blist = []
 		dlg = ChooseBlocksDlg(self, self.menuTrainID, blockList)
 		dlg.CenterOnScreen()
 		lrc = dlg.ShowModal()
-		if lrc == wx.ID_OK:
-			blist = list(reversed(dlg.GetResults()))
-		dlg.Destroy()
-
 		if lrc != wx.ID_OK:
+			dlg.Destroy()
 			return
 
-		logging.info("Splitting following blocks from train %s: %s" % (self.menuTrain.IName(), str(blist)))
+		blist = dlg.GetResults()
+		dlg.Destroy()
+
+		alist = []
+		for b in blist:
+			ix = blockList.index(b)
+			alist.append(blockNames[ix])
+
+		logging.info("Splitting following blocks from train %s: %s" % (self.menuTrain.IName(), str(list(reversed(alist)))))
 
 		self.Request(
-			{"trainsplit": {"train": self.menuTrain.IName(), "blocks": blist}})
+			{"trainsplit": {"train": self.menuTrain.IName(), "blocks": list(reversed(alist))}})
 
 	def OnTrainMerge(self, _):
 		trList = [tr.Name() for tr in self.trains.values() if tr.Name() != self.menuTrainID]
@@ -4566,121 +4572,101 @@ class MainFrame(wx.Frame):
 		rc1 = self.CheckTrainsContiguous()
 		rc2 = self.CheckLocosUnique()
 		rc3 = self.CheckBlocksExpected()
-		if rc1 and rc2 and rc3:
+		rc4 = self.CheckTrainsUnknown()
+		if rc1 and rc2 and rc3 and rc4:
 			dlg = wx.MessageDialog(self, "All Trains are OK", "All Trains OK", wx.OK | wx.ICON_INFORMATION)
 			dlg.ShowModal()
 			dlg.Destroy()
 		
 	def CheckTrainsContiguous(self):
-		t = [tr for tr in self.trains.values() if not self.IsContiguous(tr)]
-		if len(t) == 0:
+		brokenTrains = []
+		brokenTrainMap = {}
+		for tr in self.trains.values():
+			segs, ooo = self.Segments(tr)
+			ns = len(segs)
+			if ns == 0:
+				self.PopupEvent("Train %s does not appear in any blocks" % tr.Name())
+				# train has no blocks
+			elif ns != 1:
+				brokenTrains.append([tr, segs])
+				brokenTrainMap[tr.RName()] = tr.IName()
+
+		if len(brokenTrains) == 0:
 			return True
 
-		msg = "The following trains are in multiple sections:\n\n" + "\n".join([tr.Name() for tr in t])
-		dlg = wx.MessageDialog(self, msg, "Non Contiguous Trains", wx.OK | wx.ICON_WARNING)
+		dlg = BrokenTrainsDlg(self, brokenTrains)
 		rc = dlg.ShowModal()
+		if rc != wx.ID_CUT:
+			dlg.Destroy()
+			return False
+
+		trid, seg = dlg.GetResults()
 		dlg.Destroy()
+
+		iname = brokenTrainMap[trid]
+		msg = {"trainsplit": {"train": iname, "blocks": seg}}
+		self.Request(msg)
 
 		return False
 
-	def IsContiguous(self, tr):
+	def Segments(self, tr):
+		outOfOrder = False
 		bnames = list(tr.Blocks())
 		countBlocks = len(bnames)
-		if countBlocks <= 1:
+		if countBlocks == 0:
+			logging.info("Train has no blocks - this shouldn't happen")
+			return [], False
+		if countBlocks == 1:
 			# only occupying 1 block - contiguous by default
-			logging.info("is contiguous returning true because countblocks = %d" % countBlocks)
-			return True
+			return [bnames], False
 
-		for bx in range(1, len(bnames)):
-			b1 = bnames[bx-1]
-			b2 = bnames[bx]
+		retval = []
 
-			if b1.endswith(".E") or b1.endswith(".W"):
-				if b2 == b1[:-2]:
-					continue  # a block is always adjacent to one of its stopping sections
-				else:
-					b1 = b1[:-2]  # strip off the stopping section suffix for next checks
+		for bx in range(0, len(bnames)):
+			bn = bnames[bx]
 
-			if b2.endswith(".E") or b2.endswith(".W"):
-				if b1 == b2[:-2]:
-					continue  # a block is always adjacent to one of its stopping sections
-				else:
-					b2 = b2[:-2]  # strip off the stopping section suffix for next checks
+			if bn.endswith(".E") or bn.endswith(".W"):
+				bn = bn[:-2]  # strip off the stopping section suffix for next checks
 
-			blk = self.blocks.get(b1, None)
-			if blk is None:
-				logging.error("Unknown block name: %s" % b1)
-				return False
+			found = False
+			for seg in retval:
+				if bn in seg:
+					found = True
 
+			if found:
+				#  We've already dealt with block
+				continue
+
+			blk = self.blocks.get(bn, None)
 			adj1, adj2 = blk.GetAdjacentBlocks()
-			matchb1 = False
-			for ablk in [adj1, adj2]:
-				if ablk is None:
-					# no adjacent block in this direction - assume we're ok
-					matchb1 = True
-				if b2 == ablk.Name():
-					matchb1 = True
 
-			blk = self.blocks.get(b2, None)
-			if blk is None:
-				return False
+			match1 = False
+			if adj1 is not None:
+				anm = adj1.Name()
+				for seg in retval:
+					if anm in seg:
+						if bn not in seg:
+							seg.append(bn)
+						match1 = True
+						break
 
-			adj1, adj2 = blk.GetAdjacentBlocks()
-			matchb2 = False
-			for ablk in [adj1, adj2]:
-				if ablk is None:
-					# no adjacent block in this direction - assume we're ok
-					matchb2 = True
-				if b1 == ablk.Name():
-					matchb2 = True
+			match2 = False
+			if adj2 is not None:
+				anm = adj2.Name()
+				for seg in retval:
+					if anm in seg:
+						if bn not in seg:
+							seg.append(bn)
+						match2 = True
+						break
 
-			if not matchb1 and not matchb2:
-				return False
+			if not match1 and not match2:
+				retval.append([bn])
 
-		return True
+			if match1 and match2:
+				outOfOrder = True
 
-		# count1 = 0
-		# count2 = 0
-		# # for each block the train is in, count how many blocks adjacent to that block contain the same train
-		# adjStr = ""
-		# blkAdj = ""
-		# blocks = [self.blocks[bn] for bn in bnames]
-		# for blk in blocks:
-		# 	adje, adjw = blk.GetAdjacentBlocks()
-		# 	adjc = 0
-		# 	blkAdj += "%s: %s,%s  " % (blk.GetName(), "None" if adje is None else adje.GetName(),
-		# 							   "None" if adjw is None else adjw.GetName())
-		# 	for adj in adje, adjw:
-		# 		if adj is None:
-		# 			continue
-		# 		if adj.GetName() in bnames:
-		# 			adjc += 1
-		# 	adjStr += "%s: %s, " % (blk.GetName(), adjc)
-		# 	print(adjStr)
-		#
-		# 	# the count is either 1 (for the blocks at the beginning and the end of the train)
-		# 	# or two for all of the blocks in between
-		# 	if adjc == 1:
-		# 		count1 += 1
-		# 	elif adjc == 2:
-		# 		count2 += 1
-		# 	else:
-		# 		logging.error("block %s in train %s adjacent count = %d" % (blk.GetName(), self.GetName(), adjc))
-		#
-		# # so when we reach here, there MUST be 2 blocks whose adjacent count is 1 - the first and last blocks
-		# # there must also be countBlocks-2 blocks whose count is 2 - this is all the blocks mid train
-		# print("after block loop, counts = %d, %d" % (count1, count2))
-		# if count1 != 2 or count2 != countBlocks - 2:
-		# 	logging.info("=============================================")
-		# 	logging.info(
-		# 		"train %s is non contiguous, blocks=%s c1=%d c2=%d countblocks=%d" % (self.GetName(), str(bnames),
-		# 																			  count1, count2, countBlocks))
-		# 	logging.info(adjStr)
-		# 	logging.info(blkAdj)
-		# 	logging.info("=============================================")
-		# 	return False
-		#
-		# return True
+		return retval, outOfOrder
 
 	def CheckLocosUnique(self, query=False):
 		locoMap = {}
@@ -4722,6 +4708,10 @@ class MainFrame(wx.Frame):
 		results = {}
 		for tr in self.trains.values():
 			trid = tr.Name()
+			if trid.startswith("??"):
+				# skip unknown trains
+				continue
+
 			roster = tr.Roster()
 			if roster is None:
 				results[trid] = "Train not defined"
@@ -4730,9 +4720,19 @@ class MainFrame(wx.Frame):
 				sb = roster.get("startblock", None)
 
 				if seq is not None:
-					expectedlist = [sb] + [s["block"] for s in seq] + [formatRouteDesignator(s["route"]) for s in seq] + ValidBlocks
+					expectedlist = [sb] + [s["block"] for s in seq] + [formatRouteDesignator(s["route"]) for s in
+						seq] + ValidBlocks
 					trList = tr.Blocks()
-					ul = [bn for bn in trList if bn not in expectedlist]
+					bnlist = []
+					for bn in trList:
+						try:
+							blk = self.blocks[bn]
+						except KeyError:
+							blk = None
+						if blk is not None:
+							bnlist.append(blk.GetRouteDesignator())
+
+					ul = [bn for bn in bnlist if bn not in expectedlist]
 					unexpected = []
 					for bn in ul:
 						if bn.endswith(".W") or bn.endswith(".E"):
@@ -4763,6 +4763,31 @@ class MainFrame(wx.Frame):
 		dlg.Destroy()
 
 		return False
+
+	def CheckTrainsUnknown(self):
+		results = []
+		for tr in self.trains.values():
+			trid = tr.Name()
+			if trid.startswith("??"):
+				results.append(trid)
+
+		n = len(results)
+		if n == 0:
+			return True
+
+		if n == 1:
+			plural = ""
+		else:
+			plural = "s"
+
+		msg = ("Unknown Train%s:\n\n" % plural) + ("\n".join(results))
+
+		dlg = wx.MessageDialog(self, msg, "Trains in unexpected blocks", style=wx.OK | wx.ICON_WARNING)
+		rc = dlg.ShowModal()
+		dlg.Destroy()
+
+		return False
+
 	#
 	# def CheckCorrectRoute(self):
 	# 	results = {}
