@@ -10,7 +10,7 @@ BUTTONSIZE = (120, 40)
 
 
 class EditTrainDlg(wx.Dialog):
-	def __init__(self, parent, train, locos, trainRoster, engineers, activeTrains, lostTrains, trainHistory, preLoaded, rrserver, dx, dy):
+	def __init__(self, parent, train, block, locos, trainRoster, engineers, activeTrains, lostTrains, trainHistory, preLoaded, rrserver, dx, dy):
 		wx.Dialog.__init__(self, parent, wx.ID_ANY, "Edit Train Details", pos=(dx, dy), style=wx.CAPTION|wx.CLOSE_BOX|wx.STAY_ON_TOP)
 		self.parent = parent
 		self.Bind(wx.EVT_CLOSE, self.onCancel)
@@ -25,7 +25,7 @@ class EditTrainDlg(wx.Dialog):
 		loco = train.Loco()
 		self.iname = train.IName()
 		self.name = name
-		# self.block = block
+		self.block = block
 		
 		self.startingEast = train.IsEast()
 		self.templateTrain = train.TemplateTrain()
@@ -290,7 +290,7 @@ class EditTrainDlg(wx.Dialog):
 
 	def OnBLostTrains(self, _):
 		trname = ""
-		dlg = LostTrainsDlg(self, self.lostTrains)
+		dlg = LostTrainsDlg(self, self.block, self.lostTrains)
 		rc = dlg.ShowModal()
 		if rc == wx.ID_OK:
 			trname = dlg.GetResult()
@@ -308,7 +308,7 @@ class EditTrainDlg(wx.Dialog):
 		if loco in self.locos:
 			logging.debug("recovering loco %s: %s" % (loco, self.locos[loco]))
 		else:
-			self.parent.PopupEvent("Unknown locomotive: %s, proceeding..." % loco)
+			logging.info("Unknown locomotive: %s, proceeding..." % loco)
 
 		self.FillInTrainFields(trname, loco, engineer, east)
 
@@ -481,6 +481,10 @@ class EditTrainDlg(wx.Dialog):
 
 			if rc == wx.ID_YES:
 				self.EndModal(wx.ID_CANCEL)
+
+		elif self.chosenTrain == self.name:
+			#  no change to train name
+			self.EndModal(wx.ID_CANCEL)
 
 		else:
 			self.lostTrains.Remove(self.chosenTrain)

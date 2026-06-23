@@ -1,9 +1,4 @@
-repair trains:
-    if unknown train, suggest trains that were lost in that block and offer to resurrect them
-    if train in multiple sections, assist split and rename
-
-    make sure history is retained in time order
-
+when removing from lost trains, if I exit out with no changes, train appears as no longer unknown, and I am unable to create a new lost train for that block
 
 
 

@@ -4,19 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="timestamp added to events/alerts, fixed aspect calculation through hyde junction">
-      <change afterPath="$PROJECT_DIR$/src/data/scripts/split.scr" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/dispatcher/brokentrainsdlg.py" afterDir="false" />
+    <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="check in - improved dealing with separated trains">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/district.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/district.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/districts/bank.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/districts/bank.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/districts/cliveden.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/districts/cliveden.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/districts/nassau.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/districts/nassau.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/districts/shore.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/districts/shore.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/districts/yard.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/districts/yard.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/brokentrainsdlg.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/brokentrainsdlg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/edittraindlg.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/edittraindlg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/losttrains.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/losttrains.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dispatcher/mainframe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/mainframe.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/trainhistory.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/trainhistory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rrserver/railroad.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/railroad.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/todo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/todo.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -348,7 +341,15 @@
       <option name="project" value="LOCAL" />
       <updated>1781143482513</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="check in - improved dealing with separated trains">
+      <option name="closed" value="true" />
+      <created>1782144473121</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1782144473121</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -364,7 +365,8 @@
     <MESSAGE value="added to inspection dlg - check and reset block detection disagreement with railroad.  Solution is to change input bit status to agree with program and then the next assertion from the railroad will automatically correct it." />
     <MESSAGE value="reorganized the inspection dialog buttons" />
     <MESSAGE value="timestamp added to events/alerts, fixed aspect calculation through hyde junction" />
-    <option name="LAST_COMMIT_MESSAGE" value="timestamp added to events/alerts, fixed aspect calculation through hyde junction" />
+    <MESSAGE value="check in - improved dealing with separated trains" />
+    <option name="LAST_COMMIT_MESSAGE" value="check in - improved dealing with separated trains" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

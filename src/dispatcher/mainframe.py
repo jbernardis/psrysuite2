@@ -146,6 +146,8 @@ class MainFrame(wx.Frame):
 		self.cbSidingsUnlocked = None
 		self.menuTrain = None
 		self.menuTrainID = None
+		self.menuBlock = None
+		self.menuBlockName = None
 
 		self.events = None
 		self.advice = None
@@ -1451,7 +1453,9 @@ class MainFrame(wx.Frame):
 
 		menu = wx.Menu()
 		self.menuTrain = tr
+		self.menuBlock = blk
 		self.menuTrainID = trid
+		self.menuBlockName = blk.Name()
 
 		itm = wx.MenuItem(menu, MENU_TRAIN_EDIT, "Edit train name/loco/engineer")
 		itm.SetFont(self.menuFont)
@@ -1517,7 +1521,7 @@ class MainFrame(wx.Frame):
 		return roster
 
 	def OnTrainEdit(self, _):
-		self.EditTrain(self.menuTrain, None)
+		self.EditTrain(self.menuTrain, self.menuBlock)
 
 	def OnTrainRoute(self, _):
 		# get the roster for the train itself
@@ -1605,18 +1609,29 @@ class MainFrame(wx.Frame):
 			dlg.Destroy()
 			return
 
-		bl = [b for b in self.menuTrain.Blocks()]
+		self.ReOrderBlocks(self.menuTrain)
 
-		dlg = SortTrainBlocksDlg(self, self.menuTrain, self.blocks)
+	def ReOrderBlocks(self, tr):
+
+		bl = [b for b in tr.Blocks()]
+		blen = len(bl)
+
+		dlg = SortTrainBlocksDlg(self, tr, self.blocks)
 		dlg.CenterOnScreen()
 		lrc = dlg.ShowModal()
-		neworder = []
-		if lrc == wx.ID_OK:
-			neworder = dlg.GetResults()
+		if lrc != wx.ID_OK:
+			dlg.Destroy()
+			return
+
+		neworder = dlg.GetResults()
 
 		dlg.Destroy()
 
-		self.Request({"trainreorder": {"train": self.menuTrain.IName(), "blocks": neworder}})
+		if len(neworder) != blen:
+			logging.error("Reorder blocks changed the block list length")
+			# self.PopupEvent("Reorder blocks changed the block list length")
+		else:
+			self.Request({"trainreorder": {"train": tr.IName(), "blocks": neworder}})
 
 	@staticmethod
 	def BuildTrainKey(trid):
@@ -1931,7 +1946,7 @@ class MainFrame(wx.Frame):
 
 		dlgx = self.centerw - 500 - self.centerOffset
 		dlgy = self.totalh - 660
-		dlg = EditTrainDlg(self, tr, self.locoList, self.trainRoster, self.engineerList, self.trains,
+		dlg = EditTrainDlg(self, tr, blk, self.locoList, self.trainRoster, self.engineerList, self.trains,
 					self.lostTrains, self.trainHistory, self.preLoaded, self.rrServer, dlgx, dlgy)
 		rc = dlg.ShowModal()
 		east = tr.IsEast()
@@ -2031,7 +2046,8 @@ class MainFrame(wx.Frame):
 				if locoid in self.locoList:
 					logging.debug("Loco %s: %s" % (locoid, self.locoList[locoid]))
 				else:
-					self.PopupEvent("Unknown locomotive: %s, proceeding..." % locoid)
+					logging.info("Unknown locomotive: %s, proceeding..." % locoid)
+
 				self.PopupAdvice("Recovering train %s loco %s in block %s.  Assign to %s" % (trname, locoid, block, engineer))
 				parms = {"iname": tr.IName(), "name": trid, "loco": locoid, "template": template, "east": "1" if east else "0", "engineer": engineer}
 
@@ -4574,10 +4590,8 @@ class MainFrame(wx.Frame):
 		rc3 = self.CheckBlocksExpected()
 		rc4 = self.CheckTrainsUnknown()
 		if rc1 and rc2 and rc3 and rc4:
-			dlg = wx.MessageDialog(self, "All Trains are OK", "All Trains OK", wx.OK | wx.ICON_INFORMATION)
-			dlg.ShowModal()
-			dlg.Destroy()
-		
+			self.PopupEvent("All Trains are OK")
+
 	def CheckTrainsContiguous(self):
 		brokenTrains = []
 		brokenTrainMap = {}
@@ -4588,7 +4602,7 @@ class MainFrame(wx.Frame):
 				self.PopupEvent("Train %s does not appear in any blocks" % tr.Name())
 				# train has no blocks
 			elif ns != 1:
-				brokenTrains.append([tr, segs])
+				brokenTrains.append([tr, segs, ooo])
 				brokenTrainMap[tr.RName()] = tr.IName()
 
 		if len(brokenTrains) == 0:
@@ -4596,7 +4610,7 @@ class MainFrame(wx.Frame):
 
 		dlg = BrokenTrainsDlg(self, brokenTrains)
 		rc = dlg.ShowModal()
-		if rc != wx.ID_CUT:
+		if rc not in [wx.ID_CUT, wx.ID_EDIT]:
 			dlg.Destroy()
 			return False
 
@@ -4604,10 +4618,15 @@ class MainFrame(wx.Frame):
 		dlg.Destroy()
 
 		iname = brokenTrainMap[trid]
-		msg = {"trainsplit": {"train": iname, "blocks": seg}}
-		self.Request(msg)
 
-		return False
+		if rc == wx.ID_CUT:
+			msg = {"trainsplit": {"train": iname, "blocks": seg}}
+			self.Request(msg)
+			return False
+
+		else:
+			self.ReOrderBlocks(self.trains[iname])
+			return False
 
 	def Segments(self, tr):
 		outOfOrder = False
@@ -4722,6 +4741,16 @@ class MainFrame(wx.Frame):
 				if seq is not None:
 					expectedlist = [sb] + [s["block"] for s in seq] + [formatRouteDesignator(s["route"]) for s in
 						seq] + ValidBlocks
+					for lb in LadderBlocks:
+						try:
+							b = self.blocks[lb]
+						except KeyError:
+							logging.error("Unable to locate block named %s" % lb)
+							b = None
+						if b is not None and b.IsOS():
+							rt = b.GetRouteDesignator()
+							expectedlist.append(rt)
+
 					trList = tr.Blocks()
 					bnlist = []
 					for bn in trList:

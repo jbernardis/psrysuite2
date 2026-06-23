@@ -10,6 +10,9 @@ class BrokenTrainsDlg(wx.Dialog):
 		self.parent = parent
 		self.brokenTrains = brokenTrains
 
+		self.selectedTrain = None
+		self.selectedSeg = None
+
 		self.SetTitle("Non-Contiguous Trains")
 		self.Bind(wx.EVT_CLOSE, self.onClose)
 
@@ -37,8 +40,26 @@ class BrokenTrainsDlg(wx.Dialog):
 		gline = 1
 		self.bMap = {}
 
-		for tr, segs in brokenTrains:
+		for tr, segs, ooo in brokenTrains:
 			trid = tr.Name()
+			if ooo:
+				stTrid = wx.StaticText(self, wx.ID_ANY, trid, size=wx.Size(100, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+				stTrid.SetBackgroundColour(bgGray1 if gline%2 == 0 else bgGray2)
+				stTrid.SetFont(textFont)
+				grid.Add(stTrid, pos=(gline, 0), flag=wx.ALIGN_CENTER_VERTICAL)
+
+				stSeg = wx.StaticText(self, wx.ID_ANY, "Blocks Out of Order", size=wx.Size(200, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+				stSeg.SetBackgroundColour(bgGray1 if gline%2 == 0 else bgGray2)
+				stSeg.SetFont(textFont)
+				grid.Add(stSeg, pos=(gline, 1), flag=wx.ALIGN_CENTER_VERTICAL)
+
+				b = wx.Button(self, wx.ID_ANY, "Re-Order", size=BTNSZ)
+				b.user_data = trid
+				self.Bind(wx.EVT_BUTTON, self.bBOrderClick, b)
+				b.SetFont(btnFont)
+				grid.Add(b, pos=(gline, 2))
+				gline += 1
+
 			for seg in segs:
 				stTrid = wx.StaticText(self, wx.ID_ANY, trid, size=wx.Size(100, 23), style=wx.ALIGN_CENTRE_VERTICAL)
 				stTrid.SetBackgroundColour(bgGray1 if gline%2 == 0 else bgGray2)
@@ -52,7 +73,7 @@ class BrokenTrainsDlg(wx.Dialog):
 
 				b = wx.Button(self, wx.ID_ANY, "Split", size=BTNSZ)
 				b.user_data = [trid, seg]
-				self.Bind(wx.EVT_BUTTON, self.bBClick, b)
+				self.Bind(wx.EVT_BUTTON, self.bBSplitClick, b)
 				b.SetFont(btnFont)
 				grid.Add(b, pos=(gline, 2))
 
@@ -85,13 +106,21 @@ class BrokenTrainsDlg(wx.Dialog):
 		self.Layout()
 		self.Fit()
 
-	def bBClick(self, evt):
+	def bBSplitClick(self, evt):
 		btn = evt.GetEventObject()
 		bdata = btn.user_data
-		logging.debug("button data: %s" % str(bdata))
+		logging.debug("split button data: %s" % str(bdata))
 		self.selectedTrain = bdata[0]
 		self.selectedSeg = bdata[1]
 		self.EndModal(wx.ID_CUT)
+
+	def bBOrderClick(self, evt):
+		btn = evt.GetEventObject()
+		bdata = btn.user_data
+		logging.debug("order button data: %s" % str(bdata))
+		self.selectedTrain = bdata
+		self.selectedSeg = None
+		self.EndModal(wx.ID_EDIT)
 
 	def GetResults(self):
 		return self.selectedTrain, self.selectedSeg

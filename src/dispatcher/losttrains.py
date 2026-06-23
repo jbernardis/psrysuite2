@@ -85,15 +85,22 @@ class LostTrains:
 
 
 class LostTrainsDlg(wx.Dialog):
-	def __init__(self, parent, lostTrains):
+	def __init__(self, parent, block, lostTrains):
 		wx.Dialog.__init__(self, parent, wx.ID_ANY, "")
 		self.parent = parent
+		self.block = block
+		if self.block is None:
+			self.blockName = None
+		else:
+			self.blockName = self.block.Name()
 		self.lt = lostTrains
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
 		self.pendingDeletions = []
 		self.trainOrder = []
 		self.trainMap = {}
 		self.trainList = self.lt.GetList()
+		logging.debug("lost train list: %s" % str(self.trainList))
+		logging.debug("block = %s" % "<None>" if self.block is None else self.block.Name())
 		self.SetArrays()
 		self.chosenTrain = None
 
@@ -154,8 +161,22 @@ class LostTrainsDlg(wx.Dialog):
 		self.CenterOnScreen()
 
 	def SetArrays(self):
-		self.trainOrder = sorted([t[0] for t in self.trainList if t[0] not in self.pendingDeletions])
+		so = sorted([t[0] for t in self.trainList if t[0] not in self.pendingDeletions])
 		self.trainMap = {t[0]: t for t in self.trainList if t[0] not in self.pendingDeletions}
+		inblock = []
+		outofblock = []
+		for t in so:
+			logging.debug("%s: %s" % (t, str(self.trainMap[t])))
+			if self.blockName is not None and self.trainMap[t][4] == self.blockName:
+				inblock.append(t)
+			else:
+				outofblock.append(t)
+
+		logging.debug("inblock = %s" % str(inblock))
+		logging.debug("outofblock = %s" % str(outofblock))
+
+		self.trainOrder = inblock + outofblock
+		# self.trainOrder = sorted([t[0] for t in self.trainList if t[0] not in self.pendingDeletions])
 
 	def DoPendingRemoval(self):
 		for tname in self.pendingDeletions:
