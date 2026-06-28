@@ -1,4 +1,4 @@
-when removing from lost trains, if I exit out with no changes, train appears as no longer unknown, and I am unable to create a new lost train for that block
+when I restore from a snapshot, any occupied tracks that are not in that snapshot seem to have their train name changed to a ?? name
 
 
 

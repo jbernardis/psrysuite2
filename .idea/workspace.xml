@@ -4,12 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="check in - improved dealing with separated trains">
+    <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="fixed some bugs dealing with lost trains">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/brokentrainsdlg.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/brokentrainsdlg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/brokentrainsdlg.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/checktrainsdlg.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dispatcher/edittraindlg.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/edittraindlg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/losttrains.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/losttrains.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dispatcher/mainframe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/mainframe.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/httpserver.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/httpserver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/railroad.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/railroad.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utilities/fixtrains.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilities/fixtrains.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utilities/trains.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/todo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/todo.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -61,6 +65,7 @@
     &quot;Python.Cliff Display.executor&quot;: &quot;Run&quot;,
     &quot;Python.Config.executor&quot;: &quot;Run&quot;,
     &quot;Python.Yard Display.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fixtrains.executor&quot;: &quot;Run&quot;,
     &quot;Python.monitor.executor&quot;: &quot;Run&quot;,
     &quot;Python.sigtool.executor&quot;: &quot;Run&quot;,
     &quot;Python.tester2.executor&quot;: &quot;Run&quot;,
@@ -349,7 +354,15 @@
       <option name="project" value="LOCAL" />
       <updated>1782144473121</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="fixed some bugs dealing with lost trains">
+      <option name="closed" value="true" />
+      <created>1782225663156</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1782225663156</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -366,16 +379,7 @@
     <MESSAGE value="reorganized the inspection dialog buttons" />
     <MESSAGE value="timestamp added to events/alerts, fixed aspect calculation through hyde junction" />
     <MESSAGE value="check in - improved dealing with separated trains" />
-    <option name="LAST_COMMIT_MESSAGE" value="check in - improved dealing with separated trains" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/dispatcher/brokentrainsdlg.py</url>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="fixed some bugs dealing with lost trains" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed some bugs dealing with lost trains" />
   </component>
 </project>

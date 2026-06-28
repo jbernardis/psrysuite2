@@ -4,7 +4,7 @@ import os
 
 class MainClass:
     def __init__(self):
-        fn = os.path.join(os.getcwd(), "trains.json")
+        fn = os.path.join("C:/Users/jeff/tmp/trains", "trains.json")
         try:
             with open(fn, "r") as jfp:
                 trains = json.load(jfp)
@@ -17,23 +17,18 @@ class MainClass:
             try:
                 del trinfo["block"]
             except Exception as e:
-                pass
+                print("problem %s deleting key block from train %s" % (str(e), tr))
 
             try:
                 del trinfo["time"]
             except Exception as e:
-                pass
+                print("problem %s deleting key time from train %s" % (str(e), tr))
 
             try:
+                trinfo["template"] = trinfo["route"]
                 del trinfo["route"]
             except Exception as e:
-                pass
-
-            try:
-                del trinfo["tmplate"]
-            except Exception as e:
-                pass
-
+                print("problem %s renaming route to trigger for train %s" % (str(e), tr))
             seq = trinfo["sequence"]
             for s in seq:
                 try:
@@ -45,7 +40,7 @@ class MainClass:
                 except:
                     pass
 
-        fn = os.path.join(os.getcwd(), "newtrains.json")
+        fn = os.path.join("C:/Users/jeff/tmp/trains", "newtrains.json")
         try:
             with open(fn, "w") as jfp:
                 json.dump(trains, jfp, indent=2)

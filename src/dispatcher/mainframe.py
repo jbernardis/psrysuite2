@@ -19,7 +19,7 @@ from dispatcher.train import Train
 from dispatcher.trainlist import ActiveTrainsDlg
 from dispatcher.losttrains import LostTrains, LostTrainsRecoveryDlg
 from dispatcher.trainhistory import TrainHistory
-from dispatcher.brokentrainsdlg import BrokenTrainsDlg
+from dispatcher.checktrainsdlg import CheckTrainsDlg
 from dispatcher.routetraindlg import RouteTrainDlg
 from dispatcher.inspectdlg import InspectDlg
 
@@ -4585,16 +4585,55 @@ class MainFrame(wx.Frame):
 	#
 
 	def CheckTrains(self):
-		rc1 = self.CheckTrainsContiguous()
-		rc2 = self.CheckLocosUnique()
-		rc3 = self.CheckBlocksExpected()
-		rc4 = self.CheckTrainsUnknown()
+		brokenTrains, brokenTrainsMap = self.CheckTrainsContiguous()
+		rc1 = len(brokenTrains) == 0
+
+		trlocomap = self.CheckLocosUnique()
+		rc2 = len(trlocomap) == 0
+
+		trblocks = self.CheckBlocksExpected()
+		rc3 = len(trblocks) == 0
+
+		trUnknown = self.CheckTrainsUnknown()
+		rc4 = len(trUnknown) == 0
+
 		if rc1 and rc2 and rc3 and rc4:
 			self.PopupEvent("All Trains are OK")
+			return
+
+		dlg = CheckTrainsDlg(self, brokenTrains, trlocomap, trblocks, trUnknown)
+		rc = dlg.ShowModal()
+		if rc not in [wx.ID_CUT, wx.ID_EDIT]:
+			dlg.Destroy()
+			return
+
+		trid, seg = dlg.GetResults()
+		dlg.Destroy()
+
+		if rc == wx.ID_CUT:
+			iname = brokenTrainsMap[trid]
+			msg = {"trainsplit": {"train": iname, "blocks": seg}}
+			self.Request(msg)
+
+		elif rc == wx.ID_FORWARD:
+			iname = brokenTrainsMap[trid]
+			self.ReOrderBlocks(self.trains[iname])
+
+		elif rc == wx.ID_EDIT:
+			try:
+				tr = self.trains[trid]
+			except KeyError:
+				logging.debug("Unable to find train trcord for trid %s" % trid)
+				tr = None
+			if tr is not None:
+				self.EditTrain(tr, None)
+
+		else:
+			self.PopupEvent("unknown event %d train %s" % (rc, str(trid)))
 
 	def CheckTrainsContiguous(self):
 		brokenTrains = []
-		brokenTrainMap = {}
+		brokenTrainsMap = {}
 		for tr in self.trains.values():
 			segs, ooo = self.Segments(tr)
 			ns = len(segs)
@@ -4603,30 +4642,9 @@ class MainFrame(wx.Frame):
 				# train has no blocks
 			elif ns != 1:
 				brokenTrains.append([tr, segs, ooo])
-				brokenTrainMap[tr.RName()] = tr.IName()
+				brokenTrainsMap[tr.RName()] = tr.IName()
 
-		if len(brokenTrains) == 0:
-			return True
-
-		dlg = BrokenTrainsDlg(self, brokenTrains)
-		rc = dlg.ShowModal()
-		if rc not in [wx.ID_CUT, wx.ID_EDIT]:
-			dlg.Destroy()
-			return False
-
-		trid, seg = dlg.GetResults()
-		dlg.Destroy()
-
-		iname = brokenTrainMap[trid]
-
-		if rc == wx.ID_CUT:
-			msg = {"trainsplit": {"train": iname, "blocks": seg}}
-			self.Request(msg)
-			return False
-
-		else:
-			self.ReOrderBlocks(self.trains[iname])
-			return False
+		return brokenTrains, brokenTrainsMap
 
 	def Segments(self, tr):
 		outOfOrder = False
@@ -4687,7 +4705,7 @@ class MainFrame(wx.Frame):
 
 		return retval, outOfOrder
 
-	def CheckLocosUnique(self, query=False):
+	def CheckLocosUnique(self):
 		locoMap = {}
 		for trid, tr in self.trains.items():
 			loco = tr.Loco()
@@ -4700,28 +4718,18 @@ class MainFrame(wx.Frame):
 		locos = list(locoMap.keys())
 		for l in locos:
 			if len(locoMap[l]) == 1:
-				del(locoMap[l])	
-		if len(locoMap) == 0:
-			return True
+				del(locoMap[l])
 
-		if query:
-			style = wx.YES_NO | wx.NO_DEFAULT | wx.ICON_QUESTION
-		else:
-			style = wx.OK | wx.ICON_WARNING
-		
-		locoList = ["%s: (%s)" % (lid, ", ".join(locoMap[lid])) for lid in locoMap.keys()]				
-		msg = "The following locomotive numbers are not unique to a single train:\n\n" + "\n".join(locoList)
-		if query:
-			msg += "\n\nPress \"YES\" to proceed anyway, or \"NO\" to cancel"
-			
-		dlg = wx.MessageDialog(self, msg, "Non Unique Locomotive numbers", style)
-		rc = dlg.ShowModal()
-		dlg.Destroy()
-		
-		if query and rc == wx.ID_YES:
-			return True
-		
-		return False
+		if len(locoMap.keys()) == 0:
+			return {}
+
+		trmap = {}
+		for lid, trlist in locoMap.items():
+			for trid in trlist:
+				tr = self.trains[trid]
+				trmap[trid] = [tr, lid]
+
+		return trmap
 
 	def CheckBlocksExpected(self):
 		results = {}
@@ -4753,13 +4761,17 @@ class MainFrame(wx.Frame):
 
 					trList = tr.Blocks()
 					bnlist = []
+					bnMap = {}
 					for bn in trList:
 						try:
 							blk = self.blocks[bn]
 						except KeyError:
 							blk = None
 						if blk is not None:
-							bnlist.append(blk.GetRouteDesignator())
+							rtn = blk.GetRouteDesignator()
+							nm = blk.GetName()
+							bnlist.append(rtn)
+							bnMap[rtn] = nm
 
 					ul = [bn for bn in bnlist if bn not in expectedlist]
 					unexpected = []
@@ -4767,31 +4779,32 @@ class MainFrame(wx.Frame):
 						if bn.endswith(".W") or bn.endswith(".E"):
 							blknm = bn[:-2]
 							if blknm not in expectedlist:
-								unexpected.append(bn)
+								unexpected.append(bnMap[bn])
 						else:
-							unexpected.append(bn)
+							unexpected.append(bnMap[bn])
 					if len(unexpected) != 0:
-						results[trid] = "unexpected blocks: " + ", ".join(unexpected)
+						results[trid] = "Unexpected blocks: " + ", ".join(unexpected)
 				else:
 					results[trid] = "No sequence defined"
 
-		n = len(results)
-		if n == 0:
-			return True
-
-		if n == 1:
-			plural = " is"
-		else:
-			plural = "s are"
-
-		resList = ["%s: %s" % (trid, results[trid]) for trid in results.keys()]
-		msg = ("Train%s in unexpected blocks(s):\n\n" % plural) + "\n".join(resList)
-
-		dlg = wx.MessageDialog(self, msg, "Trains in unexpected blocks", style=wx.OK | wx.ICON_WARNING)
-		rc = dlg.ShowModal()
-		dlg.Destroy()
-
-		return False
+		return results
+		# n = len(results)
+		# if n == 0:
+		# 	return True
+		#
+		# if n == 1:
+		# 	plural = " is"
+		# else:
+		# 	plural = "s are"
+		#
+		# resList = ["%s: %s" % (trid, results[trid]) for trid in results.keys()]
+		# msg = ("Train%s in unexpected blocks(s):\n\n" % plural) + "\n".join(resList)
+		#
+		# dlg = wx.MessageDialog(self, msg, "Trains in unexpected blocks", style=wx.OK | wx.ICON_WARNING)
+		# rc = dlg.ShowModal()
+		# dlg.Destroy()
+		#
+		# return False
 
 	def CheckTrainsUnknown(self):
 		results = []
@@ -4800,22 +4813,7 @@ class MainFrame(wx.Frame):
 			if trid.startswith("??"):
 				results.append(trid)
 
-		n = len(results)
-		if n == 0:
-			return True
-
-		if n == 1:
-			plural = ""
-		else:
-			plural = "s"
-
-		msg = ("Unknown Train%s:\n\n" % plural) + ("\n".join(results))
-
-		dlg = wx.MessageDialog(self, msg, "Trains in unexpected blocks", style=wx.OK | wx.ICON_WARNING)
-		rc = dlg.ShowModal()
-		dlg.Destroy()
-
-		return False
+		return results
 
 	#
 	# def CheckCorrectRoute(self):

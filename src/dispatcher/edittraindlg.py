@@ -456,7 +456,6 @@ class EditTrainDlg(wx.Dialog):
 							"Duplicate Locomotive", wx.OK | wx.ICON_INFORMATION)
 						dlg.ShowModal()
 						dlg.Destroy()
-						return
 
 		activeTrainNameMap = {at.Name(): at.IName() for at in self.activeTrains.values()}
 		if self.chosenTrain != self.name and self.chosenTrain in activeTrainNameMap:
@@ -484,7 +483,7 @@ class EditTrainDlg(wx.Dialog):
 
 		elif self.chosenTrain == self.name:
 			#  no change to train name
-			self.EndModal(wx.ID_CANCEL)
+			self.EndModal(wx.ID_OK)  # CANCEL)
 
 		else:
 			self.lostTrains.Remove(self.chosenTrain)

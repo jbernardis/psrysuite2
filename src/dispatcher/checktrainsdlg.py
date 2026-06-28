@@ -4,16 +4,16 @@ import logging
 BTNSZ = wx.Size(120, 33)
 
 
-class BrokenTrainsDlg(wx.Dialog):
-	def __init__(self, parent, brokenTrains):
-		wx.Dialog.__init__(self, parent, wx.ID_ANY, "Non-Contiguous Trains")
+class CheckTrainsDlg(wx.Dialog):
+	def __init__(self, parent, brokenTrains, locosNonUnique, trblocks, trUnknown):
+		wx.Dialog.__init__(self, parent, wx.ID_ANY, "Problem Trains")
 		self.parent = parent
 		self.brokenTrains = brokenTrains
 
 		self.selectedTrain = None
 		self.selectedSeg = None
 
-		self.SetTitle("Non-Contiguous Trains")
+		self.SetTitle("Problem Trains")
 		self.Bind(wx.EVT_CLOSE, self.onClose)
 
 		bgGray1 = wx.Colour(192, 192, 192)
@@ -33,7 +33,7 @@ class BrokenTrainsDlg(wx.Dialog):
 		stHeadingTrain = wx.StaticText(self, wx.ID_ANY, "Train", size=wx.Size(100, 23), style=wx.ALIGN_CENTRE_VERTICAL)
 		stHeadingTrain.SetFont(hdgFont)
 		grid.Add(stHeadingTrain, pos=(0, 0), flag=wx.ALIGN_CENTER_VERTICAL)
-		stHeadingSegment = wx.StaticText(self, wx.ID_ANY, "Segment", size=wx.Size(200, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+		stHeadingSegment = wx.StaticText(self, wx.ID_ANY, "Issue", size=wx.Size(200, 23), style=wx.ALIGN_CENTRE_VERTICAL)
 		stHeadingSegment.SetFont(hdgFont)
 		grid.Add(stHeadingSegment, pos=(0, 1), flag=wx.ALIGN_CENTER_VERTICAL)
 
@@ -44,12 +44,12 @@ class BrokenTrainsDlg(wx.Dialog):
 			trid = tr.Name()
 			if ooo:
 				stTrid = wx.StaticText(self, wx.ID_ANY, trid, size=wx.Size(100, 23), style=wx.ALIGN_CENTRE_VERTICAL)
-				stTrid.SetBackgroundColour(bgGray1 if gline%2 == 0 else bgGray2)
+				stTrid.SetBackgroundColour(bgGray1 if gline % 2 == 0 else bgGray2)
 				stTrid.SetFont(textFont)
 				grid.Add(stTrid, pos=(gline, 0), flag=wx.ALIGN_CENTER_VERTICAL)
 
-				stSeg = wx.StaticText(self, wx.ID_ANY, "Blocks Out of Order", size=wx.Size(200, 23), style=wx.ALIGN_CENTRE_VERTICAL)
-				stSeg.SetBackgroundColour(bgGray1 if gline%2 == 0 else bgGray2)
+				stSeg = wx.StaticText(self, wx.ID_ANY, "Blocks Out of Order", size=wx.Size(300, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+				stSeg.SetBackgroundColour(bgGray1 if gline % 2 == 0 else bgGray2)
 				stSeg.SetFont(textFont)
 				grid.Add(stSeg, pos=(gline, 1), flag=wx.ALIGN_CENTER_VERTICAL)
 
@@ -60,14 +60,15 @@ class BrokenTrainsDlg(wx.Dialog):
 				grid.Add(b, pos=(gline, 2))
 				gline += 1
 
+			segn = 1
 			for seg in segs:
 				stTrid = wx.StaticText(self, wx.ID_ANY, trid, size=wx.Size(100, 23), style=wx.ALIGN_CENTRE_VERTICAL)
-				stTrid.SetBackgroundColour(bgGray1 if gline%2 == 0 else bgGray2)
+				stTrid.SetBackgroundColour(bgGray1 if gline % 2 == 0 else bgGray2)
 				stTrid.SetFont(textFont)
 				grid.Add(stTrid, pos=(gline, 0), flag=wx.ALIGN_CENTER_VERTICAL)
 
-				stSeg = wx.StaticText(self, wx.ID_ANY, str(seg), size=wx.Size(200, 23), style=wx.ALIGN_CENTRE_VERTICAL)
-				stSeg.SetBackgroundColour(bgGray1 if gline%2 == 0 else bgGray2)
+				stSeg = wx.StaticText(self, wx.ID_ANY, "Segment %d: %s" % (segn, ", ".join(seg)), size=wx.Size(300, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+				stSeg.SetBackgroundColour(bgGray1 if gline % 2 == 0 else bgGray2)
 				stSeg.SetFont(textFont)
 				grid.Add(stSeg, pos=(gline, 1), flag=wx.ALIGN_CENTER_VERTICAL)
 
@@ -80,6 +81,49 @@ class BrokenTrainsDlg(wx.Dialog):
 				self.bMap[gline] = [trid, seg]
 
 				gline += 1
+
+		for trid, trinfo in locosNonUnique.items():
+			tr, lid = trinfo
+			stTrid = wx.StaticText(self, wx.ID_ANY, tr.Name(), size=wx.Size(100, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+			stTrid.SetBackgroundColour(bgGray1 if gline % 2 == 0 else bgGray2)
+			stTrid.SetFont(textFont)
+			grid.Add(stTrid, pos=(gline, 0), flag=wx.ALIGN_CENTER_VERTICAL)
+
+			stLoco = wx.StaticText(self, wx.ID_ANY, "Non unique loco ID: %s" % lid, size=wx.Size(300, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+			stLoco.SetBackgroundColour(bgGray1 if gline % 2 == 0 else bgGray2)
+			stLoco.SetFont(textFont)
+			grid.Add(stLoco, pos=(gline, 1), flag=wx.ALIGN_CENTER_VERTICAL)
+
+			b = wx.Button(self, wx.ID_ANY, "Edit", size=BTNSZ)
+			b.user_data = trid
+			self.Bind(wx.EVT_BUTTON, self.bBEditClick, b)
+			b.SetFont(btnFont)
+			grid.Add(b, pos=(gline, 2))
+			gline += 1
+
+		for trid, issue in trblocks.items():
+			stTrid = wx.StaticText(self, wx.ID_ANY, trid, size=wx.Size(100, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+			stTrid.SetBackgroundColour(bgGray1 if gline % 2 == 0 else bgGray2)
+			stTrid.SetFont(textFont)
+			grid.Add(stTrid, pos=(gline, 0), flag=wx.ALIGN_CENTER_VERTICAL)
+
+			stLoco = wx.StaticText(self, wx.ID_ANY, issue, size=wx.Size(300, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+			stLoco.SetBackgroundColour(bgGray1 if gline % 2 == 0 else bgGray2)
+			stLoco.SetFont(textFont)
+			grid.Add(stLoco, pos=(gline, 1), flag=wx.ALIGN_CENTER_VERTICAL)
+			gline += 1
+
+		for trid in trUnknown:
+			stTrid = wx.StaticText(self, wx.ID_ANY, trid, size=wx.Size(100, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+			stTrid.SetBackgroundColour(bgGray1 if gline % 2 == 0 else bgGray2)
+			stTrid.SetFont(textFont)
+			grid.Add(stTrid, pos=(gline, 0), flag=wx.ALIGN_CENTER_VERTICAL)
+
+			stLoco = wx.StaticText(self, wx.ID_ANY, "Unknown Train", size=wx.Size(300, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+			stLoco.SetBackgroundColour(bgGray1 if gline % 2 == 0 else bgGray2)
+			stLoco.SetFont(textFont)
+			grid.Add(stLoco, pos=(gline, 1), flag=wx.ALIGN_CENTER_VERTICAL)
+			gline += 1
 
 		hsz.Add(grid, 0, wx.ALIGN_CENTER_VERTICAL)
 
@@ -120,6 +164,14 @@ class BrokenTrainsDlg(wx.Dialog):
 		logging.debug("order button data: %s" % str(bdata))
 		self.selectedTrain = bdata
 		self.selectedSeg = None
+		self.EndModal(wx.ID_FORWARD)
+
+	def bBEditClick(self, evt):
+		btn = evt.GetEventObject()
+		bdata = btn.user_data
+		logging.debug("edit loco for train: %s" % str(bdata))
+		self.selectedTrain = bdata
+		self.selectedSeg = None
 		self.EndModal(wx.ID_EDIT)
 
 	def GetResults(self):
@@ -133,4 +185,3 @@ class BrokenTrainsDlg(wx.Dialog):
 
 	def doCancel(self):
 		self.EndModal(wx.ID_CANCEL)
-

@@ -481,14 +481,17 @@ class Railroad:
 	def SetSnapshotLimit(self, limit):
 		self.snapshotLimit = limit
 
-	def ScrubTrains(self):
+	def ScrubTrains(self, ssdata):
+		# clean any trains that are about to be overwritten by the loading of a snapshot
+		sstrains = list(ssdata.keys())
 		for trid, tr in self.trains.items():
-			tr.SetName(None, None)
-			tr.SetTemplateTrain(None)
-			tr.SetTemplateSeq([])
-			for blk in tr.Blocks():
-				self.RailroadEvent(blk.GetEventMessage())
-			self.RailroadEvent(tr.GetEventMessage())
+			if tr.Name() in sstrains:
+				tr.SetName(None, None)
+				tr.SetTemplateTrain(None)
+				tr.SetTemplateSeq([])
+				for blk in tr.Blocks():
+					self.RailroadEvent(blk.GetEventMessage())
+				self.RailroadEvent(tr.GetEventMessage())
 
 	def LoadSnapshot(self, fn):
 		snapList = GetSnapList()
@@ -517,7 +520,7 @@ class Railroad:
 			logging.info("Unknown error loading snapshot %s - %s" % (fn, str(e)))
 			return
 
-		self.ScrubTrains()
+		self.ScrubTrains(j)
 		self.ApplySnapshot(j)
 
 	def ApplyPreload(self, pl):
