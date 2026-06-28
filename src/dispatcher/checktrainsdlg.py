@@ -6,7 +6,7 @@ BTNSZ = wx.Size(120, 33)
 
 class CheckTrainsDlg(wx.Dialog):
 	def __init__(self, parent, brokenTrains, locosNonUnique, trblocks, trUnknown):
-		wx.Dialog.__init__(self, parent, wx.ID_ANY, "Problem Trains")
+		wx.Dialog.__init__(self, parent, wx.ID_ANY, "Problem Trains", size=wx.Size(640, 600))
 		self.parent = parent
 		self.brokenTrains = brokenTrains
 
@@ -24,16 +24,16 @@ class CheckTrainsDlg(wx.Dialog):
 		textFont = wx.Font(
 			wx.Font(12, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, faceName="Arial"))
 
-		vsz = wx.BoxSizer(wx.VERTICAL)
-		hsz = wx.BoxSizer(wx.HORIZONTAL)
-		hsz.AddSpacer(20)
+		self.scrolledPane = wx.ScrolledWindow(self, wx.ID_ANY, style=wx.VSCROLL)
+		self.scrolledPane.SetVirtualSize(1000, 1000)
+		self.scrolledPane.SetScrollRate(0, 20)
 
 		grid = wx.GridBagSizer(hgap=5, vgap=5)
 
-		stHeadingTrain = wx.StaticText(self, wx.ID_ANY, "Train", size=wx.Size(100, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+		stHeadingTrain = wx.StaticText(self.scrolledPane, wx.ID_ANY, "Train", size=wx.Size(100, 23), style=wx.ALIGN_CENTRE_VERTICAL)
 		stHeadingTrain.SetFont(hdgFont)
 		grid.Add(stHeadingTrain, pos=(0, 0), flag=wx.ALIGN_CENTER_VERTICAL)
-		stHeadingSegment = wx.StaticText(self, wx.ID_ANY, "Issue", size=wx.Size(200, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+		stHeadingSegment = wx.StaticText(self.scrolledPane, wx.ID_ANY, "Issue", size=wx.Size(200, 23), style=wx.ALIGN_CENTRE_VERTICAL)
 		stHeadingSegment.SetFont(hdgFont)
 		grid.Add(stHeadingSegment, pos=(0, 1), flag=wx.ALIGN_CENTER_VERTICAL)
 
@@ -43,17 +43,17 @@ class CheckTrainsDlg(wx.Dialog):
 		for tr, segs, ooo in brokenTrains:
 			trid = tr.Name()
 			if ooo:
-				stTrid = wx.StaticText(self, wx.ID_ANY, trid, size=wx.Size(100, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+				stTrid = wx.StaticText(self.scrolledPane, wx.ID_ANY, trid, size=wx.Size(100, 23), style=wx.ALIGN_CENTRE_VERTICAL)
 				stTrid.SetBackgroundColour(bgGray1 if gline % 2 == 0 else bgGray2)
 				stTrid.SetFont(textFont)
 				grid.Add(stTrid, pos=(gline, 0), flag=wx.ALIGN_CENTER_VERTICAL)
 
-				stSeg = wx.StaticText(self, wx.ID_ANY, "Blocks Out of Order", size=wx.Size(300, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+				stSeg = wx.StaticText(self.scrolledPane, wx.ID_ANY, "Blocks Out of Order", size=wx.Size(300, 23), style=wx.ALIGN_CENTRE_VERTICAL)
 				stSeg.SetBackgroundColour(bgGray1 if gline % 2 == 0 else bgGray2)
 				stSeg.SetFont(textFont)
 				grid.Add(stSeg, pos=(gline, 1), flag=wx.ALIGN_CENTER_VERTICAL)
 
-				b = wx.Button(self, wx.ID_ANY, "Re-Order", size=BTNSZ)
+				b = wx.Button(self.scrolledPane, wx.ID_ANY, "Re-Order", size=BTNSZ)
 				b.user_data = trid
 				self.Bind(wx.EVT_BUTTON, self.bBOrderClick, b)
 				b.SetFont(btnFont)
@@ -62,17 +62,17 @@ class CheckTrainsDlg(wx.Dialog):
 
 			segn = 1
 			for seg in segs:
-				stTrid = wx.StaticText(self, wx.ID_ANY, trid, size=wx.Size(100, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+				stTrid = wx.StaticText(self.scrolledPane, wx.ID_ANY, trid, size=wx.Size(100, 23), style=wx.ALIGN_CENTRE_VERTICAL)
 				stTrid.SetBackgroundColour(bgGray1 if gline % 2 == 0 else bgGray2)
 				stTrid.SetFont(textFont)
 				grid.Add(stTrid, pos=(gline, 0), flag=wx.ALIGN_CENTER_VERTICAL)
 
-				stSeg = wx.StaticText(self, wx.ID_ANY, "Segment %d: %s" % (segn, ", ".join(seg)), size=wx.Size(300, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+				stSeg = wx.StaticText(self.scrolledPane, wx.ID_ANY, "Segment %d: %s" % (segn, ", ".join(seg)), size=wx.Size(300, 23), style=wx.ALIGN_CENTRE_VERTICAL)
 				stSeg.SetBackgroundColour(bgGray1 if gline % 2 == 0 else bgGray2)
 				stSeg.SetFont(textFont)
 				grid.Add(stSeg, pos=(gline, 1), flag=wx.ALIGN_CENTER_VERTICAL)
 
-				b = wx.Button(self, wx.ID_ANY, "Split", size=BTNSZ)
+				b = wx.Button(self.scrolledPane, wx.ID_ANY, "Split", size=BTNSZ)
 				b.user_data = [trid, seg]
 				self.Bind(wx.EVT_BUTTON, self.bBSplitClick, b)
 				b.SetFont(btnFont)
@@ -84,17 +84,17 @@ class CheckTrainsDlg(wx.Dialog):
 
 		for trid, trinfo in locosNonUnique.items():
 			tr, lid = trinfo
-			stTrid = wx.StaticText(self, wx.ID_ANY, tr.Name(), size=wx.Size(100, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+			stTrid = wx.StaticText(self.scrolledPane, wx.ID_ANY, tr.Name(), size=wx.Size(100, 23), style=wx.ALIGN_CENTRE_VERTICAL)
 			stTrid.SetBackgroundColour(bgGray1 if gline % 2 == 0 else bgGray2)
 			stTrid.SetFont(textFont)
 			grid.Add(stTrid, pos=(gline, 0), flag=wx.ALIGN_CENTER_VERTICAL)
 
-			stLoco = wx.StaticText(self, wx.ID_ANY, "Non unique loco ID: %s" % lid, size=wx.Size(300, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+			stLoco = wx.StaticText(self.scrolledPane, wx.ID_ANY, "Non unique loco ID: %s" % lid, size=wx.Size(300, 23), style=wx.ALIGN_CENTRE_VERTICAL)
 			stLoco.SetBackgroundColour(bgGray1 if gline % 2 == 0 else bgGray2)
 			stLoco.SetFont(textFont)
 			grid.Add(stLoco, pos=(gline, 1), flag=wx.ALIGN_CENTER_VERTICAL)
 
-			b = wx.Button(self, wx.ID_ANY, "Edit", size=BTNSZ)
+			b = wx.Button(self.scrolledPane, wx.ID_ANY, "Edit", size=BTNSZ)
 			b.user_data = trid
 			self.Bind(wx.EVT_BUTTON, self.bBEditClick, b)
 			b.SetFont(btnFont)
@@ -102,34 +102,36 @@ class CheckTrainsDlg(wx.Dialog):
 			gline += 1
 
 		for trid, issue in trblocks.items():
-			stTrid = wx.StaticText(self, wx.ID_ANY, trid, size=wx.Size(100, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+			stTrid = wx.StaticText(self.scrolledPane, wx.ID_ANY, trid, size=wx.Size(100, 23), style=wx.ALIGN_CENTRE_VERTICAL)
 			stTrid.SetBackgroundColour(bgGray1 if gline % 2 == 0 else bgGray2)
 			stTrid.SetFont(textFont)
 			grid.Add(stTrid, pos=(gline, 0), flag=wx.ALIGN_CENTER_VERTICAL)
 
-			stLoco = wx.StaticText(self, wx.ID_ANY, issue, size=wx.Size(300, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+			stLoco = wx.StaticText(self.scrolledPane, wx.ID_ANY, issue, size=wx.Size(300, 23), style=wx.ALIGN_CENTRE_VERTICAL)
 			stLoco.SetBackgroundColour(bgGray1 if gline % 2 == 0 else bgGray2)
 			stLoco.SetFont(textFont)
 			grid.Add(stLoco, pos=(gline, 1), flag=wx.ALIGN_CENTER_VERTICAL)
 			gline += 1
 
 		for trid in trUnknown:
-			stTrid = wx.StaticText(self, wx.ID_ANY, trid, size=wx.Size(100, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+			stTrid = wx.StaticText(self.scrolledPane, wx.ID_ANY, trid, size=wx.Size(100, 23), style=wx.ALIGN_CENTRE_VERTICAL)
 			stTrid.SetBackgroundColour(bgGray1 if gline % 2 == 0 else bgGray2)
 			stTrid.SetFont(textFont)
 			grid.Add(stTrid, pos=(gline, 0), flag=wx.ALIGN_CENTER_VERTICAL)
 
-			stLoco = wx.StaticText(self, wx.ID_ANY, "Unknown Train", size=wx.Size(300, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+			stLoco = wx.StaticText(self.scrolledPane, wx.ID_ANY, "Unknown Train", size=wx.Size(300, 23), style=wx.ALIGN_CENTRE_VERTICAL)
 			stLoco.SetBackgroundColour(bgGray1 if gline % 2 == 0 else bgGray2)
 			stLoco.SetFont(textFont)
 			grid.Add(stLoco, pos=(gline, 1), flag=wx.ALIGN_CENTER_VERTICAL)
 			gline += 1
 
-		hsz.Add(grid, 0, wx.ALIGN_CENTER_VERTICAL)
+		self.scrolledPane.SetSizer(grid)
 
-		hsz.AddSpacer(20)
+		vsz = wx.BoxSizer(wx.VERTICAL)
+		vsz.AddSpacer(20)
 
-		vsz.Add(hsz, 0, wx.ALIGN_CENTER_HORIZONTAL)
+		vsz.Add(self.scrolledPane, 1, wx.EXPAND | wx.ALL, 20)
+
 		vsz.AddSpacer(20)
 
 		sz = wx.BoxSizer(wx.HORIZONTAL)
@@ -148,7 +150,6 @@ class CheckTrainsDlg(wx.Dialog):
 
 		self.SetSizer(vsz)
 		self.Layout()
-		self.Fit()
 
 	def bBSplitClick(self, evt):
 		btn = evt.GetEventObject()
