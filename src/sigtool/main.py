@@ -8,6 +8,11 @@ if cmdFolder not in sys.path:
 from sigtool.mainframe import MainFrame
 from dispatcher.settings import Settings
 
+ofp = open(os.path.join(os.getcwd(), "output", "sigtester.out"), "w")
+efp = open(os.path.join(os.getcwd(), "output", "sigtester.err"), "w")
+sys.stdout = ofp
+sys.stderr = efp
+
 settings = Settings()
 
 

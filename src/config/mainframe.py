@@ -559,7 +559,8 @@ class MainFrame(wx.Frame):
 
 		vszrfile.Add(wx.StaticText(self, wx.ID_ANY, "Browser Location:"))
 
-		self.teBrowser = wx.TextCtrl(self, wx.ID_ANY, self.settings.browser, size=(450, -1), style=wx.TE_READONLY)
+		browser = "" if self.settings.browser is None else self.settings.browser
+		self.teBrowser = wx.TextCtrl(self, wx.ID_ANY, browser, size=(450, -1), style=wx.TE_READONLY)
 		self.bBrowser = wx.Button(self, wx.ID_ANY, "...", size=(40, -1))
 		self.Bind(wx.EVT_BUTTON, self.OnBBrowser, self.bBrowser)
 
@@ -573,7 +574,8 @@ class MainFrame(wx.Frame):
 
 		vszrfile.Add(wx.StaticText(self, wx.ID_ANY, "Spreadsheet Location:"))
 
-		self.teCalc = wx.TextCtrl(self, wx.ID_ANY, self.settings.spreadsheet, size=(450, -1), style=wx.TE_READONLY)
+		spreadsheet = "" if self.settings.spreadsheet is None else self.settings.spreadsheet
+		self.teCalc = wx.TextCtrl(self, wx.ID_ANY, spreadsheet, size=(450, -1), style=wx.TE_READONLY)
 		self.bCalc = wx.Button(self, wx.ID_ANY, "...", size=(40, -1))
 		self.Bind(wx.EVT_BUTTON, self.OnBCalc, self.bCalc)
 

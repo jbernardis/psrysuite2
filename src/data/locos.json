@@ -971,7 +971,8 @@
       "acc": 1,
       "dec": 1
     },
-    "short": false
+    "short": false,
+    "limit": 0
   },
   "2591": {
     "desc": null,
@@ -1047,6 +1048,19 @@
       "medium": 78,
       "slow": 40,
       "start": 30
+    },
+    "short": false,
+    "limit": 0
+  },
+  "3333": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
     },
     "short": false,
     "limit": 0

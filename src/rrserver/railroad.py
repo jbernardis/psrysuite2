@@ -1990,8 +1990,8 @@ class Railroad:
 			obj = self.blocks[objName]
 
 		if newval != 0:  # if block has changed to occupied
-			# remove any pending detection loss
-			self.pendingDetectionLoss.Remove(objName)
+			# remove any pending detection loss.  rtr is the recovered train
+			rtr = self.pendingDetectionLoss.Remove(objName)
 
 			passSignal = False
 			if obj.IsOS():
@@ -2027,8 +2027,11 @@ class Railroad:
 				obj.SetEast(tr.IsEast())
 				return
 
-			obj.SetStatus("U")  # Mark the block as occupied unonown and then try to identify the train
-			tr, rear = self.IdentifyTrain(obj)
+			obj.SetStatus("U")  # Mark the block as occupied unknown and then try to identify the train, first checking for a train recovered from a pending loss
+			if rtr is None:
+				tr, rear = self.IdentifyTrain(obj)
+			else:
+				tr = rtr
 			if self.settings.debug.blockoccupancy:
 				self.Alert("Identified train as %s" % tr.Name())
 
@@ -2071,7 +2074,7 @@ class Railroad:
 			if obj.IsOccupied():
 				if self.settings.debug.blockoccupancy:
 					self.Alert("Recording pending detection loss for block %s" % objName)
-				self.pendingDetectionLoss.Add(district, objName, obj)
+				self.pendingDetectionLoss.Add(district, objName, obj, obj.Train())
 			else:
 				self.DetectionLoss(district, obj)
 
@@ -2931,7 +2934,7 @@ class Railroad:
 		if exitBlk is not None:
 			if exitBlk.IsOccupied():
 				if not silent:
-					self.Alert("6Block %s is occupied" % exitBlk.RouteDesignator(), locale=locale)
+					self.Alert("Block %s is occupied" % exitBlk.RouteDesignator(), locale=locale)
 				logging.debug("Unable to calculate aspect: Block %s is busy" % exitBlk.Name())
 				return None
 
@@ -2950,7 +2953,7 @@ class Railroad:
 
 		if currentDirection != osblk.IsEast():
 			osblk.SetEast(currentDirection)
-			logging.debug("changhing direction of os to %s" % currentDirection)
+			logging.debug("changing direction of os to %s" % currentDirection)
 
 		if CrossingEastWestBoundary(osblk, exitBlk):
 			logging.debug("we crossed a EW boundary between %s and %s" % (osblk.Name(), exitBlk.Name()))
@@ -4002,16 +4005,17 @@ class PendingDetectionLoss:
 		self.railroad = railroad
 		self.pendingDetectionLossCycles = railroad.settings.rrserver.pendingdetectionlosscycles
 				
-	def Add(self, district, block, obj):
-		self.pendingDetectionLoss[block] = [self.pendingDetectionLossCycles, district, obj]
+	def Add(self, district, block, obj, tr):
+		self.pendingDetectionLoss[block] = [self.pendingDetectionLossCycles, district, obj, tr]
 		
 	def Remove(self, block):
 		try:
+			tr = self.pendingDetectionLoss[block][3]
 			del self.pendingDetectionLoss[block]
 		except:
-			return False
+			return None
 		
-		return True
+		return tr
 		
 	def NextCycle(self):
 		removeBlock = []

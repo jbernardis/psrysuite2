@@ -27,10 +27,10 @@ class MainFrame(wx.Frame):
 		self.chosenBits = 0
 		self.chosenAspect = 0
 
-		self.signals = Signals()
-
 		self.rrServer = RRServer()
 		self.rrServer.SetServerAddress(self.settings.ipaddr, self.settings.serverport)
+
+		self.signals = Signals(self.rrServer)
 
 		stSignal = wx.StaticText(self, wx.ID_ANY, "Signal:", pos=wx.Point(20, 24))
 
@@ -183,7 +183,8 @@ class MainFrame(wx.Frame):
 			return
 
 		msg = {"setoutbit": {"address": "0x%x" % addr, "byte": vbytes, "bit": vbits, "value": vals}}
-		if not self.rrServer.Request(msg):
+		r = self.rrServer.Request(msg)
+		if not r:
 			self.Message("Unable to send request.  Is RRServer running?")
 
 	def Message(self, txt):

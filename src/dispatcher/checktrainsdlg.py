@@ -113,13 +113,13 @@ class CheckTrainsDlg(wx.Dialog):
 			grid.Add(stLoco, pos=(gline, 1), flag=wx.ALIGN_CENTER_VERTICAL)
 			gline += 1
 
-		for trid in trUnknown:
+		for trid, trblocks in trUnknown:
 			stTrid = wx.StaticText(self.scrolledPane, wx.ID_ANY, trid, size=wx.Size(100, 23), style=wx.ALIGN_CENTRE_VERTICAL)
 			stTrid.SetBackgroundColour(bgGray1 if gline % 2 == 0 else bgGray2)
 			stTrid.SetFont(textFont)
 			grid.Add(stTrid, pos=(gline, 0), flag=wx.ALIGN_CENTER_VERTICAL)
 
-			stLoco = wx.StaticText(self.scrolledPane, wx.ID_ANY, "Unknown Train", size=wx.Size(300, 23), style=wx.ALIGN_CENTRE_VERTICAL)
+			stLoco = wx.StaticText(self.scrolledPane, wx.ID_ANY, "Unknown Train (%s)" % trblocks, size=wx.Size(300, 23), style=wx.ALIGN_CENTRE_VERTICAL)
 			stLoco.SetBackgroundColour(bgGray1 if gline % 2 == 0 else bgGray2)
 			stLoco.SetFont(textFont)
 			grid.Add(stLoco, pos=(gline, 1), flag=wx.ALIGN_CENTER_VERTICAL)

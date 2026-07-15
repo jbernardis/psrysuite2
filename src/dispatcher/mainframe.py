@@ -2072,25 +2072,41 @@ class MainFrame(wx.Frame):
 			pname = top.GetName()
 			parms["pname"] = pname
 
-		lockinfo = self.Get("turnoutlocks", parms)
+		locksinfo = self.Get("turnoutlocks", parms)
 
 		try:
-			lockers = lockinfo[tname]
+			lockinfo = locksinfo[tname]
 		except KeyError:
 			if pname is not None:
 				try:
-					lockers = lockinfo[pname]
+					lockinfo = locksinfo[pname]
 				except KeyError:
-					lockers = []
+					lockinfo = None
 			else:
-				lockers = []
+				lockinfo = None
 
-		lockstate = "Locked" if to.IsLocked() else "Unlocked"
+		if lockinfo is not None:
+			lockers = lockinfo[1]
+			lockstate = lockinfo[0]
+		else:
+			lockers = []
+			lockstate = to.IsLocked()
 
+		lockstatemsg = "Locked" if lockstate else "Unlocked"
 		if len(lockers) > 0:
-			lockstate += "  (%s)" % ", ".join(lockers)
+			tnlist = []
+			for lkr in lockers:
+				self.PopupEvent("locker: %s" % lkr)
+				if lkr in self.trains.keys():
+					self.PopupEvent("It's a train")
+					tnlist.append(self.trains[lkr].Name())
+				else:
+					self.PopupEvent("It's not a train")
+					tnlist.append(lkr)
 
-		self.PopupAdvice("%s - %s   %s" % (to.GetName(), state, lockstate), force=True)
+			lockstatemsg += ("  (%s)" % ", ".join(tnlist))
+
+		self.PopupAdvice("%s - %s   %s" % (to.GetName(), state, lockstatemsg), force=True)
 	#
 	# def VerifyTrainID(self, trainid):
 	# 	if trainid is None or trainid.startswith("??"):
@@ -4811,7 +4827,7 @@ class MainFrame(wx.Frame):
 		for tr in self.trains.values():
 			trid = tr.Name()
 			if trid.startswith("??"):
-				results.append(trid)
+				results.append([trid, ", ".join(tr.Blocks())])
 
 		return results
 

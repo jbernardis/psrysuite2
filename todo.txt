@@ -1,4 +1,17 @@
-when I restore from a snapshot, any occupied tracks that are not in that snapshot seem to have their train name changed to a ?? name
+make problem trains dialog modeless???
+
+If I split a train with problem dialog box, and then rename the surviving train, it goes ahead and renames the split train as well - still trying to reproduce
+
+I got an error in RH when I tried to turn off ignore block persistently.  I can't reproduce here
+
+
+Have the ability to preset fleet bits in the ini file
+
+
+
+
+
+
 
 
 
