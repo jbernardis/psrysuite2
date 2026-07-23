@@ -346,7 +346,8 @@ class Railroad:
 			"routesin": rilist,
 			"siglevers": sllist,
 			"signals": siglist,
-			"handswitches": hslist
+			"handswitches": hslist,
+			"nodes": nodeNames
 		}
 		fn = os.path.join(os.getcwd(), "data", "iobits.json")
 		logging.info("Saving IO Bit information to file (%s)" % fn)

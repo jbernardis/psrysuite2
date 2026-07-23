@@ -12630,5 +12630,31 @@
       "revindicators": [],
       "unlock": []
     }
+  },
+  "nodes": {
+    "17": "Yard",
+    "18": "Kale",
+    "19": "East Jct",
+    "20": "Cornell",
+    "21": "Yard SW",
+    "33": "Parsons Jct",
+    "34": "Port A",
+    "35": "Port B",
+    "49": "Latham",
+    "50": "Carlton",
+    "65": "Dell",
+    "66": "Foss",
+    "81": "Hyde Jct",
+    "82": "Hyde",
+    "97": "Shore",
+    "113": "Krulish",
+    "114": "Nassau W",
+    "115": "Nassau E",
+    "116": "Nassau NX",
+    "129": "Bank",
+    "145": "Cliveden",
+    "146": "Green Mtn",
+    "147": "Cliff",
+    "149": "Sheffield"
   }
 }

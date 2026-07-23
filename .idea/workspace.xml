@@ -5,20 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="check in">
-      <change afterPath="$PROJECT_DIR$/src/qrcodes/engineer_none.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/psrysuite2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/psrysuite2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/mainframe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/mainframe.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/locos.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/locos.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/checktrainsdlg.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/checktrainsdlg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/mainframe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/mainframe.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/report.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/report.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/iobits.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/iobits.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rrserver/railroad.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/railroad.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sigtool/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/sigtool/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sigtool/mainframe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/sigtool/mainframe.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sigtool/railroadserver.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/sigtool/railroadserver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sigtool/signals.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/sigtool/signals.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/todo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/todo.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -446,7 +435,15 @@
       <option name="project" value="LOCAL" />
       <updated>1782622225823</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="check in">
+      <option name="closed" value="true" />
+      <created>1784154111577</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1784154111577</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
