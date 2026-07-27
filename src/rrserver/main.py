@@ -1600,11 +1600,22 @@ class ServerMain:
 		self.delay = 5  # wait 5 cycles before delayed startup
 		self.pause = 0
 		self.AtInterval()
+		# while self.forever:
+		# 	while not self.cmdQ.empty():
+		# 		self.ProcessCommand(self.cmdQ.get())
+		# 		self.cmdQ.task_done()
+		# 	time.sleep(0.005)
+
 		while self.forever:
-			while not self.cmdQ.empty():
-				self.ProcessCommand(self.cmdQ.get())
-			time.sleep(0.005)
-			
+			try:
+				cmd = self.cmdQ.get(block=True, timeout=None)
+
+				self.ProcessCommand(cmd)
+				self.cmdQ.task_done()
+				
+			except Exception as e:
+				logging.error(f"Error in main loop: {e}")
+
 		logging.info("terminating server threads")
 		try:
 			self.dispServer.close()

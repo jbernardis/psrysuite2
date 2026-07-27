@@ -104,11 +104,13 @@ class DCCThreadingHTTPServer(ThreadingMixIn, HTTPServer):
 	def serve_dcc(self):
 		self.haltServer = False
 		while self.haltServer == False:
-			r = select.select([self.socket], [], [], 0)[0]
+			#r = select.select([self.socket], [], [], 0)[0]
+			r = select.select([self.socket], [], [], None)[0]
 			if r and len(r) > 0:
 				self.handle_request()
 			else:
-				pass #time.sleep(0.0001) # yield to other threads
+				# pass
+				time.sleep(0.0001) # yield to other threads
 
 	def setApp(self, app):
 		self.app = app

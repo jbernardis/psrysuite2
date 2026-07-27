@@ -9,6 +9,7 @@ from rrserver.railroad import GetSnapList, GetScheduleList
 import json
 import os
 import logging
+import time
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -108,7 +109,8 @@ class ThreadingHTTPServer(ThreadingMixIn, HTTPServer):
 	def serve_railroad(self):
 		self.haltServer = False
 		while self.haltServer == False:
-			r = select.select([self.socket], [], [], 0)[0]
+			# r = select.select([self.socket], [], [], 0)[0]
+			r = select.select([self.socket], [], [], None)[0]
 			if r and len(r) > 0:
 				try:
 					self.handle_request()
@@ -116,7 +118,8 @@ class ThreadingHTTPServer(ThreadingMixIn, HTTPServer):
 					logging.warning("Value error parsing HTTP message - ignoring")
 					pass
 			else:
-				pass #time.sleep(0.0001) # yield to other threads
+				# pass
+				time.sleep(0.0001) # yield to other threads
 
 	def setApp(self, app):
 		self.app = app

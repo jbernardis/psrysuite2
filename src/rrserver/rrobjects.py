@@ -346,7 +346,7 @@ class Block:
 		if len(self.bits) < 1:
 			return None, None
 
-		occ = self.IsOccupied()
+		occ = self.IsOccupied(ignoresb=True)
 		rrOcc = True if self.node.GetInputBits(self.bits)[0] == 1 else False
 		if reset and occ != rrOcc:
 			self.node.SetInputBits(self.bits, occ)
@@ -383,7 +383,7 @@ class Block:
 			return rc
 		return False
 
-	def IsOccupied(self):
+	def IsOccupied(self, ignoresb=False):
 		if self.status in ["O", "U"]:
 			return True
 
@@ -391,9 +391,11 @@ class Block:
 			if sb.IsOccupied():
 				return True
 
-		for sb in self.stoppingBlocks:
-			if sb is not None and sb.IsOccupied():
-				return True
+		# see if we should ignore stopping sections
+		if not ignoresb:
+			for sb in self.stoppingBlocks:
+				if sb is not None and sb.IsOccupied():
+					return True
 
 		return False
 		
@@ -615,7 +617,7 @@ class OSBlock:
 	def GetStatus(self):
 		return self.block.GetStatus()
 
-	def IsOccupied(self):
+	def IsOccupied(self, ignoresb=False):
 		return self.block.IsOccupied()
 
 	def IsOS(self):

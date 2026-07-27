@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="check in">
+    <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="added nodes to iobits json file">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/iobits.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/iobits.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rrserver/railroad.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/railroad.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/dccserver.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/dccserver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/httpserver.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/httpserver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/rrobjects.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/rrobjects.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/sktserver.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/sktserver.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +77,7 @@
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/jeff/PycharmProjects/psrysuite2/src/data/scripts&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/jeff/PycharmProjects/psrysuite2/src/webapp&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -84,16 +87,17 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\jeff\PycharmProjects\psrysuite2\src\webapp" />
       <recent name="C:\Users\jeff\PycharmProjects\psrysuite2\src\data\scripts" />
       <recent name="C:\Users\jeff\PycharmProjects\psrysuite2\src\dispatcher" />
       <recent name="C:\Users\jeff\PycharmProjects\psrysuite2\src\sigtool" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\jeff\PycharmProjects\psrysuite2\src\webapp" />
       <recent name="C:\Users\jeff\PycharmProjects\psrysuite2\src\webapp\app" />
       <recent name="C:\Users\jeff\PycharmProjects\psrysuite2\src\webapp\static\js" />
       <recent name="C:\Users\jeff\PycharmProjects\psrysuite2\src\webapp\static" />
       <recent name="C:\Users\jeff\PycharmProjects\psrysuite2\src\webapp\templates" />
-      <recent name="C:\Users\jeff\PycharmProjects\psrysuite2\src\webapp\templates\scripts" />
     </key>
   </component>
   <component name="RunManager" selected="Python.webapp">
@@ -443,7 +447,15 @@
       <option name="project" value="LOCAL" />
       <updated>1784154111577</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="added nodes to iobits json file">
+      <option name="closed" value="true" />
+      <created>1784818884346</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1784818884346</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -461,6 +473,17 @@
     <MESSAGE value="check in - improved dealing with separated trains" />
     <MESSAGE value="fixed some bugs dealing with lost trains" />
     <MESSAGE value="check in" />
-    <option name="LAST_COMMIT_MESSAGE" value="check in" />
+    <MESSAGE value="added nodes to iobits json file" />
+    <option name="LAST_COMMIT_MESSAGE" value="added nodes to iobits json file" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/rrserver/dccserver.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
