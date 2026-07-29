@@ -1,270 +1,270 @@
 {
-  "address": 115,
-  "description": "Nassau East",
+  "address": 129,
+  "description": "Bank",
   "obytes": [
     [
       {
-        "label": "N24RB(0) Aspect",
+        "label": "C22L",
         "used": true
       },
       {
-        "label": "N24RB(1) Aspect",
+        "label": "C24L(0)",
         "used": true
       },
       {
-        "label": "N24RC(0) Aspect",
+        "label": "C24L(1)",
         "used": true
       },
       {
-        "label": "N24RC(1) Aspect",
+        "label": "C24L(2)",
         "used": true
       },
       {
-        "label": "N26RC(0) Aspect",
+        "label": "C24R(0)",
         "used": true
       },
       {
-        "label": "N26RC(1) Aspect",
+        "label": "C24R(1)",
         "used": true
       },
       {
-        "label": "N24RA(0) Aspect",
+        "label": "C24R(2)",
         "used": true
       },
       {
-        "label": "N24RA(1) Aspect",
+        "label": "C22R(0)",
         "used": true
       }
     ],
     [
       {
-        "label": "N26RA Aspect",
+        "label": "C22R(1)",
         "used": true
       },
       {
-        "label": "N26RB Aspect",
+        "label": "C22R(2)",
         "used": true
       },
       {
-        "label": "N28R Aspect",
+        "label": "C18LA",
         "used": true
       },
       {
-        "label": "B20E(0) Block Aspect",
+        "label": "C18LB(0)",
         "used": true
       },
       {
-        "label": "B20E(1) Block Aspect",
+        "label": "C18LB(1)",
         "used": true
       },
       {
-        "label": "B20E(2) Block Aspect",
+        "label": "C18LB(2)",
         "used": true
       },
       {
-        "label": "N24L Aspect",
+        "label": "C18R(0)",
         "used": true
       },
       {
-        "label": "N26L(0) Aspect",
+        "label": "C18R(1)",
         "used": true
       }
     ],
     [
       {
-        "label": "N26L(1) Aspect",
+        "label": "C18R(2)",
         "used": true
       },
       {
-        "label": "N28L(0) Aspect",
+        "label": "B10.ind",
         "used": true
       },
       {
-        "label": "N28L(1) Aspect",
+        "label": "C13.ind",
         "used": true
       },
       {
-        "label": "NESL(0) Switch Lock",
+        "label": "CSw21AB.hslck",
         "used": true
       },
       {
-        "label": "NESL(1) Switch Lock",
+        "label": "CSw19.hslck",
         "used": true
       },
       {
-        "label": "NESL(2) Switch Lock",
+        "label": "CSw23.N",
         "used": true
       },
       {
-        "label": "B10 Stop Relay",
+        "label": "CSw23.R",
         "used": true
       },
       {
-        "label": "N24 Left Ind",
+        "label": "CSw17.N",
         "used": true
       }
     ],
     [
       {
-        "label": "N24 Neutral Ind",
+        "label": "CSw17.R",
         "used": true
       },
       {
-        "label": "N24 Right Ind",
+        "label": "B20.srel",
         "used": true
       },
       {
-        "label": "N26 Left Ind",
+        "label": "B11.srel",
         "used": true
       },
       {
-        "label": "N26 Neutral Ind",
+        "label": "B21.srel",
         "used": true
       },
       {
-        "label": "N26 Right Ind",
+        "label": "CBBank.ind",
         "used": true
       },
       {
-        "label": "N28 Left Ind",
+        "label": "C24L.ind",
         "used": true
       },
       {
-        "label": "N28 Neutral Ind",
-        "used": true
+        "label": "(unused)",
+        "used": false
       },
       {
-        "label": "N28 Right Ind",
-        "used": true
+        "label": "(unused)",
+        "used": false
       }
     ]
   ],
   "ibytes": [
     [
       {
-        "label": "NSw41 Normal",
+        "label": "CSw23.N",
         "used": true
       },
       {
-        "label": "(bad bit - see bit 3:2)",
-        "used": false
-      },
-      {
-        "label": "NSw43 Normal",
+        "label": "CSw23.R",
         "used": true
       },
       {
-        "label": "NSw43 Reverse",
+        "label": "CSw21a.N",
         "used": true
       },
       {
-        "label": "NSw45 Normal",
+        "label": "CSw21a.R",
         "used": true
       },
       {
-        "label": "NSw45 Reverse",
+        "label": "CSw21b.N",
         "used": true
       },
       {
-        "label": "NSw47 Normal",
+        "label": "CSw21b.R",
         "used": true
       },
       {
-        "label": "NSw47 Reverse",
-        "used": true
-      }
-    ],
-    [
-      {
-        "label": "(bad bit - see bit 3:3)",
-        "used": false
-      },
-      {
-        "label": "NSw51 Reverse",
+        "label": "CSw19.N",
         "used": true
       },
       {
-        "label": "NSw53 Normal",
-        "used": true
-      },
-      {
-        "label": "NSw53 Reverse",
-        "used": true
-      },
-      {
-        "label": "NSw55 Normal",
-        "used": true
-      },
-      {
-        "label": "NSw55 Reverse",
-        "used": true
-      },
-      {
-        "label": "NSw57 Normal",
-        "used": true
-      },
-      {
-        "label": "NSw57 Reverse",
+        "label": "CSw19.R",
         "used": true
       }
     ],
     [
       {
-        "label": "(bad bit - see bit 3:4)",
-        "used": false
-      },
-      {
-        "label": "N41 Occupied",
+        "label": "CSw17.N",
         "used": true
       },
       {
-        "label": "N42 Occupied",
+        "label": "CSw17.R",
         "used": true
       },
       {
-        "label": "(bad bit - see bit 3:5)",
-        "used": false
-      },
-      {
-        "label": "NEOSW Occupied",
+        "label": "B20",
         "used": true
       },
       {
-        "label": "NEOSE Occupied",
+        "label": "B20.E",
         "used": true
       },
       {
-        "label": "B10.W Occupied",
+        "label": "BOSWW",
         "used": true
       },
       {
-        "label": "B10 Occupied",
+        "label": "BOSWE",
+        "used": true
+      },
+      {
+        "label": "B11.W",
+        "used": true
+      },
+      {
+        "label": "B11",
         "used": true
       }
     ],
     [
       {
-        "label": "NSw39 Normal",
+        "label": "B21.W",
         "used": true
       },
       {
-        "label": "NSw39 Reverse",
+        "label": "B21",
         "used": true
       },
       {
-        "label": "NSw41 Reverse (see bit 0:1)",
+        "label": "B21.E",
         "used": true
       },
       {
-        "label": "NSw51 Normal (see bit 1:0)",
+        "label": "BOSE",
         "used": true
       },
       {
-        "label": "N22 Occupied (see bit 2:0)",
+        "label": "CBBank",
         "used": true
       },
       {
-        "label": "NEOSRH Occupied (see bit 2:3)",
+        "label": "CBKale",
+        "used": true
+      },
+      {
+        "label": "CBWaterman",
+        "used": true
+      },
+      {
+        "label": "CBEngineYard",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "CBEastEndJct",
+        "used": true
+      },
+      {
+        "label": "CBShore",
+        "used": true
+      },
+      {
+        "label": "CBRockyHill",
+        "used": true
+      },
+      {
+        "label": "CBHarpersFerry",
+        "used": true
+      },
+      {
+        "label": "CBBlockY30",
+        "used": true
+      },
+      {
+        "label": "CBBlockY81",
         "used": true
       },
       {

@@ -2,30 +2,22 @@ import serial
 import time
 
 MAXTRIES = 5
-THRESHOLD = 2
 
-def setBit(obyte, obit, val):
+
+def setBit(dbyte, dbit, val):
 	if val != 0:
-		return (obyte | (1 << obit)) & 0xff
+		return (dbyte | (1 << 7-dbit)) & 0xff
 	else:
-		return obyte
+		return (dbyte & ~(1 << 7-dbit)) & 0xff
 
 
-def getBit(ibyte, ibit):
-	if ibit < 0 or ibit > 7:
+def getBit(dbyte, dbit):
+	if dbit < 0 or dbit > 7:
 		# bit index is out of range
 		return 0
-	mask = 1 << (7-ibit)
-	b = int(ibyte.hex(), 16)
+	mask = 1 << (7-dbit)
+	b = int(bytes([dbyte]).hex(), 16)
 	return 1 if b & mask != 0 else 0
-
-def getBitInverted(ibyte, ibit):
-	if ibit < 0 or ibit > 7:
-		# bit index is out of range
-		return 0
-	mask = 1 << (7-ibit)
-	b = int(ibyte.hex(), 16)
-	return 0 if b & mask != 0 else 1
 
 
 class Bus:
@@ -34,6 +26,11 @@ class Bus:
 		self.tty = tty
 		self.byteTally = {}
 		self.lastUsed = {}
+		self.port = None
+		self.error = None
+
+	def Connect(self):
+		self.error = None
 		try:
 			self.port = serial.Serial(port=self.tty,
 					baudrate=19200,
@@ -42,11 +39,16 @@ class Bus:
 					stopbits=serial.STOPBITS_ONE, 
 					timeout=0)
 
-		except serial.SerialException:
+		except serial.SerialException as e:
 			self.port = None
+			self.initialized = False
+			self.error = str(e)
 			return
 
 		self.initialized = True
+
+	def Error(self):
+		return self.error
 		
 	def isOpen(self):
 		return self.port is not None
@@ -56,19 +58,14 @@ class Bus:
 			return 
 		
 		self.port.close()
+		self.port = None
+		self.initialized = False
 
-	def sendRecv(self, address, outbuf, nbytes, threshold=1):
+	def sendRecv(self, address, outbuf, nbytes):
 		if not self.initialized:
 			return None
-		
-		try:
-			lastused = self.lastUsed[address]
-		except:
-			lastused = [None for _ in range(nbytes)]
-			self.lastUsed[address] = lastused
 
-		sendBuffer = []
-		sendBuffer.append(address)
+		sendBuffer = [address]
 
 		outbuf = list(reversed(outbuf))
 
@@ -90,33 +87,6 @@ class Bus:
 				remaining = nbytes-len(inbuf)
 				
 		if len(inbuf) != nbytes:
-			return None #[b'\x00']*nbytes
+			return None   # [b'\x00'] * nbytes
 		else:
-			if threshold != 0:
-				'''
-				we're not using raw input - make sure that if a byte is different,
-				that it is at least different for "threshold" cycles before we accept it
-				'''
-				for i in range(nbytes):
-					if lastused[i] is None:
-						lastused[i] = inbuf[i]
-					elif inbuf[i] == lastused[i]:
-						self.byteTally[(address, i)] = 0
-					elif self.verifyChange(address, i, threshold):
-						lastused[i] = inbuf[i]
-					else:
-						inbuf[i] = lastused[i]
-					
 			return inbuf
-	
-	def verifyChange(self, address, bx, threshold):
-		try:
-			self.byteTally[(address, bx)] += 1
-		except KeyError:
-			self.byteTally[(address, bx)] = 1
-			
-		if self.byteTally[(address, bx)] > threshold:
-			self.byteTally[(address, bx)] = 0
-			return True
-		
-		return False

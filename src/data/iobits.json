@@ -9338,7 +9338,8 @@
           ]
         ],
         20
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y2L": {
       "aspect": [
@@ -9349,7 +9350,8 @@
           ]
         ],
         20
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y2R": {
       "aspect": [
@@ -9368,7 +9370,8 @@
           ]
         ],
         20
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y4RA": {
       "aspect": [
@@ -9387,7 +9390,8 @@
           ]
         ],
         20
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y4RB": {
       "aspect": [
@@ -9398,7 +9402,8 @@
           ]
         ],
         20
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y10L": {
       "aspect": [
@@ -9417,7 +9422,8 @@
           ]
         ],
         19
-      ]
+      ],
+      "aspecttype": 52
     },
     "Y8LA": {
       "aspect": [
@@ -9428,7 +9434,8 @@
           ]
         ],
         19
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y8LB": {
       "aspect": [
@@ -9439,7 +9446,8 @@
           ]
         ],
         19
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y8LC": {
       "aspect": [
@@ -9450,7 +9458,8 @@
           ]
         ],
         19
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y8R": {
       "aspect": [
@@ -9469,7 +9478,8 @@
           ]
         ],
         19
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y10R": {
       "aspect": [
@@ -9480,7 +9490,8 @@
           ]
         ],
         19
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y22L": {
       "aspect": [
@@ -9491,7 +9502,8 @@
           ]
         ],
         18
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y26LA": {
       "aspect": [
@@ -9502,7 +9514,8 @@
           ]
         ],
         18
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y26LB": {
       "aspect": [
@@ -9513,7 +9526,8 @@
           ]
         ],
         18
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y26LC": {
       "aspect": [
@@ -9524,7 +9538,8 @@
           ]
         ],
         18
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y24LA": {
       "aspect": [
@@ -9535,7 +9550,8 @@
           ]
         ],
         18
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y24LB": {
       "aspect": [
@@ -9546,7 +9562,8 @@
           ]
         ],
         18
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y20H": {
       "aspect": [
@@ -9557,7 +9574,8 @@
           ]
         ],
         18
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y20D": {
       "aspect": [
@@ -9568,7 +9586,8 @@
           ]
         ],
         18
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y26R": {
       "aspect": [
@@ -9579,7 +9598,8 @@
           ]
         ],
         18
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y22R": {
       "aspect": [
@@ -9594,7 +9614,8 @@
           ]
         ],
         18
-      ]
+      ],
+      "aspecttype": 53
     },
     "Y34RA": {
       "aspect": [
@@ -9605,7 +9626,8 @@
           ]
         ],
         17
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y34RB": {
       "aspect": [
@@ -9616,7 +9638,8 @@
           ]
         ],
         17
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y34L": {
       "aspect": [
@@ -9635,67 +9658,78 @@
           ]
         ],
         17
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y40L": {
       "aspect": [
         [],
         17
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y40RA": {
       "aspect": [
         [],
         17
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y40RB": {
       "aspect": [
         [],
         17
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y40RC": {
       "aspect": [
         [],
         17
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y40RD": {
       "aspect": [
         [],
         17
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y42R": {
       "aspect": [
         [],
         17
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y42LA": {
       "aspect": [
         [],
         17
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y42LB": {
       "aspect": [
         [],
         17
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y42LC": {
       "aspect": [
         [],
         17
-      ]
+      ],
+      "aspecttype": 50
     },
     "Y42LD": {
       "aspect": [
         [],
         17
-      ]
+      ],
+      "aspecttype": 50
     },
     "L4R": {
       "aspect": [
@@ -9714,7 +9748,8 @@
           ]
         ],
         49
-      ]
+      ],
+      "aspecttype": 50
     },
     "L6RB": {
       "aspect": [
@@ -9725,7 +9760,8 @@
           ]
         ],
         49
-      ]
+      ],
+      "aspecttype": 50
     },
     "L6RA": {
       "aspect": [
@@ -9744,7 +9780,8 @@
           ]
         ],
         49
-      ]
+      ],
+      "aspecttype": 50
     },
     "L8R": {
       "aspect": [
@@ -9755,7 +9792,8 @@
           ]
         ],
         49
-      ]
+      ],
+      "aspecttype": 50
     },
     "L4L": {
       "aspect": [
@@ -9766,7 +9804,8 @@
           ]
         ],
         49
-      ]
+      ],
+      "aspecttype": 50
     },
     "L6L": {
       "aspect": [
@@ -9785,7 +9824,8 @@
           ]
         ],
         49
-      ]
+      ],
+      "aspecttype": 50
     },
     "L8L": {
       "aspect": [
@@ -9804,7 +9844,8 @@
           ]
         ],
         49
-      ]
+      ],
+      "aspecttype": 50
     },
     "L16R": {
       "aspect": [
@@ -9823,7 +9864,8 @@
           ]
         ],
         50
-      ]
+      ],
+      "aspecttype": 50
     },
     "L18R": {
       "aspect": [
@@ -9834,7 +9876,8 @@
           ]
         ],
         50
-      ]
+      ],
+      "aspecttype": 50
     },
     "L14R": {
       "aspect": [
@@ -9853,7 +9896,8 @@
           ]
         ],
         50
-      ]
+      ],
+      "aspecttype": 50
     },
     "L14L": {
       "aspect": [
@@ -9864,7 +9908,8 @@
           ]
         ],
         50
-      ]
+      ],
+      "aspecttype": 50
     },
     "L18L": {
       "aspect": [
@@ -9883,31 +9928,36 @@
           ]
         ],
         50
-      ]
+      ],
+      "aspecttype": 52
     },
     "S21E": {
       "aspect": [
         [],
         50
-      ]
+      ],
+      "aspecttype": 50
     },
     "N20W": {
       "aspect": [
         [],
         50
-      ]
+      ],
+      "aspecttype": 50
     },
     "S11E": {
       "aspect": [
         [],
         50
-      ]
+      ],
+      "aspecttype": 50
     },
     "N10W": {
       "aspect": [
         [],
         50
-      ]
+      ],
+      "aspecttype": 50
     },
     "D4RA": {
       "aspect": [
@@ -9926,7 +9976,8 @@
           ]
         ],
         65
-      ]
+      ],
+      "aspecttype": 50
     },
     "D4RB": {
       "aspect": [
@@ -9945,7 +9996,8 @@
           ]
         ],
         65
-      ]
+      ],
+      "aspecttype": 50
     },
     "D6RA": {
       "aspect": [
@@ -9956,7 +10008,8 @@
           ]
         ],
         65
-      ]
+      ],
+      "aspecttype": 50
     },
     "D6RB": {
       "aspect": [
@@ -9967,7 +10020,8 @@
           ]
         ],
         65
-      ]
+      ],
+      "aspecttype": 50
     },
     "D4L": {
       "aspect": [
@@ -9986,7 +10040,8 @@
           ]
         ],
         65
-      ]
+      ],
+      "aspecttype": 50
     },
     "D6L": {
       "aspect": [
@@ -10005,7 +10060,8 @@
           ]
         ],
         65
-      ]
+      ],
+      "aspecttype": 50
     },
     "D10R": {
       "aspect": [
@@ -10024,7 +10080,8 @@
           ]
         ],
         66
-      ]
+      ],
+      "aspecttype": 50
     },
     "D12R": {
       "aspect": [
@@ -10043,7 +10100,8 @@
           ]
         ],
         66
-      ]
+      ],
+      "aspecttype": 50
     },
     "D10L": {
       "aspect": [
@@ -10062,7 +10120,8 @@
           ]
         ],
         66
-      ]
+      ],
+      "aspecttype": 50
     },
     "D12L": {
       "aspect": [
@@ -10081,7 +10140,8 @@
           ]
         ],
         66
-      ]
+      ],
+      "aspecttype": 50
     },
     "R10W": {
       "aspect": [
@@ -10100,7 +10160,8 @@
           ]
         ],
         66
-      ]
+      ],
+      "aspecttype": 53
     },
     "S4R": {
       "aspect": [
@@ -10119,7 +10180,8 @@
           ]
         ],
         97
-      ]
+      ],
+      "aspecttype": 50
     },
     "S12R": {
       "aspect": [
@@ -10138,7 +10200,8 @@
           ]
         ],
         97
-      ]
+      ],
+      "aspecttype": 50
     },
     "S4LA": {
       "aspect": [
@@ -10149,7 +10212,8 @@
           ]
         ],
         97
-      ]
+      ],
+      "aspecttype": 50
     },
     "S4LB": {
       "aspect": [
@@ -10168,7 +10232,8 @@
           ]
         ],
         97
-      ]
+      ],
+      "aspecttype": 50
     },
     "S4LC": {
       "aspect": [
@@ -10187,7 +10252,8 @@
           ]
         ],
         97
-      ]
+      ],
+      "aspecttype": 50
     },
     "S12LA": {
       "aspect": [
@@ -10206,7 +10272,8 @@
           ]
         ],
         97
-      ]
+      ],
+      "aspecttype": 50
     },
     "S12LB": {
       "aspect": [
@@ -10217,7 +10284,8 @@
           ]
         ],
         97
-      ]
+      ],
+      "aspecttype": 50
     },
     "S12LC": {
       "aspect": [
@@ -10236,7 +10304,8 @@
           ]
         ],
         97
-      ]
+      ],
+      "aspecttype": 50
     },
     "F10H": {
       "aspect": [
@@ -10247,7 +10316,8 @@
           ]
         ],
         97
-      ]
+      ],
+      "aspecttype": 50
     },
     "F10D": {
       "aspect": [
@@ -10258,7 +10328,8 @@
           ]
         ],
         97
-      ]
+      ],
+      "aspecttype": 50
     },
     "S8R": {
       "aspect": [
@@ -10269,7 +10340,8 @@
           ]
         ],
         97
-      ]
+      ],
+      "aspecttype": 50
     },
     "S8L": {
       "aspect": [
@@ -10280,7 +10352,8 @@
           ]
         ],
         97
-      ]
+      ],
+      "aspecttype": 50
     },
     "S16R": {
       "aspect": [
@@ -10299,7 +10372,8 @@
           ]
         ],
         81
-      ]
+      ],
+      "aspecttype": 50
     },
     "S18R": {
       "aspect": [
@@ -10318,7 +10392,8 @@
           ]
         ],
         81
-      ]
+      ],
+      "aspecttype": 50
     },
     "S20R": {
       "aspect": [
@@ -10329,7 +10404,8 @@
           ]
         ],
         81
-      ]
+      ],
+      "aspecttype": 50
     },
     "S16L": {
       "aspect": [
@@ -10348,7 +10424,8 @@
           ]
         ],
         81
-      ]
+      ],
+      "aspecttype": 50
     },
     "S18LB": {
       "aspect": [
@@ -10359,7 +10436,8 @@
           ]
         ],
         81
-      ]
+      ],
+      "aspecttype": 50
     },
     "S18LA": {
       "aspect": [
@@ -10370,7 +10448,8 @@
           ]
         ],
         81
-      ]
+      ],
+      "aspecttype": 50
     },
     "S20L": {
       "aspect": [
@@ -10389,7 +10468,8 @@
           ]
         ],
         81
-      ]
+      ],
+      "aspecttype": 50
     },
     "K8R": {
       "aspect": [
@@ -10408,7 +10488,8 @@
           ]
         ],
         113
-      ]
+      ],
+      "aspecttype": 50
     },
     "K4R": {
       "aspect": [
@@ -10427,7 +10508,8 @@
           ]
         ],
         113
-      ]
+      ],
+      "aspecttype": 50
     },
     "K2R": {
       "aspect": [
@@ -10446,7 +10528,8 @@
           ]
         ],
         113
-      ]
+      ],
+      "aspecttype": 50
     },
     "K2L": {
       "aspect": [
@@ -10465,7 +10548,8 @@
           ]
         ],
         113
-      ]
+      ],
+      "aspecttype": 50
     },
     "K8LA": {
       "aspect": [
@@ -10476,7 +10560,8 @@
           ]
         ],
         113
-      ]
+      ],
+      "aspecttype": 50
     },
     "K8LB": {
       "aspect": [
@@ -10495,7 +10580,8 @@
           ]
         ],
         113
-      ]
+      ],
+      "aspecttype": 50
     },
     "N14LC": {
       "aspect": [
@@ -10506,7 +10592,8 @@
           ]
         ],
         114
-      ]
+      ],
+      "aspecttype": 53
     },
     "N14LB": {
       "aspect": [
@@ -10517,7 +10604,8 @@
           ]
         ],
         114
-      ]
+      ],
+      "aspecttype": 53
     },
     "N20R": {
       "aspect": [
@@ -10528,7 +10616,8 @@
           ]
         ],
         114
-      ]
+      ],
+      "aspecttype": 53
     },
     "N20L": {
       "aspect": [
@@ -10539,7 +10628,8 @@
           ]
         ],
         114
-      ]
+      ],
+      "aspecttype": 53
     },
     "N14LA": {
       "aspect": [
@@ -10554,7 +10644,8 @@
           ]
         ],
         114
-      ]
+      ],
+      "aspecttype": 53
     },
     "N16L": {
       "aspect": [
@@ -10569,7 +10660,8 @@
           ]
         ],
         114
-      ]
+      ],
+      "aspecttype": 53
     },
     "N18LB": {
       "aspect": [
@@ -10584,7 +10676,8 @@
           ]
         ],
         114
-      ]
+      ],
+      "aspecttype": 53
     },
     "N18LA": {
       "aspect": [
@@ -10599,7 +10692,8 @@
           ]
         ],
         114
-      ]
+      ],
+      "aspecttype": 53
     },
     "N16R": {
       "aspect": [
@@ -10614,7 +10708,8 @@
           ]
         ],
         114
-      ]
+      ],
+      "aspecttype": 53
     },
     "N14R": {
       "aspect": [
@@ -10629,7 +10724,8 @@
           ]
         ],
         114
-      ]
+      ],
+      "aspecttype": 53
     },
     "N18R": {
       "aspect": [
@@ -10640,7 +10736,8 @@
           ]
         ],
         114
-      ]
+      ],
+      "aspecttype": 53
     },
     "N11W": {
       "aspect": [
@@ -10659,7 +10756,8 @@
           ]
         ],
         114
-      ]
+      ],
+      "aspecttype": 50
     },
     "N21W": {
       "aspect": [
@@ -10678,7 +10776,8 @@
           ]
         ],
         114
-      ]
+      ],
+      "aspecttype": 50
     },
     "N14LD": {
       "aspect": [
@@ -10689,7 +10788,8 @@
           ]
         ],
         114
-      ]
+      ],
+      "aspecttype": 53
     },
     "N24RD": {
       "aspect": [
@@ -10700,7 +10800,8 @@
           ]
         ],
         114
-      ]
+      ],
+      "aspecttype": 53
     },
     "N24RB": {
       "aspect": [
@@ -10715,7 +10816,8 @@
           ]
         ],
         115
-      ]
+      ],
+      "aspecttype": 53
     },
     "N24RC": {
       "aspect": [
@@ -10730,7 +10832,8 @@
           ]
         ],
         115
-      ]
+      ],
+      "aspecttype": 53
     },
     "N26RC": {
       "aspect": [
@@ -10745,7 +10848,8 @@
           ]
         ],
         115
-      ]
+      ],
+      "aspecttype": 53
     },
     "N24RA": {
       "aspect": [
@@ -10760,7 +10864,8 @@
           ]
         ],
         115
-      ]
+      ],
+      "aspecttype": 53
     },
     "N26RA": {
       "aspect": [
@@ -10771,7 +10876,8 @@
           ]
         ],
         115
-      ]
+      ],
+      "aspecttype": 53
     },
     "N26RB": {
       "aspect": [
@@ -10782,7 +10888,8 @@
           ]
         ],
         115
-      ]
+      ],
+      "aspecttype": 53
     },
     "N28R": {
       "aspect": [
@@ -10793,7 +10900,8 @@
           ]
         ],
         115
-      ]
+      ],
+      "aspecttype": 53
     },
     "B20E": {
       "aspect": [
@@ -10812,7 +10920,8 @@
           ]
         ],
         115
-      ]
+      ],
+      "aspecttype": 52
     },
     "N24L": {
       "aspect": [
@@ -10823,7 +10932,8 @@
           ]
         ],
         115
-      ]
+      ],
+      "aspecttype": 53
     },
     "N26L": {
       "aspect": [
@@ -10838,7 +10948,8 @@
           ]
         ],
         115
-      ]
+      ],
+      "aspecttype": 53
     },
     "N28L": {
       "aspect": [
@@ -10853,7 +10964,8 @@
           ]
         ],
         115
-      ]
+      ],
+      "aspecttype": 53
     },
     "C22L": {
       "aspect": [
@@ -10864,7 +10976,8 @@
           ]
         ],
         129
-      ]
+      ],
+      "aspecttype": 50
     },
     "C24L": {
       "aspect": [
@@ -10884,6 +10997,7 @@
         ],
         129
       ],
+      "aspecttype": 50,
       "indicators": [
         [
           [
@@ -10921,7 +11035,8 @@
           ]
         ],
         129
-      ]
+      ],
+      "aspecttype": 50
     },
     "C22R": {
       "aspect": [
@@ -10940,7 +11055,8 @@
           ]
         ],
         129
-      ]
+      ],
+      "aspecttype": 50
     },
     "C18LA": {
       "aspect": [
@@ -10951,7 +11067,8 @@
           ]
         ],
         129
-      ]
+      ],
+      "aspecttype": 50
     },
     "C18LB": {
       "aspect": [
@@ -10970,7 +11087,8 @@
           ]
         ],
         129
-      ]
+      ],
+      "aspecttype": 50
     },
     "C18R": {
       "aspect": [
@@ -10989,7 +11107,8 @@
           ]
         ],
         129
-      ]
+      ],
+      "aspecttype": 50
     },
     "C14L": {
       "aspect": [
@@ -11008,7 +11127,8 @@
           ]
         ],
         145
-      ]
+      ],
+      "aspecttype": 50
     },
     "C14RA": {
       "aspect": [
@@ -11027,7 +11147,8 @@
           ]
         ],
         145
-      ]
+      ],
+      "aspecttype": 50
     },
     "C14RB": {
       "aspect": [
@@ -11046,7 +11167,8 @@
           ]
         ],
         145
-      ]
+      ],
+      "aspecttype": 50
     },
     "C12L": {
       "aspect": [
@@ -11065,7 +11187,8 @@
           ]
         ],
         145
-      ]
+      ],
+      "aspecttype": 50
     },
     "C10L": {
       "aspect": [
@@ -11084,7 +11207,8 @@
           ]
         ],
         145
-      ]
+      ],
+      "aspecttype": 50
     },
     "C12R": {
       "aspect": [
@@ -11103,7 +11227,8 @@
           ]
         ],
         145
-      ]
+      ],
+      "aspecttype": 50
     },
     "C10R": {
       "aspect": [
@@ -11122,7 +11247,8 @@
           ]
         ],
         145
-      ]
+      ],
+      "aspecttype": 50
     },
     "C2LB": {
       "aspect": [
@@ -11141,7 +11267,8 @@
           ]
         ],
         146
-      ]
+      ],
+      "aspecttype": 50
     },
     "C2LD": {
       "aspect": [
@@ -11152,7 +11279,8 @@
           ]
         ],
         146
-      ]
+      ],
+      "aspecttype": 50
     },
     "C2R": {
       "aspect": [
@@ -11171,7 +11299,8 @@
           ]
         ],
         146
-      ]
+      ],
+      "aspecttype": 51
     },
     "C2LA": {
       "aspect": [
@@ -11186,7 +11315,8 @@
           ]
         ],
         146
-      ]
+      ],
+      "aspecttype": 53
     },
     "C2LC": {
       "aspect": [
@@ -11197,7 +11327,8 @@
           ]
         ],
         146
-      ]
+      ],
+      "aspecttype": 50
     },
     "C4RA": {
       "aspect": [
@@ -11212,7 +11343,8 @@
           ]
         ],
         146
-      ]
+      ],
+      "aspecttype": 53
     },
     "C4RB": {
       "aspect": [
@@ -11227,7 +11359,8 @@
           ]
         ],
         146
-      ]
+      ],
+      "aspecttype": 53
     },
     "C4RC": {
       "aspect": [
@@ -11246,7 +11379,8 @@
           ]
         ],
         146
-      ]
+      ],
+      "aspecttype": 50
     },
     "C4RD": {
       "aspect": [
@@ -11257,7 +11391,8 @@
           ]
         ],
         146
-      ]
+      ],
+      "aspecttype": 50
     },
     "C4L": {
       "aspect": [
@@ -11276,295 +11411,344 @@
           ]
         ],
         146
-      ]
+      ],
+      "aspecttype": 51
     },
     "C6R": {
       "aspect": [
         [],
         149
-      ]
+      ],
+      "aspecttype": 50
     },
     "C6LA": {
       "aspect": [
         [],
         149
-      ]
+      ],
+      "aspecttype": 50
     },
     "C6LB": {
       "aspect": [
         [],
         149
-      ]
+      ],
+      "aspecttype": 50
     },
     "C6LC": {
       "aspect": [
         [],
         149
-      ]
+      ],
+      "aspecttype": 50
     },
     "C6LD": {
       "aspect": [
         [],
         149
-      ]
+      ],
+      "aspecttype": 50
     },
     "C6LE": {
       "aspect": [
         [],
         149
-      ]
+      ],
+      "aspecttype": 50
     },
     "C6LF": {
       "aspect": [
         [],
         149
-      ]
+      ],
+      "aspecttype": 50
     },
     "C6LG": {
       "aspect": [
         [],
         149
-      ]
+      ],
+      "aspecttype": 50
     },
     "C6LH": {
       "aspect": [
         [],
         149
-      ]
+      ],
+      "aspecttype": 50
     },
     "C6LJ": {
       "aspect": [
         [],
         149
-      ]
+      ],
+      "aspecttype": 50
     },
     "C6LK": {
       "aspect": [
         [],
         149
-      ]
+      ],
+      "aspecttype": 50
     },
     "C6LL": {
       "aspect": [
         [],
         149
-      ]
+      ],
+      "aspecttype": 50
     },
     "C8L": {
       "aspect": [
         [],
         149
-      ]
+      ],
+      "aspecttype": 50
     },
     "C8RA": {
       "aspect": [
         [],
         149
-      ]
+      ],
+      "aspecttype": 50
     },
     "C8RB": {
       "aspect": [
         [],
         149
-      ]
+      ],
+      "aspecttype": 50
     },
     "C8RC": {
       "aspect": [
         [],
         149
-      ]
+      ],
+      "aspecttype": 50
     },
     "C8RD": {
       "aspect": [
         [],
         149
-      ]
+      ],
+      "aspecttype": 50
     },
     "C8RE": {
       "aspect": [
         [],
         149
-      ]
+      ],
+      "aspecttype": 50
     },
     "C8RF": {
       "aspect": [
         [],
         149
-      ]
+      ],
+      "aspecttype": 50
     },
     "C8RG": {
       "aspect": [
         [],
         149
-      ]
+      ],
+      "aspecttype": 50
     },
     "C8RH": {
       "aspect": [
         [],
         149
-      ]
+      ],
+      "aspecttype": 50
     },
     "C8RJ": {
       "aspect": [
         [],
         149
-      ]
+      ],
+      "aspecttype": 50
     },
     "C8RK": {
       "aspect": [
         [],
         149
-      ]
+      ],
+      "aspecttype": 50
     },
     "C8RL": {
       "aspect": [
         [],
         149
-      ]
+      ],
+      "aspecttype": 50
     },
     "H4R": {
       "aspect": [
         [],
         82
-      ]
+      ],
+      "aspecttype": 50
     },
     "H4LA": {
       "aspect": [
         [],
         82
-      ]
+      ],
+      "aspecttype": 50
     },
     "H4LB": {
       "aspect": [
         [],
         82
-      ]
+      ],
+      "aspecttype": 50
     },
     "H4LC": {
       "aspect": [
         [],
         82
-      ]
+      ],
+      "aspecttype": 50
     },
     "H4LD": {
       "aspect": [
         [],
         82
-      ]
+      ],
+      "aspecttype": 50
     },
     "H6R": {
       "aspect": [
         [],
         82
-      ]
+      ],
+      "aspecttype": 50
     },
     "H6LA": {
       "aspect": [
         [],
         82
-      ]
+      ],
+      "aspecttype": 50
     },
     "H6LB": {
       "aspect": [
         [],
         82
-      ]
+      ],
+      "aspecttype": 50
     },
     "H6LC": {
       "aspect": [
         [],
         82
-      ]
+      ],
+      "aspecttype": 50
     },
     "H6LD": {
       "aspect": [
         [],
         82
-      ]
+      ],
+      "aspecttype": 50
     },
     "H8R": {
       "aspect": [
         [],
         82
-      ]
+      ],
+      "aspecttype": 50
     },
     "H8L": {
       "aspect": [
         [],
         82
-      ]
+      ],
+      "aspecttype": 50
     },
     "H10L": {
       "aspect": [
         [],
         82
-      ]
+      ],
+      "aspecttype": 50
     },
     "H10RA": {
       "aspect": [
         [],
         82
-      ]
+      ],
+      "aspecttype": 50
     },
     "H10RB": {
       "aspect": [
         [],
         82
-      ]
+      ],
+      "aspecttype": 50
     },
     "H10RC": {
       "aspect": [
         [],
         82
-      ]
+      ],
+      "aspecttype": 50
     },
     "H10RD": {
       "aspect": [
         [],
         82
-      ]
+      ],
+      "aspecttype": 50
     },
     "H10RE": {
       "aspect": [
         [],
         82
-      ]
+      ],
+      "aspecttype": 50
     },
     "H12L": {
       "aspect": [
         [],
         82
-      ]
+      ],
+      "aspecttype": 50
     },
     "H12RA": {
       "aspect": [
         [],
         82
-      ]
+      ],
+      "aspecttype": 50
     },
     "H12RB": {
       "aspect": [
         [],
         82
-      ]
+      ],
+      "aspecttype": 50
     },
     "H12RC": {
       "aspect": [
         [],
         82
-      ]
+      ],
+      "aspecttype": 50
     },
     "H12RD": {
       "aspect": [
         [],
         82
-      ]
+      ],
+      "aspecttype": 50
     },
     "H12RE": {
       "aspect": [
         [],
         82
-      ]
+      ],
+      "aspecttype": 50
     },
     "PA12R": {
       "aspect": [
@@ -11579,7 +11763,8 @@
           ]
         ],
         34
-      ]
+      ],
+      "aspecttype": 50
     },
     "PA10RA": {
       "aspect": [
@@ -11594,7 +11779,8 @@
           ]
         ],
         34
-      ]
+      ],
+      "aspecttype": 50
     },
     "PA12LA": {
       "aspect": [
@@ -11605,7 +11791,8 @@
           ]
         ],
         34
-      ]
+      ],
+      "aspecttype": 50
     },
     "PA10RB": {
       "aspect": [
@@ -11620,7 +11807,8 @@
           ]
         ],
         34
-      ]
+      ],
+      "aspecttype": 50
     },
     "PA8R": {
       "aspect": [
@@ -11635,7 +11823,8 @@
           ]
         ],
         34
-      ]
+      ],
+      "aspecttype": 50
     },
     "PA12LB": {
       "aspect": [
@@ -11646,7 +11835,8 @@
           ]
         ],
         34
-      ]
+      ],
+      "aspecttype": 50
     },
     "PA6R": {
       "aspect": [
@@ -11661,7 +11851,8 @@
           ]
         ],
         34
-      ]
+      ],
+      "aspecttype": 50
     },
     "PA4RA": {
       "aspect": [
@@ -11676,7 +11867,8 @@
           ]
         ],
         34
-      ]
+      ],
+      "aspecttype": 50
     },
     "PA12LC": {
       "aspect": [
@@ -11687,7 +11879,8 @@
           ]
         ],
         34
-      ]
+      ],
+      "aspecttype": 50
     },
     "PA4RB": {
       "aspect": [
@@ -11702,7 +11895,8 @@
           ]
         ],
         34
-      ]
+      ],
+      "aspecttype": 50
     },
     "PA8L": {
       "aspect": [
@@ -11713,7 +11907,8 @@
           ]
         ],
         34
-      ]
+      ],
+      "aspecttype": 50
     },
     "PA6LA": {
       "aspect": [
@@ -11724,7 +11919,8 @@
           ]
         ],
         34
-      ]
+      ],
+      "aspecttype": 50
     },
     "PA6LB": {
       "aspect": [
@@ -11735,7 +11931,8 @@
           ]
         ],
         34
-      ]
+      ],
+      "aspecttype": 50
     },
     "PA6LC": {
       "aspect": [
@@ -11746,19 +11943,22 @@
           ]
         ],
         34
-      ]
+      ],
+      "aspecttype": 50
     },
     "PA4L": {
       "aspect": [
         [],
         34
-      ]
+      ],
+      "aspecttype": 50
     },
     "PA10L": {
       "aspect": [
         [],
         34
-      ]
+      ],
+      "aspecttype": 50
     },
     "PA34LB": {
       "aspect": [
@@ -11777,7 +11977,8 @@
           ]
         ],
         33
-      ]
+      ],
+      "aspecttype": 50
     },
     "PA32L": {
       "aspect": [
@@ -11788,7 +11989,8 @@
           ]
         ],
         33
-      ]
+      ],
+      "aspecttype": 50
     },
     "PA34LA": {
       "aspect": [
@@ -11807,7 +12009,8 @@
           ]
         ],
         33
-      ]
+      ],
+      "aspecttype": 50
     },
     "PA34RD": {
       "aspect": [
@@ -11826,7 +12029,8 @@
           ]
         ],
         33
-      ]
+      ],
+      "aspecttype": 50
     },
     "PA34RC": {
       "aspect": [
@@ -11837,7 +12041,8 @@
           ]
         ],
         33
-      ]
+      ],
+      "aspecttype": 50
     },
     "PA32RA": {
       "aspect": [
@@ -11856,7 +12061,8 @@
           ]
         ],
         33
-      ]
+      ],
+      "aspecttype": 50
     },
     "PA34RB": {
       "aspect": [
@@ -11867,7 +12073,8 @@
           ]
         ],
         33
-      ]
+      ],
+      "aspecttype": 50
     },
     "PA32RB": {
       "aspect": [
@@ -11886,7 +12093,8 @@
           ]
         ],
         33
-      ]
+      ],
+      "aspecttype": 50
     },
     "PA34RA": {
       "aspect": [
@@ -11897,7 +12105,8 @@
           ]
         ],
         33
-      ]
+      ],
+      "aspecttype": 50
     },
     "PB2L": {
       "aspect": [
@@ -11916,7 +12125,8 @@
           ]
         ],
         35
-      ]
+      ],
+      "aspecttype": 50
     },
     "PB4L": {
       "aspect": [
@@ -11935,7 +12145,8 @@
           ]
         ],
         35
-      ]
+      ],
+      "aspecttype": 50
     },
     "PB2R": {
       "aspect": [
@@ -11954,7 +12165,8 @@
           ]
         ],
         35
-      ]
+      ],
+      "aspecttype": 50
     },
     "PB4R": {
       "aspect": [
@@ -11973,7 +12185,8 @@
           ]
         ],
         35
-      ]
+      ],
+      "aspecttype": 50
     },
     "PB12R": {
       "aspect": [
@@ -11992,7 +12205,8 @@
           ]
         ],
         35
-      ]
+      ],
+      "aspecttype": 50
     },
     "PB14R": {
       "aspect": [
@@ -12011,7 +12225,8 @@
           ]
         ],
         35
-      ]
+      ],
+      "aspecttype": 50
     },
     "PB12L": {
       "aspect": [
@@ -12030,7 +12245,8 @@
           ]
         ],
         35
-      ]
+      ],
+      "aspecttype": 50
     },
     "PB14L": {
       "aspect": [
@@ -12049,7 +12265,8 @@
           ]
         ],
         35
-      ]
+      ],
+      "aspecttype": 50
     }
   },
   "handswitches": {

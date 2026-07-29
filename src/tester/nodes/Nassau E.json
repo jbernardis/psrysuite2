@@ -4,137 +4,137 @@
   "obytes": [
     [
       {
-        "label": "N24RB(0)",
+        "label": "N24RB(0) Aspect",
         "used": true
       },
       {
-        "label": "N24RB(1)",
+        "label": "N24RB(1) Aspect",
         "used": true
       },
       {
-        "label": "N24RC(0)",
+        "label": "N24RC(0) Aspect",
         "used": true
       },
       {
-        "label": "N24RC(1)",
+        "label": "N24RC(1) Aspect",
         "used": true
       },
       {
-        "label": "N26RC(0)",
+        "label": "N26RC(0) Aspect",
         "used": true
       },
       {
-        "label": "N26RC(1)",
+        "label": "N26RC(1) Aspect",
         "used": true
       },
       {
-        "label": "N24RA(0)",
+        "label": "N24RA(0) Aspect",
         "used": true
       },
       {
-        "label": "N24RA(1)",
+        "label": "N24RA(1) Aspect",
         "used": true
       }
     ],
     [
       {
-        "label": "N26RA",
+        "label": "N26RA Aspect",
         "used": true
       },
       {
-        "label": "N26RB",
+        "label": "N26RB Aspect",
         "used": true
       },
       {
-        "label": "N28R",
+        "label": "N28R Aspect",
         "used": true
       },
       {
-        "label": "B20E(0) Block",
+        "label": "B20E(0) Block Aspect",
         "used": true
       },
       {
-        "label": "B20E(1)",
+        "label": "B20E(1) Block Aspect",
         "used": true
       },
       {
-        "label": "B20E(2)",
+        "label": "B20E(2) Block Aspect",
         "used": true
       },
       {
-        "label": "N24L",
+        "label": "N24L Aspect",
         "used": true
       },
       {
-        "label": "N26L(0)",
+        "label": "N26L(0) Aspect",
         "used": true
       }
     ],
     [
       {
-        "label": "N26L(1)",
+        "label": "N26L(1) Aspect",
         "used": true
       },
       {
-        "label": "N28L(0)",
+        "label": "N28L(0) Aspect",
         "used": true
       },
       {
-        "label": "N28L(1)",
+        "label": "N28L(1) Aspect",
         "used": true
       },
       {
-        "label": "NESL(0) lock",
+        "label": "NESL(0) Switch Lock",
         "used": true
       },
       {
-        "label": "NESL(1)",
+        "label": "NESL(1) Switch Lock",
         "used": true
       },
       {
-        "label": "NESL(2)",
+        "label": "NESL(2) Switch Lock",
         "used": true
       },
       {
-        "label": "B10.srel",
+        "label": "B10 Stop Relay",
         "used": true
       },
       {
-        "label": "N24:L",
+        "label": "N24 Left Ind",
         "used": true
       }
     ],
     [
       {
-        "label": "N24:N",
+        "label": "N24 Neutral Ind",
         "used": true
       },
       {
-        "label": "N24:R",
+        "label": "N24 Right Ind",
         "used": true
       },
       {
-        "label": "N26:L",
+        "label": "N26 Left Ind",
         "used": true
       },
       {
-        "label": "N26:N",
+        "label": "N26 Neutral Ind",
         "used": true
       },
       {
-        "label": "N26:R",
+        "label": "N26 Right Ind",
         "used": true
       },
       {
-        "label": "N28:L",
+        "label": "N28 Left Ind",
         "used": true
       },
       {
-        "label": "N28:N",
+        "label": "N28 Neutral Ind",
         "used": true
       },
       {
-        "label": "N28:R",
+        "label": "N28 Right Ind",
         "used": true
       }
     ]
@@ -142,7 +142,7 @@
   "ibytes": [
     [
       {
-        "label": "NSw41.N",
+        "label": "NSw41 Normal",
         "used": true
       },
       {
@@ -150,27 +150,27 @@
         "used": false
       },
       {
-        "label": "NSw43.N",
+        "label": "NSw43 Normal",
         "used": true
       },
       {
-        "label": "NSw43.R",
+        "label": "NSw43 Reverse",
         "used": true
       },
       {
-        "label": "NSw45.N",
+        "label": "NSw45 Normal",
         "used": true
       },
       {
-        "label": "NSw45.R",
+        "label": "NSw45 Reverse",
         "used": true
       },
       {
-        "label": "NSw47.N",
+        "label": "NSw47 Normal",
         "used": true
       },
       {
-        "label": "NSw47.R",
+        "label": "NSw47 Reverse",
         "used": true
       }
     ],
@@ -180,31 +180,31 @@
         "used": false
       },
       {
-        "label": "NSw51.R",
+        "label": "NSw51 Reverse",
         "used": true
       },
       {
-        "label": "NSw53.N",
+        "label": "NSw53 Normal",
         "used": true
       },
       {
-        "label": "NSw53.R",
+        "label": "NSw53 Reverse",
         "used": true
       },
       {
-        "label": "NSw55.N",
+        "label": "NSw55 Normal",
         "used": true
       },
       {
-        "label": "NSw55.R",
+        "label": "NSw55 Reverse",
         "used": true
       },
       {
-        "label": "NSw57.N",
+        "label": "NSw57 Normal",
         "used": true
       },
       {
-        "label": "NSw57.R",
+        "label": "NSw57 Reverse",
         "used": true
       }
     ],
@@ -214,11 +214,11 @@
         "used": false
       },
       {
-        "label": "N41",
+        "label": "N41 Occupied",
         "used": true
       },
       {
-        "label": "N42",
+        "label": "N42 Occupied",
         "used": true
       },
       {
@@ -226,45 +226,45 @@
         "used": false
       },
       {
-        "label": "NEOSW",
+        "label": "NEOSW Occupied",
         "used": true
       },
       {
-        "label": "NEOSE",
+        "label": "NEOSE Occupied",
         "used": true
       },
       {
-        "label": "B10.W",
+        "label": "B10.W Occupied",
         "used": true
       },
       {
-        "label": "B10",
+        "label": "B10 Occupied",
         "used": true
       }
     ],
     [
       {
-        "label": "NSw39.N",
+        "label": "NSw39 Normal",
         "used": true
       },
       {
-        "label": "NSw39.R",
+        "label": "NSw39 Reverse",
         "used": true
       },
       {
-        "label": "NSw41.R - see bit 0:1",
+        "label": "NSw41 Reverse (see bit 0:1)",
         "used": true
       },
       {
-        "label": "NSw51.N - see bit 1:0",
+        "label": "NSw51 Normal (see bit 1:0)",
         "used": true
       },
       {
-        "label": "N22 - see bit 2:0",
+        "label": "N22 Occupied (see bit 2:0)",
         "used": true
       },
       {
-        "label": "NEOSRH - see bit 2:3",
+        "label": "NEOSRH Occupied (see bit 2:3)",
         "used": true
       },
       {

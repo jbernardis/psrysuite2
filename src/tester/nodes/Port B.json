@@ -4,231 +4,231 @@
   "obytes": [
     [
       {
-        "label": "PB2R(0)",
+        "label": "PB2R(0) Aspect",
         "used": true
       },
       {
-        "label": "PB2R(1)",
+        "label": "PB2R(1) Aspect",
         "used": true
       },
       {
-        "label": "PB2R(2)",
+        "label": "PB2R(2) Aspect",
         "used": true
       },
       {
-        "label": "PB4R(0)",
+        "label": "PB4R(0) Aspect",
         "used": true
       },
       {
-        "label": "PB4R(1)",
+        "label": "PB4R(1) Aspect",
         "used": true
       },
       {
-        "label": "PB4R(2)",
+        "label": "PB4R(2) Aspect",
         "used": true
       },
       {
-        "label": "PB2L(0)",
+        "label": "PB2L(0) Aspect",
         "used": true
       },
       {
-        "label": "PB2L(1)",
+        "label": "PB2L(1) Aspect",
         "used": true
       }
     ],
     [
       {
-        "label": "PB2L(2)",
+        "label": "PB2L(2) Aspect",
         "used": true
       },
       {
-        "label": "PB4L(0)",
+        "label": "PB4L(0) Aspect",
         "used": true
       },
       {
-        "label": "PB4L(1)",
+        "label": "PB4L(1) Aspect",
         "used": true
       },
       {
-        "label": "PB4L(2)",
+        "label": "PB4L(2) Aspect",
         "used": true
       },
       {
-        "label": "PB12L(0)",
+        "label": "PB12L(0) Aspect",
         "used": true
       },
       {
-        "label": "PB12L(1)",
+        "label": "PB12L(1) Aspect",
         "used": true
       },
       {
-        "label": "PB12L(2)",
+        "label": "PB12L(2) Aspect",
         "used": true
       },
       {
-        "label": "PB14L(0)",
+        "label": "PB14L(0) Aspect",
         "used": true
       }
     ],
     [
       {
-        "label": "PB14L(1)",
+        "label": "PB14L(1) Aspect",
         "used": true
       },
       {
-        "label": "PB14L(2)",
+        "label": "PB14L(2) Aspect",
         "used": true
       },
       {
-        "label": "PB12R(0)",
+        "label": "PB12R(0) Aspect",
         "used": true
       },
       {
-        "label": "PB12R(1)",
+        "label": "PB12R(1) Aspect",
         "used": true
       },
       {
-        "label": "PB12R(2)",
+        "label": "PB12R(2) Aspect",
         "used": true
       },
       {
-        "label": "PB14R(0)",
+        "label": "PB14R(0) Aspect",
         "used": true
       },
       {
-        "label": "PB14R(1)",
+        "label": "PB14R(1) Aspect",
         "used": true
       },
       {
-        "label": "PB14R(2)",
+        "label": "PB14R(2) Aspect",
         "used": true
       }
     ],
     [
       {
-        "label": "PB2:L",
+        "label": "PB2 Left Ind",
         "used": true
       },
       {
-        "label": "PB2:N",
+        "label": "PB2 Neutral Ind",
         "used": true
       },
       {
-        "label": "PB2:R",
+        "label": "PB2 Right Ind",
         "used": true
       },
       {
-        "label": "PB4:L",
+        "label": "PB4 Left Ind",
         "used": true
       },
       {
-        "label": "PB4:N",
+        "label": "PB4 Neutral Ind",
         "used": true
       },
       {
-        "label": "PB4:R",
+        "label": "PB4 Right Ind",
         "used": true
       },
       {
-        "label": "PBSw5.hsind",
+        "label": "PBSw5 Hand Switch Ind",
         "used": true
       },
       {
-        "label": "PBSw5.!hsind",
+        "label": "PBSw5 !Hand Switch Ind",
         "used": true
       }
     ],
     [
       {
-        "label": "PB12:L",
+        "label": "PB12 Left Ind",
         "used": true
       },
       {
-        "label": "PB12:N",
+        "label": "PB12 Neutral Ind",
         "used": true
       },
       {
-        "label": "PB12:R",
+        "label": "PB12 Right Ind",
         "used": true
       },
       {
-        "label": "PB14:L",
+        "label": "PB14 Left Ind",
         "used": true
       },
       {
-        "label": "PB14:N",
+        "label": "PB14 Neutral Ind",
         "used": true
       },
       {
-        "label": "PB14:R",
+        "label": "PB14 Right Ind",
         "used": true
       },
       {
-        "label": "PBSw15.hsind",
+        "label": "PBSw15 Hand Switch Ind",
         "used": true
       },
       {
-        "label": "PBSw15.hsind",
+        "label": "PBSw15 Hand Switch Ind",
         "used": true
       }
     ],
     [
       {
-        "label": "P30.blk",
+        "label": "P30 Occupied Ind",
         "used": true
       },
       {
-        "label": "P42.blk",
+        "label": "P42 Occupied Ind",
         "used": true
       },
       {
-        "label": "Shore sig",
+        "label": "Shore Signal Ind",
         "used": true
       },
       {
-        "label": "Hyde Jct sig",
+        "label": "Hyde Jct Signal Ind",
         "used": true
       },
       {
-        "label": "CBSouthJct.ind",
+        "label": "SouthJct Breaker Ind",
         "used": true
       },
       {
-        "label": "CBCircusJct.ind",
+        "label": "CircusJct Breaker Ind",
         "used": true
       },
       {
-        "label": "PBSw1.lck",
+        "label": "PBSw1 Switch Lock",
         "used": true
       },
       {
-        "label": "PBSw3.lck",
+        "label": "PBSw3 Switch Lock",
         "used": true
       }
     ],
     [
       {
-        "label": "PBSw5.hslck",
+        "label": "PBSw5 Hand Switch Lock",
         "used": true
       },
       {
-        "label": "PBSw11.lck",
+        "label": "PBSw11 Switch Lock",
         "used": true
       },
       {
-        "label": "PBSw13.lck",
+        "label": "PBSw13 Switch Lock",
         "used": true
       },
       {
-        "label": "PBSw15.hslck",
+        "label": "PBSw15 Hand Switch Lock",
         "used": true
       },
       {
-        "label": "P32.srel",
+        "label": "P32 Stop Relay",
         "used": true
       },
       {
-        "label": "P41.srel",
+        "label": "P41 Stop Relay",
         "used": true
       },
       {
@@ -244,201 +244,201 @@
   "ibytes": [
     [
       {
-        "label": "PBSw1.N",
+        "label": "PBSw1 Normal",
         "used": true
       },
       {
-        "label": "PBSw1.R",
+        "label": "PBSw1 Reverse",
         "used": true
       },
       {
-        "label": "PBSw3.N",
+        "label": "PBSw3 Normal",
         "used": true
       },
       {
-        "label": "PBSw3.R",
+        "label": "PBSw3 Reverse",
         "used": true
       },
       {
-        "label": "PBSw11.N",
+        "label": "PBSw11 Normal",
         "used": true
       },
       {
-        "label": "PBSw11.R",
+        "label": "PBSw11 Reverse",
         "used": true
       },
       {
-        "label": "PBSw13.N",
+        "label": "PBSw13 Normal",
         "used": true
       },
       {
-        "label": "PBSw13.R",
+        "label": "PBSw13 Reverse",
         "used": true
       }
     ],
     [
       {
-        "label": "PBSw5.N",
+        "label": "PBSw5 Normal",
         "used": true
       },
       {
-        "label": "PBSw5.R",
+        "label": "PBSw5 Reverse",
         "used": true
       },
       {
-        "label": "PBSw15A.N",
+        "label": "PBSw15A Normal",
         "used": true
       },
       {
-        "label": "PBSw15A.R",
+        "label": "PBSw15A Reverse",
         "used": true
       },
       {
-        "label": "PBSw15B.N",
+        "label": "PBSw15B Normal",
         "used": true
       },
       {
-        "label": "PBSw15B.R",
+        "label": "PBSw15B Reverse",
         "used": true
       },
       {
-        "label": "P40",
+        "label": "P40 Occupied",
         "used": true
       },
       {
-        "label": "P40.E",
+        "label": "P40.E Occupied",
         "used": true
       }
     ],
     [
       {
-        "label": "POSSJ2",
+        "label": "POSSJ2 Occupied",
         "used": true
       },
       {
-        "label": "POSSJ1",
+        "label": "POSSJ1 Occupied",
         "used": true
       },
       {
-        "label": "P31.W",
+        "label": "P31.W Occupied",
         "used": true
       },
       {
-        "label": "P31",
+        "label": "P31 Occupied",
         "used": true
       },
       {
-        "label": "P31.E",
+        "label": "P31.E Occupied",
         "used": true
       },
       {
-        "label": "P32.W",
+        "label": "P32.W Occupied",
         "used": true
       },
       {
-        "label": "P32",
+        "label": "P32 Occupied",
         "used": true
       },
       {
-        "label": "P32.E",
+        "label": "P32.E Occupied",
         "used": true
       }
     ],
     [
       {
-        "label": "POSCJ2",
+        "label": "POSCJ2 Occupied",
         "used": true
       },
       {
-        "label": "POSCJ1",
+        "label": "POSCJ1 Occupied",
         "used": true
       },
       {
-        "label": "P41.W",
+        "label": "P41.W Occupied",
         "used": true
       },
       {
-        "label": "P41",
+        "label": "P41 Occupied",
         "used": true
       },
       {
-        "label": "P41.E",
+        "label": "P41.E Occupied",
         "used": true
       },
       {
-        "label": "PB2.Llvr",
+        "label": "PB2 Left",
         "used": true
       },
       {
-        "label": "PB2.Clvr",
+        "label": "PB2 Call on",
         "used": true
       },
       {
-        "label": "PB2.Rlvr",
+        "label": "PB2 Right",
         "used": true
       }
     ],
     [
       {
-        "label": "PB4.Llvr",
+        "label": "PB4 Left",
         "used": true
       },
       {
-        "label": "PB4.Clvr",
+        "label": "PB4 Center",
         "used": true
       },
       {
-        "label": "PB4.Rlvr",
+        "label": "PB4.Right",
         "used": true
       },
       {
-        "label": "PBSw5.hand",
+        "label": "PBSw5 Hand Switch",
         "used": true
       },
       {
-        "label": "PB12.Llvr",
+        "label": "PB12 Left",
         "used": true
       },
       {
-        "label": "PB12.Clvr",
+        "label": "PB12 Call on",
         "used": true
       },
       {
-        "label": "PB12.Rlvr",
+        "label": "PB12 Right",
         "used": true
       },
       {
-        "label": "PB14.Llvr",
+        "label": "PB14 Left",
         "used": true
       }
     ],
     [
       {
-        "label": "PB14.Clvr",
+        "label": "PB14 Call on",
         "used": true
       },
       {
-        "label": "PB14.Rlvr",
+        "label": "PB14 Right",
         "used": true
       },
       {
-        "label": "PBSw15.hand",
+        "label": "PBSw15 Hand Switch",
         "used": true
       },
       {
-        "label": "PBRelease",
+        "label": "PB Release",
         "used": true
       },
       {
-        "label": "PBSw17.N",
+        "label": "PBSw17 Normal",
         "used": true
       },
       {
-        "label": "PBSw17.R",
+        "label": "PBSw17 Reverse",
         "used": true
       },
       {
-        "label": "P33",
+        "label": "P33 Occupied",
         "used": true
       },
       {

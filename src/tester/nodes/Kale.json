@@ -4,49 +4,49 @@
   "obytes": [
     [
       {
-        "label": "Y22L",
+        "label": "Y22L Aspect",
         "used": true
       },
       {
-        "label": "Y26LA",
+        "label": "Y26LA Aspect",
         "used": true
       },
       {
-        "label": "Y26LB",
+        "label": "Y26LB Aspect",
         "used": true
       },
       {
-        "label": "Y26LC",
+        "label": "Y26LC Aspect",
         "used": true
       },
       {
-        "label": "Y24LA",
+        "label": "Y24LA Aspect",
         "used": true
       },
       {
-        "label": "Y24LB",
+        "label": "Y24LB Aspect",
         "used": true
       },
       {
-        "label": "Y20H",
+        "label": "Y20H Aspect",
         "used": true
       },
       {
-        "label": "Y20D",
+        "label": "Y20D Aspect",
         "used": true
       }
     ],
     [
       {
-        "label": "Y26R",
+        "label": "Y26R Aspect",
         "used": true
       },
       {
-        "label": "Y22Ra",
+        "label": "Y22RA Aspect",
         "used": true
       },
       {
-        "label": "Y22Rb",
+        "label": "Y22RB Aspect",
         "used": true
       },
       {
@@ -108,103 +108,103 @@
   "ibytes": [
     [
       {
-        "label": "YSw17.N",
+        "label": "YSw17 Normal",
         "used": true
       },
       {
-        "label": "YSw17.R",
+        "label": "YSw17 Reverse",
         "used": true
       },
       {
-        "label": "YSw19.N",
+        "label": "YSw19 Normal",
         "used": true
       },
       {
-        "label": "YSw19.R",
+        "label": "YSw19 Reverse",
         "used": true
       },
       {
-        "label": "YSw21.N",
+        "label": "YSw21 Normal",
         "used": true
       },
       {
-        "label": "YSw21.R",
+        "label": "YSw21 Reverse",
         "used": true
       },
       {
-        "label": "YSw23.N",
+        "label": "YSw23 Normal",
         "used": true
       },
       {
-        "label": "YSw23.R",
+        "label": "YSw23 Reverse",
         "used": true
       }
    ],
     [
       {
-        "label": "YSw25.N",
+        "label": "YSw25 Normal",
         "used": true
       },
       {
-        "label": "YSw25.R",
+        "label": "YSw25 Reverse",
         "used": true
       },
       {
-        "label": "YSw27.N",
+        "label": "YSw27 Normal",
         "used": true
       },
       {
-        "label": "YSw27.R",
+        "label": "YSw27 Reverse",
         "used": true
       },
       {
-        "label": "YSw29.N",
+        "label": "YSw29 Normal",
         "used": true
       },
       {
-        "label": "YSw29.R",
+        "label": "YSw29 Reverse",
         "used": true
       },
       {
-        "label": "Y30",
+        "label": "Y30 Occupied",
         "used": true
       },
       {
-        "label": "YOSKL4",
+        "label": "YOSKL4 Occupied",
         "used": true
       }
    ],
    [
       {
-        "label": "Y53",
+        "label": "Y53 Occupied",
         "used": true
       },
       {
-        "label": "Y52",
+        "label": "Y52 Occupied",
         "used": true
       },
       {
-        "label": "Y51",
+        "label": "Y51 Occupied",
         "used": true
       },
       {
-        "label": "Y50",
+        "label": "Y50 Occupied",
         "used": true
       },
       {
-        "label": "YOSKL2",
+        "label": "YOSKL2 Occupied",
         "used": true
       },
       {
-        "label": "YOSKL1",
+        "label": "YOSKL1 Occupied",
         "used": true
       },
       {
-        "label": "YOSKL3",
+        "label": "YOSKL3 Occupied",
         "used": true
       },
       {
-        "label": "Y10",
+        "label": "Y10 Occupied",
         "used": true
       }
     ]

@@ -1,137 +1,137 @@
 {
-  "address": 129,
-  "description": "Bank",
+  "address": 145,
+  "description": "Cliveden",
   "obytes": [
     [
       {
-        "label": "C22L Aspect",
+        "label": "C14L(0)",
         "used": true
       },
       {
-        "label": "C24L(0) Aspect",
+        "label": "C14L(1)",
         "used": true
       },
       {
-        "label": "C24L(1) Aspect",
+        "label": "C14L(2)",
         "used": true
       },
       {
-        "label": "C24L(2) Aspect",
+        "label": "C14RA(0)",
         "used": true
       },
       {
-        "label": "C24R(0) Aspect",
+        "label": "C14RA(1)",
         "used": true
       },
       {
-        "label": "C24R(1) Aspect",
+        "label": "C14RA(2)",
         "used": true
       },
       {
-        "label": "C24R(2) Aspect",
+        "label": "C14RB(0)",
         "used": true
       },
       {
-        "label": "C22R(0) Aspect",
+        "label": "C14RB(1)",
         "used": true
       }
     ],
     [
       {
-        "label": "C22R(1) Aspect",
+        "label": "C14RB(2)",
         "used": true
       },
       {
-        "label": "C22R(2) Aspect",
+        "label": "C12L(0)",
         "used": true
       },
       {
-        "label": "C18LA Aspect",
+        "label": "C12L(1)",
         "used": true
       },
       {
-        "label": "C18LB(0) Aspect",
+        "label": "C12L(2)",
         "used": true
       },
       {
-        "label": "C18LB(1) Aspect",
+        "label": "C10L(0)",
         "used": true
       },
       {
-        "label": "C18LB(2) Aspect",
+        "label": "C10L(1)",
         "used": true
       },
       {
-        "label": "C18R(0) Aspect",
-        "used": true
-      },
-      {
-        "label": "C18R(1) Aspect",
-        "used": true
-      }
-    ],
-    [
-      {
-        "label": "C18R(2) Aspect",
-        "used": true
-      },
-      {
-        "label": "B10 Occupied Ind",
-        "used": true
-      },
-      {
-        "label": "C13 Occupied Ind",
-        "used": true
-      },
-      {
-        "label": "CSw21AB Hand Switch Lock",
-        "used": true
-      },
-      {
-        "label": "CSw19 Hand Switch Lock",
-        "used": true
-      },
-      {
-        "label": "CSw23 Normal",
-        "used": true
-      },
-      {
-        "label": "CSw23 Reverse",
-        "used": true
-      },
-      {
-        "label": "CSw17 Normal",
-        "used": true
-      }
-    ],
-    [
-      {
-        "label": "CSw17 Reverse",
-        "used": true
-      },
-      {
-        "label": "B20 Stop Relay",
-        "used": true
-      },
-      {
-        "label": "B11 Stop Relay",
-        "used": true
-      },
-      {
-        "label": "B21 Stop Relay",
-        "used": true
-      },
-      {
-        "label": "Bank Breaker Ind",
-        "used": true
-      },
-      {
-        "label": "C24L Occupied Ind",
+        "label": "C10L(2)",
         "used": true
       },
       {
         "label": "(unused)",
         "used": false
+      }
+    ],
+    [
+      {
+        "label": "C12R(0)",
+        "used": true
+      },
+      {
+        "label": "C12R(1)",
+        "used": true
+      },
+      {
+        "label": "C12R(2)",
+        "used": true
+      },
+      {
+        "label": "C10R(0)",
+        "used": true
+      },
+      {
+        "label": "C10R(1)",
+        "used": true
+      },
+      {
+        "label": "C10R(2)",
+        "used": true
+      },
+      {
+        "label": "CSw11.hslck",
+        "used": true
+      },
+      {
+        "label": "CSw13.N",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "CSw13.R",
+        "used": true
+      },
+      {
+        "label": "CSw9.N",
+        "used": true
+      },
+      {
+        "label": "(bad bit - see 3:6)",
+        "used": false
+      },
+      {
+        "label": "C13.srel",
+        "used": true
+      },
+      {
+        "label": "C23.srel",
+        "used": true
+      },
+      {
+        "label": "C12.srel",
+        "used": true
+      },
+      {
+        "label": "CSw9.R (from 3:2)",
+        "used": true
       },
       {
         "label": "(unused)",
@@ -142,130 +142,130 @@
   "ibytes": [
     [
       {
-        "label": "CSw23 Normal",
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "CSw13.N",
         "used": true
       },
       {
-        "label": "CSw23 Reverse",
+        "label": "CSw13.R",
         "used": true
       },
       {
-        "label": "CSw21a Normal",
+        "label": "CSw11.N",
         "used": true
       },
       {
-        "label": "CSw21a Reverse",
+        "label": "CSw11.R",
         "used": true
       },
       {
-        "label": "CSw21b Normal",
+        "label": "CSw9.N",
         "used": true
       },
       {
-        "label": "CSw21b Reverse",
-        "used": true
-      },
-      {
-        "label": "CSw19 Normal",
-        "used": true
-      },
-      {
-        "label": "CSw19 Reverse",
+        "label": "CSw9.R",
         "used": true
       }
     ],
     [
       {
-        "label": "CSw17 Normal",
+        "label": "C13.W",
         "used": true
       },
       {
-        "label": "CSw17 Reverse",
+        "label": "C13",
         "used": true
       },
       {
-        "label": "B20 Occupied",
+        "label": "C13.E",
         "used": true
       },
       {
-        "label": "B20.E Occupied",
+        "label": "COSCLW",
         "used": true
       },
       {
-        "label": "BOSWW Occupied",
+        "label": "C12.W",
         "used": true
       },
       {
-        "label": "BOSWE Occupied",
+        "label": "C12",
         "used": true
       },
       {
-        "label": "B11.W Occupied",
+        "label": "C23.W",
         "used": true
       },
       {
-        "label": "B11 Occupied",
+        "label": "C23",
         "used": true
       }
     ],
     [
       {
-        "label": "B21.W Occupied",
+        "label": "COSCLEW",
         "used": true
       },
       {
-        "label": "B21 Occupied",
+        "label": "COSCLEE",
         "used": true
       },
       {
-        "label": "B21.E Occupied",
+        "label": "C22",
         "used": true
       },
       {
-        "label": "BOSE Occupied",
+        "label": "(unused)",
+        "used": false
+      },
+      {
+        "label": "CBGreenMtnStn",
         "used": true
       },
       {
-        "label": "Bank Breaker",
+        "label": "CBSheffieldA",
         "used": true
       },
       {
-        "label": "Kale Breaker",
+        "label": "CBGreenMtnYd",
         "used": true
       },
       {
-        "label": "Waterman Breaker",
-        "used": true
-      },
-      {
-        "label": "EngineYard Breaker",
+        "label": "CBHydeJct",
         "used": true
       }
     ],
     [
       {
-        "label": "EastEndJct Breaker",
+        "label": "CBHydeWest",
         "used": true
       },
       {
-        "label": "Shore Breaker",
+        "label": "CBHydeEast",
         "used": true
       },
       {
-        "label": "RockyHill Breaker",
+        "label": "CBSouthportJct",
         "used": true
       },
       {
-        "label": "HarpersFerry Breaker",
+        "label": "CBCarlton",
         "used": true
       },
       {
-        "label": "BlockY30 Breaker",
+        "label": "CBSheffieldB",
         "used": true
       },
       {
-        "label": "BlockY81 Breaker",
-        "used": true
+        "label": "(unused)",
+        "used": false
       },
       {
         "label": "(unused)",

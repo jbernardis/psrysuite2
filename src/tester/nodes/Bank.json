@@ -4,129 +4,129 @@
   "obytes": [
     [
       {
-        "label": "C22L",
+        "label": "C22L Aspect",
         "used": true
       },
       {
-        "label": "C24L(0)",
+        "label": "C24L(0) Aspect",
         "used": true
       },
       {
-        "label": "C24L(1)",
+        "label": "C24L(1) Aspect",
         "used": true
       },
       {
-        "label": "C24L(2)",
+        "label": "C24L(2) Aspect",
         "used": true
       },
       {
-        "label": "C24R(0)",
+        "label": "C24R(0) Aspect",
         "used": true
       },
       {
-        "label": "C24R(1)",
+        "label": "C24R(1) Aspect",
         "used": true
       },
       {
-        "label": "C24R(2)",
+        "label": "C24R(2) Aspect",
         "used": true
       },
       {
-        "label": "C22R(0)",
+        "label": "C22R(0) Aspect",
         "used": true
       }
     ],
     [
       {
-        "label": "C22R(1)",
+        "label": "C22R(1) Aspect",
         "used": true
       },
       {
-        "label": "C22R(2)",
+        "label": "C22R(2) Aspect",
         "used": true
       },
       {
-        "label": "C18LA",
+        "label": "C18LA Aspect",
         "used": true
       },
       {
-        "label": "C18LB(0)",
+        "label": "C18LB(0) Aspect",
         "used": true
       },
       {
-        "label": "C18LB(1)",
+        "label": "C18LB(1) Aspect",
         "used": true
       },
       {
-        "label": "C18LB(2)",
+        "label": "C18LB(2) Aspect",
         "used": true
       },
       {
-        "label": "C18R(0)",
+        "label": "C18R(0) Aspect",
         "used": true
       },
       {
-        "label": "C18R(1)",
+        "label": "C18R(1) Aspect",
         "used": true
       }
     ],
     [
       {
-        "label": "C18R(2)",
+        "label": "C18R(2) Aspect",
         "used": true
       },
       {
-        "label": "B10.ind",
+        "label": "B10 Occupied Ind",
         "used": true
       },
       {
-        "label": "C13.ind",
+        "label": "C13 Occupied Ind",
         "used": true
       },
       {
-        "label": "CSw21AB.hslck",
+        "label": "CSw21AB Hand Switch Lock",
         "used": true
       },
       {
-        "label": "CSw19.hslck",
+        "label": "CSw19 Hand Switch Lock",
         "used": true
       },
       {
-        "label": "CSw23.N",
+        "label": "CSw23 Normal",
         "used": true
       },
       {
-        "label": "CSw23.R",
+        "label": "CSw23 Reverse",
         "used": true
       },
       {
-        "label": "CSw17.N",
+        "label": "CSw17 Normal",
         "used": true
       }
     ],
     [
       {
-        "label": "CSw17.R",
+        "label": "CSw17 Reverse",
         "used": true
       },
       {
-        "label": "B20.srel",
+        "label": "B20 Stop Relay",
         "used": true
       },
       {
-        "label": "B11.srel",
+        "label": "B11 Stop Relay",
         "used": true
       },
       {
-        "label": "B21.srel",
+        "label": "B21 Stop Relay",
         "used": true
       },
       {
-        "label": "CBBank.ind",
+        "label": "Bank Breaker Ind",
         "used": true
       },
       {
-        "label": "C24L.ind",
+        "label": "C24L Occupied Ind",
         "used": true
       },
       {
@@ -142,129 +142,129 @@
   "ibytes": [
     [
       {
-        "label": "CSw23.N",
+        "label": "CSw23 Normal",
         "used": true
       },
       {
-        "label": "CSw23.R",
+        "label": "CSw23 Reverse",
         "used": true
       },
       {
-        "label": "CSw21a.N",
+        "label": "CSw21a Normal",
         "used": true
       },
       {
-        "label": "CSw21a.R",
+        "label": "CSw21a Reverse",
         "used": true
       },
       {
-        "label": "CSw21b.N",
+        "label": "CSw21b Normal",
         "used": true
       },
       {
-        "label": "CSw21b.R",
+        "label": "CSw21b Reverse",
         "used": true
       },
       {
-        "label": "CSw19.N",
+        "label": "CSw19 Normal",
         "used": true
       },
       {
-        "label": "CSw19.R",
+        "label": "CSw19 Reverse",
         "used": true
       }
     ],
     [
       {
-        "label": "CSw17.N",
+        "label": "CSw17 Normal",
         "used": true
       },
       {
-        "label": "CSw17.R",
+        "label": "CSw17 Reverse",
         "used": true
       },
       {
-        "label": "B20",
+        "label": "B20 Occupied",
         "used": true
       },
       {
-        "label": "B20.E",
+        "label": "B20.E Occupied",
         "used": true
       },
       {
-        "label": "BOSWW",
+        "label": "BOSWW Occupied",
         "used": true
       },
       {
-        "label": "BOSWE",
+        "label": "BOSWE Occupied",
         "used": true
       },
       {
-        "label": "B11.W",
+        "label": "B11.W Occupied",
         "used": true
       },
       {
-        "label": "B11",
+        "label": "B11 Occupied",
         "used": true
       }
     ],
     [
       {
-        "label": "B21.W",
+        "label": "B21.W Occupied",
         "used": true
       },
       {
-        "label": "B21",
+        "label": "B21 Occupied",
         "used": true
       },
       {
-        "label": "B21.E",
+        "label": "B21.E Occupied",
         "used": true
       },
       {
-        "label": "BOSE",
+        "label": "BOSE Occupied",
         "used": true
       },
       {
-        "label": "CBBank",
+        "label": "Bank Breaker",
         "used": true
       },
       {
-        "label": "CBKale",
+        "label": "Kale Breaker",
         "used": true
       },
       {
-        "label": "CBWaterman",
+        "label": "Waterman Breaker",
         "used": true
       },
       {
-        "label": "CBEngineYard",
+        "label": "EngineYard Breaker",
         "used": true
       }
     ],
     [
       {
-        "label": "CBEastEndJct",
+        "label": "EastEndJct Breaker",
         "used": true
       },
       {
-        "label": "CBShore",
+        "label": "Shore Breaker",
         "used": true
       },
       {
-        "label": "CBRockyHill",
+        "label": "RockyHill Breaker",
         "used": true
       },
       {
-        "label": "CBHarpersFerry",
+        "label": "HarpersFerry Breaker",
         "used": true
       },
       {
-        "label": "CBBlockY30",
+        "label": "BlockY30 Breaker",
         "used": true
       },
       {
-        "label": "CBBlockY81",
+        "label": "BlockY81 Breaker",
         "used": true
       },
       {

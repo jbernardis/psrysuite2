@@ -1,271 +1,271 @@
 {
-  "address": 145,
-  "description": "Cliveden",
+  "address": 115,
+  "description": "Nassau East",
   "obytes": [
     [
       {
-        "label": "C14L(0) Aspect",
+        "label": "N24RB(0)",
         "used": true
       },
       {
-        "label": "C14L(1) Aspect",
+        "label": "N24RB(1)",
         "used": true
       },
       {
-        "label": "C14L(2) Aspect",
+        "label": "N24RC(0)",
         "used": true
       },
       {
-        "label": "C14RA(0) Aspect",
+        "label": "N24RC(1)",
         "used": true
       },
       {
-        "label": "C14RA(1) Aspect",
+        "label": "N26RC(0)",
         "used": true
       },
       {
-        "label": "C14RA(2) Aspect",
+        "label": "N26RC(1)",
         "used": true
       },
       {
-        "label": "C14RB(0) Aspect",
+        "label": "N24RA(0)",
         "used": true
       },
       {
-        "label": "C14RB(1) Aspect",
+        "label": "N24RA(1)",
         "used": true
       }
     ],
     [
       {
-        "label": "C14RB(2) Aspect",
+        "label": "N26RA",
         "used": true
       },
       {
-        "label": "C12L(0) Aspect",
+        "label": "N26RB",
         "used": true
       },
       {
-        "label": "C12L(1) Aspect",
+        "label": "N28R",
         "used": true
       },
       {
-        "label": "C12L(2) Aspect",
+        "label": "B20E(0) Block",
         "used": true
       },
       {
-        "label": "C10L(0) Aspect",
+        "label": "B20E(1)",
         "used": true
       },
       {
-        "label": "C10L(1) Aspect",
+        "label": "B20E(2)",
         "used": true
       },
       {
-        "label": "C10L(2) Aspect",
+        "label": "N24L",
         "used": true
       },
       {
-        "label": "(unused)",
-        "used": false
-      }
-    ],
-    [
-      {
-        "label": "C12R(0) Aspect",
-        "used": true
-      },
-      {
-        "label": "C12R(1) Aspect",
-        "used": true
-      },
-      {
-        "label": "C12R(2) Aspect",
-        "used": true
-      },
-      {
-        "label": "C10R(0) Aspect",
-        "used": true
-      },
-      {
-        "label": "C10R(1) Aspect",
-        "used": true
-      },
-      {
-        "label": "C10R(2) Aspect",
-        "used": true
-      },
-      {
-        "label": "CSw11 Hand Switch Lock",
-        "used": true
-      },
-      {
-        "label": "CSw13 Normal",
+        "label": "N26L(0)",
         "used": true
       }
     ],
     [
       {
-        "label": "CSw13 Reverse",
+        "label": "N26L(1)",
         "used": true
       },
       {
-        "label": "CSw9 Normal",
+        "label": "N28L(0)",
         "used": true
       },
       {
-        "label": "(bad bit - see 3:6)",
-        "used": false
-      },
-      {
-        "label": "C13 Stop Relay",
+        "label": "N28L(1)",
         "used": true
       },
       {
-        "label": "C23 Stop Relay",
+        "label": "NESL(0) lock",
         "used": true
       },
       {
-        "label": "C12 Stop Relay",
+        "label": "NESL(1)",
         "used": true
       },
       {
-        "label": "CSw9 Reverse (from 3:2)",
+        "label": "NESL(2)",
         "used": true
       },
       {
-        "label": "(unused)",
-        "used": false
+        "label": "B10.srel",
+        "used": true
+      },
+      {
+        "label": "N24:L",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "N24:N",
+        "used": true
+      },
+      {
+        "label": "N24:R",
+        "used": true
+      },
+      {
+        "label": "N26:L",
+        "used": true
+      },
+      {
+        "label": "N26:N",
+        "used": true
+      },
+      {
+        "label": "N26:R",
+        "used": true
+      },
+      {
+        "label": "N28:L",
+        "used": true
+      },
+      {
+        "label": "N28:N",
+        "used": true
+      },
+      {
+        "label": "N28:R",
+        "used": true
       }
     ]
   ],
   "ibytes": [
     [
       {
-        "label": "(unused)",
+        "label": "NSw41.N",
+        "used": true
+      },
+      {
+        "label": "(bad bit - see bit 3:2)",
         "used": false
       },
       {
-        "label": "(unused)",
-        "used": false
-      },
-      {
-        "label": "CSw13 Normal",
+        "label": "NSw43.N",
         "used": true
       },
       {
-        "label": "CSw13 Reverse",
+        "label": "NSw43.R",
         "used": true
       },
       {
-        "label": "CSw11 Normal",
+        "label": "NSw45.N",
         "used": true
       },
       {
-        "label": "CSw11 Reverse",
+        "label": "NSw45.R",
         "used": true
       },
       {
-        "label": "CSw9 Normal",
+        "label": "NSw47.N",
         "used": true
       },
       {
-        "label": "CSw9 Reverse",
+        "label": "NSw47.R",
         "used": true
       }
     ],
     [
       {
-        "label": "C13.W Occupied",
+        "label": "(bad bit - see bit 3:3)",
+        "used": false
+      },
+      {
+        "label": "NSw51.R",
         "used": true
       },
       {
-        "label": "C13 Occupied",
+        "label": "NSw53.N",
         "used": true
       },
       {
-        "label": "C13.E Occupied",
+        "label": "NSw53.R",
         "used": true
       },
       {
-        "label": "COSCLW Occupied",
+        "label": "NSw55.N",
         "used": true
       },
       {
-        "label": "C12.W Occupied",
+        "label": "NSw55.R",
         "used": true
       },
       {
-        "label": "C12 Occupied",
+        "label": "NSw57.N",
         "used": true
       },
       {
-        "label": "C23.W Occupied",
-        "used": true
-      },
-      {
-        "label": "C23 Occupied",
+        "label": "NSw57.R",
         "used": true
       }
     ],
     [
       {
-        "label": "COSCLEW Occupied",
-        "used": true
-      },
-      {
-        "label": "COSCLEE Occupied",
-        "used": true
-      },
-      {
-        "label": "C22 Occupied",
-        "used": true
-      },
-      {
-        "label": "(unused)",
+        "label": "(bad bit - see bit 3:4)",
         "used": false
       },
       {
-        "label": "GreenMtnStn Breaker",
+        "label": "N41",
         "used": true
       },
       {
-        "label": "SheffieldA Breaker",
+        "label": "N42",
         "used": true
       },
       {
-        "label": "GreenMtnYd Breaker",
+        "label": "(bad bit - see bit 3:5)",
+        "used": false
+      },
+      {
+        "label": "NEOSW",
         "used": true
       },
       {
-        "label": "HydeJct Breaker",
+        "label": "NEOSE",
+        "used": true
+      },
+      {
+        "label": "B10.W",
+        "used": true
+      },
+      {
+        "label": "B10",
         "used": true
       }
     ],
     [
       {
-        "label": "HydeWest Breaker",
+        "label": "NSw39.N",
         "used": true
       },
       {
-        "label": "HydeEast Breaker",
+        "label": "NSw39.R",
         "used": true
       },
       {
-        "label": "SouthportJct Breaker",
+        "label": "NSw41.R - see bit 0:1",
         "used": true
       },
       {
-        "label": "Carlton Breaker",
+        "label": "NSw51.N - see bit 1:0",
         "used": true
       },
       {
-        "label": "SheffieldB Breaker",
+        "label": "N22 - see bit 2:0",
         "used": true
       },
       {
-        "label": "(unused)",
-        "used": false
+        "label": "NEOSRH - see bit 2:3",
+        "used": true
       },
       {
         "label": "(unused)",

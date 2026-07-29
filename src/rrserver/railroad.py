@@ -1842,8 +1842,8 @@ class Railroad:
 									obj.UpdateLed()
 									for m in msgs:
 										self.RailroadEvent(m)
-									if force:
-										self.Alert("Turnout %s changed position while disabled or locked" % obj.Name(), district.Locale())
+									if obj.IsLocked():
+										self.Alert("Turnout %s changed position while locked" % obj.Name(), district.Locale())
 						else:
 							if nflag == 1 and rflag == 0:
 								if obj.SetNormal(True):
@@ -1853,8 +1853,8 @@ class Railroad:
 									obj.UpdateLed()
 									for m in msgs:
 										self.RailroadEvent(m)
-									if force:
-										self.Alert("Turnout %s changed position while disabled or locked" % obj.Name(), district.Locale())
+									if obj.IsLocked():
+										self.Alert("Turnout %s changed position while locked" % obj.Name(), district.Locale())
 
 					if obj.HasLever():
 						bt = obj.Bits()

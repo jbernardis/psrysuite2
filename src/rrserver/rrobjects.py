@@ -1373,7 +1373,7 @@ class Signal:
 		return msg
 
 	def ForBitMap(self):
-		result = {self.name: {"aspect": [self.bits, self.address]}}
+		result = {self.name: {"aspect": [self.bits, self.address], "aspecttype": self.aspectType}}
 
 		indList = []
 		for _, _, addr, bits in self.indicators:

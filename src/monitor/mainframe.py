@@ -25,7 +25,7 @@ Nodes = [
 	["East Jct", 0x13],
 	["Cornell", 0x14],
 	["Yard SW", 0x15],
-	["Parsons", 0x21],
+	["Parsons Jct", 0x21],
 	["Port A", 0x22],
 	["Port B", 0x23],
 	["Latham", 0x31],

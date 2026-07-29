@@ -153,10 +153,10 @@ class InspectDlg(wx.Dialog):
         logging.info("Signal tester started as PID %d" % Proc.pid)
 
     def OnBStartTester(self, _):
-        Exec = os.path.join(os.getcwd(), "tester2", "main.py")
+        Exec = os.path.join(os.getcwd(), "tester", "main.py")
         Proc = Popen([sys.executable, Exec])
 
-        logging.info("Tester2 started as PID %d" % Proc.pid)
+        logging.info("Tester started as PID %d" % Proc.pid)
 
     def OnBStartMonitor(self, _):
         Exec = os.path.join(os.getcwd(), "monitor", "main.py")

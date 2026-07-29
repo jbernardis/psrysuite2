@@ -3,7 +3,7 @@ import os
 import json
 import logging
 
-from tester2.bus import setBit, getBit
+from tester.bus import setBit, getBit
 from rrserver.constants import nodeNames
 
 BTNSZ = (100, 40)
@@ -30,7 +30,7 @@ class Node:
 		self.enabled = True
 		self.name = nodeNames[self.addr]
 
-		fn = os.path.join(os.getcwd(), "tester2", "nodes", self.name + ".json")
+		fn = os.path.join(os.getcwd(), "tester", "nodes", self.name + ".json")
 		self.jdata = None
 		try:
 			with open(fn, "r") as jfp:

@@ -1,5 +1,5 @@
 import logging
-
+import os
 import threading
 import socket
 import select
@@ -18,12 +18,14 @@ class SktServer (threading.Thread):
 		self.socketLock = threading.Lock()
 		self.sockets = []
 		self.sessionID = 1
+		self.rKillSocket, self.wKillSocket = socket.socketpair()
 
 	def getSockets(self):
 		return [x for x in self.sockets]
 
 	def kill(self):
 		self.isRunning = False
+		self.wKillSocket.send(b'x')
 		self.join()
 
 	def isKilled(self):
@@ -77,8 +79,13 @@ class SktServer (threading.Thread):
 			slist = [s]
 
 		while self.isRunning:
-			readable, _, _ = select.select(slist, [], [], None) #0)
-			if readable and s in readable:
+			readable, _, _ = select.select(slist + [self.rKillSocket], [], [], None) #0)
+			if readable and self.rKillSocket in readable:
+				self.rKillSocket.recv(1)  # Clear the byte from the pipe
+				logging.info('Socket Server Select interrupted/killed intentionally!')
+				self.isRunning = False
+
+			elif readable and s in readable:
 				skt, addr = s.accept()
 				logging.info("Socket accepted from Address %s" % str(addr))
 				with self.socketLock:
@@ -92,4 +99,15 @@ class SktServer (threading.Thread):
 		for skt in self.sockets:
 			skt[0].close()
 
+		try:
+			self.rKillSocket.close()
+		except Exception as e:
+			logging.debug("rpipe exception: %s" % str(e))
+
+		try:
+			self.wKillSocket.close()
+		except Exception as e:
+			logging.debug("wpipe exception: %s" % str(e))
+
 		self.endOfLife = True
+		logging.debug("socket server thread terminating")

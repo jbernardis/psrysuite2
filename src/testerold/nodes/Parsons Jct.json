@@ -4,99 +4,99 @@
   "obytes": [
     [
       {
-        "label": "PA34LB(0) Aspect",
+        "label": "PA34LB(0)",
         "used": true
       },
       {
-        "label": "PA34LB(1) Aspect",
+        "label": "PA34LB(1)",
         "used": true
       },
       {
-        "label": "PA34LB(2) Aspect",
+        "label": "PA34LB(2)",
         "used": true
       },
       {
-        "label": "PA32L Aspect",
+        "label": "PA32L",
         "used": true
       },
       {
-        "label": "PA34LA(0) Aspect",
+        "label": "PA34LA(0)",
         "used": true
       },
       {
-        "label": "PA34LA(1) Aspect",
+        "label": "PA34LA(1)",
         "used": true
       },
       {
-        "label": "PA34LA(2) Aspect",
+        "label": "PA34LA(2)",
         "used": true
       },
       {
-        "label": "PA34RD(0) Aspect",
+        "label": "PA34RD(0)",
         "used": true
       }
     ],
     [
       {
-        "label": "PA34RD(1) Aspect",
+        "label": "PA34RD(1)",
         "used": true
       },
       {
-        "label": "PA34RD(2) Aspect",
+        "label": "PA34RD(2)",
         "used": true
       },
       {
-        "label": "PA34RC Aspect",
+        "label": "PA34RC",
         "used": true
       },
       {
-        "label": "PA32RA(0) Aspect",
+        "label": "PA32RA(0)",
         "used": true
       },
       {
-        "label": "PA32RA(1) Aspect",
+        "label": "PA32RA(1)",
         "used": true
       },
       {
-        "label": "PA32RA(2) Aspect",
+        "label": "PA32RA(2)",
         "used": true
       },
       {
-        "label": "PA34RB Aspect",
+        "label": "PA34RB",
         "used": true
       },
       {
-        "label": "P32RB(0) Aspect",
+        "label": "P32RB(0)",
         "used": true
       }
     ],
     [
       {
-        "label": "PA32RB(1) Aspect",
+        "label": "PA32RB(1)",
         "used": true
       },
       {
-        "label": "PA32RB(2) Aspect",
+        "label": "PA32RB(2)",
         "used": true
       },
       {
-        "label": "PA34RA Aspect",
+        "label": "PA34RA",
         "used": true
       },
       {
-        "label": "P20 Stop Relay",
+        "label": "P20.srel",
         "used": true
       },
       {
-        "label": "P30 Stop Relay",
+        "label": "P30.srel",
         "used": true
       },
       {
-        "label": "P50 Stop Relay",
+        "label": "P50.srel",
         "used": true
       },
       {
-        "label": "P11 Stop Relay",
+        "label": "P11.srel",
         "used": true
       },
       {
@@ -142,109 +142,109 @@
   "ibytes": [
     [
       {
-        "label": "PASw27 Normal",
+        "label": "PASw27.N",
         "used": true
       },
       {
-        "label": "PASw27 Reverse",
+        "label": "PASw27.R",
         "used": true
       },
       {
-        "label": "PASw29 Normal",
+        "label": "PASw29.N",
         "used": true
       },
       {
-        "label": "PASw29 Reverse",
+        "label": "PASw29.R",
         "used": true
       },
       {
-        "label": "PASw31 Normal",
+        "label": "PASw31.N",
         "used": true
       },
       {
-        "label": "PASw31 Reverse",
+        "label": "PASw31.R",
         "used": true
       },
       {
-        "label": "PASw33 Normal",
+        "label": "PASw33.N",
         "used": true
       },
       {
-        "label": "PASw33 Reverse",
+        "label": "PASw33.R",
         "used": true
       }
     ],
     [
       {
-        "label": "PASw35 Normal",
+        "label": "PASw35.N",
         "used": true
       },
       {
-        "label": "PASw35 Reverse",
+        "label": "PASw35.R",
         "used": true
       },
       {
-        "label": "PASw37 Normal",
+        "label": "PASw37.N",
         "used": true
       },
       {
-        "label": "PASw37 Reverse",
+        "label": "PASw37.R",
         "used": true
       },
       {
-        "label": "P20 Occupied",
+        "label": "P20",
         "used": true
       },
       {
-        "label": "P20.E Occupied",
+        "label": "P20.E",
         "used": true
       },
       {
-        "label": "P30.W Occupied",
+        "label": "P30.W",
         "used": true
       },
       {
-        "label": "P30 Occupied",
+        "label": "P30",
         "used": true
       }
     ],
     [
       {
-        "label": "P30.E Occupied",
+        "label": "P30.E",
         "used": true
       },
       {
-        "label": "POSPJ1 Occupied",
+        "label": "POSPJ1",
         "used": true
       },
       {
-        "label": "POSPJ2 Occupied",
+        "label": "POSPJ2",
         "used": true
       },
       {
-        "label": "P50.W Occupied",
+        "label": "P50.W",
         "used": true
       },
       {
-        "label": "P50 Occupied",
+        "label": "P50",
         "used": true
       },
       {
-        "label": "P50.E Occupied",
+        "label": "P50.E",
         "used": true
       },
       {
-        "label": "P11.W Occupied",
+        "label": "P11.W",
         "used": true
       },
       {
-        "label": "P11 Occupied",
+        "label": "P11",
         "used": true
       }
     ],
     [
       {
-        "label": "P11.E Occupied",
+        "label": "P11.E",
         "used": true
       },
       {

@@ -4,65 +4,65 @@
   "obytes": [
     [
       {
-        "label": "N14LC Aspect",
+        "label": "N14LC",
         "used": true
       },
       {
-        "label": "N14LB Aspect",
+        "label": "N14LB",
         "used": true
       },
       {
-        "label": "N20R Aspect",
+        "label": "N20R",
         "used": true
       },
       {
-        "label": "N20L Aspect",
+        "label": "N20L",
         "used": true
       },
       {
-        "label": "N14LA(0) Aspect",
+        "label": "N14LA(0)",
         "used": true
       },
       {
-        "label": "N14LA(1) Aspect",
+        "label": "N14LA(1)",
         "used": true
       },
       {
-        "label": "N16L(0) Aspect",
+        "label": "N16L(0)",
         "used": true
       },
       {
-        "label": "N16L(1) Aspect",
+        "label": "N16L(1)",
         "used": true
       }
     ],
     [
       {
-        "label": "N18LB(0) Aspect",
+        "label": "N18LB(0)",
         "used": true
       },
       {
-        "label": "N18LB(1) Aspect",
+        "label": "N18LB(1)",
         "used": true
       },
       {
-        "label": "N18LA(0) Aspect",
+        "label": "N18LA(0)",
         "used": true
       },
       {
-        "label": "N18LA(1) Aspect",
+        "label": "N18LA(1)",
         "used": true
       },
       {
-        "label": "N16R(0) Aspect",
+        "label": "N16R(0)",
         "used": true
       },
       {
-        "label": "N16R(1) Aspect",
+        "label": "N16R(1)",
         "used": true
       },
       {
-        "label": "N14R(0) Aspect",
+        "label": "N14R(0)",
         "used": true
       },
       {
@@ -72,197 +72,197 @@
     ],
     [
       {
-        "label": "N18R Aspect",
+        "label": "N18R",
         "used": true
       },
       {
-        "label": "N11W(0) Block Aspect",
+        "label": "N11W(0) Block",
         "used": true
       },
       {
-        "label": "N11W(1) Block Aspect",
+        "label": "N11W(1)",
         "used": true
       },
       {
-        "label": "N11W(2) Block Aspect",
+        "label": "N11W(2)",
         "used": true
       },
       {
-        "label": "N21W(0) Block Aspect",
+        "label": "N21W(0) Block",
         "used": true
       },
       {
-        "label": "N21W(1) Block Aspect",
+        "label": "N21W(1)",
         "used": true
       },
       {
-        "label": "N21W(2) Block Aspect",
+        "label": "N21W(2)",
         "used": true
       },
       {
-        "label": "S11 Approach Aspect",
+        "label": "S11 approach",
         "used": true
       }
     ],
     [
       {
-        "label": "RH Approach Aspect",
+        "label": "RH Approach",
         "used": true
       },
       {
-        "label": "Bank Approach Aspect",
+        "label": "Bank Approach",
         "used": true
       },
       {
-        "label": "N Fleet",
+        "label": "NFleet",
         "used": true
       },
       {
-        "label": "!N Fleet",
+        "label": "!NFleet",
         "used": true
       },
       {
-        "label": "N14 Left Ind",
+        "label": "N14:L",
         "used": true
       },
       {
-        "label": "N14 Neutral Ind",
+        "label": "N14:N",
         "used": true
       },
       {
-        "label": "N14 Right Ind",
+        "label": "N14:R",
         "used": true
       },
       {
-        "label": "N16 Left Ind",
+        "label": "N16:L",
         "used": true
       }
     ],
     [
       {
-        "label": "N16 Neutral Ind",
+        "label": "N16:N",
         "used": true
       },
       {
-        "label": "N16 Right Ind",
+        "label": "N16:R",
         "used": true
       },
       {
-        "label": "N18 Left Ind",
+        "label": "N18:L",
         "used": true
       },
       {
-        "label": "N18 Neutral Ind",
+        "label": "N18:N",
         "used": true
       },
       {
-        "label": "N18 Right Ind",
+        "label": "N18:R",
         "used": true
       },
       {
-        "label": "N20 Left Ind",
+        "label": "N20:L",
         "used": true
       },
       {
-        "label": "N20 Neutral Ind",
+        "label": "N20:N",
         "used": true
       },
       {
-        "label": "N20 Right Ind",
+        "label": "N20:R",
         "used": true
       }
     ],
     [
       {
-        "label": "KSw1 Normal",
+        "label": "KSw1.N",
         "used": true
       },
       {
-        "label": "KSw1 Reverse",
+        "label": "KSw1.R",
         "used": true
       },
       {
-        "label": "KSw3 Normal",
+        "label": "KSw3.N",
         "used": true
       },
       {
-        "label": "KSw3 Reverse",
+        "label": "KSw3.R",
         "used": true
       },
       {
-        "label": "KSw5 Normal",
+        "label": "KSw5.N",
         "used": true
       },
       {
-        "label": "KSw5 Reverse",
+        "label": "KSw5.R",
         "used": true
       },
       {
-        "label": "KSw7 Normal",
+        "label": "KSw7.N",
         "used": true
       },
       {
-        "label": "KSw7 Reverse",
+        "label": "KSw7.R",
         "used": true
       }
     ],
     [
       {
-        "label": "Krulish Breaker Ind",
+        "label": "CBKrulish.ind",
         "used": true
       },
       {
-        "label": "NassauW Breaker Ind",
+        "label": "CBNassauW.ind",
         "used": true
       },
       {
-        "label": "NassauE Breaker Ind",
+        "label": "CBNassauE.ind",
         "used": true
       },
       {
-        "label": "SptJct Breaker Ind",
+        "label": "CBSptJct.ind",
         "used": true
       },
       {
-        "label": "Wilson Breaker Ind",
+        "label": "CBWilson.ind",
         "used": true
       },
       {
-        "label": "Thomas Breaker Ind",
+        "label": "CBThomas.ind",
         "used": true
       },
       {
-        "label": "NWSL(0) Switch Lock",
+        "label": "NWSL(0) lock",
         "used": true
       },
       {
-        "label": "NWSL(1) Switch Lock",
+        "label": "NWSL(1)",
         "used": true
       }
     ],
     [
       {
-        "label": "NWSL(2) Switch Lock",
+        "label": "NWSL(2)",
         "used": true
       },
       {
-        "label": "NWSL(3) Switch Lock",
+        "label": "NWSL(3)",
         "used": true
       },
       {
-        "label": "N21 Stop Relay",
+        "label": "N21.srel",
         "used": true
       },
       {
-        "label": "N14R(1) Aspect(from bit 1:7)",
+        "label": "N14R(1) (from bit 1:7)",
         "used": true
       },
       {
-        "label": "N14LD Aspect",
+        "label": "N14LD",
         "used": true
       },
       {
-        "label": "N24RD Aspect",
+        "label": "N24RD",
         "used": true
       },
       {
@@ -278,269 +278,269 @@
   "ibytes": [
     [
       {
-        "label": "NSw19 Normal",
+        "label": "NSw19.N",
         "used": true
       },
       {
-        "label": "NSw19 Reverse",
+        "label": "NSw19.R",
         "used": true
       },
       {
-        "label": "NSw21 Normal",
+        "label": "NSw21.N",
         "used": true
       },
       {
-        "label": "NSw21 Reverse",
+        "label": "NSw21.R",
         "used": true
       },
       {
-        "label": "NSw23 Normal",
+        "label": "NSw23.N",
         "used": true
       },
       {
-        "label": "NSw23 Reverse",
+        "label": "NSw23.R",
         "used": true
       },
       {
-        "label": "NSw25 Normal",
+        "label": "NSw25.N",
         "used": true
       },
       {
-        "label": "NSw25 Reverse",
+        "label": "NSw25.R",
         "used": true
       }
     ],
     [
       {
-        "label": "NSw27 Normal",
+        "label": "NSw27.N",
         "used": true
       },
       {
-        "label": "NSw27 Reverse",
+        "label": "NSw27.R",
         "used": true
       },
       {
-        "label": "NSw29 Normal",
+        "label": "NSw29.N",
         "used": true
       },
       {
-        "label": "NSw29 Reverse",
+        "label": "NSw29.R",
         "used": true
       },
       {
-        "label": "NSw31 Normal",
+        "label": "NSw31.N",
         "used": true
       },
       {
-        "label": "NSw31 Reverse",
+        "label": "NSw31.R",
         "used": true
       },
       {
-        "label": "NSw33 Normal",
+        "label": "NSw33.N",
         "used": true
       },
       {
-        "label": "NSw33 Reverse",
+        "label": "NSw33.R",
         "used": true
       }
     ],
     [
       {
-        "label": "N21.W Occupied",
+        "label": "N21.W",
         "used": true
       },
       {
-        "label": "N21 Occupied",
+        "label": "N21",
         "used": true
       },
       {
-        "label": "N21.E Occupied",
+        "label": "N21.E",
         "used": true
       },
       {
-        "label": "NWOSTY Occupied",
+        "label": "NWOSTY",
         "used": true
       },
       {
-        "label": "NWOSCY Occupied",
+        "label": "NWOSCY",
         "used": true
       },
       {
-        "label": "NWOSW Occupied",
+        "label": "NWOSW",
         "used": true
       },
       {
-        "label": "NWOSE Occupied",
+        "label": "NWOSE",
         "used": true
       },
       {
-        "label": "N32 Occupied",
+        "label": "N32",
         "used": true
       }
     ],
     [
       {
-        "label": "N31 Occupied",
+        "label": "N31",
         "used": true
       },
       {
-        "label": "N12 Occupied",
+        "label": "N12",
         "used": true
       },
       {
-        "label": "N Release",
+        "label": "NRelease",
         "used": true
       },
       {
-        "label": "N Fleet",
+        "label": "NFleet",
         "used": true
       },
       {
-        "label": "N14 Right",
+        "label": "N14.Rlvr",
         "used": true
       },
       {
-        "label": "N14 Call on",
+        "label": "N14.Clvr",
         "used": true
       },
       {
-        "label": "N14 Left",
+        "label": "N14.Llvr",
         "used": true
       },
       {
-        "label": "N16 Right",
+        "label": "N16.Rlvr",
         "used": true
       }
     ],
     [
       {
-        "label": "N16 Call on",
+        "label": "N16.Clvr",
         "used": true
       },
       {
-        "label": "N16 Left",
+        "label": "N16.Llvr",
         "used": true
       },
       {
-        "label": "N18 Right",
+        "label": "N18.Rlvr",
         "used": true
       },
       {
-        "label": "N18 Call on",
+        "label": "N18.Clvr",
         "used": true
       },
       {
-        "label": "N18 Left",
+        "label": "N18.Llvr",
         "used": true
       },
       {
-        "label": "N20 Right",
+        "label": "N20.Rlvr",
         "used": true
       },
       {
-        "label": "N20 Call on",
+        "label": "N20.Clvr",
         "used": true
       },
       {
-        "label": "N20 Left",
+        "label": "N20.Llvr",
         "used": true
       }
     ],
     [
       {
-        "label": "N24 Right",
+        "label": "N24.Rlvr",
         "used": true
       },
       {
-        "label": "N24 Call on",
+        "label": "N24.Clvr",
         "used": true
       },
       {
-        "label": "N24 Left",
+        "label": "N24.Llvr",
         "used": true
       },
       {
-        "label": "N26 Right",
+        "label": "N26.Rlvr",
         "used": true
       },
       {
-        "label": "N26 Call on",
+        "label": "N26.Clvr",
         "used": true
       },
       {
-        "label": "N26 Left",
+        "label": "N26.Llvr",
         "used": true
       },
       {
-        "label": "N28 Right",
+        "label": "N28.Rlvr",
         "used": true
       },
       {
-        "label": "N28 Call on",
+        "label": "N28.Clvr",
         "used": true
       }
     ],
     [
       {
-        "label": "N28 Left",
+        "label": "N28.Llvr",
         "used": true
       },
       {
-        "label": "KrulishYd Breaker",
+        "label": "CBKrulishYd",
         "used": true
       },
       {
-        "label": "Thomas Breaker",
+        "label": "CBThomas",
         "used": true
       },
       {
-        "label": "Wilson Breaker",
+        "label": "CBWilson",
         "used": true
       },
       {
-        "label": "Krulish Breaker",
+        "label": "CBKrulish",
         "used": true
       },
       {
-        "label": "NassauW Breaker",
+        "label": "CBNassauW",
         "used": true
       },
       {
-        "label": "NassauE Breaker",
+        "label": "CBNassauE",
         "used": true
       },
       {
-        "label": "Foss Breaker",
+        "label": "CBFoss",
         "used": true
       }
     ],
     [
       {
-        "label": "Dell Breaker",
+        "label": "CBDell",
         "used": true
       },
       {
-        "label": "Coach A Selected",
+        "label": "Coach A",
         "used": true
       },
       {
-        "label": "Coach B Selected",
+        "label": "Coach B",
         "used": true
       },
       {
-        "label": "Coach C Selected",
+        "label": "Coach C",
         "used": true
       },
       {
-        "label": "Coach D Selected",
+        "label": "Coach D",
         "used": true
       },
       {
-        "label": "NSw35 Normal",
+        "label": "NSw35.N",
         "used": true
       },
       {
-        "label": "NSw35 Reverse",
+        "label": "NSw35.R",
         "used": true
       },
       {

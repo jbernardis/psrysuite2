@@ -4,159 +4,159 @@
   "obytes": [
     [
       {
-        "label": "HSw1 Normal",
+        "label": "HSw1.N",
         "used": true
       },
       {
-        "label": "HSw1 Reverse",
+        "label": "HSw1.R",
         "used": true
       },
       {
-        "label": "HSw3 Normal",
+        "label": "HSw3.N",
         "used": true
       },
       {
-        "label": "HSw3 Reverse",
+        "label": "HSw3.R",
         "used": true
       },
       {
-        "label": "HSw7 Normal",
+        "label": "HSw7.N",
         "used": true
       },
       {
-        "label": "HSw7 Reverse",
+        "label": "HSw7.R",
         "used": true
       },
       {
-        "label": "HSw9 Normal",
+        "label": "HSw9.N",
         "used": true
       },
       {
-        "label": "HSw9 Reverse",
+        "label": "HSw9.R",
         "used": true
       }
     ],
     [
       {
-        "label": "HSw11 Normal",
+        "label": "HSw11.N",
         "used": true
       },
       {
-        "label": "HSw11 Reverse",
+        "label": "HSw11.R",
         "used": true
       },
       {
-        "label": "HSw23 Normal",
+        "label": "HSw23.N",
         "used": true
       },
       {
-        "label": "HSw23 Reverse",
+        "label": "HSw23.R",
         "used": true
       },
       {
-        "label": "HSw25 Normal",
+        "label": "HSw25.N",
         "used": true
       },
       {
-        "label": "HSw25 Reverse",
+        "label": "HSw25.R",
         "used": true
       },
       {
-        "label": "HSw27 Normal",
+        "label": "HSw27.N",
         "used": true
       },
       {
-        "label": "HSw27 Reverse",
+        "label": "HSw27.R",
         "used": true
       }
     ],
     [
       {
-        "label": "HSw29 Normal",
+        "label": "HSw29.N",
         "used": true
       },
       {
-        "label": "HSw29 Reverse",
+        "label": "HSw29.R",
         "used": true
       },
       {
-        "label": "HSw15 Normal",
+        "label": "HSw15.N",
         "used": true
       },
       {
-        "label": "HSw15 Reverse",
+        "label": "HSw15.R",
         "used": true
       },
       {
-        "label": "HSw17 Normal",
+        "label": "HSw17.N",
         "used": true
       },
       {
-        "label": "HSw17 Reverse",
+        "label": "HSw17.R",
         "used": true
       },
       {
-        "label": "HSw19 Normal",
+        "label": "HSw19.N",
         "used": true
       },
       {
-        "label": "HSw19 Reverse",
+        "label": "HSw19.R",
         "used": true
       }
     ],
     [
       {
-        "label": "HSw21 Normal",
+        "label": "HSw21.N",
         "used": true
       },
       {
-        "label": "HSw21 Reverse",
+        "label": "HSw21.R",
         "used": true
       },
       {
-        "label": "H30 Occupied Ind",
+        "label": "H30.ind",
         "used": true
       },
       {
-        "label": "H10 Occupied Ind",
+        "label": "H10.ind",
         "used": true
       },
       {
-        "label": "H23 Occupied Ind",
+        "label": "H23.ind",
         "used": true
       },
       {
-        "label": "N25 Occupied Ind",
+        "label": "N25 occupied",
         "used": true
       },
       {
-        "label": "H21 Stop Relay",
+        "label": "H21.srel",
         "used": true
       },
       {
-        "label": "H13 Stop Relay",
+        "label": "H13.srel",
         "used": true
       }
     ],
     [
       {
-        "label": "HydeJct Breaker Ind",
+        "label": "CBHydeJct.ind",
         "used": true
       },
       {
-        "label": "HydeWest Breaker Ind",
+        "label": "CBHydeWest.ind",
         "used": true
       },
       {
-        "label": "HydeEast Breaker Ind",
+        "label": "CBHydeEast.ind",
         "used": true
       },
       {
-        "label": "HydeWest Power",
+        "label": "HydeWestPower",
         "used": true
       },
       {
-        "label": "HydeEast Power",
+        "label": "HydeEastPower",
         "used": true
       },
       {
@@ -176,167 +176,167 @@
   "ibytes": [
     [
       {
-        "label": "H12W Route",
+        "label": "H12W route",
         "used": true
       },
       {
-        "label": "H34W Route",
+        "label": "H34W",
         "used": true
       },
       {
-        "label": "H33W Route",
+        "label": "H33W",
         "used": true
       },
       {
-        "label": "H30E Route",
+        "label": "H30E",
         "used": true
       },
       {
-        "label": "H31W Route",
+        "label": "H31W",
         "used": true
       },
       {
-        "label": "H32W Route",
+        "label": "H32W",
         "used": true
       },
       {
-        "label": "H22W Route",
+        "label": "H22W",
         "used": true
       },
       {
-        "label": "H43W Route",
+        "label": "H43W",
         "used": true
       }
     ],
     [
       {
-        "label": "H42W Route",
+        "label": "H42W route",
         "used": true
       },
       {
-        "label": "H41W Route",
+        "label": "H41W",
         "used": true
       },
       {
-        "label": "H41E Route",
+        "label": "H41E",
         "used": true
       },
       {
-        "label": "H42E Route",
+        "label": "H42E",
         "used": true
       },
       {
-        "label": "H43E Route",
+        "label": "H43E",
         "used": true
       },
       {
-        "label": "H22E Route",
+        "label": "H22E",
         "used": true
       },
       {
-        "label": "H40E Route",
+        "label": "H40E",
         "used": true
       },
       {
-        "label": "H12E Route",
+        "label": "H12E",
         "used": true
       }
     ],
     [
       {
-        "label": "H34E Route",
+        "label": "H34E route",
         "used": true
       },
       {
-        "label": "H33E Route",
+        "label": "H33E",
         "used": true
       },
       {
-        "label": "H32E Route",
+        "label": "H32E",
         "used": true
       },
       {
-        "label": "H31E Route",
+        "label": "H31E",
         "used": true
       },
       {
-        "label": "H21 Occupied",
+        "label": "H21",
         "used": true
       },
       {
-        "label": "H21.E Occupied",
+        "label": "H21.E",
         "used": true
       },
       {
-        "label": "HOSWW2 Occupied",
+        "label": "HOSWW2",
         "used": true
       },
       {
-        "label": "HOSWW Occupied",
+        "label": "HOSWW",
         "used": true
       }
     ],
     [
       {
-        "label": "HOSWE Occupied",
+        "label": "HOSWE",
         "used": true
       },
       {
-        "label": "H31 Occupied",
+        "label": "H31",
         "used": true
       },
       {
-        "label": "H32 Occupied",
+        "label": "H32",
         "used": true
       },
       {
-        "label": "H33 Occupied",
+        "label": "H33",
         "used": true
       },
       {
-        "label": "H34 Occupied",
+        "label": "H34",
         "used": true
       },
       {
-        "label": "H12 Occupied",
+        "label": "H12",
         "used": true
       },
       {
-        "label": "H22 Occupied",
+        "label": "H22",
         "used": true
       },
       {
-        "label": "H43 Occupied",
+        "label": "H43",
         "used": true
       }
     ],
     [
       {
-        "label": "H42 Occupied",
+        "label": "H42",
         "used": true
       },
       {
-        "label": "H41 Occupied",
+        "label": "H41",
         "used": true
       },
       {
-        "label": "H40 Occupied",
+        "label": "H40",
         "used": true
       },
       {
-        "label": "HOSEW Occupied",
+        "label": "HOSEW",
         "used": true
       },
       {
-        "label": "HOSEE Occupied",
+        "label": "HOSEE",
         "used": true
       },
       {
-        "label": "H13.W Occupied",
+        "label": "H13.W",
         "used": true
       },
       {
-        "label": "H13 Occupied",
+        "label": "H13",
         "used": true
       },
       {

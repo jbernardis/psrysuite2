@@ -4,27 +4,27 @@
   "obytes": [
     [
       {
-        "label": "D10R(0)",
+        "label": "D10R(0) Aspect",
         "used": true
       },
       {
-        "label": "D10R(1)",
+        "label": "D10R(1) Aspect",
         "used": true
       },
       {
-        "label": "D10R(2)",
+        "label": "D10R(2) Aspect",
         "used": true
       },
       {
-        "label": "D12R(0)",
+        "label": "D12R(0) Aspect",
         "used": true
       },
       {
-        "label": "D12R(1)",
+        "label": "D12R(1) Aspect",
         "used": true
       },
       {
-        "label": "D12R(2)",
+        "label": "D12R(2) Aspect",
         "used": true
       },
       {
@@ -38,35 +38,35 @@
     ],
     [
       {
-        "label": "D10L(0)",
+        "label": "D10L(0) Aspect",
         "used": true
       },
       {
-        "label": "D10L(1)",
+        "label": "D10L(1) Aspect",
         "used": true
       },
       {
-        "label": "D10L(2)",
+        "label": "D10L(2) Aspect",
         "used": true
       },
       {
-        "label": "D12L(0)",
+        "label": "D12L(0) Aspect",
         "used": true
       },
       {
-        "label": "D12L(1)",
+        "label": "D12L(1) Aspect",
         "used": true
       },
       {
-        "label": "D12L(2)",
+        "label": "D12L(2) Aspect",
         "used": true
       },
       {
-        "label": "D21.srel",
+        "label": "D21 Stop Relay",
         "used": true
       },
       {
-        "label": "S10.srel",
+        "label": "S10 Stop Relay",
         "used": true
       }
     ],
@@ -76,23 +76,23 @@
         "used": false
       },
       {
-        "label": "R10.srel",
+        "label": "R10 Stop Relay",
         "used": true
       },
       {
-        "label": "RXO",
+        "label": "RXO Aspect",
         "used": true
       },
       {
-        "label": "R10W(0)",
+        "label": "R10W(0) Aspect",
         "used": true
       },
       {
-        "label": "R10W(1)",
+        "label": "R10W(1) Aspect",
         "used": true
       },
       {
-        "label": "R10W(2)",
+        "label": "R10W(2) Aspect",
         "used": true
       },
       {
@@ -108,75 +108,75 @@
   "ibytes": [
     [
       {
-        "label": "D21.W",
+        "label": "D21.W Occupied",
         "used": true
       },
       {
-        "label": "D21A",
+        "label": "D21A Occupied",
         "used": true
       },
       {
-        "label": "D21B",
+        "label": "D21B Occupied",
         "used": true
       },
       {
-        "label": "D21.E",
+        "label": "D21.E Occupied",
         "used": true
       },
       {
-        "label": "DOSFOW",
+        "label": "DOSFOW Occupied",
         "used": true
       },
       {
-        "label": "DOSFOE",
+        "label": "DOSFOE Occupied",
         "used": true
       },
       {
-        "label": "S10.W",
+        "label": "S10.W Occupied",
         "used": true
       },
       {
-        "label": "S10A",
+        "label": "S10A Occupied",
         "used": true
       }
     ],
     [
       {
-        "label": "S10B",
+        "label": "S10B Occupied",
         "used": true
       },
       {
-        "label": "S10C",
+        "label": "S10C Occupied",
         "used": true
       },
       {
-        "label": "S10.E",
+        "label": "S10.E Occupied",
         "used": true
       },
       {
-        "label": "R10.W",
+        "label": "R10.W Occupied",
         "used": true
       },
       {
-        "label": "R10A",
+        "label": "R10A Occupied",
         "used": true
       },
       {
-        "label": "R10B",
+        "label": "R10B Occupied",
         "used": true
       },
       {
-        "label": "R10C",
+        "label": "R10C Occupied",
         "used": true
       },
       {
-        "label": "R11",
+        "label": "R11 Occupied",
         "used": true
       }
     ],
     [
       {
-        "label": "R12",
+        "label": "R12 Occupied",
         "used": true
       },
       {

@@ -4,103 +4,103 @@
   "obytes": [
     [
       {
-        "label": "S4R(0) Aspect",
+        "label": "S4R(0)",
         "used": true
       },
       {
-        "label": "S4R(1) Aspect",
+        "label": "S4R(1)",
         "used": true
       },
       {
-        "label": "S4R(2) Aspect",
+        "label": "S4R(2)",
         "used": true
       },
       {
-        "label": "S12R(0) Aspect",
+        "label": "S12R(0)",
         "used": true
       },
       {
-        "label": "S12R(1) Aspect",
+        "label": "S12R(1)",
         "used": true
       },
       {
-        "label": "S12R(2) Aspect",
+        "label": "S12R(2)",
         "used": true
       },
       {
-        "label": "S4LA Aspect",
+        "label": "S4LA",
         "used": true
       },
       {
-        "label": "S4LB(0) Aspect",
+        "label": "S4LB(0)",
         "used": true
       }
     ],
     [
       {
-        "label": "S4LB(1) Aspect",
+        "label": "S4LB(1)",
         "used": true
       },
       {
-        "label": "S4LB(2) Aspect",
+        "label": "S4LB(2)",
         "used": true
       },
       {
-        "label": "S4LC(0) Aspect",
+        "label": "S4LC(0)",
         "used": true
       },
       {
-        "label": "S4LC(1) Aspect",
+        "label": "S4LC(1)",
         "used": true
       },
       {
-        "label": "S4LC(2) Aspect",
+        "label": "S4LC(2)",
         "used": true
       },
       {
-        "label": "S12LA(0) Aspect",
+        "label": "S12LA(0)",
         "used": true
       },
       {
-        "label": "S12LA(1) Aspect",
+        "label": "S12LA(1)",
         "used": true
       },
       {
-        "label": "S12LA(2) Aspect",
+        "label": "S12LA(2)",
         "used": true
       }
     ],
     [
       {
-        "label": "S12LB Aspect",
+        "label": "S12LB",
         "used": true
       },
       {
-        "label": "S12LC(0) Aspect",
+        "label": "S12LC(0)",
         "used": true
       },
       {
-        "label": "S12LC(1) Aspect",
+        "label": "S12LC(1)",
         "used": true
       },
       {
-        "label": "S12LC(2) Aspect",
+        "label": "S12LC(2)",
         "used": true
       },
       {
-        "label": "F10H Aspect",
+        "label": "F10H",
         "used": true
       },
       {
-        "label": "F10D Aspect",
+        "label": "F10D",
         "used": true
       },
       {
-        "label": "S8R Aspect",
+        "label": "S8R",
         "used": true
       },
       {
-        "label": "S8L Aspect",
+        "label": "S8L",
         "used": true
       }
     ],
@@ -114,83 +114,83 @@
         "used": false
       },
       {
-        "label": "S10 Occupied Ind",
+        "label": "S10.ind",
         "used": true
       },
       {
-        "label": "H20 Occupied Ind",
+        "label": "H20.ind",
         "used": true
       },
       {
-        "label": "S21 Occupied Ind",
+        "label": "S21.ind",
         "used": true
       },
       {
-        "label": "P32 Occupied Ind",
+        "label": "P32.ind",
         "used": true
       },
       {
-        "label": "Shore Breaker Ind",
+        "label": "CBShore.ind",
         "used": true
       },
       {
-        "label": "HarpersFerry Breaker Ind",
+        "label": "CBHarpersFerry.ind",
         "used": true
       }
     ],
     [
       {
-        "label": "SSw1 Hand Switch Lock",
+        "label": "SSw1.hslck",
         "used": true
       },
       {
-        "label": "SSw3 Normal",
+        "label": "SSw3.N",
         "used": true
       },
       {
-        "label": "SSw3 Reverse",
+        "label": "SSw3.R",
         "used": true
       },
       {
-        "label": "SSw5 Normal",
+        "label": "SSw5.N",
         "used": true
       },
       {
-        "label": "SSw5 Reverse",
+        "label": "SSw5.R",
         "used": true
       },
       {
-        "label": "SSw7 Normal",
+        "label": "SSw7.N",
         "used": true
       },
       {
-        "label": "SSw7 Reverse",
+        "label": "SSw7.R",
         "used": true
       },
       {
-        "label": "SSw9 Normal",
+        "label": "SSw9.N",
         "used": true
       }
     ],
     [
       {
-        "label": "SSw9 Reverse",
+        "label": "SSw9.R",
         "used": true
       },
       {
-        "label": "SSw11 Normal",
+        "label": "SSw11.N",
         "used": true
       },
       {
-        "label": "SSw11 Reverse",
+        "label": "SSw11.R",
         "used": true
       },
       {
-        "label": "SSw13 Normal",
+        "label": "SSw13.N",
         "used": true
       },
       {
-        "label": "SSw13 Reverse",
+        "label": "SSw13.R",
         "used": true
       },
       {
@@ -198,33 +198,33 @@
         "used": true
       },
       {
-        "label": "S20 Stop Relay",
+        "label": "S20.srel",
         "used": true
       },
       {
-        "label": "S11 Stop Relay",
+        "label": "S11.srel",
         "used": true
       }
     ],
     [
       {
-        "label": "H30 Stop Relay",
+        "label": "H30.srel",
         "used": true
       },
       {
-        "label": "H10 Stop Relay",
+        "label": "H10.srel",
         "used": true
       },
       {
-        "label": "F10 Stop Relay",
+        "label": "F10.srel",
         "used": true
       },
       {
-        "label": "F11 Stop Relay",
+        "label": "F11.srel",
         "used": true
       },
       {
-        "label": "CSw15 Hand Switch Lock",
+        "label": "CSw15.hslck",
         "used": true
       },
       {
@@ -244,143 +244,143 @@
   "ibytes": [
     [
       {
-        "label": "SSw1 Normal",
+        "label": "SSw1.N",
         "used": true
       },
       {
-        "label": "SSw1 Reverse",
+        "label": "SSw1.R",
         "used": true
       },
       {
-        "label": "SSw3 Normal",
+        "label": "SSw3.N",
         "used": true
       },
       {
-        "label": "SSw3 Reverse",
+        "label": "SSw3.R",
         "used": true
       },
       {
-        "label": "SSw5 Normal",
+        "label": "SSw5.N",
         "used": true
       },
       {
-        "label": "SSw5 Reverse",
+        "label": "SSw5.R",
         "used": true
       },
       {
-        "label": "SSw7 Normal",
+        "label": "SSw7.N",
         "used": true
       },
       {
-        "label": "SSw7 Reverse",
+        "label": "SSw7.R",
         "used": true
       }
     ],
     [
       {
-        "label": "SSw9 Normal",
+        "label": "SSw9.N",
         "used": true
       },
       {
-        "label": "SSw9 Reverse",
+        "label": "SSw9.R",
         "used": true
       },
       {
-        "label": "SSw11 Normal",
+        "label": "SSw11.N",
         "used": true
       },
       {
-        "label": "SSw11 Reverse",
+        "label": "SSw11.R",
         "used": true
       },
       {
-        "label": "SSw13 Normal",
+        "label": "SSw13.N",
         "used": true
       },
       {
-        "label": "SSw13 Reverse",
+        "label": "SSw13.R",
         "used": true
       },
       {
-        "label": "S20.W Occupied",
+        "label": "S20.W",
         "used": true
       },
       {
-        "label": "S20A Occupied",
+        "label": "S20A",
         "used": true
       }
     ],
     [
       {
-        "label": "S20C Occupied",
+        "label": "S20C",
         "used": true
       },
       {
-        "label": "S20B Occupied",
+        "label": "S20B",
         "used": true
       },
       {
-        "label": "S20.E Occupied",
+        "label": "S20.E",
         "used": true
       },
       {
-        "label": "SOSW Occupied",
+        "label": "SOSW",
         "used": true
       },
       {
-        "label": "SOSE Occupied",
+        "label": "SOSE",
         "used": true
       },
       {
-        "label": "S11.W Occupied",
+        "label": "S11.W",
         "used": true
       },
       {
-        "label": "S11B Occupied",
+        "label": "S11B",
         "used": true
       },
       {
-        "label": "S11.E Occupied",
+        "label": "S11.E",
         "used": true
       }
     ],
     [
       {
-        "label": "H30.W Occupied",
+        "label": "H30.W",
         "used": true
       },
       {
-        "label": "H30B Occupied",
+        "label": "H30B",
         "used": true
       },
       {
-        "label": "H10.W Occupied",
+        "label": "H10.W",
         "used": true
       },
       {
-        "label": "H10B Occupied",
+        "label": "H10B",
         "used": true
       },
       {
-        "label": "F10 Occupied",
+        "label": "F10",
         "used": true
       },
       {
-        "label": "F10.E Occupied",
+        "label": "F10.E",
         "used": true
       },
       {
-        "label": "SOSHF Occupied",
+        "label": "SOSHF",
         "used": true
       },
       {
-        "label": "F11.W Occupied",
+        "label": "F11.W",
         "used": true
       }
     ],
     [
       {
-        "label": "F11 Occupied",
+        "label": "F11",
         "used": true
       },
       {
@@ -388,23 +388,23 @@
         "used": false
       },
       {
-        "label": "CSw15 Normal",
+        "label": "CSw15.N",
         "used": true
       },
       {
-        "label": "CSw15 Reverse",
+        "label": "CSw15.R",
         "used": true
       },
       {
-        "label": "S11A Occupied",
+        "label": "S11A",
         "used": true
       },
       {
-        "label": "H30A Occupied",
+        "label": "H30A",
         "used": true
       },
       {
-        "label": "H10A Occupied",
+        "label": "H10A",
         "used": true
       },
       {

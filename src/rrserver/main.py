@@ -1593,6 +1593,8 @@ class ServerMain:
 				if self.delay <= 0:
 					self.delay = None
 					self.cmdQ.put({"cmd": ["delayedstartup"]})
+		else:
+			logging.debug("At interval - forever is false - not starting a new timer")
 					
 	def ServeForever(self):
 		logging.info("serve forever starting")
@@ -1621,12 +1623,14 @@ class ServerMain:
 			self.dispServer.close()
 		except Exception as e:
 			logging.error("exception %s terminating http server" % str(e))
-		
+
+		logging.info("http server terminated")
 		try:
 			self.socketServer.kill()
 		except Exception as e:
 			logging.error("exception %s terminating socket server" % str(e))
 		
+		logging.info("socket server terminated")
 		if not settings.rrserver.simulation:
 			if self.DCCSniffer is not None:
 				try:
@@ -1650,5 +1654,6 @@ class ServerMain:
 main = ServerMain()
 main.ServeForever()
 
-
 logging.info("Railroad server terminating")
+
+# os._exit(0)

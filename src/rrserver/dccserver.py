@@ -1,4 +1,4 @@
-import sys
+import socket
 import serial
 import select
 import time
@@ -102,15 +102,32 @@ class DCCHandler(BaseHTTPRequestHandler):
 
 class DCCThreadingHTTPServer(ThreadingMixIn, HTTPServer):
 	def serve_dcc(self):
+		self.rKillSocket, self.wKillSocket = socket.socketpair()
 		self.haltServer = False
 		while self.haltServer == False:
 			#r = select.select([self.socket], [], [], 0)[0]
-			r = select.select([self.socket], [], [], None)[0]
-			if r and len(r) > 0:
+			r = select.select([self.socket, self.rKillSocket], [], [], None)[0]
+			if r and self.socket in r > 0:
 				self.handle_request()
+
+			elif r and self.rKillSocket in r:
+				self.rKillSocket.recv(1)  # Clear the byte from the pipe
+				logging.info('DCC Server Select interrupted/killed intentionally!')
+				self.haltServer = True
+
 			else:
 				# pass
 				time.sleep(0.0001) # yield to other threads
+
+		try:
+			self.rKillSocket.close()
+		except Exception as e:
+			logging.debug("rKillSocket exception: %s" % str(e))
+
+		try:
+			self.wKillSocket.close()
+		except Exception as e:
+			logging.debug("wKillSocket exception: %s" % str(e))
 
 	def setApp(self, app):
 		self.app = app
@@ -120,6 +137,7 @@ class DCCThreadingHTTPServer(ThreadingMixIn, HTTPServer):
 
 	def shut_down(self):
 		self.haltServer = True
+		self.wKillSocket.send(b'x')
 
 
 class DCCHTTPServer:

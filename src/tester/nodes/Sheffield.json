@@ -4,129 +4,129 @@
   "obytes": [
     [
       {
-        "label": "CC54E route",
+        "label": "CC54E Route",
         "used": true
       },
       {
-        "label": "CC53E",
+        "label": "CC53E Route",
         "used": true
       },
       {
-        "label": "CC52E",
+        "label": "CC52E Route",
         "used": true
       },
       {
-        "label": "CC51E",
+        "label": "CC51E Route",
         "used": true
       },
       {
-        "label": "CC50E",
+        "label": "CC50E Route",
         "used": true
       },
       {
-        "label": "CC21E",
+        "label": "CC21E Route",
         "used": true
       },
       {
-        "label": "CC40E",
+        "label": "CC40E Route",
         "used": true
       },
       {
-        "label": "CC41E",
+        "label": "CC41E Route",
         "used": true
       }
     ],
     [
       {
-        "label": "CC42E route",
+        "label": "CC42E Route",
         "used": true
       },
       {
-        "label": "CC43E",
+        "label": "CC43E Route",
         "used": true
       },
       {
-        "label": "CC44E",
+        "label": "CC44E Route",
         "used": true
       },
       {
-        "label": "CC54W",
+        "label": "CC54W Route",
         "used": true
       },
       {
-        "label": "CC53W",
+        "label": "CC53W Route",
         "used": true
       },
       {
-        "label": "CC52W",
+        "label": "CC52W Route",
         "used": true
       },
       {
-        "label": "CC51W",
+        "label": "CC51W Route",
         "used": true
       },
       {
-        "label": "CC50W",
+        "label": "CC50W Route",
         "used": true
       }
     ],
     [
       {
-        "label": "CC21W route",
+        "label": "CC21W Route",
         "used": true
       },
       {
-        "label": "CC40W",
+        "label": "CC40W Route",
         "used": true
       },
       {
-        "label": "CC41W",
+        "label": "CC41W Route",
         "used": true
       },
       {
-        "label": "CC42W",
+        "label": "CC42W Route",
         "used": true
       },
       {
-        "label": "CC43W",
+        "label": "CC43W Route",
         "used": true
       },
       {
-        "label": "CC44W",
+        "label": "CC44W Route",
         "used": true
       },
       {
-        "label": "CC30E",
+        "label": "CC30E Route",
         "used": true
       },
       {
-        "label": "CC10E",
+        "label": "CC10E Route",
         "used": true
       }
     ],
     [
       {
-        "label": "CG10E route",
+        "label": "CG10E Route",
         "used": true
       },
       {
-        "label": "CG12E",
+        "label": "CG12E Route",
         "used": true
       },
       {
-        "label": "CC30W",
+        "label": "CC30W Route",
         "used": true
       },
       {
-        "label": "CC31W",
+        "label": "CC31W Route",
         "used": true
       },
       {
-        "label": "CC10W",
+        "label": "CC10W Route",
         "used": true
       },
       {
-        "label": "CG21W",
+        "label": "CG21W Route",
         "used": true
       },
       {
@@ -142,65 +142,65 @@
   "ibytes": [
     [
       {
-        "label": "CC50E route",
+        "label": "CC50E Route",
         "used": true
       },
       {
-        "label": "CC51E",
+        "label": "CC51E Route",
         "used": true
       },
       {
-        "label": "CC52E",
+        "label": "CC52E Route",
         "used": true
       },
       {
-        "label": "CC53E",
+        "label": "CC53E Route",
         "used": true
       },
       {
-        "label": "CC54E",
+        "label": "CC54E Route",
         "used": true
       },
       {
-        "label": "CC50W",
+        "label": "CC50W Route",
         "used": true
       },
       {
-        "label": "CC51W",
+        "label": "CC51W Route",
         "used": true
       },
       {
-        "label": "CC52W",
+        "label": "CC52W Route",
         "used": true
       }
     ],
     [
       {
-        "label": "CC53W route",
+        "label": "CC53W Route",
         "used": true
       },
       {
-        "label": "CC54W",
+        "label": "CC54W Route",
         "used": true
       },
       {
-        "label": "C50",
+        "label": "C50 Occupied",
         "used": true
       },
       {
-        "label": "C51",
+        "label": "C51 Occupied",
         "used": true
       },
       {
-        "label": "C52",
+        "label": "C52 Occupied",
         "used": true
       },
       {
-        "label": "C53",
+        "label": "C53 Occupied",
         "used": true
       },
       {
-        "label": "C54",
+        "label": "C54 Occupied",
         "used": true
       },
       {

@@ -4,61 +4,61 @@
   "obytes": [
     [
       {
-        "label": "D4RA(0)",
+        "label": "D4RA(0) Aspect",
         "used": true
       },
       {
-        "label": "D4RA(1)",
+        "label": "D4RA(1) Aspect",
         "used": true
       },
       {
-        "label": "D4RA(2)",
+        "label": "D4RA(2) Aspect",
         "used": true
       },
       {
-        "label": "D4RB(0)",
+        "label": "D4RB(0) Aspect",
         "used": true
       },
       {
-        "label": "D4RB(1)",
+        "label": "D4RB(1) Aspect",
         "used": true
       },
       {
-        "label": "D4RB(2)",
+        "label": "D4RB(2) Aspect",
         "used": true
       },
       {
-        "label": "D6RA",
+        "label": "D6RA Aspect",
         "used": true
       },
       {
-        "label": "D6RB",
+        "label": "D6RB Aspect",
         "used": true
       }
     ],
     [
       {
-        "label": "D4L(0)",
+        "label": "D4L(0) Aspect",
         "used": true
       },
       {
-        "label": "D4L(1)",
+        "label": "D4L(1) Aspect",
         "used": true
       },
       {
-        "label": "D4L(2)",
+        "label": "D4L(2) Aspect",
         "used": true
       },
       {
-        "label": "D6L(0)",
+        "label": "D6L(0) Aspect",
         "used": true
       },
       {
-        "label": "D6L(1)",
+        "label": "D6L(1) Aspect",
         "used": true
       },
       {
-        "label": "D6L(2)",
+        "label": "D6L(2) Aspect",
         "used": true
       },
       {
@@ -66,75 +66,75 @@
         "used": true
       },
       {
-        "label": "H13.ind",
+        "label": "H13 Occupied Ind",
         "used": true
       }
     ],
     [
       {
-        "label": "D10.ind",
+        "label": "D10 Occupied Ind",
         "used": true
       },
       {
-        "label": "S20.ind",
+        "label": "S20 Occupied Ind",
         "used": true
       },
       {
-        "label": "DSw9.hslck",
+        "label": "DSw9 Hand Switch Lock",
         "used": true
       },
       {
-        "label": "DSw1.N",
+        "label": "DSw1 Normal",
         "used": true
       },
       {
-        "label": "DSw1.R",
+        "label": "DSw1 Reverse",
         "used": true
       },
       {
-        "label": "DSw3.N",
+        "label": "DSw3 Normal",
         "used": true
       },
       {
-        "label": "DSw3.R",
+        "label": "DSw3 Reverse",
         "used": true
       },
       {
-        "label": "DSw5.N",
+        "label": "DSw5 Normal",
         "used": true
       }
     ],
     [
       {
-        "label": "DSw5.R",
+        "label": "DSw5 Reverse",
         "used": true
       },
       {
-        "label": "DSw7.N",
+        "label": "DSw7 Normal",
         "used": true
       },
       {
-        "label": "DSw7.R",
+        "label": "DSw7 Reverse",
         "used": true
       },
       {
-        "label": "DSw11.N",
+        "label": "DSw11 Normal",
         "used": true
       },
       {
-        "label": "DSw11.R",
+        "label": "DSw11 Reverse",
         "used": true
       },
       {
-        "label": "D20.srel",
+        "label": "D20 Stop Relay",
         "used": true
       },
       {
-        "label": "H23.srel",
+        "label": "H23 Stop Relay",
         "used": true
       },
       {
-        "label": "D11.srel",
+        "label": "D11 Stop Relay",
         "used": true
       }
     ]
@@ -142,95 +142,95 @@
   "ibytes": [
     [
       {
-        "label": "DSw1.N",
+        "label": "DSw1 Normal",
         "used": true
       },
       {
-        "label": "DSw1.R",
+        "label": "DSw1 Reverse",
         "used": true
       },
       {
-        "label": "DSw3.N",
+        "label": "DSw3 Normal",
         "used": true
       },
       {
-        "label": "DSw3.R",
+        "label": "DSw3 Reverse",
         "used": true
       },
       {
-        "label": "DSw5.N",
+        "label": "DSw5 Normal",
         "used": true
       },
       {
-        "label": "DSw5.R",
+        "label": "DSw5 Reverse",
         "used": true
       },
       {
-        "label": "DSw7.N",
+        "label": "DSw7 Normal",
         "used": true
       },
       {
-        "label": "DSw7.R",
+        "label": "DSw7 Reverse",
         "used": true
       }
     ],
     [
       {
-        "label": "DSw9.N",
+        "label": "DSw9 Normal",
         "used": true
       },
       {
-        "label": "DSw9.R",
+        "label": "DSw9 Reverse",
         "used": true
       },
       {
-        "label": "DSw11.N",
+        "label": "DSw11 Normal",
         "used": true
       },
       {
-        "label": "DSw11.R",
+        "label": "DSw11 Reverse",
         "used": true
       },
       {
-        "label": "D20",
+        "label": "D20 Occupied",
         "used": true
       },
       {
-        "label": "D20.E",
+        "label": "D20.E Occupied",
         "used": true
       },
       {
-        "label": "H23",
+        "label": "H23 Occupied",
         "used": true
       },
       {
-        "label": "H23.E",
+        "label": "H23.E Occupied",
         "used": true
       }
     ],
     [
       {
-        "label": "DOSVJW",
+        "label": "DOSVJW Occupied",
         "used": true
       },
       {
-        "label": "DOSVJE",
+        "label": "DOSVJE Occupied",
         "used": true
       },
       {
-        "label": "D11.W",
+        "label": "D11.W Occupied",
         "used": true
       },
       {
-        "label": "D11A",
+        "label": "D11A Occupied",
         "used": true
       },
       {
-        "label": "D11B",
+        "label": "D11B Occupied",
         "used": true
       },
       {
-        "label": "D11.E",
+        "label": "D11.E Occupied",
         "used": true
       },
       {

@@ -4,113 +4,113 @@
   "obytes": [
     [
       {
-        "label": "YSw1.N",
+        "label": "YSw1 Normal",
         "used": true
       },
       {
-        "label": "YSw1.R",
+        "label": "YSw1 Reverse",
         "used": true
       },
       {
-        "label": "YSw3.N",
+        "label": "YSw3 Normal",
         "used": true
       },
       {
-        "label": "YSw3.R",
+        "label": "YSw3 Reverse",
         "used": true
       },
       {
-        "label": "YSw7.N",
+        "label": "YSw7 Normal",
         "used": true
       },
       {
-        "label": "YSw7.R",
+        "label": "YSw7 Reverse",
         "used": true
       },
       {
-        "label": "YSw9.N",
+        "label": "YSw9 Normal",
         "used": true
       },
       {
-        "label": "YSw9.R",
-        "used": true
-      }
-    ],
-    [
-      {
-        "label": "YSw11.N",
-        "used": true
-      },
-      {
-        "label": "YSw11.R",
-        "used": true
-      },
-      {
-        "label": "YSw17.N",
-        "used": true
-      },
-      {
-        "label": "YSw17.R",
-        "used": true
-      },
-      {
-        "label": "YSw19.N",
-        "used": true
-      },
-      {
-        "label": "YSw19.R",
-        "used": true
-      },
-      {
-        "label": "YSw21.N",
-        "used": true
-      },
-      {
-        "label": "YSw21.R",
+        "label": "YSw9 Reverse",
         "used": true
       }
     ],
     [
       {
-        "label": "YSw23.N",
+        "label": "YSw11 Normal",
         "used": true
       },
       {
-        "label": "YSw23.R",
+        "label": "YSw11 Reverse",
         "used": true
       },
       {
-        "label": "YSw25.N",
+        "label": "YSw17 Normal",
         "used": true
       },
       {
-        "label": "YSw25.R",
+        "label": "YSw17 Reverse",
         "used": true
       },
       {
-        "label": "YSw27.N",
+        "label": "YSw19 Normal",
         "used": true
       },
       {
-        "label": "YSw27.R",
+        "label": "YSw19 Reverse",
         "used": true
       },
       {
-        "label": "YSw29.N",
+        "label": "YSw21 Normal",
         "used": true
       },
       {
-        "label": "YSw29.R",
+        "label": "YSw21 Reverse",
         "used": true
       }
     ],
     [
       {
-        "label": "YSw33.N",
+        "label": "YSw23 Normal",
         "used": true
       },
       {
-        "label": "YSw33.R",
+        "label": "YSw23 Reverse",
+        "used": true
+      },
+      {
+        "label": "YSw25 Normal",
+        "used": true
+      },
+      {
+        "label": "YSw25 Reverse",
+        "used": true
+      },
+      {
+        "label": "YSw27 Normal",
+        "used": true
+      },
+      {
+        "label": "YSw27 Reverse",
+        "used": true
+      },
+      {
+        "label": "YSw29 Normal",
+        "used": true
+      },
+      {
+        "label": "YSw29 Reverse",
+        "used": true
+      }
+    ],
+    [
+      {
+        "label": "YSw33 Normal",
+        "used": true
+      },
+      {
+        "label": "YSw33 Reverse",
         "used": true
       },
       {
@@ -140,35 +140,35 @@
     ],
     [
       {
-        "label": "YWWB1.nxb",
+        "label": "YWWB1 Button",
         "used": true
       },
       {
-        "label": "YWWB2.nxb",
+        "label": "YWWB2 Button",
         "used": true
       },
       {
-        "label": "YWWB3.nxb",
+        "label": "YWWB3 Button",
         "used": true
       },
       {
-        "label": "YWWB4.nxb",
+        "label": "YWWB4 Button",
         "used": true
       },
       {
-        "label": "YWEB1.nxb",
+        "label": "YWEB1 Button",
         "used": true
       },
       {
-        "label": "YWEB2.nxb",
+        "label": "YWEB2 Button",
         "used": true
       },
       {
-        "label": "YWEB3.nxb",
+        "label": "YWEB3 Button",
         "used": true
       },
       {
-        "label": "YWEB4.nxb",
+        "label": "YWEB4 Button",
         "used": true
       }
     ]
