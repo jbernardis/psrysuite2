@@ -11,8 +11,6 @@ import time
 from datetime import datetime
 from subprocess import Popen
 
-from dispatcher.constants import BLOCK
-
 from dispatcher.district import Districts, CrossingEastWestBoundary
 from dispatcher.tile import loadTiles
 from dispatcher.train import Train

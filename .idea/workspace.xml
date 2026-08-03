@@ -4,79 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="added logic to not busy-wait in rrserver">
-      <change afterPath="$PROJECT_DIR$/src/testerold/bus.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/testerold/main.py" afterDir="false" />
+    <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="added better visualization of o/i bits to monitor">
+      <change afterPath="$PROJECT_DIR$/src/version.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/iobits.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/iobits.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/inspectdlg.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/inspectdlg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cliffdisplay/cliffframe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/cliffdisplay/cliffframe.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/mainframe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/mainframe.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/psryframe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/psryframe.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/monitor/getbitsdlg.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/monitor/getbitsdlg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monitor/mainframe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/monitor/mainframe.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rrserver/dccserver.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/dccserver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rrserver/httpserver.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/httpserver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rrserver/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rrserver/railroad.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/railroad.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rrserver/rrobjects.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/rrobjects.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rrserver/sktserver.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/sktserver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/bus.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/bus.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/choosenode.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/choosenode.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/inbyte.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/inbyte.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/nodes/Bank.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/Bank.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/nodes/Carlton.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/Carlton.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/nodes/Cliff.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/Cliff.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/nodes/Cliveden.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/Cliveden.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/nodes/Cornell Jct.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/Cornell Jct.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/nodes/Dell.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/Dell.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/nodes/East End Jct.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/East End Jct.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/nodes/Engine Yard.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/Engine Yard.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/nodes/Foss.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/Foss.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/nodes/Green Mountain.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/Green Mountain.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/nodes/Hyde Jct.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/Hyde Jct.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/nodes/Hyde.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/Hyde.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/nodes/Kale.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/Kale.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/nodes/Krulish.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/Krulish.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/nodes/Latham.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/Latham.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/nodes/Nassau E.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/Nassau E.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/nodes/Nassau NX.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/Nassau NX.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/nodes/Nassau W.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/Nassau W.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/nodes/Parsons Jct.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/Parsons Jct.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/nodes/Port A.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/Port A.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/nodes/Port B.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/Port B.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/nodes/Sheffield.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/Sheffield.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/nodes/Shore.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/Shore.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/nodes/Yard SW.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/Yard SW.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/outbyte.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/outbyte.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/bus.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/node.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/nodes/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/nodes/Bank.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/Bank.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/nodes/Carlton.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/Carlton.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/nodes/Cliff.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/Cliff.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/nodes/Cliveden.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/Cliveden.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/nodes/Cornell.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/Cornell.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/nodes/Dell.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/Dell.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/nodes/East Jct.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/East Jct.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/nodes/Foss.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/Foss.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/nodes/Green Mtn.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/Green Mtn.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/nodes/Hyde Jct.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/Hyde Jct.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/nodes/Hyde.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/Hyde.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/nodes/Kale.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/Kale.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/nodes/Krulish.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/Krulish.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/nodes/Latham.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/Latham.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/nodes/Nassau E.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/Nassau E.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/nodes/Nassau NX.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/Nassau NX.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/nodes/Nassau W.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/Nassau W.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/nodes/Parsons Jct.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/Parsons Jct.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/nodes/Port A.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/Port A.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/nodes/Port B.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/Port B.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/nodes/Sheffield.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/Sheffield.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/nodes/Shore.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/Shore.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/nodes/Yard SW.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/Yard SW.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester2/nodes/Yard.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/Yard.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/districts/latham.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/districts/latham.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/splash/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/splash/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,7 +105,7 @@
       <recent name="C:\Users\jeff\PycharmProjects\psrysuite2\src\webapp\templates" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.tester">
+  <component name="RunManager" selected="Python.Cliff Display">
     <configuration name="Cliff Display" type="PythonConfigurationType" factoryName="Python">
       <module name="psrysuite2" />
       <option name="ENV_FILES" value="" />
@@ -531,7 +468,15 @@
       <option name="project" value="LOCAL" />
       <updated>1785168228683</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="added better visualization of o/i bits to monitor">
+      <option name="closed" value="true" />
+      <created>1785339242121</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1785339242121</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -551,6 +496,7 @@
     <MESSAGE value="check in" />
     <MESSAGE value="added nodes to iobits json file" />
     <MESSAGE value="added logic to not busy-wait in rrserver" />
-    <option name="LAST_COMMIT_MESSAGE" value="added logic to not busy-wait in rrserver" />
+    <MESSAGE value="added better visualization of o/i bits to monitor" />
+    <option name="LAST_COMMIT_MESSAGE" value="added better visualization of o/i bits to monitor" />
   </component>
 </project>

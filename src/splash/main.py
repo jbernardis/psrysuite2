@@ -1,8 +1,6 @@
 import wx
 import os
-
-
-versiondate = "23-jun-2026"
+from version import version
 
 
 class MainFrame(wx.Frame):
@@ -33,7 +31,7 @@ class MainFrame(wx.Frame):
 		vsizer.AddSpacer(20)
 		
 		sta = wx.StaticText(self, wx.ID_ANY, "version:", size=(200, -1), style=wx.ALIGN_RIGHT)
-		stb = wx.StaticText(self, wx.ID_ANY, versiondate, size=(400, -1))
+		stb = wx.StaticText(self, wx.ID_ANY, version["date"], size=(400, -1))
 		sta.SetFont(textFont)
 		stb.SetFont(textFontBold)
 		hsz = wx.BoxSizer(wx.HORIZONTAL)

@@ -3,6 +3,8 @@ import wx.lib.newevent
 from wx.lib.gizmos.ledctrl import LEDNumberCtrl
 
 import os
+
+from version import version
 from dispatcher.mainframe import MainFrame, ScreenDiagram, BTNDIM, SSBTNDIM
 from dispatcher.bitmaps import BitMaps
 from dispatcher.trackdiagram import TrackDiagram
@@ -56,8 +58,9 @@ class PSRYFrame(MainFrame):
 		pass
 
 	def SetupScreen(self):
-		self.title = "PSRY Dispatcher" if self.IsDispatcher() else "Satellite" if self.IsSatellite() else "PSRY Monitor"
-		self.title += " v2"
+		self.title = "PSRY "
+		self.title += "Dispatcher" if self.IsDispatcher() else "Satellite" if self.IsSatellite() else "Display"
+		self.title += " v2 (" + version["date"] + ") "
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
 		self.bitmaps = BitMaps(os.path.join(os.getcwd(), "images", "bitmaps"))
 		logging.debug("set up bitmaps")

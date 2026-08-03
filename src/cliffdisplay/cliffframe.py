@@ -3,7 +3,7 @@ import wx.lib.newevent
 from wx.lib.gizmos.ledctrl import LEDNumberCtrl
 
 import os
-import logging
+from version import version
 
 from dispatcher.mainframe import MainFrame, ScreenDiagram, BTNDIM
 from dispatcher.bitmaps import BitMaps
@@ -141,6 +141,7 @@ class CliffFrame(MainFrame):
 
 	def SetupScreen(self):
 		self.title = "Cliff Monitor"
+		self.title += " v2 (" + version["date"] + ") "
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
 		self.bitmaps = BitMaps(os.path.join(os.getcwd(), "images", "bitmaps"))
 		self.bmpw, self.bmph = self.bitmaps.diagrams.Cliff.GetSize()

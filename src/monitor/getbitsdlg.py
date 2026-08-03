@@ -71,6 +71,14 @@ class GetBitsDlg(wx.Dialog):
         
         vsz.AddSpacer(20)
         vsz.Add(hsz)
+
+        hsz = wx.BoxSizer(wx.HORIZONTAL)
+        self.cbStayOnTop = wx.CheckBox(self, wx.ID_ANY, "Stay On Top")
+        self.Bind(wx.EVT_CHECKBOX, self.ObCbStayOnTop, self.cbStayOnTop)
+        hsz.Add(self.cbStayOnTop)
+
+        vsz.AddSpacer(20)
+        vsz.Add(hsz, 0, wx.ALIGN_CENTER_HORIZONTAL, 0)
        
         vsz.AddSpacer(20)
                
@@ -99,7 +107,7 @@ class GetBitsDlg(wx.Dialog):
         try:
             self.dlgBits.Raise()
         except (RuntimeError, AttributeError):
-            self.dlgBits = ShowBitsDlg(self, self.ndName, self.ndAddr)
+            self.dlgBits = ShowBitsDlg(self, self.ndName, self.ndAddr, self.onCloser)
             self.dlgBits.Show()
 
         self.runContinuous = self.cbContinuous.IsChecked()
@@ -116,6 +124,9 @@ class GetBitsDlg(wx.Dialog):
         
     def onTicker(self, _):
         self.SendOnce()
+
+    def onCloser(self):
+        self.dlgBits = None
         
     def SendOnce(self):
         self.messageCount += 1
@@ -124,20 +135,29 @@ class GetBitsDlg(wx.Dialog):
         
         r = self.rrServer.Get("getbits", {"address": "0x%x" % self.ndAddr})
 
-        self.dlgBits.UpdateValues(r["out"], r["in"])
+        flag = self.cbStayOnTop.GetValue()
 
-        if self.runContinuous:
-            if not self.cbContinuous.IsChecked():
-                self.ticker.Stop()
-                self.bGetBits.Enable(True)
-                self.chNodes.Enable(True)
-        else:
-            self.sendCount -= 1
-            if self.sendCount <= 0:
-                self.ticker.Stop()
-                self.bGetBits.Enable(True)
-                self.chNodes.Enable(True)
-         
+        if self.dlgBits is not None:
+            self.dlgBits.UpdateValues(r["out"], r["in"], flag)
+
+            if self.runContinuous:
+                if not self.cbContinuous.IsChecked():
+                    self.ticker.Stop()
+                    self.bGetBits.Enable(True)
+                    self.chNodes.Enable(True)
+            else:
+                self.sendCount -= 1
+                if self.sendCount <= 0:
+                    self.ticker.Stop()
+                    self.bGetBits.Enable(True)
+                    self.chNodes.Enable(True)
+
+        else: # the show bits dialog box was closed - stop everything
+            self.ticker.Stop()
+            self.runContinuous = False
+            self.bGetBits.Enable(True)
+            self.chNodes.Enable(True)
+
     def onCancel(self, _):
         try:
             self.ticker.Stop()
@@ -151,11 +171,23 @@ class GetBitsDlg(wx.Dialog):
 
         self.Destroy()
 
+    def ObCbStayOnTop(self, _):
+        flag = self.cbStayOnTop.GetValue()
+
+        st = self.GetWindowStyle()
+        if flag:
+            st |= wx.STAY_ON_TOP
+        else:
+            st &= ~wx.STAY_ON_TOP
+
+        self.SetWindowStyle(st)
+
 
 class ShowBitsDlg(wx.Dialog):
-    def __init__(self, parent, ndname, ndaddr):
+    def __init__(self, parent, ndname, ndaddr, closer):
         title = "Node %s (0x%x) Output Input bytes" % (ndname, ndaddr)
         wx.Dialog.__init__(self, parent, wx.ID_ANY, title)
+        self.closer = closer
         self.Bind(wx.EVT_CLOSE, self.OnClose)
 
         fn = os.path.join(os.getcwd(), "tester", "nodes", ndname+".json")
@@ -183,6 +215,7 @@ class ShowBitsDlg(wx.Dialog):
         self.BOgrid.EnableGridLines(True)
         self.BOgrid.SetGridLineColour(wx.BLACK)
         self.BOgrid.SetRowLabelSize(2)
+        self.BOgrid.ShowScrollbars(wx.SHOW_SB_NEVER, wx.SHOW_SB_NEVER)
 
         attrs = []
         for c in range(nCols):
@@ -245,6 +278,7 @@ class ShowBitsDlg(wx.Dialog):
         self.BIgrid.EnableGridLines(True)
         self.BIgrid.SetGridLineColour(wx.BLACK)
         self.BIgrid.SetRowLabelSize(2)
+        self.BIgrid.ShowScrollbars(wx.SHOW_SB_NEVER, wx.SHOW_SB_NEVER)
 
         attrs = []
         for c in range(nCols):
@@ -291,9 +325,19 @@ class ShowBitsDlg(wx.Dialog):
         self.Layout()
 
     def OnClose(self, _):
+        self.closer()
         self.Destroy()
 
-    def UpdateValues(self, obytes, ibytes):
+    def UpdateValues(self, obytes, ibytes, stayontop):
+        st = self.GetWindowStyle()
+        if stayontop:
+            st |= wx.STAY_ON_TOP
+        else:
+            st &= ~wx.STAY_ON_TOP
+
+        self.SetWindowStyle(st)
+
+        change = False
         for obx in range(len(obytes)):
             if obx >= len(self.outValues):
                 continue
@@ -312,9 +356,12 @@ class ShowBitsDlg(wx.Dialog):
                     if bits[bit] != self.outBitValues[obx][bit]:
                         self.outBitValues[obx][bit] = bits[bit]
                         self.BOgrid.SetCellBackgroundColour(bit, obx, self.colorGray if bits[bit] == 0 else self.colorWhite)
+                        change = True
 
-        self.BOgrid.Refresh()
+        if change:
+            self.BOgrid.Refresh()
 
+        change = False
         for ibx in range(len(ibytes)):
             if ibx >= len(self.inValues):
                 continue
@@ -334,5 +381,7 @@ class ShowBitsDlg(wx.Dialog):
                     if bits[bit] != self.inBitValues[ibx][bit]:
                         self.inBitValues[ibx][bit] = bits[bit]
                         self.BIgrid.SetCellBackgroundColour(bit, ibx, self.colorGray if bits[bit] == 0 else self.colorWhite)
+                        change = True
 
-        self.BIgrid.Refresh()
+        if change:
+            self.BIgrid.Refresh()

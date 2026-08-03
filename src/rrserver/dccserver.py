@@ -107,7 +107,7 @@ class DCCThreadingHTTPServer(ThreadingMixIn, HTTPServer):
 		while self.haltServer == False:
 			#r = select.select([self.socket], [], [], 0)[0]
 			r = select.select([self.socket, self.rKillSocket], [], [], None)[0]
-			if r and self.socket in r > 0:
+			if r and self.socket in r:
 				self.handle_request()
 
 			elif r and self.rKillSocket in r:
