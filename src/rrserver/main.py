@@ -793,7 +793,7 @@ class ServerMain:
 				iaddr = int(address, 16)
 				nd = self.rr.GetNodeByAddr(iaddr)
 				if nd is None:
-					logging.error("Unable to find the node at address %s" % iaddr)
+					logging.error("Unable to find the node at address %s" % address)
 				else:
 					nd.SetNodeAddress(ipaddr, skt, self.socketServer)
 

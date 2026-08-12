@@ -1195,7 +1195,6 @@ class OverSwitch (Block):
 				t.Draw(stat, self.east)
 
 		self.district.DrawOthers(self)
-		# self.DrawTrain()
 
 	def DrawTurnouts(self):
 		for t in self.turnouts:

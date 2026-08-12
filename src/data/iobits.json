@@ -4271,37 +4271,6 @@
       "lever": null,
       "led": null
     },
-    "DSw5": {
-      "control": [
-        [
-          [
-            2,
-            7
-          ],
-          [
-            3,
-            0
-          ]
-        ],
-        65
-      ],
-      "position": [
-        [
-          [
-            0,
-            4
-          ],
-          [
-            0,
-            5
-          ]
-        ],
-        65
-      ],
-      "lock": null,
-      "lever": null,
-      "led": null
-    },
     "DSw7": {
       "control": [
         [

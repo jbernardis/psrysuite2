@@ -4,16 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="added better visualization of o/i bits to monitor">
-      <change afterPath="$PROJECT_DIR$/src/version.py" afterDir="false" />
+    <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="moved version information into a separate python source file at the root directory">
+      <change afterPath="$PROJECT_DIR$/src/webapp/webapp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/psrysuite2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/psrysuite2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cliffdisplay/cliffframe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/cliffdisplay/cliffframe.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/mainframe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/mainframe.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/psryframe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/psryframe.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monitor/getbitsdlg.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/monitor/getbitsdlg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rrserver/dccserver.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/dccserver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rrserver/districts/latham.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/districts/latham.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/splash/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/splash/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/iobits.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/iobits.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/layout.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/layout.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/psry.ini" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/psry.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/block.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/block.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/districts/dell.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/districts/dell.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/images/bitmaps/diagrams/LathamKrulish.bmp" beforeDir="false" afterPath="$PROJECT_DIR$/src/images/bitmaps/diagrams/LathamKrulish.bmp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/districts/dell.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/districts/dell.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/railroad.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/railroad.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tester/nodes/Dell.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/Dell.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/testerold/nodes/Dell.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/Dell.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utilities/HTML.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilities/HTML.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/version.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/version.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,6 +74,7 @@
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;Python.Cliff Display.executor&quot;: &quot;Run&quot;,
     &quot;Python.Config.executor&quot;: &quot;Run&quot;,
+    &quot;Python.HTML.executor&quot;: &quot;Run&quot;,
     &quot;Python.Satellite.executor&quot;: &quot;Run&quot;,
     &quot;Python.Yard Display.executor&quot;: &quot;Run&quot;,
     &quot;Python.fixtrains.executor&quot;: &quot;Run&quot;,
@@ -105,7 +114,7 @@
       <recent name="C:\Users\jeff\PycharmProjects\psrysuite2\src\webapp\templates" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Cliff Display">
+  <component name="RunManager" selected="Python.Config">
     <configuration name="Cliff Display" type="PythonConfigurationType" factoryName="Python">
       <module name="psrysuite2" />
       <option name="ENV_FILES" value="" />
@@ -476,7 +485,15 @@
       <option name="project" value="LOCAL" />
       <updated>1785339242121</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="moved version information into a separate python source file at the root directory">
+      <option name="closed" value="true" />
+      <created>1785776985643</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1785776985643</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -497,6 +514,7 @@
     <MESSAGE value="added nodes to iobits json file" />
     <MESSAGE value="added logic to not busy-wait in rrserver" />
     <MESSAGE value="added better visualization of o/i bits to monitor" />
-    <option name="LAST_COMMIT_MESSAGE" value="added better visualization of o/i bits to monitor" />
+    <MESSAGE value="moved version information into a separate python source file at the root directory" />
+    <option name="LAST_COMMIT_MESSAGE" value="moved version information into a separate python source file at the root directory" />
   </component>
 </project>

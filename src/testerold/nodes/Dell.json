@@ -100,14 +100,14 @@
         "used": true
       },
       {
-        "label": "DSw5.N",
-        "used": true
+        "label": "(unused)",
+        "used": false
       }
     ],
     [
       {
-        "label": "DSw5.R",
-        "used": true
+        "label": "(unused)",
+        "used": false
       },
       {
         "label": "DSw7.N",
@@ -158,12 +158,12 @@
         "used": true
       },
       {
-        "label": "DSw5.N",
-        "used": true
+        "label": "(unused)",
+        "used": false
       },
       {
-        "label": "DSw5.R",
-        "used": true
+        "label": "(unused)",
+        "used": false
       },
       {
         "label": "DSw7.N",

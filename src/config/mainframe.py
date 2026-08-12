@@ -106,18 +106,29 @@ class MainFrame(wx.Frame):
 		hsz.Add(self.teDCCPort)
 		hsz.AddSpacer(20)
 		boxsizer.Add(hsz)
-		
+
 		boxsizer.AddSpacer(10)
-		
+
 		hsz = wx.BoxSizer(wx.HORIZONTAL)
 		hsz.AddSpacer(20)
-		hsz.Add(wx.StaticText(commBox, wx.ID_ANY, "Broadcast port: ", size=(130, -1)))		
+		hsz.Add(wx.StaticText(commBox, wx.ID_ANY, "WEB App port: ", size=(130, -1)))
+		self.teWebPort = wx.TextCtrl(commBox, wx.ID_ANY, "", size=(100, -1))
+		self.teWebPort.SetValue("%d" % self.settings.webappport)
+		hsz.Add(self.teWebPort)
+		hsz.AddSpacer(20)
+		boxsizer.Add(hsz)
+
+		boxsizer.AddSpacer(10)
+
+		hsz = wx.BoxSizer(wx.HORIZONTAL)
+		hsz.AddSpacer(20)
+		hsz.Add(wx.StaticText(commBox, wx.ID_ANY, "Broadcast port: ", size=(130, -1)))
 		self.teBroadcastPort = wx.TextCtrl(commBox, wx.ID_ANY, "", size=(100, -1))
 		self.teBroadcastPort.SetValue("%d" % self.settings.socketport)
 		hsz.Add(self.teBroadcastPort)
 		hsz.AddSpacer(20)
 		boxsizer.Add(hsz)
-		
+
 		boxsizer.AddSpacer(10)
 
 		commBox.SetSizer(boxsizer)
@@ -814,6 +825,7 @@ class MainFrame(wx.Frame):
 		self.settings.serverport = int(self.teRRPort.GetValue())
 		self.settings.dccserverport = int(self.teDCCPort.GetValue())
 		self.settings.socketport = int(self.teBroadcastPort.GetValue())
+		self.settings.webappport = int(self.teWebPort.GetValue())
 		self.settings.backupdir = self.teBackupDir.GetValue()
 		self.settings.browser = self.teBrowser.GetValue()
 		self.settings.spreadsheet = self.teCalc.GetValue()

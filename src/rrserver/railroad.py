@@ -2033,6 +2033,8 @@ class Railroad:
 				tr, rear = self.IdentifyTrain(obj)
 			else:
 				tr = rtr
+				rear = True
+				logging.info("Assuming recovery of block %s for train %s in at the train's rear" % (objName, tr.Name()))
 			if self.settings.debug.blockoccupancy:
 				self.Alert("Identified train as %s" % tr.Name())
 

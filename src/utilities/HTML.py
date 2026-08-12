@@ -87,7 +87,7 @@ def element (elname, vals, opts, allowed):
 			msg = '"' + k + '" unexpected, must be one of ' + ', '.join(['"' + x + '"' for x in allowed])
 			raise InvalidKeyword(msg)
 		options = options + ' ' + k + '="' + str(opts[k]) + '"'
-	
+
 	values = ''
 	for v in vals:
 		if (isinstance(v, dict)):
@@ -105,13 +105,14 @@ def element (elname, vals, opts, allowed):
 		else:
 			values = values + ' ' + str(v)
 			
-	if (len(values) > 0): values = values[1:]
-			
+	if (len(values) > 0):
+		values = values[1:]
+
 	if (elname.startswith('-')):
 		rval = '<' + elname[1:] + options + '>' + values
 	else:
 		rval = '<' + elname + options + '>' + values + '</' + elname + '>'
-		
+
 	return rval
 
 def style(opts, elems):
@@ -410,13 +411,19 @@ def strong(*vals, **opts):
 	return element('strong', vals, opts, ()+coreopts)
 
 def form(*vals, **opts):
-	return element('form', vals, opts, ('name', )+coreopts)
+	return element('form', vals, opts, ('name', 'action', 'method', )+coreopts)
+
+def button(*vals, **opts):
+	return element('button', vals, opts, ('name', 'type', 'form', )+coreopts)
+
+def label(*vals, **opts):
+	return element('label', vals, opts, ('for', 'id', )+coreopts)
 
 def select(*vals, **opts):
-	return element('select', vals, opts, ('name', )+coreopts)
+	return element('select', vals, opts, ('name', 'onchange', )+coreopts)
 
 def option(*vals, **opts):
-	return element('option', vals, opts, ('value', )+coreopts)
+	return element('-option', vals, opts, ('value', 'selected', )+coreopts)
 
 def input(*vals, **opts):
 	return element('input', vals, opts, ('value', 'type', 'name', 'size')+coreopts)

@@ -15,26 +15,15 @@ class Dell (District):
 
 	def DoTurnoutAction(self, turnout, state, force=False):
 		tn = turnout.GetName()
-		if turnout.GetType() == SLIPSWITCH:
-			if tn == "DSw3":
-				bstat = "N" if self.turnouts["DSw5"].IsNormal() else "R"
-				turnout.SetStatus([state, bstat])
-				turnout.Draw()
-
-		else:
-			District.DoTurnoutAction(self, turnout, state, force=force)
-
-		if tn == "DSw5":
-			trnout = self.turnouts["DSw3"]
-			trnout.UpdateStatus()
-			trnout.Draw()
+		District.DoTurnoutAction(self, turnout, state, force=force)
 
 	def DetermineRoute(self, blocks):
-		s5 = 'N' if self.turnouts["DSw5"].IsNormal() else 'R'
-		s7 = 'N' if self.turnouts["DSw7"].IsNormal() else 'R'
-		self.turnouts["DSw5"].SetLock(s7 == 'R', refresh=True)
-		self.turnouts["DSw7"].SetLock(s5 == 'R', refresh=True)
-		self.turnouts["DSw7b"].SetLock(s5 == 'R', refresh=True)
+		pass
+		# s5 = 'N' if self.turnouts["DSw5"].IsNormal() else 'R'
+		# s7 = 'N' if self.turnouts["DSw7"].IsNormal() else 'R'
+		# self.turnouts["DSw5"].SetLock(s7 == 'R', refresh=True)
+		# self.turnouts["DSw7"].SetLock(s5 == 'R', refresh=True)
+		# self.turnouts["DSw7b"].SetLock(s5 == 'R', refresh=True)
 
 		# self.FindTurnoutCombinations(blocks, ["DSw1", "DSw3", "DSw5", "DSw7", "DSw11"])
 
@@ -130,13 +119,13 @@ class Dell (District):
 				(self.tiles["horiznc"],        self.screen, (47, 11), False),
 				(self.tiles["horiz"],          self.screen, (48, 11), False),
 				(self.tiles["horiznc"],        self.screen, (50, 11), False),
-				(self.tiles["eobleft"],        self.screen, (46, 13), False),
-				(self.tiles["horiznc"],        self.screen, (47, 13), False),
-				(self.tiles["horiz"],          self.screen, (48, 13), False),
-				(self.tiles["eobleft"],        self.screen, (46, 15), False),
-				(self.tiles["turnleftright"],  self.screen, (47, 15), False),
-				(self.tiles["diagleft"],       self.screen, (48, 14), False),
-				(self.tiles["diagleft"],       self.screen, (50, 12), False),
+				# (self.tiles["eobleft"],        self.screen, (46, 13), False),
+				# (self.tiles["horiznc"],        self.screen, (47, 13), False),
+				# (self.tiles["horiz"],          self.screen, (48, 13), False),
+				# (self.tiles["eobleft"],        self.screen, (46, 15), False),
+				# (self.tiles["turnleftright"],  self.screen, (47, 15), False),
+				# (self.tiles["diagleft"],       self.screen, (48, 14), False),
+				# (self.tiles["diagleft"],       self.screen, (50, 12), False),
 				(self.tiles["horiz"],          self.screen, (53, 11), False),
 				(self.tiles["horiznc"],        self.screen, (54, 11), False),
 				(self.tiles["eobright"],       self.screen, (55, 11), False),
@@ -210,7 +199,7 @@ class Dell (District):
 
 		toList = [
 			["DSw1",  "torightleft",  ["DOSVJE", "DOSVJW"], (49, 11)],
-			["DSw5",  "toleftleft",   ["DOSVJE", "DOSVJW"], (51, 11)],
+			["DSw3",  "toleftleft",   ["DOSVJE"], (49, 13)],
 			["DSw7",  "torightleft",  ["DOSVJE", "DOSVJW"], (54, 13)],
 			["DSw7b", "torightright", ["DOSVJE", "DOSVJW"], (52, 11)],
 			["DSw11",  "toleftright", ["DOSFOE", "DOSFOW"], (67, 13)],
@@ -233,13 +222,13 @@ class Dell (District):
 			trnout.SetContainingBlock(blk)
 			self.turnouts[tonm] = trnout
 
-		trnout = SlipSwitch(self, self.frame, "DSw3", self.screen, self.totiles["ssright"], (49, 13))
-		blocks["DOSVJE"].AddTurnout(trnout)
-		blocks["DOSVJW"].AddTurnout(trnout)
-		trnout.AddBlock("DOSVJE")
-		trnout.AddBlock("DOSVJW")
-		trnout.SetControllers(None, self.turnouts["DSw5"])
-		self.turnouts["DSw3"] = trnout
+		# trnout = SlipSwitch(self, self.frame, "DSw3", self.screen, self.totiles["ssright"], (49, 13))
+		# blocks["DOSVJE"].AddTurnout(trnout)
+		# blocks["DOSVJW"].AddTurnout(trnout)
+		# trnout.AddBlock("DOSVJE")
+		# trnout.AddBlock("DOSVJW")
+		# trnout.SetControllers(None, self.turnouts["DSw5"])
+		# self.turnouts["DSw3"] = trnout
 
 		self.turnouts["DSw7"].SetPairedTurnout(self.turnouts["DSw7b"])
 		self.turnouts["DSw11"].SetPairedTurnout(self.turnouts["DSw11b"])
@@ -313,16 +302,16 @@ class Dell (District):
 
 		# FOSS and Valley Junstion interlockings
 		block = self.blocks["DOSVJE"]
-		self.routes["DRtH13D21"] = Route(self.screen, block, "DRtH13D21", "H13", [(46,  9), (47,  9), (48, 10), (49, 11), (50, 11), (51, 11), (52, 11), (53, 12), (54, 13), (55, 13)], "D21", [RESTRICTING, DIVERGING], ["DSw1:R", "DSw5:N", "DSw7:R"], ["D6RA", "D4L"])
-		self.routes["DRtD10D21"] = Route(self.screen, block, "DRtD10D21", "D10", [(46, 11), (47, 11), (48, 11), (49, 11), (50, 11), (51, 11), (52, 11), (53, 12), (54, 13), (55, 13)], "D21", [RESTRICTING, DIVERGING], ["DSw1:N", "DSw5:N", "DSw7:R"], ["D6RB", "D4L"])
-		self.routes["DRtD20D21"] = Route(self.screen, block, "DRtD20D21", "D20", [(46, 13), (47, 13), (48, 13), (49, 13), (50, 13), (51, 13), (52, 13), (53, 13), (54, 13), (55, 13)], "D21", [MAIN, RESTRICTING],      ["DSw3:N", "DSw5:N", "DSw7:N"], ["D4RA", "D4L"])
-		self.routes["DRtH23D21"] = Route(self.screen, block, "DRtH23D21", "H23", [(46, 15), (47, 15), (48, 14), (49, 13), (50, 13), (51, 13), (52, 13), (53, 13), (54, 13), (55, 13)], "D21", [DIVERGING, RESTRICTING], ["DSw3:R", "DSw5:N", "DSw7:N"], ["D4RB", "D4L"])
+		self.routes["DRtH13D21"] = Route(self.screen, block, "DRtH13D21", "H13", [(46,  9), (47,  9), (48, 10), (49, 11), (50, 11), (51, 11), (52, 11), (53, 12), (54, 13), (55, 13)], "D21", [RESTRICTING, DIVERGING], ["DSw1:R", "DSw7:R"], ["D6RA", "D4L"])
+		self.routes["DRtD10D21"] = Route(self.screen, block, "DRtD10D21", "D10", [(46, 11), (47, 11), (48, 11), (49, 11), (50, 11), (51, 11), (52, 11), (53, 12), (54, 13), (55, 13)], "D21", [RESTRICTING, DIVERGING], ["DSw1:N", "DSw7:R"], ["D6RB", "D4L"])
+		self.routes["DRtD20D21"] = Route(self.screen, block, "DRtD20D21", "D20", [(46, 13), (47, 13), (48, 13), (49, 13), (50, 13), (51, 13), (52, 13), (53, 13), (54, 13), (55, 13)], "D21", [MAIN, RESTRICTING],      ["DSw3:N", "DSw7:N"], ["D4RA", "D4L"])
+		self.routes["DRtH23D21"] = Route(self.screen, block, "DRtH23D21", "H23", [(46, 15), (47, 15), (48, 14), (49, 13), (50, 13), (51, 13), (52, 13), (53, 13), (54, 13), (55, 13)], "D21", [DIVERGING, RESTRICTING], ["DSw3:R", "DSw7:N"], ["D4RB", "D4L"])
 
 		block = self.blocks["DOSVJW"]
-		self.routes["DRtH13D11"] = Route(self.screen, block, "DRtH13D11", "D11", [(46,  9), (47,  9), (48, 10), (49, 11), (50, 11), (51, 11), (52, 11), (53, 11), (54, 11), (55, 11)], "H13", [RESTRICTING, DIVERGING], ["DSw1:R", "DSw5:N", "DSw7:N"], ["D6L", "D6RA"])
-		self.routes["DRtD10D11"] = Route(self.screen, block, "DRtD10D11", "D11", [(46, 11), (47, 11), (48, 11), (49, 11), (50, 11), (51, 11), (52, 11), (53, 11), (54, 11), (55, 11)], "D10", [RESTRICTING, MAIN],      ["DSw1:N", "DSw5:N", "DSw7:N"], ["D6L", "D6RB"])
-		self.routes["DRtD20D11"] = Route(self.screen, block, "DRtD20D11", "D11", [(46, 13), (47, 13), (48, 13), (49, 13), (50, 12), (51, 11), (52, 11), (53, 11), (54, 11), (55, 11)], "D20", [DIVERGING, RESTRICTING], ["DSw3:N", "DSw5:R", "DSw7:N"], ["D6L", "D4RA"])
-		self.routes["DRtH23D11"] = Route(self.screen, block, "DRtH23D11", "D11", [(46, 15), (47, 15), (48, 14), (49, 13), (50, 12), (51, 11), (52, 11), (53, 11), (54, 11), (55, 11)], "H23", [DIVERGING, RESTRICTING], ["DSw3:R", "DSw5:R", "DSw7:N"], ["D6L", "D4RB"])
+		self.routes["DRtH13D11"] = Route(self.screen, block, "DRtH13D11", "D11", [(46,  9), (47,  9), (48, 10), (49, 11), (50, 11), (51, 11), (52, 11), (53, 11), (54, 11), (55, 11)], "H13", [RESTRICTING, DIVERGING], ["DSw1:R", "DSw7:N"], ["D6L", "D6RA"])
+		self.routes["DRtD10D11"] = Route(self.screen, block, "DRtD10D11", "D11", [(46, 11), (47, 11), (48, 11), (49, 11), (50, 11), (51, 11), (52, 11), (53, 11), (54, 11), (55, 11)], "D10", [RESTRICTING, MAIN],      ["DSw1:N", "DSw7:N"], ["D6L", "D6RB"])
+		# self.routes["DRtD20D11"] = Route(self.screen, block, "DRtD20D11", "D11", [(46, 13), (47, 13), (48, 13), (49, 13), (50, 12), (51, 11), (52, 11), (53, 11), (54, 11), (55, 11)], "D20", [DIVERGING, RESTRICTING], ["DSw3:N", "DSw7:N"], ["D6L", "D4RA"])
+		# self.routes["DRtH23D11"] = Route(self.screen, block, "DRtH23D11", "D11", [(46, 15), (47, 15), (48, 14), (49, 13), (50, 12), (51, 11), (52, 11), (53, 11), (54, 11), (55, 11)], "H23", [DIVERGING, RESTRICTING], ["DSw3:R", "DSw7:N"], ["D6L", "D4RB"])
 
 		block = self.blocks["DOSFOE"]
 		self.routes["DRtD21S20"] = Route(self.screen, block, "DRtD21S20", "D21", [(66, 13), (67, 13), (68, 13), (69, 13), (70, 13)], "S20", [MAIN, MAIN],             ["DSw11:N"], ["D10R", "D10L"])
@@ -332,9 +321,9 @@ class Dell (District):
 		self.routes["DRtD21S10"] = Route(self.screen, block, "DRtD21S10", "S10", [(66, 13), (67, 13), (68, 12), (69, 11), (70, 11)], "D21", [DIVERGING, DIVERGING],   ["DSw11:R"], ["D12L", "D10R"])
 
 		self.signals["D4RA"].AddPossibleRoutes("DOSVJE", ["DRtD20D21"])
-		self.signals["D4RA"].AddPossibleRoutes("DOSVJW", ["DRtD20D11"])
+		# self.signals["D4RA"].AddPossibleRoutes("DOSVJW", ["DRtD20D11"])
 		self.signals["D4RB"].AddPossibleRoutes("DOSVJE", ["DRtH23D21"])
-		self.signals["D4RB"].AddPossibleRoutes("DOSVJW", ["DRtH23D11"])
+		# self.signals["D4RB"].AddPossibleRoutes("DOSVJW", ["DRtH23D11"])
 		
 		self.signals["D6RA"].AddPossibleRoutes("DOSVJE", ["DRtH13D21"])
 		self.signals["D6RA"].AddPossibleRoutes("DOSVJW", ["DRtH13D11"])
@@ -342,7 +331,7 @@ class Dell (District):
 		self.signals["D6RB"].AddPossibleRoutes("DOSVJW", ["DRtD10D11"])
 
 		self.signals["D4L"].AddPossibleRoutes("DOSVJE", ["DRtD20D21", "DRtH23D21", "DRtH13D21", "DRtD10D21"])
-		self.signals["D6L"].AddPossibleRoutes("DOSVJW", ["DRtD20D11", "DRtH23D11", "DRtH13D11", "DRtD10D11"])
+		self.signals["D6L"].AddPossibleRoutes("DOSVJW", ["DRtH13D11", "DRtD10D11"])
 
 		self.signals["D10R"].AddPossibleRoutes("DOSFOW", ["DRtD21S10"])
 		self.signals["D10R"].AddPossibleRoutes("DOSFOE", ["DRtD21S20"])
@@ -372,15 +361,15 @@ class Dell (District):
 		p.AddRoute(self.routes["DRtD10D21"])
 		p.AddRoute(self.routes["DRtD20D21"])
 		p.AddRoute(self.routes["DRtH23D21"])
-		p.AddRoute(self.routes["DRtD20D11"])
-		p.AddRoute(self.routes["DRtH23D11"])
+		# p.AddRoute(self.routes["DRtD20D11"])
+		# p.AddRoute(self.routes["DRtH23D11"])
 			
 		p = OSProxy(self, "DOSVJW")
 		self.osProxies["DOSVJW"] = p
 		p.AddRoute(self.routes["DRtH13D11"])
 		p.AddRoute(self.routes["DRtD10D11"])
-		p.AddRoute(self.routes["DRtD20D11"])
-		p.AddRoute(self.routes["DRtH23D11"])
+		# p.AddRoute(self.routes["DRtD20D11"])
+		# p.AddRoute(self.routes["DRtH23D11"])
 		p.AddRoute(self.routes["DRtH13D21"])
 		p.AddRoute(self.routes["DRtD10D21"])
 

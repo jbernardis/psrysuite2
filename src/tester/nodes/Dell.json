@@ -100,14 +100,14 @@
         "used": true
       },
       {
-        "label": "DSw5 Normal",
-        "used": true
+        "label": "(Unused)",
+        "used": false
       }
     ],
     [
       {
-        "label": "DSw5 Reverse",
-        "used": true
+        "label": "(Unused)",
+        "used": false
       },
       {
         "label": "DSw7 Normal",
@@ -158,12 +158,12 @@
         "used": true
       },
       {
-        "label": "DSw5 Normal",
-        "used": true
+        "label": "(Unused)",
+        "used": false
       },
       {
-        "label": "DSw5 Reverse",
-        "used": true
+        "label": "(Unused)",
+        "used": false
       },
       {
         "label": "DSw7 Normal",

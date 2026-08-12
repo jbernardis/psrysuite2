@@ -38,7 +38,7 @@ class Dell(District):
 			self.rr.AddHandswitchInd("DSw9", self, n, DELL, [(2, 2)])
 			self.rr.AddTurnout("DSw1", self, n, DELL, [(2, 3), (2, 4)])
 			self.rr.AddTurnout("DSw3", self, n, DELL, [(2, 5), (2, 6)])
-			self.rr.AddTurnout("DSw5", self, n, DELL, [(2, 7), (3, 0)])
+			# self.rr.AddTurnout("DSw5", self, n, DELL, [(2, 7), (3, 0)])
 
 			self.rr.AddTurnout("DSw7",  self, n, DELL, [(3, 1), (3, 2)])
 			self.rr.AddTurnoutPair("DSw7", "DSw7b")
@@ -51,7 +51,7 @@ class Dell(District):
 			# inputs	
 			self.rr.AddTurnoutPosition("DSw1", self, n, DELL, [(0, 0), (0, 1)])
 			self.rr.AddTurnoutPosition("DSw3", self, n, DELL, [(0, 2), (0, 3)])
-			self.rr.AddTurnoutPosition("DSw5", self, n, DELL, [(0, 4), (0, 5)])
+			# self.rr.AddTurnoutPosition("DSw5", self, n, DELL, [(0, 4), (0, 5)])
 			self.rr.AddTurnoutPosition("DSw7", self, n, DELL, [(0, 6), (0, 7)])
 
 			self.rr.AddHandswitch("DSw9", self, n, DELL, [(1, 0), (1, 1)], "D21")
@@ -127,13 +127,13 @@ class Dell(District):
 
 	def CheckTurnoutLocks(self, turnouts):
 		changes = []
-		s5 = turnouts["DSw5"].IsNormal()
-		s7 = turnouts["DSw7"].IsNormal()
-		if turnouts["DSw5"].Lock(not s7, "DSw7"):
-			changes.append(["DSw5", not s7])
-		if turnouts["DSw7"].Lock(not s5, "DSw5"):
-			changes.append(["DSw7", not s5])
-			changes.append(["DSw7b", not s5])
+		# s5 = turnouts["DSw5"].IsNormal()
+		# s7 = turnouts["DSw7"].IsNormal()
+		# if turnouts["DSw5"].Lock(not s7, "DSw7"):
+		# 	changes.append(["DSw5", not s7])
+		# if turnouts["DSw7"].Lock(not s5, "DSw5"):
+		# 	changes.append(["DSw7", not s5])
+		# 	changes.append(["DSw7b", not s5])
 		return changes
 
 

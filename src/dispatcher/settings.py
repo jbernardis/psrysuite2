@@ -365,7 +365,7 @@ class Settings:
 						print("invalid value in ini file for server port: (%s)" % value)
 						s = 9000
 					self.serverport = s
-						
+
 				elif opt == 'dccserverport':
 					try:
 						s = int(value)
@@ -373,7 +373,15 @@ class Settings:
 						print("invalid value in ini file for DCC server port: (%s)" % value)
 						s = 9002
 					self.dccserverport = s
-						
+
+				elif opt == 'webappport':
+					try:
+						s = int(value)
+					except ValueError:
+						print("invalid value in ini file for web app port: (%s)" % value)
+						s = 9500
+					self.webappport = s
+
 				elif opt == 'ipaddr':
 					self.ipaddr = value
 					
@@ -551,6 +559,7 @@ class Settings:
 		self.cfg.set(section, "serverport", "%d" % self.serverport)
 		self.cfg.set(section, "dccserverport", "%d" % self.dccserverport)
 		self.cfg.set(section, "socketport", "%d" % self.socketport)
+		self.cfg.set(section, "webappport", "%d" % self.webappport)
 		self.cfg.set(section, "backupdir", self.backupdir)
 		self.cfg.set(section, "browser", self.browser)
 		self.cfg.set(section, "spreadsheet", self.spreadsheet)
