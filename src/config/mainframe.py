@@ -861,8 +861,6 @@ class MainFrame(wx.Frame):
 		if self.settings.display.locale == self.locales[0]:
 			self.settings.display.locale = ""
 
-		print("In save, color = %s" % str(self.settings.display.colortrainfg))
-
 		self.settings.activetrains.suppressyards = self.cbSuppressYards.IsChecked()		
 		ix = self.rbShowOnly.GetSelection()
 		self.settings.activetrains.suppressunknown = False

@@ -426,4 +426,4 @@ def option(*vals, **opts):
 	return element('-option', vals, opts, ('value', 'selected', )+coreopts)
 
 def input(*vals, **opts):
-	return element('input', vals, opts, ('value', 'type', 'name', 'size')+coreopts)
+	return element('input', vals, opts, ('value', 'type', 'name', 'size', 'checked')+coreopts)

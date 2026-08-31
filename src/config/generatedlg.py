@@ -106,7 +106,11 @@ class GenerateDlg(wx.Dialog):
 		self.bGenMonitorSim = wx.Button(genBox, wx.ID_ANY, "Server Monitor\n(simulated)", size=GENBTNSZ)
 		self.Bind(wx.EVT_BUTTON, self.OnBGenMonitorSim, self.bGenMonitorSim)
 		vsz.Add(self.bGenMonitorSim, 0, wx.ALL, 10)
-		
+
+		self.bGenWebApp = wx.Button(genBox, wx.ID_ANY, "WEB Application", size=GENBTNSZ)
+		self.Bind(wx.EVT_BUTTON, self.OnBGenWebApp, self.bGenWebApp)
+		vsz.Add(self.bGenWebApp, 0, wx.ALL, 10)
+
 		hsz.Add(vsz)
 		
 		boxsizer.Add(hsz)
@@ -300,6 +304,16 @@ class GenerateDlg(wx.Dialog):
 			"dir":  "tester",
 			"main": "main.py",
 			"desc": "Tester",
+			"icon": "tester.ico"
+		}
+		self.generator(module, self.cbStartMenu.IsChecked())
+
+	def OnBGenWebApp(self, _):
+		module = {
+			"name": "Web App",
+			"dir":  "webapp",
+			"main": "webapp.py",
+			"desc": "web application",
 			"icon": "tester.ico"
 		}
 		self.generator(module, self.cbStartMenu.IsChecked())

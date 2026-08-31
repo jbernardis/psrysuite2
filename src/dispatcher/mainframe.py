@@ -2323,9 +2323,9 @@ class MainFrame(wx.Frame):
 		return hsinfo
 
 	def GetNodes(self):
-		nv = [[n.Name(), n.Address(), n.IsEnabled()] for n in self.nodes.values()]
+		nv = [[n.Name(), n.Address(), n.IsEnabled(), n.ErrorCount()] for n in self.nodes.values()]
 		if self.nodeStatusDisplay is not None:
-			for nm, ad, st in nv:
+			for nm, ad, st, ect in nv:
 				self.nodeStatusDisplay.UpdateNodeStatus(nm, ad, st)
 
 		return nv
@@ -4241,14 +4241,18 @@ class MainFrame(wx.Frame):
 			addr = parms["address"]
 		except KeyError:
 			addr = None
+		try:
+			ecount = parms["ecount"]
+		except KeyError:
+			ecount = "?"
 
 		if addr is None or name is None:
 			return
 
 		if addr in self.nodes:
-			self.nodes[addr].SetStatus(status)
+			self.nodes[addr].SetStatus(status, ecount)
 		else:
-			self.nodes[addr] = Node(name, addr, status)
+			self.nodes[addr] = Node(name, addr, status, ecount)
 
 		if status == 0:
 			msg = "Node %s(0x%x) disabled" % (name, addr)

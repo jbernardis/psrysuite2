@@ -430,8 +430,6 @@ class Block:
 			if CrossingEastWestBoundary(self, blk):
 				self.nextBlockEast = blk
 			else:
-				if self.Name() in [ "W10", "T12"]:
-					logging.debug("***** %s in set next west, setting next west to %s" % (self.Name(), "NOne" if blk is None else blk.Name()))
 				self.nextBlockWest = blk
 
 	def GetNextWest(self):
@@ -440,9 +438,6 @@ class Block:
 		elif self.mainBlock is not None:
 			return self.mainBlock.GetNextWest()
 		else:
-			if self.Name() in ["W10", "T12"]:
-				nm = "None" if self.nextBlockWest is None else self.nextBlockWest.Name()
-				logging.debug("***** %s in get next west, returning %s" % (self.Name(), nm))
 			return self.nextBlockWest
 
 	def NextDetectionSectionWest(self):

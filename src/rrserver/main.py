@@ -1,4 +1,5 @@
 import os, sys
+import requests
 
 
 cmdFolder = os.getcwd()
@@ -223,8 +224,8 @@ class ServerMain:
 			self.socketServer.sendToOne(skt, addr, m)
 
 		nv = self.rr.GetNodeStatuses()
-		for naddr, name, stat in nv:
-			m = {"nodestatus":{"address": naddr, "name": name, "enabled": stat}}
+		for naddr, name, stat, ect in nv:
+			m = {"nodestatus":{"address": naddr, "name": name, "enabled": stat, "ecount": ect}}
 			self.socketServer.sendToOne(skt, addr, m)
 
 		self.socketServer.sendToOne(skt, addr, {"end": {}})
@@ -345,7 +346,8 @@ class ServerMain:
 			"delayedstartup": self.DelayedStartup,
 			"reopen":		self.DoReopen,
 			"loglevel":		self.DoCmdLogLevel,
-			"enablenode":	self.DoEnableNode
+			"enablenode":	self.DoEnableNode,
+			"webapp":		self.DoWebApp,
 		}
 
 	def ProcessCommand(self, cmd):
@@ -1474,7 +1476,35 @@ class ServerMain:
 
 		else:
 			logging.error("server command with unknown action: %s" % action)
-				
+
+	def DoWebApp(self, cmd):
+		logging.debug("entering start web app")
+		logging.debug("webapp addr = %s:%s" % (settings.ipaddr, settings.webappport))
+
+		try:
+			r = requests.get("http://" + settings.ipaddr + ":" + str(settings.webappport), params={}, timeout=2)
+			logging.debug("URL: %s" % str(r.url))
+		except requests.exceptions.ConnectionError:
+			# start the server since it is not running
+			pname = os.path.join(os.getcwd(), "webapp", "webapp.py")
+			p = Popen([sys.executable, pname])
+			pid = p.pid
+			logging.info("Webapp server started as PID %d" % pid)
+			msg = "WebApp started as PID %d at address %s:%s" % (pid, settings.ipaddr, settings.webappport)
+
+		else:
+			msg = "WebApp is already running at address %s:%s" % (settings.ipaddr, settings.webappport)
+
+		self.Alert(msg)
+
+	def KillWebApp(self):
+		logging.debug("Request to kill web app")
+		try:
+			r = requests.get("http://" + settings.ipaddr + ":" + str(settings.webappport) + "/quit", params={}, timeout=1)
+			logging.debug("URL: %s" % str(r.url))
+		except:
+			pass
+
 	def DoDebug(self, cmd):
 		try:
 			function = cmd["function"][0]
@@ -1647,6 +1677,9 @@ class ServerMain:
 				self.rrBus.close()
 			except Exception as e:
 				logging.error("exception %s closing Railroad Bus port" % str(e))
+
+		logging.info("Attempting to kill web app (if it is running)")
+		self.KillWebApp()
 			
 		logging.info("completed - continuing with shutdown")
 		

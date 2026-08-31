@@ -30,8 +30,11 @@ class District:
 	def EvaluateDistrictLocks(self, sig, ossLocks=None):
 		pass
 
-	def ControlRestrictedMessage(self):
-		return "Control is Restricted"
+	def ControlRestrictedMessage(self, message=None):
+		rv = "Control is Restricted"
+		if message is not None:
+			rv += (" (%s)" % message)
+		return rv
 
 	def ControlRestrictedSignal(self, sig):
 		return False

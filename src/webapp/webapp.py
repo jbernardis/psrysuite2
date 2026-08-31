@@ -9,15 +9,25 @@ from socketserver import ThreadingMixIn
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse, parse_qs
 
+cmdFolder = os.getcwd()
+if cmdFolder not in sys.path:
+	sys.path.insert(0, cmdFolder)
 
 from dispatcher.settings import Settings
 import utilities.HTML as HTML
-from sigtool.signals import Signals
 from sigtool.railroadserver import RRServer
-from dispatcher.constants import aspectname, aspecttype
-from rrserver.constants import nodeNames
+
+from sigtester import SigTester
+from getbits import GetBits
+from blockadj import BlockAdjacency
 
 logging.basicConfig(filename=os.path.join(os.getcwd(), "logs", "webapp.log"), filemode='w', format='%(asctime)s %(message)s', level=logging.DEBUG)
+
+aspectValues = {
+	1: [[0], [1]],
+	2: [[0, 0], [0, 1], [1, 0], [1, 1]],
+	3: [[0, 0, 0], [0, 0, 1], [0, 1, 0], [0, 1, 1], [1, 0, 0], [1, 0, 1], [1, 1, 0], [1, 1, 1]],
+}
 
 
 class WebHandler(BaseHTTPRequestHandler):
@@ -27,11 +37,11 @@ class WebHandler(BaseHTTPRequestHandler):
 		parsed_path = urlparse(self.path)
 		path = parsed_path.path[0 if parsed_path.path[0] != "/" else 1:]
 		query = parse_qs(parsed_path.query, keep_blank_values=True)
-		print("parsed path = %s" % str(parsed_path))
-		print("Path: %s" % str(path))
-		print("Query: %s" % str(query))
-		print("Params: %s" % str(parsed_path.params))
-		print("====================")
+		logging.debug("parsed path = %s" % str(parsed_path))
+		logging.debug("Path: %s" % str(path))
+		logging.debug("Query: %s" % str(query))
+		logging.debug("Params: %s" % str(parsed_path.params))
+		logging.debug("====================")
 
 		if path == "favicon.ico":
 			self.send_response(204)
@@ -108,15 +118,18 @@ class WebThreadingHTTPServer(ThreadingMixIn, HTTPServer):
 
 
 class WebApp:
-	def __init__(self, parent, ip, port, rrserver, signals):
+	def __init__(self, parent, ip, port, rrserver):
 		self.parent = parent
 		self.rrserver = rrserver
-		self.signals = signals
 		self.selectedSignal = None
 		self.server = WebThreadingHTTPServer((ip, port), WebHandler)
 		self.server.setApp(self)
 		self.thread = Thread(target=self.server.serve_dcc)
 		self.thread.start()
+
+		self.sigTester = SigTester(self, self.rrserver)
+		self.getBits = GetBits(self, self.rrserver)
+		self.blockAdjacency = BlockAdjacency(self, self.rrserver)
 		logging.info("Web server started")
 
 	def getThread(self):
@@ -136,21 +149,46 @@ class WebApp:
 
 		if path == "menuchoice":
 			if "signal" in query.keys():
-				return self.HTMLSignalTester()
+				html = self.sigTester.ProcessURL(urlinfo)
+				if html is None:
+					html = self.HTMLMainMenu()
+				return html
+
 			elif "getbits" in query.keys():
-				return self.HTMLGetBits()
+				html = self.getBits.ProcessURL(urlinfo)
+				if html is None:
+					html = self.HTMLMainMenu()
+				return html
+
+			elif "blockadj" in query.keys():
+				html = self.blockAdjacency.ProcessURL(urlinfo)
+				if html is None:
+					html = self.HTMLMainMenu()
+				return html
+
 			elif "back" in query.keys():
 				return self.HTMLMainMenu()
 			else:
+
 				return self.HTMLMainMenu(message="Invalid menu choice - Try again")
 
-		elif path == "sigchoice":
-			try:
-				sigName = query['signallist'][0]
-			except (KeyError, IndexError):
-				sigName = None
-				print("Unable to determine signal name from query: %s" % str(query))
-			return self.HTMLSignalTester(signal=sigName)
+		elif path in ["sigchoice", "aspectsend"]:
+			html = self.sigTester.ProcessURL(urlinfo)
+			if html is None:
+				return self.HTMLMainMenu()
+			return html
+
+		elif path in ["nodechoice"]:
+			html = self.getBits.ProcessURL(urlinfo)
+			if html is None:
+				return self.HTMLMainMenu()
+			return html
+
+		elif path in ["blockadj"]:
+			html = self.blockAdjacency.ProcessURL(urlinfo)
+			if html is None:
+				return self.HTMLMainMenu()
+			return html
 
 		elif path in ["", "index"]:
 			return self.HTMLMainMenu()
@@ -159,82 +197,48 @@ class WebApp:
 			self.parent.Kill()
 			return 200, None
 
-		return 400, "Invalid path: %s" % path
+		elif path == "ping":
+			return 200, None
+
+		return 400, "Invalid wa path: %s" % path
 
 	def HTMLMainMenu(self, message=None):
+		css = self.StyleSheet()
+
 		html = HTML.starthtml()
+		html += HTML.head(HTML.style({'type': "text/css"}, css))
 
 		html += HTML.startbody()
+		html += HTML.h1({}, "PSRY WebApp")
+		html += HTML.h2({}, "Main Menu")
+
+		html += HTML.startdiv({"class": "menuindent"})
+		html += "<br><br>"
 		btns = [
 			HTML.button({"type": "submit", "id": "signal", "name": "signal"}, "Signal Tester"),
 			HTML.button({"type": "submit", "id": "getbits", "name": "getbits"}, "Get O/I Bits"),
+			HTML.button({"type": "submit", "id": "blockadj", "name": "blockadj"}, "Block Adjacency"),
 		]
-		menu = HTML.form({"name": "mainmenu", "action": "/menuchoice", "method": "GET"}, " ".join(btns))
+		menu = HTML.form({"name": "mainmenu", "action": "/menuchoice", "method": "GET"}, "<br><br>".join(btns))
 		html += menu
 		if message is not None:
 			html += message
 
+		html += HTML.enddiv()
+
 		html += HTML.endbody()
 		html += HTML.endhtml()
 		return 200, html
 
-	def HTMLSignalTester(self, signal=None):
-		sigNames = self.signals.SigNames()
-		html = HTML.starthtml()
+	def StyleSheet(self):
+		css = HTML.StyleSheet()
+		css.addElement("div.menuindent", {"padding-left": "60px"})
+		css.addElement("h1", {"padding-left": "10px"})
+		css.addElement("h2", {"padding-left": "15px"})
+		css.addElement("div.backbutton", {"padding-left": "35px"})
 
-		html += HTML.startbody()
-		html += HTML.h1("Signal Tester")
-		html += HTML.label({"for": "signallist"}, "Choose a Signal to test: ")
-
-		choices = []
-		if signal is None:
-			self.selectedSignal = sigNames[0]
-
-		else:
-			self.selectedSignal = signal
-
-		for sn in sigNames:
-			opts = {"value": sn}
-			if sn == self.selectedSignal:
-				opts["selected"] = None
-			choices.append(HTML.option(opts, sn))
-		selectHtml = HTML.select({"name": "signallist", "id": "signallist", "onchange": "this.form.submit()"}, " ".join(choices))
-		signalchoice = HTML.form({"name": "signalchoice", "action": "/sigchoice", "method": "GET"}, selectHtml)
-
-		html += signalchoice
-
-		aspectType = self.signals.GetAspectType(self.selectedSignal)
-		atName = HTML.p("Aspect Type: %s" % aspecttype(aspectType))
-
-		vals = self.signals.GetAspectBits(self.selectedSignal)
-		bits = vals[0]
-		nodeAddr = vals[1]
-		bstr = ["(%d, %d)" % (b[0], b[1]) for b in bits]
-		atBits = HTML.p("Bits: %s" % ", ".join(bstr))
-		atNode = HTML.p("Node: %s (0x%x)" % (nodeNames[nodeAddr], nodeAddr))
-
-		html += atName
-		html += atBits
-		html += atNode + "<br>"
-
-		btn = HTML.button({"type": "submit", "id": "back", "name": "back"}, "Back")
-		menu = HTML.form({"name": "signaltester", "action": "/index", "method": "GET"}, btn)
-		html += menu
-		html += HTML.endbody()
-		html += HTML.endhtml()
-		return 200, html
-
-	def HTMLGetBits(self):
-		html = HTML.starthtml()
-
-		html += HTML.startbody()
-		html += "Get Bits"
-		btn = HTML.button({"type": "submit", "id": "back", "name": "back"}, "Back")
-		menu = HTML.form({"name": "getbits", "action": "/index", "method": "GET"}, btn)
-		html += menu
-		html += HTML.endbody()
-		html += HTML.endhtml()
-		return 200, html
+		# css.addElement("p.header", {"font-family": 'Arial, sans-serif', "font-size": "30px", "font-weight": "bold"})
+		return css
 
 
 class WebAppServer:
@@ -247,10 +251,8 @@ class WebAppServer:
 		logging.info("Connecting to RR Server at %s:%s" % (self.settings.ipaddr, self.settings.serverport))
 		self.rrServer.SetServerAddress(self.settings.ipaddr, self.settings.serverport)
 
-		self.signals = Signals(self.rrServer)
-
 		logging.info("Starting Web server at address %s:%s" % (self.settings.ipaddr, self.settings.webappport))
-		self.server = WebApp(self, self.settings.ipaddr, self.settings.webappport, self.rrServer, self.signals)
+		self.server = WebApp(self, self.settings.ipaddr, self.settings.webappport, self.rrServer)
 
 	def Kill(self):
 		self.forever = False
@@ -269,17 +271,14 @@ class WebAppServer:
 			pass
 
 
-# ofp = open(os.path.join(os.getcwd(), "output", "webapp.out"), "w")
-# efp = open(os.path.join(os.getcwd(), "output", "webapp.err"), "w")
-# sys.stdout = ofp
-# sys.stderr = efp
-
+ofp = open(os.path.join(os.getcwd(), "output", "webapp.out"), "w")
+efp = open(os.path.join(os.getcwd(), "output", "webapp.err"), "w")
+sys.stdout = ofp
+sys.stderr = efp
 
 settings = Settings()
 
 svr = WebAppServer(settings)
 svr.Run()
-
-
 
 logging.info("Web server terminated")

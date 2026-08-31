@@ -555,10 +555,15 @@ class Cliff(District):
 			self.lastControl = self.control
 		return skiplist, resumelist
 
-	def ControlRestrictedMessage(self):
+	def ControlRestrictedMessage(self, message=None):
 		if self.control == 0:
-			return "Cliff Control is Local"
+			rv = "Cliff Control is Local"
 		elif self.control == 1:
-			return "Dispatcher controls main Bank/Cliveden"
+			rv = "Dispatcher controls main Bank/Cliveden"
 		else:
-			return "Dispatcher controls Cliff Tower"
+			rv = "Dispatcher controls Cliff Tower"
+
+		if message is not None:
+			rv += (" (%s)" % message)
+		return rv
+

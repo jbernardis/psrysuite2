@@ -7,6 +7,7 @@ from dispatcher.block import Block, OverSwitch, Route, OSProxy
 from dispatcher.turnout import Turnout, SlipSwitch
 from dispatcher.signal import Signal
 from dispatcher.handswitch import HandSwitch
+from dispatcher.button import Button
 
 from dispatcher.constants import LaKr, EMPTY, RESTRICTING, SLOW, MAIN, DIVERGING, RegAspects
 
@@ -706,6 +707,7 @@ class Port (District):
 				(self.tiles["horiznc"],   self.screen, (141, 35), False),
 				(self.tiles["eobright"],  self.screen, (142, 35), False),
 			], False)
+		self.blocks["POSCJ1"].AddTrainLoc(self.screen, (138, 39))
 
 		self.blocks["POSCJ2"] = OverSwitch(self, self.frame, "POSCJ2",
 			[
@@ -718,6 +720,7 @@ class Port (District):
 				(self.tiles["diagleft"], self.screen, (140, 34), False),
 				(self.tiles["eobright"], self.screen, (142, 33), False),
 			], False)
+		self.blocks["POSCJ2"].AddTrainLoc(self.screen, (138, 41))
 
 		self.blocks["POSSJ1"] = OverSwitch(self, self.frame, "POSSJ1",
 			[
@@ -730,6 +733,7 @@ class Port (District):
 				(self.tiles["diagright"], self.screen, (124, 34), False),
 				(self.tiles["eobright"], self.screen, (126, 35), False),
 			], False)
+		self.blocks["POSSJ1"].AddTrainLoc(self.screen, (118, 39))
 
 		self.blocks["POSSJ2"] = OverSwitch(self, self.frame, "POSSJ2",
 			[
@@ -744,6 +748,7 @@ class Port (District):
 				(self.tiles["horiznc"],  self.screen, (125, 33), False),
 				(self.tiles["eobright"], self.screen, (126, 33), False),
 			], False)
+		self.blocks["POSSJ2"].AddTrainLoc(self.screen, (118, 41))
 
 		self.blocks["POSPJ1"] = OverSwitch(self, self.frame, "POSPJ1",
 			[
@@ -768,6 +773,7 @@ class Port (District):
 				(self.tiles["horiznc"],      self.screen, (126, 24), False),
 				(self.tiles["eobright"],     self.screen, (127, 24), False),
 			], False)
+		self.blocks["POSPJ1"].AddTrainLoc(self.screen, (121, 17))
 
 		self.blocks["POSPJ2"] = OverSwitch(self, self.frame, "POSPJ2",
 			[
@@ -791,6 +797,7 @@ class Port (District):
 				(self.tiles["horiznc"],      self.screen, (126, 24), False),
 				(self.tiles["eobright"],     self.screen, (127, 24), False),
 			], False)
+		self.blocks["POSPJ2"].AddTrainLoc(self.screen, (121, 19))
 
 		self.blocks["POSSP1"] = OverSwitch(self, self.frame, "POSSP1",
 			[
@@ -813,6 +820,7 @@ class Port (District):
 				(self.tiles["turnrightleft"],  self.screen, (105, 22), False),
 				(self.tiles["eobright"],       self.screen, (106, 22), False),
 			], True)
+		self.blocks["POSSP1"].AddTrainLoc(self.screen, (88, 37))
 
 		self.blocks["POSSP2"] = OverSwitch(self, self.frame, "POSSP2",
 			[
@@ -850,6 +858,7 @@ class Port (District):
 
 				(self.tiles["eobright"],   self.screen, (110, 24), False),
 			], True)
+		self.blocks["POSSP2"].AddTrainLoc(self.screen, (88, 39))
 
 		self.blocks["POSSP3"] = OverSwitch(self, self.frame, "POSSP3",
 			[
@@ -884,6 +893,7 @@ class Port (District):
 				(self.tiles["horiznc"],    self.screen, (109, 26), False),
 				(self.tiles["eobright"],   self.screen, (110, 26), False),
 			], True)
+		self.blocks["POSSP3"].AddTrainLoc(self.screen, (88, 41))
 
 		self.blocks["POSSP4"] = OverSwitch(self, self.frame, "POSSP4",
 			[
@@ -911,6 +921,7 @@ class Port (District):
 				(self.tiles["turnrightleft"], self.screen, (111, 32), False),
 				(self.tiles["eobright"],   self.screen, (112, 32), False),
 			], True)
+		self.blocks["POSSP4"].AddTrainLoc(self.screen, (88, 43))
 
 		self.blocks["POSSP5"] = OverSwitch(self, self.frame, "POSSP5",
 			[
@@ -933,6 +944,7 @@ class Port (District):
 				(self.tiles["turnrightleft"], self.screen, (110, 35), False),
 				(self.tiles["eobright"],   self.screen, (111, 35), False),
 			], True)
+		self.blocks["POSSP5"].AddTrainLoc(self.screen, (88, 45))
 
 		self.osBlocks["POSCJ1"] = ["P31", "P32", "P42"]
 		self.osBlocks["POSCJ2"] = ["P41", "P32", "P42"]
@@ -951,39 +963,43 @@ class Port (District):
 	def DefineTurnouts(self, blocks):
 		self.turnouts = {}
 		toList = [
-			["PBSw1",   "toleftleft",   ["POSSJ1", "POSSJ2"], (122, 33)],
-			["PBSw1b",  "toleftright",  ["POSSJ1", "POSSJ2"], (120, 35)],
-			["PBSw3",   "torightright", ["POSSJ1", "POSSJ2"], (123, 33)],
-			["PBSw3b",  "torightleft",  ["POSSJ1", "POSSJ2"], (125, 35)],
-			["PBSw11",  "torightright", ["POSCJ1", "POSCJ2"], (136, 33)],
-			["PBSw11b", "torightleft",  ["POSCJ1", "POSCJ2"], (138, 35)],
-			["PBSw13",  "toleftright",  ["POSCJ1", "POSCJ2"], (139, 35)],
-			["PBSw13b", "toleftleft",   ["POSCJ1", "POSCJ2"], (141, 33)],
+			["PBSw1",   "toleftleft",   ["POSSJ1", "POSSJ2"], (122, 33), (126, 41)],
+			["PBSw1b",  "toleftright",  ["POSSJ1", "POSSJ2"], (120, 35), None],
+			["PBSw3",   "torightright", ["POSSJ1", "POSSJ2"], (123, 33), (126, 42)],
+			["PBSw3b",  "torightleft",  ["POSSJ1", "POSSJ2"], (125, 35), None],
+			["PBSw11",  "torightright", ["POSCJ1", "POSCJ2"], (136, 33), (131, 41)],
+			["PBSw11b", "torightleft",  ["POSCJ1", "POSCJ2"], (138, 35), None],
+			["PBSw13",  "toleftright",  ["POSCJ1", "POSCJ2"], (139, 35), (131, 42)],
+			["PBSw13b", "toleftleft",   ["POSCJ1", "POSCJ2"], (141, 33), None],
 
-			["PASw27",  "toleftup",     ["POSPJ1"], (118, 20)],
-			["PASw29",  "toleftup",     ["POSPJ1"], (120, 22)],
-			["PASw31",  "torightleft",  ["POSPJ1"], (122, 24)],
-			["PASw37",  "toleftright",  ["POSPJ1", "POSPJ2"], None],
+			["PASw27",  "toleftup",     ["POSPJ1"], (118, 20), None],
+			["PASw29",  "toleftup",     ["POSPJ1"], (120, 22), None],
+			["PASw31",  "torightleft",  ["POSPJ1"], (122, 24), (111, 41)],
+			["PASw37",  "toleftright",  ["POSPJ1", "POSPJ2"], None, (111, 44)],
 
-			["PASw7",   "toleftleft",   ["POSSP2", "POSSP3"], (109, 24)],
-			["PASw9",   "torightright", ["POSSP2", "POSSP3", "POSSP4", "POSSP5"], (103, 28)],
-			["PASw9b",  "toleftupinv",  ["POSSP2", "POSSP3", "POSSP4", "POSSP5"], (105, 30)],
-			["PASw11",  "torightright", ["POSSP4"], (107, 28)],
-			["PASw13",  "toleftdown",   ["POSSP4"], (109, 30)],
-			["PASw15",  "toleftright",  ["POSSP1", "POSSP2", "POSSP3"], (99, 20)],
-			["PASw17",  "torightright", ["POSSP1"], (104, 18)],
-			["PASw19",  "torightright", ["POSSP1", "POSSP2", "POSSP3"], (100, 20)],
-			["PASw19b", "toleftupinv",  ["POSSP1", "POSSP2", "POSSP3"], (102, 22)],
-			["PASw23",  "torightleft",  ["POSSP2", "POSSP3"], (106, 26)],
+			["PASw7",   "toleftleft",   ["POSSP2", "POSSP3"], (109, 24), (101, 44)],
+			["PASw9",   "torightright", ["POSSP2", "POSSP3", "POSSP4", "POSSP5"], (103, 28), (101, 45)],
+			["PASw9b",  "toleftupinv",  ["POSSP2", "POSSP3", "POSSP4", "POSSP5"], (105, 30), None],
+			["PASw11",  "torightright", ["POSSP4"], (107, 28), (106, 41)],
+			["PASw13",  "toleftdown",   ["POSSP4"], (109, 30), None],
+			["PASw15",  "toleftright",  ["POSSP1", "POSSP2", "POSSP3"], (99, 20), (106, 42)],
+			["PASw17",  "torightright", ["POSSP1"], (104, 18), None],
+			["PASw19",  "torightright", ["POSSP1", "POSSP2", "POSSP3"], (100, 20), (106, 43)],
+			["PASw19b", "toleftupinv",  ["POSSP1", "POSSP2", "POSSP3"], (102, 22), None],
+			["PASw23",  "torightleft",  ["POSSP2", "POSSP3"], (106, 26), (106, 45)],
 		]
 
-		for tonm, tileSet, blks, pos in toList:
+		for tonm, tileSet, blks, pos, indpos in toList:
 			trnout = Turnout(self, self.frame, tonm, self.screen, self.totiles[tileSet], pos)
 			for blknm in blks:
 				blocks[blknm].AddTurnout(trnout)
 				trnout.AddBlock(blknm)
 				
 			trnout.SetDisabled(True)
+			if indpos is not None:
+				trnout.SetLockIndicator(Button(self, self.screen, self.frame, tonm, indpos, self.btntiles))
+
+			trnout.SetLock(False, True)
 			self.turnouts[tonm] = trnout
 
 		# handswitches and other manually operated turnouts
@@ -1002,6 +1018,7 @@ class Port (District):
 			trnout.SetContainingBlock(b)
 			
 			trnout.SetDisabled(True)
+
 			self.turnouts[tonm] = trnout
 
 		trnout = SlipSwitch(self, self.frame, "PASw35", self.screen, self.totiles["ssright"], (124, 24))
@@ -1011,6 +1028,8 @@ class Port (District):
 		trnout.AddBlock("POSPJ2")
 		trnout.SetControllers(None, self.turnouts["PASw37"])
 		trnout.SetDisabled(True)
+		trnout.SetLockIndicator(Button(self, self.screen, self.frame, "PASw35", (111, 43), self.btntiles))
+		trnout.SetLock(False, True)
 		self.turnouts["PASw35"] = trnout
 
 		trnout = SlipSwitch(self, self.frame, "PASw33", self.screen, self.totiles["ssright"], (122, 26))
@@ -1018,6 +1037,8 @@ class Port (District):
 		trnout.AddBlock("POSPJ2")
 		trnout.SetControllers(None, self.turnouts["PASw35"])
 		trnout.SetDisabled(True)
+		trnout.SetLockIndicator(Button(self, self.screen, self.frame, "PASw33", (111, 42), self.btntiles))
+		trnout.SetLock(False, True)
 		self.turnouts["PASw33"] = trnout
 
 		self.turnouts["PBSw1"].SetPairedTurnout(self.turnouts["PBSw1b"])
@@ -1033,6 +1054,8 @@ class Port (District):
 			trnout.AddBlock(b)
 		trnout.SetControllers(None, self.turnouts["PASw23"])
 		trnout.SetDisabled(True)
+		trnout.SetLockIndicator(Button(self, self.screen, self.frame, "PASw21", (106, 44), self.btntiles))
+		trnout.SetLock(False, True)
 		self.turnouts["PASw21"] = trnout
 
 		trnout = SlipSwitch(self, self.frame, "PASw5", self.screen, self.totiles["ssright"], (107, 26))
@@ -1041,6 +1064,8 @@ class Port (District):
 			trnout.AddBlock(b)
 		trnout.SetControllers(None, self.turnouts["PASw7"])
 		trnout.SetDisabled(True)
+		trnout.SetLockIndicator(Button(self, self.screen, self.frame, "PASw5", (101, 43), self.btntiles))
+		trnout.SetLock(False, True)
 		self.turnouts["PASw5"] = trnout
 
 		trnout = SlipSwitch(self, self.frame, "PASw3", self.screen, self.totiles["ssright"], (105, 28))
@@ -1049,6 +1074,8 @@ class Port (District):
 			trnout.AddBlock(b)
 		trnout.SetControllers(None, self.turnouts["PASw5"])
 		trnout.SetDisabled(True)
+		trnout.SetLockIndicator(Button(self, self.screen, self.frame, "PASw3", (101, 42), self.btntiles))
+		trnout.SetLock(False, True)
 		self.turnouts["PASw3"] = trnout
 
 		trnout = SlipSwitch(self, self.frame, "PASw1", self.screen, self.totiles["ssright"], (103, 30))
@@ -1057,6 +1084,8 @@ class Port (District):
 			trnout.AddBlock(b)
 		trnout.SetControllers(None, self.turnouts["PASw3"])
 		trnout.SetDisabled(True)
+		trnout.SetLockIndicator(Button(self, self.screen, self.frame, "PASw1", (101, 41), self.btntiles))
+		trnout.SetLock(False, True)
 		self.turnouts["PASw1"] = trnout
 
 		self.sw3 = self.turnouts["PASw3"]

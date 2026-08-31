@@ -4,24 +4,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="moved version information into a separate python source file at the root directory">
-      <change afterPath="$PROJECT_DIR$/src/webapp/webapp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/psrysuite2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/psrysuite2.iml" afterDir="false" />
+    <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="Removal of switch DSw5, started development of webapp">
+      <change afterPath="$PROJECT_DIR$/src/webapp/blockadj.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webapp/getbits.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webapp/sigtester.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/iobits.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/iobits.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/layout.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/layout.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/psry.ini" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/psry.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/block.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/block.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/districts/dell.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/districts/dell.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/generatedlg.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/generatedlg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/mainframe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/mainframe.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/districts/port.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/districts/port.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/inspectdlg.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/inspectdlg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/mainframe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/mainframe.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/node.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dispatcher/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/images/bitmaps/diagrams/LathamKrulish.bmp" beforeDir="false" afterPath="$PROJECT_DIR$/src/images/bitmaps/diagrams/LathamKrulish.bmp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rrserver/districts/dell.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/districts/dell.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/turnout.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/turnout.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/images/bitmaps/diagrams/HydeYardPort.bmp" beforeDir="false" afterPath="$PROJECT_DIR$/src/images/bitmaps/diagrams/HydeYardPort.bmp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/district.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/district.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/districts/cliff.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/districts/cliff.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/districts/nassau.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/districts/nassau.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/districts/yard.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/districts/yard.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rrserver/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/node.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rrserver/railroad.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/railroad.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/nodes/Dell.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/nodes/Dell.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/testerold/nodes/Dell.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/testerold/nodes/Dell.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/rrobjects.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/rrobjects.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utilities/HTML.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilities/HTML.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/version.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/version.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webapp/webapp.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/webapp/webapp.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,6 +85,7 @@
     &quot;Python.Yard Display.executor&quot;: &quot;Run&quot;,
     &quot;Python.fixtrains.executor&quot;: &quot;Run&quot;,
     &quot;Python.monitor.executor&quot;: &quot;Run&quot;,
+    &quot;Python.scredit.executor&quot;: &quot;Run&quot;,
     &quot;Python.sigtool.executor&quot;: &quot;Run&quot;,
     &quot;Python.tester.executor&quot;: &quot;Run&quot;,
     &quot;Python.tester2.executor&quot;: &quot;Run&quot;,
@@ -114,7 +121,7 @@
       <recent name="C:\Users\jeff\PycharmProjects\psrysuite2\src\webapp\templates" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Config">
+  <component name="RunManager" selected="Python.webapp">
     <configuration name="Cliff Display" type="PythonConfigurationType" factoryName="Python">
       <module name="psrysuite2" />
       <option name="ENV_FILES" value="" />
@@ -240,6 +247,31 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="scredit" type="PythonConfigurationType" factoryName="Python">
+      <module name="psrysuite2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.13 (psrysuite2)" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\jeff\PycharmProjects\psrysuite2\src" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/diageditor/mainframe.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="sigtool" type="PythonConfigurationType" factoryName="Python">
       <module name="psrysuite2" />
       <option name="ENV_FILES" value="" />
@@ -324,6 +356,7 @@
       <item itemvalue="Python.sigtool" />
       <item itemvalue="Python.webapp" />
       <item itemvalue="Python.tester" />
+      <item itemvalue="Python.scredit" />
     </list>
   </component>
   <component name="SharedIndexes">
@@ -493,7 +526,15 @@
       <option name="project" value="LOCAL" />
       <updated>1785776985643</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Removal of switch DSw5, started development of webapp">
+      <option name="closed" value="true" />
+      <created>1786502315362</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1786502315362</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -515,6 +556,7 @@
     <MESSAGE value="added logic to not busy-wait in rrserver" />
     <MESSAGE value="added better visualization of o/i bits to monitor" />
     <MESSAGE value="moved version information into a separate python source file at the root directory" />
-    <option name="LAST_COMMIT_MESSAGE" value="moved version information into a separate python source file at the root directory" />
+    <MESSAGE value="Removal of switch DSw5, started development of webapp" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removal of switch DSw5, started development of webapp" />
   </component>
 </project>

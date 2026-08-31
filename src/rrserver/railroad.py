@@ -60,8 +60,6 @@ class Railroad:
 		self.nodes = {}
 
 		self.debug = self.settings.debug
-		self.Alert("rr constructor, settings = %s flag = %s" % (str(self.settings.debug), self.settings.debug.blockadjacency))
-		self.Alert("local debug = %s" % str(self.debug))
 
 		self.districtList = [
 			[ Yard, "Yard" ],
@@ -349,6 +347,9 @@ class Railroad:
 			"handswitches": hslist,
 			"nodes": nodeNames
 		}
+		logging.info("iobits:L%d detection blocks" % len(blist))
+		logging.info("iobits: %d turnouts" % len(tlist))
+		logging.info("iobits: %d signals" % len(siglist))
 		fn = os.path.join(os.getcwd(), "data", "iobits.json")
 		logging.info("Saving IO Bit information to file (%s)" % fn)
 		try:
@@ -411,7 +412,7 @@ class Railroad:
 	def GetNodeStatuses(self):
 		retval = []
 		for addr, dist, node in self.addrList:
-			retval.append([addr, nodeNames[addr], 1 if node.IsEnabled() else 0])
+			retval.append([addr, nodeNames[addr], 1 if node.IsEnabled() else 0, node.ErrorCount()])
 		return retval
 
 	def EnableNode(self, name, addr, enable):
@@ -829,7 +830,7 @@ class Railroad:
 
 		if sig.District().ControlRestrictedSignal(signm):
 			if not silent:
-				self.Alert(sig.District().ControlRestrictedMessage())
+				self.Alert(sig.District().ControlRestrictedMessage(message="Signal Click %s" % signm))
 			return
 
 		osName = self.DetermineSignalOS(signm)
@@ -1879,14 +1880,14 @@ class Railroad:
 						logging.debug("processing")
 						self.ProcessSignalLever(obj, node)
 					else:
-						self.Alert(district.ControlRestrictedMessage(), locale=district.Locale())
+						self.Alert(district.ControlRestrictedMessage(message = "Signal Lever %s" % obj.Name()), locale=district.Locale())
 
 				elif objType == INPUT_HANDSWITCH:
 					dataType = objparms[1]
 					if dataType == "L":  # handswitch unlock switch
 						objnm = obj.Name()
 						if objName in skiplist:
-							self.Alert(district.ControlRestrictedMessage(), locale=district.Locale())
+							self.Alert(district.ControlRestrictedMessage(message = "Handswitch %s" % obj.Name()), locale=district.Locale())
 						else:
 							if objnm in [ "CSw21ab", "PBSw15ab" ]:
 								if obj.Unlock(newval != 0):
@@ -2033,8 +2034,9 @@ class Railroad:
 				tr, rear = self.IdentifyTrain(obj)
 			else:
 				tr = rtr
-				rear = True
+				rear = True  # lacking any other information, assume this newly discovered train appends to the rear of the recovered train
 				logging.info("Assuming recovery of block %s for train %s in at the train's rear" % (objName, tr.Name()))
+
 			if self.settings.debug.blockoccupancy:
 				self.Alert("Identified train as %s" % tr.Name())
 

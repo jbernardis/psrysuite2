@@ -22,8 +22,12 @@ class Turnout:
 		self.blockList = []
 		self.containingBlock = None
 		self.locked = False
+		self.lockIndicator = None
 		if pos is None:
 			self.disabled = True
+
+	def SetLockIndicator(self, li):
+		self.lockIndicator = li
 
 	def IsLocked(self):
 		return self.locked
@@ -38,10 +42,18 @@ class Turnout:
 		return self.containingBlock
 
 	def SetLock(self, flag, refresh=False):
-		if self.locked == flag:
+		if flag != self.locked:
+			changed = True
+			self.locked = flag
+		else:
+			changed = False
+
+		if self.lockIndicator is not None:
+			self.lockIndicator.TurnOn(flag=not self.locked, refresh=refresh)
+
+		if not changed:
 			return False
 
-		self.locked = flag
 		if refresh:
 			self.Draw()
 

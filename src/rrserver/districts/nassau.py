@@ -501,13 +501,17 @@ class Nassau(District):
 		elif bname == "N21":
 			self.rr.CheckBlockSignals("N21", "N21W", False)
 
-	def ControlRestrictedMessage(self):
+	def ControlRestrictedMessage(self, message=None):
 		if self.control == 0:
-			return "Massau Control is Local"
+			rv = "Massau Control is Local"
 		elif self.control == 1:
-			return "Dispatcher controls main line only"
+			rv = "Dispatcher controls main line only"
 		else:
-			return "Dispatcher controls Nassau Tower"
+			rv = "Dispatcher controls Nassau Tower"
+
+		if message is not None:
+			rv += (" (%s)" % message)
+		return rv
 
 	def ControlRestrictedSignal(self, signm):
 		# logging.debug("Check for signal %s not in list %s, control = %d" % (signm, self.fleetedSignals[self.control], self.control))

@@ -345,6 +345,7 @@ class Settings:
 		self.serverport = 9000
 		self.socketport = 9001
 		self.dccserverport = 9002
+		self.webappport = 9500
 		self.backupdir = os.getcwd()
 		self.browser = None
 		self.spreadsheet = None

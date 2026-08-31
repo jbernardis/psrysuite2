@@ -387,8 +387,12 @@ class Yard(District):
 			self.lastControl = self.control
 		return skiplist, resumelist
 
-	def ControlRestrictedMessage(self):
+	def ControlRestrictedMessage(self, message=None):
 		if self.control == 0:
-			return "Yard Control is Local"
+			rv = "Yard Control is Local"
 		else:
-			return "Dispatcher controls Yard Tower"
+			rv = "Dispatcher controls Yard Tower"
+
+		if message is not None:
+			rv += (" (%s)" % message)
+		return rv

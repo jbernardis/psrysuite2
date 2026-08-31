@@ -81,13 +81,15 @@ class InspectDlg(wx.Dialog):
         self.Bind(wx.EVT_BUTTON, self.OnBHilite, bHilite)
         bBlockStat = wx.Button(self, wx.ID_ANY, "Block Status", size=BSIZE)
         self.Bind(wx.EVT_BUTTON, self.OnBBlockStat, bBlockStat)
+        bWebApp = wx.Button(self, wx.ID_ANY, "Web App", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBWebApp, bWebApp)
 
         bszl = []
 
         buttonCols = [[bDebug, bLogLevel, bSessions, bNodes, bRelays],
                     [bAuditTrains, bActiveTrains, bRoutes, bProxies, bAdjacency, bBlockStat],
                     [bToLocks, bLevers, bHandSwitches, bResetBlks, bIgnoreBlks],
-                    [bSigTool, bTester, bMonitor, bHilite]]
+                    [bSigTool, bTester, bMonitor, bHilite, bWebApp]]
 
         if self.parent.IsDispatcherOrSatellite() and self.settings.scanner.enable:
             bScanner = wx.Button(self, wx.ID_ANY, "Scanner", size=BSIZE)
@@ -180,6 +182,11 @@ class InspectDlg(wx.Dialog):
             dlg.ApplyResults()
             self.parent.SendDebugFlags()
         dlg.Destroy()
+
+    def OnBWebApp(self, _):
+        logging.info("sending web app command")
+        wa = self.parent.Get("webapp", {})
+        logging.info("WebApp response: %s" % wa.body)
 
     def OnBProxies(self, _):
         pi = self.parent.GetOSProxyInfo()
@@ -2167,9 +2174,9 @@ class NodeStatusDlg(wx.Dialog):
         self.Destroy()
 
     def NodeStatusGrid(self):
-        headings = ["Node", "Address", "Status"]
-        colWidth = [70, 70, 70]
-        colAlign = [wx.ALIGN_CENTER, wx.ALIGN_CENTER, wx.ALIGN_CENTER]
+        headings = ["Node", "Address", "Status", "Errors"]
+        colWidth = [70, 70, 70, 70]
+        colAlign = [wx.ALIGN_CENTER, wx.ALIGN_CENTER, wx.ALIGN_CENTER, wx.ALIGN_CENTER]
 
         nRows = len(self.nodeinfo)
         nCols = len(headings)
@@ -2207,12 +2214,13 @@ class NodeStatusDlg(wx.Dialog):
     def LoadGrid(self, grid):
         row = 0
         self.gridMap = []
-        for nm, addr, status in self.nodeinfo:
+        for nm, addr, status, ect in self.nodeinfo:
             self.gridMap.append([nm, addr, status])
             grid.SetCellValue(row, 0, nm)
             grid.SetCellValue(row, 1, "0x%02x" % addr)
             grid.SetCellBackgroundColour(row, 2, self.colorGreen if status else self.colorRed)
             grid.SetCellValue(row, 2, "Enabled" if status else "Disabled")
+            grid.SetCellValue(row, 3, str(ect))
 
             row += 1
 
