@@ -7,6 +7,14 @@ I got an error in RH when I tried to turn off ignore block persistently.  I can'
 
 Have the ability to preset fleet bits in the ini file
 
+possible webapp functionality:
+    train list - have raw data - just fill out table and other features
+    train audit
+    stop relays
+    os proxies
+    block status
+    turnout locks
+
 
 
 

@@ -8,16 +8,16 @@ if cmdFolder not in sys.path:
 from utilities import HTML
 
 
-class BlockAdjacency:
+class ActiveTrains:
 	def __init__(self, parent, rrserver):
 		self.parent = parent
 		self.rrserver = rrserver
 
 	def ProcessURL(self, urlinfo):
-		return self.HTMLBlockAdj()
+		return self.HTMLActiveRoutes()
 
-	def HTMLBlockAdj(self):
-		ba = self.rrserver.Get("blockadjacency", {})
+	def HTMLActiveRoutes(self):
+		tl = self.rrserver.Get("activetrains", {})
 
 		css = self.StyleSheet()
 
@@ -25,29 +25,58 @@ class BlockAdjacency:
 		html += HTML.head(HTML.style({'type': "text/css"}, css))
 
 		html += HTML.startbody()
-		html += HTML.h1({}, "Block Adjacency")
+		html += HTML.h1({}, "Active Trains")
 
 		html += "<br><br>"
 
-		headings = ["West", "Block", "East"]
+		headings = ["Train", "IName", "Loco", "Dir", "Engineer", "Blocks", "Signal", "Aspect", "Stopped"]
 		hcols = [HTML.th({}, hdg) for hdg in headings]
 		hdgHtml = HTML.tr({}, "".join(hcols))
 
 		rows = []
-		for bn in sorted(ba.keys()):
-			w = HTML.td({}, ba[bn][0])
-			b = HTML.td({}, bn)
-			e = HTML.td({}, ba[bn][1])
-			rows.append(HTML.tr({},w+b+e))
+		for tname in sorted(tl.keys()):
+			tn = HTML.td({}, tname)
+
+			itn = HTML.td({}, tl[tname]["iname"])
+			l = tl[tname].get("loco", None)
+			if l is None:
+				l = "None"
+			loco = HTML.td({}, l)
+
+			direct = HTML.td({}, "East" if tl[tname]["east"] else "West")
+
+			e = tl[tname].get("engineer", None)
+			if e is None:
+				e = "None"
+			eng = HTML.td({}, e)
+
+			b = tl[tname].get("blocks", [])
+			bl = HTML.td({}, ", ".join(b))
+
+			s = tl[tname].get("signal", None)
+			if s is None:
+				s = ""
+			sig = HTML.td({}, s)
+
+			a = tl[tname].get("aspect", None)
+			if a is None:
+				a = ""
+			asp = HTML.td({}, a)
+
+			stop = HTML.td({}, "True" if tl[tname]["stopped"] else "False")
+
+			rows.append(HTML.tr({},tn+itn+loco+direct+eng+bl+sig+asp+stop))
 
 		html += HTML.table({}, hdgHtml + "".join(rows))
 
+		html += str(tl)
+
 		html += "<br><br>"
 
-		html += HTML.startdiv({"class": "adjrefresh"})
+		html += HTML.startdiv({"class": "atrefresh"})
 
 		btn = HTML.button({"type": "submit", "id": "refresh", "name": "refresh"}, "Refresh")
-		refresh = HTML.form({"name": "adjrefresh", "action": "/blockadj", "method": "GET"}, "<br><br>" + btn)
+		refresh = HTML.form({"name": "atrefresh", "action": "/acttrains", "method": "GET"}, "<br><br>" + btn)
 		html += refresh
 
 		html += HTML.enddiv()
@@ -66,7 +95,7 @@ class BlockAdjacency:
 
 	def StyleSheet(self):
 		css = self.parent.StyleSheet()
-		css.addElement("div.adjrefresh", {"padding-left": "35px"})
+		css.addElement("div.atrefresh", {"padding-left": "35px"})
 		css.addElement("table", {"border-collapse": "collapse", "border-spacing": "0", "width": "auto",
 							"font-family": 'Arial, sans-serif', "font-size": "14px", "margin-left": "30mm"})
 		css.addElement("th", {'text-align': 'center', 'overflow': 'hidden', "background-color": "#A0A0A0"})

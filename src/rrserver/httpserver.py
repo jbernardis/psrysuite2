@@ -183,6 +183,7 @@ class HTTPServer:
 			"getlayout": self.GetLayout,
 			"getsubblocks": self.GetSubBlocks,
 			"getiobits": self.GetIOBits,
+			"getbreakers": self.GetBreakers,
 			"getengineers": self.GetEngineers,
 			"snapshot": self.GetSnapshot,
 			"snaplist": self.GetSnapList,
@@ -594,6 +595,15 @@ class HTTPServer:
 			return 400, "Unable to retrieve relay status"
 		else:
 			jstr = json.dumps(rl)
+			return 200, jstr
+
+	def GetBreakers(self, cmd):
+		bl = self.rr.GetBreakers()
+		if bl is None:
+			logging.info("Unknown error")
+			return 400, "Unable to retrieve breakers status"
+		else:
+			jstr = json.dumps(bl)
 			return 200, jstr
 
 	def GetSessions(self, cmd):

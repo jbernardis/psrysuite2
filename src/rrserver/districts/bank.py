@@ -105,7 +105,7 @@ class Bank(District):
 	def BlockOccupancyChange(self, rr, obj, val):
 		bname = obj.Name()
 		if bname in ["B20", "B21"]:
-			self.rr.CheckBlockSignalsAdv("B20", "B21", "B20E", True)
+			self.rr.CheckBlockSignalsAdv("B20E")
 
 	def SetNodeReference(self, addr, node):
 		# the bank node needs information from the cliff panel - the release bit

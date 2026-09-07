@@ -782,6 +782,10 @@ class Railroad:
 			return self.breakers[brknm]
 		except KeyError:
 			return None
+
+	def GetBreakers(self):
+		bl = {bn: self.breakers[bn].IsTripped() for bn in sorted(self.breakers.keys())}
+		return bl
 			
 	def SetRouteIn(self, rtnm):
 		'''
@@ -875,6 +879,13 @@ class Railroad:
 		district.EvaluateDistrictLocks(sig, None)
 		self.EvaluatePreviousSignals(sig)
 
+		# see if this signal triggers any block signals
+		if signm in ["K2R", "K4R", "K8R", "N14LA", "N14LB", "N14LC", "N14LD", "N16L", "N18LA", "N18LB", "N20L"]:
+			self.CheckBlockSignals("N11", "N11W", False)
+			self.CheckBlockSignals("N21", "N21W", False)
+		elif signm in ["C18R", "C22R", "C24R", "C22L", "C24L"]:
+			self.CheckBlockSignalsAdv("B20E")
+
 		msgs = self.UpdateTrainFromSignal(sig, signm, osb, osName)
 		for m in msgs:
 			self.RailroadEvent(m)
@@ -919,13 +930,6 @@ class Railroad:
 				if tr is not None:
 					tr.SetStopped(False)
 					msgs.append(tr.GetEventMessage())
-
-		# see if this signal triggers any block signals
-		if signm in ["K2R", "K4R", "K8R", "N14LA", "N14LB", "N14LC", "N14LD", "N16L", "N18LA", "N18LB", "N20L"]:
-			self.CheckBlockSignals("N11", "N11W", False)
-			self.CheckBlockSignals("N21", "N21W", False)
-		elif signm in ["C18R", "C22R", "C24R", "C22L", "C24L"]:
-			self.CheckBlockSignalsAdv("B20", "B21", "B20E", True)
 
 		return msgs
 
@@ -3275,6 +3279,8 @@ class Railroad:
 			return
 
 		psig.SetAspect(newAspect)
+		if psig.Name() == "C24L":
+			self.CheckBlockSignalsAdv("B20E")
 
 		# identify the train that this signal controls and update the train with the new aspect
 		tr = psig.Train()
@@ -3836,60 +3842,20 @@ class Railroad:
 		if sig.SetAspect(aspect):
 			self.RailroadEvent(sig.GetEventMessage())
 
-	def CheckBlockSignalsAdv(self, blkNm, blkNxtNm, sigNm, blkEast):
-		blk = self.blocks[blkNm]
-		clear = blk.IsCleared()  # is the first block cleared
-		sig = self.signals[sigNm]
-		atype = sig.GetAspectType()
+	def CheckBlockSignalsAdv(self, sigNm):
+		if sigNm != "B20E":
+			self.Alert("Calling CheckBlockSignalAdv with an incorrect signal name: %s" % sigNm)
+			return
 
-		# now let's look at the OS to determine if it's cleared and what type of route is set up through it
-		east = blk.IsEast()
+		bsig = self.GetSignal(sigNm)
+		sig = self.GetSignal("C24L")
 
-		if east == blkEast:
-			blkNxt = blk.GetNextEast() if blkEast else blk.GetNextWest()
-		else:
-			blkNxt = blk.GetNextWest() if blkEast else blk.GetNextEast()
-
-		if blkNxt is None:
-			nxtclr = False
-			nxtrte = None
-
-		else:
-			nxtclr = blkNxt.IsCleared()
-			rt = blkNxt.ActiveRoute()
-			if rt is None:
-				nxtrte = None
-			else:
-				nxtrte = rt.RouteType() # get next route type
-
-		# now consider the block beyond the OS (as identified in a parameter) for clear and route type
-		try:
-			blknxt = self.blocks[blkNxtNm]
-		except KeyError:
-			nxtclradv = False
-			nxtEast = None
-		else:
-			nxtEast = blknxt.IsEast()
-			if nxtEast != blkEast:
-				nxtclradv = False
-			else:
-				nxtclradv = blknxt.IsCleared()
-
-		if east != blkEast or nxtEast != blkEast:
-			aspect = 0  # blocks going in opposite directions - just stop
-		elif clear and nxtclr and (nxtrte == MAIN) and nxtclradv:
-			aspect = 0b011  # clear
-		elif clear and nxtclr and (nxtrte == MAIN) and (not nxtclradv):
-			aspect = 0b110  # advance approach
-		elif clear and nxtclr and (nxtrte == DIVERGING):
-			aspect = 0b010  # approach medium
-		elif clear and not nxtclr:
-			aspect = 0b001  # approach
-		else:
-			aspect = 0  # stop
-
-		if sig.SetAspect(aspect):
-			self.RailroadEvent(sig.GetEventMessage())
+		baspect = bsig.Aspect()
+		aspect = sig.Aspect()
+		logging.debug("block aspect = %d, current model signal = %d" % (baspect, aspect))
+		if aspect != baspect:
+			self.SetAspect(sigNm, aspect)
+			self.RailroadEvent(bsig.GetEventMessage())
 
 	def CheckEWCross(self, tr, blk, blkn):
 		s = blk.StoppedBlock()

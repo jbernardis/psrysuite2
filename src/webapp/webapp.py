@@ -20,6 +20,8 @@ from sigtool.railroadserver import RRServer
 from sigtester import SigTester
 from getbits import GetBits
 from blockadj import BlockAdjacency
+from activeroutes import ActiveRoutes
+from activetrains import ActiveTrains
 
 logging.basicConfig(filename=os.path.join(os.getcwd(), "logs", "webapp.log"), filemode='w', format='%(asctime)s %(message)s', level=logging.DEBUG)
 
@@ -130,6 +132,8 @@ class WebApp:
 		self.sigTester = SigTester(self, self.rrserver)
 		self.getBits = GetBits(self, self.rrserver)
 		self.blockAdjacency = BlockAdjacency(self, self.rrserver)
+		self.activeRoutes = ActiveRoutes(self, self.rrserver)
+		self.activeTrains = ActiveTrains(self, self.rrserver)
 		logging.info("Web server started")
 
 	def getThread(self):
@@ -166,6 +170,18 @@ class WebApp:
 					html = self.HTMLMainMenu()
 				return html
 
+			elif "actroutes" in query.keys():
+				html = self.activeRoutes.ProcessURL(urlinfo)
+				if html is None:
+					html = self.HTMLMainMenu()
+				return html
+
+			elif "acttrains" in query.keys():
+				html = self.activeTrains.ProcessURL(urlinfo)
+				if html is None:
+					html = self.HTMLMainMenu()
+				return html
+
 			elif "back" in query.keys():
 				return self.HTMLMainMenu()
 			else:
@@ -186,6 +202,18 @@ class WebApp:
 
 		elif path in ["blockadj"]:
 			html = self.blockAdjacency.ProcessURL(urlinfo)
+			if html is None:
+				return self.HTMLMainMenu()
+			return html
+
+		elif path in ["actroutes"]:
+			html = self.activeRoutes.ProcessURL(urlinfo)
+			if html is None:
+				return self.HTMLMainMenu()
+			return html
+
+		elif path in ["acttrains"]:
+			html = self.activeTrains.ProcessURL(urlinfo)
 			if html is None:
 				return self.HTMLMainMenu()
 			return html
@@ -215,9 +243,11 @@ class WebApp:
 		html += HTML.startdiv({"class": "menuindent"})
 		html += "<br><br>"
 		btns = [
-			HTML.button({"type": "submit", "id": "signal", "name": "signal"}, "Signal Tester"),
-			HTML.button({"type": "submit", "id": "getbits", "name": "getbits"}, "Get O/I Bits"),
-			HTML.button({"type": "submit", "id": "blockadj", "name": "blockadj"}, "Block Adjacency"),
+			HTML.button({"type": "submit", "class": "menu", "id": "signal", "name": "signal"}, "Signal Tester"),
+			HTML.button({"type": "submit", "class": "menu", "id": "getbits", "name": "getbits"}, "Get O/I Bits"),
+			HTML.button({"type": "submit", "class": "menu", "id": "blockadj", "name": "blockadj"}, "Block Adjacency"),
+			HTML.button({"type": "submit", "class": "menu", "id": "actroutes", "name": "actroutes"}, "Active Routes"),
+			HTML.button({"type": "submit", "class": "menu", "id": "acttrains", "name": "acttrains"}, "Active Trains"),
 		]
 		menu = HTML.form({"name": "mainmenu", "action": "/menuchoice", "method": "GET"}, "<br><br>".join(btns))
 		html += menu
@@ -236,6 +266,7 @@ class WebApp:
 		css.addElement("h1", {"padding-left": "10px"})
 		css.addElement("h2", {"padding-left": "15px"})
 		css.addElement("div.backbutton", {"padding-left": "35px"})
+		css.addElement("button.menu", {"height": "40px", "width": "200px"})
 
 		# css.addElement("p.header", {"font-family": 'Arial, sans-serif', "font-size": "30px", "font-weight": "bold"})
 		return css

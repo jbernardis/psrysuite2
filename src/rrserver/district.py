@@ -21,6 +21,9 @@ class District:
 		for nd in self.nodes.values():
 			nd.OutIn()
 
+	def DoSignalAction(self, sig, aspect, frozenaspect=None, callon=False):
+		pass
+
 	def BlockOccupancyChange(self, rr, obj, val):
 		pass
 

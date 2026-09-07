@@ -4,30 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="Removal of switch DSw5, started development of webapp">
-      <change afterPath="$PROJECT_DIR$/src/webapp/blockadj.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/webapp/getbits.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/webapp/sigtester.py" afterDir="false" />
+    <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="further dev of web app, added visibility to port switch locks and OS occupanct">
+      <change afterPath="$PROJECT_DIR$/src/webapp/activeroutes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webapp/activetrains.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/generatedlg.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/generatedlg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/mainframe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/mainframe.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/districts/port.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/districts/port.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/block.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/block.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/districts/dell.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/districts/dell.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dispatcher/inspectdlg.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/inspectdlg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/mainframe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/mainframe.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/node.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/turnout.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/turnout.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/images/bitmaps/diagrams/HydeYardPort.bmp" beforeDir="false" afterPath="$PROJECT_DIR$/src/images/bitmaps/diagrams/HydeYardPort.bmp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rrserver/district.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/district.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rrserver/districts/cliff.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/districts/cliff.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rrserver/districts/nassau.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/districts/nassau.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rrserver/districts/yard.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/districts/yard.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rrserver/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rrserver/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/node.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/districts/bank.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/districts/bank.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/httpserver.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/httpserver.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rrserver/railroad.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/railroad.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rrserver/rrobjects.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/rrobjects.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilities/HTML.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilities/HTML.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webapp/blockadj.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/webapp/blockadj.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/webapp/webapp.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/webapp/webapp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/todo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/todo.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,7 +111,7 @@
       <recent name="C:\Users\jeff\PycharmProjects\psrysuite2\src\webapp\templates" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.webapp">
+  <component name="RunManager" selected="Python.Satellite">
     <configuration name="Cliff Display" type="PythonConfigurationType" factoryName="Python">
       <module name="psrysuite2" />
       <option name="ENV_FILES" value="" />
@@ -353,10 +343,10 @@
       <item itemvalue="Python.Satellite" />
       <item itemvalue="Python.Yard Display" />
       <item itemvalue="Python.monitor" />
-      <item itemvalue="Python.sigtool" />
-      <item itemvalue="Python.webapp" />
-      <item itemvalue="Python.tester" />
       <item itemvalue="Python.scredit" />
+      <item itemvalue="Python.sigtool" />
+      <item itemvalue="Python.tester" />
+      <item itemvalue="Python.webapp" />
     </list>
   </component>
   <component name="SharedIndexes">
@@ -534,7 +524,15 @@
       <option name="project" value="LOCAL" />
       <updated>1786502315362</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="further dev of web app, added visibility to port switch locks and OS occupanct">
+      <option name="closed" value="true" />
+      <created>1788206172422</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1788206172422</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -557,6 +555,7 @@
     <MESSAGE value="added better visualization of o/i bits to monitor" />
     <MESSAGE value="moved version information into a separate python source file at the root directory" />
     <MESSAGE value="Removal of switch DSw5, started development of webapp" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removal of switch DSw5, started development of webapp" />
+    <MESSAGE value="further dev of web app, added visibility to port switch locks and OS occupanct" />
+    <option name="LAST_COMMIT_MESSAGE" value="further dev of web app, added visibility to port switch locks and OS occupanct" />
   </component>
 </project>

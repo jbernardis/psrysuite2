@@ -30,12 +30,13 @@ class InspectDlg(wx.Dialog):
         self.dlgTrains = None
         self.dlgAuditTrains = None
         self.dlgRelays = None
+        self.dlgBreakers = None
         self.dlgTurnoutLocks = None
         self.dlgBlockIgnoreOOS = None
         self.dlgSessions = None
         self.dlgBlockStat = None
 
-        self.dialogs = [self.dlgAdjacency, self.dlgOSProxy, self.dlgNodeStatus, self.dlgSignalLevers, self.dlgRelays,
+        self.dialogs = [self.dlgAdjacency, self.dlgOSProxy, self.dlgNodeStatus, self.dlgSignalLevers, self.dlgRelays, self.dlgBreakers,
                         self.dlgSidingLocks, self.dlgHilite, self.dlgRoutes, self.dlgTrains, self.dlgAuditTrains,
                         self.dlgTurnoutLocks,  self.dlgBlockIgnoreOOS, self.dlgSessions, self.dlgBlockStat]
 
@@ -83,10 +84,12 @@ class InspectDlg(wx.Dialog):
         self.Bind(wx.EVT_BUTTON, self.OnBBlockStat, bBlockStat)
         bWebApp = wx.Button(self, wx.ID_ANY, "Web App", size=BSIZE)
         self.Bind(wx.EVT_BUTTON, self.OnBWebApp, bWebApp)
+        bBreakers = wx.Button(self, wx.ID_ANY, "Breakers", size=BSIZE)
+        self.Bind(wx.EVT_BUTTON, self.OnBBreakers, bBreakers)
 
         bszl = []
 
-        buttonCols = [[bDebug, bLogLevel, bSessions, bNodes, bRelays],
+        buttonCols = [[bDebug, bLogLevel, bSessions, bNodes, bRelays, bBreakers],
                     [bAuditTrains, bActiveTrains, bRoutes, bProxies, bAdjacency, bBlockStat],
                     [bToLocks, bLevers, bHandSwitches, bResetBlks, bIgnoreBlks],
                     [bSigTool, bTester, bMonitor, bHilite, bWebApp]]
@@ -217,9 +220,25 @@ class InspectDlg(wx.Dialog):
             return []
 
         return rl
-        # relaysActive = [self.formatRelayName(rly) for rly in sorted(rl.keys()) if rl[rly]]
-        # relaysInactive = [self.formatRelayName(rly) for rly in sorted(rl.keys()) if not rl[rly]]
-        # return relaysActive, relaysInactive
+
+    def OnBBreakers(self, _):
+        bl = self.GetBreakerList()
+
+        try:
+            self.dlgBreakers.Raise()
+        except (AttributeError, RuntimeError):
+            self.dlgBreakers = BreakersDlg(self, self.parent,  bl)
+            self.dlgBreakers.Show()
+
+    def GetBreakerList(self):
+        bl = self.parent.Get("getbreakers", {})
+
+        if bl is None:
+            logging.debug("get breakers returned none")
+            return []
+
+        logging.debug("get breakers returns (%s)" % str(bl))
+        return bl
 
     def OnBBlockAdjacency(self, _):
         ba = self.parent.Get("blockadjacency", {})
@@ -1659,6 +1678,94 @@ class RelayDlg(wx.Dialog):
             row += 1
 
         wx.CallLater(100, grid.Refresh)
+
+
+class BreakersDlg(wx.Dialog):
+    def __init__(self, parent, frame, bl):
+        wx.Dialog.__init__(self, parent, wx.ID_ANY, "Breakers")
+        self.Bind(wx.EVT_CLOSE, self.OnClose)
+        self.parent = parent
+        self.frame = frame
+
+        headings = ["Breaker", "Tripped"]
+        colWidth = [120, 100]
+        colAlign = [wx.ALIGN_LEFT, wx.ALIGN_CENTER]
+        nRows = len(bl)
+        nCols = len(headings)
+
+        self.colorGreen = wx.Colour(119, 215, 126)
+        self.colorRed = wx.Colour(224, 149, 149)
+
+        # we want to have at least 5, at most 30 lines on the display
+        nr = nRows
+        if nr < 5:
+            nr = 5
+        elif nr > 30:
+            nr = 30
+        ht = int(33 + nr * 19)
+
+        self.RTgrid = gridlib.Grid(self, size=wx.Size(sum(colWidth) + 20, ht))
+        self.RTgrid.CreateGrid(nRows, nCols)
+        self.RTgrid.EnableGridLines(True)
+        self.RTgrid.SetGridLineColour(wx.BLACK)
+        self.RTgrid.SetRowLabelSize(2)
+
+        attrs = []
+        for c in range(nCols):
+            attr = wx.grid.GridCellAttr()
+            attr.SetAlignment(colAlign[c], wx.ALIGN_CENTER)
+            attr.SetReadOnly(True)
+            attrs.append(attr)
+
+        for i in range(nCols):
+            self.RTgrid.SetColLabelValue(i, headings[i])
+            self.RTgrid.SetColSize(i, colWidth[i])
+            self.RTgrid.SetColAttr(i, attrs[i])
+
+        self.PopulateGrid(bl)
+
+        vsz = wx.BoxSizer(wx.VERTICAL)
+        vsz.AddSpacer(20)
+
+        hsz = wx.BoxSizer(wx.HORIZONTAL)
+        hsz.AddSpacer(20)
+
+        hsz.Add(self.RTgrid, 0, wx.EXPAND)
+
+        hsz.AddSpacer(20)
+        vsz.Add(hsz)
+
+        vsz.AddSpacer(20)
+
+        bRefresh = wx.Button(self, wx.ID_ANY, "Refresh", size=wx.Size(100, 30))
+        self.Bind(wx.EVT_BUTTON, self.OnBRefresh, bRefresh)
+        vsz.Add(bRefresh, 0, wx.ALIGN_CENTER_HORIZONTAL)
+
+        vsz.AddSpacer(20)
+
+        self.SetSizer(vsz)
+        self.Fit()
+        self.Layout()
+
+    def PopulateGrid(self, bl):
+        row = 0
+        for bn in sorted(bl.keys()):
+            nm = bn[2:] if bn.startswith("CB") else bn
+            self.RTgrid.SetCellValue(row, 0, nm)
+            self.RTgrid.SetCellValue(row, 1, "None" if bl[bn] is None else str(bl[bn]))
+
+            tripped = False if bl[bn] is None else bl[bn]
+            self.RTgrid.SetCellBackgroundColour(row, 1, self.colorRed if tripped else self.colorGreen)
+            row += 1
+
+    def OnBRefresh(self, _):
+        bl = self.parent.GetBreakerList()
+        self.PopulateGrid(bl)
+        self.RTgrid.Refresh()
+        pass
+
+    def OnClose(self, _):
+        self.Destroy()
 
 
 class TurnoutLocksDlg(wx.Dialog):
