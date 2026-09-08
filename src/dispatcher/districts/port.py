@@ -972,10 +972,10 @@ class Port (District):
 			["PBSw13",  "toleftright",  ["POSCJ1", "POSCJ2"], (139, 35), (131, 42)],
 			["PBSw13b", "toleftleft",   ["POSCJ1", "POSCJ2"], (141, 33), None],
 
-			["PASw27",  "toleftup",     ["POSPJ1"], (118, 20), None],
-			["PASw29",  "toleftup",     ["POSPJ1"], (120, 22), None],
-			["PASw31",  "torightleft",  ["POSPJ1"], (122, 24), (111, 41)],
-			["PASw37",  "toleftright",  ["POSPJ1", "POSPJ2"], None, (111, 44)],
+			["PASw27",  "toleftup",     ["POSPJ1"], (118, 20), (111, 41)],
+			["PASw29",  "toleftup",     ["POSPJ1"], (120, 22), (111, 42)],
+			["PASw31",  "torightleft",  ["POSPJ1"], (122, 24), (111, 43)],
+			["PASw37",  "toleftright",  ["POSPJ1", "POSPJ2"], None, (111, 46)],
 
 			["PASw7",   "toleftleft",   ["POSSP2", "POSSP3"], (109, 24), (101, 44)],
 			["PASw9",   "torightright", ["POSSP2", "POSSP3", "POSSP4", "POSSP5"], (103, 28), (101, 45)],
@@ -1028,7 +1028,7 @@ class Port (District):
 		trnout.AddBlock("POSPJ2")
 		trnout.SetControllers(None, self.turnouts["PASw37"])
 		trnout.SetDisabled(True)
-		trnout.SetLockIndicator(Button(self, self.screen, self.frame, "PASw35", (111, 43), self.btntiles))
+		trnout.SetLockIndicator(Button(self, self.screen, self.frame, "PASw35", (111, 45), self.btntiles))
 		trnout.SetLock(False, True)
 		self.turnouts["PASw35"] = trnout
 
@@ -1037,7 +1037,7 @@ class Port (District):
 		trnout.AddBlock("POSPJ2")
 		trnout.SetControllers(None, self.turnouts["PASw35"])
 		trnout.SetDisabled(True)
-		trnout.SetLockIndicator(Button(self, self.screen, self.frame, "PASw33", (111, 42), self.btntiles))
+		trnout.SetLockIndicator(Button(self, self.screen, self.frame, "PASw33", (111, 44), self.btntiles))
 		trnout.SetLock(False, True)
 		self.turnouts["PASw33"] = trnout
 

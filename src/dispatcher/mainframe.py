@@ -2754,6 +2754,10 @@ class MainFrame(wx.Frame):
 				force = p["force"]
 			except:
 				force = False
+			try:
+				locked = p["locked"]
+			except:
+				locked = False
 
 			if turnout is None or state is None:
 				logging.error("Turnout command missing turnout name and/or state")
@@ -2764,10 +2768,15 @@ class MainFrame(wx.Frame):
 			except KeyError:
 				to = None
 				
-			if to is not None and state != to.GetStatus():
-				district = to.GetDistrict()
-				st = "R" if state == "R" else "N"
-				district.DoTurnoutAction(to, st, force=force)
+			if to is not None:
+				oldState = to.GetStatus()
+				if state != oldState:
+					district = to.GetDistrict()
+					st = "R" if state == "R" else "N"
+					district.DoTurnoutAction(to, st, force=force)
+
+				if locked != to.IsLocked():
+					to.SetLock(locked, refresh=True)
 
 	def DoCmdRelay(self, parms):
 		for p in parms:
