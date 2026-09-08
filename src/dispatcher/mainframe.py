@@ -2096,10 +2096,8 @@ class MainFrame(wx.Frame):
 			for lkr in lockers:
 				self.PopupEvent("locker: %s" % lkr)
 				if lkr in self.trains.keys():
-					self.PopupEvent("It's a train")
 					tnlist.append(self.trains[lkr].Name())
 				else:
-					self.PopupEvent("It's not a train")
 					tnlist.append(lkr)
 
 			lockstatemsg += ("  (%s)" % ", ".join(tnlist))
