@@ -525,7 +525,8 @@ class HTTPServer:
 			vbytes = [int(x) for x in cmd["byte"]]
 			vbits = [int(x) for x in cmd["bit"]]
 			vals = [int(x) for x in cmd["value"]]
-			self.rr.SetOutputBitByAddr(addr, vbytes, vbits, vals)
+			pulse = cmd.get("pulse", False)
+			self.rr.SetOutputBitByAddr(addr, vbytes, vbits, vals, pulse=pulse)
 			return 200, "Command received"
 		except Exception as e:
 			logging.info("Unknown error: %s" % str(e))

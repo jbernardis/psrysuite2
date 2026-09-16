@@ -230,6 +230,11 @@ class ServerMain:
 
 		self.socketServer.sendToOne(skt, addr, {"end": {}})
 
+		if not self.snapshotLoaded:
+			if settings.rrserver.autoloadsnapshot:
+				self.rr.LoadSnapshot(None)
+			self.snapshotLoaded = True
+
 		f = self.clientList.GetFunctionAtAddress(addr)
 		if f == "DISPATCH":
 			ibl = self.rr.GetIgnoredBlocks()
@@ -780,12 +785,7 @@ class ServerMain:
 			return
 
 		self.clientList.SetSessionFunction(sid, function, locale, address)
-		if function != "NODE":
-			if not self.snapshotLoaded:
-				if settings.rrserver.autoloadsnapshot:
-					self.rr.LoadSnapshot(None)
-				self.snapshotLoaded = True
-		else:
+		if function == "NODE" and address is not None:
 			ipaddr, skt = self.clientList.GetNodeSocketAtAddress(address)
 			if ipaddr is None or skt is None:
 				logging.error("Unable to find matching node address: %s" % address)

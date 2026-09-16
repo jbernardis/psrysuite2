@@ -25,7 +25,7 @@ import logging
 logging.basicConfig(filename=os.path.join(os.getcwd(), "logs", "%s.log" % fn), filemode='w',
                     format='%(asctime)s %(message)s', level=logging.INFO)
 
-BTNSZ = (100, 40)
+BTNSZ = wx.Size(100, 40)
 
 
 nodeInfo = [
@@ -71,7 +71,7 @@ class MyFrame(wx.Frame):
     def __init__(self):
         self.settings = Settings()
         
-        wx.Frame.__init__(self, None, wx.ID_ANY, "I/O Tester", size=(1, 1))
+        wx.Frame.__init__(self, None, wx.ID_ANY, "I/O Tester", size=wx.Size(1, 1))
         self.Bind(wx.EVT_CLOSE, self.onClose)
 
         self.bus = Bus(self.settings.rrserver.rrtty)
@@ -105,7 +105,7 @@ class MyFrame(wx.Frame):
 
         bitFont = wx.Font(12, wx.FONTFAMILY_TELETYPE, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, faceName="Monospace")
 
-        self.grid = gridlib.Grid(self, size=(sum(colWidth) + 20, ht))
+        self.grid = gridlib.Grid(self, size=wx.Size(sum(colWidth) + 20, ht))
         self.grid.CreateGrid(nRows, nCols)
         self.grid.EnableGridLines(False)
         self.grid.EnableEditing(False)

@@ -503,6 +503,7 @@ class Railroad:
 
 		if fn is None:
 			snapFile = snapList[-1]
+			self.Alert("Auto-loading snapshot %s" % snapFile)
 		elif fn in snapList:
 			snapFile = fn
 		else:
@@ -1766,13 +1767,16 @@ class Railroad:
 				for i in range(len(vbytes)):
 					dnodes[addr].SetInputBit(vbytes[i], vbits[i], 1 if vals[i] != 0 else 0)
 
-	def SetOutputBitByAddr(self, addr, vbytes, vbits, vals):
+	def SetOutputBitByAddr(self, addr, vbytes, vbits, vals, pulse=False):
 		# this routine handles the setoutbit command from HTTP server
 		logging.debug("setoutputbit addr %s bytes %s  bits %s vals %s" % (addr, str(vbytes), str(vbits), str(vals)))
 		for dnodes in self.nodes.values():
 			if addr in dnodes:
 				for i in range(len(vbytes)):
 					dnodes[addr].SetOutputBit(vbytes[i], vbits[i], 1 if vals[i] != 0 else 0)
+					nname = "0x%x:%d:%d" % (addr, vbytes[i], vbits[i])
+					if pulse and vals[i] != 0:
+						self.pulsedOutputs[nname] = PulseCounter(vbytes[i], vbits[i], self.topulsect, self.topulselen, dnodes[addr])
 
 	def AddPendingFleetAction(self, blknm, sig, osBlk, rte):
 		self.PendingFleetActions[blknm] = [sig, osBlk, rte]

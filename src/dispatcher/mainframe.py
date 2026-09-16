@@ -308,9 +308,9 @@ class MainFrame(wx.Frame):
 					if rc != wx.ID_OK:
 						return
 
-					dataFlags = [True if i in selections else False for i in range(4)]
-					if dataFlags[0] or dataFlags[2] or dataFlags[3]:
-						self.RetrieveData(report=True, trains=dataFlags[0], locos=dataFlags[2], engineers=dataFlags[3])
+					dataFlags = [True if i in selections else False for i in range(3)]
+					if dataFlags[0] or dataFlags[1] or dataFlags[2]:
+						self.RetrieveData(report=True, trains=dataFlags[0], locos=dataFlags[1], engineers=dataFlags[2])
 
 		else:
 			#self.PopupEvent("Key Code: %d" % kcd)

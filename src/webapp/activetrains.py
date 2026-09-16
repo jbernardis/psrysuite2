@@ -69,8 +69,6 @@ class ActiveTrains:
 
 		html += HTML.table({}, hdgHtml + "".join(rows))
 
-		html += str(tl)
-
 		html += "<br><br>"
 
 		html += HTML.startdiv({"class": "atrefresh"})

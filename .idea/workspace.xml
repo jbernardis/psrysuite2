@@ -4,7 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="fixed omission in port turnoutlock display" />
+    <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="fixed display of lock information when right clicking a turnout">
+      <change afterPath="$PROJECT_DIR$/src/webapp/turnoutcontrol.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/engineers.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/engineers.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/locos.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/locos.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dispatcher/mainframe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/mainframe.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/httpserver.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/httpserver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/railroad.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/railroad.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tester/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webapp/activetrains.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/webapp/activetrains.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webapp/sigtester.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/webapp/sigtester.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webapp/webapp.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/webapp/webapp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/todo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/todo.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -60,7 +74,10 @@
     &quot;Python.Satellite.executor&quot;: &quot;Run&quot;,
     &quot;Python.Yard Display.executor&quot;: &quot;Run&quot;,
     &quot;Python.fixtrains.executor&quot;: &quot;Run&quot;,
+    &quot;Python.log analyzer.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
     &quot;Python.monitor.executor&quot;: &quot;Run&quot;,
+    &quot;Python.scanlog.executor&quot;: &quot;Run&quot;,
     &quot;Python.scredit.executor&quot;: &quot;Run&quot;,
     &quot;Python.sigtool.executor&quot;: &quot;Run&quot;,
     &quot;Python.tester.executor&quot;: &quot;Run&quot;,
@@ -97,7 +114,7 @@
       <recent name="C:\Users\jeff\PycharmProjects\psrysuite2\src\webapp\templates" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Satellite">
+  <component name="RunManager" selected="Python.Yard Display">
     <configuration name="Cliff Display" type="PythonConfigurationType" factoryName="Python">
       <module name="psrysuite2" />
       <option name="ENV_FILES" value="" />
@@ -191,6 +208,31 @@
       <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/dispatcher/main.py" />
       <option name="PARAMETERS" value="--locale=yard --display" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="log analyzer" type="PythonConfigurationType" factoryName="Python">
+      <module name="psrysuite2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.13 (psrysuite2)" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\jeff\PycharmProjects\psrysuite2\src" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/loganalyzer/main.py" />
+      <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -333,6 +375,7 @@
       <item itemvalue="Python.sigtool" />
       <item itemvalue="Python.tester" />
       <item itemvalue="Python.webapp" />
+      <item itemvalue="Python.log analyzer" />
     </list>
   </component>
   <component name="SharedIndexes">
@@ -534,7 +577,15 @@
       <option name="project" value="LOCAL" />
       <updated>1788899398624</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="fixed display of lock information when right clicking a turnout">
+      <option name="closed" value="true" />
+      <created>1788899630057</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1788899630057</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -560,6 +611,7 @@
     <MESSAGE value="further dev of web app, added visibility to port switch locks and OS occupanct" />
     <MESSAGE value="further dev of web app, working on issues surrounding advance signal B20E" />
     <MESSAGE value="fixed omission in port turnoutlock display" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed omission in port turnoutlock display" />
+    <MESSAGE value="fixed display of lock information when right clicking a turnout" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed display of lock information when right clicking a turnout" />
   </component>
 </project>

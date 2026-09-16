@@ -24,7 +24,6 @@ class SigTester:
 		self.rrserver = rrserver
 		self.signals = Signals(self.rrserver)
 
-
 	def ProcessURL(self, urlinfo):
 		path, query, params = urlinfo
 
@@ -166,7 +165,6 @@ class SigTester:
 		css.addElement("div.aspectlist", {"padding-left": "35px"})
 		css.addElement("div.sigattributes", {"padding-left": "55px"})
 		return css
-
 
 	def AspectValueString(self, aspect, aspectType, nbits):
 		print("aspect value string for aspect %s type %s nbits %d" % (aspect, aspectType, nbits))

@@ -16,7 +16,7 @@ possible webapp functionality:
     turnout locks
 
 
-
+break train - simple split for 1 block
 
 
 

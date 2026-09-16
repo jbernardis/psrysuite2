@@ -22,6 +22,7 @@ from getbits import GetBits
 from blockadj import BlockAdjacency
 from activeroutes import ActiveRoutes
 from activetrains import ActiveTrains
+from turnoutcontrol import TurnoutControl
 
 logging.basicConfig(filename=os.path.join(os.getcwd(), "logs", "webapp.log"), filemode='w', format='%(asctime)s %(message)s', level=logging.DEBUG)
 
@@ -134,6 +135,7 @@ class WebApp:
 		self.blockAdjacency = BlockAdjacency(self, self.rrserver)
 		self.activeRoutes = ActiveRoutes(self, self.rrserver)
 		self.activeTrains = ActiveTrains(self, self.rrserver)
+		self.turnoutControl = TurnoutControl(self, self.rrserver)
 		logging.info("Web server started")
 
 	def getThread(self):
@@ -150,6 +152,8 @@ class WebApp:
 
 	def ProcessURL(self, urlinfo):
 		path, query, params = urlinfo
+
+		logging.debug("WA PProcess UR: %s %s %s" % (path, str(query), str(params)))
 
 		if path == "menuchoice":
 			if "signal" in query.keys():
@@ -182,6 +186,12 @@ class WebApp:
 					html = self.HTMLMainMenu()
 				return html
 
+			elif "turnout" in query.keys():
+				html = self.turnoutControl.ProcessURL(urlinfo)
+				if html is None:
+					html = self.HTMLMainMenu()
+				return html
+
 			elif "back" in query.keys():
 				return self.HTMLMainMenu()
 			else:
@@ -190,6 +200,12 @@ class WebApp:
 
 		elif path in ["sigchoice", "aspectsend"]:
 			html = self.sigTester.ProcessURL(urlinfo)
+			if html is None:
+				return self.HTMLMainMenu()
+			return html
+
+		elif path in ["turnoutchoice", "sendnormal", "sendreverse", "turnoutrefresh"]:
+			html = self.turnoutControl.ProcessURL(urlinfo)
 			if html is None:
 				return self.HTMLMainMenu()
 			return html
@@ -244,6 +260,7 @@ class WebApp:
 		html += "<br><br>"
 		btns = [
 			HTML.button({"type": "submit", "class": "menu", "id": "signal", "name": "signal"}, "Signal Tester"),
+			HTML.button({"type": "submit", "class": "menu", "id": "turnout", "name": "turnout"}, "Turnout Control"),
 			HTML.button({"type": "submit", "class": "menu", "id": "getbits", "name": "getbits"}, "Get O/I Bits"),
 			HTML.button({"type": "submit", "class": "menu", "id": "blockadj", "name": "blockadj"}, "Block Adjacency"),
 			HTML.button({"type": "submit", "class": "menu", "id": "actroutes", "name": "actroutes"}, "Active Routes"),

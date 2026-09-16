@@ -1767,6 +1767,18 @@
     "limit": 0,
     "short": false
   },
+  "7000": {
+    "desc": "loco 7000",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "short": false
+  },
   "7447": {
     "desc": "",
     "prof": {
