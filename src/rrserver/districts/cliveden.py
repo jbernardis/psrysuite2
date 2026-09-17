@@ -20,14 +20,14 @@ class Cliveden(District):
 		addr = CLIVEDEN
 		with self.nodes[addr] as n:
 			#outputs
-			self.rr.AddSignal("C14L",  self, n, addr, [(0, 0), (0, 1), (0, 2)])
-			self.rr.AddSignal("C14RA", self, n, addr, [(0, 3), (0, 4), (0, 5)])
-			self.rr.AddSignal("C14RB", self, n, addr, [(0, 6), (0, 7), (1, 0)])		
-			self.rr.AddSignal("C12L",  self, n, addr, [(1, 1), (1, 2), (1, 3)])
-			self.rr.AddSignal("C10L",  self, n, addr, [(1, 4), (1, 5), (1, 6)])
+			self.rr.AddSignal("C14L",  self, n, addr, [(0, 0), (0, 1), (0, 2)], leverName="C14")
+			self.rr.AddSignal("C14RA", self, n, addr, [(0, 3), (0, 4), (0, 5)], leverName="C14")
+			self.rr.AddSignal("C14RB", self, n, addr, [(0, 6), (0, 7), (1, 0)], leverName="C14")
+			self.rr.AddSignal("C12L",  self, n, addr, [(1, 1), (1, 2), (1, 3)], leverName="C12")
+			self.rr.AddSignal("C10L",  self, n, addr, [(1, 4), (1, 5), (1, 6)], leverName="C10")
 			# bit 1:7 unused
-			self.rr.AddSignal("C12R",  self, n, addr, [(2, 0), (2, 1), (2, 2)])
-			self.rr.AddSignal("C10R",  self, n, addr, [(2, 3), (2, 4), (2, 5)])
+			self.rr.AddSignal("C12R",  self, n, addr, [(2, 0), (2, 1), (2, 2)], leverName="C12")
+			self.rr.AddSignal("C10R",  self, n, addr, [(2, 3), (2, 4), (2, 5)], leverName="C10")
 
 			self.rr.AddHandswitchInd("CSw11", self, n, addr, [(2, 6)], inverted=True)
 			

@@ -33,20 +33,20 @@ class Port(District):
 		# Port A - Southport
 		addr = PORTA
 		with self.nodes[PORTA] as n:
-			self.rr.AddSignal("PA12R",  self, n, addr, [(0, 0), (0, 1)])
-			self.rr.AddSignal("PA10RA", self, n, addr, [(0, 2), (0, 3)])
-			self.rr.AddSignal("PA12LA", self, n, addr, [(0, 4)])
-			self.rr.AddSignal("PA10RB", self, n, addr, [(0, 5), (0, 6)])
-			self.rr.AddSignal("PA8R",   self, n, addr, [(0, 7), (1, 0)])
-			self.rr.AddSignal("PA12LB", self, n, addr, [(1, 1)])
-			self.rr.AddSignal("PA6R",   self, n, addr, [(1, 2), (1, 3)])
-			self.rr.AddSignal("PA4RA",  self, n, addr, [(1, 4), (1, 5)])
-			self.rr.AddSignal("PA12LC", self, n, addr, [(1, 6)])
-			self.rr.AddSignal("PA4RB",  self, n, addr, [(1, 7), (2, 0)])
-			self.rr.AddSignal("PA8L",   self, n, addr, [(2, 1)])
-			self.rr.AddSignal("PA6LA",  self, n, addr, [(2, 2)])
-			self.rr.AddSignal("PA6LB",  self, n, addr, [(2, 3)])
-			self.rr.AddSignal("PA6LC",  self, n, addr, [(2, 4)])
+			self.rr.AddSignal("PA12R",  self, n, addr, [(0, 0), (0, 1)], leverName="PA12")
+			self.rr.AddSignal("PA10RA", self, n, addr, [(0, 2), (0, 3)], leverName="PA10")
+			self.rr.AddSignal("PA12LA", self, n, addr, [(0, 4)], leverName="PA12")
+			self.rr.AddSignal("PA10RB", self, n, addr, [(0, 5), (0, 6)], leverName="PA10")
+			self.rr.AddSignal("PA8R",   self, n, addr, [(0, 7), (1, 0)], leverName="PA8")
+			self.rr.AddSignal("PA12LB", self, n, addr, [(1, 1)], leverName="PA12")
+			self.rr.AddSignal("PA6R",   self, n, addr, [(1, 2), (1, 3)], leverName="PA6")
+			self.rr.AddSignal("PA4RA",  self, n, addr, [(1, 4), (1, 5)], leverName="PA4")
+			self.rr.AddSignal("PA12LC", self, n, addr, [(1, 6)], leverName="PA12")
+			self.rr.AddSignal("PA4RB",  self, n, addr, [(1, 7), (2, 0)], leverName="PA4")
+			self.rr.AddSignal("PA8L",   self, n, addr, [(2, 1)], leverName="PA8")
+			self.rr.AddSignal("PA6LA",  self, n, addr, [(2, 2)], leverName="PA6")
+			self.rr.AddSignal("PA6LB",  self, n, addr, [(2, 3)], leverName="PA6")
+			self.rr.AddSignal("PA6LC",  self, n, addr, [(2, 4)], leverName="PA6")
 			self.rr.AddOutputDevice("P10.clrw",  self, n, addr, [2, 5]) # semaphore for P10
 			self.rr.AddOutputDevice("P10.rstw",  self, n, addr, [2, 6])
 			self.rr.AddSignal("PA4L",   self, n, addr, [])  # virtual signals for semaphores
@@ -168,15 +168,15 @@ class Port(District):
 		addr = PARSONS	
 		with self.nodes[PARSONS] as n:
 			#outputs
-			self.rr.AddSignal("PA34LB", self, n, addr, [(0, 0), (0, 1), (0, 2)])
-			self.rr.AddSignal("PA32L",  self, n, addr, [(0, 3)])
-			self.rr.AddSignal("PA34LA", self, n, addr, [(0, 4), (0, 5), (0, 6)])
-			self.rr.AddSignal("PA34RD", self, n, addr, [(0, 7), (1, 0), (1, 1)])
-			self.rr.AddSignal("PA34RC", self, n, addr, [(1, 2)])
-			self.rr.AddSignal("PA32RA", self, n, addr, [(1, 3), (1, 4), (1, 5)])
-			self.rr.AddSignal("PA34RB", self, n, addr, [(1, 6)])
-			self.rr.AddSignal("PA32RB", self, n, addr, [(1, 7), (2, 0), (2, 1)])
-			self.rr.AddSignal("PA34RA", self, n, addr, [(2, 2)])
+			self.rr.AddSignal("PA34LB", self, n, addr, [(0, 0), (0, 1), (0, 2)], leverName="PA34")
+			self.rr.AddSignal("PA32L",  self, n, addr, [(0, 3)], leverName="PA32")
+			self.rr.AddSignal("PA34LA", self, n, addr, [(0, 4), (0, 5), (0, 6)], leverName="PA34")
+			self.rr.AddSignal("PA34RD", self, n, addr, [(0, 7), (1, 0), (1, 1)], leverName="PA34")
+			self.rr.AddSignal("PA34RC", self, n, addr, [(1, 2)], leverName="PA34")
+			self.rr.AddSignal("PA32RA", self, n, addr, [(1, 3), (1, 4), (1, 5)], leverName="PA32")
+			self.rr.AddSignal("PA34RB", self, n, addr, [(1, 6)], leverName="PA32")
+			self.rr.AddSignal("PA32RB", self, n, addr, [(1, 7), (2, 0), (2, 1)], leverName="PA32")
+			self.rr.AddSignal("PA34RA", self, n, addr, [(2, 2)], leverName="PA34")
 
 			self.rr.AddStopRelay("P20.srel", self, n, addr, [(2, 3)])
 			self.rr.AddStopRelay("P30.srel", self, n, addr, [(2, 4)])
@@ -224,14 +224,14 @@ class Port(District):
 		addr = PORTB
 		with self.nodes[PORTB] as n:
 			#outputs
-			self.rr.AddSignal("PB2L",  self, n, addr, [(0, 0), (0, 1), (0, 2)])
-			self.rr.AddSignal("PB4L",  self, n, addr, [(0, 3), (0, 4), (0, 5)])
-			self.rr.AddSignal("PB2R",  self, n, addr, [(0, 6), (0, 7), (1, 0)])
-			self.rr.AddSignal("PB4R",  self, n, addr, [(1, 1), (1, 2), (1, 3)])
-			self.rr.AddSignal("PB12R", self, n, addr, [(1, 4), (1, 5), (1, 6)])
-			self.rr.AddSignal("PB14R", self, n, addr, [(1, 7), (2, 0), (2, 1)])
-			self.rr.AddSignal("PB12L", self, n, addr, [(2, 2), (2, 3), (2, 4)])
-			self.rr.AddSignal("PB14L", self, n, addr, [(2, 5), (2, 6), (2, 7)])
+			self.rr.AddSignal("PB2L",  self, n, addr, [(0, 0), (0, 1), (0, 2)], leverName="PB2")
+			self.rr.AddSignal("PB4L",  self, n, addr, [(0, 3), (0, 4), (0, 5)], leverName="PB4")
+			self.rr.AddSignal("PB2R",  self, n, addr, [(0, 6), (0, 7), (1, 0)], leverName="PB2")
+			self.rr.AddSignal("PB4R",  self, n, addr, [(1, 1), (1, 2), (1, 3)], leverName="PB4")
+			self.rr.AddSignal("PB12R", self, n, addr, [(1, 4), (1, 5), (1, 6)], leverName="PB12")
+			self.rr.AddSignal("PB14R", self, n, addr, [(1, 7), (2, 0), (2, 1)], leverName="PB14")
+			self.rr.AddSignal("PB12L", self, n, addr, [(2, 2), (2, 3), (2, 4)], leverName="PB12")
+			self.rr.AddSignal("PB14L", self, n, addr, [(2, 5), (2, 6), (2, 7)], leverName="PB14")
 
 			self.rr.AddSignalLED("PB2",  self, n, addr, [(3, 0), (3, 1), (3, 2)])
 			self.rr.AddSignalLED("PB4",  self, n, addr, [(3, 3), (3, 4), (3, 5)])

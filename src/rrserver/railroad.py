@@ -1068,6 +1068,13 @@ class Railroad:
 
 		sig.SetAspect(aspect)
 
+		if aspect == 0:
+			ln = sig.GetLeverName()
+			if ln is not None:
+				lvr = self.signalLevers.get(ln, None)
+				if lvr is not None:
+					lvr.UpdateLed(0, 0)
+
 	def UpdateSignalLeverLEDs(self, sig, aspect, callon):
 		r = self.reSigName.findall(sig.Name())
 		if len(r) != 1 or len(r[0]) != 2:
@@ -1296,16 +1303,24 @@ class Railroad:
 		self.stopRelays[name] = r
 		return r
 	
-	def AddSignal(self, name, district, node, address, bits):
+	def AddSignal(self, name, district, node, address, bits, leverName=None):
+		#  determine the lever name - if any
+		# z = re.match("([A-Za-z]+[0-9]+)", name)
+		# if z is None or len(z.groups()) != 1:
+		# 	ln = None
+		# else:
+		# 	ln = z.groups()[0]
+
 		try:
 			s = self.signals[name]
-				
+
 		except KeyError:
 			# this is the normal scenario
 			s = None
 			
 		if s is None:
 			s = Signal(name, district, node, address)
+			s.SetLeverName(leverName)
 		else:
 			if s.IsNullSignal():
 				s.SetSignalAddress(district, node, address)
@@ -2022,8 +2037,10 @@ class Railroad:
 						self.AddPendingFleetAction(exbn, sig, obj.OS(), obj.OS().ActiveRouteName())
 
 					if sig is not None:
+						if self.settings.debug.blockoccupancy:
+							self.Alert("Passing signal - set it's aspect to 0")
 						passSignal = True  # the train has passed the signal - ignore subsequent aspect changes
-						sig.SetAspect(0)
+						self.SetAspect(sigEnt, 0)
 						obj.OS().LockRoute(False, sig.Name())
 						self.RailroadEvent((sig.GetEventMessage()))
 

@@ -4,20 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="fixed display of lock information when right clicking a turnout">
-      <change afterPath="$PROJECT_DIR$/src/webapp/turnoutcontrol.py" afterDir="false" />
+    <list default="true" id="d7097add-2811-4f51-ab12-ebd04929b382" name="Changes" comment="continued expansion of webapp capabilities, fixed timing issue with regard to automatically loading the most recent snapshot">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/engineers.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/engineers.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/locos.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/locos.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dispatcher/mainframe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dispatcher/mainframe.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rrserver/httpserver.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/httpserver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rrserver/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/districts/bank.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/districts/bank.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/districts/cliff.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/districts/cliff.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/districts/cliveden.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/districts/cliveden.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/districts/nassau.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/districts/nassau.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/districts/port.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/districts/port.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/districts/yard.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/districts/yard.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rrserver/railroad.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/railroad.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tester/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tester/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webapp/activetrains.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/webapp/activetrains.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webapp/sigtester.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/webapp/sigtester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webapp/webapp.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/webapp/webapp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/todo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/todo.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rrserver/rrobjects.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/rrserver/rrobjects.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/version.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/version.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -585,7 +582,15 @@
       <option name="project" value="LOCAL" />
       <updated>1788899630057</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="continued expansion of webapp capabilities, fixed timing issue with regard to automatically loading the most recent snapshot">
+      <option name="closed" value="true" />
+      <created>1789580477939</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1789580477939</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -612,6 +617,7 @@
     <MESSAGE value="further dev of web app, working on issues surrounding advance signal B20E" />
     <MESSAGE value="fixed omission in port turnoutlock display" />
     <MESSAGE value="fixed display of lock information when right clicking a turnout" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed display of lock information when right clicking a turnout" />
+    <MESSAGE value="continued expansion of webapp capabilities, fixed timing issue with regard to automatically loading the most recent snapshot" />
+    <option name="LAST_COMMIT_MESSAGE" value="continued expansion of webapp capabilities, fixed timing issue with regard to automatically loading the most recent snapshot" />
   </component>
 </project>

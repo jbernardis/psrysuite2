@@ -30,11 +30,11 @@ class Yard(District):
 		addr = CORNELL
 		with self.nodes[addr] as n:
 			# outputs
-			self.rr.AddSignal("Y4L",  self, n, addr, [(0, 0), (0, 1), (0, 2)])
-			self.rr.AddSignal("Y2L",  self, n, addr, [(0, 3)])
-			self.rr.AddSignal("Y2R",  self, n, addr, [(0, 4), (0, 5), (0, 6)])
-			self.rr.AddSignal("Y4RA", self, n, addr, [(0, 7), (1, 0), (1, 1)])
-			self.rr.AddSignal("Y4RB", self, n, addr, [(1, 2)])
+			self.rr.AddSignal("Y4L",  self, n, addr, [(0, 0), (0, 1), (0, 2)], leverName="Y4")
+			self.rr.AddSignal("Y2L",  self, n, addr, [(0, 3)], leverName="Y2")
+			self.rr.AddSignal("Y2R",  self, n, addr, [(0, 4), (0, 5), (0, 6)], leverName="Y2")
+			self.rr.AddSignal("Y4RA", self, n, addr, [(0, 7), (1, 0), (1, 1)], leverName="Y4")
+			self.rr.AddSignal("Y4RB", self, n, addr, [(1, 2)], leverName="Y4")
 			
 			self.rr.AddStopRelay("Y21.srel", self, n, addr, [(1, 3)])
 			self.rr.AddStopRelay("L10.srel", self, n, addr, [(1, 4)])
@@ -58,12 +58,12 @@ class Yard(District):
 		addr = EASTJCT
 		with self.nodes[addr] as n:
 			# outputs
-			self.rr.AddSignal("Y10L", self, n, addr, [(0, 0), (0, 1), (0, 2)])
-			self.rr.AddSignal("Y8LA", self, n, addr, [(0, 3)])
-			self.rr.AddSignal("Y8LB", self, n, addr, [(0, 4)])
-			self.rr.AddSignal("Y8LC", self, n, addr, [(0, 5)])
-			self.rr.AddSignal("Y8R",  self, n, addr, [(0, 6), (0, 7), (1, 0)])
-			self.rr.AddSignal("Y10R", self, n, addr, [(1, 1)])
+			self.rr.AddSignal("Y10L", self, n, addr, [(0, 0), (0, 1), (0, 2)], leverName="Y10")
+			self.rr.AddSignal("Y8LA", self, n, addr, [(0, 3)], leverName="Y8")
+			self.rr.AddSignal("Y8LB", self, n, addr, [(0, 4)], leverName="Y8")
+			self.rr.AddSignal("Y8LC", self, n, addr, [(0, 5)], leverName="Y8")
+			self.rr.AddSignal("Y8R",  self, n, addr, [(0, 6), (0, 7), (1, 0)], leverName="Y8")
+			self.rr.AddSignal("Y10R", self, n, addr, [(1, 1)], leverName="Y10")
 			
 			self.rr.AddStopRelay("Y20.srel", self, n, addr, [(1, 2)])
 			self.rr.AddStopRelay("Y11.srel", self, n, addr, [(1, 3)])
@@ -89,18 +89,18 @@ class Yard(District):
 		addr = KALE
 		with self.nodes[addr] as n:
 			# outputs
-			self.rr.AddSignal("Y22L",  self, n, addr, [(0, 0)])
-			self.rr.AddSignal("Y26LA", self, n, addr, [(0, 1)])
-			self.rr.AddSignal("Y26LB", self, n, addr, [(0, 2)])
-			self.rr.AddSignal("Y26LC", self, n, addr, [(0, 3)])
-			self.rr.AddSignal("Y24LA", self, n, addr, [(0, 4)])
-			self.rr.AddSignal("Y24LB", self, n, addr, [(0, 5)])
+			self.rr.AddSignal("Y22L",  self, n, addr, [(0, 0)], leverName="Y22")
+			self.rr.AddSignal("Y26LA", self, n, addr, [(0, 1)], leverName="Y26")
+			self.rr.AddSignal("Y26LB", self, n, addr, [(0, 2)], leverName="Y26")
+			self.rr.AddSignal("Y26LC", self, n, addr, [(0, 3)], leverName="Y26")
+			self.rr.AddSignal("Y24LA", self, n, addr, [(0, 4)], leverName="Y24")
+			self.rr.AddSignal("Y24LB", self, n, addr, [(0, 5)], leverName="Y24")
 			
 			self.rr.AddSignal("Y20H",  self, n, addr, [(0, 6)])  # these are the 2 bits to be used for roger's new signal bridge
 			self.rr.AddSignal("Y20D",  self, n, addr, [(0, 7)])
 
-			self.rr.AddSignal("Y26R", self, n, addr, [(1, 0)])
-			self.rr.AddSignal("Y22R", self, n, addr, [(1, 1), (1, 2)]) # 
+			self.rr.AddSignal("Y26R", self, n, addr, [(1, 0)], leverName="Y26")
+			self.rr.AddSignal("Y22R", self, n, addr, [(1, 1), (1, 2)], leverName="Y22")
 
 			# inputs
 			self.rr.AddTurnoutPosition("YSw17", self, n, addr, [(0, 0), (0, 1)])
@@ -135,9 +135,9 @@ class Yard(District):
 			self.rr.AddSignalLED("Y26", self, n, addr, [(2, 3), (2, 2), (2, 1)])
 			self.rr.AddSignalLED("Y34", self, n, addr, [(2, 6), (2, 5), (2, 4)])
 			
-			self.rr.AddSignal("Y34RA", self, n, addr, [(2, 7)])
-			self.rr.AddSignal("Y34RB", self, n, addr, [(3, 0)])
-			self.rr.AddSignal("Y34L",  self, n, addr, [(3, 1), (3, 2), (3, 3)])
+			self.rr.AddSignal("Y34RA", self, n, addr, [(2, 7)], leverName="Y34")
+			self.rr.AddSignal("Y34RB", self, n, addr, [(3, 0)], leverName="Y34")
+			self.rr.AddSignal("Y34L",  self, n, addr, [(3, 1), (3, 2), (3, 3)], leverName="Y34")
 						
 			self.rr.AddBreakerInd("CBKale",       self, n, addr, [(3, 4)])
 			self.rr.AddBreakerInd("CBEastEndJct", self, n, addr, [(3, 5)])

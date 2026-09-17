@@ -20,13 +20,13 @@ class Bank(District):
 		addr = BANK
 		with self.nodes[addr] as n:
 			# outputs
-			self.rr.AddSignal("C22L",  self, n, addr, [(0, 0)])
-			self.rr.AddSignal("C24L",  self, n, addr, [(0, 1), (0, 2), (0, 3)])
-			self.rr.AddSignal("C24R",  self, n, addr, [(0, 4), (0, 5), (0, 6)])
-			self.rr.AddSignal("C22R",  self, n, addr, [(0, 7), (1, 0), (1, 1)])
-			self.rr.AddSignal("C18LA", self, n, addr, [(1, 2)])
-			self.rr.AddSignal("C18LB", self, n, addr, [(1, 3), (1, 4), (1, 5)])
-			self.rr.AddSignal("C18R",  self, n, addr, [(1, 6), (1, 7), (2, 0)])
+			self.rr.AddSignal("C22L",  self, n, addr, [(0, 0)], leverName="C22")
+			self.rr.AddSignal("C24L",  self, n, addr, [(0, 1), (0, 2), (0, 3)], leverName="C24")
+			self.rr.AddSignal("C24R",  self, n, addr, [(0, 4), (0, 5), (0, 6)], leverName="C24")
+			self.rr.AddSignal("C22R",  self, n, addr, [(0, 7), (1, 0), (1, 1)], leverName="C22")
+			self.rr.AddSignal("C18LA", self, n, addr, [(1, 2)], leverName="C18")
+			self.rr.AddSignal("C18LB", self, n, addr, [(1, 3), (1, 4), (1, 5)], leverName="C18")
+			self.rr.AddSignal("C18R",  self, n, addr, [(1, 6), (1, 7), (2, 0)], leverName="C18")
 
 			self.rr.AddBlockInd("B10", self, n, addr, [(2, 1)])
 			self.rr.AddBlockInd("C13", self, n, addr, [(2, 2)])

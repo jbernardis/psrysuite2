@@ -31,17 +31,17 @@ class Nassau(District):
 
 		addr = NASSAUW
 		with self.nodes[addr] as n:
-			self.rr.AddSignal("N14LC", self, n, addr,[(0, 0)])
-			self.rr.AddSignal("N14LB", self, n, addr,[(0, 1)])
-			self.rr.AddSignal("N20R",  self, n, addr,[(0, 2)])
-			self.rr.AddSignal("N20L",  self, n, addr,[(0, 3)])
-			self.rr.AddSignal("N14LA", self, n, addr,[(0, 4), (0, 5)])
-			self.rr.AddSignal("N16L",  self, n, addr,[(0, 6), (0, 7)])
-			self.rr.AddSignal("N18LB", self, n, addr,[(1, 0), (1, 1)])
-			self.rr.AddSignal("N18LA", self, n, addr,[(1, 2), (1, 3)])
-			self.rr.AddSignal("N16R",  self, n, addr,[(1, 4), (1, 5)])
-			self.rr.AddSignal("N14R",  self, n, addr,[(1, 6), (7, 3)]) # Transferred to byte 7:3: 1:7 bad bit
-			self.rr.AddSignal("N18R",  self, n, addr,[(2, 0)])
+			self.rr.AddSignal("N14LC", self, n, addr,[(0, 0)], leverName="N14")
+			self.rr.AddSignal("N14LB", self, n, addr,[(0, 1)], leverName="N14")
+			self.rr.AddSignal("N20R",  self, n, addr,[(0, 2)], leverName="N20")
+			self.rr.AddSignal("N20L",  self, n, addr,[(0, 3)], leverName="N20")
+			self.rr.AddSignal("N14LA", self, n, addr,[(0, 4), (0, 5)], leverName="N14")
+			self.rr.AddSignal("N16L",  self, n, addr,[(0, 6), (0, 7)], leverName="N16")
+			self.rr.AddSignal("N18LB", self, n, addr,[(1, 0), (1, 1)], leverName="N18")
+			self.rr.AddSignal("N18LA", self, n, addr,[(1, 2), (1, 3)], leverName="N18")
+			self.rr.AddSignal("N16R",  self, n, addr,[(1, 4), (1, 5)], leverName="N16")
+			self.rr.AddSignal("N14R",  self, n, addr,[(1, 6), (7, 3)], leverName="N14") # Transferred to byte 7:3: 1:7 bad bit
+			self.rr.AddSignal("N18R",  self, n, addr,[(2, 0)], leverName="N18")
 			self.rr.AddSignal("N11W",  self, n, addr,[(2, 1), (2, 2), (2, 3)])
 			self.rr.AddSignal("N21W",  self, n, addr,[(2, 4), (2, 5), (2, 6)])
 
@@ -79,8 +79,8 @@ class Nassau(District):
 			self.rr.AddStopRelay("N21.srel", self, n, addr, [(7, 2)])
 			# Bit 7:3 used for signal N14R above
 			
-			self.rr.AddSignal("N14LD", self, n, addr, [(7, 4)])
-			self.rr.AddSignal("N24RD", self, n, addr, [(7, 5)])
+			self.rr.AddSignal("N14LD", self, n, addr, [(7, 4)], leverName="N14")
+			self.rr.AddSignal("N24RD", self, n, addr, [(7, 5)], leverName="N24")
 
 			# virtual turnouts - no output bits
 			self.rr.AddTurnout("NSw19", self, n, addr, [])
@@ -159,17 +159,17 @@ class Nassau(District):
 		addr = NASSAUE
 		with self.nodes[addr] as n:
 			# outputs
-			self.rr.AddSignal("N24RB",  self, n, addr, [(0, 0), (0, 1)])
-			self.rr.AddSignal("N24RC",  self, n, addr, [(0, 2), (0, 3)])
-			self.rr.AddSignal("N26RC",  self, n, addr, [(0, 4), (0, 5)])
-			self.rr.AddSignal("N24RA",  self, n, addr, [(0, 6), (0, 7)])
-			self.rr.AddSignal("N26RA",  self, n, addr, [(1, 0)])
-			self.rr.AddSignal("N26RB",  self, n, addr, [(1, 1)])
-			self.rr.AddSignal("N28R",   self, n, addr, [(1, 2)])
+			self.rr.AddSignal("N24RB",  self, n, addr, [(0, 0), (0, 1)], leverName="N24")
+			self.rr.AddSignal("N24RC",  self, n, addr, [(0, 2), (0, 3)], leverName="N24")
+			self.rr.AddSignal("N26RC",  self, n, addr, [(0, 4), (0, 5)], leverName="N26")
+			self.rr.AddSignal("N24RA",  self, n, addr, [(0, 6), (0, 7)], leverName="N24")
+			self.rr.AddSignal("N26RA",  self, n, addr, [(1, 0)], leverName="N26")
+			self.rr.AddSignal("N26RB",  self, n, addr, [(1, 1)], leverName="N26")
+			self.rr.AddSignal("N28R",   self, n, addr, [(1, 2)], leverName="N28")
 			self.rr.AddSignal("B20E",   self, n, addr, [(1, 3), (1, 4), (1, 5)])
-			self.rr.AddSignal("N24L",   self, n, addr, [(1, 6)])
-			self.rr.AddSignal("N26L",   self, n, addr, [(1, 7), (2, 0)])
-			self.rr.AddSignal("N28L",   self, n, addr, [(2, 1), (2, 2)])
+			self.rr.AddSignal("N24L",   self, n, addr, [(1, 6)], leverName="N24")
+			self.rr.AddSignal("N26L",   self, n, addr, [(1, 7), (2, 0)], leverName="N26")
+			self.rr.AddSignal("N28L",   self, n, addr, [(2, 1), (2, 2)], leverName="N28")
 			
 			self.rr.AddLock("NESL0", self, n, addr, [(2, 3)]) # switch locks east
 			self.rr.AddLock("NESL1", self, n, addr, [(2, 4)])

@@ -1244,6 +1244,7 @@ class Signal:
 		self.callon = False
 		self.fleeted = False
 		self.train = None
+		self.leverName = None
 
 	def IsNullSignal(self):
 		return self.district is None
@@ -1258,11 +1259,18 @@ class Signal:
 		
 	def Bits(self):
 		return self.bits
+
+	def SetLeverName(self, ln):
+		#  this is what the lever name would be if it existed
+		self.leverName = ln
+
+	def GetLeverName(self):
+		return self.leverName
 	
 	def SetAspect(self, aspect, callon=False):
 		if self.aspect == aspect:
 			return False
-		
+
 		self.aspect = aspect
 		if aspect == 0:
 			self.callon = False
@@ -1287,6 +1295,7 @@ class Signal:
 				self.node.SetOutputBit(vbyte, vbit, 1 if val != 0 else 0)
 
 		self.UpdateIndicators()  # make sure all indicators reflect this change
+
 		return True
 
 	def IsCallon(self):
