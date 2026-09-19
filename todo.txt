@@ -1,5 +1,3 @@
-make problem trains dialog modeless???
-
 If I split a train with problem dialog box, and then rename the surviving train, it goes ahead and renames the split train as well - still trying to reproduce
 
 I got an error in RH when I tried to turn off ignore block persistently.  I can't reproduce here
@@ -8,12 +6,17 @@ I got an error in RH when I tried to turn off ignore block persistently.  I can'
 Have the ability to preset fleet bits in the ini file
 
 possible webapp functionality:
-    train list - have raw data - just fill out table and other features
     train audit
     stop relays
     os proxies
     block status
     turnout locks
+    lever status
+    matrix turnout control
+        yard/waterman
+        hyde
+        nassau
+        sheffield/green mountain
 
 
 break train - simple split for 1 block
@@ -24,8 +27,6 @@ break train - simple split for 1 block
 
 
 when assigning an engineer to a train, if that train currently has an edit train dialog, that dialog is not updated.  This might be true for loco too.
-
-iron out locale with displaying of events and alerts only
 
 swap trains did not work when testing in rocky hill - can't reproduce - need to diagnose further - will add logging
 
@@ -48,8 +49,6 @@ done, but need the final details:
 
 
 specific things that need to be checked:
-    Check the needed polarity for H30.srel/H30Power
-
     Block P50 directionality and train movement is not working - I think it works with the manual moving from monitor - this might be isolated to trafficgen
 
     Need to test dcc sniffer logic
