@@ -42,6 +42,8 @@ class Settings:
 		self.datafolder = os.path.join(os.getcwd(), "data")
 		self.inifile = os.path.join(self.datafolder, INIFILE)
 
+		self.editonly = False
+
 		self.cfg = configparser.ConfigParser()
 		self.cfg.optionxform = str
 		if not self.cfg.read(self.inifile):
@@ -402,7 +404,7 @@ class Settings:
 		process the command line next and override the settings file with the options seen there
 		"""
 		try:
-			opts, _ = getopt.getopt(sys.argv[1:], "", ["dispatch", "display", "simulate", "sim", "nosimulate", "nosim", "satellite", "locale="])
+			opts, _ = getopt.getopt(sys.argv[1:], "", ["dispatch", "display", "simulate", "sim", "nosimulate", "nosim", "satellite", "editonly", "locale="])
 		except getopt.GetoptError:
 			print('Invalid command line arguments - ignoring')
 			return 
@@ -424,6 +426,9 @@ class Settings:
 				self.dispatcher.satellite = True
 				print("Overriding dispatcher mode from command line: satellite")
 
+			elif opt == "--editonly":
+				self.editonly = True
+
 			elif opt in ["--simulate", "--sim"]:
 				self.rrserver.simulation = True
 				print("Overriding simulation flag from command line: True")
@@ -435,6 +440,9 @@ class Settings:
 			elif opt == "--locale":
 				self.display.locale = val
 				print("Overriding locale from command line: %s" % val)
+
+	def EditOnly(self):
+		return self.editonly
 
 	def SaveAll(self):
 		print("entering saveall", flush=True)

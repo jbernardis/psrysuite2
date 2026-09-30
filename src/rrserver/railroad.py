@@ -337,6 +337,10 @@ class Railroad:
 		for hs in self.handswitches.values():
 			hslist.update(hs.ForBitMap())
 
+		nxblist = {}
+		for nxb in self.outNxButtons.values():
+			nxblist.update(nxb.ForBitMap())
+
 		ioBits = {
 			"blocks": blist,
 			"turnouts": tlist,
@@ -345,7 +349,8 @@ class Railroad:
 			"siglevers": sllist,
 			"signals": siglist,
 			"handswitches": hslist,
-			"nodes": nodeNames
+			"nodes": nodeNames,
+			"nxbuttons": nxblist
 		}
 		logging.info("iobits:L%d detection blocks" % len(blist))
 		logging.info("iobits: %d turnouts" % len(tlist))

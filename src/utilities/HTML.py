@@ -414,7 +414,7 @@ def form(*vals, **opts):
 	return element('form', vals, opts, ('name', 'action', 'method', )+coreopts)
 
 def button(*vals, **opts):
-	return element('button', vals, opts, ('name', 'type', 'form', )+coreopts)
+	return element('button', vals, opts, ('name', 'type', 'form', 'value', )+coreopts)
 
 def label(*vals, **opts):
 	return element('label', vals, opts, ('for', 'id', )+coreopts)

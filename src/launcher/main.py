@@ -55,24 +55,38 @@ elif mode == "satellite":
 
 elif mode == "simulation":
     print("launch mode: simulation")
-    
+
     svrExec = os.path.join(os.getcwd(), "rrserver", "main.py")
     print("server exec = (%s)" % svrExec)
     print("Interpreter = (%s)" % interpfg)
     svrProc = Popen([interpfg, svrExec, "--sim"], startupinfo=infoMinimize)
     print("server started as PID %d" % svrProc.pid)
-    
+
     simExec = os.path.join(os.getcwd(), "trafficgen", "main.py")
     simProc = Popen([interpreter, simExec], stdout=DEVNULL, stderr=DEVNULL, close_fds=True)
     print("trafficgen started as PID %d" % simProc.pid)
-    
+
     dispExec = os.path.join(os.getcwd(), "dispatcher", "main.py")
     dispProc = Popen([interpreter, dispExec, "--dispatch"], stdout=DEVNULL, stderr=DEVNULL, close_fds=True)
     print("dispatcher started as PID %d" % dispProc.pid)
-    
+
     monExec = os.path.join(os.getcwd(), "monitor", "main.py")
     monProc = Popen([interpreter, monExec, "--sim"], stdout=DEVNULL, stderr=DEVNULL, close_fds=True)
     print("monitor started as PID %d" % monProc.pid)
+
+elif mode == "editonly":
+    print("launch mode: edit only")
+
+    svrExec = os.path.join(os.getcwd(), "rrserver", "main.py")
+    print("server exec = (%s)" % svrExec)
+    print("Interpreter = (%s)" % interpreter)
+    print("Interpfg = (%s)" % interpfg)
+    svrProc = Popen([interpfg, svrExec, "--sim"], startupinfo=infoMinimize)
+    print("server started as PID %d" % svrProc.pid)
+
+    editExec = os.path.join(os.getcwd(), "traineditor", "main.py")
+    editProc = Popen([interpreter, editExec, "--editonly"], stdout=DEVNULL, stderr=DEVNULL, close_fds=True)
+    print("train editor started as PID %d" % editProc.pid)
 
 elif mode == "display":
     print("launch mode: display")

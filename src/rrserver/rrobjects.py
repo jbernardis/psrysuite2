@@ -1756,6 +1756,11 @@ class OutNXButton:
 	def Bits(self):
 		return self.bits
 
+	def ForBitMap(self):
+		return {self.name: {
+			"position": [self.bits, self.address],
+		}}
+
 
 class Handswitch:
 	def __init__(self, name, district, node, address, blocknm):

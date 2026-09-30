@@ -19,6 +19,7 @@ class MainFrame(wx.Frame):
 		self.SetIcon(icon)
 
 		self.settings = Settings()
+		self.editonly = self.settings.EditOnly()
 		self.RRServer = RRServer()
 		self.RRServer.SetServerAddress(self.settings.ipaddr, self.settings.serverport)
 
@@ -98,5 +99,8 @@ class MainFrame(wx.Frame):
 		self.doExit()
 		
 	def doExit(self):
+		if self.editonly:
+			self.RRServer.SendRequest({"quit": {}})
+
 		self.Destroy()
 		

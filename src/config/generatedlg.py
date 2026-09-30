@@ -63,6 +63,10 @@ class GenerateDlg(wx.Dialog):
 		self.Bind(wx.EVT_BUTTON, self.OnBGenSimulation, self.bGenSimulation)
 		vsz.Add(self.bGenSimulation, 0, wx.ALL, 10)
 
+		self.bGenEditOnly = wx.Button(genBox, wx.ID_ANY, "Editor Only", size=GENBTNSZ)
+		self.Bind(wx.EVT_BUTTON, self.OnBGenEditOnly, self.bGenEditOnly)
+		vsz.Add(self.bGenEditOnly, 0, wx.ALL, 10)
+
 		self.bGenThrottle = wx.Button(genBox, wx.ID_ANY, "Throttle", size=GENBTNSZ)
 		self.Bind(wx.EVT_BUTTON, self.OnBGenThrottle, self.bGenThrottle)
 		vsz.Add(self.bGenThrottle, 0, wx.ALL, 10)
@@ -253,6 +257,17 @@ class GenerateDlg(wx.Dialog):
 			"main": "main.py",
 			"desc": "Train/Locomotive/Engineer Editor",
 			"icon": "editor.ico"
+		}
+		self.generator(module, self.cbStartMenu.IsChecked())
+
+	def OnBGenEditOnly(self, _):
+		module = {
+			"name": "PSRY Editor Only",
+			"dir":  "launcher",
+			"main": "main.py",
+			"desc": "Launcher for Edit Only",
+			"icon": "launcher.ico",
+			"parameter": "editonly"
 		}
 		self.generator(module, self.cbStartMenu.IsChecked())
 

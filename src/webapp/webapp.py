@@ -204,7 +204,7 @@ class WebApp:
 				return self.HTMLMainMenu()
 			return html
 
-		elif path in ["turnoutchoice", "sendnormal", "sendreverse", "turnoutrefresh"]:
+		elif path in ["turnoutchoice", "sendnormal", "sendreverse", "turnoutrefresh", "sendgroup", "refreshgroup"]:
 			html = self.turnoutControl.ProcessURL(urlinfo)
 			if html is None:
 				return self.HTMLMainMenu()
