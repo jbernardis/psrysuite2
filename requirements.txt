@@ -1,5 +1,8 @@
-requests == 2.33.1
+requests == 2.34.2
 pyserial == 3.5
 wxPython == 4.2.5
 winshell == 0.6
 qrcode == 8.2
+openpyxl == 3.1.5
+pywin32 == 312
+pillow == 12.3.0
