@@ -1,13 +1,91 @@
 <html><head>
 <style type="text/css" media="screen, print">
-div.page { page-break-inside : avoid;}
-table { width : 700px; border-spacing : 0; margin-left : auto; margin-right : auto; font-family : "Times New Roman", Times, serif; font-size : 16px;}
-table, th, td { border-collapse : collapse;}
+table { border-collapse : collapse; border-spacing : 0; width : 230mm; font-family : Arial, sans-serif; font-size : 14px; margin-left : auto; margin-right : auto;}
 th { text-align : center; overflow : hidden;}
-td.eng { text-align : center; width : 140px; font-size : 28px; font-weight : bold; border-top : 1px solid black; border-bottom : 1px solid black; border-left : 1px solid black;}
-td.qr { width : 100px; text-align : center; vertical-align : middle; border-top : 1px solid black; border-bottom : 1px solid black; border-right : 1px solid black;}
-td.engmt { text-align : center; width : 140px; font-size : 28px; font-weight : bold;}
-td.qrmt { width : 100px; text-align : center; vertical-align : middle;}
-td.spacer { width : 80px;}
+td { text-align : center; overflow : hidden;}
+table, th, td { border : 1px solid black; border-collapse : collapse;}
+td.index { width : 10mm; font-weight : bold;}
+td.trainid { width : 20mm; font-weight : bold;}
+td.dir { width : 10mm; font-weight : bold;}
+td.loco { width : 20mm; font-weight : bold;}
+td.locodesc { width : 340mm; font-weight : bold; font-size : 12px;}
+td.engineer { width : 60mm;}
+td.origin { width : 32mm; font-weight : bold;}
+td.terminus { width : 32mm; font-weight : bold;}
+td.freight { background-color : #FFB6B2;}
+td.passenger { background-color : #8AFFBB;}
+td.east { background-color : #FFB6B2;}
+td.west { background-color : #8AFFBB;}
+p.header { font-family : Arial, sans-serif; font-size : 30px; font-weight : bold;}
 </style>
-</head><body><table><td class="eng">Clear Engineer</td><td class="qr"><img src="qrcodes\engineer_none.png"></td></table><p></p><table><td class="eng">Ameen</td><td class="qr"><img src="qrcodes\engineer_Ameen.png"></td><td class="spacer"></td><td class="eng">Andy</td><td class="qr"><img src="qrcodes\engineer_Andy.png"></td></table><p></p><table><td class="eng">Bill L</td><td class="qr"><img src="qrcodes\engineer_Bill L.png"></td><td class="spacer"></td><td class="eng">Bill S</td><td class="qr"><img src="qrcodes\engineer_Bill S.png"></td></table><p></p><table><td class="eng">Bob</td><td class="qr"><img src="qrcodes\engineer_Bob.png"></td><td class="spacer"></td><td class="eng">Cat</td><td class="qr"><img src="qrcodes\engineer_Cat.png"></td></table><p></p><table><td class="eng">Chris</td><td class="qr"><img src="qrcodes\engineer_Chris.png"></td><td class="spacer"></td><td class="eng">Dave</td><td class="qr"><img src="qrcodes\engineer_Dave.png"></td></table><p></p><table><td class="eng">Ed</td><td class="qr"><img src="qrcodes\engineer_Ed.png"></td><td class="spacer"></td><td class="eng">Francis</td><td class="qr"><img src="qrcodes\engineer_Francis.png"></td></table><p></p><table><td class="eng">Frank</td><td class="qr"><img src="qrcodes\engineer_Frank.png"></td><td class="spacer"></td><td class="eng">Gene</td><td class="qr"><img src="qrcodes\engineer_Gene.png"></td></table><p></p><table><td class="eng">Jeff B</td><td class="qr"><img src="qrcodes\engineer_Jeff B.png"></td><td class="spacer"></td><td class="eng">Jeff M</td><td class="qr"><img src="qrcodes\engineer_Jeff M.png"></td></table><p></p><table><td class="eng">Jim AG</td><td class="qr"><img src="qrcodes\engineer_Jim AG.png"></td><td class="spacer"></td><td class="eng">Jim Al</td><td class="qr"><img src="qrcodes\engineer_Jim Al.png"></td></table><p></p><table><td class="eng">Joe</td><td class="qr"><img src="qrcodes\engineer_Joe.png"></td><td class="spacer"></td><td class="eng">John I</td><td class="qr"><img src="qrcodes\engineer_John I.png"></td></table><p></p><table><td class="eng">John M</td><td class="qr"><img src="qrcodes\engineer_John M.png"></td><td class="spacer"></td><td class="eng">Jonathan</td><td class="qr"><img src="qrcodes\engineer_Jonathan.png"></td></table><p></p><table><td class="eng">Kevin</td><td class="qr"><img src="qrcodes\engineer_Kevin.png"></td><td class="spacer"></td><td class="eng">Mike L</td><td class="qr"><img src="qrcodes\engineer_Mike L.png"></td></table><p></p><table><td class="eng">Mike M</td><td class="qr"><img src="qrcodes\engineer_Mike M.png"></td><td class="spacer"></td><td class="eng">Murr</td><td class="qr"><img src="qrcodes\engineer_Murr.png"></td></table><p></p><table><td class="eng">Myles</td><td class="qr"><img src="qrcodes\engineer_Myles.png"></td><td class="spacer"></td><td class="eng">Paul G</td><td class="qr"><img src="qrcodes\engineer_Paul G.png"></td></table><p></p><table><td class="eng">Paul J</td><td class="qr"><img src="qrcodes\engineer_Paul J.png"></td><td class="spacer"></td><td class="eng">Paul S</td><td class="qr"><img src="qrcodes\engineer_Paul S.png"></td></table><p></p><table><td class="eng">Ram</td><td class="qr"><img src="qrcodes\engineer_Ram.png"></td><td class="spacer"></td><td class="eng">Roger</td><td class="qr"><img src="qrcodes\engineer_Roger.png"></td></table><p></p><table><td class="eng">Ron</td><td class="qr"><img src="qrcodes\engineer_Ron.png"></td><td class="spacer"></td><td class="eng">Sawyer</td><td class="qr"><img src="qrcodes\engineer_Sawyer.png"></td></table><p></p><table><td class="eng">Scott</td><td class="qr"><img src="qrcodes\engineer_Scott.png"></td><td class="spacer"></td><td class="eng">Stan</td><td class="qr"><img src="qrcodes\engineer_Stan.png"></td></table><p></p><table><td class="eng">Steve F</td><td class="qr"><img src="qrcodes\engineer_Steve F.png"></td><td class="spacer"></td><td class="eng">Steve R</td><td class="qr"><img src="qrcodes\engineer_Steve R.png"></td></table><p></p><table><td class="eng">Tom</td><td class="qr"><img src="qrcodes\engineer_Tom.png"></td><td class="spacer"></td><td class="eng">Tony</td><td class="qr"><img src="qrcodes\engineer_Tony.png"></td></table><p></p><table><td class="eng">Vince</td><td class="qr"><img src="qrcodes\engineer_Vince.png"></td><td class="spacer"></td><td class="engmt"></td><td class="qrmt"></td></table><p></p></body></html>
+</head><body><div style="height: 10px"></div><p align="center" class="header">Train Schedule for 02-Oct-2026</p><table><tr><th></th> <th>Train</th> <th>Dir</th> <th>Loco</th> <th>Description</th> <th>Eng</th> <th>Origin</th> <th>Terminus</th></tr> <tr>
+   <td class="index">1 </td>
+   <td class="trainid west">CP1(CPXX)</td>
+   <td class="dir west">W</td>
+   <td class="loco west">942</td>
+   <td class="locodesc west">UP Passenger / Westbound Express Passenger</td>
+   <td class="engineer"></td>
+   <td class="origin west">CF(N11)</td>
+   <td class="terminus west">YD</td>
+</tr>
+<tr>
+   <td class="index">2 </td>
+   <td class="trainid west">CP2(CPXX)</td>
+   <td class="dir west">W</td>
+   <td class="loco west">5319</td>
+   <td class="locodesc west">Westbound Express Passenger</td>
+   <td class="engineer"></td>
+   <td class="origin west">CF(C50)</td>
+   <td class="terminus west">YD</td>
+</tr>
+<tr>
+   <td class="index">3 </td>
+   <td class="trainid west">CP4(CPXX)</td>
+   <td class="dir west">W</td>
+   <td class="loco west">9834</td>
+   <td class="locodesc west">Westbound Express Passenger</td>
+   <td class="engineer"></td>
+   <td class="origin west">CF(C52)</td>
+   <td class="terminus west">YD</td>
+</tr>
+<tr>
+   <td class="index">4 </td>
+   <td class="trainid west">CP5(CPXX)</td>
+   <td class="dir west">W</td>
+   <td class="loco west">4113</td>
+   <td class="locodesc west">Westbound Express Passenger</td>
+   <td class="engineer"></td>
+   <td class="origin west">CF(C53)</td>
+   <td class="terminus west">YD</td>
+</tr>
+<tr>
+   <td class="index">5 </td>
+   <td class="trainid west">CP6(CPXX)</td>
+   <td class="dir west">W</td>
+   <td class="loco west">1419</td>
+   <td class="locodesc west">B&O / Long Passenger / Westbound Express Passenger</td>
+   <td class="engineer"></td>
+   <td class="origin west">CF(C54)</td>
+   <td class="terminus west">YD</td>
+</tr>
+<tr>
+   <td class="index">6 </td>
+   <td class="trainid east">62</td>
+   <td class="dir east">E</td>
+   <td class="loco east"></td>
+   <td class="locodesc east">Eastbound Local Passenger</td>
+   <td class="engineer"></td>
+   <td class="origin east">PT</td>
+   <td class="terminus east">NA</td>
+</tr>
+<tr>
+   <td class="index">7 </td>
+   <td class="trainid west">63</td>
+   <td class="dir west">W</td>
+   <td class="loco west"></td>
+   <td class="locodesc west">Westbound Local Passenger (RDC)</td>
+   <td class="engineer"></td>
+   <td class="origin west">PT</td>
+   <td class="terminus west">YD</td>
+</tr>
+</table></body></html>

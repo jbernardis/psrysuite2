@@ -558,12 +558,18 @@ class Railroad:
 					if firstBlock:
 						# change the train's name unless it's still using the internal name
 						if trid != tr.IName():
-							tr.SetName(trid, self.GetTrainRoster(trid))
+							tplname = trinfo.get("template", trid)
+							logging.debug("template name for train %s is %s" % (tplname, trid))
+							logging.debug("returned roster is %s" % str(self.GetTrainRoster(tplname)))
+							tr.SetName(trid, self.GetTrainRoster(tplname))
+							if tplname != trid:
+								tr.SetTemplateTrain(tplname)
 							logging.debug("setting train rname to %s for iname %s, roster = %s" % (trid, tr.IName(), str(self.GetTrainRoster(trid))))
 						else:
 							# assert no roster if we are still using internal name
 							tr.SetRoster(None)
 							logging.debug("train still using internal name - set roster to None")
+
 						tr.SetLoco(trinfo["loco"])
 						tr.SetEast(trinfo["east"])
 						firstBlock = False
@@ -615,6 +621,8 @@ class Railroad:
 					"east": trinfo["east"],
 					"blocks": trinfo["blocks"],
 				}
+				if trinfo['template'] is not None:
+					trains[trid]["template"] = trinfo["template"]
 
 		trains["PRELOAD"] = self.preLoaded
 
@@ -3791,7 +3799,8 @@ class Railroad:
 				"blocks": [b.Name() for b in tr.Blocks()],
 				"signal": None if sig is None else sig.Name(),
 				"aspect": asp,
-				"stopped": tr.Stopped()
+				"stopped": tr.Stopped(),
+				"template": tr.TemplateTrain()
 			}
 
 		return result

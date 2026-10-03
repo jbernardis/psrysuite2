@@ -1,8 +1,11 @@
 import wx
 import os
+import json
+import logging
 from traineditor.trains.schedule import Schedule
+from dispatcher.choicedlgs import ChooseSnapshotDlg
 
-BTNSZ = (120, 46)
+BTNSZ = wx.Size(120, 46)
 wildcardJson = "JSON file (*.json)|*.json|"	 \
 				"All files (*.*)|*.*"
 
@@ -16,25 +19,36 @@ class ChooseTrainsDlg(wx.Dialog):
 		self.Bind(wx.EVT_CLOSE, self.onClose)
 		
 		self.titleString = "Manage Schedules"
+		self.modified = False
 		self.schedDir = os.path.join(os.getcwd(), "data", "schedules")
-		
-		self.allTrains = sorted([t for t in alltrains])		
+
+		self.schedule = None
+		self.scheduleTrains = []
+		self.extraTrains = []
+		self.templateTrains = []
+		self.availableTrains = []
+		self.trainTemplates = {}
+		self.availableTemplates = []
+		self.fullTemplatedTrains = []
+		self.trainInfo = None
+
+		self.allTrains = sorted([t for t in alltrains])
 		self.setArrays(None)
-		
+
 		self.setTitle()
 
 		btnFont = wx.Font(wx.Font(10, wx.FONTFAMILY_ROMAN, wx.NORMAL, wx.BOLD, faceName="Arial"))
 		textFont = wx.Font(wx.Font(12, wx.FONTFAMILY_ROMAN, wx.NORMAL, wx.NORMAL, faceName="Arial"))
 		
-		self.lbAll = wx.ListBox(self, wx.ID_ANY, choices=self.availableTrains, size=(120, 330))
+		self.lbAll = wx.ListBox(self, wx.ID_ANY, choices=self.availableTrains, size=wx.Size(120, 330))
 		self.lbAll.SetFont(textFont)
 		self.Bind(wx.EVT_LISTBOX, self.onLbAllSelect, self.lbAll)
 		
-		self.lbSchedule = wx.ListBox(self, wx.ID_ANY, choices=self.scheduleTrains, size=(120, 150))
+		self.lbSchedule = wx.ListBox(self, wx.ID_ANY, choices=self.scheduleTrains, size=wx.Size(120, 150))
 		self.lbSchedule.SetFont(textFont)
 		self.Bind(wx.EVT_LISTBOX, self.onLbScheduleSelect, self.lbSchedule)
 			
-		self.lbExtra = wx.ListBox(self, wx.ID_ANY, choices=self.extraTrains, size=(120, 150))
+		self.lbExtra = wx.ListBox(self, wx.ID_ANY, choices=self.extraTrains, size=wx.Size(120, 150))
 		self.lbExtra.SetFont(textFont)
 		self.Bind(wx.EVT_LISTBOX, self.onLbExtraSelect, self.lbExtra)
 		
@@ -123,9 +137,16 @@ class ChooseTrainsDlg(wx.Dialog):
 		hsizer.AddSpacer(20)
 		
 		btnSizer = wx.BoxSizer(wx.HORIZONTAL)
-		btnSizer.AddSpacer(20)
-		
-		self.bLoad = wx.Button(self, wx.ID_ANY, "Load", size=BTNSZ)
+
+		self.bLiveData = wx.Button(self, wx.ID_ANY, "Live Data\nSource", size=BTNSZ)
+		self.bLiveData.SetFont(btnFont)
+		self.bLiveData.SetToolTip("Load live train data")
+		self.Bind(wx.EVT_BUTTON, self.bLiveDataPressed, self.bLiveData)
+		btnSizer.Add(self.bLiveData)
+
+		btnSizer.AddSpacer(10)
+
+		self.bLoad = wx.Button(self, wx.ID_ANY, "Load\nSchedule", size=BTNSZ)
 		self.bLoad.SetFont(btnFont)
 		self.bLoad.SetToolTip("Load a train schedule from a file")
 		self.Bind(wx.EVT_BUTTON, self.bLoadPressed, self.bLoad)
@@ -133,47 +154,45 @@ class ChooseTrainsDlg(wx.Dialog):
 
 		btnSizer.AddSpacer(10)
 
-		self.bSave = wx.Button(self, wx.ID_ANY, "Save", size=BTNSZ)
+		self.bSave = wx.Button(self, wx.ID_ANY, "Save\nSchedule", size=BTNSZ)
 		self.bSave.SetFont(btnFont)
 		self.bSave.SetToolTip("Save train schedule to a file")
 		self.Bind(wx.EVT_BUTTON, self.bSavePressed, self.bSave)
 		btnSizer.Add(self.bSave)
 
-		btnSizer.AddSpacer(10)
+		btnSizer2 = wx.BoxSizer(wx.HORIZONTAL)
 
 		self.bCards = wx.Button(self, wx.ID_ANY, "Print\nTrain Cards", size=BTNSZ)
 		self.bCards.SetFont(btnFont)
 		self.bCards.SetToolTip("Print Train Cards")
 		self.Bind(wx.EVT_BUTTON, self.bCardsPressed, self.bCards)
 		self.bCards.Enable(False)
-		btnSizer.Add(self.bCards)
+		btnSizer2.Add(self.bCards)
 
-		btnSizer.AddSpacer(10)
+		btnSizer2.AddSpacer(10)
 
 		self.bSched = wx.Button(self, wx.ID_ANY, "Print\nSchedule", size=BTNSZ)
 		self.bSched.SetFont(btnFont)
 		self.bSched.SetToolTip("Print Train Schedule")
 		self.Bind(wx.EVT_BUTTON, self.bSchedPressed, self.bSched)
 		self.bSched.Enable(False)
-		btnSizer.Add(self.bSched)
+		btnSizer2.Add(self.bSched)
 
-		btnSizer.AddSpacer(20)
-
-		btnSizer2 = wx.BoxSizer(wx.HORIZONTAL)
+		btnSizer3 = wx.BoxSizer(wx.HORIZONTAL)
 		
 		self.bOK = wx.Button(self, wx.ID_ANY, "OK", size=BTNSZ)
 		self.bOK.SetFont(btnFont)
 		self.bOK.SetToolTip("Exit the dialog box")
 		self.Bind(wx.EVT_BUTTON, self.bOKPressed, self.bOK)
-		btnSizer2.Add(self.bOK)
+		btnSizer3.Add(self.bOK)
 		
-		btnSizer2.AddSpacer(10)
+		btnSizer3.AddSpacer(10)
 		
-		self.bCancel = wx.Button(self, wx.ID_ANY, "Cancel", size=BTNSZ)
+		self.bCancel = wx.Button(self, wx.ID_ANY, "Exit", size=BTNSZ)
 		self.bCancel.SetFont(btnFont)
 		self.bCancel.SetToolTip("Exit the dialog box discarding any trains chosen")
 		self.Bind(wx.EVT_BUTTON, self.bCancelPressed, self.bCancel)
-		btnSizer2.Add(self.bCancel)
+		btnSizer3.Add(self.bCancel)
 
 		vsizer = wx.BoxSizer(wx.VERTICAL)		
 		vsizer.AddSpacer(20)
@@ -183,15 +202,28 @@ class ChooseTrainsDlg(wx.Dialog):
 		vsizer.AddSpacer(20)
 		vsizer.Add(btnSizer2, 0, wx.ALIGN_CENTER_HORIZONTAL)
 		vsizer.AddSpacer(20)
+		vsizer.Add(btnSizer3, 0, wx.ALIGN_CENTER_HORIZONTAL)
+		vsizer.AddSpacer(20)
 		
 		self.SetSizer(vsizer)
 		self.Layout()
-		self.Fit();
+		self.Fit()
 		
 		self.setButtons()
+
+	def setModified(self, flag=True):
+		if self.modified == flag:
+			return
+
+		self.modified = flag
+		self.setTitle()
 		
 	def setTitle(self):
-		self.SetTitle(self.titleString)
+		tstr = self.titleString
+		if self.modified:
+			tstr += " *"
+
+		self.SetTitle(tstr)
 		
 	def onLbAllSelect(self, _):
 		self.setButtons()
@@ -220,6 +252,13 @@ class ChooseTrainsDlg(wx.Dialog):
 			self.bLeftExt.Enable(False)
 		else:
 			self.bLeftExt.Enable(True)
+
+		schCount = self.lbSchedule.GetCount()
+		extCount = self.lbExtra.GetCount()
+
+		ena = schCount + extCount != 0
+		self.bSched.Enable(ena)
+		self.bCards.Enable(ena)
 		
 	def onLbScheduleSelect(self, _):
 		self.setButtons()
@@ -240,6 +279,7 @@ class ChooseTrainsDlg(wx.Dialog):
 		self.lbSchedule.SetSelection(ix-1)
 		
 		self.setButtons()
+		self.setModified()
 		
 	def bDownPressed(self, _):
 		ix = self.lbSchedule.GetSelection()
@@ -254,6 +294,7 @@ class ChooseTrainsDlg(wx.Dialog):
 		self.lbSchedule.SetSelection(ix+1)
 		
 		self.setButtons()
+		self.setModified()
 		
 	def bRightSchPressed(self, _):
 		avx = self.lbAll.GetSelection()
@@ -276,6 +317,7 @@ class ChooseTrainsDlg(wx.Dialog):
 		self.lbSchedule.EnsureVisible(ix)
 		self.lbSchedule.SetSelection(ix)
 		self.setButtons()
+		self.setModified()
 
 	def bLeftSchPressed(self, _):
 		ix = self.lbSchedule.GetSelection()
@@ -302,6 +344,7 @@ class ChooseTrainsDlg(wx.Dialog):
 			self.lbAll.EnsureVisible(ix)
 			self.lbAll.SetSelection(ix)
 		self.setButtons()
+		self.setModified()
 	
 	def bRightExtPressed(self, _):
 		avx = self.lbAll.GetSelection()
@@ -324,6 +367,7 @@ class ChooseTrainsDlg(wx.Dialog):
 			self.lbExtra.EnsureVisible(ix)
 			self.lbExtra.SetSelection(ix)
 		self.setButtons()
+		self.setModified()
 
 	def bLeftExtPressed(self, _):
 		ix = self.lbExtra.GetSelection()
@@ -346,6 +390,7 @@ class ChooseTrainsDlg(wx.Dialog):
 			self.lbAll.EnsureVisible(ix)
 			self.lbAll.SetSelection(ix)
 		self.setButtons()
+		self.setModified()
 
 	def bCardsPressed(self, _):
 		self.trainCardsReport(self.schedule)
@@ -357,7 +402,10 @@ class ChooseTrainsDlg(wx.Dialog):
 		else:
 			selTrain = self.lbSchedule.GetString(ix)
 
-		self.scheduleReport(self.schedule, selTrain)
+		sched = Schedule()
+		sched.setNewSchedule(self.scheduleTrains)
+		sched.setNewExtras(self.extraTrains)
+		self.scheduleReport(sched, selTrain, self.trainInfo)
 
 	def setArrays(self, schedule):
 		if schedule is None:
@@ -385,6 +433,9 @@ class ChooseTrainsDlg(wx.Dialog):
 
 	def setAvailableTrains(self):
 		self.availableTrains = [t for t in self.allTrains if t not in self.scheduleTrains and t not in self.extraTrains]
+		avtmp = ["%s(%s)" % (trid, self.trainTemplates[trid]) for trid in self.templateTrains]
+		self.availableTemplates = [t for t in avtmp if t not in self.scheduleTrains and t not in self.extraTrains]
+		self.availableTrains.extend(self.availableTemplates)
 		try:
 			self.lbAll.SetItems(self.availableTrains)
 		except:
@@ -400,7 +451,103 @@ class ChooseTrainsDlg(wx.Dialog):
 
 		return [s[:-5] for s in schedList]  # strip off the .json suffix
 
+	def bLiveDataPressed(self, _):
+		dlg = LiveDataSourceDlg(self)
+		rc = dlg.ShowModal()
+		dlg.Destroy()
+
+		if rc == wx.ID_FILE1:
+			at = self.RRServer.Get("activetrains", {})
+			self.trainInfo = {}
+			self.trainTemplates = {}
+			self.templateTrains = []
+			self.fullTemplatedTrains = []
+			for trid, tinfo in at.items():
+				if "template" in tinfo and tinfo["template"] is not None:
+					tmpl = tinfo["template"]
+					tidkey = "%s(%s)" % (trid, tmpl)
+					self.trainTemplates[trid] = tmpl
+					self.templateTrains.append(trid)
+					self.fullTemplatedTrains.append(tidkey)
+				else:
+					tidkey = trid
+				trk = None
+				if "blocks" in tinfo and len(tinfo["blocks"]) > 0:
+					trk = tinfo["blocks"][0]
+				self.trainInfo[tidkey] = {"loco": tinfo.get("loco", None), "track": trk}
+
+			self.templateTrains = sorted(self.templateTrains)
+			self.fullTemplatedTrains = sorted(self.fullTemplatedTrains)
+
+		elif rc == wx.ID_FILE2:
+			trinfo = self.LoadSnapshot()
+			if trinfo is None:
+				return
+
+			self.ProcessSnapshot(trinfo)
+
+		elif rc == wx.ID_FILE3:
+			wildcard = "JSON (*.json)|*.json"
+			dlg = wx.FileDialog(
+				self, message="Choose snapshot file to use ...", defaultDir=os.getcwd(),
+				defaultFile="", wildcard=wildcard, style=wx.FD_OPEN
+			)
+			rc = dlg.ShowModal()
+			if rc == wx.ID_CANCEL:
+				dlg.Destroy()
+				return
+
+			fn = dlg.GetPath()
+			dlg.Destroy()
+
+			with open(fn, "r") as jfp:
+				jdata = json.load(jfp)
+
+			self.ProcessSnapshot(jdata)
+
+		else:
+			logging.error("unknown rc from select live source: %d" % rc)
+			return
+
+		self.setArrays(self.schedule)
+
+	def ProcessSnapshot(self, trinfo):
+		self.trainInfo = {}
+		self.trainTemplates = {}
+		self.templateTrains = []
+		self.fullTemplatedTrains = []
+		for trid, tinfo in trinfo.items():
+			if trid == "PRELOAD":
+				continue
+
+			if "template" in tinfo:
+				tmpl = tinfo["template"]
+				fullName = "%s(%s)" % (trid, tmpl)
+				self.trainTemplates[trid] = tmpl
+				self.templateTrains.append(trid)
+				self.fullTemplatedTrains.append(fullName)
+			else:
+				fullName = trid
+
+			print("snapshot - tinfo = %s" % str(tinfo))
+			trk = None
+			if "blocks" in tinfo and len(tinfo["blocks"]) > 0:
+				trk = tinfo["blocks"][0]
+			self.trainInfo[fullName] = {"loco": tinfo.get("loco", None), "track": trk}
+
+		self.templateTrains = sorted(self.templateTrains)
+		self.fullTemplatedTrains = sorted(self.fullTemplatedTrains)
+
 	def bLoadPressed(self, _):
+		if self.modified:
+			msg = "Pending changes will be lost\nPress Yes to continue\nPress No to cancel"
+			dlg = wx.MessageDialog(self, msg, "Do you wish to continue schedule loading?",
+				wx.YES_NO | wx.NO_DEFAULT | wx.ICON_WARNING)
+			rc = dlg.ShowModal()
+			dlg.Destroy()
+			if rc != wx.ID_YES:
+				return
+
 		dlg = ChooseScheduleDlg(self, self.getSchedFiles(), False)
 		rc = dlg.ShowModal()
 		if rc != wx.ID_OK:
@@ -414,11 +561,12 @@ class ChooseTrainsDlg(wx.Dialog):
 		if not sched.load(schedNm, self.RRServer):
 			return
 
-		#determine if schedule references trains than are not in alltrains
+		#determine if schedule references trains than are not in available trains
 		oTrains = sched.getSchedule()
-		oMissing = [t for t in oTrains if t not in self.allTrains]
+		tl = self.allTrains + self.fullTemplatedTrains
+		oMissing = [t for t in oTrains if t not in tl]
 		eTrains = sched.getExtras()
-		eMissing = [t for t in eTrains if t not in self.allTrains]
+		eMissing = [t for t in eTrains if t not in tl]
 
 		if len(oMissing) > 0 or len(eMissing) > 0:
 			txt = "This schedule file references the following\ntrains that are not in the current roster:\n"
@@ -434,13 +582,14 @@ class ChooseTrainsDlg(wx.Dialog):
 			if rc != wx.ID_YES:
 				return
 
-			oNew = [t for t in oTrains if t in self.allTrains]
-			eNew = [t for t in eTrains if t in self.allTrains]
+			oNew = [t for t in oTrains if t in tl]
+			eNew = [t for t in eTrains if t in tl]
 
 			sched.setNewSchedule(oNew)
 			sched.setNewExtras(eNew)
 
 		self.setArrays(sched)
+		self.setModified(False)
 		self.setTitle()
 
 	def bSavePressed(self, _):
@@ -469,6 +618,30 @@ class ChooseTrainsDlg(wx.Dialog):
 		dlg = wx.MessageDialog(self, msg, "Schedule saved", wx.OK | wx.ICON_INFORMATION)
 		rc = dlg.ShowModal()
 		dlg.Destroy()
+		self.setModified(False)
+
+	def LoadSnapshot(self):
+		snapList = self.RRServer.Get("snaplist", {})
+		if len(snapList) == 0:
+			dlg = wx.MessageDialog(self, "No Snapshots exist", "File Not Found", wx.OK | wx.ICON_WARNING)
+			dlg.ShowModal()
+			dlg.Destroy()
+
+		dlg = ChooseSnapshotDlg(self, snapList)
+		rc = dlg.ShowModal()
+		snapFile = dlg.GetResults()
+		dlg.Destroy()
+		if rc != wx.ID_OK:
+			return None
+
+		trjson = self.RRServer.Get("retrievesnapshot", {"file": snapFile})
+		if trjson is None:
+			dlg = wx.MessageDialog(self, "Snapshot %s does not exist" % snapFile, "File Not Found", wx.OK | wx.ICON_WARNING)
+			dlg.ShowModal()
+			dlg.Destroy()
+			return None
+
+		return trjson
 
 	def bOKPressed(self, _):
 		self.EndModal(wx.ID_OK)
@@ -480,6 +653,14 @@ class ChooseTrainsDlg(wx.Dialog):
 		self.doCancel()
 		
 	def doCancel(self):
+		if self.modified:
+			msg = "Pending changes will be lost\nPress Yes to continue\nPress No to cancel"
+			dlg = wx.MessageDialog(self, msg, "Do you wish to exit dialog?",	wx.YES_NO | wx.NO_DEFAULT | wx.ICON_WARNING)
+			rc = dlg.ShowModal()
+			dlg.Destroy()
+			if rc != wx.ID_YES:
+				return
+
 		self.EndModal(wx.ID_CANCEL)
 		
 	def getResults(self):
@@ -507,7 +688,7 @@ class ChooseScheduleDlg(wx.Dialog):
 		else:
 			style = wx.CB_DROPDOWN | wx.CB_READONLY
 
-		cb = wx.ComboBox(self, 500, "", size=(160, -1), choices=schedules, style=style)
+		cb = wx.ComboBox(self, 500, "", size=wx.Size(160, -1), choices=schedules, style=style)
 		self.cbSchedule = cb
 		vszr.Add(cb, 0, wx.ALIGN_CENTER_HORIZONTAL)
 		if not allowentry and len(schedules) > 0:
@@ -541,7 +722,7 @@ class ChooseScheduleDlg(wx.Dialog):
 
 		self.SetSizer(hszr)
 		self.Layout()
-		self.Fit();
+		self.Fit()
 
 	def GetValue(self):
 		return self.cbSchedule.GetValue()
@@ -551,3 +732,57 @@ class ChooseScheduleDlg(wx.Dialog):
 
 	def OnBOK(self, _):
 		self.EndModal(wx.ID_OK)
+
+
+class LiveDataSourceDlg(wx.Dialog):
+	def __init__(self, parent):
+		wx.Dialog.__init__(self, parent, wx.ID_ANY, "Choose Live Data Source")
+
+		btnFont = wx.Font(wx.Font(10, wx.FONTFAMILY_ROMAN, wx.NORMAL, wx.BOLD, faceName="Arial"))
+
+		hsizer = wx.BoxSizer(wx.HORIZONTAL)
+		hsizer.AddSpacer(20)
+
+		vsz = wx.BoxSizer(wx.VERTICAL)
+		vsz.AddSpacer(20)
+
+		self.bLayout = wx.Button(self, wx.ID_ANY, "Layout Data", size=BTNSZ)
+		self.bLayout.SetFont(btnFont)
+		self.bLayout.SetToolTip(
+			"Use the train data from the currently active session")
+		self.Bind(wx.EVT_BUTTON, self.OnBLayout, self.bLayout)
+		vsz.Add(self.bLayout)
+		vsz.AddSpacer(10)
+
+		self.bSnapshot = wx.Button(self, wx.ID_ANY, "Stored Snapshot", size=BTNSZ)
+		self.bSnapshot.SetFont(btnFont)
+		self.bSnapshot.SetToolTip(
+			"Use the train data from a stored snapshot")
+		self.Bind(wx.EVT_BUTTON, self.OnBSnapshot, self.bSnapshot)
+		vsz.Add(self.bSnapshot)
+		vsz.AddSpacer(10)
+
+		self.bLocal = wx.Button(self, wx.ID_ANY, "Local Snapshot", size=BTNSZ)
+		self.bLocal.SetFont(btnFont)
+		self.bLocal.SetToolTip(
+			"Use the train data from a local snapshot")
+		self.Bind(wx.EVT_BUTTON, self.OnBLocal, self.bLocal)
+		vsz.Add(self.bLocal)
+
+		vsz.AddSpacer(20)
+		hsizer.Add(vsz)
+
+		hsizer.AddSpacer(20)
+
+		self.SetSizer(hsizer)
+		self.Layout()
+		self.Fit()
+
+	def OnBLayout(self, _):
+		self.EndModal(wx.ID_FILE1)
+
+	def OnBSnapshot(self, _):
+		self.EndModal(wx.ID_FILE2)
+
+	def OnBLocal(self, _):
+		self.EndModal(wx.ID_FILE3)

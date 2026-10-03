@@ -1,16 +1,16 @@
 {
   "2": {
-    "desc": "",
+    "desc": null,
     "prof": {
-      "start": 55,
-      "slow": 65,
-      "medium": 99,
-      "fast": 115,
       "acc": 1,
-      "dec": 1
+      "dec": 1,
+      "fast": 115,
+      "medium": 99,
+      "slow": 65,
+      "start": 55
     },
     "limit": 0,
-    "short": true
+    "short": false
   },
   "5": {
     "desc": "Union Pacific",
@@ -22,11 +22,37 @@
       "acc": 1,
       "dec": 1
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "9": {
     "desc": "Shea Steam 4-4-4 / Lumber",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0,
+    "short": false
+  },
+  "21": {
+    "desc": "Santa Fe F3 (>4 Units)",
+    "prof": {
+      "start": 20,
+      "slow": 30,
+      "medium": 71,
+      "fast": 90,
+      "acc": 2,
+      "dec": 3
+    },
+    "limit": 0,
+    "short": false
+  },
+  "35": {
+    "desc": "Western Maryland - Empty Coal",
     "prof": {
       "start": 0,
       "slow": 10,
@@ -35,21 +61,8 @@
       "acc": 1,
       "dec": 1
     },
-    "limit": 0,
-    "short": true
-  },
-  "21": {
-    "desc": null,
-    "prof": {
-      "acc": 2,
-      "dec": 3,
-      "fast": 90,
-      "medium": 71,
-      "slow": 30,
-      "start": 20
-    },
-    "limit": 0,
-    "short": false
+    "short": true,
+    "limit": 0
   },
   "40": {
     "desc": "RDC NP (3 units)",
@@ -100,21 +113,21 @@
       "acc": 1,
       "dec": 1
     },
-    "short": true,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "64": {
     "desc": "PSRY PA / Exectrix",
     "prof": {
-      "start": 0,
-      "slow": 10,
-      "medium": 58,
-      "fast": 80,
       "acc": 1,
-      "dec": 1
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
     },
     "limit": 0,
-    "short": true
+    "short": false
   },
   "68": {
     "desc": "PSRY F8 / Exectrix",
@@ -197,6 +210,19 @@
   "140": {
     "desc": "RDC Western Maryland",
     "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0,
+    "short": false
+  },
+  "184": {
+    "desc": "",
+    "prof": {
       "start": 0,
       "slow": 10,
       "medium": 58,
@@ -210,12 +236,12 @@
   "185": {
     "desc": "Western Maryland (4) / Empty Coal",
     "prof": {
-      "start": 0,
-      "slow": 10,
-      "medium": 58,
-      "fast": 80,
       "acc": 1,
-      "dec": 1
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
     },
     "limit": 0,
     "short": false
@@ -243,8 +269,8 @@
       "acc": 1,
       "dec": 1
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "196": {
     "desc": "",
@@ -256,8 +282,8 @@
       "acc": 1,
       "dec": 1
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "198": {
     "desc": "Western Maryland / Short Pass",
@@ -298,6 +324,19 @@
     "limit": 0,
     "short": false
   },
+  "212": {
+    "desc": "Lehigh Valley - Loaded Coal Train",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "limit": 0,
+    "short": false
+  },
   "226": {
     "desc": "Amtrak / Short Passenger",
     "prof": {
@@ -307,6 +346,19 @@
       "medium": 58,
       "slow": 10,
       "start": 0
+    },
+    "limit": 0,
+    "short": false
+  },
+  "233": {
+    "desc": "Western Maryland",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
     },
     "limit": 0,
     "short": false
@@ -337,6 +389,19 @@
     "limit": 0,
     "short": false
   },
+  "263": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "limit": 0,
+    "short": false
+  },
   "276": {
     "desc": "Great Northern / Long Pass Blue",
     "prof": {
@@ -359,6 +424,19 @@
       "medium": 50,
       "slow": 30,
       "start": 20
+    },
+    "limit": 0,
+    "short": false
+  },
+  "302": {
+    "desc": "Western Maryland",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
     },
     "limit": 0,
     "short": false
@@ -402,6 +480,18 @@
     "limit": 0,
     "short": false
   },
+  "417": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "short": false
+  },
   "427": {
     "desc": "PSRY 2-8-2 / Old Style Red",
     "prof": {
@@ -428,6 +518,19 @@
     "limit": 0,
     "short": false
   },
+  "461": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0,
+    "short": false
+  },
   "493": {
     "desc": "NP / PSR Old Style Red",
     "prof": {
@@ -442,7 +545,20 @@
     "short": false
   },
   "498": {
-    "desc": "ATSF 4-4-0 Coal / Nassau North",
+    "desc": "ATSF 4-4-0 Coal / Nassau Nrth",
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0,
+    "short": false
+  },
+  "502": {
+    "desc": "",
     "prof": {
       "start": 0,
       "slow": 10,
@@ -451,7 +567,6 @@
       "acc": 1,
       "dec": 1
     },
-    "limit": 0,
     "short": false
   },
   "513": {
@@ -532,6 +647,56 @@
     "limit": 0,
     "short": false
   },
+  "612": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0,
+    "short": false
+  },
+  "617": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "short": false
+  },
+  "628": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "short": false
+  },
+  "659": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "limit": 0,
+    "short": false
+  },
   "669": {
     "desc": null,
     "prof": {
@@ -554,6 +719,19 @@
       "medium": 61,
       "slow": 30,
       "start": 10
+    },
+    "limit": 0,
+    "short": false
+  },
+  "678": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
     },
     "limit": 0,
     "short": false
@@ -597,15 +775,28 @@
     "limit": 0,
     "short": false
   },
+  "856": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "limit": 0,
+    "short": false
+  },
   "860": {
     "desc": "Lackawanna / Passenger",
     "prof": {
-      "start": 40,
-      "slow": 60,
-      "medium": 80,
-      "fast": 100,
       "acc": 1,
-      "dec": 1
+      "dec": 1,
+      "fast": 100,
+      "medium": 80,
+      "slow": 60,
+      "start": 40
     },
     "limit": 0,
     "short": false
@@ -613,12 +804,12 @@
   "905": {
     "desc": "Reading (2) / Crusader",
     "prof": {
-      "start": 5,
-      "slow": 15,
-      "medium": 56,
-      "fast": 75,
       "acc": 1,
-      "dec": 1
+      "dec": 1,
+      "fast": 75,
+      "medium": 56,
+      "slow": 15,
+      "start": 5
     },
     "limit": 0,
     "short": false
@@ -637,14 +828,14 @@
     "short": false
   },
   "912": {
-    "desc": "Northern Pacific / Short Pass",
+    "desc": "",
     "prof": {
-      "acc": 1,
-      "dec": 1,
-      "fast": 80,
-      "medium": 58,
+      "start": 0,
       "slow": 10,
-      "start": 0
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
     },
     "limit": 0,
     "short": false
@@ -688,8 +879,8 @@
     "limit": 0,
     "short": false
   },
-  "990": {
-    "desc": "",
+  "942": {
+    "desc": "UP Passenger",
     "prof": {
       "start": 0,
       "slow": 10,
@@ -698,18 +889,17 @@
       "acc": 1,
       "dec": 1
     },
-    "limit": 0,
     "short": false
   },
-  "991": {
-    "desc": "",
+  "990": {
+    "desc": null,
     "prof": {
-      "start": 0,
-      "slow": 10,
-      "medium": 58,
-      "fast": 80,
       "acc": 1,
-      "dec": 1
+      "dec": 1,
+      "fast": 110,
+      "medium": 94,
+      "slow": 60,
+      "start": 50
     },
     "limit": 0,
     "short": false
@@ -737,8 +927,8 @@
       "slow": 50,
       "start": 40
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "1147": {
     "desc": "PSRY 2-8-0 / Old Style Green",
@@ -750,8 +940,34 @@
       "slow": 10,
       "start": 0
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
+  },
+  "1187": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "limit": 0,
+    "short": false
+  },
+  "1202": {
+    "desc": "Jersey Central",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "limit": 0,
+    "short": false
   },
   "1309": {
     "desc": null,
@@ -763,8 +979,21 @@
       "slow": 20,
       "start": 10
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
+  },
+  "1350": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "limit": 0,
+    "short": false
   },
   "1415": {
     "desc": "PSRY / Old Style Green",
@@ -776,8 +1005,8 @@
       "slow": 10,
       "start": 0
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "1419": {
     "desc": "B&O / Long Passenger",
@@ -789,8 +1018,21 @@
       "slow": 55,
       "start": 35
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
+  },
+  "1453": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0,
+    "short": false
   },
   "1523": {
     "desc": "NJ Central / Engine (Test)",
@@ -802,8 +1044,8 @@
       "slow": 25,
       "start": 15
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "1790": {
     "desc": null,
@@ -815,8 +1057,8 @@
       "slow": 35,
       "start": 25
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "1918": {
     "desc": "Nassau Nth 2-6-2 / Freight",
@@ -828,8 +1070,8 @@
       "slow": 30,
       "start": 10
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "1921": {
     "desc": "Nassau Nthn 4-6-2 / Old Pass",
@@ -841,11 +1083,11 @@
       "slow": 30,
       "start": 10
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "1968": {
-    "desc": "",
+    "desc": "New York Central",
     "prof": {
       "start": 0,
       "slow": 10,
@@ -854,8 +1096,8 @@
       "acc": 1,
       "dec": 1
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "2049": {
     "desc": null,
@@ -867,8 +1109,8 @@
       "slow": 15,
       "start": 0
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "2100": {
     "desc": "Redding 4-8-4 / Mixed Freight",
@@ -880,8 +1122,8 @@
       "slow": 10,
       "start": 0
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "2111": {
     "desc": null,
@@ -893,8 +1135,8 @@
       "slow": 45,
       "start": 35
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "2113": {
     "desc": "Reading 4-8-4 / Mixed freight",
@@ -906,8 +1148,8 @@
       "slow": 35,
       "start": 25
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "2123": {
     "desc": "Reading / Passenger",
@@ -919,8 +1161,8 @@
       "slow": 20,
       "start": 10
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "2124": {
     "desc": "Reading (2) / Passenger",
@@ -932,8 +1174,8 @@
       "slow": 40,
       "start": 30
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "2216": {
     "desc": "NP / Passenger",
@@ -945,8 +1187,21 @@
       "slow": 10,
       "start": 0
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
+  },
+  "2360": {
+    "desc": "B&M",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "limit": 0,
+    "short": false
   },
   "2511": {
     "desc": null,
@@ -958,8 +1213,8 @@
       "slow": 25,
       "start": 15
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "2560": {
     "desc": "Erie Lackawanna",
@@ -971,8 +1226,8 @@
       "acc": 1,
       "dec": 1
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "2591": {
     "desc": null,
@@ -984,8 +1239,8 @@
       "slow": 15,
       "start": 5
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "2681": {
     "desc": "Santa Fe / Old Style",
@@ -996,6 +1251,19 @@
       "medium": 70,
       "slow": 30,
       "start": 20
+    },
+    "limit": 0,
+    "short": false
+  },
+  "2789": {
+    "desc": "Santa Fe Unit Reefer",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
     },
     "short": false,
     "limit": 0
@@ -1010,8 +1278,8 @@
       "slow": 40,
       "start": 30
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "2919": {
     "desc": "Santa Fe / Old Style",
@@ -1023,21 +1291,47 @@
       "slow": 20,
       "start": 7
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
+  },
+  "2971": {
+    "desc": "Conrail/Freight",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "limit": 0,
+    "short": false
+  },
+  "3141": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "limit": 0,
+    "short": false
   },
   "3262": {
-    "desc": "CSX / Container Train",
+    "desc": "CSX / Tanker",
     "prof": {
-      "acc": 1,
-      "dec": 1,
-      "fast": 80,
-      "medium": 64,
+      "start": 17,
       "slow": 27,
-      "start": 17
+      "medium": 64,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "3322": {
     "desc": null,
@@ -1049,21 +1343,8 @@
       "slow": 40,
       "start": 30
     },
-    "short": false,
-    "limit": 0
-  },
-  "3333": {
-    "desc": "",
-    "prof": {
-      "start": 0,
-      "slow": 10,
-      "medium": 58,
-      "fast": 80,
-      "acc": 1,
-      "dec": 1
-    },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "3406": {
     "desc": null,
@@ -1078,8 +1359,8 @@
     "limit": 0,
     "short": false
   },
-  "3646": {
-    "desc": "description",
+  "3450": {
+    "desc": "Santa Fe 4-6-4 / Passenger",
     "prof": {
       "start": 0,
       "slow": 10,
@@ -1179,8 +1460,20 @@
       "acc": 1,
       "dec": 1
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
+  },
+  "4013": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "short": false
   },
   "4023": {
     "desc": "UP 4-8-8-4 / Pate Bros Circus",
@@ -1204,6 +1497,19 @@
       "medium": 80,
       "slow": 50,
       "start": 30
+    },
+    "limit": 0,
+    "short": false
+  },
+  "4068": {
+    "desc": "doodlebug",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
     },
     "limit": 0,
     "short": false
@@ -1257,8 +1563,21 @@
       "acc": 1,
       "dec": 1
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
+  },
+  "4124": {
+    "desc": "Cab Forward",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "limit": 0,
+    "short": false
   },
   "4197": {
     "desc": null,
@@ -1334,6 +1653,19 @@
       "medium": 60,
       "slow": 50,
       "start": 30
+    },
+    "limit": 0,
+    "short": false
+  },
+  "4599": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
     },
     "limit": 0,
     "short": false
@@ -1414,6 +1746,18 @@
       "start": 50
     },
     "limit": 0,
+    "short": false
+  },
+  "5319": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
     "short": false
   },
   "5450": {
@@ -1516,6 +1860,19 @@
       "medium": 60,
       "slow": 40,
       "start": 20
+    },
+    "limit": 0,
+    "short": false
+  },
+  "5804": {
+    "desc": "PRR E8",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
     },
     "limit": 0,
     "short": false
@@ -1663,6 +2020,58 @@
     "limit": 0,
     "short": false
   },
+  "6200": {
+    "desc": "Penn Q3 6-8-6 / Passenger ",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "limit": 0,
+    "short": false
+  },
+  "6238": {
+    "desc": "Conrail SD45 consist",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "limit": 0,
+    "short": false
+  },
+  "6302": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "limit": 0,
+    "short": false
+  },
+  "6397": {
+    "desc": "BN",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "limit": 0,
+    "short": false
+  },
   "6418": {
     "desc": "Penn / Mix Freight",
     "prof": {
@@ -1690,6 +2099,19 @@
     "short": false
   },
   "6588": {
+    "desc": "Conrail U36C /",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "limit": 0,
+    "short": false
+  },
+  "6600": {
     "desc": "",
     "prof": {
       "start": 0,
@@ -1699,8 +2121,33 @@
       "acc": 1,
       "dec": 1
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
+  },
+  "6628": {
+    "desc": "Conrail C36-7",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "limit": 0,
+    "short": false
+  },
+  "6681": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "short": false
   },
   "6733": {
     "desc": null,
@@ -1768,7 +2215,7 @@
     "short": false
   },
   "7000": {
-    "desc": "loco 7000",
+    "desc": "UP 2-8-2",
     "prof": {
       "start": 0,
       "slow": 10,
@@ -1777,6 +2224,7 @@
       "acc": 1,
       "dec": 1
     },
+    "limit": 0,
     "short": false
   },
   "7447": {
@@ -1789,8 +2237,8 @@
       "acc": 1,
       "dec": 1
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "7519": {
     "desc": null,
@@ -1831,6 +2279,18 @@
     "limit": 0,
     "short": false
   },
+  "8102": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
+    "short": false
+  },
   "8445": {
     "desc": "",
     "prof": {
@@ -1841,8 +2301,8 @@
       "acc": 1,
       "dec": 1
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "8936": {
     "desc": "",
@@ -1854,8 +2314,8 @@
       "acc": 1,
       "dec": 1
     },
-    "short": false,
-    "limit": 0
+    "limit": 0,
+    "short": false
   },
   "9002": {
     "desc": "Indiana / Tank Train",
@@ -1879,6 +2339,19 @@
       "medium": 58,
       "slow": 10,
       "start": 0
+    },
+    "limit": 0,
+    "short": false
+  },
+  "9166": {
+    "desc": "RDC",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
     },
     "limit": 0,
     "short": false
@@ -1933,6 +2406,31 @@
       "start": 35
     },
     "limit": 0,
+    "short": false
+  },
+  "9684": {
+    "desc": null,
+    "prof": {
+      "acc": 1,
+      "dec": 1,
+      "fast": 80,
+      "medium": 58,
+      "slow": 10,
+      "start": 0
+    },
+    "limit": 0,
+    "short": false
+  },
+  "9834": {
+    "desc": "",
+    "prof": {
+      "start": 0,
+      "slow": 10,
+      "medium": 58,
+      "fast": 80,
+      "acc": 1,
+      "dec": 1
+    },
     "short": false
   },
   "9916": {

@@ -186,6 +186,7 @@ class HTTPServer:
 			"getbreakers": self.GetBreakers,
 			"getengineers": self.GetEngineers,
 			"snapshot": self.GetSnapshot,
+			"retrievesnapshot": self.RetrieveSnapshotFile,
 			"snaplist": self.GetSnapList,
 			"schedlist": self.GetSchedList,
 			"turnoutlocks": self.GetTurnoutLocks,
@@ -362,7 +363,7 @@ class HTTPServer:
 		return 200, jstr
 
 	def GetSnapshot(self, cmd):
-		logging.debug("HTTP Server - savesnapshot")
+		logging.debug("HTTP Server - snapshot")
 		try:
 			action = cmd["action"][0]
 		except (KeyError, IndexError):
@@ -378,6 +379,31 @@ class HTTPServer:
 			return 200, jstr
 		else:
 			return 400, "Unknown action: %s" % action
+
+	def RetrieveSnapshotFile(self, cmd):
+		logging.debug("HTTP Server - retrievesnapshot")
+		try:
+			snapFile = cmd["file"][0]
+		except (KeyError, IndexError):
+			logging.debug("retrievesnapshot command missing file name: %s" % str(cmd))
+			return 400, "Missing filename"
+
+		fn = os.path.join(os.getcwd(), "data", "snapshots", snapFile)
+
+		try:
+			with open(fn, "r") as jfp:
+				j = json.load(jfp)
+		except FileNotFoundError:
+			msg = "Snapshot file %s not found" % snapFile
+			logging.info(msg)
+			return 400, msg
+
+		except Exception as e:
+			msg = "Unknown error loading snapshot %s - %s" % (fn, str(e))
+			logging.info(msg)
+			return 400, msg
+
+		return 200, json.dumps(j)
 
 	def GetSnapList(self, cmd):
 		logging.debug("http server snaplist")

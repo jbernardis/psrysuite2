@@ -2,6 +2,7 @@ If I split a train with problem dialog box, and then rename the surviving train,
 
 I got an error in RH when I tried to turn off ignore block persistently.  I can't reproduce here
 
+is there a DCC command for "stop" that I should use if speed is being set to 0?????
 
 Have the ability to preset fleet bits in the ini file
 
@@ -12,7 +13,8 @@ possible webapp functionality:
     block status
     turnout locks
     lever status
-    matrix turnout control
+    breakers
+    matrix turnout control - need to finish this
         yard/waterman
         hyde
         nassau
@@ -21,15 +23,11 @@ possible webapp functionality:
 
 break train - simple split for 1 block
 
-
-
+when reloading trains, it should be a global action - rrserver should do it and instruct all displays tro do it.  Only initiated from dispatcher or satellite
 
 
 
 when assigning an engineer to a train, if that train currently has an edit train dialog, that dialog is not updated.  This might be true for loco too.
-
-swap trains did not work when testing in rocky hill - can't reproduce - need to diagnose further - will add logging
-
 
 
 interactive schedule that can be brought up on tm/dispatch,
@@ -49,7 +47,6 @@ done, but need the final details:
 
 
 specific things that need to be checked:
-    Block P50 directionality and train movement is not working - I think it works with the manual moving from monitor - this might be isolated to trafficgen
 
     Need to test dcc sniffer logic
 

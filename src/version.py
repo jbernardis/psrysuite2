@@ -1,3 +1,3 @@
 version = {
-	"date": "30-sep-2026"
+	"date": "03-oct-2026"
 }

@@ -1204,6 +1204,7 @@ class ServerMain:
 			tr.SetTemplateSeq([])
 		else:
 			r = self.rr.GetTrainRoster(template)
+
 			if r is None:
 				tr.SetTemplateTrain(None)
 				tr.SetTemplateSeq([])

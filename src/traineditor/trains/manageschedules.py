@@ -1,11 +1,10 @@
 import wx
 import wx.adv
 
-import sys
+import re
 import os
 import subprocess
 import qrcode
-import logging
 import openpyxl
 from openpyxl.styles import Font, Border, Alignment, Side, PatternFill
 
@@ -14,6 +13,19 @@ from traineditor.reports import Report
 from traineditor.trains.choosetrains import ChooseTrainsDlg
 
 BTNSZ = (120, 46)
+
+
+def ExtractTemplate(tid):
+	pattern = r'([A-Za-z0-9]+)\(([A-Za-z0-9]+)'
+	m = re.search(pattern, tid)
+	if not m:
+		return tid, tid
+
+	g = m.groups()
+	if len(g) != 2:
+		return tid, tid
+
+	return g[0], g[1]
 
 
 class ManageSchedules:
@@ -42,20 +54,20 @@ class ManageSchedules:
 		r = TrainCardsReport(self.parent, self.browser)
 		r.TrainCards(self.roster, sched)
 
-	def ScheduleReport(self, sched, selTrain):
+	def ScheduleReport(self, sched, selTrain, trainInfo):
 		dlg = SchedParmsDlg(self.parent)
 		rc = dlg.ShowModal()
 		if rc != wx.ID_OK:
 			dlg.Destroy()
 			return
 
-		odate, live, resume, html, excel = dlg.GetResults()
+		odate, resume, html, excel = dlg.GetResults()
 		dlg.Destroy()
 
 		if not resume:
 			selTrain = None
 
-		r = SchedulesReport(self.parent, self.browser, self.spreadsheet, live,  odate, selTrain)
+		r = SchedulesReport(self.parent, self.browser, self.spreadsheet, trainInfo,  odate, selTrain)
 
 		if html:
 			r.ScheduleReportHTML(self.roster, self.locos, sched, self.rrserver)
@@ -65,12 +77,12 @@ class ManageSchedules:
 
 
 class SchedulesReport(Report):
-	def __init__(self, parent, browser, spreadsheet, live, odate, selTrain):
+	def __init__(self, parent, browser, spreadsheet, trinfo, odate, selTrain):
 		Report.__init__(self, parent, browser, spreadsheet)
 		self.parent = parent
 		self.roster = None
 		self.locos = None
-		self.useLiveData = live
+		self.trInfo = trinfo
 		self.selectedTrain = selTrain
 		self.odate = odate
 
@@ -139,16 +151,13 @@ class SchedulesReport(Report):
 					HTML.th({}, "Terminus"),
 					)
 
-		activetrains = rrserver.Get("activetrains", {})
-		logging.debug("active trains = %s" % str(activetrains))
-
 		rows = []
 		rowx = 1
 		sch = sched.getSchedule()
 		schSeq = self.GetRange(sch, self.selectedTrain)
 		for tx in schSeq:
 			tid = sch[tx]
-			tinfo = activetrains.get(tid, None) if self.useLiveData else None
+			tinfo = None if self.trInfo is None else self.trInfo.get(tid, None)
 			rows.append(self.formatTableRow(tid, tinfo, rowx))
 			rowx += 1
 
@@ -160,7 +169,7 @@ class SchedulesReport(Report):
 		rows = []
 		rowx = 1
 		for tid in sched.getExtras():
-			tinfo = activetrains.get(tid, None) if self.useLiveData else None
+			tinfo = None if self.trInfo is None else self.trInfo.get(tid, None)
 			rows.append(self.formatTableRow(tid, tinfo, rowx, alpha=True))
 			rowx += 1
 
@@ -175,21 +184,25 @@ class SchedulesReport(Report):
 		self.openBrowser("Schedule", html)
 
 	def formatTableRow(self, tid, tinfo, rowx, alpha=False):
-		r = self.roster.get(tid, None)
+		if "(" in tid:
+			trid, template = ExtractTemplate(tid)
+		else:
+			template = tid
+			trid = tid
+
+		r = self.roster.get(template, None)
 		if r is None:
 			east = True
 			origin = ""
 			terminus = ""
 			loco = None
+			desc = ""
 		else:
 			east = r["eastbound"]
 			origin = "%s" % r["origin"]["loc"]
 			trk = r["origin"]["track"]
-			if tinfo is not None:
-				blks = tinfo.get("blocks", None)
-				if blks is not None and len(blks) > 0:
-					if trk != blks[0]:
-						trk = blks[0] + "*"
+			if tinfo is not None and "track" in tinfo and tinfo["track"] is not None:
+				trk = tinfo["track"]
 
 			if trk is not None:
 				origin += "(%s)" % trk
@@ -198,13 +211,13 @@ class SchedulesReport(Report):
 			if trk is not None:
 				terminus += "(%s)" % trk
 			loco = r.get("normalloco", None)
+			desc = r.get("desc", "")
 
 		if tinfo is not None:
 			aloco = tinfo.get("loco", None)
 			if aloco is not None and aloco != "??":
 				loco = aloco
 
-		desc = r.get("desc", "")
 		if loco is None:
 			loco = ""
 
@@ -256,8 +269,6 @@ class SchedulesReport(Report):
 			dlg.Destroy()
 			return
 
-		activetrains = rrserver.Get("activetrains", {})
-
 		wb = openpyxl.Workbook()
 		ws = wb.active
 
@@ -297,7 +308,7 @@ class SchedulesReport(Report):
 		schSeq = self.GetRange(sch, self.selectedTrain)
 		for tx in schSeq:
 			tid = sch[tx]
-			tinfo = activetrains.get(tid, None) if self.useLiveData else None
+			tinfo = None if self.trInfo is None else self.trInfo.get(tid, None)
 			self.formatSheetRow(tid, tinfo, ws, rowx, index)
 			rowx += 1
 			index += 1
@@ -339,7 +350,7 @@ class SchedulesReport(Report):
 			index = 1
 			startrow = rowx
 			for tid in sched.getExtras():
-				tinfo = activetrains.get(tid, None) if self.useLiveData else None
+				tinfo = None if self.trInfo is None else self.trInfo.get(tid, None)
 				self.formatSheetRow(tid, tinfo, ws, rowx, index, alpha=True)
 				rowx += 1
 				index += 1
@@ -374,46 +385,56 @@ class SchedulesReport(Report):
 			process = subprocess.Popen([self.spreadsheet, xlsfn])
 
 	def formatSheetRow(self, tid, tinfo, ws, rowx, index, alpha=False):
-		r = self.roster.get(tid, None)
+		if "(" in tid:
+			trid, template = ExtractTemplate(tid)
+		else:
+			template = tid
+			trid = tid
+
+		r = self.roster.get(template, None)
+
 		if r is None:
 			east = True
 			origin = ""
 			terminus = ""
 			loco = None
+			desc = ""
 		else:
 			east = r["eastbound"]
 			origin = "%s" % r["origin"]["loc"]
 			trk = r["origin"]["track"]
-			if tinfo is not None:
-				blks = tinfo.get("blocks", None)
-				if blks is not None and len(blks) > 0:
-					trk = blks[0]
+			if tinfo is not None and "track" in tinfo and tinfo["track"] is not None:
+				trk = tinfo["track"]
+
 			if trk is not None:
 				origin += "(%s)" % trk
+
 			terminus = "%s" % r["terminus"]["loc"]
 			trk = r["terminus"]["track"]
 			if trk is not None:
 				terminus += "(%s)" % trk
+
 			loco = r.get("normalloco", None)
+			desc = r.get("desc", "")
 
 		if tinfo is not None:
 			aloco = tinfo.get("loco", None)
 			if aloco is not None:
 				loco = aloco
 
-		desc = r.get("desc", "")
 		if loco is None:
 			loco = ""
 		else:
 			linfo = self.locos.getLoco(loco)
-			if len(desc) == 0:
-				desc = linfo["desc"]
-			else:
-				if len(linfo["desc"]) > 0:
-					desc = linfo["desc"] + " / " + desc
+			if linfo is not None:
+				if len(desc) == 0:
+					desc = linfo["desc"]
+				else:
+					if len(linfo["desc"]) > 0:
+						desc = linfo["desc"] + " / " + desc
 
-			if linfo is not None and linfo["short"]:
-				loco += "(s)"
+				if "short" in linfo and linfo["short"]:
+					loco += "(s)"
 
 		passenger = tid[0].isdigit()
 
@@ -498,15 +519,26 @@ class TrainCardsReport (Report):
 
 		tx = 0
 		for tid in sched.getSchedule():
-			self.TrainQRCode(tid)
-			cards.append(self.formatTrainCard(tid, roster[tid], "%d" % (tx+1)))
+			if "(" in tid:
+				trid, template = ExtractTemplate(tid)
+			else:
+				template = tid
+				trid = tid
+			self.TrainQRCode(trid)
+			cards.append(self.formatTrainCard(trid, template, roster[template], "%d" % (tx+1)))
 			tx += 1
 
 		tx = 0
 		for tid in sched.getExtras():
-			self.TrainQRCode(tid)
+			if "(" in tid:
+				trid, template = ExtractTemplate(tid)
+			else:
+				template = tid
+				trid = tid
+
+			self.TrainQRCode(trid)
 			cn = chr(ord('A') + tx)
-			cards.append(self.formatTrainCard(tid, roster[tid], cn))
+			cards.append(self.formatTrainCard(trid, template, roster[template], cn))
 			tx += 1
 
 		nCards = len(cards)
@@ -547,10 +579,13 @@ class TrainCardsReport (Report):
 		fn = os.path.join(os.getcwd(), "qrcodes", "train_%s.png" % tid)
 		img.save(fn)
 
-	def formatTrainCard(self, tid, tinfo, tx):
+	def formatTrainCard(self, tid, template, tinfo, tx):
 		fn = os.path.join("qrcodes", "train_%s.png" % tid)
 		img = HTML.img({"src": fn})
-		trainIdRow = HTML.tr({}, HTML.td({"class": "trainid", "colspan": "2"}, tid), HTML.td({"class": "qr"}, img))
+		trid = tid
+		if template != tid:
+			trid = "%s(%s)" % (tid, template)
+		trainIdRow = HTML.tr({}, HTML.td({"class": "trainid", "colspan": "2"}, trid), HTML.td({"class": "qr"}, img))
 		emptyRow = HTML.tr({"class": "datarow"}, HTML.td({}, HTML.nbsp()))
 		descr = "%sbound %s" % ("East" if tinfo["eastbound"] else "West", tinfo["desc"])
 		if tinfo["cutoff"]:
@@ -594,9 +629,6 @@ class SchedParmsDlg(wx.Dialog):
 		self.dpToday = wx.adv.DatePickerCtrl(self, size=(120, -1),
 						style=wx.adv.DP_DROPDOWN | wx.adv.DP_SHOWCENTURY)
 
-		self.cbLiveData = wx.CheckBox(self, wx.ID_ANY, "Use Live Data")
-		self.cbLiveData.SetValue(True)
-
 		self.cbResumeAtSelected = wx.CheckBox(self, wx.ID_ANY, "Resume at selected train")
 		self.cbResumeAtSelected.SetValue(False)
 		self.rbFormat = wx.RadioBox(self, wx.ID_ANY, "Output Format", choices=["HTML", "Excel"], majorDimension=1, style=wx.RA_SPECIFY_COLS)
@@ -614,9 +646,6 @@ class SchedParmsDlg(wx.Dialog):
 		vsz.Add(self.stReportDate, 0, wx.ALIGN_CENTER_HORIZONTAL)
 		vsz.Add(self.dpToday, 0, wx.ALIGN_CENTER_HORIZONTAL)
 		vsz.AddSpacer(10)
-
-		vsz.Add(self.cbLiveData, 0, wx.LEFT, 40)
-		vsz.AddSpacer(5)
 
 		vsz.Add(self.cbResumeAtSelected, 0, wx.LEFT, 40)
 		vsz.AddSpacer(20)
@@ -669,7 +698,7 @@ class SchedParmsDlg(wx.Dialog):
 	def GetResults(self):
 		dt = self.dpToday.GetValue()
 		dstr = dt.Format("%d-%b-%Y")
-		return dstr, self.cbLiveData.IsChecked(), self.cbResumeAtSelected.IsChecked(), self.fmtHTML, self.fmtExcel
+		return dstr, self.cbResumeAtSelected.IsChecked(), self.fmtHTML, self.fmtExcel
 
 
 

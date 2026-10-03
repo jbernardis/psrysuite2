@@ -1453,7 +1453,7 @@ class MainFrame(wx.Frame):
 		self.menuTrain = tr
 		self.menuBlock = blk
 		self.menuTrainID = trid
-		self.menuBlockName = blk.Name()
+		#  self.menuBlockName = blk.Name()
 
 		itm = wx.MenuItem(menu, MENU_TRAIN_EDIT, "Edit train name/loco/engineer")
 		itm.SetFont(self.menuFont)
@@ -1515,8 +1515,24 @@ class MainFrame(wx.Frame):
 
 	def GetTrainRoster(self, rname):
 		roster = self.trainRoster.get(rname, None)
-		# tr = self.trains.get(rname, self.trainNameMap.get(rname, None))
-		return roster
+		if roster is not None:
+			return roster
+
+		iname = self.RNameToINameMap.get(rname, None)
+		if iname is None:
+			logging.error("Unknown roster name: %s" % rname)
+			return None
+
+		#  see if there is a template for this train
+		tr = self.trains[iname]
+		templateTn = tr.TemplateTrain()
+
+		tr = self.trainRoster.get(templateTn, None)
+		if tr is None:
+			logging.error("Template train %s not known" % str(templateTn))
+			return None
+
+		return tr
 
 	def OnTrainEdit(self, _):
 		self.EditTrain(self.menuTrain, self.menuBlock)
@@ -3894,6 +3910,8 @@ class MainFrame(wx.Frame):
 					tr.SetTemplateTrain(None)
 			else:
 				tr.SetTemplateTrain(None)
+
+		self.BuildINameMap()
 
 		tr.SetStopped(stopped)
 		tr.SetATC(atc)
