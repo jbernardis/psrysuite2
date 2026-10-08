@@ -18,7 +18,7 @@ class RouteTrainDlg(wx.Dialog):
 		wx.Dialog.__init__(self, parent, wx.ID_ANY, "", style=wx.CAPTION|wx.CLOSE_BOX|wx.STAY_ON_TOP)
 		self.parent = parent
 		self.train = train
-		self.template = trinfo["template"]
+		self.template = train.TemplateTrain()
 		self.trainName = train.Name()
 		self.trinfo = trinfo
 		self.isDispatcher = isDispatcher

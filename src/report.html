@@ -1,91 +1,19 @@
 <html><head>
 <style type="text/css" media="screen, print">
-table { border-collapse : collapse; border-spacing : 0; width : 230mm; font-family : Arial, sans-serif; font-size : 14px; margin-left : auto; margin-right : auto;}
-th { text-align : center; overflow : hidden;}
-td { text-align : center; overflow : hidden;}
-table, th, td { border : 1px solid black; border-collapse : collapse;}
-td.index { width : 10mm; font-weight : bold;}
-td.trainid { width : 20mm; font-weight : bold;}
-td.dir { width : 10mm; font-weight : bold;}
-td.loco { width : 20mm; font-weight : bold;}
-td.locodesc { width : 340mm; font-weight : bold; font-size : 12px;}
-td.engineer { width : 60mm;}
-td.origin { width : 32mm; font-weight : bold;}
-td.terminus { width : 32mm; font-weight : bold;}
-td.freight { background-color : #FFB6B2;}
-td.passenger { background-color : #8AFFBB;}
-td.east { background-color : #FFB6B2;}
-td.west { background-color : #8AFFBB;}
-p.header { font-family : Arial, sans-serif; font-size : 30px; font-weight : bold;}
+div.page { page-break-inside : avoid;}
+* { box-sizing : border-box;}
+.row { margin-left : -5px; margin-right : -5px; height : 107mm;}
+.column { float : left; width : 136mm; padding : 1px;}
+.row::after { content : ""; clear : both; display : table;}
+tr.qrrow { height : 15mm;}
+table { border-collapse : collapse; border-spacing : 0; width : 100%; height : 106mm; font-family : "Times New Roman", Times, serif; font-size : 16px;}
+td.trainid { width : 36.4%; padding-left : 50px; padding-top : 10px; font-size : 28px; font-weight : bold;}
+td.qr { width : 36.4%; padding-left : 150px;}
+td.firstcol { width : 36.4%; padding-left : 50px;}
+td.secondcol { width : 10%;}
+tr.datarow { height : 5mm;}
+tr.descrow { height : 5mm;}
+td { text-align : left; padding-left : 6px;}
+td.cardnumber { text-align : right; padding-right : 50px;}
 </style>
-</head><body><div style="height: 10px"></div><p align="center" class="header">Train Schedule for 02-Oct-2026</p><table><tr><th></th> <th>Train</th> <th>Dir</th> <th>Loco</th> <th>Description</th> <th>Eng</th> <th>Origin</th> <th>Terminus</th></tr> <tr>
-   <td class="index">1 </td>
-   <td class="trainid west">CP1(CPXX)</td>
-   <td class="dir west">W</td>
-   <td class="loco west">942</td>
-   <td class="locodesc west">UP Passenger / Westbound Express Passenger</td>
-   <td class="engineer"></td>
-   <td class="origin west">CF(N11)</td>
-   <td class="terminus west">YD</td>
-</tr>
-<tr>
-   <td class="index">2 </td>
-   <td class="trainid west">CP2(CPXX)</td>
-   <td class="dir west">W</td>
-   <td class="loco west">5319</td>
-   <td class="locodesc west">Westbound Express Passenger</td>
-   <td class="engineer"></td>
-   <td class="origin west">CF(C50)</td>
-   <td class="terminus west">YD</td>
-</tr>
-<tr>
-   <td class="index">3 </td>
-   <td class="trainid west">CP4(CPXX)</td>
-   <td class="dir west">W</td>
-   <td class="loco west">9834</td>
-   <td class="locodesc west">Westbound Express Passenger</td>
-   <td class="engineer"></td>
-   <td class="origin west">CF(C52)</td>
-   <td class="terminus west">YD</td>
-</tr>
-<tr>
-   <td class="index">4 </td>
-   <td class="trainid west">CP5(CPXX)</td>
-   <td class="dir west">W</td>
-   <td class="loco west">4113</td>
-   <td class="locodesc west">Westbound Express Passenger</td>
-   <td class="engineer"></td>
-   <td class="origin west">CF(C53)</td>
-   <td class="terminus west">YD</td>
-</tr>
-<tr>
-   <td class="index">5 </td>
-   <td class="trainid west">CP6(CPXX)</td>
-   <td class="dir west">W</td>
-   <td class="loco west">1419</td>
-   <td class="locodesc west">B&O / Long Passenger / Westbound Express Passenger</td>
-   <td class="engineer"></td>
-   <td class="origin west">CF(C54)</td>
-   <td class="terminus west">YD</td>
-</tr>
-<tr>
-   <td class="index">6 </td>
-   <td class="trainid east">62</td>
-   <td class="dir east">E</td>
-   <td class="loco east"></td>
-   <td class="locodesc east">Eastbound Local Passenger</td>
-   <td class="engineer"></td>
-   <td class="origin east">PT</td>
-   <td class="terminus east">NA</td>
-</tr>
-<tr>
-   <td class="index">7 </td>
-   <td class="trainid west">63</td>
-   <td class="dir west">W</td>
-   <td class="loco west"></td>
-   <td class="locodesc west">Westbound Local Passenger (RDC)</td>
-   <td class="engineer"></td>
-   <td class="origin west">PT</td>
-   <td class="terminus west">YD</td>
-</tr>
-</table></body></html>
+</head><body><div class="page"><div class="row"><div class="column"><table><tr><td class="trainid" colspan="2">12</td> <td class="qr"><img src="qrcodes\train_12.png"></td></tr> <tr class="descrow"><td class="firstcol" colspan="3">Eastbound Eastbound Express Passenger</td></tr> <tr class="datarow"><td>&nbsp;</td></tr> <tr class="datarow"><td class="firstcol">YARD</td> <td class="secondcol"></td> <td>Koehlstadt</td></tr> <tr class="datarow"><td class="firstcol">LATHAM</td> <td class="secondcol"></td> <td></td></tr> <tr class="datarow"><td class="firstcol">DELL</td> <td class="secondcol"></td> <td></td></tr> <tr class="datarow"><td class="firstcol">SHORE</td> <td class="secondcol"></td> <td></td></tr> <tr class="datarow"><td class="firstcol">NASSAU</td> <td class="secondcol"></td> <td>Wilson City (N41 or N42)</td></tr> <tr class="datarow"><td class="firstcol">BANK</td> <td class="secondcol"></td> <td></td></tr> <tr class="datarow"><td class="firstcol">CLIFF</td> <td class="secondcol"></td> <td></td></tr> <tr class="datarow"><td>&nbsp;</td></tr><tr class="datarow"><td>&nbsp;</td></tr><tr class="datarow"><td>&nbsp;</td></tr> <tr><td></td> <td></td> <td class="cardnumber">1</td></tr></table></div> <div class="column"><table><tr><td class="trainid" colspan="2">62</td> <td class="qr"><img src="qrcodes\train_62.png"></td></tr> <tr class="descrow"><td class="firstcol" colspan="3">Eastbound Eastbound Local Passenger (via cutoff)</td></tr> <tr class="datarow"><td>&nbsp;</td></tr> <tr class="datarow"><td class="firstcol">PORT</td> <td class="secondcol"></td> <td>Southport</td></tr> <tr class="datarow"><td class="firstcol"></td> <td class="secondcol"></td> <td>Radstock</td></tr> <tr class="datarow"><td class="firstcol"></td> <td class="secondcol"></td> <td>Richards</td></tr> <tr class="datarow"><td class="firstcol">NASSAU</td> <td class="secondcol"></td> <td>Wilson City (N41 or N42)</td></tr> <tr class="datarow"><td class="firstcol"></td> <td class="secondcol"></td> <td>To Coach Yard</td></tr> <tr class="datarow"><td>&nbsp;</td></tr><tr class="datarow"><td>&nbsp;</td></tr><tr class="datarow"><td>&nbsp;</td></tr><tr class="datarow"><td>&nbsp;</td></tr><tr class="datarow"><td>&nbsp;</td></tr> <tr><td></td> <td></td> <td class="cardnumber">A</td></tr></table></div></div></div></body></html>

@@ -37,8 +37,8 @@ class ChooseTrainsDlg(wx.Dialog):
 
 		self.setTitle()
 
-		btnFont = wx.Font(wx.Font(10, wx.FONTFAMILY_ROMAN, wx.NORMAL, wx.BOLD, faceName="Arial"))
-		textFont = wx.Font(wx.Font(12, wx.FONTFAMILY_ROMAN, wx.NORMAL, wx.NORMAL, faceName="Arial"))
+		btnFont = wx.Font(wx.Font(10, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, faceName="Arial"))
+		textFont = wx.Font(wx.Font(12, wx.FONTFAMILY_ROMAN, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, faceName="Arial"))
 		
 		self.lbAll = wx.ListBox(self, wx.ID_ANY, choices=self.availableTrains, size=wx.Size(120, 330))
 		self.lbAll.SetFont(textFont)
@@ -393,7 +393,10 @@ class ChooseTrainsDlg(wx.Dialog):
 		self.setModified()
 
 	def bCardsPressed(self, _):
-		self.trainCardsReport(self.schedule)
+		sched = Schedule()
+		sched.setNewSchedule(self.scheduleTrains)
+		sched.setNewExtras(self.extraTrains)
+		self.trainCardsReport(sched)
 
 	def bSchedPressed(self, _):
 		ix = self.lbSchedule.GetSelection()

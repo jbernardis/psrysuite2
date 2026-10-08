@@ -158,16 +158,14 @@ class TurnoutControl:
 		else:
 			action, self.chosengroup, self.chosenbutton = buttongroup.split(":")
 
-		html += self.ButtonGroup("Waterman East", [["YWWB1", "Y81 East", "Y81E"], ["YWWB2", "Y82 East", "Y82E"], ["YWWB3", "Y83 East", "Y83E"], ["YWWB4", "Y84 East", "Y84E"]], "WYE", action)
-		html += self.ButtonGroup("Waterman West", [["YWEB1", "Y81 West", "Y81W"], ["YWEB2", "Y82 West", "Y82W"], ["YWEB3", "Y83 West", "Y83W"], ["YWEB4", "Y84 West", "Y84W"]], "WYW", action)
+		html += self.ButtonGroup("Waterman West", [["YWEB1", "Y81 West", "Y81E"], ["YWEB2", "Y82 West", "Y82E"], ["YWEB3", "Y83 West", "Y83E"], ["YWEB4", "Y84 West", "Y84E"]], "WYW", action)
+		html += self.ButtonGroup("Waterman East", [["YWWB1", "Y81 East", "Y81W"], ["YWWB2", "Y82 East", "Y82W"], ["YWWB3", "Y83 East", "Y83W"], ["YWWB4", "Y84 East", "Y84W"]], "WYE", action)
 
-		html += HTML.p({}, "Waterman West")
-		html += HTML.p({}, "Nassau East")
-		html += HTML.p({}, "Nassau West")
 		html += HTML.p({}, "Sheffield East")
 		html += HTML.p({}, "Sheffield West")
 		html += HTML.p({}, "Green Mountain East")
 		html += HTML.p({}, "Green Mountain West")
+		#  nassau - 2 button variant
 
 		html += HTML.enddiv()  # column
 		html += HTML.enddiv()  # grid containder
@@ -189,6 +187,8 @@ class TurnoutControl:
 	def ButtonGroup(self, heading, rbinfo, rgroup, action):
 		html = HTML.startdiv({"class": "buttongroup"})
 		html += HTML.p({}, heading)
+		logging.info("===================================================================")
+		logging.info("button group: %s %s %s %s" % (heading, str(rbinfo), rgroup, action))
 
 		lastAddr = None
 		rtStatus = {}
@@ -209,13 +209,17 @@ class TurnoutControl:
 					html += HTML.p({}, "Request successfully sent")
 
 			for bname, _, route in rbinfo:
+				logging.error("getting route infor for %s" % rgroup)
 				rtInfo = self.routesin.RouteInfo(route)
+				logging.error("info = (%s)" % str(rtInfo))
 				rtStatus[route] = False
 				stat = rtInfo["status"]
 				try:
 					bits = rtInfo["status"][0][0]
 					addr = rtInfo["status"][1]
+					logging.error("bits = %s, addr = %s" % (str(bits), str(addr)))
 				except (KeyError, IndexError):
+					logging.info("error 1")
 					pass
 				else:
 					if addr != lastAddr:
@@ -223,10 +227,14 @@ class TurnoutControl:
 						lastAddr = addr
 					try:
 						rtStatus[route] = BitSet(bits[0], bits[1], r["in"])
+						logging.info("checking bit %d:%d inside %s = %s" % (bits[0], bits[1], r["in"], rtStatus[route]))
 					except (KeyError, IndexError):
+						logging.info("error 2")
 						pass
 		else:
 			self.selectedButton = rbinfo[0][0]
+
+		logging.info("========================================================")
 
 		prefix = ""
 		rbs = []
