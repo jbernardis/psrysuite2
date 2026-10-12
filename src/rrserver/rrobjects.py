@@ -487,6 +487,9 @@ class Block:
 				self.nextBlockEast = blk
 
 	def NextDetectionSectionEast(self):
+		dbg = self.Name() == "Y82"
+		if dbg:
+			logging.debug("==========================================")
 		if self.osblk is not None:
 			if self.osblk.IsReversed():
 				blk = self.osblk.NextDetectionSectionWest()
@@ -497,6 +500,9 @@ class Block:
 			blk = self.mainBlock.NextDetectionSectionEast()
 
 		elif self.stoppedBlock is None:
+			if dbg:
+				logging.debug("This is a main block")
+				logging.debug("Next section East = %s" % self.GetNextEast)
 			# this is a main block
 			if self.stoppingBlocks[SBEAST] is not None:
 				blk = self.stoppingBlocks[SBEAST]
@@ -512,6 +518,8 @@ class Block:
 			blk = self.GetNextEast()
 
 		if blk is None:
+			if dbg:
+				logging.debug("returning None")
 			return None
 
 		if blk.Name() in ["KOSN10S11", "KOSN20S21"]:

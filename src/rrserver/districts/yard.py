@@ -171,14 +171,14 @@ class Yard(District):
 			self.rr.AddSignalLever("Y26", self, n, addr, [(2, 3), (2, 4), (2, 5)])
 			self.rr.AddSignalLever("Y34", self, n, addr, [(2, 6), (2, 7), (3, 0)])
 			
-			self.rr.AddRouteIn("Y81W",  self, n, addr, [(3, 3)])
-			self.rr.AddRouteIn("Y82W",  self, n, addr, [(3, 4)])
-			self.rr.AddRouteIn("Y83W",  self, n, addr, [(3, 5)])
-			self.rr.AddRouteIn("Y84W",  self, n, addr, [(3, 6)])
-			self.rr.AddRouteIn("Y81E",  self, n, addr, [(3, 7)])
-			self.rr.AddRouteIn("Y82E",  self, n, addr, [(4, 0)])
-			self.rr.AddRouteIn("Y83E",  self, n, addr, [(4, 1)])
-			self.rr.AddRouteIn("Y84E",  self, n, addr, [(4, 2)])
+			self.rr.AddRouteIn("Y81E",  self, n, addr, [(3, 3)])
+			self.rr.AddRouteIn("Y82E",  self, n, addr, [(3, 4)])
+			self.rr.AddRouteIn("Y83E",  self, n, addr, [(3, 5)])
+			self.rr.AddRouteIn("Y84E",  self, n, addr, [(3, 6)])
+			self.rr.AddRouteIn("Y81W",  self, n, addr, [(3, 7)])
+			self.rr.AddRouteIn("Y82W",  self, n, addr, [(4, 0)])
+			self.rr.AddRouteIn("Y83W",  self, n, addr, [(4, 1)])
+			self.rr.AddRouteIn("Y84W",  self, n, addr, [(4, 2)])
 			
 			self.rr.AddBlock("Y70",    self, n, addr, [(4, 3)], True)  # waterman detectiuon
 			self.rr.AddBlock("YOSWYE", self, n, addr, [(4, 4)], True) #  WOS1
@@ -226,14 +226,14 @@ class Yard(District):
 			self.rr.AddTurnout("YSw29", self, n, addr, [(2, 6), (2, 7)])			
 			self.rr.AddTurnout("YSw33", self, n, addr, [(3, 0), (3, 1)])
 			
-			self.rr.AddOutNXButton("YWWB1", self, n, addr, [(4, 0)])
-			self.rr.AddOutNXButton("YWWB2", self, n, addr, [(4, 1)])
-			self.rr.AddOutNXButton("YWWB3", self, n, addr, [(4, 2)])
-			self.rr.AddOutNXButton("YWWB4", self, n, addr, [(4, 3)])
-			self.rr.AddOutNXButton("YWEB1", self, n, addr, [(4, 4)])
-			self.rr.AddOutNXButton("YWEB2", self, n, addr, [(4, 5)])
-			self.rr.AddOutNXButton("YWEB3", self, n, addr, [(4, 6)])
-			self.rr.AddOutNXButton("YWEB4", self, n, addr, [(4, 7)])
+			self.rr.AddOutNXButton("YWEB1", self, n, addr, [(4, 0)])
+			self.rr.AddOutNXButton("YWEB2", self, n, addr, [(4, 1)])
+			self.rr.AddOutNXButton("YWEB3", self, n, addr, [(4, 2)])
+			self.rr.AddOutNXButton("YWEB4", self, n, addr, [(4, 3)])
+			self.rr.AddOutNXButton("YWWB1", self, n, addr, [(4, 4)])
+			self.rr.AddOutNXButton("YWWB2", self, n, addr, [(4, 5)])
+			self.rr.AddOutNXButton("YWWB3", self, n, addr, [(4, 6)])
+			self.rr.AddOutNXButton("YWWB4", self, n, addr, [(4, 7)])
 			# no inputs
 			# virtual turnouts - no bits - for waterman
 			self.rr.AddTurnoutPosition("YSw113", self, n, addr, [])
@@ -254,14 +254,14 @@ class Yard(District):
 		self.currentRoute = {"east": None, "west": None}
 
 		self.routeMap = {
-				"Y81W": [ ["YSw113", "N"], ["YSw115","N"], ["YSw116", "N"] ], 
-				"Y82W": [ ["YSw113", "N"], ["YSw115","R"], ["YSw116", "R"] ],
-				"Y83W": [ ["YSw113", "N"], ["YSw115","R"], ["YSw116", "N"] ],
-				"Y84W": [ ["YSw113", "R"], ["YSw115","N"], ["YSw116", "N"] ],
-				"Y81E": [ ["YSw131", "N"], ["YSw132","N"], ["YSw134", "N"] ], 
-				"Y82E": [ ["YSw131", "R"], ["YSw132","R"], ["YSw134", "N"] ],
-				"Y83E": [ ["YSw131", "N"], ["YSw132","R"], ["YSw134", "N"] ],
-				"Y84E": [ ["YSw131", "N"], ["YSw132","N"], ["YSw134", "R"] ],
+				"Y81E": [ ["YSw113", "N"], ["YSw115","N"], ["YSw116", "N"] ],
+				"Y82E": [ ["YSw113", "N"], ["YSw115","R"], ["YSw116", "R"] ],
+				"Y83E": [ ["YSw113", "N"], ["YSw115","R"], ["YSw116", "N"] ],
+				"Y84E": [ ["YSw113", "R"], ["YSw115","N"], ["YSw116", "N"] ],
+				"Y81W": [ ["YSw131", "N"], ["YSw132","N"], ["YSw134", "N"] ],
+				"Y82W": [ ["YSw131", "R"], ["YSw132","R"], ["YSw134", "N"] ],
+				"Y83W": [ ["YSw131", "N"], ["YSw132","R"], ["YSw134", "N"] ],
+				"Y84W": [ ["YSw131", "N"], ["YSw132","N"], ["YSw134", "R"] ],
 		}
 
 	def Locale(self):
@@ -327,7 +327,7 @@ class Yard(District):
 			for m in msgs:
 				self.rr.RailroadEvent(m)
 
-			return "YOSWYW" if group == "east" else "YOSWYE"
+			return "YOSWYE" if group == "east" else "YOSWYW"
 
 		else:
 			if rt.name == self.currentRoute[group]:

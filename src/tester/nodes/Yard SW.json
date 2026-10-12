@@ -140,22 +140,6 @@
     ],
     [
       {
-        "label": "YWWB1 Button",
-        "used": true
-      },
-      {
-        "label": "YWWB2 Button",
-        "used": true
-      },
-      {
-        "label": "YWWB3 Button",
-        "used": true
-      },
-      {
-        "label": "YWWB4 Button",
-        "used": true
-      },
-      {
         "label": "YWEB1 Button",
         "used": true
       },
@@ -169,6 +153,22 @@
       },
       {
         "label": "YWEB4 Button",
+        "used": true
+      },
+      {
+        "label": "YWWB1 Button",
+        "used": true
+      },
+      {
+        "label": "YWWB2 Button",
+        "used": true
+      },
+      {
+        "label": "YWWB3 Button",
+        "used": true
+      },
+      {
+        "label": "YWWB4 Button",
         "used": true
       }
     ]

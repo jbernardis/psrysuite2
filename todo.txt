@@ -14,12 +14,6 @@ possible webapp functionality:
     turnout locks
     lever status
     breakers
-    matrix turnout control - need to finish this
-        yard/waterman
-        hyde
-        nassau
-        sheffield/green mountain
-
 
 break train - simple split for 1 block
 

@@ -413,6 +413,12 @@ def strong(*vals, **opts):
 def form(*vals, **opts):
 	return element('form', vals, opts, ('name', 'action', 'method', )+coreopts)
 
+def startform(*vals, **opts):
+	return element('-form', vals, opts, ('name', 'action', 'method', )+coreopts)
+
+def endform(*vals, **opts):
+	return "</form>"
+
 def button(*vals, **opts):
 	return element('button', vals, opts, ('name', 'type', 'form', 'value', )+coreopts)
 

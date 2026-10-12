@@ -40,11 +40,6 @@ class WebHandler(BaseHTTPRequestHandler):
 		parsed_path = urlparse(self.path)
 		path = parsed_path.path[0 if parsed_path.path[0] != "/" else 1:]
 		query = parse_qs(parsed_path.query, keep_blank_values=True)
-		logging.debug("parsed path = %s" % str(parsed_path))
-		logging.debug("Path: %s" % str(path))
-		logging.debug("Query: %s" % str(query))
-		logging.debug("Params: %s" % str(parsed_path.params))
-		logging.debug("====================")
 
 		if path == "favicon.ico":
 			self.send_response(204)
@@ -153,8 +148,6 @@ class WebApp:
 	def ProcessURL(self, urlinfo):
 		path, query, params = urlinfo
 
-		logging.debug("WA PProcess UR: %s %s %s" % (path, str(query), str(params)))
-
 		if path == "menuchoice":
 			if "signal" in query.keys():
 				html = self.sigTester.ProcessURL(urlinfo)
@@ -204,7 +197,7 @@ class WebApp:
 				return self.HTMLMainMenu()
 			return html
 
-		elif path in ["turnoutchoice", "sendnormal", "sendreverse", "turnoutrefresh", "sendgroup", "refreshgroup"]:
+		elif path in ["turnoutchoice", "sendnormal", "sendreverse", "sendgroup", "send2group", "refreshall"]:
 			html = self.turnoutControl.ProcessURL(urlinfo)
 			if html is None:
 				return self.HTMLMainMenu()

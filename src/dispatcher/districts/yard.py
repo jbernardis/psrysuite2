@@ -1012,20 +1012,20 @@ class Yard (District):
 		self.routes["YRtY70Y82"] = Route(self.screen, block, "YRtY70Y82", "Y82", [(46, 32), (47, 32), (48, 32), (49, 32), (50, 31), (51, 30), (52, 30), (53, 30), (54, 30), (55, 30)], "Y70", [RESTRICTING, DIVERGING], ["YSw113:N", "YSw115:R", "YSw116:R"], ["Y40RB", "Y40L"])
 		self.routes["YRtY70Y83"] = Route(self.screen, block, "YRtY70Y83", "Y83", [(46, 34), (47, 34), (48, 33), (49, 32), (50, 31), (51, 30), (52, 30), (53, 30), (54, 30), (55, 30)], "Y70", [RESTRICTING, DIVERGING], ["YSw113:N", "YSw115:R", "YSw116:N"], ["Y40RC", "Y40L"])
 		self.routes["YRtY70Y84"] = Route(self.screen, block, "YRtY70Y84", "Y84", [(46, 36), (47, 36), (48, 36), (49, 35), (50, 34), (51, 33), (52, 32), (53, 31), (54, 30), (55, 30)], "Y70", [RESTRICTING, DIVERGING], ["YSw113:R"], ["Y40RD", "Y40L"])
-		self.buttonToRoute["YWWB1"] = "YRtY70Y81"
-		self.buttonToRoute["YWWB2"] = "YRtY70Y82"
-		self.buttonToRoute["YWWB3"] = "YRtY70Y83"
-		self.buttonToRoute["YWWB4"] = "YRtY70Y84"
+		self.buttonToRoute["YWEB1"] = "YRtY70Y81"
+		self.buttonToRoute["YWEB2"] = "YRtY70Y82"
+		self.buttonToRoute["YWEB3"] = "YRtY70Y83"
+		self.buttonToRoute["YWEB4"] = "YRtY70Y84"
 
 		block = self.blocks["YOSWYW"]
 		self.routes["YRtY87Y81"] = Route(self.screen, block, "YRtY87Y81", "Y87", [(21, 30), (22, 30), (23, 30), (24, 30), (25, 30), (26, 30), (27, 30), (28, 30), (29, 30), (30, 30), (31, 30)], "Y81", [RESTRICTING, RESTRICTING], ["YSw134:N", "YSw132:N"], ["Y42R", "Y42LA"])
 		self.routes["YRtY87Y82"] = Route(self.screen, block, "YRtY87Y82", "Y87", [(21, 30), (22, 30), (23, 30), (24, 30), (25, 30), (26, 31), (27, 32), (28, 32), (29, 32), (30, 32), (31, 32)], "Y82", [RESTRICTING, RESTRICTING], ["YSw134:N", "YSw132:R", "YSw131:R"], ["Y42R", "Y42LB"])
 		self.routes["YRtY87Y83"] = Route(self.screen, block, "YRtY87Y83", "Y87", [(21, 30), (22, 30), (23, 30), (24, 30), (25, 30), (26, 31), (27, 32), (28, 33), (29, 34), (30, 34), (31, 34)], "Y83", [RESTRICTING, RESTRICTING], ["YSw134:N", "YSw132:R", "YSw131:N"], ["Y42R", "Y42LC"])
 		self.routes["YRtY87Y84"] = Route(self.screen, block, "YRtY87Y84", "Y87", [(21, 30), (22, 30), (23, 31), (24, 32), (25, 33), (26, 34), (27, 35), (28, 36), (29, 36), (30, 36), (31, 36)], "Y84", [RESTRICTING, RESTRICTING], ["YSw134:R"], ["Y42R", "Y42LD"])
-		self.buttonToRoute["YWEB1"] = "YRtY87Y81"
-		self.buttonToRoute["YWEB2"] = "YRtY87Y82"
-		self.buttonToRoute["YWEB3"] = "YRtY87Y83"
-		self.buttonToRoute["YWEB4"] = "YRtY87Y84"
+		self.buttonToRoute["YWWB1"] = "YRtY87Y81"
+		self.buttonToRoute["YWWB2"] = "YRtY87Y82"
+		self.buttonToRoute["YWWB3"] = "YRtY87Y83"
+		self.buttonToRoute["YWWB4"] = "YRtY87Y84"
 
 		# set up a mapping from route name to buttons for waterman only		
 		self.routeToButton = {}
@@ -1054,15 +1054,15 @@ class Yard (District):
 		self.osButtons = {}
 
 		buttons = [
-			["YWEB1", (32, 30)],
-			["YWEB2", (32, 32)],
-			["YWEB3", (32, 34)],
-			["YWEB4", (32, 36)],
+			["YWWB1", (32, 30)],
+			["YWWB2", (32, 32)],
+			["YWWB3", (32, 34)],
+			["YWWB4", (32, 36)],
 
-			["YWWB1", (45, 30)],
-			["YWWB2", (45, 32)],
-			["YWWB3", (45, 34)],
-			["YWWB4", (45, 36)],
+			["YWEB1", (45, 30)],
+			["YWEB2", (45, 32)],
+			["YWEB3", (45, 34)],
+			["YWEB4", (45, 36)],
 
 			["YY51W", (88, 13)],
 			["YY50W", (88, 15)],

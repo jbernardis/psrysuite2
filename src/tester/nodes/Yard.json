@@ -324,27 +324,9 @@
         "used": true
       },
       {
-        "label": "Y81W Route",
-        "used": true
-      },
-      {
-        "label": "Y82W Route",
-        "used": true
-      },
-      {
-        "label": "Y83W Route",
-        "used": true
-      },
-      {
-        "label": "Y84W Route",
-        "used": true
-      },
-      {
         "label": "Y81E Route",
         "used": true
-      }
-   ],
-   [
+      },
       {
         "label": "Y82E Route",
         "used": true
@@ -355,6 +337,24 @@
       },
       {
         "label": "Y84E Route",
+        "used": true
+      },
+      {
+        "label": "Y81W Route",
+        "used": true
+      }
+   ],
+   [
+      {
+        "label": "Y82W Route",
+        "used": true
+      },
+      {
+        "label": "Y83W Route",
+        "used": true
+      },
+      {
+        "label": "Y84W Route",
         "used": true
       },
       {
