@@ -30,6 +30,7 @@ class ChooseTrainsDlg(wx.Dialog):
 		self.trainTemplates = {}
 		self.availableTemplates = []
 		self.fullTemplatedTrains = []
+		self.nonScheduledTrains = []
 		self.trainInfo = None
 
 		self.allTrains = sorted([t for t in alltrains])
@@ -439,6 +440,7 @@ class ChooseTrainsDlg(wx.Dialog):
 		avtmp = ["%s(%s)" % (trid, self.trainTemplates[trid]) for trid in self.templateTrains]
 		self.availableTemplates = [t for t in avtmp if t not in self.scheduleTrains and t not in self.extraTrains]
 		self.availableTrains.extend(self.availableTemplates)
+		self.availableTrains.extend(self.nonScheduledTrains)
 		try:
 			self.lbAll.SetItems(self.availableTrains)
 		except:
@@ -465,6 +467,7 @@ class ChooseTrainsDlg(wx.Dialog):
 			self.trainTemplates = {}
 			self.templateTrains = []
 			self.fullTemplatedTrains = []
+			self.nonScheduledTrains = []
 			for trid, tinfo in at.items():
 				if "template" in tinfo and tinfo["template"] is not None:
 					tmpl = tinfo["template"]
@@ -474,6 +477,8 @@ class ChooseTrainsDlg(wx.Dialog):
 					self.fullTemplatedTrains.append(tidkey)
 				else:
 					tidkey = trid
+					if not tidkey.startswith("??") and tidkey not in self.allTrains:
+						self.nonScheduledTrains.append(tidkey)
 				trk = None
 				if "blocks" in tinfo and len(tinfo["blocks"]) > 0:
 					trk = tinfo["blocks"][0]
@@ -519,6 +524,7 @@ class ChooseTrainsDlg(wx.Dialog):
 		self.trainTemplates = {}
 		self.templateTrains = []
 		self.fullTemplatedTrains = []
+		self.nonScheduledTrains = []
 		for trid, tinfo in trinfo.items():
 			if trid == "PRELOAD":
 				continue
@@ -531,8 +537,9 @@ class ChooseTrainsDlg(wx.Dialog):
 				self.fullTemplatedTrains.append(fullName)
 			else:
 				fullName = trid
+				if not fullName.startswith("??") and fullName not in self.allTrains:
+					self.nonScheduledTrains.append(fullName)
 
-			print("snapshot - tinfo = %s" % str(tinfo))
 			trk = None
 			if "blocks" in tinfo and len(tinfo["blocks"]) > 0:
 				trk = tinfo["blocks"][0]

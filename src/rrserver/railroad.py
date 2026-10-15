@@ -802,9 +802,7 @@ class Railroad:
 		return bl
 			
 	def SetRouteIn(self, rtnm):
-		'''
-		this method is solely for simulation - to set the current inbound route
-		'''
+		# this method is solely for simulation - to set the current inbound route
 		try:
 			rt = self.routesIn[rtnm]
 		except KeyError:

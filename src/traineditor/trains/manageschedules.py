@@ -85,7 +85,6 @@ class SchedulesReport(Report):
 		self.trInfo = trinfo
 		self.selectedTrain = selTrain
 		self.odate = odate
-
 		self.passengerFill = PatternFill(start_color="FF8AFFBB", fill_type="solid")
 		self.freightFill = PatternFill(start_color="FFFFB6B2", fill_type="solid")
 
@@ -193,9 +192,15 @@ class SchedulesReport(Report):
 		r = self.roster.get(template, None)
 		if r is None:
 			east = True
-			origin = ""
+			if tinfo is not None and "track" in tinfo and tinfo["track"] is not None:
+				origin = tinfo["track"]
+			else:
+				origin = ""
 			terminus = ""
-			loco = None
+			if tinfo is not None and "loco" in tinfo and tinfo["loco"] is not None:
+				loco = tinfo["loco"]
+			else:
+				loco = None
 			desc = ""
 		else:
 			east = r["eastbound"]
@@ -395,9 +400,15 @@ class SchedulesReport(Report):
 
 		if r is None:
 			east = True
-			origin = ""
+			if tinfo is not None and "track" in tinfo and tinfo["track"] is not None:
+				origin = tinfo["track"]
+			else:
+				origin = ""
 			terminus = ""
-			loco = None
+			if tinfo is not None and "loco" in tinfo and tinfo["loco"] is not None:
+				loco = tinfo["loco"]
+			else:
+				loco = None
 			desc = ""
 		else:
 			east = r["eastbound"]

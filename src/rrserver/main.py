@@ -1,6 +1,7 @@
-import os, sys
+import os
 import requests
-
+import sys
+import traceback
 
 cmdFolder = os.getcwd()
 if cmdFolder not in sys.path:
@@ -11,7 +12,6 @@ lfn = os.path.join(os.getcwd(), "logs", "rrserver.log")
 import logging
 import logging.handlers
 from dispatcher.settings import Settings
-from dispatcher.constants import REPLACE
 should_roll_over = os.path.isfile(lfn)
 
 settings = Settings()
@@ -51,9 +51,22 @@ sys.stdout = ofp
 sys.stderr = efp
 
 
+def global_exception_handler(exctype, value, tb):
+	"""
+	Catches any unhandled exception globally and prints the full stack trace.
+	"""
+	print("--- GLOBAL EXCEPTION CAUGHT ---", file=sys.stderr)
+
+	# Print the entire stack trace exactly like Python normally does
+	traceback.print_exception(exctype, value, tb, file=sys.stderr)
+	sys.stderr.flush()
+
+
+# Register the global exception handler
+sys.excepthook = global_exception_handler
+
 import json
 import socket
-import time
 import queue
 import threading
 
@@ -63,13 +76,10 @@ from rrserver.bus import Bus
 from rrserver.railroad import Railroad
 from rrserver.httpserver import HTTPServer
 from rrserver.sktserver import SktServer
-from rrserver.routedef import RouteDef
 
 from rrserver.clientlist import ClientList
 from rrserver.trainlist import TrainList
 from rrserver.dccserver import DCCHTTPServer
-
-# from dispatcher.constants import RegAspects
 
 
 class ServerMain:
@@ -385,12 +395,12 @@ class ServerMain:
 		except KeyError:
 			logging.error("Unknown command: %s" % verb)
 		else:
-			# handler(cmd)
-			try:
-				handler(cmd)
-			except Exception as e:
-				logging.error("Exception %s processing command %s" % (str(e), verb))
-				logging.error("%s" % str(cmd))
+			handler(cmd)
+			# try:
+			# 	handler(cmd)
+			# except Exception as e:
+			# 	logging.error("Exception %s processing command %s" % (str(e), verb))
+			# 	logging.error("%s" % str(cmd))
 
 	def DoInterval(self, _):
 		if self.pause > 0:
