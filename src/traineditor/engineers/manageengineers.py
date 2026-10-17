@@ -202,7 +202,7 @@ class ManageEngineersDlg(wx.Dialog):
 		img = qr.make_image(fill_color="black", back_color="white")
 		# img = qrcode.make('TRAIN: CFYD')
 		type(img)  # qrcode.image.pil.PilImage
-		fn = os.path.join(os.getcwd(), "qrcodes", "engineer_%s.png" % eng)
+		fn = os.path.join(os.getcwd(), "data", "qrcodes", "engineer_%s.png" % eng)
 		img.save(fn)
 
 	def bEngCardsPressed(self, _):

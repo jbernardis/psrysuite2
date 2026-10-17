@@ -587,11 +587,11 @@ class TrainCardsReport (Report):
 		img = qr.make_image(fill_color="black", back_color="white")
 		# img = qrcode.make('TRAIN: CFYD')
 		type(img)  # qrcode.image.pil.PilImage
-		fn = os.path.join(os.getcwd(), "qrcodes", "train_%s.png" % tid)
+		fn = os.path.join(os.getcwd(), "data", "qrcodes", "train_%s.png" % tid)
 		img.save(fn)
 
 	def formatTrainCard(self, tid, template, tinfo, tx):
-		fn = os.path.join("qrcodes", "train_%s.png" % tid)
+		fn = os.path.join("data", "qrcodes", "train_%s.png" % tid)
 		img = HTML.img({"src": fn})
 		trid = tid
 		if template != tid:

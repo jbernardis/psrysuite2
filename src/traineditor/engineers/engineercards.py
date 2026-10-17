@@ -13,7 +13,7 @@ class EngineerCards (Report):
 		engOrder  = sorted(engList)
 		missingFiles = []
 		for eng in engOrder:
-			fn = os.path.join("qrcodes", "engineer_%s.png" % eng)
+			fn = os.path.join("data", "qrcodes", "engineer_%s.png" % eng)
 			if not os.path.exists(fn):
 				missingFiles.append(eng)
 		return missingFiles
@@ -36,7 +36,7 @@ class EngineerCards (Report):
 		html += HTML.startbody()
 
 		if includeNone:
-			fn = os.path.join("qrcodes", "engineer_none.png")
+			fn = os.path.join("data", "qrcodes", "engineer_none.png")
 			img = HTML.img({"src": fn})
 			cleartable = HTML.table({},
 					HTML.td({"class": "eng"}, "Clear Engineer") +
@@ -48,7 +48,7 @@ class EngineerCards (Report):
 		engOrder  = sorted(englist)
 		for ex in range(0, len(englist), 2):
 			eng = englist[ex]
-			fn = os.path.join("qrcodes", "engineer_%s.png" % eng)
+			fn = os.path.join("data", "qrcodes", "engineer_%s.png" % eng)
 			if os.path.exists(fn):
 				img = HTML.img({"src": fn})
 				left = (HTML.td({"class": "eng"}, eng) +
@@ -62,7 +62,7 @@ class EngineerCards (Report):
 						HTML.td({"class": "qrmt"}, ""))
 			else:
 				eng = englist[ex+1]
-				fn = os.path.join("qrcodes", "engineer_%s.png" % eng)
+				fn = os.path.join("data", "qrcodes", "engineer_%s.png" % eng)
 				if os.path.exists(fn):
 					img = HTML.img({"src": fn})
 					right = (HTML.td({"class": "eng"}, eng) +

@@ -3,7 +3,6 @@ import logging
 from rrserver.district import District
 from rrserver.constants import  DELL, FOSS
 from rrserver.node import Node
-from dispatcher.constants import SloAspects
 
 
 class Dell(District):

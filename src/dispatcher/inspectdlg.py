@@ -368,7 +368,7 @@ class InspectDlg(wx.Dialog):
             self.dlgBlockIgnoreOOS.Show()
 
     def OnBScanner(self, _):
-        fn = os.path.join(os.getcwd(), "qrcodes", "scanner_battery.png")
+        fn = os.path.join(os.getcwd(), "data", "qrcodes", "scanner_battery.png")
         dlg = ScannerDlg(self, fn, self.parent)
         dlg.ShowModal()
         dlg.Destroy()

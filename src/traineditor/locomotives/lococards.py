@@ -13,7 +13,7 @@ class LocoCards (Report):
 		locoOrder  = sorted(locos.keys(), key=lambda x: int(x))
 		missingFiles = []
 		for lid in locoOrder:
-			fn = os.path.join("qrcodes", "locomotive_%s.png" % lid)
+			fn = os.path.join("data", "qrcodes", "locomotive_%s.png" % lid)
 			if not os.path.exists(fn):
 				missingFiles.append("%s" % lid)
 		return missingFiles
@@ -22,7 +22,7 @@ class LocoCards (Report):
 		locoOrder  = sorted(locos.keys(), key=lambda x: int(x))
 		missingFiles = []
 		for lid in locoOrder:
-			fn = os.path.join("qrcodes", "picture_%s.png" % lid)
+			fn = os.path.join("data", "photos", "picture_%s.png" % lid)
 			if not os.path.exists(fn):
 				missingFiles.append("%s" % lid)
 		return missingFiles
@@ -50,9 +50,9 @@ class LocoCards (Report):
 		html += HTML.div({"class": "topofpage"}, "")
 		for lid in locoOrder:
 			rows = []
-			fn = os.path.join("qrcodes", "locomotive_%s.png" % lid)
+			fn = os.path.join("data", "qrcodes", "locomotive_%s.png" % lid)
 			img = HTML.img({"src": fn})
-			fn = os.path.join("qrcodes", "picture_%s.png" % lid)
+			fn = os.path.join("data", "photos", "picture_%s.png" % lid)
 			if os.path.isfile(fn):
 				pic = HTML.img({"src": fn})
 			else:

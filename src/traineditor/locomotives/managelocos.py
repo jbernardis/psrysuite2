@@ -25,7 +25,7 @@ def LocoQRCode(loco):
 	img = qr.make_image(fill_color="black", back_color="white")
 	# img = qrcode.make('TRAIN: CFYD')
 	type(img)  # qrcode.image.pil.PilImage
-	fn = os.path.join(os.getcwd(), "qrcodes", "locomotive_%s.png" % loco)
+	fn = os.path.join(os.getcwd(), "data", "qrcodes", "locomotive_%s.png" % loco)
 	img.save(fn)
 
 
