@@ -35,6 +35,7 @@ class Debug:
 		self.identifytrain = False
 		self.loglevel = "DEBUG"
 		self.blockadjacency = False
+		self.disablestopsections = False
 
 
 class Settings:
@@ -340,10 +341,12 @@ class Settings:
 					self.debug.identifytrain = parseBoolean(value, False)
 				elif opt == 'blockadjacency':
 					self.debug.blockadjacency = parseBoolean(value, False)
+				elif opt == 'disablestopsections':
+					self.debug.disablestopsections = parseBoolean(value, False)
 				elif opt == 'loglevel':
 					self.debug.loglevel = value
 
-		self.ipaddr = "192.168.1.138"
+		self.ipaddr = None
 		self.serverport = 9000
 		self.socketport = 9001
 		self.dccserverport = 9002
@@ -556,6 +559,7 @@ class Settings:
 		self.cfg.set(section, "blockoccupancy", "True" if self.debug.blockoccupancy else "False")
 		self.cfg.set(section, "identifytrain", "True" if self.debug.identifytrain else "False")
 		self.cfg.set(section, "blockadjacency", "True" if self.debug.blockadjacency else "False")
+		self.cfg.set(section, "disablestopsections", "True" if self.debug.disablestopsections else "False")
 		self.cfg.set(section, "loglevel", self.debug.loglevel)
 
 		section = GLOBAL

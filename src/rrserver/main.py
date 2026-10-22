@@ -117,6 +117,8 @@ class ServerMain:
 			if self.ip != settings.ipaddr:
 				logging.info("Using configured IP Address (%s) instead of retrieved IP Address: (%s)" % (settings.ipaddr, self.ip))
 				self.ip = settings.ipaddr
+		else:
+			logging.info("Using system IP address: (%s)" % self.ip)
 
 		logging.info("Creating railroad object")
 		self.rr = Railroad(self, self.rrEventReceipt, settings)
@@ -168,7 +170,7 @@ class ServerMain:
 				logging.info("start DCC sniffer process skipped")
 
 	def StartDCCServer(self):
-		self.DCCServer = DCCHTTPServer(settings.ipaddr, settings.dccserverport, settings.rrserver.dcctty)
+		self.DCCServer = DCCHTTPServer(self.ip, settings.dccserverport, settings.rrserver.dcctty)
 		if not self.DCCServer.IsConnected():
 			logging.error("Failed to open DCC bus on device %s.  Exiting..." % settings.rrserver.dcctty)
 			return False
@@ -1490,10 +1492,19 @@ class ServerMain:
 
 	def DoWebApp(self, cmd):
 		logging.debug("entering start web app")
+		hostname = socket.gethostname()
+		self.ip = socket.gethostbyname(hostname)
+		if settings.ipaddr is not None:
+			if self.ip != settings.ipaddr:
+				logging.info("Web App: Using configured IP Address (%s) instead of retrieved IP Address: (%s)" % (settings.ipaddr, self.ip))
+				self.ip = settings.ipaddr
+		else:
+			logging.info("Web App Using system IP address: (%s)" % self.ip)
+
 		logging.debug("webapp addr = %s:%s" % (settings.ipaddr, settings.webappport))
 
 		try:
-			r = requests.get("http://" + settings.ipaddr + ":" + str(settings.webappport), params={}, timeout=2)
+			r = requests.get("http://" + self.ip + ":" + str(settings.webappport), params={}, timeout=2)
 			logging.debug("URL: %s" % str(r.url))
 		except requests.exceptions.ConnectionError:
 			# start the server since it is not running
@@ -1501,17 +1512,17 @@ class ServerMain:
 			p = Popen([sys.executable, pname])
 			pid = p.pid
 			logging.info("Webapp server started as PID %d" % pid)
-			msg = "WebApp started as PID %d at address %s:%s" % (pid, settings.ipaddr, settings.webappport)
+			msg = "WebApp started as PID %d at address %s:%s" % (pid, self.ip, settings.webappport)
 
 		else:
-			msg = "WebApp is already running at address %s:%s" % (settings.ipaddr, settings.webappport)
+			msg = "WebApp is already running at address %s:%s" % (self.ip, settings.webappport)
 
 		self.Alert(msg)
 
 	def KillWebApp(self):
 		logging.debug("Request to kill web app")
 		try:
-			r = requests.get("http://" + settings.ipaddr + ":" + str(settings.webappport) + "/quit", params={}, timeout=1)
+			r = requests.get("http://" + self.ip + ":" + str(settings.webappport) + "/quit", params={}, timeout=1)
 			logging.debug("URL: %s" % str(r.url))
 		except:
 			pass
@@ -1552,10 +1563,16 @@ class ServerMain:
 		except (KeyError, IndexError, ValueError):
 			identifytrain = 0
 
+		try:
+			disablestopsections = int(cmd["disablestopsections"][0])
+		except (KeyError, IndexError, ValueError):
+			disablestopsections = 0
+
 		settings.debug.showaspectcalculation = showaspectcalculation > 0
 		settings.debug.blockoccupancy = blockoccupancy > 0
 		settings.debug.blockadjacency = blockadjacency > 0
 		settings.debug.identifytrain = identifytrain > 0
+		settings.debug.disablestopsections = disablestopsections > 0
 
 	def DoDumpTrains(self, cmd):
 		self.trainList.Dump()

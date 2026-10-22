@@ -635,6 +635,19 @@ class Railroad:
 		self.SetIndicator("HydeWestPower", True)
 		self.SetIndicator("H30Power", True)
 
+		# assert all inbound routes by setting the recorded input bits to 0.  This will cause the inbound positive
+		# value as a change and therefore trigger action
+
+		riMap = {}
+		for riName, ri in self.routesIn.items():
+			riMap.update(ri.NodeMap())
+
+		for riName, rtinfo in riMap.items():
+			bits = rtinfo[0]
+			nd = rtinfo[1]
+			for vbyte, vbit in bits:
+				nd.SetLastInputBit(vbyte, vbit, 0)
+
 	def GetAdjacency(self):
 		result = {}
 		for bn, blk in self.blocks.items():
@@ -774,14 +787,12 @@ class Railroad:
 			logging.warning("Ignoring stoprelay command - unknown relay: %s" % relayname)
 			return False
 
-		# rc indicates whether or not the value was changed
-		rc = r.IsActivated() != (state != 0)
-
-		bits = r.Bits()
-		if len(bits) > 0:
-			vbyte, vbit = bits[0]
-			r.node.SetOutputBit(vbyte, vbit, 1 if state != 0 else 0)
-		r.Activate(state != 0)
+		rc = r.Activate(state != 0)
+		if not self.debug.disablestopsections or state == 0:
+			bits = r.Bits()
+			if len(bits) > 0:
+				vbyte, vbit = bits[0]
+				r.node.SetOutputBit(vbyte, vbit, 1 if state != 0 else 0)
 
 		return rc
 
@@ -933,10 +944,10 @@ class Railroad:
 			relayName = blk.Name() + ".srel"
 			tr = sb.Train()
 			if sb.IsOccupied() and aspect == 0:
-				if tr is not None:
+				self.SetRelay(relayName, 1)
+				if tr is not None and sb.IsActivated():
 					tr.SetStopped(True)
 					msgs.append(tr.GetEventMessage())
-				self.SetRelay(relayName, 1)
 			else:
 				self.SetRelay(relayName, 0)
 				if tr is not None:
@@ -1309,7 +1320,7 @@ class Railroad:
 			logging.warning("Duplicate definition for stopping relay %s" % name)
 			return self.stopRelays[name]
 			
-		r = StopRelay(name, district, node, address)
+		r = StopRelay(name, self, district, node, address)
 		r.SetBits(bits)
 		self.stopRelays[name] = r
 		return r
@@ -2201,13 +2212,15 @@ class Railroad:
 				if sig is not None:
 					srName = block + ".srel"
 					if sig.Aspect() == 0:
-						if tr is not None:
-							tr.SetStopped(occupied)
-							self.RailroadEvent(tr.GetEventMessage())
-						rc = self.SetRelay(srName, 1 if occupied else 0)
-						if rc and occupied:
-							self.Alert("Stop Relay Activated: %s at signal %s, %s Train %s" %
-									(blkNm, sig.Name(), "Eastbound" if tr.IsEast() else "Westbound", tr.Name()))
+						sr = self.GetStopRelay(srName)
+						if sr is not None:
+							rc = self.SetRelay(srName, 1 if occupied else 0)
+							if rc and sr.IsActivated():
+								if tr is not None:
+									tr.SetStopped(occupied)
+									self.RailroadEvent(tr.GetEventMessage())
+								self.Alert("Stop Relay Activated: %s at signal %s, %s Train %s" %
+										(blkNm, sig.Name(), "Eastbound" if tr.IsEast() else "Westbound", tr.Name()))
 					else:
 						if tr is not None:
 							tr.SetStopped(False)

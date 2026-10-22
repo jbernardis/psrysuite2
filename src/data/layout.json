@@ -168,14 +168,14 @@
       "sbsigeast": null,
       "sbsigwest": null
     },
-    "YOSWYE": {
+    "YOSWYW": {
       "east": 1,
       "sbeast": null,
       "sbwest": null,
       "sbsigeast": null,
       "sbsigwest": null
     },
-    "YOSWYW": {
+    "YOSWYE": {
       "east": 1,
       "sbeast": null,
       "sbwest": null,
@@ -9350,7 +9350,7 @@
     },
     "Y2R": {
       "aspecttype": 50,
-      "east": false
+      "east": true
     },
     "Y4L": {
       "aspecttype": 50,
@@ -9432,30 +9432,6 @@
       "aspecttype": 50,
       "east": false
     },
-    "Y42LA": {
-      "aspecttype": 50,
-      "east": false
-    },
-    "Y42LB": {
-      "aspecttype": 50,
-      "east": false
-    },
-    "Y42LC": {
-      "aspecttype": 50,
-      "east": false
-    },
-    "Y42LD": {
-      "aspecttype": 50,
-      "east": false
-    },
-    "Y42R": {
-      "aspecttype": 50,
-      "east": true
-    },
-    "Y40L": {
-      "aspecttype": 50,
-      "east": false
-    },
     "Y40RA": {
       "aspecttype": 50,
       "east": true
@@ -9471,6 +9447,30 @@
     "Y40RD": {
       "aspecttype": 50,
       "east": true
+    },
+    "Y40L": {
+      "aspecttype": 50,
+      "east": false
+    },
+    "Y42R": {
+      "aspecttype": 50,
+      "east": true
+    },
+    "Y42LA": {
+      "aspecttype": 50,
+      "east": false
+    },
+    "Y42LB": {
+      "aspecttype": 50,
+      "east": false
+    },
+    "Y42LC": {
+      "aspecttype": 50,
+      "east": false
+    },
+    "Y42LD": {
+      "aspecttype": 50,
+      "east": false
     },
     "L8R": {
       "aspecttype": 50,

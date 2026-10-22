@@ -5,6 +5,7 @@ if cmdFolder not in sys.path:
 
 import time
 import queue
+import socket
 
 ofp = open(os.path.join(os.getcwd(), "output", "dccsniffer.out"), "w")
 efp = open(os.path.join(os.getcwd(), "output", "dccsniffer.err"), "w")
@@ -25,6 +26,16 @@ from dccsniffer.ticker import Ticker
 class MainUnit:
 	def __init__(self):
 		self.settings = Settings()
+		hostname = socket.gethostname()
+		self.ip = socket.gethostbyname(hostname)
+
+		if self.settings.ipaddr is not None:
+			if self.ip != self.settings.ipaddr:
+				logging.info("DCC Sniffer Using configured IP Address (%s) instead of retrieved IP Address: (%s)" % (self.settings.ipaddr, self.ip))
+				self.ip = self.settings.ipaddr
+		else:
+			logging.info("Using system IP address: (%s)" % self.ip)
+
 		self.identified = False
 		self.connected = False
 		self.locoMap = {}
@@ -32,7 +43,7 @@ class MainUnit:
 		self.cmdQ = queue.Queue()
 
 		self.rrServer = RRServer()
-		self.rrServer.SetServerAddress(self.settings.ipaddr, self.settings.serverport)
+		self.rrServer.SetServerAddress(self.ip, self.settings.serverport)
 
 		self.ticker = Ticker(self, interval=self.settings.dccsniffer.interval)
 		
@@ -42,7 +53,7 @@ class MainUnit:
 			logging.error("Unable to connect to port %s for DCC sniffer" % self.settings.dccsniffer.tty)
 
 		else:			
-			self.listener = Listener(self, self.settings.ipaddr, self.settings.socketport)
+			self.listener = Listener(self, self.ip, self.settings.socketport)
 			if not self.listener.connect():
 				logging.error("Unable to establish connection with railroad server")
 				self.listener = None

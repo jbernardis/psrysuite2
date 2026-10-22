@@ -1040,8 +1040,9 @@ class Route:
 
 
 class StopRelay:
-	def __init__(self, name, district, node, address):
+	def __init__(self, name, rr, district, node, address):
 		self.name = name
+		self.rr = rr
 		self.district = district
 		self.node = node
 		self.address = address
@@ -1055,8 +1056,16 @@ class StopRelay:
 		return self.bits
 		
 	def Activate(self, flag):
+		if self.rr.debug.disablestopsections and flag:
+			logging.debug("Skip setting stop relay %s because of debug flag" % self.name)
+			return False
+
+		if flag == self.activated:
+			return False
+
 		logging.debug("Setting stop relay %s to %s" % (self.name, flag))
 		self.activated = flag
+		return True
 		
 	def IsActivated(self):
 		return self.activated
@@ -1519,6 +1528,9 @@ class RouteIn:
 
 	def ForBitMap(self):
 		return {self.name: {"status": [self.bits, self.address]}}
+
+	def NodeMap(self):
+		return {self.name: [self.bits, self.node]}
 
 	def Name(self):
 		return self.name

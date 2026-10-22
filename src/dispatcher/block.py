@@ -849,6 +849,9 @@ class StoppingBlock:
 
 	def Activate(self, flag=True, silent=False):
 		logging.debug("In stopping block %s Activate %s" % (self.GetName(), flag))
+		if self.block.dbg.disablestopsections and flag:
+			logging.debug("===================================>Bypassing activation of stopping section %s" % self.GetName())
+			return
 
 		if flag == self.active:
 			return

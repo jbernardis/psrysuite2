@@ -289,11 +289,20 @@ class WebAppServer:
 
 		self.rrServer = RRServer()
 
-		logging.info("Connecting to RR Server at %s:%s" % (self.settings.ipaddr, self.settings.serverport))
-		self.rrServer.SetServerAddress(self.settings.ipaddr, self.settings.serverport)
+		hostname = socket.gethostname()
+		self.ip = socket.gethostbyname(hostname)
+		if settings.ipaddr is not None:
+			if self.ip != settings.ipaddr:
+				logging.info("Web App: Using configured IP Address (%s) instead of retrieved IP Address: (%s)" % (settings.ipaddr, self.ip))
+				self.ip = settings.ipaddr
+		else:
+			logging.info("Web App Using system IP address: (%s)" % self.ip)
 
-		logging.info("Starting Web server at address %s:%s" % (self.settings.ipaddr, self.settings.webappport))
-		self.server = WebApp(self, self.settings.ipaddr, self.settings.webappport, self.rrServer)
+		logging.info("Connecting to RR Server at %s:%s" % (self.ip, self.settings.serverport))
+		self.rrServer.SetServerAddress(self.ip, self.settings.serverport)
+
+		logging.info("Starting Web server at address %s:%s" % (self.ip, self.settings.webappport))
+		self.server = WebApp(self, self.ip, self.settings.webappport, self.rrServer)
 
 	def Kill(self):
 		self.forever = False

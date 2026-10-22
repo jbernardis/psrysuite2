@@ -13,7 +13,7 @@ class LayoutData:
 			print("Unable to retrieve layout, subblock and/or iobits information from server")
 			return
 
-		self.RRConnected = True
+		self.RRConnected = False
 
 		self.routes = self.layout["routes"]
 		self.crossovers = self.layout["crossover"]

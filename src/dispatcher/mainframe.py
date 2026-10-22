@@ -325,7 +325,8 @@ class MainFrame(wx.Frame):
 						"showaspectcalculation": 1 if self.settings.debug.showaspectcalculation else 0,
 						"blockoccupancy": 1 if self.settings.debug.blockoccupancy else 0,
 						"blockadjacency": 1 if self.settings.debug.blockadjacency else 0,
-						"identifytrain": 1 if self.settings.debug.identifytrain else 0
+						"identifytrain": 1 if self.settings.debug.identifytrain else 0,
+						"disablestopsections": 1 if self.settings.debug.disablestopsections else 0
 					}
 		}
 		self.Request(msg)

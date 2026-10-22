@@ -1931,6 +1931,12 @@ class DebugFlagsDlg(wx.Dialog):
         vszr.Add(self.cbBlockAdj)
         self.cbBlockAdj.SetValue(self.settings.debug.blockadjacency)
 
+        vszr.AddSpacer(10)
+
+        self.cbStopSect = wx.CheckBox(self, wx.ID_ANY, "Disable Stop Sections")
+        vszr.Add(self.cbStopSect)
+        self.cbStopSect.SetValue(self.settings.debug.disablestopsections)
+
         btnszr = wx.BoxSizer(wx.HORIZONTAL)
 
         self.bOK = wx.Button(self, wx.ID_ANY, "OK", size=BSIZE)
@@ -1985,6 +1991,11 @@ class DebugFlagsDlg(wx.Dialog):
         if nv != self.settings.debug.blockadjacency:
             self.settings.debug.blockadjacency = nv
             messages.append("Block Adjacency => %s" % nv)
+
+        nv = self.cbStopSect.GetValue()
+        if nv != self.settings.debug.disablestopsections:
+            self.settings.debug.disablestopsections = nv
+            messages.append("Disable Stop Sections => %s" % nv)
 
         # if len(messages) == 0:
         #     dlg = wx.MessageDialog(self, "No Flags Changed",

@@ -336,6 +336,98 @@ class Yard (District):
 				(self.tiles["horiz"],          self.screen, (94, 11), False),
 				(self.tiles["horiznc"],        self.screen, (95, 11), False),
 
+				(self.tiles["horiznc"],        self.screen, (13, 30), True),
+				(self.tiles["horiz"],          self.screen, (14, 30), True),
+				(self.tiles["horiznc"],        self.screen, (15, 30), True),
+				(self.tiles["horiz"],          self.screen, (16, 30), True),
+				(self.tiles["horiznc"],        self.screen, (17, 30), True),
+				(self.tiles["horiz"],          self.screen, (18, 30), True),
+				(self.tiles["horiznc"],        self.screen, (19, 30), True),
+				(self.tiles["eobright"],       self.screen, (20, 30), True),
+			], True)
+		self.blocks["Y70"].AddTrainLoc(self.screen, (14, 30))
+		self.blocks["Y70"].AddTrainLoc(self.screen, (90, 11))
+		self.blocks["Y70"].AddOOSLoc(self.screen, (20, 30))
+		self.blocks["Y70"].AddOOSLoc(self.screen, (95, 11))
+
+		self.blocks["Y81"] = Block(self, self.frame, "Y81",
+			[
+				(self.tiles["horiznc"],        self.screen, (33, 30), True),
+				(self.tiles["horiz"],          self.screen, (34, 30), True),
+				(self.tiles["horiznc"],        self.screen, (35, 30), True),
+				(self.tiles["horiz"],          self.screen, (36, 30), True),
+				(self.tiles["horiznc"],        self.screen, (37, 30), True),
+				(self.tiles["horiz"],          self.screen, (38, 30), True),
+				(self.tiles["horiznc"],        self.screen, (39, 30), True),
+				(self.tiles["horiz"],          self.screen, (40, 30), True),
+				(self.tiles["horiznc"],        self.screen, (41, 30), True),
+				(self.tiles["horiz"],          self.screen, (42, 30), True),
+				(self.tiles["horiznc"],        self.screen, (43, 30), True),
+				(self.tiles["horiz"],          self.screen, (44, 30), True),
+			], True)
+		self.blocks["Y81"].AddTrainLoc(self.screen, (34, 30))
+		self.blocks["Y81"].AddOOSLoc(self.screen, (33, 30))
+		self.blocks["Y81"].AddOOSLoc(self.screen, (44, 30))
+
+		self.blocks["Y82"] = Block(self, self.frame, "Y82",
+			[
+				(self.tiles["horiznc"],        self.screen, (33, 32), True),
+				(self.tiles["horiz"],          self.screen, (34, 32), True),
+				(self.tiles["horiznc"],        self.screen, (35, 32), True),
+				(self.tiles["horiz"],          self.screen, (36, 32), True),
+				(self.tiles["horiznc"],        self.screen, (37, 32), True),
+				(self.tiles["horiz"],          self.screen, (38, 32), True),
+				(self.tiles["horiznc"],        self.screen, (39, 32), True),
+				(self.tiles["horiz"],          self.screen, (40, 32), True),
+				(self.tiles["horiznc"],        self.screen, (41, 32), True),
+				(self.tiles["horiz"],          self.screen, (42, 32), True),
+				(self.tiles["horiznc"],        self.screen, (43, 32), True),
+				(self.tiles["horiz"],          self.screen, (44, 32), True),
+			], True)
+		self.blocks["Y82"].AddTrainLoc(self.screen, (34, 32))
+		self.blocks["Y82"].AddOOSLoc(self.screen, (33, 32))
+		self.blocks["Y82"].AddOOSLoc(self.screen, (44, 32))
+
+		self.blocks["Y83"] = Block(self, self.frame, "Y83",
+			[
+				(self.tiles["horiznc"],        self.screen, (33, 34), True),
+				(self.tiles["horiz"],          self.screen, (34, 34), True),
+				(self.tiles["horiznc"],        self.screen, (35, 34), True),
+				(self.tiles["horiz"],          self.screen, (36, 34), True),
+				(self.tiles["horiznc"],        self.screen, (37, 34), True),
+				(self.tiles["horiz"],          self.screen, (38, 34), True),
+				(self.tiles["horiznc"],        self.screen, (39, 34), True),
+				(self.tiles["horiz"],          self.screen, (40, 34), True),
+				(self.tiles["horiznc"],        self.screen, (41, 34), True),
+				(self.tiles["horiz"],          self.screen, (42, 34), True),
+				(self.tiles["horiznc"],        self.screen, (43, 34), True),
+				(self.tiles["horiz"],          self.screen, (44, 34), True),
+			], True)
+		self.blocks["Y83"].AddTrainLoc(self.screen, (34, 34))
+		self.blocks["Y83"].AddOOSLoc(self.screen, (33, 34))
+		self.blocks["Y83"].AddOOSLoc(self.screen, (44, 34))
+
+		self.blocks["Y84"] = Block(self, self.frame, "Y84",
+			[
+				(self.tiles["horiznc"],        self.screen, (33, 36), True),
+				(self.tiles["horiz"],          self.screen, (34, 36), True),
+				(self.tiles["horiznc"],        self.screen, (35, 36), True),
+				(self.tiles["horiz"],          self.screen, (36, 36), True),
+				(self.tiles["horiznc"],        self.screen, (37, 36), True),
+				(self.tiles["horiz"],          self.screen, (38, 36), True),
+				(self.tiles["horiznc"],        self.screen, (39, 36), True),
+				(self.tiles["horiz"],          self.screen, (40, 36), True),
+				(self.tiles["horiznc"],        self.screen, (41, 36), True),
+				(self.tiles["horiz"],          self.screen, (42, 36), True),
+				(self.tiles["horiznc"],        self.screen, (43, 36), True),
+				(self.tiles["horiz"],          self.screen, (44, 36), True),
+			], True)
+		self.blocks["Y84"].AddTrainLoc(self.screen, (34, 36))
+		self.blocks["Y84"].AddOOSLoc(self.screen, (33, 36))
+		self.blocks["Y84"].AddOOSLoc(self.screen, (44, 36))
+
+		self.blocks["Y87"] = Block(self, self.frame, "Y87",
+			[
 				(self.tiles["eobleft"],        self.screen, (56, 30), False),
 				(self.tiles["horiz"],          self.screen, (57, 30), False),
 				(self.tiles["horiznc"],        self.screen, (58, 30), False),
@@ -345,98 +437,6 @@ class Yard (District):
 				(self.tiles["horiznc"],        self.screen, (62, 30), False),
 				(self.tiles["horiz"],          self.screen, (63, 30), False),
 				(self.tiles["horiznc"],        self.screen, (64, 30), False),
-			], True)
-		self.blocks["Y70"].AddTrainLoc(self.screen, (57, 30))
-		self.blocks["Y70"].AddTrainLoc(self.screen, (90, 11))
-		self.blocks["Y70"].AddOOSLoc(self.screen, (56, 30))
-		self.blocks["Y70"].AddOOSLoc(self.screen, (95, 11))
-
-		self.blocks["Y81"] = Block(self, self.frame, "Y81",
-			[
-				(self.tiles["horiznc"],        self.screen, (33, 30), False),
-				(self.tiles["horiz"],          self.screen, (34, 30), False),
-				(self.tiles["horiznc"],        self.screen, (35, 30), False),
-				(self.tiles["horiz"],          self.screen, (36, 30), False),
-				(self.tiles["horiznc"],        self.screen, (37, 30), False),
-				(self.tiles["horiz"],          self.screen, (38, 30), False),
-				(self.tiles["horiznc"],        self.screen, (39, 30), False),
-				(self.tiles["horiz"],          self.screen, (40, 30), False),
-				(self.tiles["horiznc"],        self.screen, (41, 30), False),
-				(self.tiles["horiz"],          self.screen, (42, 30), False),
-				(self.tiles["horiznc"],        self.screen, (43, 30), False),
-				(self.tiles["horiz"],          self.screen, (44, 30), False),
-			], True)
-		self.blocks["Y81"].AddTrainLoc(self.screen, (34, 30))
-		self.blocks["Y81"].AddOOSLoc(self.screen, (33, 30))
-		self.blocks["Y81"].AddOOSLoc(self.screen, (44, 30))
-
-		self.blocks["Y82"] = Block(self, self.frame, "Y82",
-			[
-				(self.tiles["horiznc"],        self.screen, (33, 32), False),
-				(self.tiles["horiz"],          self.screen, (34, 32), False),
-				(self.tiles["horiznc"],        self.screen, (35, 32), False),
-				(self.tiles["horiz"],          self.screen, (36, 32), False),
-				(self.tiles["horiznc"],        self.screen, (37, 32), False),
-				(self.tiles["horiz"],          self.screen, (38, 32), False),
-				(self.tiles["horiznc"],        self.screen, (39, 32), False),
-				(self.tiles["horiz"],          self.screen, (40, 32), False),
-				(self.tiles["horiznc"],        self.screen, (41, 32), False),
-				(self.tiles["horiz"],          self.screen, (42, 32), False),
-				(self.tiles["horiznc"],        self.screen, (43, 32), False),
-				(self.tiles["horiz"],          self.screen, (44, 32), False),
-			], True)
-		self.blocks["Y82"].AddTrainLoc(self.screen, (34, 32))
-		self.blocks["Y82"].AddOOSLoc(self.screen, (33, 32))
-		self.blocks["Y82"].AddOOSLoc(self.screen, (44, 32))
-
-		self.blocks["Y83"] = Block(self, self.frame, "Y83",
-			[
-				(self.tiles["horiznc"],        self.screen, (33, 34), False),
-				(self.tiles["horiz"],          self.screen, (34, 34), False),
-				(self.tiles["horiznc"],        self.screen, (35, 34), False),
-				(self.tiles["horiz"],          self.screen, (36, 34), False),
-				(self.tiles["horiznc"],        self.screen, (37, 34), False),
-				(self.tiles["horiz"],          self.screen, (38, 34), False),
-				(self.tiles["horiznc"],        self.screen, (39, 34), False),
-				(self.tiles["horiz"],          self.screen, (40, 34), False),
-				(self.tiles["horiznc"],        self.screen, (41, 34), False),
-				(self.tiles["horiz"],          self.screen, (42, 34), False),
-				(self.tiles["horiznc"],        self.screen, (43, 34), False),
-				(self.tiles["horiz"],          self.screen, (44, 34), False),
-			], True)
-		self.blocks["Y83"].AddTrainLoc(self.screen, (34, 34))
-		self.blocks["Y83"].AddOOSLoc(self.screen, (33, 34))
-		self.blocks["Y83"].AddOOSLoc(self.screen, (44, 34))
-
-		self.blocks["Y84"] = Block(self, self.frame, "Y84",
-			[
-				(self.tiles["horiznc"],        self.screen, (33, 36), False),
-				(self.tiles["horiz"],          self.screen, (34, 36), False),
-				(self.tiles["horiznc"],        self.screen, (35, 36), False),
-				(self.tiles["horiz"],          self.screen, (36, 36), False),
-				(self.tiles["horiznc"],        self.screen, (37, 36), False),
-				(self.tiles["horiz"],          self.screen, (38, 36), False),
-				(self.tiles["horiznc"],        self.screen, (39, 36), False),
-				(self.tiles["horiz"],          self.screen, (40, 36), False),
-				(self.tiles["horiznc"],        self.screen, (41, 36), False),
-				(self.tiles["horiz"],          self.screen, (42, 36), False),
-				(self.tiles["horiznc"],        self.screen, (43, 36), False),
-				(self.tiles["horiz"],          self.screen, (44, 36), False),
-			], True)
-		self.blocks["Y84"].AddTrainLoc(self.screen, (34, 36))
-		self.blocks["Y84"].AddOOSLoc(self.screen, (33, 36))
-		self.blocks["Y84"].AddOOSLoc(self.screen, (44, 36))
-
-		self.blocks["Y87"] = Block(self, self.frame, "Y87",
-			[
-				(self.tiles["horiznc"],        self.screen, (13, 30), False),
-				(self.tiles["horiz"],          self.screen, (14, 30), True),
-				(self.tiles["horiznc"],        self.screen, (15, 30), False),
-				(self.tiles["horiz"],          self.screen, (16, 30), True),
-				(self.tiles["horiznc"],        self.screen, (17, 30), False),
-				(self.tiles["horiz"],          self.screen, (18, 30), True),
-				(self.tiles["horiznc"],        self.screen, (19, 30), False),
-				(self.tiles["eobright"],       self.screen, (20, 30), True),
 
 				(self.tiles["horiz"],         self.screen, (106, 9), False),
 				(self.tiles["horiznc"],       self.screen, (107, 9), False),
@@ -446,12 +446,13 @@ class Yard (District):
 				(self.tiles["horiznc"],       self.screen, (111, 9), False),
 				(self.tiles["horiz"],         self.screen, (112, 9), False),
 			], False)
-		self.blocks["Y87"].AddTrainLoc(self.screen, (14, 30))
+		self.blocks["Y87"].AddTrainLoc(self.screen, (57, 30))
 		self.blocks["Y87"].AddTrainLoc(self.screen, (107, 9))
+		self.blocks["Y87"].AddOOSLoc(self.screen, (56, 30))
 		self.blocks["Y87"].AddOOSLoc(self.screen, (20, 30))
 		self.blocks["Y87"].AddOOSLoc(self.screen, (112, 9))
 
-		self.blocks["YOSEJW"] = OverSwitch(self, self.frame, "YOSEJW", 
+		self.blocks["YOSEJW"] = OverSwitch(self, self.frame, "YOSEJW",
 			[
 				(self.tiles["horiznc"],        self.screen, (112, 7), False),
 				(self.tiles["turnrightright"], self.screen, (113, 7), False),
@@ -466,7 +467,7 @@ class Yard (District):
 			False)
 		self.blocks["YOSEJW"].AddTrainLoc(self.screen, (116, 5))
 
-		self.blocks["YOSEJE"] = OverSwitch(self, self.frame, "YOSEJE", 
+		self.blocks["YOSEJE"] = OverSwitch(self, self.frame, "YOSEJE",
 			[
 				(self.tiles["horiznc"],        self.screen, (112, 7), False),
 				(self.tiles["turnrightright"], self.screen, (113, 7), False),
@@ -582,67 +583,67 @@ class Yard (District):
 			True)
 		self.blocks["YOSKL4"].AddTrainLoc(self.screen, (81, 17))
 
-		self.blocks["YOSWYE"] = OverSwitch(self, self.frame, "YOSWYE",
-			[
-				(self.tiles["horiznc"],       self.screen, (46, 30), False),
-				(self.tiles["horiz"],         self.screen, (47, 30), False),
-				(self.tiles["horiznc"],       self.screen, (48, 30), False),
-				(self.tiles["horiz"],         self.screen, (49, 30), False),
-				(self.tiles["horiznc"],       self.screen, (50, 30), False),
-				(self.tiles["horiz"],         self.screen, (52, 30), False),
-				(self.tiles["horiznc"],       self.screen, (53, 30), False),
-				(self.tiles["eobright"],      self.screen, (55, 30), False),
-				(self.tiles["horiznc"],       self.screen, (46, 32), False),
-				(self.tiles["horiz"],         self.screen, (47, 32), False),
-				(self.tiles["horiznc"],       self.screen, (48, 32), False),
-				(self.tiles["diagleft"],      self.screen, (50, 31), False),
-				(self.tiles["diagleft"],      self.screen, (48, 33), False),
-				(self.tiles["diagleft"],      self.screen, (53, 31), False),
-				(self.tiles["diagleft"],      self.screen, (52, 32), False),
-				(self.tiles["diagleft"],      self.screen, (51, 33), False),
-				(self.tiles["diagleft"],      self.screen, (50, 34), False),
-				(self.tiles["diagleft"],      self.screen, (49, 35), False),
-				(self.tiles["turnleftright"], self.screen, (47, 34), False),
-				(self.tiles["turnleftright"], self.screen, (48, 36), False),
-				(self.tiles["horiz"],         self.screen, (46, 34), False),
-				(self.tiles["horiz"],         self.screen, (46, 36), False),
-				(self.tiles["horiznc"],       self.screen, (47, 36), False),
-			],
-			True)
-		self.blocks["YOSWYE"].AddTrainLoc(self.screen, (52, 35))
-
 		self.blocks["YOSWYW"] = OverSwitch(self, self.frame, "YOSWYW",
 			[
-				(self.tiles["eobleft"],       self.screen, (21, 30), False),
-				(self.tiles["horiznc"],       self.screen, (23, 30), False),
-				(self.tiles["horiz"],         self.screen, (24, 30), False),
-				(self.tiles["horiznc"],       self.screen, (26, 30), False),
-				(self.tiles["horiz"],         self.screen, (27, 30), False),
-				(self.tiles["horiznc"],       self.screen, (28, 30), False),
-				(self.tiles["horiz"],         self.screen, (29, 30), False),
-				(self.tiles["horiznc"],       self.screen, (30, 30), False),
-				(self.tiles["horiz"],         self.screen, (31, 30), False),
-				(self.tiles["diagright"],     self.screen, (23, 31), False),
-				(self.tiles["diagright"],     self.screen, (24, 32), False),
-				(self.tiles["diagright"],     self.screen, (25, 33), False),
-				(self.tiles["diagright"],     self.screen, (26, 34), False),
-				(self.tiles["diagright"],     self.screen, (27, 35), False),
-				(self.tiles["turnrightleft"], self.screen, (28, 36), False),
-				(self.tiles["horiznc"],       self.screen, (29, 36), False),
-				(self.tiles["horiz"],         self.screen, (30, 36), False),
-				(self.tiles["horiznc"],       self.screen, (31, 36), False),
-				(self.tiles["diagright"],     self.screen, (26, 31), False),
-				(self.tiles["horiznc"],       self.screen, (28, 32), False),
-				(self.tiles["horiz"],         self.screen, (29, 32), False),
-				(self.tiles["horiznc"],       self.screen, (30, 32), False),
-				(self.tiles["horiz"],         self.screen, (31, 32), False),
-				(self.tiles["diagright"],     self.screen, (28, 33), False),
-				(self.tiles["turnrightleft"], self.screen, (29, 34), False),
-				(self.tiles["horiznc"],       self.screen, (30, 34), False),
-				(self.tiles["horiz"],         self.screen, (31, 34), False),
+				(self.tiles["horiznc"],       self.screen, (46, 30), True),
+				(self.tiles["horiz"],         self.screen, (47, 30), True),
+				(self.tiles["horiznc"],       self.screen, (48, 30), True),
+				(self.tiles["horiz"],         self.screen, (49, 30), True),
+				(self.tiles["horiznc"],       self.screen, (50, 30), True),
+				(self.tiles["horiz"],         self.screen, (52, 30), True),
+				(self.tiles["horiznc"],       self.screen, (53, 30), True),
+				(self.tiles["eobright"],      self.screen, (55, 30), True),
+				(self.tiles["horiznc"],       self.screen, (46, 32), True),
+				(self.tiles["horiz"],         self.screen, (47, 32), True),
+				(self.tiles["horiznc"],       self.screen, (48, 32), True),
+				(self.tiles["diagleft"],      self.screen, (50, 31), True),
+				(self.tiles["diagleft"],      self.screen, (48, 33), True),
+				(self.tiles["diagleft"],      self.screen, (53, 31), True),
+				(self.tiles["diagleft"],      self.screen, (52, 32), True),
+				(self.tiles["diagleft"],      self.screen, (51, 33), True),
+				(self.tiles["diagleft"],      self.screen, (50, 34), True),
+				(self.tiles["diagleft"],      self.screen, (49, 35), True),
+				(self.tiles["turnleftright"], self.screen, (47, 34), True),
+				(self.tiles["turnleftright"], self.screen, (48, 36), True),
+				(self.tiles["horiz"],         self.screen, (46, 34), True),
+				(self.tiles["horiz"],         self.screen, (46, 36), True),
+				(self.tiles["horiznc"],       self.screen, (47, 36), True),
 			],
 			True)
-		self.blocks["YOSWYW"].AddTrainLoc(self.screen, (16, 35))
+		self.blocks["YOSWYW"].AddTrainLoc(self.screen, (52, 35))
+
+		self.blocks["YOSWYE"] = OverSwitch(self, self.frame, "YOSWYE",
+			[
+				(self.tiles["eobleft"],       self.screen, (21, 30), True),
+				(self.tiles["horiznc"],       self.screen, (23, 30), True),
+				(self.tiles["horiz"],         self.screen, (24, 30), True),
+				(self.tiles["horiznc"],       self.screen, (26, 30), True),
+				(self.tiles["horiz"],         self.screen, (27, 30), True),
+				(self.tiles["horiznc"],       self.screen, (28, 30), True),
+				(self.tiles["horiz"],         self.screen, (29, 30), True),
+				(self.tiles["horiznc"],       self.screen, (30, 30), True),
+				(self.tiles["horiz"],         self.screen, (31, 30), True),
+				(self.tiles["diagright"],     self.screen, (23, 31), True),
+				(self.tiles["diagright"],     self.screen, (24, 32), True),
+				(self.tiles["diagright"],     self.screen, (25, 33), True),
+				(self.tiles["diagright"],     self.screen, (26, 34), True),
+				(self.tiles["diagright"],     self.screen, (27, 35), True),
+				(self.tiles["turnrightleft"], self.screen, (28, 36), True),
+				(self.tiles["horiznc"],       self.screen, (29, 36), True),
+				(self.tiles["horiz"],         self.screen, (30, 36), True),
+				(self.tiles["horiznc"],       self.screen, (31, 36), True),
+				(self.tiles["diagright"],     self.screen, (26, 31), True),
+				(self.tiles["horiznc"],       self.screen, (28, 32), True),
+				(self.tiles["horiz"],         self.screen, (29, 32), True),
+				(self.tiles["horiznc"],       self.screen, (30, 32), True),
+				(self.tiles["horiz"],         self.screen, (31, 32), True),
+				(self.tiles["diagright"],     self.screen, (28, 33), True),
+				(self.tiles["turnrightleft"], self.screen, (29, 34), True),
+				(self.tiles["horiznc"],       self.screen, (30, 34), True),
+				(self.tiles["horiz"],         self.screen, (31, 34), True),
+			],
+			True)
+		self.blocks["YOSWYE"].AddTrainLoc(self.screen, (16, 35))
 
 		self.osBlocks["YOSCJW"] = ["Y11", "L10", "L20", "P50"]
 		self.osBlocks["YOSCJE"] = ["Y21", "L20", "P50"]
@@ -652,8 +653,8 @@ class Yard (District):
 		self.osBlocks["YOSKL1"] = ["Y20", "Y70", "Y53", "Y52", "Y51", "Y50"]
 		self.osBlocks["YOSKL3"] = ["Y10", "Y20", "Y60"]
 		self.osBlocks["YOSKL4"] = ["Y30", "Y50", "Y51"]
-		self.osBlocks["YOSWYE"] = ["Y70", "Y81", "Y82", "Y83", "Y84"]
-		self.osBlocks["YOSWYW"] = ["Y81", "Y82", "Y83", "Y84", "Y87"]
+		self.osBlocks["YOSWYW"] = ["Y70", "Y81", "Y82", "Y83", "Y84"]
+		self.osBlocks["YOSWYE"] = ["Y81", "Y82", "Y83", "Y84", "Y87"]
 
 		return self.blocks, self.osBlocks
 
@@ -681,12 +682,12 @@ class Yard (District):
 
 			["YSw33", "torightright",   ["YOSKL4"], (85, 13)],
 
-			["YSw113", "toleftleft",    ["YOSWYE"], (54, 30)],
-			["YSw115", "toleftleft",    ["YOSWYE"], (51, 30)],
-			["YSw116", "torightdown",   ["YOSWYE"], (49, 32)],
-			["YSw131", "toleftdown",    ["YOSWYW"], (27, 32)],
-			["YSw132", "torightright",  ["YOSWYW"], (25, 30)],
-			["YSw134", "torightright",  ["YOSWYW"], (22, 30)],
+			["YSw134", "toleftleft",    ["YOSWYW"], (54, 30)],
+			["YSw132", "toleftleft",    ["YOSWYW"], (51, 30)],
+			["YSw131", "torightdown",   ["YOSWYW"], (49, 32)],
+			["YSw116", "toleftdown",    ["YOSWYE"], (27, 32)],
+			["YSw115", "torightright",  ["YOSWYE"], (25, 30)],
+			["YSw113", "torightright",  ["YOSWYE"], (22, 30)],
 		]
 
 		for tonm, tileSet, blks, pos in toList:
@@ -728,7 +729,7 @@ class Yard (District):
 
 		sigList = [
 			["Y2L",  RegAspects, True,    "right", (129, 12)],
-			["Y2R",  RegAspects, False,   "leftlong",  (136, 10)],
+			["Y2R",  RegAspects, True,   "leftlong",  (136, 10)],
 			["Y4L",  RegAspects, True,    "rightlong", (129, 14)],
 			["Y4RA", RegAspects, False,   "leftlong",  (136, 14)],
 			["Y4RB", RegAspects, False,   "left",  (136, 12)],
@@ -755,17 +756,17 @@ class Yard (District):
 			["Y34RA", RegAspects, False,  "left",  (88, 14)],
 			["Y34RB", RegAspects, False,  "left",  (88, 12)],
 
-			["Y42LA", RegAspects, False,  "left",  (32, 29)],
-			["Y42LB", RegAspects, False,  "left",  (32, 31)],
-			["Y42LC", RegAspects, False,  "left",  (32, 33)],
-			["Y42LD", RegAspects, False,  "left",  (32, 35)],
-			["Y42R",  RegAspects, True,   "right", (21, 31)],
+			["Y40RA", RegAspects, True,  "left",  (32, 29)],
+			["Y40RB", RegAspects, True,  "left",  (32, 31)],
+			["Y40RC", RegAspects, True,  "left",  (32, 33)],
+			["Y40RD", RegAspects, True,  "left",  (32, 35)],
+			["Y40L",  RegAspects, False,   "right", (21, 31)],
 
-			["Y40L",  RegAspects, False,  "left",  (55, 29)],
-			["Y40RA", RegAspects, True,   "right", (45, 31)],
-			["Y40RB", RegAspects, True,   "right", (45, 33)],
-			["Y40RC", RegAspects, True,   "right", (45, 35)],
-			["Y40RD", RegAspects, True,   "right", (45, 37)],
+			["Y42R",  RegAspects, True,  "left",  (55, 29)],
+			["Y42LA", RegAspects, False,   "right", (45, 31)],
+			["Y42LB", RegAspects, False,   "right", (45, 33)],
+			["Y42LC", RegAspects, False,   "right", (45, 35)],
+			["Y42LD", RegAspects, False,   "right", (45, 37)],
 		]
 		for signm, atype, east, tileSet, pos in sigList:
 			self.signals[signm]  = Signal(self, self.screen, self.frame, signm, atype, east, pos, self.sigtiles[tileSet])
@@ -1008,20 +1009,20 @@ class Yard (District):
 
 		# Waterman yard
 		block = self.blocks["YOSWYE"]
-		self.routes["YRtY70Y81"] = Route(self.screen, block, "YRtY70Y81", "Y81", [(46, 30), (47, 30), (48, 30), (49, 30), (50, 30), (51, 30), (52, 30), (53, 30), (54, 30), (55, 30)], "Y70", [RESTRICTING, DIVERGING], ["YSw113:N", "YSw115:N"], ["Y40RA", "Y40L"])
-		self.routes["YRtY70Y82"] = Route(self.screen, block, "YRtY70Y82", "Y82", [(46, 32), (47, 32), (48, 32), (49, 32), (50, 31), (51, 30), (52, 30), (53, 30), (54, 30), (55, 30)], "Y70", [RESTRICTING, DIVERGING], ["YSw113:N", "YSw115:R", "YSw116:R"], ["Y40RB", "Y40L"])
-		self.routes["YRtY70Y83"] = Route(self.screen, block, "YRtY70Y83", "Y83", [(46, 34), (47, 34), (48, 33), (49, 32), (50, 31), (51, 30), (52, 30), (53, 30), (54, 30), (55, 30)], "Y70", [RESTRICTING, DIVERGING], ["YSw113:N", "YSw115:R", "YSw116:N"], ["Y40RC", "Y40L"])
-		self.routes["YRtY70Y84"] = Route(self.screen, block, "YRtY70Y84", "Y84", [(46, 36), (47, 36), (48, 36), (49, 35), (50, 34), (51, 33), (52, 32), (53, 31), (54, 30), (55, 30)], "Y70", [RESTRICTING, DIVERGING], ["YSw113:R"], ["Y40RD", "Y40L"])
+		self.routes["YRtY70Y81"] = Route(self.screen, block, "YRtY70Y81", "Y81", [(21, 30), (22, 30), (23, 30), (24, 30), (25, 30), (26, 30), (27, 30), (28, 30), (29, 30), (30, 30), (31, 30)], "Y70", [RESTRICTING, DIVERGING], ["YSw113:N", "YSw115:N"], ["Y40RA", "Y40L"])
+		self.routes["YRtY70Y82"] = Route(self.screen, block, "YRtY70Y82", "Y82", [(21, 30), (22, 30), (23, 30), (24, 30), (25, 30), (26, 31), (27, 32), (28, 32), (29, 32), (30, 32), (31, 32)], "Y70", [RESTRICTING, DIVERGING], ["YSw113:N", "YSw115:R", "YSw116:R"], ["Y40RB", "Y40L"])
+		self.routes["YRtY70Y83"] = Route(self.screen, block, "YRtY70Y83", "Y83", [(21, 30), (22, 30), (23, 30), (24, 30), (25, 30), (26, 31), (27, 32), (28, 33), (29, 34), (30, 34), (31, 34)], "Y70", [RESTRICTING, DIVERGING], ["YSw113:N", "YSw115:R", "YSw116:N"], ["Y40RC", "Y40L"])
+		self.routes["YRtY70Y84"] = Route(self.screen, block, "YRtY70Y84", "Y84", [(21, 30), (22, 30), (23, 31), (24, 32), (25, 33), (26, 34), (27, 35), (28, 36), (29, 36), (30, 36), (31, 36)], "Y70", [RESTRICTING, DIVERGING], ["YSw113:R"], ["Y40RD", "Y40L"])
 		self.buttonToRoute["YWEB1"] = "YRtY70Y81"
 		self.buttonToRoute["YWEB2"] = "YRtY70Y82"
 		self.buttonToRoute["YWEB3"] = "YRtY70Y83"
 		self.buttonToRoute["YWEB4"] = "YRtY70Y84"
 
 		block = self.blocks["YOSWYW"]
-		self.routes["YRtY87Y81"] = Route(self.screen, block, "YRtY87Y81", "Y87", [(21, 30), (22, 30), (23, 30), (24, 30), (25, 30), (26, 30), (27, 30), (28, 30), (29, 30), (30, 30), (31, 30)], "Y81", [RESTRICTING, RESTRICTING], ["YSw134:N", "YSw132:N"], ["Y42R", "Y42LA"])
-		self.routes["YRtY87Y82"] = Route(self.screen, block, "YRtY87Y82", "Y87", [(21, 30), (22, 30), (23, 30), (24, 30), (25, 30), (26, 31), (27, 32), (28, 32), (29, 32), (30, 32), (31, 32)], "Y82", [RESTRICTING, RESTRICTING], ["YSw134:N", "YSw132:R", "YSw131:R"], ["Y42R", "Y42LB"])
-		self.routes["YRtY87Y83"] = Route(self.screen, block, "YRtY87Y83", "Y87", [(21, 30), (22, 30), (23, 30), (24, 30), (25, 30), (26, 31), (27, 32), (28, 33), (29, 34), (30, 34), (31, 34)], "Y83", [RESTRICTING, RESTRICTING], ["YSw134:N", "YSw132:R", "YSw131:N"], ["Y42R", "Y42LC"])
-		self.routes["YRtY87Y84"] = Route(self.screen, block, "YRtY87Y84", "Y87", [(21, 30), (22, 30), (23, 31), (24, 32), (25, 33), (26, 34), (27, 35), (28, 36), (29, 36), (30, 36), (31, 36)], "Y84", [RESTRICTING, RESTRICTING], ["YSw134:R"], ["Y42R", "Y42LD"])
+		self.routes["YRtY87Y81"] = Route(self.screen, block, "YRtY87Y81", "Y87", [(46, 30), (47, 30), (48, 30), (49, 30), (50, 30), (51, 30), (52, 30), (53, 30), (54, 30), (55, 30)], "Y81", [RESTRICTING, RESTRICTING], ["YSw134:N", "YSw132:N"], ["Y42R", "Y42LA"])
+		self.routes["YRtY87Y82"] = Route(self.screen, block, "YRtY87Y82", "Y87", [(46, 32), (47, 32), (48, 32), (49, 32), (50, 31), (51, 30), (52, 30), (53, 30), (54, 30), (55, 30)], "Y82", [RESTRICTING, RESTRICTING], ["YSw134:N", "YSw132:R", "YSw131:R"], ["Y42R", "Y42LB"])
+		self.routes["YRtY87Y83"] = Route(self.screen, block, "YRtY87Y83", "Y87", [(46, 34), (47, 34), (48, 33), (49, 32), (50, 31), (51, 30), (52, 30), (53, 30), (54, 30), (55, 30)], "Y83", [RESTRICTING, RESTRICTING], ["YSw134:N", "YSw132:R", "YSw131:N"], ["Y42R", "Y42LC"])
+		self.routes["YRtY87Y84"] = Route(self.screen, block, "YRtY87Y84", "Y87", [(46, 36), (47, 36), (48, 36), (49, 35), (50, 34), (51, 33), (52, 32), (53, 31), (54, 30), (55, 30)], "Y84", [RESTRICTING, RESTRICTING], ["YSw134:R"], ["Y42R", "Y42LD"])
 		self.buttonToRoute["YWWB1"] = "YRtY87Y81"
 		self.buttonToRoute["YWWB2"] = "YRtY87Y82"
 		self.buttonToRoute["YWWB3"] = "YRtY87Y83"
@@ -1054,15 +1055,15 @@ class Yard (District):
 		self.osButtons = {}
 
 		buttons = [
-			["YWWB1", (32, 30)],
-			["YWWB2", (32, 32)],
-			["YWWB3", (32, 34)],
-			["YWWB4", (32, 36)],
+			["YWEB1", (32, 30)],
+			["YWEB2", (32, 32)],
+			["YWEB3", (32, 34)],
+			["YWEB4", (32, 36)],
 
-			["YWEB1", (45, 30)],
-			["YWEB2", (45, 32)],
-			["YWEB3", (45, 34)],
-			["YWEB4", (45, 36)],
+			["YWWB1", (45, 30)],
+			["YWWB2", (45, 32)],
+			["YWWB3", (45, 34)],
+			["YWWB4", (45, 36)],
 
 			["YY51W", (88, 13)],
 			["YY50W", (88, 15)],

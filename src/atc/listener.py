@@ -10,7 +10,7 @@ class Listener(threading.Thread):
 		self.ip = ip
 		self.port = port
 		self.parent = parent
-		self.isRunning = False
+		self.isRunning = True
 		self.endOfLife = False
 		self.skt = None
 		self.connected = False

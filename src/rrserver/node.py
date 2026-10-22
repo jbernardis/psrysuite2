@@ -76,9 +76,16 @@ class Node:
 			else:
 				rv.append(getBit(self.inb[bt[0]], bt[1]))
 		return rv
-	
+
+	def SetLastInputBit(self, vbyte, vbit, state):
+		self.lastinb[vbyte] = setBit(self.lastinb[vbyte], 7 - vbit, state)
+
+	def SetLastInputBits(self, bits, value):
+		for bt in bits:
+			self.SetLastInputBit(bt[0], bt[1], 1 if value else 0)
+
 	def SetInputBit(self, vbyte, vbit, state):
-		self.inb[vbyte] = setBit(self.inb[vbyte], 7-vbit, state)
+		self.inb[vbyte] = setBit(self.inb[vbyte], 7 - vbit, state)
 
 	def SetInputBits(self, bits, value):
 		for bt in bits:
