@@ -437,6 +437,16 @@ class Railroad:
 
 		return blks
 
+	def ResyncBlockStatus(self):
+		for blknm, blk in self.blocks.items():
+			if blk.Node() is not None:
+				_ = blk.GetDetectionStatus(reset=True)
+
+	def ResyncRoutesInStatus(self):
+		for rtnm, rt in self.routesIn.items():
+			if rt.Node() is not None:
+				_ = rt.GetStatus(reset=True)
+
 	def GetBlockInfo(self):
 		blks = []
 		for blknm, blk in self.blocks.items():

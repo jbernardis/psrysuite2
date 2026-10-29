@@ -349,7 +349,9 @@ class Block:
 		occ = self.IsOccupied(ignoresb=True)
 		rrOcc = True if self.node.GetInputBits(self.bits)[0] == 1 else False
 		if reset and occ != rrOcc:
-			self.node.SetInputBits(self.bits, occ)
+			#  self.node.SetInputBits(self.bits, occ)
+			logging.debug("Resyncing detection status for block %s" % self.name)
+			self.node.SetLastInputBits(self.bits, occ)
 			rrOcc = occ
 		return occ, rrOcc
 
@@ -1534,6 +1536,9 @@ class RouteIn:
 
 	def Name(self):
 		return self.name
+
+	def Node(self):
+		return self.node
 		
 	def Address(self):
 		return self.address
@@ -1556,6 +1561,18 @@ class RouteIn:
 	def GetEventMessage(self):
 		return None
 
+	def GetStatus(self, reset=False):
+		if len(self.bits) < 1:
+			return None, None
+
+		mystate = self.state
+		rrState = True if self.node.GetInputBits(self.bits)[0] == 1 else False
+		if reset and mystate != rrState:
+			#  self.node.SetInputBits(self.bits, occ)
+			logging.debug("Resyncing route in %s" % self.name)
+			self.node.SetLastInputBits(self.bits, mystate)
+			rrState = mystate
+		return mystate, rrState
 
 class Turnout:
 	def __init__(self, name, district, node, address):

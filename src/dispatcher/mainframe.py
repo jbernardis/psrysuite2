@@ -20,6 +20,7 @@ from dispatcher.trainhistory import TrainHistory
 from dispatcher.checktrainsdlg import CheckTrainsDlg
 from dispatcher.routetraindlg import RouteTrainDlg
 from dispatcher.inspectdlg import InspectDlg
+from dispatcher.constants import logLevels
 
 from dispatcher.breaker import BreakerName
 from dispatcher.toaster import Toaster
@@ -338,12 +339,12 @@ class MainFrame(wx.Frame):
 		logging.debug("sending message: %s" % str(msg))
 		self.Request(msg)
 
-		dlg = wx.MessageDialog(self, "Logging Level has been set to %s" % lvlName,
-							"Logging Level Changed",
-							wx.OK | wx.ICON_INFORMATION)
-		dlg.CenterOnScreen()
-		dlg.ShowModal()
-		dlg.Destroy()
+		# dlg = wx.MessageDialog(self, "Logging Level has been set to %s" % lvlName,
+		# 					"Logging Level Changed",
+		# 					wx.OK | wx.ICON_INFORMATION)
+		# dlg.CenterOnScreen()
+		# dlg.ShowModal()
+		# dlg.Destroy()
 
 	def CloseInspect(self):
 		self.dlgInspect.Destroy()
@@ -2733,6 +2734,8 @@ class MainFrame(wx.Frame):
 			# "trainblockorder":	self.DoCmdTrainBlockOrder,
 			"preload":			self.DoCmdPreload,
 			"nodestatus":		self.DoCmdNodeStatus,
+			"debugflags":		self.DoCmdDebugFlags,
+			"loglevel":			self.DoCmdLogLevel,
 			# "ignore":			self.DoCmdIgnore,
 		}
 		
@@ -2749,11 +2752,11 @@ class MainFrame(wx.Frame):
 				logging.error("Unknown command: %s" % cmd)
 
 			else:
-				#handler(parms)
-				try:
-					handler(parms)
-				except Exception as e:
-					logging.error("Exception %s handling command %s" % (str(e), cmd))
+				handler(parms)
+				# try:
+				# 	handler(parms)
+				# except Exception as e:
+				# 	logging.error("Exception %s handling command %s" % (str(e), cmd))
 			
 	def DoCmdTurnout(self, parms):
 		for p in parms:
@@ -4186,7 +4189,7 @@ class MainFrame(wx.Frame):
 		self.RefreshComplete()
 
 	def RefreshComplete(self):
-		self.SendDebugFlags()
+		# self.SendDebugFlags()
 
 		self.initializing = False
 	#
@@ -4254,7 +4257,6 @@ class MainFrame(wx.Frame):
 				self.PopupAdvice(parms["msg"], force=True)
 
 	def DoCmdNodeStatus(self, parms):
-		logging.debug("nodestatus %s" % str(parms))
 		try:
 			status = parms["enabled"]
 		except KeyError:
@@ -4285,6 +4287,98 @@ class MainFrame(wx.Frame):
 			self.PopupEvent(msg)
 
 		self.nodeStatusDisplay.UpdateNodeStatus(name, addr, status)
+
+	def DoCmdDebugFlags(self, parms):
+		p = parms.get("showaspectcalculation", None)
+		if p is not None:
+			try:
+				pv = int(p)
+			except (KeyError, IndexError, ValueError):
+				pv = None
+			if pv is not None:
+				nv = pv == 1
+				if self.settings.debug.showaspectcalculation != nv:
+					self.settings.debug.showaspectcalculation = nv
+					self.PopupAdvice("Show Aspect Calculation: %s" % nv)
+
+		p = parms.get("blockoccupancy", None)
+		if p is not None:
+			try:
+				pv = int(p)
+			except (KeyError, IndexError, ValueError):
+				pv = None
+			if pv is not None:
+				nv = pv == 1
+				if self.settings.debug.blockoccupancy != nv:
+					self.settings.debug.blockoccupancy = nv
+					self.PopupAdvice("Show Block Occupancy: %s" % nv)
+
+		p = parms.get("identifytrain", None)
+		if p is not None:
+			try:
+				pv = int(p)
+			except (KeyError, IndexError, ValueError):
+				pv = None
+			if pv is not None:
+				nv = pv == 1
+				if self.settings.debug.identifytrain != nv:
+					self.settings.debug.identifytrain = nv
+					self.PopupAdvice("Show Train Identification: %s" % nv)
+
+		p = parms.get("blockadjacency", None)
+		if p is not None:
+			try:
+				pv = int(p)
+			except (KeyError, IndexError, ValueError):
+				pv = None
+			if pv is not None:
+				nv = pv == 1
+				if self.settings.debug.blockadjacency != nv:
+					self.settings.debug.blockadjacency = nv
+					self.PopupAdvice("Block Adjacency: %s" % nv)
+
+		p = parms.get("disablestopsections", None)
+		if p is not None:
+			try:
+				pv = int(p)
+			except (KeyError, IndexError, ValueError):
+				pv = None
+			if pv is not None:
+				nv = pv == 1
+				if self.settings.debug.disablestopsections != nv:
+					self.settings.debug.disablestopsections = nv
+					self.PopupAdvice("Disable Stop Sections: %s" % nv)
+
+		logLevel = parms.get("loglevel", None)
+		if logLevel is not None:
+			lvl = logLevels.get(logLevel, None)
+			if lvl is not None:
+				con = logging.StreamHandler()
+				con.setLevel(lvl)
+				self.settings.debug.loglevel = logLevel
+				self.PopupAdvice("Log Level set to: %s(%d)" % (logLevel, lvl))
+				logging.debug("Log Level set to %s(%d)" % (logLevel, lvl))
+			else:
+				logging.error("ignoring unknown log level: %s" % logLevel)
+
+	def DoCmdLogLevel(self, parms):
+		for p in parms:
+			try:
+				lvl = int(p["level"])
+			except (KeyError, ValueError, TypeError):
+				logging.debug("log level missing or erroneous on loglevel command")
+				return
+
+			nm = None
+			for nm, l in logLevels.items():
+				if l == lvl:
+					lvlName = nm
+					break
+			if nm is not None:
+				self.PopupAdvice("Log Level set to: %s(%d)" % (nm, lvl))
+				logging.getLogger().setLevel(lvl)
+			else:
+				logging.debug("ignoring unknown log level: %s" % lvl)
 
 	def EnableNodes(self, disList):
 		for n in disList:

@@ -1,5 +1,10 @@
 import wx
 import os
+import sys
+cmdFolder = os.getcwd()
+if cmdFolder not in sys.path:
+	sys.path.insert(0, cmdFolder)
+
 from version import version
 
 

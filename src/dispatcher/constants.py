@@ -1,3 +1,13 @@
+import logging
+
+logLevels = {
+	"DEBUG":	logging.DEBUG,
+	"INFO":		logging.INFO,
+	"WARNING":	logging.WARNING,
+	"ERROR":	logging.ERROR,
+	"CRITICAL":	logging.CRITICAL,
+}
+
 HyYdPt = "HyYdPt"
 LaKr   = "LaKr"
 NaCl   = "NaCl"

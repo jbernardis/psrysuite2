@@ -1,11 +1,13 @@
 import wx
-import os, sys 
+import os, sys
+import traceback
 cmdFolder = os.getcwd()
 if cmdFolder not in sys.path:
 	sys.path.insert(0, cmdFolder)
 
 from dispatcher.settings import Settings
 from dispatcher.psryframe import PSRYFrame
+from dispatcher.constants import logLevels
 
 settings = Settings()
 
@@ -22,15 +24,22 @@ efp = open(os.path.join(os.getcwd(), "output", "%s.err" % fn), "w")
 sys.stdout = ofp
 sys.stderr = efp
 
-import logging
 
-logLevels = {
-	"DEBUG":	logging.DEBUG,
-	"INFO":		logging.INFO,
-	"WARNING":	logging.WARNING,
-	"ERROR":	logging.ERROR,
-	"CRITICAL":	logging.CRITICAL,
-}
+def global_exception_handler(exctype, value, tb):
+	"""
+	Catches any unhandled exception globally and prints the full stack trace.
+	"""
+	print("--- GLOBAL EXCEPTION CAUGHT ---", file=sys.stderr)
+
+	# Print the entire stack trace exactly like Python normally does
+	traceback.print_exception(exctype, value, tb, file=sys.stderr)
+	sys.stderr.flush()
+
+
+# Register the global exception handler
+sys.excepthook = global_exception_handler
+
+import logging
 
 l = settings.debug.loglevel
 if l not in logLevels:

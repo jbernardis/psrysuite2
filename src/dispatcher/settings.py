@@ -37,6 +37,14 @@ class Debug:
 		self.blockadjacency = False
 		self.disablestopsections = False
 
+	def Map(self):
+		return {"showaspectcalculation": 1 if self.showaspectcalculation else 0,
+				"blockoccupancy": 1 if self.blockoccupancy else 0,
+				"identifytrain": 1 if self.identifytrain else 0,
+				"loglevel": self.loglevel,
+				"blockadjacency": 1 if self.blockadjacency else 0,
+				"disablestopsections": 1 if self.disablestopsections else 0}
+
 
 class Settings:
 	def __init__(self):

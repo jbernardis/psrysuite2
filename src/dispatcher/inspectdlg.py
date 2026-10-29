@@ -1012,6 +1012,7 @@ class AdjacencyDlg(wx.Dialog):
     def OnClose(self, _):
         self.Destroy()
 
+
 class BlockStatusDlg(wx.Dialog):
     def __init__(self, parent, bdata, frame):
         wx.Dialog.__init__(self, parent, wx.ID_ANY, "Block Status")

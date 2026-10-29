@@ -231,6 +231,9 @@ class ServerMain:
 		for m in self.rr.GetCurrentValues():
 			self.socketServer.sendToOne(skt, addr, m)
 
+		m = {"debugflags": self.rr.debug.Map()}
+		self.socketServer.sendToOne(skt, addr, m)
+
 		for opt, val in self.rr.GetControlOptions().items():
 			m = {"control": [{"name": opt, "value": val}]}
 			self.socketServer.sendToOne(skt, addr, m)
@@ -413,6 +416,9 @@ class ServerMain:
 			return 
 		
 		self.rr.OutIn()
+		self.rr.ResyncBlockStatus()
+		self.rr.ResyncRoutesInStatus()
+
 		if self.firstInterval:
 			self.rr.DelayedStartup()
 			self.firstInterval = False
@@ -877,6 +883,9 @@ class ServerMain:
 
 		if lvl is not None:
 			logging.getLogger().setLevel(lvl)
+			p = {tag: cmd[tag][0] for tag in cmd if tag != "cmd"}
+			resp = {"loglevel": [p]}
+			self.sendToNonNodes(resp)
 
 	def DoReopen(self, _):
 		self.DoBusReopen()
@@ -1568,11 +1577,32 @@ class ServerMain:
 		except (KeyError, IndexError, ValueError):
 			disablestopsections = 0
 
+		try:
+			logLevel = cmd["loglevel"][0]
+		except (KeyError, IndexError, ValueError):
+			logLevel = None
+
+		if logLevel is not None:
+			lvl = logLevels.get(logLevel, None)
+			if lvl is not None:
+				con = logging.StreamHandler()
+				con.setLevel(lvl)
+				settings.debug.loglevel = logLevel
+				logging.debug("set log level to %s" % logLevel)
+			else:
+				logging.error("ignoring unknown log level: %s" % logLevel)
+
 		settings.debug.showaspectcalculation = showaspectcalculation > 0
 		settings.debug.blockoccupancy = blockoccupancy > 0
 		settings.debug.blockadjacency = blockadjacency > 0
 		settings.debug.identifytrain = identifytrain > 0
 		settings.debug.disablestopsections = disablestopsections > 0
+
+		p = {tag: cmd[tag][0] for tag in cmd if tag != "cmd"}
+		msg = {"debugflags": p}
+		self.sendToNonNodes(msg)
+
+		settings.SaveAll()
 
 	def DoDumpTrains(self, cmd):
 		self.trainList.Dump()
